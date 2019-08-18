@@ -1,0 +1,43 @@
+.navbar {
+    background: linear-gradient(to bottom, #5352B4, #3B3A91);
+    padding-top: 0;
+    padding-bottom: 0;
+
+    &__contrast-toggler {
+        border-left: 1px solid rgba(#FFF, .15);
+        padding: 0 27px;
+        img {
+            width: 16px;
+        }
+    }
+
+    .nav-item {
+        padding: 20px 27px;
+        position: relative;
+
+        &.active {
+            background-color: rgba(#B5ABEF, .19);
+            &:after {
+                height: 6px;
+                width: 100%;
+                content: '';
+                background: #B5ABEF;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+            }
+        }
+    }
+
+    .nav-link {
+        color: white;
+        font-size: 13px;
+        font-weight: 900;
+        font-family: 'Lato', sans-serif;
+        padding: 0;
+    }
+
+    .navbar-collapse {
+        //line-height: 2.5;
+    }
+}

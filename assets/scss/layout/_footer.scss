@@ -1,0 +1,40 @@
+.footer {
+    h3 {
+        color: #F2F4FA;
+        font-family: "DM Serif Display", serif;
+        font-size: 18px;
+        line-height: 25px;
+    }
+
+    p {
+        color: #8E9CBE;
+        font-family: 'Lato', sans-serif;
+        font-size: 13px;
+        line-height: 30px;
+    }
+
+    &__top {
+        background-color: #001957;
+        color: white;
+        padding-top: 94px;
+        padding-bottom: 94px;
+    }
+
+    &__bottom {
+        background-color: #00113A;
+        color: white;
+        padding-top: 30px;
+        padding-bottom: 16px;
+
+        .hr {
+            background: #263864;
+        }
+    }
+
+    .nav-link {
+        color: #8E9CBE;
+        font-family: 'Lato', sans-serif;
+        font-size: 13px;
+        line-height: 30px;
+    }
+}

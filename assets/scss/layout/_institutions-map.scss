@@ -1,0 +1,15 @@
+.institutions-map {
+    &__container {
+        background: white;
+        padding: 15px;
+        min-height: 650px;
+        height: 650px;
+        border: 1px solid #F2F4FA;
+        border-radius: 35px;
+        box-shadow: 0 7px 8px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    &__map {
+        border-radius: 20px;
+    }
+}
