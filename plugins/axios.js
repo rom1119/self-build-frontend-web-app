@@ -3,7 +3,7 @@ import Token from "../types/Token";
 
 export default function ({ $axios, redirect, store, app }) {
     $axios.onRequest(config => {
-        console.log('Making request to ' + config.url)
+        // console.log('Making request to ' + config.url)
         if (config.url === process.env.API_URL_GET_TOKEN && config.method.toLowerCase() === 'post') {
             let clientId = process.env.API_CLIENT_ID
             let clientSecret = process.env.API_CLIENT_SECRET
@@ -29,7 +29,7 @@ export default function ({ $axios, redirect, store, app }) {
         if (res.config.url.match(urlRegEx) && res.config.method.toLowerCase() === 'post') {
             store.dispatch('token/create', res.data)
             // console.log(app.$auth.$storage._state['_token.local'])
-            console.log(store.getters['token/getOne'].access_token)
+            // console.log(store.getters['token/getOne'].access_token)
             if (app.$auth.$storage._state['_token.local']) {
                 let token = store.getters['token/getOne']
                 app.$auth.$storage._state['_token.local'] = 'Bearer ' + token.access_token

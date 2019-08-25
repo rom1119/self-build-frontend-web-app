@@ -59,16 +59,18 @@
                 data.append('password', this.password)
                 data.append('grant_type', process.env.API_CLIENT_GRANT_TYPE)
 
-                 let a = await this.$auth.loginWith('local', {data})
-                // console.log(this.$auth)
+                 let a = await this.$auth.loginWith('local', {data}).then((e) => {
+                     this.$router.push('/dashboard')
+
+
+                 })
                 // this.$auth.loggedIn = true
             } catch (e) {
-                console.log(e)
+                // console.log(e)
                 if (e.response.data.access_token) {
-                    this.$store.dispatch('token/create', e.response.data)
-                    console.log('success')
-                    console.log(this.$store.getters['token/getOne'])
-                    this.$router.push('/')
+                    // this.$store.dispatch('token/create', e.response.data)
+                    // console.log('success')
+                    // console.log(this.$store.getters['token/getOne'])
                 }
                 // if (e.response.data.error_description) {
                 //     this.errorMessage = e.response.data.error_description

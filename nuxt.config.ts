@@ -27,6 +27,10 @@ module.exports = {
         ]
     },
 
+    router: {
+        middleware: 'auth'
+    },
+
     /*
     ** Customize the progress-bar color
     */
@@ -49,6 +53,7 @@ module.exports = {
         // '@/plugins/elementUi',
         '@/plugins/components',
         '~/plugins/axios',
+        '~/plugins/context-menu',
         // '@/comparison-components/index',
         // '@/plugins/auth',
 

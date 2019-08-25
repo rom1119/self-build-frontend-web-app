@@ -9,9 +9,12 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <nuxt-link tag="li" class="nav-item" to="/" active-class="active" exact>
-                        <a class="nav-link">Wyszukiwarka</a>
+                <ul class="navbar-nav ml-auto" >
+                    <nuxt-link tag="li" class="nav-item" v-show="$auth.loggedIn" to="/dashboard" active-class="active" exact>
+                        <a class="nav-link">Dashboard</a>
+                    </nuxt-link>
+                    <nuxt-link tag="li" class="nav-item" v-show="$auth.loggedIn" to="/home" active-class="active" exact>
+                        <a class="nav-link">Home</a>
                     </nuxt-link>
                 </ul>
                 <div class="navbar__contrast-toggler">
@@ -55,7 +58,7 @@
             this.$loadingDialog.show()
             // @ts-ignore
             this.$auth.logout({headers: {'Authorization': 'Basic ' + encodedCredentialApi}})
-            this.$router.push('/')
+            this.$router.push('/login')
             this.$loadingDialog.hide()
         }
     }
