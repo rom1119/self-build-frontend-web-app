@@ -9,7 +9,6 @@
                     <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
 
             </div>
-
         </context-menu>
         <object id="layout-object" style="width: 100%;">
             <html>
@@ -46,7 +45,6 @@
     export default class LayoutCreatorPage extends Vue {
         provinces = []
         communities = []
-        years = []
 
         contextMenuName = 'cm-create-html-element'
 
@@ -55,6 +53,8 @@
         currentYear = null
 
         createH1Element(target, cm, a) {
+            console.log(
+            )
             var h1 = window.document.createElement('h1')
             h1.innerText = 'example text'
             h1.style.backgroundColor = '#779933'
