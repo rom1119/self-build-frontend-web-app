@@ -1,27 +1,11 @@
 <template>
     <div class="">
-        <context-menu
-            shift="both"
-            :ref="contextMenuName">
-            <div class="context-menu-container">
-                    <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
+        
+        
+        <layout-creator-container>
 
-                    <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
-
-            </div>
-        </context-menu>
-        <object id="layout-object" style="width: 100%;">
-            <html>
-            <head>
-
-            </head>
-            <body>
-            <div v-context-menu="contextMenuName" style="width: 95%; height: 100vh;">
-
-            </div>
-            </body>
-            </html>
-        </object>
+        </layout-creator-container>
+           
 
 
     </div>
@@ -32,6 +16,8 @@
 
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator'
+    // import vadin from '@vaadin/vaadin'
+import H1 from '../../components/html/H1.vue';
 
 
     @Component({
@@ -46,23 +32,12 @@
         provinces = []
         communities = []
 
-        contextMenuName = 'cm-create-html-element'
 
         currentProvince = null
         currentCommune = null
         currentYear = null
 
-        createH1Element(target, cm, a) {
-            console.log(
-            )
-            var h1 = window.document.createElement('h1')
-            h1.innerText = 'example text'
-            h1.style.backgroundColor = '#779933'
-            target.appendChild(h1)
-            console.log(target);
-            console.log(cm);
-            // other actions...
-        }
+        
 
         createPElement(target, cm) {
             console.log(target, cm);

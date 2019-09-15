@@ -3,6 +3,7 @@ import '@/components/tables/index'
 import '@/components/forms/index'
 import '@/components/selects/index'
 import '@/components/context-menu/index'
+import '@/components/layoutCreator/index'
 import vSelect from 'vue-select'
 // import 'vue-select/dist/vue-select.css';
 

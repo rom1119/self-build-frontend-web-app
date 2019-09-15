@@ -1,0 +1,12 @@
+.wrapper-el {
+    border: 1px dashed rgba(0, 0, 0, 0);
+    &:hover {
+        border: 1px dashed #555555;
+        cursor: row-resize;
+    }
+}
+
+.main-object {
+    display: block;
+    width: 85%;
+}
