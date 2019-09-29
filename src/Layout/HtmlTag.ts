@@ -1,7 +1,10 @@
 import LayoutEl from "./LayoutEl";
-import Unit from "./Unit";
+import Percent from '../Unit/Size/Percent';
+import Pixel from "../Unit/Size/Pixel";
+import UnitSize from '~/src/Unit/UnitSize';
+import CssList from './CssList';
 
-export default abstract class HtmlTag extends LayoutEl
+export default abstract class HtmlTag extends LayoutEl implements CssList
 {
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
@@ -15,14 +18,20 @@ export default abstract class HtmlTag extends LayoutEl
     protected _width = 100
     protected _height = 100
     protected initialBorderColor = 'red'
-    protected _borderColor = this.initialBorderColor
+    private _borderColor = this.initialBorderColor;
+     get borderColor() {
+        return this._borderColor;
+    }
+     set borderColor(value) {
+        this._borderColor = value;
+    }
 
     protected _styleList: any = {
         width: this._width,
         height: this._height,
     }
 
-    protected sizeUnitCurrent = Unit.PERCENT
+    protected sizeUnitCurrent: UnitSize = new Percent()
         
     constructor() {
         super()
@@ -47,7 +56,7 @@ export default abstract class HtmlTag extends LayoutEl
     }
 
 
-    get styleList() : any
+    get cssList() : any
     {
         return {
             width: `${this._width}${this.sizeUnitCurrent}`,
@@ -80,14 +89,18 @@ export default abstract class HtmlTag extends LayoutEl
     
     
 
-    public onMouseMove(e) 
+    public onMouseMove(w, h) 
     {
-        console.log(e.target)
+        this.sizeUnitCurrent = new Pixel()
+        this._width = w
+        this._height = h
     }
 
     public onDoubleClick(e) 
     {
         this._isEdited = true
     }
+
+
 
 }

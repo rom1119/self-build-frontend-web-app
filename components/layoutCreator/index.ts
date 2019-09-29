@@ -1,9 +1,9 @@
 import Vue from 'vue'
 
 import LayoutCreatorContainer from './LayoutCreatorContainer.vue'
-import HTMLWrapper from './HTMLWrapper.vue'
-import HTMLEL from './HTMLEL.vue'
-import HTMLELEditable from './HTMLELEditable.vue'
+import HTMLWrapper from './tag/HTMLWrapper.vue'
+import HTMLEL from './tag/HTMLEL.vue'
+import HTMLELEditable from './tag/HTMLELEditable.vue'
 
 Vue.component('layout-creator-container', LayoutCreatorContainer)
 Vue.component('html-component', HTMLWrapper)

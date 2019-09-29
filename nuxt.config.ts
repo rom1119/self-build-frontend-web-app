@@ -27,9 +27,9 @@ module.exports = {
         ]
     },
 
-    router: {
-        middleware: 'auth'
-    },
+    // router: {
+    //     middleware: 'auth'
+    // },
 
     /*
     ** Customize the progress-bar color

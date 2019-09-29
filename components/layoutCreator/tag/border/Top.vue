@@ -7,16 +7,18 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
+import Top from '~/src/Site/Top';
+import BorderEl from "~/src/Layout/Border/BorderEl";
+import HtmlTag from "~/src/Layout/HtmlTag";
 
 
 @Component
-export default class HTMLEL extends Vue {
+export default class BorderTopComponent extends Vue {
 
 
     @Prop()
-    value: HtmlTag
+    value: BorderEl<Top>
     protected _innerText = 'This is H1 element'
     protected children: HtmlTag[] = []
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
@@ -29,7 +31,7 @@ export default class HTMLEL extends Vue {
         )
 
         var el = this.htmlFactory.createH1()
-        console.log('qqqqq')
+        // console.log('qqqqq')
 
         this.children.push(el)
 
@@ -38,7 +40,7 @@ export default class HTMLEL extends Vue {
     createPElement(target, cm, a) {
         console.log(
         )
-        console.log(this.$children);
+        // console.log(this.$children);
         // console.log(cm);
         // other actions...
     }
@@ -48,13 +50,13 @@ export default class HTMLEL extends Vue {
         let compStyles = window.getComputedStyle(e.target);
         var heightTable = compStyles.getPropertyValue('height')
 
-        console.log(heightTable);
+        // console.log(heightTable);
             
 
     }
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
-        console.log(this.value.styleList)
+        // console.log(this.value.styleList)
     }
 }
 </script>

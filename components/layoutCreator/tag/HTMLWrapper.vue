@@ -15,8 +15,7 @@
             </html-el-editable>
         </div>
         <html-el v-show="!value.isEdited" 
-         @mousedown.native="onMouseDown($event)" 
-         @mouseup.native="onMouseUp($event)" 
+         
          @dblclick.native="onDoubleClick($event)" 
          :value="value" v-context-menu="value.uuid">
         </html-el>
@@ -35,23 +34,22 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HTMLELEditable from './HTMLELEditable.vue';
+import MouseDetector from '../../src/Layout/MouseDetector';
 
 
 @Component
 export default class HTMLWrapper extends Vue {
     @Prop()
     value: HtmlTag
+    
     protected _innerText = 'This is H1 element'
     protected children: HtmlTag[] = []
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-    timeout
-    mouseDown
+
 
     $refs: {
         editableEl: any
     }
-
-
     contextMenuName = 'cm-create-html-element123'
 
     createH1Element(target, cm, a) {
@@ -59,7 +57,7 @@ export default class HTMLWrapper extends Vue {
         )
 
         var el = this.htmlFactory.createH1()
-        console.log('qqqqq')
+        // console.log('qqqqq')
 
         this.children.push(el)
 
@@ -73,29 +71,7 @@ export default class HTMLWrapper extends Vue {
         // other actions...
     }
 
-    onMouseDown(e)
-    {
-        this.mouseDown = true
-        clearTimeout(this.timeout)
-            this.timeout = setTimeout(async () => {
-                if (this.mouseDown) {
-                    this.value.changeAsActiveSize()
-
-                }
-
-            }, 400)
-        
-    }
     
-    onMouseUp(e)
-    {
-        console.log('qweqrewty');
-        
-        this.mouseDown = false
-        this.value.changeAsDeactiveSize()
-
-        
-    }
     onDoubleClick(e) 
     {
         this.value.onDoubleClick(e)
@@ -107,8 +83,9 @@ export default class HTMLWrapper extends Vue {
 
     }
     created() {
+        console.log(this.value.uuid);
+        
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
-        console.log(this.contextMenuName)
     }
 }
 </script>
