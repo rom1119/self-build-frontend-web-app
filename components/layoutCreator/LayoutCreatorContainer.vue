@@ -83,10 +83,10 @@ export default class LayoutCreatorContainer extends Vue {
     onMouseUp(e)
     {
         // console.log('qweqrewty');
+        this.mouseDown = false
         if (!this.currentElement) {
             return
         }
-        this.mouseDown = false
         this.currentElement.changeAsDeactiveSize()
         this.currentElement = null
 

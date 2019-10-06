@@ -65,7 +65,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList
     }
 
     
-    public setNone(target: BorderModel)
+    public setNone()
     {
         this._style = new BorderNone()
     }

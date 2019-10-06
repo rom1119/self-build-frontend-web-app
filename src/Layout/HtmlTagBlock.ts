@@ -30,16 +30,6 @@ export default abstract class HtmlTagBlock extends HtmlTag
         this._innerText = text
     }
 
-    get isEdited() : boolean
-    {
-        return this._isEdited
-    }
-
-    public setNotEdited()
-    {
-        this._isEdited = false
-    }
-    
     public onMouseMove(w, h) 
     {
         this.sizeUnitCurrent = new Pixel()

@@ -148,6 +148,8 @@ export default class HTMLWrapper extends Vue {
         position: relative;
     }
     .wrapper-el-editable {
+        flex-grow: 1;
+        flex-grow: 1;
         // float: left;
     }
     #loadingDialog {

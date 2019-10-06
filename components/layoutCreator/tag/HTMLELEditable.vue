@@ -42,11 +42,11 @@ export default class HTMLELEditable extends Vue {
     }
     onDoubleClick(e) 
     {
-        this.value.onDoubleClick(e)
-        let compStyles = window.getComputedStyle(e.target);
-        var heightTable = compStyles.getPropertyValue('height')
+        // this.value.onDoubleClick(e)
+        // let compStyles = window.getComputedStyle(e.target);
+        // var heightTable = compStyles.getPropertyValue('height')
 
-            console.log(heightTable);
+        //     console.log(heightTable);
             
 
     }
