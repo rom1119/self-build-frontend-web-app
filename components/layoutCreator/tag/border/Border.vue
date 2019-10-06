@@ -1,57 +1,50 @@
 <template>
 
-    <div class="wrapper-el" v-html="value.tag" :style="value.styleList">
-    </div>
-
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
-import BorderEl from '../../../../src/Layout/Border/BorderEl';
 import Left from '~/src/Site/Left';
-
+import BorderModel from '../../../../src/Layout/Border/BorderModel';
 
 @Component
 export default class BorderComponent extends Vue {
 
+    $refs: {
 
+    }
     @Prop()
-    value: BorderEl<Left>
-    protected _innerText = 'This is H1 element'
-    protected children: HtmlTag[] = []
-    htmlFactory: HtmlTagFactory = new HtmlTagFactory()
+    value: BorderModel
 
+    contextMenuName = 'cm-border'
 
-    contextMenuName = 'cm-create-html-element123'
-
-    createH1Element(target, cm, a) {
-        console.log(
-        )
-
-        var el = this.htmlFactory.createH1()
-        // console.log('qqqqq')
-
-        this.children.push(el)
-
+    setSolid()
+    {
+        this.value.setSolid()
     }
 
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        // console.log(this.$children);
-        // console.log(cm);
-        // other actions...
+    setDotted()
+    {
+        this.value.setDotted()
     }
+
+    setDashed()
+    {
+        this.value.setDashed()
+    }
+    setNone()
+    {
+        this.value.setNone()
+    }
+
     onDoubleClick(e) 
     {
-        this.value.onDoubleClick(e)
+        // this.value.onDoubleClick(e)
         let compStyles = window.getComputedStyle(e.target);
         var heightTable = compStyles.getPropertyValue('height')
 
-        // console.log(heightTable);
-            
+        // console.log(heightTable);     
 
     }
     created() {
@@ -62,9 +55,5 @@ export default class BorderComponent extends Vue {
 </script>
 
 <style lang="scss">
-#loadingDialog {
-    .v-dialog {
-    width: auto;
-    }
-}
+
 </style>

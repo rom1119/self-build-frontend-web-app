@@ -1,6 +1,20 @@
 <template>
 
-    <div class="wrapper-el" v-html="value.tag" :style="value.styleList">
+    <div class="stretch stretch__flex">
+        <context-menu
+                shift="both"
+                :ref="value.uuid">
+            <div class="context-menu-container">
+                    <context-menu-item :action="setSolid">Solids</context-menu-item>
+
+                    <context-menu-item :action="setDotted">Dotted</context-menu-item>
+                    <context-menu-item :action="setDashed">Dashed</context-menu-item>
+                    <context-menu-item :action="setNone">None</context-menu-item>
+
+            </div>
+        </context-menu>
+        <div class="stretch" :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
+        </div>
     </div>
 
 </template>
@@ -11,42 +25,20 @@ import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import Right from '~/src/Site/Right';
 import BorderRight from '../../../../src/Layout/Border/BorderRight';
+import BorderComponent from './Border.vue';
 
 
 @Component
-export default class BorderRightComponent extends Vue {
-
-
-    @Prop()
-    value: BorderRight
-    protected _innerText = 'This is H1 element'
-    protected children: HtmlTag[] = []
-    htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-
+export default class BorderRightComponent extends BorderComponent {
 
     contextMenuName = 'cm-create-html-element123'
 
-    createH1Element(target, cm, a) {
-        console.log(
-        )
 
-        var el = this.htmlFactory.createH1()
-        // console.log('qqqqq')
 
-        this.children.push(el)
 
-    }
-
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        // console.log(this.$children);
-        // console.log(cm);
-        // other actions...
-    }
     onDoubleClick(e) 
     {
-        this.value.onDoubleClick(e)
+        this.value.onClick(e)
         let compStyles = window.getComputedStyle(e.target);
         var heightTable = compStyles.getPropertyValue('height')
 
@@ -61,10 +53,12 @@ export default class BorderRightComponent extends Vue {
 }
 </script>
 
-<style lang="scss">
-#loadingDialog {
-    .v-dialog {
-    width: auto;
+
+<style scoped lang="scss">
+    .stretch {
+        align-content: stretch;
+        &.stretch__flex {
+            display: flex;
+        }
     }
-}
 </style>

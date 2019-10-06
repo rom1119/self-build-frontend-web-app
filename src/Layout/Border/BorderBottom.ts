@@ -5,14 +5,21 @@ import Pixel from '../../Unit/Size/Pixel';
 import Named from '../../Unit/Color/Named';
 import CssList from "../CssList";
 import Left from '~/src/Site/Left';
-import Border from "./Border";
+import BorderModel from "./BorderModel";
 import Percent from '../../Unit/Size/Percent';
 import Bottom from "~/src/Site/Bottom";
 
-export default class BorderBottom extends Border<Bottom>
+export default class BorderBottom extends BorderModel
 {
+    protected _name: string = 'border-bottom'
     protected _width: number = 100
+    protected _initialColor: string = 'green'
 
+    constructor()
+    {
+        super()
+        this._color = this._initialColor
+    }
     get widthUnit(): UnitSize {
         return new Percent()
     }    
@@ -26,6 +33,17 @@ export default class BorderBottom extends Border<Bottom>
         return this._borderWidth
     }
 
-    
+    get top(): string 
+    {
+        return 'none'
+    }
+
+    get cssList() : any
+    {
+        var baseStyles = super.cssList
+        baseStyles.borderTopWidth = `${this.height}${this.heightUnit.value}`
+        baseStyles.height = `none`
+        return baseStyles
+    }
 
 }

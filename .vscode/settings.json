@@ -1,3 +1,14 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "sqltools.connections": [
+        {
+            "database": "self_build_app_db",
+            "dialect": "MySQL",
+            "name": "generator",
+            "password": "agdrtv19",
+            "port": 3306,
+            "server": "localhost",
+            "username": "root"
+        }
+    ]
 }

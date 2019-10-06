@@ -1,11 +1,11 @@
-import BorderEl from './Border';
+import BorderEl from './BorderModel';
 import BorderLeft from './BorderLeft';
 import BorderRight from './BorderRight';
 import BorderTop from './BorderTop';
 import BorderBottom from './BorderBottom';
 
 
-export default class BorderElFactory 
+export default class BorderModelFactory 
 {
     public createLeft() : BorderLeft
     {

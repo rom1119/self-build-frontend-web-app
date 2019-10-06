@@ -21,11 +21,7 @@ export default abstract class LayoutEl {
     {
         return this._uuid
     }
-    
-    set uuid(uuid:string)
-    {
-        this._uuid = uuid
-    }
+
     
 
     

@@ -1,14 +1,14 @@
 <template>
 
-    <div class="wrapper-el" v-html="value.tag" :style="value.styleList">
+    <div class="wrapper-el" :style="value.cssList" v-html="value.tag" @mouseover="onMouseOver" @mouseout="onMouseOut">
     </div>
 
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
+import HtmlTag from '~/src/Layout/HtmlTag';
 
 
 @Component
@@ -24,23 +24,13 @@ export default class HTMLEL extends Vue {
 
     contextMenuName = 'cm-create-html-element123'
 
-    createH1Element(target, cm, a) {
-        console.log(
-        )
-
-        var el = this.htmlFactory.createH1()
-        // console.log('qqqqq')
-
-        this.children.push(el)
+    onMouseOver() {
+        this.value.changeAsActiveSize()
 
     }
 
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        // console.log(this.$children);
-        // console.log(cm);
-        // other actions...
+    onMouseOut() {
+        this.value.changeAsDeactiveSize()
     }
     onDoubleClick(e) 
     {
@@ -60,9 +50,12 @@ export default class HTMLEL extends Vue {
 </script>
 
 <style lang="scss">
-#loadingDialog {
-    .v-dialog {
-    width: auto;
+    .wrapper-el {
+        // float: left;
     }
-}
+    #loadingDialog {
+        .v-dialog {
+        width: auto;
+        }
+    }
 </style>

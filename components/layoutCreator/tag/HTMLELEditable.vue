@@ -5,8 +5,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
+import HtmlTag from '../../../src/Layout/HtmlTag';
 
 
 @Component

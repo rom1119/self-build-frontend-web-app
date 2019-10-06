@@ -1,6 +1,20 @@
 <template>
 
-    <div class="wrapper-el" v-html="value.tag" :style="value.styleList">
+    <div class="stretch stretch__flex">
+        <context-menu
+                shift="both"
+                :ref="value.uuid">
+            <div class="context-menu-container">
+                    <context-menu-item :action="setSolid">Solids</context-menu-item>
+
+                    <context-menu-item :action="setDotted">Dotted</context-menu-item>
+                    <context-menu-item :action="setDashed">Dashed</context-menu-item>
+                    <context-menu-item :action="setNone">None</context-menu-item>
+
+            </div>
+        </context-menu>
+        <div class="stretch" :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
+        </div>
     </div>
 
 </template>
@@ -11,10 +25,11 @@ import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import Left from '~/src/Site/Left';
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderLeft from '~/src/Layout/Border/BorderLeft';
+import BorderComponent from './Border.vue';
 
 
 @Component
-export default class BorderLeftComponent extends Vue {
+export default class BorderLeftComponent extends BorderComponent {
 
 
     @Prop()
@@ -46,7 +61,7 @@ export default class BorderLeftComponent extends Vue {
     }
     onDoubleClick(e) 
     {
-        this.value.onDoubleClick(e)
+        this.value.onClick(e)
         let compStyles = window.getComputedStyle(e.target);
         var heightTable = compStyles.getPropertyValue('height')
 
@@ -61,10 +76,11 @@ export default class BorderLeftComponent extends Vue {
 }
 </script>
 
-<style lang="scss">
-#loadingDialog {
-    .v-dialog {
-    width: auto;
+<style scoped lang="scss">
+    .stretch {
+        align-content: stretch;
+        &.stretch__flex {
+            display: flex;
+        }
     }
-}
 </style>

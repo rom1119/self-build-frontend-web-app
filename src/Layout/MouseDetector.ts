@@ -3,6 +3,9 @@ export default class MouseDetector {
     private _xStart
     private _yStart
 
+    private _widthStart
+    private _heightStart
+
     private _x
     private _y
 
@@ -12,6 +15,15 @@ export default class MouseDetector {
     public initPosition(x: number, y: number) {
         this._xStart = x
         this._yStart = y
+    }
+
+
+    /**
+     * initPosition
+     */
+    public initSize(width: number, height: number) {
+        this._widthStart = width
+        this._heightStart = height
     }
 
     set x(newVal: number)
@@ -30,14 +42,17 @@ export default class MouseDetector {
         this._y = newVal
     }
 
-    get XLengthMove()
+    get computedWidth()
     {
-        return Math.abs(this._xStart - this._x)
+        var newCalc =  this._x - this._xStart        
+        return this._widthStart + newCalc
     }
 
-    get YLengthMove()
+    get computedHeight()
     {
-        return Math.abs(this._yStart - this._y)
+        var newCalc =  this._y - this._yStart   
+             
+        return this._heightStart + newCalc
     }
 
 }

@@ -1,6 +1,20 @@
 <template>
 
-    <div class="wrapper-el" v-html="value.tag" :style="value.styleList">
+    <div >
+        <context-menu
+                shift="both"
+                :ref="value.uuid">
+            <div class="context-menu-container">
+                    <context-menu-item :action="setSolid">Solids</context-menu-item>
+
+                    <context-menu-item :action="setDotted">Dotted</context-menu-item>
+                    <context-menu-item :action="setDashed">Dashed</context-menu-item>
+                    <context-menu-item :action="setNone">None</context-menu-item>
+
+            </div>
+        </context-menu>
+        <div :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
+        </div>
     </div>
 
 </template>
@@ -9,20 +23,13 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import Top from '~/src/Site/Top';
-import BorderEl from "~/src/Layout/Border/BorderEl";
 import HtmlTag from "~/src/Layout/HtmlTag";
+import BorderModel from '../../../../src/Layout/Border/BorderModel';
+import BorderComponent from './Border.vue';
 
 
 @Component
-export default class BorderTopComponent extends Vue {
-
-
-    @Prop()
-    value: BorderEl<Top>
-    protected _innerText = 'This is H1 element'
-    protected children: HtmlTag[] = []
-    htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-
+export default class BorderTopComponent extends BorderComponent {
 
     contextMenuName = 'cm-create-html-element123'
 
@@ -30,10 +37,10 @@ export default class BorderTopComponent extends Vue {
         console.log(
         )
 
-        var el = this.htmlFactory.createH1()
+        // var el = this.htmlFactory.createH1()
         // console.log('qqqqq')
 
-        this.children.push(el)
+        // this.children.push(el)
 
     }
 
@@ -46,7 +53,7 @@ export default class BorderTopComponent extends Vue {
     }
     onDoubleClick(e) 
     {
-        this.value.onDoubleClick(e)
+        this.value.onClick(e)
         let compStyles = window.getComputedStyle(e.target);
         var heightTable = compStyles.getPropertyValue('height')
 
@@ -62,6 +69,9 @@ export default class BorderTopComponent extends Vue {
 </script>
 
 <style lang="scss">
+    .border-top {
+        
+    }
 #loadingDialog {
     .v-dialog {
     width: auto;

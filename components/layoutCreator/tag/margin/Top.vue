@@ -7,18 +7,17 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
+import HtmlTag from "~/src/Layout/HtmlTag";
 
 
 @Component
-export default class HTMLEL extends Vue {
+export default class PaddingRightComponent extends Vue {
 
 
     @Prop()
     value: HtmlTag
     protected _innerText = 'This is H1 element'
-    protected children: HtmlTag[] = []
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
 
 
@@ -31,7 +30,7 @@ export default class HTMLEL extends Vue {
         var el = this.htmlFactory.createH1()
         // console.log('qqqqq')
 
-        this.children.push(el)
+        // this.children.push(el)
 
     }
 

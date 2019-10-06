@@ -4,8 +4,7 @@
             <head>
 
             </head>
-            <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100px;">
-                    <context-menu
+            <context-menu
                         shift="both"
                         :ref="contextMenuName">
                         <div class="context-menu-container">
@@ -15,6 +14,8 @@
 
                         </div>
                     </context-menu>
+            <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100px;">
+                    
                     <template v-for="htmlTag in htmlTags">
                         <html-component
                          @mousedown.native="onMouseDown(htmlTag, $event)" 
@@ -56,12 +57,20 @@ export default class LayoutCreatorContainer extends Vue {
     onMouseDown(el, event)
     {
         this.mouseDown = true
+        
         clearTimeout(this.timeout)
             this.timeout = setTimeout(async () => {
                 if (this.mouseDown && el) {
                     // console.log(e);
                     this.currentElement = el
+                    let compStyles = window.getComputedStyle(el.htmlEl);
+                    var comp = compStyles.getPropertyValue('width')
+                    console.log('aa');
+                    console.log(comp);
+                    // console.log(event.target);
+                    
                     this.mouseDetector.initPosition(event.clientX, event.clientY)
+                    this.mouseDetector.initSize(el.width, el.height)
                     this.currentElement.changeAsActiveSize()
 
                 }
@@ -73,7 +82,7 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseUp(e)
     {
-        console.log('qweqrewty');
+        // console.log('qweqrewty');
         if (!this.currentElement) {
             return
         }
@@ -89,10 +98,10 @@ export default class LayoutCreatorContainer extends Vue {
         if (!this.currentElement) {
             return
         }
-        console.log(e.clientX);
+        // console.log(e.clientX);
         this.mouseDetector.x = e.clientX
         this.mouseDetector.y = e.clientY
-        this.currentElement.onMouseMove(this.mouseDetector.XLengthMove, this.mouseDetector.XLengthMove)
+        this.currentElement.initSize(this.mouseDetector.computedWidth, this.mouseDetector.computedHeight)
 
         
     }
