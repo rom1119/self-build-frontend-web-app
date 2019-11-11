@@ -10,7 +10,7 @@
 
             </div>
         </context-menu> -->
-        <html-element-context-menu @createdTag="onCreateNewChildren" :value="value"  :ref="value.uuid" />
+        <html-element-context-menu :value="children"  :ref="value.uuid" />
         <!-- <border-main-component v-for="border in borders" :value="border" :key="border.uuid" >
         </border-main-component> -->
 
@@ -19,18 +19,13 @@
         <div style="display: flex; flex-direction: column; width: 100%;">
             <border-top :value="borderTop" :key="borderTop.uuid">
             </border-top>
-            <div v-show="value.isEdited" class="wrapper-el-editable" >
-                <html-el-editable :value="value" ref="editableEl">
-                </html-el-editable>
-            </div>
+            
 
             <html-el 
                 @contentMouseOver="onContentMouseOver" 
                 @contentMouseOut="onContentMouseOut" 
-                @contentMouseDown="onContentMouseDown(value, $event)" 
-                v-show="!value.isEdited" 
+                @contentMouseDown="onContentMouseDown(value, $event)"                 
                 
-                @dblclick.native="onDoubleClick($event)" 
                 :value="value" 
                 v-context-menu="value.uuid">
                 <!-- <div class="wrapper-children"> -->
@@ -81,9 +76,6 @@ export default class HTMLWrapper extends Vue {
     
     borderFactory: BorderModelFactory = new BorderModelFactory()
 
-    $refs: {
-        editableEl: any
-    }
     contextMenuName = 'cm-create-html-element123'
 
     onContentMouseOver(val)
@@ -93,16 +85,12 @@ export default class HTMLWrapper extends Vue {
 
     onContentMouseOut(val)
     {
-        
         this.$emit('contentMouseOut', val)  
     }
 
 
     onContentMouseDown(val, event)
     {
-        // console.log('val', val);
-        // console.log('event', event);
-        
         let ev = {
             event: event,
             target: val
@@ -112,12 +100,6 @@ export default class HTMLWrapper extends Vue {
     onContentMouseDownChild(val)
     {
         this.$emit('contentMouseDown', val)  
-    }
-
-    onCreateNewChildren(el)
-    {
-        this.children.push(el)
-
     }
 
     initBorders()
@@ -139,21 +121,11 @@ export default class HTMLWrapper extends Vue {
     }
 
     
-    onDoubleClick(e) 
-    {
-        this.value.onDoubleClick(e)
-        let compStyles = window.getComputedStyle(e.target);
-        var heightTable = compStyles.getPropertyValue('height')
-
-        this.$refs.editableEl.focus()
-            
-
-    }
     created() {
         // console.log(this.value.uuid);
         this.initBorders()
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
-        
+    
         
     }
 

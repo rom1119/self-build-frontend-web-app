@@ -19,15 +19,8 @@ export default abstract class HtmlTagBlock extends HtmlTag
         
     }
     
-    get innerText() : string
-    {
-        return this._innerText
-    }
     
-    set innerText(text: string)
-    {
-        this._innerText = text
-    }
+    
 
     public onMouseMove(w, h) 
     {

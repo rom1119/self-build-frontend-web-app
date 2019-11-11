@@ -4,7 +4,7 @@
             <head>
 
             </head>
-            <html-element-context-menu @createdTag="onCreateNewChildren" :value="null"  :ref="contextMenuName" />
+            <html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
 
             <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh;">
                     
@@ -53,12 +53,6 @@ export default class LayoutCreatorContainer extends Vue {
         value.changeAsDeactiveSize()
     }
 
-    onCreateNewChildren(el)
-    {
-        this.htmlTags.push(el)
-
-    }
-
     onMouseDown(source)
     {
         this.mouseDown = true
@@ -69,16 +63,10 @@ export default class LayoutCreatorContainer extends Vue {
         clearTimeout(this.timeout)
             this.timeout = setTimeout(async () => {
                 if (this.mouseDown && el) {
-                    // console.log(e);
                     this.currentElement = el
-                    let compStyles = window.getComputedStyle(el.htmlEl);
-                    var comp = compStyles.getPropertyValue('width')
-                    console.log('aa');
-                    console.log('x', event.clientX);
-                    console.log('y', event.clientY);
-                    console.log('width', el.width);
-                    console.log('height', el.height);
-                    // console.log(event.target);
+                    // let compStyles = window.getComputedStyle(el.htmlEl);
+                    // var comp = compStyles.getPropertyValue('width')
+                    // console.log('aa');
                     
                     this.mouseDetector.initPosition(event.clientX, event.clientY)
                     this.mouseDetector.initSize(el.width, el.height)
@@ -110,7 +98,6 @@ export default class LayoutCreatorContainer extends Vue {
         if (!this.currentElement) {
             return
         }
-        console.log(this.currentElement.innerText);
         // console.log(e.clientX);
         this.mouseDetector.x = e.clientX
         this.mouseDetector.y = e.clientY

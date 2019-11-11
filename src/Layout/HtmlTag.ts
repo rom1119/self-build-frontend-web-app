@@ -46,6 +46,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     //     this._height = value;
     //  }
 
+    
+
 
     get htmlEl() {
         return this._htmlEl;
@@ -123,10 +125,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.sizeUnitCurrent = new Pixel()
         this._width = w
         this._height = h
-
-        console.log(w);
-        console.log(h);
-        console.log(this.uuid);
         
     }
 

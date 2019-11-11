@@ -18,14 +18,15 @@ import HtmlTag from '../../src/Layout/HtmlTag';
 @Component
 export default class HtmlElementContextMenu extends Vue {
 
-    @Prop({required: false, default: null})
-    value: HtmlTag
+    @Prop({required: true, default: null})
+    value: HtmlTag[]
 
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
     
     createH1Element(target, cm, a) {
 
         var el = this.htmlFactory.createH1()
+        this.value.push(el)
         this.$emit('createdTag', el)
 
     }
