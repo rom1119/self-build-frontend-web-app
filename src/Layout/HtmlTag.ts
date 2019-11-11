@@ -6,6 +6,7 @@ import CssList from './CssList';
 import UnitColor from "../Unit/UnitColor";
 import Named from "../Unit/Color/Named";
 import SizeActivable from "../SizeActivable";
+import BorderModel from "./Border/BorderModel";
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
@@ -18,6 +19,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     protected paddingActive = false
     protected marginActive = false
     protected contentActive = false
+    protected _borders: BorderModel[] = []
+    protected _borderBottom: BorderModel
+    protected _borderTop: BorderModel
+    protected _borderLeft: BorderModel
+    protected _borderRight: BorderModel
     protected sizeActive = false
     protected _isEdited = false
     protected _width = 100
@@ -92,6 +98,37 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
             backgroundColor: `${this._backgroundColor}${this._colorUnit.value}`,
         }
     }
+
+    // get cssContentSizeList() : any
+    // {
+    //     return {
+    //         width: `${this._width}${this.sizeUnitCurrent.value}`,
+    //         height: `${this._height}${this.sizeUnitCurrent.value}`,
+    //     }
+    // }
+
+    get cssBoxList() : any
+    {
+        if (this.sizeUnitCurrent instanceof Percent) {
+            return {
+                width: `${this._width}${this.sizeUnitCurrent.value}`,
+                height: `${this._height}${this.sizeUnitCurrent.value}`,
+            }
+        }
+
+        let borderLeftWidth = this._borderLeft.borderWidth
+        let borderRightWidth = this._borderRight.borderWidth
+        let borderTopWidth = this._borderTop.borderWidth
+        let borderBottomWidth = this._borderBottom.borderWidth
+        let boxWidth = borderLeftWidth + borderRightWidth + this._width
+        let boxHeight = borderTopWidth + borderBottomWidth + this._height
+
+        return {
+            width: `${boxWidth}${this.sizeUnitCurrent.value}`,
+            height: `${boxHeight}${this.sizeUnitCurrent.value}`,
+            backgroundColor: `${this._backgroundColor}${this._colorUnit.value}`,
+        }
+    }
     
     get innerText() : string
     {
@@ -131,6 +168,56 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     public onDoubleClick(e) 
     {
         this._isEdited = true
+    }
+
+    get borders() : BorderModel[]
+    {
+        return this._borders
+    }
+    
+    set borders(arg: BorderModel[])
+    {
+        this._borders = arg
+    }
+
+    get borderLeft() : BorderModel
+    {
+        return this._borderLeft
+    }
+    
+    set borderLeft(arg: BorderModel)
+    {
+        this._borderLeft = arg
+    }
+
+    get borderRight() : BorderModel
+    {
+        return this._borderRight
+    }
+    
+    set borderRight(arg: BorderModel)
+    {
+        this._borderRight = arg
+    }
+
+    get borderBottom() : BorderModel
+    {
+        return this._borderBottom
+    }
+    
+    set borderBottom(arg: BorderModel)
+    {
+        this._borderBottom = arg
+    }
+
+    get borderTop() : BorderModel
+    {
+        return this._borderTop
+    }
+    
+    set borderTop(arg: BorderModel)
+    {
+        this._borderTop = arg
     }
 
 

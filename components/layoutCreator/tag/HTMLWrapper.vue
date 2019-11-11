@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper" :id="value.uuid" :style="value.cssList">
+    <div class="wrapper" :style="value.cssBoxList" :id="value.uuid" >
         <!-- <context-menu
                 shift="both"
                 :ref="value.uuid">
@@ -16,7 +16,7 @@
 
         <border-left :value="borderLeft" :key="borderLeft.uuid">
         </border-left>
-        <div style="display: flex; flex-direction: column; width: 100%;">
+        <span style="display: flex; flex-direction: column;">
             <border-top :value="borderTop" :key="borderTop.uuid">
             </border-top>
             
@@ -44,7 +44,7 @@
                 
             <border-bottom :value="borderBottom" :key="borderBottom.uuid">
             </border-bottom>
-        </div>
+        </span>
         <border-right :value="borderRight" :key="borderRight.uuid">
         </border-right>
         
@@ -59,20 +59,14 @@ import HTMLELEditable from './HTMLELEditable.vue';
 import MouseDetector from '~/src/Layout/MouseDetector';
 import BorderModelFactory from '~/src/Layout/Border/BorderModelFactory';
 import BorderModel from '~/src/Layout/Border/BorderModel';
+import LayoutEl from "../../../src/LayoutEl";
 
 
 @Component
 export default class HTMLWrapper extends Vue {
     @Prop()
     value: HtmlTag
-    
-    protected _innerText = 'This is H1 element'
-    protected children: HtmlTag[] = []
-    protected borders: BorderModel[] = []
-    protected borderBottom: BorderModel
-    protected borderTop: BorderModel
-    protected borderLeft: BorderModel
-    protected borderRight: BorderModel
+
     
     borderFactory: BorderModelFactory = new BorderModelFactory()
 
@@ -100,6 +94,67 @@ export default class HTMLWrapper extends Vue {
     onContentMouseDownChild(val)
     {
         this.$emit('contentMouseDown', val)  
+    }
+
+    get children() : LayoutEl[]
+    {
+        return this.value.children
+    }
+    
+    set children(arg: LayoutEl[])
+    {
+        this.value.children = arg
+    }
+
+    get borders() : BorderModel[]
+    {
+        return this.value.borders
+    }
+    
+    set borders(arg: BorderModel[])
+    {
+        this.value.borders = arg
+    }
+
+
+    get borderLeft() : BorderModel
+    {
+        return this.value.borderLeft
+    }
+    
+    set borderLeft(arg: BorderModel)
+    {
+        this.value.borderLeft = arg
+    }
+
+    get borderRight() : BorderModel
+    {
+        return this.value.borderRight
+    }
+    
+    set borderRight(arg: BorderModel)
+    {
+        this.value.borderRight = arg
+    }
+
+    get borderBottom() : BorderModel
+    {
+        return this.value.borderBottom
+    }
+    
+    set borderBottom(arg: BorderModel)
+    {
+        this.value.borderBottom = arg
+    }
+
+    get borderTop() : BorderModel
+    {
+        return this.value.borderTop
+    }
+    
+    set borderTop(arg: BorderModel)
+    {
+        this.value.borderTop = arg
     }
 
     initBorders()

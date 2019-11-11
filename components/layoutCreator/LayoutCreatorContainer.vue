@@ -47,10 +47,9 @@ export default class LayoutCreatorContainer extends Vue {
 
     }
 
-    onMouseOut(value) {
+    onMouseOut(val) {
         // console.log(value);
-        
-        value.changeAsDeactiveSize()
+        this.activeElController.deactiveEl(val)
     }
 
     onMouseDown(source)

@@ -2,6 +2,9 @@ export default abstract class LayoutEl {
 
     protected _lastSynch: Date;
     protected _uuid: string;
+        
+    protected _children: LayoutEl[] = []
+    
 
     constructor()
     {
@@ -22,6 +25,15 @@ export default abstract class LayoutEl {
         return this._uuid
     }
 
+    get children(): LayoutEl[]
+    {
+        return this._children
+    }
+
+    set children(arg: LayoutEl[])
+    {
+        this._children = arg
+    }
     
 
     

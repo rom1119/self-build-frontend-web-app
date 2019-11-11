@@ -1,4 +1,5 @@
-export default abstract class Unit {
+import AggregateRoot from '../../types/AggregateRoot';
+export default abstract class Unit extends AggregateRoot {
 
     protected _name: string
     protected _value: string
