@@ -33,6 +33,10 @@ export default abstract class BorderModel extends LayoutEl implements CssList
     {
         return this._borderWidth
     }
+    set borderWidth(arg: number)
+    {
+        this._borderWidth = arg
+    }
 
     
     abstract get widthUnit(): UnitSize

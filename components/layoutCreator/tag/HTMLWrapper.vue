@@ -1,5 +1,6 @@
 <template>
     <div class="wrapper" :style="value.cssBoxList" :id="value.uuid" >
+        <text-manage-modal v-model="value" />
         <!-- <context-menu
                 shift="both"
                 :ref="value.uuid">
@@ -10,7 +11,7 @@
 
             </div>
         </context-menu> -->
-        <html-element-context-menu :value="children"  :ref="value.uuid" />
+        <html-element-context-menu :value="children" :htmlTagModel="value"  :ref="value.uuid" />
         <!-- <border-main-component v-for="border in borders" :value="border" :key="border.uuid" >
         </border-main-component> -->
 

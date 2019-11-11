@@ -1,0 +1,16 @@
+.context-menu {
+    list-style-type: none;
+    background-color: white;
+}
+.context-menu-item {
+    padding: 5px 10px;
+    &:hover {
+        background-color: gray;
+        color: white;
+        cursor: pointer;
+    }
+}
+
+.nested {
+    pointer-events: auto !important;
+}

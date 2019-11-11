@@ -1,4 +1,4 @@
-import UnitColor from '../UnitColor';
+import UnitColor from '~/src/Unit/UnitColor';
 
 export default class Named extends UnitColor {
 

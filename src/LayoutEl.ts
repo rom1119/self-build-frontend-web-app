@@ -8,7 +8,7 @@ export default abstract class LayoutEl {
 
     constructor()
     {
-        this._uuid = Math.floor(Math.random() * 10000) + ''
+        this._uuid = Math.floor(Math.random() * 10000000) + ''
     }
     
     get lastSynch(): Date

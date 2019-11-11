@@ -1,0 +1,28 @@
+.my-modal {
+    background-color:rgb(204, 255, 156) ;
+    position: fixed;
+    z-index: 99999999999999;
+    width: 400px;
+    min-height: 400px;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 20px;
+    &__header{
+        text-align: center;
+        width: 100%;
+        h2 {
+            
+        }
+    }
+    &.__content{
+
+    }
+    &.__footer{
+
+    }
+    &.__btn{
+
+    }
+}

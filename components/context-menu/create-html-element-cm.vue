@@ -2,22 +2,11 @@
     <context-menu
         shift="both"
         ref="wrapped-context-menu">
-        <context-menu
-        shift="both"
-        :ref="createElementNameCM">
 
                 <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
          
                 <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
   
-        </context-menu>
-        <!-- <create-html-element-context-menu :value="value"  :ref="createElementNameCM" /> -->
-        
-                <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
-
-           
-                <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
-
     </context-menu>
 </template>
 
@@ -27,17 +16,12 @@ import HtmlTagFactory from '~/src/Layout/HtmlTagFactory';
 import HtmlTag from '../../src/Layout/HtmlTag';
 
 @Component
-export default class HtmlElementContextMenu extends Vue {
+export default class CreateHtmlElementContextMenu extends Vue {
 
     @Prop({required: true, default: null})
     value: HtmlTag[]
 
-    @Prop({required: true, default: null})
-    htmlTagModel: HtmlTag
-
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-
-    createElementNameCM = 'create-html-element-cm-'
     
     createH1Element(target, cm, a) {
 
@@ -48,22 +32,15 @@ export default class HtmlElementContextMenu extends Vue {
     }
 
     createPElement(target, cm, a) {
-        console.log(
-        )
-        console.log(this.$children);
+        // var el = this.htmlFactory.cre()
+        // this.value.push(el)
+        // this.$emit('createdTag', el)
         // console.log(cm);
         // other actions...
-    }
-
-    mounted() {
-        // console.log(this.value.uuid);
-        this.createElementNameCM = this.createElementNameCM.concat(this.htmlTagModel.uuid)
-    
-        
     }
 }
 </script>
 
-<style  scoped>
-   
+<style scoped>
+
 </style>

@@ -4,7 +4,7 @@
             <head>
 
             </head>
-            <html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
+            <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
 
             <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh;">
                     

@@ -4,15 +4,18 @@ import '@/components/forms/index'
 import '@/components/selects/index'
 import '@/components/context-menu/index'
 import '@/components/layoutCreator/index'
+import '@/components/modal/index'
 import vSelect from 'vue-select'
 // import 'vue-select/dist/vue-select.css';
 
 // import MainComponent from '~/components/comparison-component/index.vue'
 import Pagination from '@/components/Pagination.vue'
+import BaseModal from '@/components/BaseModal.vue'
 import AddPublicationComponent from '@/pages/add-publication.vue'
 import vuetifySelect2 from '@/components/vuetify-select2.vue'
 
 Vue.component('vuetify-select2', vuetifySelect2)
+Vue.component('base-modal', BaseModal)
 Vue.component('pagination-component', Pagination)
 // Vue.component('comparison-component', MainComponent)
 // Vue.component('comparison-component', MainComponent)

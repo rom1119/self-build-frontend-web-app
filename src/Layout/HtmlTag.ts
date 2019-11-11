@@ -88,8 +88,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this._backgroundColor = this.initialBackgroundColor
     }
 
- 
-
     get cssList() : any
     {
         return {
