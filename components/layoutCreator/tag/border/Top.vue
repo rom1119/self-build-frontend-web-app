@@ -1,18 +1,7 @@
 <template>
 
     <div >
-        <context-menu
-                shift="both"
-                :ref="value.uuid">
-            <div class="context-menu-container">
-                    <context-menu-item :action="setSolid">Solids</context-menu-item>
-
-                    <context-menu-item :action="setDotted">Dotted</context-menu-item>
-                    <context-menu-item :action="setDashed">Dashed</context-menu-item>
-                    <context-menu-item :action="setNone">None</context-menu-item>
-
-            </div>
-        </context-menu>
+        <border-html-context-menu :value="value"  :ref="value.uuid" />
         <div :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
         </div>
     </div>
@@ -26,7 +15,6 @@ import Top from '~/src/Site/Top';
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
 import BorderComponent from './Border.vue';
-
 
 @Component
 export default class BorderTopComponent extends BorderComponent {

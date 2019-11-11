@@ -1,13 +1,13 @@
 import HtmlTagBlock from '../HtmlTagBlock';
 export default class H1 extends HtmlTagBlock {
 
-    protected _innerText: string = 'Example text H1'
+    protected _innerText: string = '  H1'
 
-    protected getTag(): string {
+    protected getTagName(): string {
         return 'h1'
     }
-    getInnerText(): string {
-        return 'This is H1 element HTML'
+    get innerText(): string {
+        return `${this.uuid} ${this._innerText}`
     }
     
     

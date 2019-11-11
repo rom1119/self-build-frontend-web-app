@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper" :id="value.uuid" :style="value.cssList">
-        <context-menu
+        <!-- <context-menu
                 shift="both"
                 :ref="value.uuid">
             <div class="context-menu-container">
@@ -9,7 +9,8 @@
                     <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
 
             </div>
-        </context-menu>
+        </context-menu> -->
+        <html-element-context-menu @createdTag="onCreateNewChildren" :value="value"  :ref="value.uuid" />
         <!-- <border-main-component v-for="border in borders" :value="border" :key="border.uuid" >
         </border-main-component> -->
 
@@ -23,11 +24,27 @@
                 </html-el-editable>
             </div>
 
-            <html-el v-show="!value.isEdited" 
-            
-            @dblclick.native="onDoubleClick($event)" 
-            :value="value" 
-            v-context-menu="value.uuid">
+            <html-el 
+                @contentMouseOver="onContentMouseOver" 
+                @contentMouseOut="onContentMouseOut" 
+                @contentMouseDown="onContentMouseDown(value, $event)" 
+                v-show="!value.isEdited" 
+                
+                @dblclick.native="onDoubleClick($event)" 
+                :value="value" 
+                v-context-menu="value.uuid">
+                <!-- <div class="wrapper-children"> -->
+                    <!-- <template v-for="child in children"> -->
+                        <html-component 
+                        @contentMouseOver="onContentMouseOver" 
+                        @contentMouseOut="onContentMouseOut" 
+                        @contentMouseDown="onContentMouseDownChild($event)" 
+                        v-for="child in children" 
+                        :value="child" 
+                        :key="child.uuid"  > 
+                        </html-component>
+                    <!-- </template>
+                </div> -->
             </html-el>
                 
             <border-bottom :value="borderBottom" :key="borderBottom.uuid">
@@ -35,12 +52,7 @@
         </div>
         <border-right :value="borderRight" :key="borderRight.uuid">
         </border-right>
-        <div class="wrapper-children">
-            <template v-for="child in children">
-                <html-component :value="child" :key="child.uuid"  >
-                </html-component>
-            </template>
-        </div>
+        
     </div>
 </template>
 
@@ -66,32 +78,46 @@ export default class HTMLWrapper extends Vue {
     protected borderTop: BorderModel
     protected borderLeft: BorderModel
     protected borderRight: BorderModel
-    htmlFactory: HtmlTagFactory = new HtmlTagFactory()
+    
     borderFactory: BorderModelFactory = new BorderModelFactory()
-
 
     $refs: {
         editableEl: any
     }
     contextMenuName = 'cm-create-html-element123'
 
-    createH1Element(target, cm, a) {
-        console.log(
-        )
-
-        var el = this.htmlFactory.createH1()
-        // console.log('qqqqq')
-
-        this.children.push(el)
-
+    onContentMouseOver(val)
+    {
+        this.$emit('contentMouseOver', val)  
     }
 
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        console.log(this.$children);
-        // console.log(cm);
-        // other actions...
+    onContentMouseOut(val)
+    {
+        
+        this.$emit('contentMouseOut', val)  
+    }
+
+
+    onContentMouseDown(val, event)
+    {
+        // console.log('val', val);
+        // console.log('event', event);
+        
+        let ev = {
+            event: event,
+            target: val
+        }
+        this.$emit('contentMouseDown', ev)  
+    }
+    onContentMouseDownChild(val)
+    {
+        this.$emit('contentMouseDown', val)  
+    }
+
+    onCreateNewChildren(el)
+    {
+        this.children.push(el)
+
     }
 
     initBorders()

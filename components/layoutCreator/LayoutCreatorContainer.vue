@@ -4,21 +4,15 @@
             <head>
 
             </head>
-            <context-menu
-                        shift="both"
-                        :ref="contextMenuName">
-                        <div class="context-menu-container">
-                                <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
+            <html-element-context-menu @createdTag="onCreateNewChildren" :value="null"  :ref="contextMenuName" />
 
-                                <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
-
-                        </div>
-                    </context-menu>
-            <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100px;">
+            <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh;">
                     
                     <template v-for="htmlTag in htmlTags">
                         <html-component
-                         @mousedown.native="onMouseDown(htmlTag, $event)" 
+                         @contentMouseOver="onMouseOver"
+                         @contentMouseOut="onMouseOut" 
+                         @contentMouseDown="onMouseDown" 
                          :value="htmlTag" 
                          :key="htmlTag.uuid">
                         </html-component>
@@ -33,6 +27,7 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from '../../src/Layout/HtmlTagFactory';
 import MouseDetector from "~/src/Layout/MouseDetector";
+import ActiveElController from '../../src/ActiveElController';
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -41,22 +36,35 @@ export default class LayoutCreatorContainer extends Vue {
     currentElement: HtmlTag
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
     mouseDetector: MouseDetector = new MouseDetector()
+    activeElController: ActiveElController = new ActiveElController()
     timeout
     mouseDown
-    
-    createH1Element(target, cm, a) {
-        console.log('asda'
-        )
 
-        var el = this.htmlFactory.createH1()
+    onMouseOver(val) {
+        // console.log(val.innerText);
+        this.activeElController.updateActiveEl(val)
+        // this.value.changeAsActiveSize()
 
+    }
+
+    onMouseOut(value) {
+        // console.log(value);
+        
+        value.changeAsDeactiveSize()
+    }
+
+    onCreateNewChildren(el)
+    {
         this.htmlTags.push(el)
 
     }
 
-    onMouseDown(el, event)
+    onMouseDown(source)
     {
         this.mouseDown = true
+        let el = source.target
+        let event = source.event
+        // console.log(el.innerText);
         
         clearTimeout(this.timeout)
             this.timeout = setTimeout(async () => {
@@ -66,7 +74,10 @@ export default class LayoutCreatorContainer extends Vue {
                     let compStyles = window.getComputedStyle(el.htmlEl);
                     var comp = compStyles.getPropertyValue('width')
                     console.log('aa');
-                    console.log(comp);
+                    console.log('x', event.clientX);
+                    console.log('y', event.clientY);
+                    console.log('width', el.width);
+                    console.log('height', el.height);
                     // console.log(event.target);
                     
                     this.mouseDetector.initPosition(event.clientX, event.clientY)
@@ -95,23 +106,17 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseMove(e)
     {
+        
         if (!this.currentElement) {
             return
         }
+        console.log(this.currentElement.innerText);
         // console.log(e.clientX);
         this.mouseDetector.x = e.clientX
         this.mouseDetector.y = e.clientY
         this.currentElement.initSize(this.mouseDetector.computedWidth, this.mouseDetector.computedHeight)
 
         
-    }
-
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        console.log(this.$children);
-        // console.log(cm);
-        // other actions...
     }
 }
 </script>

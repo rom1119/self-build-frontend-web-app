@@ -1,4 +1,4 @@
-import LayoutEl from "./LayoutEl";
+import LayoutEl from "../LayoutEl";
 import Percent from '../Unit/Size/Percent';
 import Pixel from "../Unit/Size/Pixel";
 import UnitSize from '~/src/Unit/UnitSize';
@@ -11,14 +11,13 @@ export default abstract class HtmlTagBlock extends HtmlTag
 {
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
-    protected _width = 100
-    protected _height = 100
+    protected _width = 150
+    protected _height = 150
         
     constructor() {
         super()
         
     }
-    protected abstract getTag(): string
     
     get innerText() : string
     {

@@ -3,7 +3,7 @@ import UnitSize from "~/src/Unit/UnitSize";
 import Named from '../../Unit/Color/Named';
 import Pixel from '../../Unit/Size/Pixel';
 import CssList from "../CssList";
-import LayoutEl from "../LayoutEl";
+import LayoutEl from "../../LayoutEl";
 import BorderDashed from "./Style/BorderDashed";
 import BorderStyle from "./Style/BorderStyle";
 import BorderDotted from './Style/BorderDotted';

@@ -1,19 +1,10 @@
 <template>
-    <div >
-        <context-menu
-                shift="both"
-                :ref="value.uuid">
-            <div class="context-menu-container">
-                    <context-menu-item :action="setSolid">Solids</context-menu-item>
+    <div  v-if="value != null">
+        <border-html-context-menu :value="value"  :ref="value.uuid" />
 
-                    <context-menu-item :action="setDotted">Dotted</context-menu-item>
-                    <context-menu-item :action="setDashed">Dashed</context-menu-item>
-                    <context-menu-item :action="setNone">None</context-menu-item>
-
-            </div>
-        </context-menu>
         <div :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
         </div>
+
     </div>
 </template>
 
@@ -25,13 +16,10 @@ import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
 import BorderComponent from './Border.vue';
 
-
 @Component
 export default class BorderBottomComponent extends BorderComponent {
 
-
     contextMenuName = 'cm-create-html-element123'
-
     onDoubleClick(e) 
     {
         this.value.onClick(e)
@@ -45,7 +33,11 @@ export default class BorderBottomComponent extends BorderComponent {
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
         // console.log(this.value.styleList)
+        
+        
     }
+
+
 }
 </script>
 

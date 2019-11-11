@@ -1,18 +1,7 @@
 <template>
 
     <div class="stretch stretch__flex">
-        <context-menu
-                shift="both"
-                :ref="value.uuid">
-            <div class="context-menu-container">
-                    <context-menu-item :action="setSolid">Solids</context-menu-item>
-
-                    <context-menu-item :action="setDotted">Dotted</context-menu-item>
-                    <context-menu-item :action="setDashed">Dashed</context-menu-item>
-                    <context-menu-item :action="setNone">None</context-menu-item>
-
-            </div>
-        </context-menu>
+        <border-html-context-menu :value="value"  :ref="value.uuid" />
         <div class="stretch" :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
         </div>
     </div>

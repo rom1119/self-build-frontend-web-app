@@ -1,13 +1,15 @@
-import LayoutEl from "./LayoutEl";
+import LayoutEl from "../LayoutEl";
 import Percent from '../Unit/Size/Percent';
 import Pixel from "../Unit/Size/Pixel";
 import UnitSize from '~/src/Unit/UnitSize';
 import CssList from './CssList';
 import UnitColor from "../Unit/UnitColor";
 import Named from "../Unit/Color/Named";
+import SizeActivable from "../SizeActivable";
 
-export default abstract class HtmlTag extends LayoutEl implements CssList
+export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
+    
     protected _tag = 'h1'
     protected _htmlEl
     protected _innerText: string = 'Example text from abstract HtmlTag class'
@@ -20,7 +22,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList
     protected _isEdited = false
     protected _width = 100
     protected _height = 100
-    protected initialBackgroundColor = 'transparent'
+    protected initialBackgroundColor = 'red'
     private _backgroundColor = this.initialBackgroundColor;
     private _initialColorUnit: UnitColor = new Named;
     private _colorUnit: UnitColor = this._initialColorUnit
@@ -66,7 +68,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList
         
     }
 
-    protected abstract getTag(): string
+    protected abstract getTagName(): string
 
     public changeAsActiveSize()
     {
@@ -78,11 +80,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList
         this._backgroundColor = this.initialBackgroundColor
     }
 
-    get tag(): string {
-        return `<${this.getTag()} >${this.innerText}</${this.getTag()}>`
-
-    }
-
+ 
 
     get cssList() : any
     {
@@ -125,6 +123,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList
         this.sizeUnitCurrent = new Pixel()
         this._width = w
         this._height = h
+
+        console.log(w);
+        console.log(h);
+        console.log(this.uuid);
+        
     }
 
     public onDoubleClick(e) 
