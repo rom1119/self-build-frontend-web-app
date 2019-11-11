@@ -5,7 +5,7 @@
             <html-el-editable :value="value" ref="editableEl">
             </html-el-editable>
         </div>
-        <div v-show="!value.isEdited">
+        <div v-show="!value.isEdited" class="inner-text-el">
             {{ value.innerText }}
         </div>
         <slot ></slot>
@@ -70,8 +70,17 @@ export default class HTMLEL extends Vue {
 </script>
 
 <style lang="scss">
+    * {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
     .wrapper-el {
         // float: left;
+    }
+    .inner-text-el {
+        // width: 100%;
+        // height: 100%;
     }
     #loadingDialog {
         .v-dialog {

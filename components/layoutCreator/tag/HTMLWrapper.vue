@@ -139,7 +139,7 @@ export default class HTMLWrapper extends Vue {
 
 <style lang="scss">
     .wrapper {
-        display: inline-flex;
+        display: flex;
         // display: flex;
     }
     .relative {
