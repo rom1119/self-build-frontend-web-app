@@ -3,6 +3,10 @@ import CssPropertyLimitable from "../CssPropertyLimitable";
 
 export default class TextAlign extends CssSimple implements CssPropertyLimitable
 {
+    public static PROP_NAME = 'text-align'
+    public getName(): string {
+        return TextAlign.PROP_NAME
+    }
     public static LEFT = 'left'
     public static RIGHT = 'right'
     public static CENTER = 'center'
@@ -16,7 +20,6 @@ export default class TextAlign extends CssSimple implements CssPropertyLimitable
     getAccessableProperty(): any[] {
         return TextAlign.getAccessableProperty()
     }
-    protected name = 'text-align'
 
 
 }

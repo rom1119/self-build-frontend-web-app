@@ -19,8 +19,6 @@ export default abstract class HtmlTagBlock extends HtmlTag
         
     }
     
-    
-    
 
     public onMouseMove(w, h) 
     {
@@ -33,7 +31,6 @@ export default abstract class HtmlTagBlock extends HtmlTag
     {
         this._isEdited = true
     }
-
 
 
 }

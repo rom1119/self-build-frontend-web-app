@@ -8,6 +8,12 @@
             <slot name="content" />
         </div>
         <div class="my-modal__footer">
+            <button class="to-left">
+                Przywróć
+            </button>
+            <button class="to-right">
+                Zapisz
+            </button>
             <slot name="footer" />
         </div>
     </div>
@@ -16,23 +22,15 @@
 
 <script lang="ts">
     import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
-    import 'vue-cal/dist/vuecal.css'
     import moment from 'moment'
     import {Pagination} from "~/types/Pagination";
+import HtmlTag from '~/src/Layout/HtmlTag';
 
 
     @Component
     export default class BaseModal extends Vue {
-        pagination: Pagination = {
-            descending: false,
-            page: 1,
-            pageCount: 0,
-            itemsPerPage: 5,
-            totalItems: 0,
-            search: null,
-            items: [],
-            sortBy: undefined
-        }
+        @Prop({default: null, required: true})
+        value: HtmlTag
 
         timeout
         loading

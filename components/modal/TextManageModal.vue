@@ -1,36 +1,30 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
-    <base-modal>
+    <base-modal v-model="value">
         <template slot="header">
-            <h1>
+            <h4>
                 Zarządzaj tekstem
-            </h1>
+            </h4>
         </template>
         <template slot="content">
-            <div>
-                <h4>
+            <div class="content-item">
+                <h4 class="content-item__header">
                     Wyrównianie tekstu
-                    <ul>
-                        <li v-for="align in textAligns" :key="align">
-                            <label :for="'textALign-' + align">
-                                {{ align }}
-                                <input type="radio" name="textALign" :id="'textALign-' + align">
-
-                            </label>
-                        </li>
-                    </ul>
                 </h4>
+                <ul class=" content-item__elem_container">
+                    <li class="content-item__elem" v-for="align in textAligns" :key="align">
+                        <label :for="'textAlign-' + align">
+                            {{ align }}
+                            <input type="radio" v-model="setTextAlign" :value="align" name="textAlign" :id="'textAlign-' + align">
+
+                        </label>
+                    </li>
+                </ul>
             </div>
         </template>
         <template slot="footer">
-            <button >
-                Zapisz
-            </button>
+            
 
-
-            <button>
-                Zapisz
-            </button>
         </template>
     </base-modal>
 
@@ -43,15 +37,16 @@
     import {Pagination} from "~/types/Pagination";
     import HtmlTag from '../../src/Layout/HtmlTag';
 import TextAlign from '../../src/Css/Text/TextAlign';
+import BaseModal from '../BaseModal.vue';
 
 
     @Component
-    export default class TextManageModal extends Vue {
-        @Prop({default: null, required: true})
-        value: HtmlTag
+    export default class TextManageModal extends BaseModal {
+        
 
         timeout
         loading
+        key = 0
 
         textAligns: string[] = TextAlign.getAccessableProperty()
 
@@ -65,6 +60,30 @@ import TextAlign from '../../src/Css/Text/TextAlign';
         async mounted()
         {
             
+        }
+
+        get setTextAlign()
+        {
+            let align = this.value.cssAccessor.getProperty(TextAlign.PROP_NAME)
+            if (align) {
+                return align.getValue()
+            }
+            return ''
+        }
+        
+        set setTextAlign(newVal: string)
+        {
+            console.log(newVal);
+            
+            if (!this.value.cssAccessor.hasCssProperty(TextAlign.PROP_NAME)) {
+                let textALign = new TextAlign(newVal)
+                this.value.cssAccessor.addNewProperty(textALign)
+
+            } else {
+                this.value.updateCssProperty(TextAlign.PROP_NAME, newVal)
+                
+            }
+
         }
 
         @Watch('pagination.page', {deep: false, immediate: false})

@@ -51,9 +51,9 @@ export default class HTMLEL extends Vue {
     onDoubleClick(e) 
     {
         this.value.onDoubleClick(e)
-        console.log(this);
-        console.log(this.$refs);
-        console.log(this.$refs.editableEl);
+        // console.log(this);
+        // console.log(this.$refs);
+        // console.log(this.$refs.editableEl);
         
         this.$refs.editableEl.focus()
 

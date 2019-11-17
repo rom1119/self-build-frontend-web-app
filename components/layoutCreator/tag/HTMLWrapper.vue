@@ -1,6 +1,6 @@
 <template>
-    <div class="wrapper" :style="value.cssBoxList" :id="value.uuid" >
-        <text-manage-modal v-model="value" />
+    <div class="wrapper" :style="value.cssBoxList" :key="value.updateComponentKey" :id="value.uuid" >
+        <text-manage-modal v-if="value" v-model="value" />
         <!-- <context-menu
                 shift="both"
                 :ref="value.uuid">

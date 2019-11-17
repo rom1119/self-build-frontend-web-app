@@ -2,6 +2,8 @@ import CssSimple from "../CssSimple";
 
 export default class TextColor extends CssSimple
 {
-    protected name = 'color'
-
+    public static PROP_NAME = 'text-align'
+    public getName(): string {
+        return TextColor.PROP_NAME
+    }
 }

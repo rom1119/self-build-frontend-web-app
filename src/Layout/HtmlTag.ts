@@ -7,6 +7,11 @@ import UnitColor from "../Unit/UnitColor";
 import Named from "../Unit/Color/Named";
 import SizeActivable from "../SizeActivable";
 import BorderModel from "./Border/BorderModel";
+import CssPropertyAccessor from '../Css/CssPropertyAccessor';
+import DefaultCssPropertyAccessor from "../Css/PropertyAccessor/DefaultCssPropertyAccessor";
+import Width from '../Css/Size/Width';
+import Height from "../Css/Size/Height";
+import BackgroundColor from "../Css/Background/BackgroundColor";
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
@@ -33,7 +38,49 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     private _initialColorUnit: UnitColor = new Named;
     private _colorUnit: UnitColor = this._initialColorUnit
     protected sizeUnitCurrent: UnitSize = new Pixel()
+    protected _cssPropertyAccesor: CssPropertyAccessor
+    protected _updateComponent = 0
     
+    constructor() {
+        super()
+        this.initCssAccessor()
+        
+    }
+
+    private initCssAccessor()
+    {
+        this._cssPropertyAccesor = new DefaultCssPropertyAccessor(this)
+
+        let width = new Width(`${this._width}${this.sizeUnitCurrent.value}`)
+        let height = new Height(`${this._height}${this.sizeUnitCurrent.value}`)
+        let backgroundColor = new BackgroundColor(`${this._backgroundColor}${this._colorUnit.value}`)
+        this._cssPropertyAccesor.addNewProperty(width)
+        this._cssPropertyAccesor.addNewProperty(height)
+        this._cssPropertyAccesor.addNewProperty(backgroundColor)
+    }
+
+    public updateCssProperty(propName: string, val: string)
+    {
+        this._cssPropertyAccesor.setNewPropertyValue(propName, val)
+    this.updateModelComponent()
+    }
+    
+    private updateModelComponent()
+    {
+        this._updateComponent++
+
+    }
+
+    get updateComponentKey()
+    {
+        return this._updateComponent
+    }
+
+    get cssAccessor(): CssPropertyAccessor
+    {
+        return this._cssPropertyAccesor
+    }
+
     get width()
     {
         return this._width
@@ -70,13 +117,13 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this._backgroundColor = value;
     }
 
-        
-    constructor() {
-        super()
-        
-    }
 
     protected abstract getTagName(): string
+
+    public toString(): string
+    {
+        return `${this.getTagName()}, UUID=${this.uuid} `
+    }
 
     public changeAsActiveSize()
     {
@@ -90,11 +137,17 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     get cssList() : any
     {
-        return {
-            width: `${this._width}${this.sizeUnitCurrent.value}`,
-            height: `${this._height}${this.sizeUnitCurrent.value}`,
-            backgroundColor: `${this._backgroundColor}${this._colorUnit.value}`,
-        }
+        let css = {}
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            css[cssProp.getName()] = cssProp.getValue()
+        }        
+
+        return css
+        // return {
+        //     width: `${this._width}${this.sizeUnitCurrent.value}`,
+        //     height: `${this._height}${this.sizeUnitCurrent.value}`,
+        //     'background-color': `${this._backgroundColor}${this._colorUnit.value}`,
+        // }
     }
 
     // get cssContentSizeList() : any
@@ -108,10 +161,19 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     get cssBoxList() : any
     {
         if (this.sizeUnitCurrent instanceof Percent) {
-            return {
-                width: `${this._width}${this.sizeUnitCurrent.value}`,
-                height: `${this._height}${this.sizeUnitCurrent.value}`,
-            }
+            let css = this.cssList
+                
+            return css
+            // return {
+            //     width: `${this._width}${this.sizeUnitCurrent.value}`,
+            //     height: `${this._height}${this.sizeUnitCurrent.value}`,
+            // }
+        }
+
+        let a = this._lastSynch
+        if (a) {
+            this._lastSynch.setHours(11)
+
         }
 
         let borderLeftWidth = this._borderLeft.borderWidth
@@ -121,11 +183,17 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let boxWidth = borderLeftWidth + borderRightWidth + this._width
         let boxHeight = borderTopWidth + borderBottomWidth + this._height
 
-        return {
-            width: `${boxWidth}${this.sizeUnitCurrent.value}`,
-            height: `${boxHeight}${this.sizeUnitCurrent.value}`,
-            backgroundColor: `${this._backgroundColor}${this._colorUnit.value}`,
+        let allCssList = this.cssAccessor
+        allCssList.setNewPropertyValue(Width.PROP_NAME, `${boxWidth}${this.sizeUnitCurrent.value}`)
+        allCssList.setNewPropertyValue(Height.PROP_NAME, `${boxHeight}${this.sizeUnitCurrent.value}`)
+        console.log('AAAAA');
+        
+        let css = {}
+        for (const cssProp of this.cssAccessor.all) {
+            css[cssProp.getName()] = cssProp.getValue()
         }
+
+        return css
     }
     
     get innerText() : string
