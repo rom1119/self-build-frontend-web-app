@@ -16,7 +16,7 @@
                 <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
 
            
-                <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
+                <context-menu-item :action="showTextCssModal">Text</context-menu-item>
 
     </context-menu>
 </template>
@@ -45,6 +45,11 @@ export default class HtmlElementContextMenu extends Vue {
         this.value.push(el)
         this.$emit('createdTag', el)
 
+    }
+
+    showTextCssModal()
+    {
+        this.$textManageModal.show(this.htmlTagModel)
     }
 
     createPElement(target, cm, a) {

@@ -24,6 +24,9 @@ export default abstract class CssPropertyAccessor
     public setNewPropertyValue(propName: string, val: string): CssPropertyAccessor{
         let prop = this.getProperty(propName)
         console.log('lol');
+        console.log(propName);
+        console.log(prop);
+        console.log('lol2');
         console.log(this.cssProps);
         if (!prop) {
             throw new CssPropNotFound(`Property with name ${propName} not exist in this HTML ELEMENT ${this.value.toString()}`)

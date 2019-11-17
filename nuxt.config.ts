@@ -57,9 +57,10 @@ module.exports = {
         // '@/comparison-components/index',
         // '@/plugins/auth',
 
-        {src: '@/plugins/alertsContainer', ssr: false},
-        {src: '@/plugins/loadingDialog', ssr: false},
-        {src: '@/plugins/confirmDialog', ssr: false},
+        // {src: '@/plugins/alertsContainer', ssr: false},
+        // {src: '@/plugins/loadingDialog', ssr: false},
+        {src: '@/plugins/modals/textManageModal', ssr: false},
+        // {src: '@/plugins/confirmDialog', ssr: false},
         {src: '@/plugins/axiosFileDownload', ssr: false},
         {src: '@/plugins/VueUploadComponent', ssr: false},
     ],

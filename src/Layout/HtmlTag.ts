@@ -62,7 +62,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     public updateCssProperty(propName: string, val: string)
     {
         this._cssPropertyAccesor.setNewPropertyValue(propName, val)
-    this.updateModelComponent()
+        this.updateModelComponent()
     }
     
     private updateModelComponent()
@@ -170,11 +170,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
             // }
         }
 
-        let a = this._lastSynch
-        if (a) {
-            this._lastSynch.setHours(11)
-
-        }
 
         let borderLeftWidth = this._borderLeft.borderWidth
         let borderRightWidth = this._borderRight.borderWidth

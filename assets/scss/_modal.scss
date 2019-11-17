@@ -1,4 +1,4 @@
-$widthModal: 400px;
+$widthModal: 500px;
 $minHeighModal: 400px;
 $heighContent: 350px;
 $minHeighFooter: 50px;
@@ -8,6 +8,7 @@ $minHeighFooter: 50px;
     z-index: 99999999999999;
     width: $widthModal;
     min-height: $minHeighModal;
+    top: 50px;
     right: 0;
     left: 0;
     margin-right: auto;
@@ -15,6 +16,7 @@ $minHeighFooter: 50px;
     border-radius: 20px;
     padding: 5px;
     &__header{
+        position: relative;
         text-align: center;
         width: 100%;
         padding: 15px 0;
@@ -22,14 +24,18 @@ $minHeighFooter: 50px;
             font-weight: bold;
             
         }
+        .close {
+            
+        }
     }
     &__content{
-        display: flex;
+        // display: flex;
         width: 100%;
         height: $heighContent;
         .content-item {
             text-align: center;
             width: 100%;
+            padding: 10px 0;
             &__header {
 
             }

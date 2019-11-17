@@ -1,7 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
-    <div class="my-modal" id="modal">
+    <div class="my-modal" id="modal-asd" >
         <div class=" my-modal__header">
+            
             <slot name="header" />
         </div>
         <div class="my-modal__content">
@@ -29,17 +30,15 @@ import HtmlTag from '~/src/Layout/HtmlTag';
 
     @Component
     export default class BaseModal extends Vue {
-        @Prop({default: null, required: true})
-        value: HtmlTag
+        
+        active = false
+        
 
-        timeout
-        loading
 
         availableItemPerPage = [1,2,5,10,15,20]
 
         idName = 'base-modal'
 
-        
 
         get hashID(): string
         {
@@ -56,9 +55,6 @@ import HtmlTag from '~/src/Layout/HtmlTag';
         {
            
         }
-
-
-
 
     }
 </script>
