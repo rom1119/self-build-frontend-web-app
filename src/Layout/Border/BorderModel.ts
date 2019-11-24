@@ -15,7 +15,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList
 {
     protected _name: string = 'border-base'
     protected _style: BorderStyle
-    protected _borderWidth: number = 15
+    protected _borderWidth: number = 55
     protected _color: string
     protected _initialColor: string = 'red'
     protected _initialType: BorderStyle = new BorderDashed()

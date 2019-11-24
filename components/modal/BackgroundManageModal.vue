@@ -53,6 +53,7 @@
 import { Chrome }  from '~/node_modules/vue-color';
 import BackgroundColor from '~/src/Css/Background/BackgroundColor';
 import RGBA from '../../src/Unit/Color/RGBA';
+import Named from '~/src/Unit/Color/Named';
 
 // let Chrome = ColourPicker.Chrome
 
