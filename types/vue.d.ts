@@ -7,6 +7,7 @@ import LoadingDialog from '~/components/LoadingDialog'
 // @ts-ignore
 import ConfirmDialog from '../components/ConfirmDialog'
 import TextManageModal from '~/components/modal/TextManageModal.vue'
+import BackgroundManageModal from '~/components/modal/BackgroundManageModal.vue'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import {Auth} from "~/types/nuxtjs-auth-module";
 
@@ -17,8 +18,9 @@ declare module 'vue/types/vue' {
     interface Vue {
         $alertsContainer: AlertsContainer,
         $loadingDialog: LoadingDialog,
-        $confirmDialog: ConfirmDialog
-        $textManageModal: TextManageModal
+        $confirmDialog: ConfirmDialog,
+        $textManageModal: TextManageModal,
+        $backgroundManageModal: BackgroundManageModal,
         $axios: NuxtAxiosInstance,
         $auth: Auth
     }

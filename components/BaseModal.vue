@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
-    <div class="my-modal" id="modal-asd" >
+    <div class="my-modal" >
         <div class=" my-modal__header">
             
             <slot name="header" />
@@ -9,12 +9,7 @@
             <slot name="content" />
         </div>
         <div class="my-modal__footer">
-            <button class="to-left">
-                Przywróć
-            </button>
-            <button class="to-right">
-                Zapisz
-            </button>
+            
             <slot name="footer" />
         </div>
     </div>
@@ -26,15 +21,12 @@
     import moment from 'moment'
     import {Pagination} from "~/types/Pagination";
 import HtmlTag from '~/src/Layout/HtmlTag';
+import AbstractModal from './AbstractModal';
 
 
     @Component
     export default class BaseModal extends Vue {
         
-        active = false
-        
-
-
         availableItemPerPage = [1,2,5,10,15,20]
 
         idName = 'base-modal'

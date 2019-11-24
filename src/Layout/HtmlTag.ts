@@ -140,7 +140,16 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let css = {}
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
-        }        
+        }    
+        
+        if (css[Width.PROP_NAME]) {
+            css[Width.PROP_NAME] = `${this._width}${this.sizeUnitCurrent.value}`
+        }
+        
+        if (css[Height.PROP_NAME]) {
+            css[Height.PROP_NAME] = `${this.height}${this.sizeUnitCurrent.value}`
+        }
+
 
         return css
         // return {
@@ -181,13 +190,14 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let allCssList = this.cssAccessor
         allCssList.setNewPropertyValue(Width.PROP_NAME, `${boxWidth}${this.sizeUnitCurrent.value}`)
         allCssList.setNewPropertyValue(Height.PROP_NAME, `${boxHeight}${this.sizeUnitCurrent.value}`)
-        console.log('AAAAA');
+        // console.log('AAAAA');
         
         let css = {}
         for (const cssProp of this.cssAccessor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         }
 
+        
         return css
     }
     

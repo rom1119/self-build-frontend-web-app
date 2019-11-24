@@ -7,38 +7,24 @@
                 <button @click="close($event)">X</button>
             </div>
             <h4>
-                Zarządzaj tekstem
+                Tło elementu
             </h4>
         </template>
         <template slot="content">
             <div class="content-item">
                 <h4 class="content-item__header">
-                    Wyrównianie tekstu
+                    Kolor tła
                 </h4>
-                <ul class=" content-item__elem_container">
-                    <li class="content-item__elem" v-for="el in textAligns" :key="el">
-                        <label :for="'textAlign-' + el">
-                            {{ el }}
-                            <input type="radio" v-model="textAlign" :value="el" name="textAlign" :id="'textAlign-' + el">
+                <div class=" content-item__elem_container">
+                    <h2>
+                        {{ backgroundColor }}
+                    </h2>
+        <Chrome v-model="backgroundColor" :color="backgroundColor" label="Color" />
 
-                        </label>
-                    </li>
-                </ul>
+                    
+                </div>
             </div>
-            <div class="content-item">
-                <h4 class="content-item__header">
-                    Pogrubienie tekstu
-                </h4>
-                <ul class=" content-item__elem_container">
-                    <li class="content-item__elem" v-for="el in fontWeights" :key="el">
-                        <label :for="'fontWeight-' + el">
-                            {{ el }}
-                            <input type="radio" v-model="fontWeight" :value="el" name="fontWeight" :id="'fontWeight-' + el">
 
-                        </label>
-                    </li>
-                </ul>
-            </div>
         </template>
         <template slot="footer">
             <button class="to-left" @click="restore($event)">
@@ -62,18 +48,34 @@
     import BaseModal from '~/components/BaseModal.vue';
     import FontWeight from '../../src/Css/Text/FontWeight';
     import BasePropertyCss from '../../src/Css/BasePropertyCss';
-import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
-import AbstractModal from '../AbstractModal';
+    import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
+    import AbstractModal from '../AbstractModal';
+import { Chrome }  from '~/node_modules/vue-color';
+import BackgroundColor from '~/src/Css/Background/BackgroundColor';
+
+// let Chrome = ColourPicker.Chrome
 
 
-    @Component
-    export default class TextManageModal extends AbstractModal {
+interface colorObject {
+    r, g, b, a
+}
+
+interface Color {
+    rgba: colorObject
+}
+
+    @Component(
+        {
+            components: {
+                Chrome
+            }
+        }
+    )
+    export default class BackgroundManageModal extends AbstractModal {
         
         timeout
         // value: HtmlTag
-
-
-        
+        colour = '#fff'
         textAligns: string[] = TextAlign.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
 
@@ -89,14 +91,20 @@ import AbstractModal from '../AbstractModal';
             
         }
 
-        get textAlign()
+        get backgroundColor()
         {
-            return this.getPropertyFromModel(TextAlign.PROP_NAME)
+            return this.getPropertyFromModel(BackgroundColor.PROP_NAME)
         }
         
-        set textAlign(newVal: string)
-        {
-            this.setPropertyToModel(new TextAlign(newVal)) 
+        set backgroundColor(newVal)
+        {   
+            var col: Color = <any>newVal
+            let red = col.rgba.r
+            let green = col.rgba.g
+            let blue = col.rgba.b
+            let alpha = col.rgba.a
+            var stringRgbaColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`
+            this.setPropertyToModel(new BackgroundColor(stringRgbaColor)) 
         }
         
         get fontWeight()

@@ -3,13 +3,16 @@
         <header>
             <navbar/>
         </header>
+        
         <main class="in-row">
             <sidebar></sidebar>
+            
             <nuxt/>
+
         </main>
+        
         <loading-dialog></loading-dialog>
     </div>
-
 
 </template>
 

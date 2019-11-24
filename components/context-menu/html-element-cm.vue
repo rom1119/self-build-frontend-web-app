@@ -17,6 +17,7 @@
 
            
                 <context-menu-item :action="showTextCssModal">Text</context-menu-item>
+                <context-menu-item :action="showBackgroundCssModal">Tło</context-menu-item>
 
     </context-menu>
 </template>
@@ -50,6 +51,11 @@ export default class HtmlElementContextMenu extends Vue {
     showTextCssModal()
     {
         this.$textManageModal.show(this.htmlTagModel)
+    }
+    
+    showBackgroundCssModal()
+    {
+        this.$backgroundManageModal.show(this.htmlTagModel)
     }
 
     createPElement(target, cm, a) {

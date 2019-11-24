@@ -1,7 +1,7 @@
 const pkg = require('./package')
 require('dotenv').config()
 
-// const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
     mode: 'spa',
@@ -50,7 +50,6 @@ module.exports = {
     plugins: [
 
         // '@/plugins/bootstrap',
-        // '@/plugins/elementUi',
         '@/plugins/components',
         '~/plugins/axios',
         '~/plugins/context-menu',
@@ -60,6 +59,7 @@ module.exports = {
         // {src: '@/plugins/alertsContainer', ssr: false},
         // {src: '@/plugins/loadingDialog', ssr: false},
         {src: '@/plugins/modals/textManageModal', ssr: false},
+        {src: '@/plugins/modals/backgroundManageModal', ssr: false},
         // {src: '@/plugins/confirmDialog', ssr: false},
         {src: '@/plugins/axiosFileDownload', ssr: false},
         {src: '@/plugins/VueUploadComponent', ssr: false},
@@ -107,6 +107,11 @@ module.exports = {
             }
         }
     },
+
+    buildModules: [
+        // '@nuxtjs/vuetify'
+    ],
+
 
     /*
     ** Build configuration
