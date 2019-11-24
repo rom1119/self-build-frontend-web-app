@@ -1,11 +1,24 @@
 import CssWithoutValue from '../Errors/CssWithoutValue';
+import Unit from '../Unit/Unit';
 export default abstract class BasePropertyCss
 {
     protected values: string[]
+    protected unit: Unit
 
-    constructor()
+    constructor(unit: Unit)
     {
+        this.unit = unit
         this.values = []
+    }
+
+    public getUnit(): Unit
+    {
+        return this.unit
+    }
+    
+    public setUnit(unit: Unit)
+    { 
+        this.unit = unit
     }
 
     getValue(): string
@@ -13,7 +26,10 @@ export default abstract class BasePropertyCss
         if (!this.values[0]) {
             throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
         }
-        return this.values[0]
+        if (!this.unit) {
+            throw new Error(`CSS property ${this.getName()} not have set Unit` )
+        }
+        return this.unit.getValue(this.values[0])
     }
     
 

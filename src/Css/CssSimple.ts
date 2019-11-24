@@ -1,11 +1,12 @@
 import BasePropertyCss from "./BasePropertyCss";
+import Unit from '../Unit/Unit';
 
 export default abstract class CssSimple extends BasePropertyCss
 {
 
-    constructor(val)
+    constructor(val: any, unit: Unit)
     {
-        super()
+        super(unit)
         this.values.push(val)
     }
 

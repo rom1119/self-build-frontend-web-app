@@ -9,6 +9,7 @@ import BorderStyle from "./Style/BorderStyle";
 import BorderDotted from './Style/BorderDotted';
 import BorderSolid from './Style/BorderSolid';
 import BorderNone from './Style/BorderNone';
+import Width from '../../Css/Size/Width';
 
 export default abstract class BorderModel extends LayoutEl implements CssList
 {
@@ -88,9 +89,13 @@ export default abstract class BorderModel extends LayoutEl implements CssList
 
     get cssList() : any
     {
+        
+        let width = new Width(this.width, this.widthUnit)
+        let height = new Width(this.height, this.heightUnit)
+
         return {
-            width: `${this.width}${this.widthUnit.value}`,
-            height: `${this.height}${this.heightUnit.value}`,
+            width: width.getValue(),
+            height: height.getValue(),
             borderStyle: `${this._style.value}`,
             borderWidth: `0px`,
             borderColor: `${this._color}`

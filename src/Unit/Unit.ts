@@ -2,8 +2,6 @@ import AggregateRoot from '../../types/AggregateRoot';
 export default abstract class Unit extends AggregateRoot {
 
     protected _name: string
-    protected _value: string
-
     /**
      * getName
      */
@@ -16,8 +14,6 @@ export default abstract class Unit extends AggregateRoot {
     /**
      * getName
      */
-    public get value() : string 
-    {
-        return this._value
-    }
+    public abstract getValue(val): string 
+    
 }

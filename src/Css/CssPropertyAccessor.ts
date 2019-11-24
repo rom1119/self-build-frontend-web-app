@@ -2,6 +2,7 @@ import HtmlTag from '../Layout/HtmlTag';
 import BasePropertyCss from './BasePropertyCss';
 import CssPropNotFound from '../Errors/CssPropNotFound';
 import CssComposite from './CssComposite';
+import Unit from '../Unit/Unit';
 export default abstract class CssPropertyAccessor
 {
     protected value: HtmlTag
@@ -21,7 +22,7 @@ export default abstract class CssPropertyAccessor
         return this.cssProps
     }
 
-    public setNewPropertyValue(propName: string, val: string): CssPropertyAccessor{
+    public setNewPropertyValue(propName: string, newVal: BasePropertyCss): CssPropertyAccessor{
         let prop = this.getProperty(propName)
         // console.log('lol');
         // console.log(propName);
@@ -33,24 +34,25 @@ export default abstract class CssPropertyAccessor
         }
         // prop.clearValue()
         // this.cssProps.splice
-        // let index = this.cssProps.indexOf(prop)
+        let index = this.cssProps.indexOf(prop)
+        if (index !== -1) {
+            this.cssProps[index] = newVal;
+        }
         // let oldVal = this.cssProps.splice(index, 1)
         // prop.setValue(val)
         // this.cssProps.push(prop)
 
-        prop.setValue(val)
-
         return this
     }
     
-    public addPropertyValue(propName: string, val: string): CssPropertyAccessor{
+    public addPropertyValue(propName: string, val: BasePropertyCss): CssPropertyAccessor{
         let prop = this.getProperty(propName)
         if (!prop) {
             throw new CssPropNotFound(`Property with name ${propName} not exist in this HTML ELEMENT ${this.toString()}`)
         }
         // prop.clearValue()
         if (prop instanceof CssComposite) {
-            prop.addPropVal(val)
+            prop.addPropVal(val.getValue())
 
         }
 

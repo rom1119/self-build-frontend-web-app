@@ -12,6 +12,7 @@ import DefaultCssPropertyAccessor from "../Css/PropertyAccessor/DefaultCssProper
 import Width from '../Css/Size/Width';
 import Height from "../Css/Size/Height";
 import BackgroundColor from "../Css/Background/BackgroundColor";
+import BasePropertyCss from "../Css/BasePropertyCss";
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
@@ -35,7 +36,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     protected _height = 100
     protected initialBackgroundColor = 'red'
     private _backgroundColor = this.initialBackgroundColor;
-    private _initialColorUnit: UnitColor = new Named;
+    private _initialColorUnit: UnitColor = new Named();
     private _colorUnit: UnitColor = this._initialColorUnit
     protected sizeUnitCurrent: UnitSize = new Pixel()
     protected _cssPropertyAccesor: CssPropertyAccessor
@@ -51,15 +52,15 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     {
         this._cssPropertyAccesor = new DefaultCssPropertyAccessor(this)
 
-        let width = new Width(`${this._width}${this.sizeUnitCurrent.value}`)
-        let height = new Height(`${this._height}${this.sizeUnitCurrent.value}`)
-        let backgroundColor = new BackgroundColor(`${this._backgroundColor}${this._colorUnit.value}`)
+        let width = new Width(this._width, this.sizeUnitCurrent)
+        let height = new Height(this._height, this.sizeUnitCurrent)
+        let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(backgroundColor)
     }
 
-    public updateCssProperty(propName: string, val: string)
+    public updateCssProperty(propName: string, val: BasePropertyCss)
     {
         this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         this.updateModelComponent()
@@ -141,15 +142,17 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         }    
+
         
         if (css[Width.PROP_NAME]) {
-            css[Width.PROP_NAME] = `${this._width}${this.sizeUnitCurrent.value}`
+            let width = new Width(this._width, this.sizeUnitCurrent)
+            css[Width.PROP_NAME] = width.getValue()
         }
         
         if (css[Height.PROP_NAME]) {
-            css[Height.PROP_NAME] = `${this.height}${this.sizeUnitCurrent.value}`
+            let height = new Height(this._height, this.sizeUnitCurrent)
+            css[Height.PROP_NAME] = height.getValue()
         }
-
 
         return css
         // return {
@@ -177,8 +180,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
             //     width: `${this._width}${this.sizeUnitCurrent.value}`,
             //     height: `${this._height}${this.sizeUnitCurrent.value}`,
             // }
-        }
-
+        }    
 
         let borderLeftWidth = this._borderLeft.borderWidth
         let borderRightWidth = this._borderRight.borderWidth
@@ -188,14 +190,22 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let boxHeight = borderTopWidth + borderBottomWidth + this._height
 
         let allCssList = this.cssAccessor
-        allCssList.setNewPropertyValue(Width.PROP_NAME, `${boxWidth}${this.sizeUnitCurrent.value}`)
-        allCssList.setNewPropertyValue(Height.PROP_NAME, `${boxHeight}${this.sizeUnitCurrent.value}`)
+        let width = new Width(boxWidth, this.sizeUnitCurrent)
+        let height = new Height(boxHeight, this.sizeUnitCurrent)
+        
+        allCssList.setNewPropertyValue(Width.PROP_NAME, width)
+        allCssList.setNewPropertyValue(Height.PROP_NAME, height)
         // console.log('AAAAA');
+
+        // console.log(height.getValue());
+        
         
         let css = {}
+        
         for (const cssProp of this.cssAccessor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         }
+        
 
         
         return css

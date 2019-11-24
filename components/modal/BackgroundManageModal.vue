@@ -52,6 +52,7 @@
     import AbstractModal from '../AbstractModal';
 import { Chrome }  from '~/node_modules/vue-color';
 import BackgroundColor from '~/src/Css/Background/BackgroundColor';
+import RGBA from '../../src/Unit/Color/RGBA';
 
 // let Chrome = ColourPicker.Chrome
 
@@ -103,8 +104,8 @@ interface Color {
             let green = col.rgba.g
             let blue = col.rgba.b
             let alpha = col.rgba.a
-            var stringRgbaColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`
-            this.setPropertyToModel(new BackgroundColor(stringRgbaColor)) 
+            let color = new RGBA()
+            this.setPropertyToModel(new BackgroundColor(col.rgba, color)) 
         }
         
         get fontWeight()
@@ -115,7 +116,7 @@ interface Color {
         set fontWeight(newVal: string)
         {
             console.log(newVal);
-            this.setPropertyToModel(new FontWeight(newVal)) 
+            this.setPropertyToModel(new FontWeight(newVal, new Named())) 
         }
 
         private getPropertyFromModel(prop: string)
@@ -140,7 +141,7 @@ interface Color {
                 this.value.cssAccessor.addNewProperty(textALign)
 
             } else {
-                this.value.updateCssProperty(newCssProp.getName(), newCssProp.getValue())
+                this.value.updateCssProperty(newCssProp.getName(), newCssProp)
                 
             }
         }

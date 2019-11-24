@@ -64,6 +64,7 @@
     import BasePropertyCss from '../../src/Css/BasePropertyCss';
 import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
 import AbstractModal from '../AbstractModal';
+import Named from '../../src/Unit/Color/Named';
 
 
     @Component
@@ -96,7 +97,7 @@ import AbstractModal from '../AbstractModal';
         
         set textAlign(newVal: string)
         {
-            this.setPropertyToModel(new TextAlign(newVal)) 
+            this.setPropertyToModel(new TextAlign(newVal, new Named())) 
         }
         
         get fontWeight()
@@ -107,7 +108,7 @@ import AbstractModal from '../AbstractModal';
         set fontWeight(newVal: string)
         {
             console.log(newVal);
-            this.setPropertyToModel(new FontWeight(newVal)) 
+            this.setPropertyToModel(new FontWeight(newVal, new Named())) 
         }
 
         private getPropertyFromModel(prop: string)
@@ -132,7 +133,7 @@ import AbstractModal from '../AbstractModal';
                 this.value.cssAccessor.addNewProperty(textALign)
 
             } else {
-                this.value.updateCssProperty(newCssProp.getName(), newCssProp.getValue())
+                this.value.updateCssProperty(newCssProp.getName(), newCssProp)
                 
             }
         }

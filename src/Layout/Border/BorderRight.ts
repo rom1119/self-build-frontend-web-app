@@ -6,6 +6,7 @@ import Left from '~/src/Site/Left';
 import BorderModel from "./BorderModel";
 import Right from "~/src/Site/Right";
 import Percent from "~/src/Unit/Size/Percent";
+import Width from "~/src/Css/Size/Width";
 
 
 export default class BorderRight extends BorderModel {
@@ -40,7 +41,8 @@ export default class BorderRight extends BorderModel {
     get cssList() : any
     {
         var baseStyles = super.cssList
-        baseStyles.borderRightWidth = `${this.width}${this.widthUnit.value}`
+        let height = new Width(this.width, this.widthUnit)
+        baseStyles.borderRightWidth = height.getValue()
         baseStyles.height = `none`
         baseStyles.width = `none`
 
