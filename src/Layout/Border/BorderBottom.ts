@@ -1,13 +1,7 @@
 import UnitSize from "~/src/Unit/UnitSize"
-import Site from "~/src/Site/Site"
-import UnitColor from '../../Unit/UnitColor';
 import Pixel from '../../Unit/Size/Pixel';
-import Named from '../../Unit/Color/Named';
-import CssList from "../CssList";
-import Left from '~/src/Site/Left';
 import BorderModel from "./BorderModel";
 import Percent from '../../Unit/Size/Percent';
-import Bottom from "~/src/Site/Bottom";
 import Width from "~/src/Css/Size/Width";
 
 export default class BorderBottom extends BorderModel
@@ -28,7 +22,11 @@ export default class BorderBottom extends BorderModel
         return new Pixel()
     }
     get width(): number {
-        return this._width
+        return this._borderWidth
+    }
+
+    set width(newVal: number) {
+        this._borderWidth = newVal
     }
     get height(): number {
         return this._borderWidth
@@ -45,6 +43,7 @@ export default class BorderBottom extends BorderModel
         let height = new Width(this.height, this.heightUnit)
         baseStyles.borderTopWidth = height.getValue()
         baseStyles.height = `none`
+        baseStyles.width = `100%`
         return baseStyles
     }
 

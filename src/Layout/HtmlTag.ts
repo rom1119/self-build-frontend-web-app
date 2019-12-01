@@ -25,11 +25,13 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     protected paddingActive = false
     protected marginActive = false
     protected contentActive = false
+
     protected _borders: BorderModel[] = []
-    protected _borderBottom: BorderModel
-    protected _borderTop: BorderModel
-    protected _borderLeft: BorderModel
-    protected _borderRight: BorderModel
+    borderBottom: BorderModel
+    borderTop: BorderModel
+    borderLeft: BorderModel
+    borderRight: BorderModel
+    
     protected sizeActive = false
     protected _isEdited = false
     protected _width = 100
@@ -128,7 +130,9 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     public changeAsActiveSize()
     {
+        
         this._backgroundColor = 'aqua'
+
     }
     
     public changeAsDeactiveSize()
@@ -182,12 +186,13 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
             // }
         }    
 
-        let borderLeftWidth = this._borderLeft.borderWidth
-        let borderRightWidth = this._borderRight.borderWidth
-        let borderTopWidth = this._borderTop.borderWidth
-        let borderBottomWidth = this._borderBottom.borderWidth
+        let borderLeftWidth = this.borderLeft.borderWidth
+        let borderRightWidth = this.borderRight.borderWidth
+        let borderTopWidth = this.borderTop.borderWidth
+        let borderBottomWidth = this.borderBottom.borderWidth
         let boxWidth = borderLeftWidth + borderRightWidth + this._width
         let boxHeight = borderTopWidth + borderBottomWidth + this._height
+        let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
 
         let allCssList = this.cssAccessor
         let width = new Width(boxWidth, this.sizeUnitCurrent)
@@ -195,6 +200,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         
         allCssList.setNewPropertyValue(Width.PROP_NAME, width)
         allCssList.setNewPropertyValue(Height.PROP_NAME, height)
+        allCssList.setNewPropertyValue(BackgroundColor.PROP_NAME, backgroundColor)
         // console.log('AAAAA');
 
         // console.log(height.getValue());
@@ -261,46 +267,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this._borders = arg
     }
 
-    get borderLeft() : BorderModel
-    {
-        return this._borderLeft
-    }
     
-    set borderLeft(arg: BorderModel)
-    {
-        this._borderLeft = arg
-    }
-
-    get borderRight() : BorderModel
-    {
-        return this._borderRight
-    }
-    
-    set borderRight(arg: BorderModel)
-    {
-        this._borderRight = arg
-    }
-
-    get borderBottom() : BorderModel
-    {
-        return this._borderBottom
-    }
-    
-    set borderBottom(arg: BorderModel)
-    {
-        this._borderBottom = arg
-    }
-
-    get borderTop() : BorderModel
-    {
-        return this._borderTop
-    }
-    
-    set borderTop(arg: BorderModel)
-    {
-        this._borderTop = arg
-    }
-
 
 
 }

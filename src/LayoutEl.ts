@@ -34,6 +34,11 @@ export default abstract class LayoutEl {
     {
         this._children = arg
     }
+
+    public equals(el: LayoutEl): boolean
+    {
+        return this.uuid === el.uuid
+    }
     
 
     

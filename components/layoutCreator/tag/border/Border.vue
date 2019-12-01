@@ -1,50 +1,55 @@
-<template>
-
-</template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import Left from '~/src/Site/Left';
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
+import XPositionDetector from '~/src/PositionDetector/XPositionDetector';
+import ActiveElController from "~/src/ActiveElController";
+import AxisPositionDetector from '../../../../src/AxisPositionDetector';
 
-@Component
-export default class BorderComponent extends Vue {
+export default abstract class BorderComponent extends Vue {
 
     $refs: {
 
     }
     @Prop()
     value: BorderModel
+    currentElement: BorderModel = null
+
+    timeout = null
+    mouseDown = false
 
     contextMenuName = 'cm-border'
+    // abstract getSize() : number
 
-    setSolid()
-    {
-        this.value.setSolid()
+    onMouseOver(borderComponent) {                
+        borderComponent.$emit('borderMouseOver', borderComponent.value)
+
     }
 
-    setDotted()
+    onMouseOut(borderComponent) {
+        borderComponent.$emit('borderMouseOut', borderComponent.value)
+    }
+  
+    public onMouseDown(borderComponent, ev: MouseEvent)
     {
-        this.value.setDotted()
+        borderComponent.$emit('borderMouseDown', ev)
+    }
+    
+    
+
+    public onMouseUp(e: MouseEvent)
+    {
+        // console.log('qweqrewty');
+        
+        
     }
 
-    setDashed()
+    public onMouseMove(e: MouseEvent)
     {
-        this.value.setDashed()
-    }
-    setNone()
-    {
-        this.value.setNone()
-    }
-
-    onDoubleClick(e) 
-    {
-        // this.value.onDoubleClick(e)
-        let compStyles = window.getComputedStyle(e.target);
-        var heightTable = compStyles.getPropertyValue('height')
-
-        // console.log(heightTable);     
+        
+        
 
     }
     created() {
@@ -53,7 +58,3 @@ export default class BorderComponent extends Vue {
     }
 }
 </script>
-
-<style lang="scss">
-
-</style>

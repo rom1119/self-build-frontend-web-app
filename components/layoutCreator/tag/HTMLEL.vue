@@ -1,6 +1,6 @@
 <template>
 
-    <component class="wrapper-el" :is="value.getTagName()" @dblclick.stop="onDoubleClick($event)" :style="value.cssList" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver" @mouseout.stop="onMouseOut">
+    <component class="wrapper-el" :is="value.getTagName()" @dblclick.stop="onDoubleClick($event)" :style="value.cssList" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
         <div v-show="value.isEdited" class="wrapper-el-editable" >
             <html-el-editable :value="value" ref="editableEl">
             </html-el-editable>
@@ -34,7 +34,7 @@ export default class HTMLEL extends Vue {
 
     contextMenuName = 'cm-create-html-element123'
 
-    onMouseOver() {
+    onMouseOver() {        
         this.$emit('contentMouseOver', this.value)
 
     }

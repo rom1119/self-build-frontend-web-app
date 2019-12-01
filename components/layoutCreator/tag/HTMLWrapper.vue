@@ -15,17 +15,34 @@
         <!-- <border-main-component v-for="border in borders" :value="border" :key="border.uuid" >
         </border-main-component> -->
 
-        <border-left :value="borderLeft" :key="borderLeft.uuid">
+        <border-left 
+            :value="borderLeft"
+            :key="borderLeft.uuid"
+            @borderMouseOver="onBorderMouseOver" 
+            @borderMouseOut="onBorderMouseOut"
+            @borderMouseDown="onBorderMouseDown(borderLeft, $event)"
+
+            >
         </border-left>
         <span style="display: flex; flex-direction: column;">
-            <border-top :value="borderTop" :key="borderTop.uuid">
+            <border-top 
+                :value="borderTop" 
+                :key="borderTop.uuid"
+                @borderMouseOver="onBorderMouseOver" 
+                @borderMouseOut="onBorderMouseOut"
+                @borderMouseDown="onBorderMouseDown(borderTop, $event)"
+
+                >
             </border-top>
             
 
             <html-el 
                 @contentMouseOver="onContentMouseOver" 
                 @contentMouseOut="onContentMouseOut" 
+                @borderMouseOver="onBorderMouseOver" 
+                @borderMouseOut="onBorderMouseOut"
                 @contentMouseDown="onContentMouseDown(value, $event)"                 
+                @borderMouseDown="onBorderMouseDown(value, $event)"                 
                 
                 :value="value" 
                 v-context-menu="value.uuid">
@@ -34,7 +51,10 @@
                         <html-component 
                         @contentMouseOver="onContentMouseOver" 
                         @contentMouseOut="onContentMouseOut" 
+                        @borderMouseOver="onBorderMouseOver" 
+                        @borderMouseOut="onBorderMouseOut" 
                         @contentMouseDown="onContentMouseDownChild($event)" 
+                        @borderMouseDown="onBorderMouseDownChild($event)" 
                         v-for="child in children" 
                         :value="child" 
                         :key="child.uuid"  > 
@@ -43,10 +63,22 @@
                 </div> -->
             </html-el>
                 
-            <border-bottom :value="borderBottom" :key="borderBottom.uuid">
+            <border-bottom 
+                :value="borderBottom" 
+                :key="borderBottom.uuid"
+                @borderMouseOver="onBorderMouseOver" 
+                @borderMouseOut="onBorderMouseOut"
+                @borderMouseDown="onBorderMouseDown(borderBottom, $event)"
+                >
             </border-bottom>
         </span>
-        <border-right :value="borderRight" :key="borderRight.uuid">
+        <border-right 
+            :value="borderRight" 
+            :key="borderRight.uuid"
+            @borderMouseOver="onBorderMouseOver" 
+            @borderMouseOut="onBorderMouseOut"
+            @borderMouseDown="onBorderMouseDown(borderRight, $event)"
+        >
         </border-right>
         
     </div>
@@ -57,7 +89,6 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import HtmlTag from '~/src/Layout/HtmlTag';
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HTMLELEditable from './HTMLELEditable.vue';
-import MouseDetector from '~/src/Layout/MouseDetector';
 import BorderModelFactory from '~/src/Layout/Border/BorderModelFactory';
 import BorderModel from '~/src/Layout/Border/BorderModel';
 import LayoutEl from "../../../src/LayoutEl";
@@ -75,12 +106,27 @@ export default class HTMLWrapper extends Vue {
 
     onContentMouseOver(val)
     {
+        this.$emit('anyElementMouseOver', val)  
         this.$emit('contentMouseOver', val)  
+
     }
 
     onContentMouseOut(val)
     {
+        this.$emit('anyElementMouseOut', val)  
         this.$emit('contentMouseOut', val)  
+    }
+    
+    onBorderMouseOver(val)
+    {
+        this.$emit('anyElementMouseOver', val) 
+        this.$emit('borderMouseOver', val)  
+    }
+
+    onBorderMouseOut(val)
+    {
+        this.$emit('anyElementMouseOut', val)  
+        this.$emit('borderMouseOut', val)  
     }
 
 
@@ -90,11 +136,30 @@ export default class HTMLWrapper extends Vue {
             event: event,
             target: val
         }
-        this.$emit('contentMouseDown', ev)  
+        this.$emit('contentMouseDown', ev)
+        this.$emit('anyElementMouseDown', ev) 
     }
     onContentMouseDownChild(val)
     {
         this.$emit('contentMouseDown', val)  
+        this.$emit('anyElementMouseDown', val) 
+    }
+    
+    onBorderMouseDown(val, event)
+    {
+        let ev = {
+            event: event,
+            target: val
+        }
+        this.$emit('borderMouseDown', ev)  
+        this.$emit('anyElementMouseDown', ev) 
+
+    }
+    onBorderMouseDownChild(val)
+    {
+        this.$emit('borderMouseDown', val)  
+        this.$emit('anyElementMouseDown', val) 
+
     }
 
     get children() : LayoutEl[]

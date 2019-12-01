@@ -36,7 +36,10 @@ export default abstract class CssPropertyAccessor
         // this.cssProps.splice
         let index = this.cssProps.indexOf(prop)
         if (index !== -1) {
-            this.cssProps[index] = newVal;
+            if (this.cssProps[index].getValue() != newVal.getValue()) {
+                this.cssProps[index] = newVal;
+
+            }
         }
         // let oldVal = this.cssProps.splice(index, 1)
         // prop.setValue(val)

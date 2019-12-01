@@ -1,8 +1,13 @@
 <template>
 
-    <div >
+    <div  class="cursor-resize-to-top">
         <border-html-context-menu :value="value"  :ref="value.uuid" />
-        <div :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
+        <div :style="value.cssList" 
+        v-context-menu="value.uuid" 
+            @mousedown.stop="onMouseDown($event)"  
+            @mouseover.stop="onMouseOver"
+            @mouseout.stop="onMouseOut" 
+         >
         </div>
     </div>
 
@@ -15,39 +20,23 @@ import Top from '~/src/Site/Top';
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
 import BorderComponent from './Border.vue';
+import YPositionDetector from "~/src/PositionDetector/YPositionDetector";
 
 @Component
 export default class BorderTopComponent extends BorderComponent {
 
     contextMenuName = 'cm-create-html-element123'
 
-    createH1Element(target, cm, a) {
-        console.log(
-        )
-
-        // var el = this.htmlFactory.createH1()
-        // console.log('qqqqq')
-
-        // this.children.push(el)
-
+    onMouseOver() {            
+        super.onMouseOver(this)
     }
 
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        // console.log(this.$children);
-        // console.log(cm);
-        // other actions...
+    onMouseOut() {
+        super.onMouseOut(this)
     }
-    onDoubleClick(e) 
-    {
-        this.value.onClick(e)
-        let compStyles = window.getComputedStyle(e.target);
-        var heightTable = compStyles.getPropertyValue('height')
-
-        // console.log(heightTable);
-            
-
+    
+    onMouseDown(ev) {
+        super.onMouseDown(this, ev)
     }
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)

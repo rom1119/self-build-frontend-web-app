@@ -1,8 +1,13 @@
 <template>
-    <div  v-if="value != null">
+    <div  v-if="value != null" class="cursor-resize-to-bottom">
         <border-html-context-menu :value="value"  :ref="value.uuid" />
 
-        <div :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
+        <div :style="value.cssList" 
+            v-context-menu="value.uuid"
+            @mousedown.stop="onMouseDown($event)"  
+            @mouseover.stop="onMouseOver"
+            @mouseout.stop="onMouseOut" 
+            >
         </div>
 
     </div>
@@ -15,11 +20,25 @@ import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
 import BorderComponent from './Border.vue';
+import YPositionDetector from "~/src/PositionDetector/YPositionDetector";
 
 @Component
 export default class BorderBottomComponent extends BorderComponent {
 
     contextMenuName = 'cm-create-html-element123'
+    
+
+    onMouseOver() {            
+        super.onMouseOver(this)
+    }
+
+    onMouseOut() {
+        super.onMouseOut(this)
+    }
+    
+    onMouseDown(ev) {
+        super.onMouseDown(this, ev)
+    }
     onDoubleClick(e) 
     {
         this.value.onClick(e)

@@ -1,19 +1,13 @@
 import UnitSize from "~/src/Unit/UnitSize"
-import Site from "~/src/Site/Site"
-import UnitColor from '../../Unit/UnitColor';
 import Pixel from '../../Unit/Size/Pixel';
-import Named from '../../Unit/Color/Named';
-import CssList from "../CssList";
-import Left from '~/src/Site/Left';
-import BorderModel from "./BorderModel";
+import PaddingModel from "./PaddingModel";
 import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
 
-export default class BorderLeft extends BorderModel
+export default class PaddingLeft extends PaddingModel
 {
     protected _name: string = 'border-left'
     protected _height: number = 100
-    protected _initialColor: string = 'gray'
 
     // protected _float: string = 'left';
     constructor()
@@ -27,11 +21,11 @@ export default class BorderLeft extends BorderModel
     }    
     
     get width(): number {
-        return this._borderWidth
+        return this._width
     }
 
     set width(newVal: number) {
-        this._borderWidth = newVal
+        this._width = newVal
     }
 
     get height(): number {
@@ -46,7 +40,6 @@ export default class BorderLeft extends BorderModel
         var baseStyles = super.cssList
         let height = new Width(this.width, this.widthUnit)
 
-        baseStyles.borderLeftWidth = height.getValue()
         baseStyles.height = `none`
         baseStyles.width = `none`
         return baseStyles

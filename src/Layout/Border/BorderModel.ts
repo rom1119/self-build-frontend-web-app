@@ -10,12 +10,14 @@ import BorderDotted from './Style/BorderDotted';
 import BorderSolid from './Style/BorderSolid';
 import BorderNone from './Style/BorderNone';
 import Width from '../../Css/Size/Width';
+import SizeActivable from "~/src/SizeActivable";
 
-export default abstract class BorderModel extends LayoutEl implements CssList
+export default abstract class BorderModel extends LayoutEl implements CssList, SizeActivable
 {
+    
     protected _name: string = 'border-base'
     protected _style: BorderStyle
-    protected _borderWidth: number = 55
+    protected _borderWidth: number = 15
     protected _color: string
     protected _initialColor: string = 'red'
     protected _initialType: BorderStyle = new BorderDashed()
@@ -39,23 +41,29 @@ export default abstract class BorderModel extends LayoutEl implements CssList
         this._borderWidth = arg
     }
 
+    public toString(): string
+    {
+        return `${this._name}, UUID=${this.uuid} `
+    }
+
     
     abstract get widthUnit(): UnitSize
     abstract get heightUnit(): UnitSize
 
     abstract get width(): number
+    abstract set width(val: number)
     abstract get height(): number
 
-    onMouseOver(target: BorderModel) 
-    {        
-        // console.log(this._name)
-        target._color = 'blue'
-    }
+    // onMouseOver(target: BorderModel) 
+    // {        
+    //     // console.log(this._name)
+    //     target._color = 'blue'
+    // }
 
-    onMouseOut() 
-    {
-        this._color = this._initialColor
-    }
+    // onMouseOut() 
+    // {
+    //     this._color = this._initialColor
+    // }
 
     public setDotted()
     {
@@ -86,6 +94,18 @@ export default abstract class BorderModel extends LayoutEl implements CssList
         target._borderWidth++
     }
 
+    public initSize(w) 
+    {
+        this.width = w
+    }
+
+    public changeAsActiveSize() {
+        this._color = 'pink'
+    }
+    
+    public changeAsDeactiveSize() {
+        this._color = this._initialColor
+    }
 
     get cssList() : any
     {

@@ -2,11 +2,25 @@
     // border: 1px dashed rgba(0, 0, 0, 0);
     &:hover {
         // border: 1px dashed #555555;
-        cursor: row-resize;
+        cursor: nwse-resize;
     }
 }
 
 .main-object {
     display: block;
     width: 85%;
+}
+
+.cursor-resize-to-top {
+    cursor: row-resize;
+}
+.cursor-resize-to-bottom {
+    cursor: row-resize;
+}
+.cursor-resize-to-left {
+    cursor: col-resize;
+
+}
+.cursor-resize-to-right {
+    cursor: col-resize;
 }

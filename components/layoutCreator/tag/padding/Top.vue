@@ -1,6 +1,16 @@
 <template>
 
-    <div class="wrapper-el" v-html="value.tag" :style="value.styleList">
+    <div  class="cursor-resize-to-top">
+        <border-html-context-menu :value="value"  :ref="value.uuid" />
+        <div :style="value.cssList" 
+        v-context-menu="value.uuid" 
+            @mouseup="onMouseUp($event)" 
+            @mousedown="onMouseDown($event)"  
+            @mousemove="onMouseMove($event)" 
+            @mouseover="onMouseOver"
+            @mouseout="onMouseOut"
+         >
+        </div>
     </div>
 
 </template>
@@ -8,48 +18,34 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
+import Top from '~/src/Site/Top';
 import HtmlTag from "~/src/Layout/HtmlTag";
-
+import PaddingModel from '../../../../src/Layout/Padding/PaddingModel';
+import PaddingComponent from './Padding.vue';
+import YPositionDetector from "~/src/PositionDetector/YPositionDetector";
 
 @Component
-export default class PaddingRightComponent extends Vue {
-
-
-    @Prop()
-    value: HtmlTag
-    protected _innerText = 'This is H1 element'
-    htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-
+export default class BorderTopComponent extends PaddingComponent {
 
     contextMenuName = 'cm-create-html-element123'
 
-    createH1Element(target, cm, a) {
-        console.log(
-        )
+    mouseDetector: YPositionDetector = new YPositionDetector()
 
-        var el = this.htmlFactory.createH1()
-        // console.log('qqqqq')
-
-        // this.children.push(el)
-
+    getMouseDetector() {
+        return this.mouseDetector
     }
 
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        // console.log(this.$children);
-        // console.log(cm);
-        // other actions...
-    }
-    onDoubleClick(e) 
+    getMouseAxisPosition(e)
     {
-        this.value.onDoubleClick(e)
-        let compStyles = window.getComputedStyle(e.target);
-        var heightTable = compStyles.getPropertyValue('height')
+        return e.clientY
+    }
+    onMouseOver(borderComponent) {                
+        super.onMouseOver(this)
 
-        // console.log(heightTable);
-            
+    }
 
+    onMouseOut(borderComponent) {
+        super.onMouseOut(this)
     }
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
@@ -59,6 +55,9 @@ export default class PaddingRightComponent extends Vue {
 </script>
 
 <style lang="scss">
+    .border-top {
+        
+    }
 #loadingDialog {
     .v-dialog {
     width: auto;

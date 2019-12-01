@@ -1,8 +1,14 @@
 <template>
 
-    <div class="stretch stretch__flex">
+    <div class="stretch stretch__flex cursor-resize-to-left" >
         <border-html-context-menu :value="value"  :ref="value.uuid" />
-        <div class="stretch" :style="value.cssList" v-context-menu="value.uuid"  @click="value.onClick(value)" @mouseover="value.onMouseOver(value)" @mouseout="value.onMouseOut(value)">
+        <div class="stretch" 
+        :style="value.cssList"
+         v-context-menu="value.uuid"
+            @mousedown.stop="onMouseDown($event)"  
+            @mouseover.stop="onMouseOver"
+            @mouseout.stop="onMouseOut" 
+           >
         </div>
     </div>
 
@@ -15,38 +21,24 @@ import Left from '~/src/Site/Left';
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderLeft from '~/src/Layout/Border/BorderLeft';
 import BorderComponent from './Border.vue';
+import XPositionDetector from "~/src/PositionDetector/XPositionDetector";
 
 
 @Component
 export default class BorderLeftComponent extends BorderComponent {
 
-
-    @Prop()
-    value: BorderLeft
-    protected _innerText = 'This is H1 element'
-    protected children: HtmlTag[] = []
-    htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-
-
     contextMenuName = 'cm-create-html-element123'
 
-    createH1Element(target, cm, a) {
-        console.log(
-        )
-
-        var el = this.htmlFactory.createH1()
-        // console.log('qqqqq')
-
-        this.children.push(el)
-
+    onMouseOver() {            
+        super.onMouseOver(this)
     }
 
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        // console.log(this.$children);
-        // console.log(cm);
-        // other actions...
+    onMouseOut() {
+        super.onMouseOut(this)
+    }
+    
+    onMouseDown(ev) {
+        super.onMouseDown(this, ev)
     }
     onDoubleClick(e) 
     {
