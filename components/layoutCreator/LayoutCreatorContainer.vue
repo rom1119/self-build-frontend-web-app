@@ -28,43 +28,58 @@ import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from '../../src/Layout/HtmlTagFactory';
 import TwoDimensionalPositionDetector from '~/src/PositionDetector/TwoDimensionalPositionDetector';
 import ActiveElController from '../../src/ActiveElController';
-import ActiveContentElController from '../../src/Controller/ActiveContentElController';
-import ActiveBorderElController from '../../src/Controller/ActiveBorderElController';
+import SizeElController from '../../src/SizeElController';
+import ContentElSizeController from '../../src/Controller/ContentElSizeController';
+import BorderElSizeController from '../../src/Controller/BorderElSizeController';
 import BorderModel from "../../src/Layout/Border/BorderModel";
+import DefaultActiveElController from '../../src/Controller/DefaultActiveElController';
+import PaddingElSizeController from '../../src/Controller/PaddingElSizeController.1';
+import PaddingModel from "~/src/Layout/Padding/PaddingModel";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
     contextMenuName = 'cm-create-html-element'
     htmlTags: HtmlTag[] = []
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-    activeElController: ActiveElController = new ActiveContentElController()
-    activeBorderController: ActiveElController = new ActiveBorderElController()
+    contentElSizeController: SizeElController = new ContentElSizeController()
+    borderElSizeController: SizeElController = new BorderElSizeController()
+    paddingElSizeController: SizeElController = new PaddingElSizeController()
+
+    activeElController: ActiveElController = new DefaultActiveElController()
 
     onMouseOver(val) {
+        console.log('over');
+        console.log(val);
+        console.log('over');
+        
         // console.log(val.innerText);
-        let controller = this.getActiveElController('mouseover', val)
+        // let controller = this.getElSizeController('mouseover', val)
  
-        controller.updateActiveEl(val)
+        this.activeElController.updateActiveEl(val)
 
     }
 
     onMouseOut(val) {
-        // console.log(value);
-        let controller = this.getActiveElController('mouseout', val)
-
-        controller.deactiveEl(val)
+        console.log('out');
+        console.log(val);
+        console.log('out');
+        this.activeElController.deactiveEl(val)
     }
 
     onMouseDown(source)
     {
-        let controller = this.getActiveElController('mouseDown', source.target)
-
+        let controller = this.getElSizeController('mouseDown', source.target)
+console.log('down');
+        console.log(source.target);
+        console.log(controller);
+        console.log('down');
         controller.mouseDownHandler(source)
     }
 
     onMouseUp(e)
     {        
-        let controller = this.getActiveElController('mouseUp')
+        let controller = this.getElSizeController('mouseUp')
+        
         if (controller) {
             controller.mouseUpHandler(e)
         }
@@ -72,7 +87,7 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseMove(e)
     {
-        let controller = this.getActiveElController('mouseover')
+        let controller = this.getElSizeController('mouseover')
         if (controller) {
             controller.mouseMoveHandler(e)
 
@@ -80,12 +95,14 @@ export default class LayoutCreatorContainer extends Vue {
 
     }
     
-    private getActiveElController(eventName, el?): ActiveElController
+    private getElSizeController(eventName, el?): SizeElController
     {
-        if (this.activeElController.hasActiveEl()) {
-            return this.activeElController
-        } else if (this.activeBorderController.hasActiveEl()) {
-            return this.activeBorderController
+        if (this.contentElSizeController.hasActiveEl()) {
+            return this.contentElSizeController
+        } else if (this.borderElSizeController.hasActiveEl()) {
+            return this.borderElSizeController
+        } else if (this.paddingElSizeController.hasActiveEl()) {
+            return this.paddingElSizeController
         }
 
         if (el == null) {
@@ -93,11 +110,15 @@ export default class LayoutCreatorContainer extends Vue {
         }
 
         if (el instanceof BorderModel) {
-            return this.activeBorderController
+            return this.borderElSizeController
         }
         
         if (el instanceof HtmlTag) {
-            return this.activeElController
+            return this.contentElSizeController
+        }
+        
+        if (el instanceof PaddingModel) {
+            return this.paddingElSizeController
         }
 
         if (el == null) {

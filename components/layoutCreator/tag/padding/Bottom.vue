@@ -1,14 +1,12 @@
 <template>
-    <div  v-if="value != null" class="cursor-resize-to-bottom">
+    <div  v-if="value != null" class="cursor-resize-to-bottom padding-bottom">
         <border-html-context-menu :value="value"  :ref="value.uuid" />
 
         <div :style="value.cssList" 
             v-context-menu="value.uuid"
-            @mouseup="onMouseUp($event)" 
-            @mousedown="onMouseDown($event)"  
-            @mousemove="onMouseMove($event)" 
-            @mouseover="onMouseOver"
-            @mouseout="onMouseOut"
+            @mousedown.stop="onMouseDown($event)"  
+            @mouseover.stop="onMouseOver"
+            @mouseout.stop="onMouseOut" 
             >
         </div>
 
@@ -22,30 +20,22 @@ import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
 import PaddingComponent from './Padding.vue';
-import YPositionDetector from "~/src/PositionDetector/YPositionDetector";
 
 @Component
 export default class PaddingBottomComponent extends PaddingComponent {
 
     contextMenuName = 'cm-create-html-element123'
-    
-    mouseDetector: YPositionDetector = new YPositionDetector()
 
-    getMouseDetector() {
-        return this.mouseDetector
-    }
-
-    getMouseAxisPosition(e)
-    {
-        return e.clientY
-    }
-    onMouseOver(borderComponent) {                
+    onMouseOver() {            
         super.onMouseOver(this)
-
     }
 
-    onMouseOut(borderComponent) {
+    onMouseOut() {
         super.onMouseOut(this)
+    }
+    
+    onMouseDown(ev) {
+        super.onMouseDown(this, ev)
     }
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)

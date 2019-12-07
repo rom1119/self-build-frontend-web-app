@@ -1,20 +1,20 @@
-import ActiveElController from '~/src/ActiveElController';
+import SizeElController from '~/src/SizeElController';
 import HtmlTag from '../Layout/HtmlTag';
-import TwoDimensionalPositionDetector from '../PositionDetector/TwoDimensionalPositionDetector';
-export default class ActiveContentElController extends ActiveElController
+import Size2DDetector from '../SizeDetector/Size2DDetector';
+export default class ContentElSizeController extends SizeElController
 {
     protected currentElement: HtmlTag
-    protected mouseDetector: TwoDimensionalPositionDetector
+    protected mouseDetector: Size2DDetector
 
     constructor()
     {
         super()
-        this.mouseDetector = new TwoDimensionalPositionDetector()
+        this.mouseDetector = new Size2DDetector()
 
     }
 
     public hasActiveEl(): boolean {
-        return this.currentElement != null
+        return this.mouseDown == true
     }
 
     public mouseDownHandler(source: any) {
@@ -29,7 +29,7 @@ export default class ActiveContentElController extends ActiveElController
                     this.currentElement = el
                     this.mouseDetector.initPosition(event.clientX, event.clientY)
                     this.mouseDetector.initSize(el.width, el.height)
-                    this.currentElement.changeAsActiveSize()
+                    // this.currentElement.changeAsActiveSize()
 
                 }
 

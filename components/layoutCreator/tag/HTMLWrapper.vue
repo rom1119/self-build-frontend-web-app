@@ -22,8 +22,8 @@
             @borderMouseOut="onBorderMouseOut"
             @borderMouseDown="onBorderMouseDown(borderLeft, $event)"
 
-            >
-        </border-left>
+            />
+        
         <span style="display: flex; flex-direction: column;">
             <border-top 
                 :value="borderTop" 
@@ -32,54 +32,79 @@
                 @borderMouseOut="onBorderMouseOut"
                 @borderMouseDown="onBorderMouseDown(borderTop, $event)"
 
-                >
-            </border-top>
-            
-
-            <html-el 
-                @contentMouseOver="onContentMouseOver" 
-                @contentMouseOut="onContentMouseOut" 
-                @borderMouseOver="onBorderMouseOver" 
-                @borderMouseOut="onBorderMouseOut"
-                @contentMouseDown="onContentMouseDown(value, $event)"                 
-                @borderMouseDown="onBorderMouseDown(value, $event)"                 
-                
-                :value="value" 
-                v-context-menu="value.uuid">
-                <!-- <div class="wrapper-children"> -->
-                    <!-- <template v-for="child in children"> -->
-                        <html-component 
-                        @contentMouseOver="onContentMouseOver" 
-                        @contentMouseOut="onContentMouseOut" 
-                        @borderMouseOver="onBorderMouseOver" 
-                        @borderMouseOut="onBorderMouseOut" 
-                        @contentMouseDown="onContentMouseDownChild($event)" 
-                        @borderMouseDown="onBorderMouseDownChild($event)" 
-                        v-for="child in children" 
-                        :value="child" 
-                        :key="child.uuid"  > 
-                        </html-component>
-                    <!-- </template>
-                </div> -->
-            </html-el>
-                
+                />  
+                <padding-top 
+                    :value="paddingTop" 
+                    :key="paddingTop.uuid"
+                    @paddingMouseOver="onPaddingMouseOver" 
+                    @paddingMouseOut="onPaddingMouseOut"
+                    @paddingMouseDown="onPaddingMouseDown(paddingTop, $event)"
+                />
+            <span style="display: inline-flex;">
+                <padding-left 
+                    :value="paddingLeft" 
+                    :key="paddingLeft.uuid"
+                    @paddingMouseOver="onPaddingMouseOver" 
+                    @paddingMouseOut="onPaddingMouseOut"
+                    @paddingMouseDown="onPaddingMouseDown(paddingLeft, $event)"
+                />
+                <html-el 
+                    @contentMouseOver="onContentMouseOver" 
+                    @contentMouseOut="onContentMouseOut" 
+                    @borderMouseOver="onBorderMouseOver" 
+                    @borderMouseOut="onBorderMouseOut"
+                    @contentMouseDown="onContentMouseDown(value, $event)"                 
+                    @borderMouseDown="onBorderMouseDown(value, $event)"                 
+                    
+                    :value="value" 
+                    v-context-menu="value.uuid">
+                    <!-- <div class="wrapper-children"> -->
+                        <!-- <template v-for="child in children"> -->
+                            <html-component 
+                            @contentMouseOver="onContentMouseOver" 
+                            @contentMouseOut="onContentMouseOut" 
+                            @borderMouseOver="onBorderMouseOver" 
+                            @borderMouseOut="onBorderMouseOut" 
+                            @contentMouseDown="onContentMouseDownChild($event)" 
+                            @borderMouseDown="onBorderMouseDownChild($event)" 
+                            v-for="child in children" 
+                            :value="child" 
+                            :key="child.uuid"  > 
+                            </html-component>
+                        <!-- </template>
+                    </div> -->
+                </html-el>
+                <padding-right 
+                    :value="paddingRight" 
+                    :key="paddingRight.uuid"
+                    @paddingMouseOver="onPaddingMouseOver" 
+                    @paddingMouseOut="onPaddingMouseOut"
+                    @paddingMouseDown="onPaddingMouseDown(paddingRight, $event)"
+                />
+            </span>
+            <padding-bottom 
+                :value="paddingBottom" 
+                :key="paddingBottom.uuid"
+                @paddingMouseOver="onPaddingMouseOver" 
+                @paddingMouseOut="onPaddingMouseOut"
+                @paddingMouseDown="onPaddingMouseDown(paddingBottom, $event)"
+            />
             <border-bottom 
                 :value="borderBottom" 
                 :key="borderBottom.uuid"
                 @borderMouseOver="onBorderMouseOver" 
                 @borderMouseOut="onBorderMouseOut"
                 @borderMouseDown="onBorderMouseDown(borderBottom, $event)"
-                >
-            </border-bottom>
+                />
         </span>
+        
         <border-right 
             :value="borderRight" 
             :key="borderRight.uuid"
             @borderMouseOver="onBorderMouseOver" 
             @borderMouseOut="onBorderMouseOut"
             @borderMouseDown="onBorderMouseDown(borderRight, $event)"
-        >
-        </border-right>
+        />
         
     </div>
 </template>
@@ -92,6 +117,9 @@ import HTMLELEditable from './HTMLELEditable.vue';
 import BorderModelFactory from '~/src/Layout/Border/BorderModelFactory';
 import BorderModel from '~/src/Layout/Border/BorderModel';
 import LayoutEl from "../../../src/LayoutEl";
+import PaddingModelFactory from "~/src/Layout/Padding/PaddingModelFactory";
+import PaddingBottom from '../../../src/Layout/Padding/PaddingBottom';
+import PaddingModel from "~/src/Layout/Padding/PaddingModel";
 
 
 @Component
@@ -99,8 +127,8 @@ export default class HTMLWrapper extends Vue {
     @Prop()
     value: HtmlTag
 
-    
     borderFactory: BorderModelFactory = new BorderModelFactory()
+    paddingFactory: PaddingModelFactory = new PaddingModelFactory()
 
     contextMenuName = 'cm-create-html-element123'
 
@@ -127,6 +155,18 @@ export default class HTMLWrapper extends Vue {
     {
         this.$emit('anyElementMouseOut', val)  
         this.$emit('borderMouseOut', val)  
+    }
+    
+    onPaddingMouseOver(val)
+    {
+        this.$emit('anyElementMouseOver', val) 
+        this.$emit('paddingMouseOver', val)  
+    }
+
+    onPaddingMouseOut(val)
+    {
+        this.$emit('anyElementMouseOut', val)  
+        this.$emit('paddingMouseOut', val)  
     }
 
 
@@ -161,6 +201,23 @@ export default class HTMLWrapper extends Vue {
         this.$emit('anyElementMouseDown', val) 
 
     }
+    
+    onPaddingMouseDown(val, event)
+    {
+        let ev = {
+            event: event,
+            target: val
+        }
+        this.$emit('paddingMouseDown', ev)  
+        this.$emit('anyElementMouseDown', ev) 
+
+    }
+    onPaddingMouseDownChild(val)
+    {
+        this.$emit('paddingMouseDown', val)  
+        this.$emit('anyElementMouseDown', val) 
+
+    }
 
     get children() : LayoutEl[]
     {
@@ -172,14 +229,45 @@ export default class HTMLWrapper extends Vue {
         this.value.children = arg
     }
 
-    get borders() : BorderModel[]
+
+    get paddingLeft() : PaddingModel
     {
-        return this.value.borders
+        return this.value.paddingLeft
     }
     
-    set borders(arg: BorderModel[])
+    set paddingLeft(arg: PaddingModel)
     {
-        this.value.borders = arg
+        this.value.paddingLeft = arg
+    }
+
+    get paddingRight() : PaddingModel
+    {
+        return this.value.paddingRight
+    }
+    
+    set paddingRight(arg: PaddingModel)
+    {
+        this.value.paddingRight = arg
+    }
+
+    get paddingBottom() : PaddingModel
+    {
+        return this.value.paddingBottom
+    }
+    
+    set paddingBottom(arg: PaddingModel)
+    {
+        this.value.paddingBottom = arg
+    }
+
+    get paddingTop() : PaddingModel
+    {
+        return this.value.paddingTop
+    }
+    
+    set paddingTop(arg: PaddingModel)
+    {
+        this.value.paddingTop = arg
     }
 
 
@@ -230,23 +318,41 @@ export default class HTMLWrapper extends Vue {
         let top = this.borderFactory.createTop()
         let bottom = this.borderFactory.createBottom()
 
-        this.borders.push(left)
-        this.borders.push(right)
-        this.borders.push(top)
-        this.borders.push(bottom)
-
+        this.value.borders.push(left)
+        this.value.borders.push(right)
+        this.value.borders.push(top)
+        this.value.borders.push(bottom)
+        
         this.borderBottom = bottom
         this.borderTop = top
         this.borderLeft = left
         this.borderRight = right
     }
+    
+    initPaddings()
+    {
+        let left = this.paddingFactory.createLeft(this.value)
+        let right = this.paddingFactory.createRight(this.value)
+        let top = this.paddingFactory.createTop(this.value)
+        let bottom = this.paddingFactory.createBottom(this.value)
+
+        this.value.paddings.push(left)
+        this.value.paddings.push(right)
+        this.value.paddings.push(top)
+        this.value.paddings.push(bottom)
+
+        this.paddingBottom = bottom
+        this.paddingTop = top
+        this.paddingLeft = left
+        this.paddingRight = right
+    }
 
     
     created() {
         // console.log(this.value.uuid);
+        this.initPaddings()
         this.initBorders()
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
-    
         
     }
 

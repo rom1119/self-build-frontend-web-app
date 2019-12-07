@@ -1,7 +1,6 @@
-import AxisPositionDetector from '../AxisPositionDetector';
-export default class XPositionDetector implements AxisPositionDetector {
+import AxisSizeDetector from '../AxisSizeDetector';
+export default class WidthSizeDetector implements AxisSizeDetector {
     
-
     private _xStart
 
     private _widthStart
@@ -36,17 +35,18 @@ export default class XPositionDetector implements AxisPositionDetector {
         // console.log('x', this._x );
         // console.log('_widthStart', this._widthStart );
         
-        var newCalc =  this._x - this._xStart        
+        var newCalc = this._x - this._xStart     
+        
         return this._widthStart + newCalc
     }
 
     computedVal(): number {
+
         return this.computedWidth
     }
     
     setAxisPosition(val: number) {
         this.x = val
     }
-
  
 }

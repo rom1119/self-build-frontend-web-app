@@ -1,27 +1,30 @@
-import ActiveElController from '~/src/ActiveElController';
+import SizeElController from '~/src/SizeElController';
 import BorderModel from '../Layout/Border/BorderModel';
-import YPositionDetector from '../PositionDetector/YPositionDetector';
+import HeightSizeDetector from '../SizeDetector/HeightSizeDetector';
 import BorderLeft from '~/src/Layout/Border/BorderLeft';
 import BorderRight from '../Layout/Border/BorderRight';
-import XPositionDetector from '../PositionDetector/XPositionDetector';
-import AxisPositionDetector from '../AxisPositionDetector';
-export default class ActiveBorderElController extends ActiveElController
+import WidthSizeDetector from '../SizeDetector/WidthSizeDetector';
+import AxisPositionDetector from '../AxisSizeDetector';
+import PaddingLeft from '../Layout/Padding/PaddingLeft';
+import PaddingRight from '../Layout/Padding/PaddingRight';
+import PaddingModel from '../Layout/Padding/PaddingModel';
+export default class PaddingElSizeController extends SizeElController
 {
-    protected currentElement: BorderModel
+    protected currentElement: PaddingModel
     protected mouseDetector: AxisPositionDetector
     
     public hasActiveEl(): boolean {
-        return this.currentElement != null
+        return this.mouseDown == true
     }
     private beforeStartMouseMove(ev: MouseEvent)
     {
-        if (this.currentElement instanceof BorderLeft || this.currentElement instanceof BorderRight) {
-            this.mouseDetector = new XPositionDetector()
+        if (this.currentElement instanceof PaddingLeft || this.currentElement instanceof PaddingRight) {
+            this.mouseDetector = new WidthSizeDetector()
             this.mouseDetector.initPosition(ev.clientX)
             this.mouseDetector.initSize(this.currentElement.width)
             
         } else {
-            this.mouseDetector =  new YPositionDetector()
+            this.mouseDetector =  new HeightSizeDetector()
             this.mouseDetector.initPosition(ev.clientY)
             this.mouseDetector.initSize(this.currentElement.width)
             

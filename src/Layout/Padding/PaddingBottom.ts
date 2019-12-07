@@ -3,15 +3,16 @@ import Pixel from '../../Unit/Size/Pixel';
 import PaddingModel from "./PaddingModel";
 import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
+import HtmlTag from "../HtmlTag";
 
 export default class PaddingBottom extends PaddingModel
 {
     protected _name: string = 'border-bottom'
-    protected _width: number = 100
+    // protected _width: number = 100
 
-    constructor()
+    constructor(tag: HtmlTag)
     {
-        super()
+        super(tag)
         this._color = this._initialColor
     }
     get widthUnit(): UnitSize {
@@ -39,8 +40,8 @@ export default class PaddingBottom extends PaddingModel
     get cssList() : any
     {
         var baseStyles = super.cssList
-        let height = new Width(this.height, this.heightUnit)
-        baseStyles.height = height
+        let height = new Width(this.width, this.heightUnit)
+        baseStyles.height = height.getValue()
         baseStyles.width = `100%`
         return baseStyles
     }

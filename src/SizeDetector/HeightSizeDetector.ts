@@ -1,5 +1,5 @@
-import AxisPositionDetector from '../AxisPositionDetector';
-export default class YPositionDetector implements AxisPositionDetector {
+import AxisSizeDetector from '../AxisSizeDetector';
+export default class HeightSizeDetector implements AxisSizeDetector {
 
     private _yStart
 

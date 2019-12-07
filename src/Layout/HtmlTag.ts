@@ -13,6 +13,7 @@ import Width from '../Css/Size/Width';
 import Height from "../Css/Size/Height";
 import BackgroundColor from "../Css/Background/BackgroundColor";
 import BasePropertyCss from "../Css/BasePropertyCss";
+import PaddingModel from './Padding/PaddingModel'; 
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
@@ -31,6 +32,12 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     borderTop: BorderModel
     borderLeft: BorderModel
     borderRight: BorderModel
+    
+    protected _paddings: PaddingModel[] = []
+    paddingBottom: PaddingModel
+    paddingTop: PaddingModel
+    paddingLeft: PaddingModel
+    paddingRight: PaddingModel
     
     protected sizeActive = false
     protected _isEdited = false
@@ -190,8 +197,17 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let borderRightWidth = this.borderRight.borderWidth
         let borderTopWidth = this.borderTop.borderWidth
         let borderBottomWidth = this.borderBottom.borderWidth
-        let boxWidth = borderLeftWidth + borderRightWidth + this._width
-        let boxHeight = borderTopWidth + borderBottomWidth + this._height
+        let paddingLeftWidth = this.paddingLeft.width
+        let paddingRightWidth = this.paddingRight.width
+        let paddingTopWidth = this.paddingTop.width
+        let paddingBottomWidth = this.paddingBottom.width
+        
+        // let paddingLeftWidth = 0
+        // let paddingRightWidth = 0
+        // let paddingTopWidth = 0
+        // let paddingBottomWidth = 0
+        let boxWidth = borderLeftWidth + paddingLeftWidth + borderRightWidth + paddingRightWidth + this._width
+        let boxHeight = borderTopWidth + paddingTopWidth + borderBottomWidth + paddingBottomWidth + this._height
         let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
 
         let allCssList = this.cssAccessor
@@ -266,8 +282,27 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     {
         this._borders = arg
     }
-
     
+    get paddings(): PaddingModel[]
+    {
+        return this._paddings
+    }
+    
+    set paddings(arg: PaddingModel[])
+    {
+        this._paddings = arg
+    }
+
+    public blurPaddings() {
+        for (const padding of this._paddings) {
+            padding.blurColor()
+        }
+    }
+    public focusPaddings() {
+        for (const padding of this._paddings) {
+            padding.focusColor()
+        }
+    }
 
 
 }

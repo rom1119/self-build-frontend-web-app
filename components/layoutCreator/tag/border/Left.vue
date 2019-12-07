@@ -21,7 +21,6 @@ import Left from '~/src/Site/Left';
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderLeft from '~/src/Layout/Border/BorderLeft';
 import BorderComponent from './Border.vue';
-import XPositionDetector from "~/src/PositionDetector/XPositionDetector";
 
 
 @Component

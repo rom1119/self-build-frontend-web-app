@@ -9,26 +9,34 @@ import SizeActivable from "~/src/SizeActivable";
 import BackgroundColor from '../../Css/Background/BackgroundColor';
 import RGBA from '../../Unit/Color/RGBA';
 import Height from "~/src/Css/Size/Height";
+import HtmlTag from "../HtmlTag";
 
 export default abstract class PaddingModel extends LayoutEl implements CssList, SizeActivable
 {
     
     protected _name: string = 'border-base'
     protected _width: number = 55
-    protected _color: string
+    protected _color: any
     protected _initialColor: any = {
         r: 250,
         g: 250,
         b: 65,
-        a: 0.60
+        a: 0
     }
     protected _defaultSizeUnit = new Pixel()
     protected _defaultColorUnit = new Named()
+    protected htmlTag: HtmlTag
 
-    constructor()
+    constructor(tag: HtmlTag)
     {
         super()
         this._color = this._initialColor
+        this.htmlTag = tag
+    }
+
+    public toString(): string
+    {
+        return `${this._name}, UUID=${this.uuid} `
     }
 
     get width(): number
@@ -61,24 +69,34 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
         this.width = w
     }
 
+    public focusColor()
+    {
+        this._color =  {
+            r: 250,
+            g: 250,
+            b: 65,
+            a: 0.60
+        }
+    }
+    
+    public blurColor()
+    {
+        this._color = this._initialColor
+    }
+
     public changeAsActiveSize() {
-        this._color = 'blue'
+        this.htmlTag.focusPaddings()
     }
     
     public changeAsDeactiveSize() {
-        this._color = this._initialColor
+        this.htmlTag.blurPaddings()
     }
 
     get cssList() : any
     {
-        
-        let width = new Width(this.width, this.widthUnit)
-        let height = new Height(this.height, this.heightUnit)
-        let background = new BackgroundColor(this._initialColor, new RGBA())
+        let background = new BackgroundColor(this._color, new RGBA())
 
-        return {
-            width: width.getValue(),
-            height: height.getValue(),
+        return { 
             backgroundColor: background.getValue(),
 
         }

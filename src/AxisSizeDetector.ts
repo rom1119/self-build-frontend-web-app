@@ -1,4 +1,4 @@
-export default interface AxisPositionDetector
+export default interface AxisSizeDetector
 {
     computedVal(): number
     initPosition(val: number)

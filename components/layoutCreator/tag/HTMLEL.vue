@@ -5,7 +5,7 @@
             <html-el-editable :value="value" ref="editableEl">
             </html-el-editable>
         </div>
-        <div v-show="!value.isEdited" class="inner-text-el">
+        <div  v-show="!value.isEdited" class="inner-text-el">
             {{ value.innerText }}
         </div>
         <slot ></slot>
@@ -34,12 +34,19 @@ export default class HTMLEL extends Vue {
 
     contextMenuName = 'cm-create-html-element123'
 
-    onMouseOver() {        
+    onMouseOver() {   
+        // console.log('over');
+        // console.log(this.value);
+        // console.log('over');
+             
         this.$emit('contentMouseOver', this.value)
 
     }
 
     onMouseOut() {
+        // console.log('out');
+        // console.log(this.value);
+        // console.log('out');
         this.$emit('contentMouseOut', this.value)
     }
 

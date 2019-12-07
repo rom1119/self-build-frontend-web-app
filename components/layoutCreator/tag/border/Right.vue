@@ -22,7 +22,6 @@ import HtmlTag from "~/src/Layout/HtmlTag";
 import Right from '~/src/Site/Right';
 import BorderRight from '../../../../src/Layout/Border/BorderRight';
 import BorderComponent from './Border.vue';
-import XPositionDetector from "~/src/PositionDetector/XPositionDetector";
 
 
 @Component

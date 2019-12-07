@@ -1,15 +1,13 @@
 <template>
 
-    <div class="stretch stretch__flex cursor-resize-to-left" >
+    <div class="stretch stretch__flex cursor-resize-to-left padding-left" >
         <border-html-context-menu :value="value"  :ref="value.uuid" />
         <div class="stretch" 
         :style="value.cssList"
          v-context-menu="value.uuid"
-            @mouseup="onMouseUp($event)" 
-            @mousedown="onMouseDown($event)"  
-            @mousemove="onMouseMove($event)" 
-            @mouseover="onMouseOver"
-            @mouseout="onMouseOut" 
+            @mousedown.stop="onMouseDown($event)"  
+            @mouseover.stop="onMouseOver"
+            @mouseout.stop="onMouseOut" 
            >
         </div>
     </div>
@@ -23,7 +21,6 @@ import Left from '~/src/Site/Left';
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderLeft from '~/src/Layout/Border/BorderLeft';
 import PaddingComponent from './Padding.vue';
-import XPositionDetector from "~/src/PositionDetector/XPositionDetector";
 
 
 @Component
@@ -31,23 +28,16 @@ export default class PaddingLeftComponent extends PaddingComponent {
 
     contextMenuName = 'cm-create-html-element123'
 
-    mouseDetector: XPositionDetector = new XPositionDetector()
-
-    getMouseDetector() {
-        return this.mouseDetector
-    }
-
-    getMouseAxisPosition(e)
-    {
-        return e.clientX
-    }
-    onMouseOver(borderComponent) {                
+    onMouseOver() {            
         super.onMouseOver(this)
-
     }
 
-    onMouseOut(borderComponent) {
+    onMouseOut() {
         super.onMouseOut(this)
+    }
+    
+    onMouseDown(ev) {
+        super.onMouseDown(this, ev)
     }
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)

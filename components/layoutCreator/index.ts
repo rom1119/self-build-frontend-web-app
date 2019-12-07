@@ -11,6 +11,7 @@ import BorderLeft from './tag/border/Left.vue'
 import BorderTop from './tag/border/Top.vue'
 import BorderBottom from './tag/border/Bottom.vue'
 
+import PaddingMainComponent from './tag/padding/Padding.vue'
 import PaddingRight from './tag/padding/Right.vue'
 import PaddingLeft from './tag/padding/Left.vue'
 import PaddingTop from './tag/padding/Top.vue'
@@ -35,6 +36,7 @@ Vue.component('border-top', BorderTop)
 Vue.component('border-bottom', BorderBottom)
 
 // Paddings
+Vue.component('padding-main-component', PaddingMainComponent)
 Vue.component('padding-right', PaddingRight)
 Vue.component('padding-left', PaddingLeft)
 Vue.component('padding-top', PaddingTop)

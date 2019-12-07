@@ -45,7 +45,9 @@ export default class BorderRight extends BorderModel {
     get cssList() : any
     {
         var baseStyles = super.cssList
+        
         let height = new Width(this.width, this.widthUnit)
+        console.log('aa',height.getValue());
         baseStyles.borderRightWidth = height.getValue()
         baseStyles.height = `none`
         baseStyles.width = `none`

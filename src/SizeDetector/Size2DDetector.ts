@@ -1,15 +1,15 @@
-import XPositionDetector from "./XPositionDetector"
-import YPositionDetector from "./YPositionDetector"
+import WidthSizeDetector from "./WidthSizeDetector"
+import HeightSizeDetector from "./HeightSizeDetector"
 
-export default class TwoDimensionalPositionDetector {
+export default class Size2DDetector {
     
-    private xPositionDetector: XPositionDetector
-    private yPositionDetector: YPositionDetector
+    private xPositionDetector: WidthSizeDetector
+    private yPositionDetector: HeightSizeDetector
 
     constructor()
     {
-        this.xPositionDetector = new XPositionDetector()
-        this.yPositionDetector = new YPositionDetector()
+        this.xPositionDetector = new WidthSizeDetector()
+        this.yPositionDetector = new HeightSizeDetector()
     }
 
     /**

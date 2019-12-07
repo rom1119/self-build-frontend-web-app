@@ -5,16 +5,14 @@ export default abstract class ActiveElController
 {
     
     private accualActiveEl: SizeActivable
-    protected timeout
-    protected mouseDown
 
     public updateActiveEl(elToActive: SizeActivable) 
     {
         if (this.accualActiveEl) {
             // @ts-ignore
-            if (this.accualActiveEl.equals(elToActive)) {
-                return
-            }
+            // if (this.accualActiveEl.equals(elToActive)) {
+            //     return
+            // }
             this.deactiveEl(elToActive)
         }
 
@@ -29,9 +27,5 @@ export default abstract class ActiveElController
         }
     }
 
-    public abstract mouseDownHandler(source: any)
-    public abstract mouseUpHandler(ev: MouseEvent)
-    public abstract mouseMoveHandler(ev: MouseEvent)
-    public abstract hasActiveEl() : boolean
 
 }

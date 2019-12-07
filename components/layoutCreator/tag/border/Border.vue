@@ -4,7 +4,6 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import Left from '~/src/Site/Left';
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
-import XPositionDetector from '~/src/PositionDetector/XPositionDetector';
 import ActiveElController from "~/src/ActiveElController";
 import AxisPositionDetector from '../../../../src/AxisPositionDetector';
 
@@ -36,20 +35,14 @@ export default abstract class BorderComponent extends Vue {
     {
         borderComponent.$emit('borderMouseDown', ev)
     }
-    
-    
 
     public onMouseUp(e: MouseEvent)
     {
         // console.log('qweqrewty');
-        
-        
     }
 
     public onMouseMove(e: MouseEvent)
     {
-        
-        
 
     }
     created() {

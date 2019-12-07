@@ -8,6 +8,7 @@ import Right from "~/src/Site/Right";
 import Percent from "~/src/Unit/Size/Percent";
 import Width from "~/src/Css/Size/Width";
 import Height from '../../Css/Size/Height';
+import HtmlTag from "../HtmlTag";
 
 
 export default class PaddingRight extends PaddingModel {
@@ -15,9 +16,9 @@ export default class PaddingRight extends PaddingModel {
     protected _height: number = 100
     // protected _float: string = 'left';
 
-    constructor()
+    constructor(tag: HtmlTag)
     {
-        super()
+        super(tag)
         this._color = this._initialColor
     }
     get widthUnit(): UnitSize {

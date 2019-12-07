@@ -3,6 +3,7 @@ import Pixel from '../../Unit/Size/Pixel';
 import PaddingModel from "./PaddingModel";
 import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
+import HtmlTag from "../HtmlTag";
 
 export default class PaddingLeft extends PaddingModel
 {
@@ -10,9 +11,9 @@ export default class PaddingLeft extends PaddingModel
     protected _height: number = 100
 
     // protected _float: string = 'left';
-    constructor()
+    constructor(tag: HtmlTag)
     {
-        super()
+        super(tag)
         this._color = this._initialColor
     }
 
@@ -38,10 +39,10 @@ export default class PaddingLeft extends PaddingModel
     get cssList() : any
     {
         var baseStyles = super.cssList
-        let height = new Width(this.width, this.widthUnit)
+        let width = new Width(this.width, this.widthUnit)
 
-        baseStyles.height = `none`
-        baseStyles.width = `none`
+        baseStyles.height = `100%`
+        baseStyles.width = width.getValue()
         return baseStyles
     }
 
