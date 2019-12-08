@@ -60,6 +60,7 @@ module.exports = {
         // {src: '@/plugins/loadingDialog', ssr: false},
         {src: '@/plugins/modals/textManageModal', ssr: false},
         {src: '@/plugins/modals/backgroundManageModal', ssr: false},
+        {src: '@/plugins/modals/borderManageModal', ssr: false},
         // {src: '@/plugins/confirmDialog', ssr: false},
         {src: '@/plugins/axiosFileDownload', ssr: false},
         {src: '@/plugins/VueUploadComponent', ssr: false},

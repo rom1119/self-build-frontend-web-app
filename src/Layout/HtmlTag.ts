@@ -8,7 +8,7 @@ import Named from "../Unit/Color/Named";
 import SizeActivable from "../SizeActivable";
 import BorderModel from "./Border/BorderModel";
 import CssPropertyAccessor from '../Css/CssPropertyAccessor';
-import DefaultCssPropertyAccessor from "../Css/PropertyAccessor/DefaultCssPropertyAccessor";
+import DefaultCssPropertyAccessor from "../Css/PropertyAccessor/ContentElCssPropertyAccessor";
 import Width from '../Css/Size/Width';
 import Height from "../Css/Size/Height";
 import BackgroundColor from "../Css/Background/BackgroundColor";
@@ -46,66 +46,31 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     marginLeft: MarginModel
     marginRight: MarginModel
     
-    protected sizeActive = false
     protected _isEdited = false
     protected _width = 100
     protected _height = 100
     protected initialBackgroundColor = 'red'
     private _backgroundColor = this.initialBackgroundColor;
     private _initialColorUnit: UnitColor = new Named();
-    private _colorUnit: UnitColor = this._initialColorUnit
     protected sizeUnitCurrent: UnitSize = new Pixel()
-    protected _cssPropertyAccesor: CssPropertyAccessor
-    protected _updateComponent = 0
     
-    constructor() {
+    constructor()
+    {
         super()
         this.initCssAccessor()
-        
     }
 
-    private initCssAccessor()
+    protected initCssAccessor()
     {
-        this._cssPropertyAccesor = new DefaultCssPropertyAccessor(this)
-
+        super.initCssAccessor()
+        // console.log(`%c${this._width}`, 'font-size: 20px;')
+        
         let width = new Width(this._width, this.sizeUnitCurrent)
         let height = new Height(this._height, this.sizeUnitCurrent)
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(backgroundColor)
-    }
-
-    public updateCssProperty(propName: string, val: BasePropertyCss)
-    {
-        let currentBackground = this.cssAccessor.getProperty(val.getName())
-        // console.log('bef');
-        // console.log(currentBackground.getValue());
-        // console.log(val.getValue());
-        // console.log('af');
-        if (currentBackground.getValue() == val.getValue()) {
-            // console.log('AAAAAA');
-            
-            return
-        }
-        this._cssPropertyAccesor.setNewPropertyValue(propName, val)
-        this.updateModelComponent()
-    }
-    
-    private updateModelComponent()
-    {
-        this._updateComponent++
-
-    }
-
-    get updateComponentKey()
-    {
-        return this._updateComponent
-    }
-
-    get cssAccessor(): CssPropertyAccessor
-    {
-        return this._cssPropertyAccesor
     }
 
     get width()
@@ -160,14 +125,20 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     {
         this._backgroundColor = this.initialBackgroundColor
     }
+    
+    private isLikeBackgroundCss(cssProp: BasePropertyCss): boolean
+    {
+        return this.cssAccessor.isPropertyLikeThis(cssProp, 'background')
+    }
 
     get cssList() : any
     {
         let css = {}
         for (const cssProp of this._cssPropertyAccesor.all) {
-            css[cssProp.getName()] = cssProp.getValue()
+            if (!this.isLikeBackgroundCss(cssProp)) {
+                css[cssProp.getName()] = cssProp.getValue()
+            }
         }    
-
         
         if (css[Width.PROP_NAME]) {
             let width = new Width(this._width, this.sizeUnitCurrent)
@@ -235,7 +206,10 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         // let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
 
         let allCssList = this.cssAccessor
+        
         let width = new Width(boxWidth, this.sizeUnitCurrent)
+        // console.log(`%c${width.getValue()}`, 'font-size: 20px;')
+
         let height = new Height(boxHeight, this.sizeUnitCurrent)
         
         allCssList.setNewPropertyValue(Width.PROP_NAME, width)
@@ -254,8 +228,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
             }
         }
-        
-
         
         return css
     }

@@ -3,13 +3,32 @@ import BasePropertyCss from './BasePropertyCss';
 import CssPropNotFound from '../Errors/CssPropNotFound';
 import CssComposite from './CssComposite';
 import Unit from '../Unit/Unit';
+import LayoutEl from '../LayoutEl';
 export default abstract class CssPropertyAccessor
 {
-    protected value: HtmlTag
+    protected value: LayoutEl
     protected cssProps: BasePropertyCss[]
-    constructor(val: HtmlTag) {
+    constructor(val: LayoutEl) {
         this.value = val
         this.cssProps = []
+    }
+
+    public isPropertyLikeThis(prop: BasePropertyCss, propNameToCompare: string): boolean
+    {
+        var lowerPropName = prop.getName().toLowerCase()
+        var lowerPropNameToCompare = propNameToCompare.toLowerCase()
+
+        var regex = new RegExp(lowerPropNameToCompare,"g")
+        // var re = new RegExp(replace,"g");
+
+        // console.log(str);
+        // console.log(regex);
+        // console.log(catName.match(regex));
+        
+        if (lowerPropName.match(regex)) {
+            return true
+        }
+        return false
     }
 
     public getAll(): BasePropertyCss[]
@@ -86,7 +105,6 @@ export default abstract class CssPropertyAccessor
 
     public getProperty(name: string): BasePropertyCss
     {
-        
         
         let prop = null
         for (const el of this.getAll()) {

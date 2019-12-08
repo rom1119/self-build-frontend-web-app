@@ -19,6 +19,17 @@ export default class MarginTop extends MarginModel
     {
         super(tag)
         this._color = this._initialColor
+        this.initCssAccessor()
+
+    }
+
+    protected initCssAccessor()
+    {
+        super.initCssAccessor()
+        let width = new Width(100, new Percent())
+        let height = new Height(this.height, this.heightUnit)
+        this._cssPropertyAccesor.addNewProperty(width)
+        this._cssPropertyAccesor.addNewProperty(height)
     }
 
     get widthUnit(): UnitSize {
@@ -41,13 +52,17 @@ export default class MarginTop extends MarginModel
 
     get cssList() : any
     {
-        var baseStyles = super.cssList
-        let width = new Width(100, this.widthUnit)
+        let css = super.cssList
+        let width = new Width(100, new Percent())
         let height = new Height(this.height, this.heightUnit)
-        baseStyles.height = height.getValue()
-        baseStyles.width = width.getValue()
+        this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
+        this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
 
-        return baseStyles
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            css[cssProp.getName()] = cssProp.getValue()
+        } 
+        
+        return css
     }
     
 

@@ -8,6 +8,10 @@ import Left from '~/src/Site/Left';
 import BorderModel from "./BorderModel";
 import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
+import BorderColor from "~/src/Css/Border/BorderColor";
+import BorderStyle from "~/src/Css/Border/BorderStyle";
+import Height from "~/src/Css/Size/Height";
+import BorderLeftWidth from "~/src/Css/Border/BorderLeftWidth";
 
 export default class BorderLeft extends BorderModel
 {
@@ -20,6 +24,18 @@ export default class BorderLeft extends BorderModel
     {
         super()
         this._color = this._initialColor
+        this.initCssAccessor()
+    }
+
+    protected initCssAccessor()
+    {
+        super.initCssAccessor()
+        let width = new Width('none', new Named())
+        let height = new Height('none', new Named())
+        let borderWidth = new BorderLeftWidth(this.width, this.widthUnit)
+        this._cssPropertyAccesor.addNewProperty(width)
+        this._cssPropertyAccesor.addNewProperty(height)
+        this._cssPropertyAccesor.addNewProperty(borderWidth)
     }
 
     get widthUnit(): UnitSize {
@@ -43,13 +59,19 @@ export default class BorderLeft extends BorderModel
 
     get cssList() : any
     {
-        var baseStyles = super.cssList
-        let height = new Width(this.width, this.widthUnit)
+        let css = super.cssList
+        let width = new Width('none', new Named())
+        let height = new Height('none', new Named())
+        let borderWidth = new BorderLeftWidth(this.width, this.widthUnit)
+        this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
+        this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
+        this._cssPropertyAccesor.setNewPropertyValue(BorderLeftWidth.PROP_NAME, borderWidth)
 
-        baseStyles.borderLeftWidth = height.getValue()
-        baseStyles.height = `none`
-        baseStyles.width = `none`
-        return baseStyles
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            css[cssProp.getName()] = cssProp.getValue()
+        } 
+        
+        return css
     }
 
 }

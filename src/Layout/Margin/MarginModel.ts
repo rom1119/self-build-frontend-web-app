@@ -32,6 +32,17 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
         super()
         this._color = this._initialColor
         this.htmlTag = tag
+        this.initCssAccessor()
+
+    }
+
+    protected initCssAccessor()
+    {
+        super.initCssAccessor()
+  
+        let background = new BackgroundColor(this._color, new RGBA())
+        this._cssPropertyAccesor.addNewProperty(background)
+        // this._cssPropertyAccesor.addNewProperty(borderWidth)
     }
 
     public toString(): string
@@ -94,12 +105,19 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
 
     get cssList() : any
     {
-        let background = new BackgroundColor(this._color, new RGBA())
-
-        return { 
-            backgroundColor: background.getValue(),
-
+        
+        let css = {}
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            css[cssProp.getName()] = cssProp.getValue()
+        } 
+        
+        if (css[BackgroundColor.PROP_NAME]) {
+            let borderColor = new BackgroundColor(this._color, new RGBA())
+            this._cssPropertyAccesor.setNewPropertyValue(BackgroundColor.PROP_NAME, borderColor)
+            css[BackgroundColor.PROP_NAME] = borderColor.getValue()
         }
+
+        return css
     }
   
 }

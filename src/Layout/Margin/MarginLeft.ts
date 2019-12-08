@@ -4,6 +4,7 @@ import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
 import HtmlTag from "../HtmlTag";
 import MarginModel from "./MarginModel";
+import Height from "~/src/Css/Size/Height";
 
 export default class MarginLeft extends MarginModel
 {
@@ -15,6 +16,17 @@ export default class MarginLeft extends MarginModel
     {
         super(tag)
         this._color = this._initialColor
+        this.initCssAccessor()
+
+    }
+
+    protected initCssAccessor()
+    {
+        super.initCssAccessor()
+        let width = new Width(this.width, this.widthUnit)
+        let height = new Height(100, new Percent())
+        this._cssPropertyAccesor.addNewProperty(width)
+        this._cssPropertyAccesor.addNewProperty(height)
     }
 
     get widthUnit(): UnitSize {
@@ -38,12 +50,17 @@ export default class MarginLeft extends MarginModel
 
     get cssList() : any
     {
-        var baseStyles = super.cssList
+        let css = super.cssList
         let width = new Width(this.width, this.widthUnit)
+        let height = new Height(100, new Percent())
+        this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
+        this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
 
-        baseStyles.height = `100%`
-        baseStyles.width = width.getValue()
-        return baseStyles
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            css[cssProp.getName()] = cssProp.getValue()
+        } 
+        
+        return css
     }
 
 }

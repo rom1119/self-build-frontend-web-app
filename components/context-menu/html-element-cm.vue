@@ -16,8 +16,9 @@
                 <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
 
            
-                <context-menu-item :action="showTextCssModal">Text</context-menu-item>
-                <context-menu-item :action="showBackgroundCssModal">Tło</context-menu-item>
+                <context-menu-item :action="showTextCssModal">Font</context-menu-item>
+                <context-menu-item :action="showBackgroundCssModal">Background</context-menu-item>
+                <context-menu-item :action="showBorderCssModal">Border</context-menu-item>
 
     </context-menu>
 </template>
@@ -56,6 +57,11 @@ export default class HtmlElementContextMenu extends Vue {
     showBackgroundCssModal()
     {
         this.$backgroundManageModal.show(this.htmlTagModel)
+    }
+    
+    showBorderCssModal()
+    {
+        this.$borderManageModal.show(this.htmlTagModel)
     }
 
     createPElement(target, cm, a) {

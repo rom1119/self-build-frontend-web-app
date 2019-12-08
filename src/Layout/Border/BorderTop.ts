@@ -9,6 +9,9 @@ import BorderModel from "./BorderModel";
 import Percent from '../../Unit/Size/Percent';
 import Top from '../../Site/Top';
 import Width from "~/src/Css/Size/Width";
+import Height from "~/src/Css/Size/Height";
+import BorderBottomWidth from "~/src/Css/Border/BorderBottomWidth";
+import BorderTopWidth from "~/src/Css/Border/BorderTopWidth";
 
 export default class BorderTop extends BorderModel
 {
@@ -22,6 +25,19 @@ export default class BorderTop extends BorderModel
     {
         super()
         this._color = this._initialColor
+        this.initCssAccessor()
+
+    }
+
+    protected initCssAccessor()
+    {
+        super.initCssAccessor()
+        let width = new Width('100', new Percent())
+        let height = new Height('none', new Named())
+        let borderWidth = new BorderTopWidth(this.height, this.heightUnit)
+        this._cssPropertyAccesor.addNewProperty(width)
+        this._cssPropertyAccesor.addNewProperty(height)
+        this._cssPropertyAccesor.addNewProperty(borderWidth)
     }
 
     get widthUnit(): UnitSize {
@@ -44,14 +60,19 @@ export default class BorderTop extends BorderModel
 
     get cssList() : any
     {
-        var baseStyles = super.cssList
-        let height = new Width(this.height, this.heightUnit)
+        let css = super.cssList
+        let width = new Width('100', new Percent())
+        let height = new Height('none', new Named())
+        let borderWidth = new BorderTopWidth(this.height, this.heightUnit)
+        this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
+        this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
+        this._cssPropertyAccesor.setNewPropertyValue(BorderTopWidth.PROP_NAME, borderWidth)
 
-        baseStyles.borderTopWidth = height.getValue()
-        baseStyles.height = `none`
-        baseStyles.width = `100%`
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            css[cssProp.getName()] = cssProp.getValue()
+        } 
         
-        return baseStyles
+        return css
     }
     
 

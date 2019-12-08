@@ -14,7 +14,7 @@ export default abstract class CssComposite extends BasePropertyCss
         }
         var val = ''
         this.values.forEach(element => {
-            val += element
+            val += element + ' '
         });
         return val
     }

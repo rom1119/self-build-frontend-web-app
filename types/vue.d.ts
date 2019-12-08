@@ -8,6 +8,7 @@ import LoadingDialog from '~/components/LoadingDialog'
 import ConfirmDialog from '../components/ConfirmDialog'
 import TextManageModal from '~/components/modal/TextManageModal.vue'
 import BackgroundManageModal from '~/components/modal/BackgroundManageModal.vue'
+import BorderManageModal from '~/components/modal/BorderManageModal.vue'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import {Auth} from "~/types/nuxtjs-auth-module";
 
@@ -21,6 +22,7 @@ declare module 'vue/types/vue' {
         $confirmDialog: ConfirmDialog,
         $textManageModal: TextManageModal,
         $backgroundManageModal: BackgroundManageModal,
+        $borderManageModal: BorderManageModal,
         $axios: NuxtAxiosInstance,
         $auth: Auth
     }

@@ -17,7 +17,19 @@ export default class MarginRight extends MarginModel {
     {
         super(tag)
         this._color = this._initialColor
+        this.initCssAccessor()
+
     }
+
+    protected initCssAccessor()
+    {
+        super.initCssAccessor()
+        let width = new Width(this.width, this.widthUnit)
+        let height = new Height(100, new Percent())
+        this._cssPropertyAccesor.addNewProperty(width)
+        this._cssPropertyAccesor.addNewProperty(height)
+    }
+    
     get widthUnit(): UnitSize {
         return new Pixel()
     }    
@@ -42,12 +54,16 @@ export default class MarginRight extends MarginModel {
 
     get cssList() : any
     {
-        var baseStyles = super.cssList
+        let css = super.cssList
         let width = new Width(this.width, this.widthUnit)
-        let height = new Height(this.height, this.heightUnit)
-        baseStyles.height = '100%'
-        baseStyles.width = width.getValue()
+        let height = new Height(100, new Percent())
+        this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
+        this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
 
-        return baseStyles
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            css[cssProp.getName()] = cssProp.getValue()
+        } 
+        
+        return css
     }
 }

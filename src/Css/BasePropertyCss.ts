@@ -24,6 +24,7 @@ export default abstract class BasePropertyCss
     getValue(): string
     {
         if (!this.values[0]) {
+
             throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
         }
         if (!this.unit) {
