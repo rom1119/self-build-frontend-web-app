@@ -14,6 +14,7 @@ import Height from "../Css/Size/Height";
 import BackgroundColor from "../Css/Background/BackgroundColor";
 import BasePropertyCss from "../Css/BasePropertyCss";
 import PaddingModel from './Padding/PaddingModel'; 
+import MarginModel from "./Margin/MarginModel";
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
@@ -38,6 +39,12 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     paddingTop: PaddingModel
     paddingLeft: PaddingModel
     paddingRight: PaddingModel
+    
+    protected _margins: MarginModel[] = []
+    marginBottom: MarginModel
+    marginTop: MarginModel
+    marginLeft: MarginModel
+    marginRight: MarginModel
     
     protected sizeActive = false
     protected _isEdited = false
@@ -71,6 +78,16 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     public updateCssProperty(propName: string, val: BasePropertyCss)
     {
+        let currentBackground = this.cssAccessor.getProperty(val.getName())
+        // console.log('bef');
+        // console.log(currentBackground.getValue());
+        // console.log(val.getValue());
+        // console.log('af');
+        if (currentBackground.getValue() == val.getValue()) {
+            // console.log('AAAAAA');
+            
+            return
+        }
         this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         this.updateModelComponent()
     }
@@ -110,8 +127,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     //  }
 
     
-
-
     get htmlEl() {
         return this._htmlEl;
     }
@@ -126,7 +141,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
      set backgroundColor(value) {
         this._backgroundColor = value;
     }
-
 
     protected abstract getTagName(): string
 
@@ -197,18 +211,28 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let borderRightWidth = this.borderRight.borderWidth
         let borderTopWidth = this.borderTop.borderWidth
         let borderBottomWidth = this.borderBottom.borderWidth
+
         let paddingLeftWidth = this.paddingLeft.width
         let paddingRightWidth = this.paddingRight.width
         let paddingTopWidth = this.paddingTop.width
         let paddingBottomWidth = this.paddingBottom.width
         
+        let marginLeftWidth = this.marginLeft.width
+        let marginRightWidth = this.marginRight.width
+        let marginTopWidth = this.marginTop.width
+        let marginBottomWidth = this.marginBottom.width
+        
         // let paddingLeftWidth = 0
         // let paddingRightWidth = 0
         // let paddingTopWidth = 0
         // let paddingBottomWidth = 0
-        let boxWidth = borderLeftWidth + paddingLeftWidth + borderRightWidth + paddingRightWidth + this._width
-        let boxHeight = borderTopWidth + paddingTopWidth + borderBottomWidth + paddingBottomWidth + this._height
-        let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
+        let boxWidth = marginLeftWidth + borderLeftWidth + paddingLeftWidth + marginRightWidth + borderRightWidth + paddingRightWidth + this._width
+        let boxHeight = marginTopWidth + borderTopWidth + paddingTopWidth + marginBottomWidth + borderBottomWidth + paddingBottomWidth + this._height
+        if (this._backgroundColor) {
+
+        }
+
+        // let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
 
         let allCssList = this.cssAccessor
         let width = new Width(boxWidth, this.sizeUnitCurrent)
@@ -216,7 +240,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         
         allCssList.setNewPropertyValue(Width.PROP_NAME, width)
         allCssList.setNewPropertyValue(Height.PROP_NAME, height)
-        allCssList.setNewPropertyValue(BackgroundColor.PROP_NAME, backgroundColor)
+        // allCssList.setNewPropertyValue(BackgroundColor.PROP_NAME, backgroundColor)
         // console.log('AAAAA');
 
         // console.log(height.getValue());
@@ -225,13 +249,56 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let css = {}
         
         for (const cssProp of this.cssAccessor.all) {
-            css[cssProp.getName()] = cssProp.getValue()
+            if (cssProp instanceof Width || cssProp instanceof Height) {
+                css[cssProp.getName()] = cssProp.getValue()
+
+            }
         }
         
 
         
         return css
     }
+    
+    get cssContentBoxList(): any
+    {
+        if (this.sizeUnitCurrent instanceof Percent) {
+            let css = this.cssList
+                
+            return css
+            // return {
+            //     width: `${this._width}${this.sizeUnitCurrent.value}`,
+            //     height: `${this._height}${this.sizeUnitCurrent.value}`,
+            // }
+        }    
+    
+        if (this._backgroundColor) {
+
+        }
+
+        // let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
+
+        let allCssList = this.cssAccessor
+        // allCssList.setNewPropertyValue(BackgroundColor.PROP_NAME, backgroundColor)
+        // console.log('AAAAA');
+
+        // console.log(height.getValue());
+        
+        
+        let css = {}
+        
+        for (const cssProp of this.cssAccessor.all) {
+            if (!(cssProp instanceof Width) && !(cssProp instanceof Height)) {
+                css[cssProp.getName()] = cssProp.getValue()
+            }
+        }
+        
+
+        
+        return css
+    }
+
+    
     
     get innerText() : string
     {
@@ -292,6 +359,16 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     {
         this._paddings = arg
     }
+    
+    get margins(): MarginModel[]
+    {
+        return this._margins
+    }
+    
+    set margins(arg: MarginModel[])
+    {
+        this._margins = arg
+    }
 
     public blurPaddings() {
         for (const padding of this._paddings) {
@@ -301,6 +378,18 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     public focusPaddings() {
         for (const padding of this._paddings) {
             padding.focusColor()
+        }
+    }
+    
+    public blurMargins() {
+        for (const mar of this._margins) {
+            mar.blurColor()
+        }
+    }
+
+    public focusMargins() {
+        for (const mar of this._margins) {
+            mar.focusColor()
         }
     }
 

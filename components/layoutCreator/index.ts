@@ -29,14 +29,14 @@ Vue.component('html-el', HTMLEL)
 Vue.component('html-el-editable', HTMLELEditable)
 
 // Borders
-Vue.component('border-main-component', BorderMainComponent)
+// Vue.component('border-main-component', BorderMainComponent)
 Vue.component('border-right', BorderRight)
 Vue.component('border-left', BorderLeft)
 Vue.component('border-top', BorderTop)
 Vue.component('border-bottom', BorderBottom)
 
 // Paddings
-Vue.component('padding-main-component', PaddingMainComponent)
+// Vue.component('padding-main-component', PaddingMainComponent)
 Vue.component('padding-right', PaddingRight)
 Vue.component('padding-left', PaddingLeft)
 Vue.component('padding-top', PaddingTop)
@@ -44,7 +44,7 @@ Vue.component('padding-bottom', PaddingBottom)
 
 
 // Margins
-// Vue.component('margin-right', MarginRight)
-// Vue.component('margin-left', MarginLeft)
-// Vue.component('margin-top', MarginTop)
-// Vue.component('margin-bottom', MarginBottom)
+Vue.component('margin-right', MarginRight)
+Vue.component('margin-left', MarginLeft)
+Vue.component('margin-top', MarginTop)
+Vue.component('margin-bottom', MarginBottom)

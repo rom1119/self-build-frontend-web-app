@@ -7,7 +7,7 @@ import HtmlTag from "../HtmlTag";
 
 export default class PaddingLeft extends PaddingModel
 {
-    protected _name: string = 'border-left'
+    protected _name: string = 'padding-left'
     protected _height: number = 100
 
     // protected _float: string = 'left';

@@ -39,16 +39,7 @@ export default class BorderLeftComponent extends BorderComponent {
     onMouseDown(ev) {
         super.onMouseDown(this, ev)
     }
-    onDoubleClick(e) 
-    {
-        this.value.onClick(e)
-        let compStyles = window.getComputedStyle(e.target);
-        var heightTable = compStyles.getPropertyValue('height')
 
-        // console.log(heightTable);
-            
-
-    }
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
         // console.log(this.value.styleList)

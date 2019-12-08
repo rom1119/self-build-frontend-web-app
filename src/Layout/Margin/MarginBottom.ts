@@ -1,13 +1,13 @@
 import UnitSize from "~/src/Unit/UnitSize"
 import Pixel from '../../Unit/Size/Pixel';
-import PaddingModel from "./PaddingModel";
 import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
 import HtmlTag from "../HtmlTag";
+import MarginModel from "./MarginModel";
 
-export default class PaddingBottom extends PaddingModel
+export default class MarginBottom extends MarginModel
 {
-    protected _name: string = 'padding-bottom'
+    protected _name: string = 'margin-bottom'
     // protected _width: number = 100
 
     constructor(tag: HtmlTag)

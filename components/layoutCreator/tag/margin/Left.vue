@@ -1,6 +1,13 @@
 <template>
 
-    <div class="wrapper-el" v-html="value.tag" :style="value.styleList">
+    <div class="stretch stretch__flex cursor-resize-to-left margin-left" >
+        <div class="stretch" 
+            :style="value.cssList"
+            @mousedown.stop="onMouseDown($event)"  
+            @mouseover.stop="onMouseOver"
+            @mouseout.stop="onMouseOut" 
+           >
+        </div>
     </div>
 
 </template>
@@ -9,47 +16,24 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HtmlTag from "~/src/Layout/HtmlTag";
+import MarginComponent from "./Margin.vue";
 
 
 @Component
-export default class PaddingRightComponent extends Vue {
-
-
-    @Prop()
-    value: HtmlTag
-    protected _innerText = 'This is H1 element'
-    htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-
+export default class MarginRightComponent extends MarginComponent {
 
     contextMenuName = 'cm-create-html-element123'
 
-    createH1Element(target, cm, a) {
-        console.log(
-        )
-
-        var el = this.htmlFactory.createH1()
-        // console.log('qqqqq')
-
-        // this.children.push(el)
-
+     onMouseOver() {            
+        super.onMouseOver(this)
     }
 
-    createPElement(target, cm, a) {
-        console.log(
-        )
-        // console.log(this.$children);
-        // console.log(cm);
-        // other actions...
+    onMouseOut() {
+        super.onMouseOut(this)
     }
-    onDoubleClick(e) 
-    {
-        this.value.onDoubleClick(e)
-        let compStyles = window.getComputedStyle(e.target);
-        var heightTable = compStyles.getPropertyValue('height')
-
-        // console.log(heightTable);
-            
-
+    
+    onMouseDown(ev) {
+        super.onMouseDown(this, ev)
     }
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)

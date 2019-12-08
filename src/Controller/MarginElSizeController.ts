@@ -1,13 +1,15 @@
 import SizeElController from '~/src/SizeElController';
 import BorderModel from '../Layout/Border/BorderModel';
 import HeightSizeDetector from '../SizeDetector/HeightSizeDetector';
-import BorderLeft from '~/src/Layout/Border/BorderLeft';
-import BorderRight from '../Layout/Border/BorderRight';
 import WidthSizeDetector from '../SizeDetector/WidthSizeDetector';
 import AxisPositionDetector from '../AxisSizeDetector';
-export default class BorderElSizeController extends SizeElController
+
+import MarginModel from '../Layout/Margin/MarginModel';
+import MarginLeft from '../Layout/Margin/MarginLeft';
+import MarginRight from '../Layout/Margin/MarginRight';
+export default class MarginElSizeController extends SizeElController
 {
-    protected currentElement: BorderModel
+    protected currentElement: MarginModel
     protected mouseDetector: AxisPositionDetector
     
     public hasActiveEl(): boolean {
@@ -15,10 +17,14 @@ export default class BorderElSizeController extends SizeElController
     }
     private beforeStartMouseMove(ev: MouseEvent)
     {
-        if (this.currentElement instanceof BorderLeft || this.currentElement instanceof BorderRight) {
+        // console.log('aaa');
+        // console.log(this.currentElement);
+        // console.log('aaa');
+        if (this.currentElement instanceof MarginLeft || this.currentElement instanceof MarginRight) {
             this.mouseDetector = new WidthSizeDetector()
             this.mouseDetector.initPosition(ev.clientX)
             this.mouseDetector.initSize(this.currentElement.width)
+            
             
         } else {
             this.mouseDetector =  new HeightSizeDetector()
@@ -67,9 +73,8 @@ export default class BorderElSizeController extends SizeElController
         // console.log(e.clientX);
         this.mouseDetector.setAxisPosition(this.getMouseAxisPosition(ev)) 
         // this.getMouseDetector().y = e.clientY
-        let newVal = this.mouseDetector.computedVal()
         // console.log(this.mouseDetector.computedVal());
-        // console.log(this.currentElement);
+        let newVal = this.mouseDetector.computedVal()
         if (newVal > 0) {
             this.currentElement.initSize(newVal)
 
@@ -77,7 +82,7 @@ export default class BorderElSizeController extends SizeElController
     }
 
     private getMouseAxisPosition(ev: MouseEvent): number {
-        if (this.currentElement instanceof BorderLeft || this.currentElement instanceof BorderRight) {
+        if (this.currentElement instanceof MarginLeft || this.currentElement instanceof MarginRight) {
             return ev.clientX
         } else {
             return ev.clientY

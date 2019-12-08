@@ -1,10 +1,8 @@
 <template>
 
     <div class="stretch stretch__flex cursor-resize-to-left padding-left" >
-        <border-html-context-menu :value="value"  :ref="value.uuid" />
         <div class="stretch" 
         :style="value.cssList"
-         v-context-menu="value.uuid"
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
             @mouseout.stop="onMouseOut" 

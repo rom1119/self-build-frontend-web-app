@@ -35,6 +35,8 @@ import BorderModel from "../../src/Layout/Border/BorderModel";
 import DefaultActiveElController from '../../src/Controller/DefaultActiveElController';
 import PaddingElSizeController from '../../src/Controller/PaddingElSizeController.1';
 import PaddingModel from "~/src/Layout/Padding/PaddingModel";
+import MarginElSizeController from '../../src/Controller/MarginElSizeController';
+import MarginModel from "~/src/Layout/Margin/MarginModel";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -44,6 +46,7 @@ export default class LayoutCreatorContainer extends Vue {
     contentElSizeController: SizeElController = new ContentElSizeController()
     borderElSizeController: SizeElController = new BorderElSizeController()
     paddingElSizeController: SizeElController = new PaddingElSizeController()
+    marginElSizeController: SizeElController = new MarginElSizeController()
 
     activeElController: ActiveElController = new DefaultActiveElController()
 
@@ -69,10 +72,10 @@ export default class LayoutCreatorContainer extends Vue {
     onMouseDown(source)
     {
         let controller = this.getElSizeController('mouseDown', source.target)
-        console.log('down');
-        console.log(source.target);
-        console.log(controller);
-        console.log('down');
+        // console.log('down');
+        // console.log(source.target);
+        // console.log(controller);
+        // console.log('down');
         controller.mouseDownHandler(source)
     }
 
@@ -103,6 +106,8 @@ export default class LayoutCreatorContainer extends Vue {
             return this.borderElSizeController
         } else if (this.paddingElSizeController.hasActiveEl()) {
             return this.paddingElSizeController
+        } else if (this.marginElSizeController.hasActiveEl()) {
+            return this.marginElSizeController
         }
 
         if (el == null) {
@@ -119,6 +124,10 @@ export default class LayoutCreatorContainer extends Vue {
         
         if (el instanceof PaddingModel) {
             return this.paddingElSizeController
+        }
+        
+        if (el instanceof MarginModel) {
+            return this.marginElSizeController
         }
 
         if (el == null) {

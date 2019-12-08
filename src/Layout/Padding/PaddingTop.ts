@@ -9,7 +9,7 @@ import HtmlTag from "../HtmlTag";
 
 export default class BorderTop extends PaddingModel
 {
-    protected _name: string = 'border-top'
+    protected _name: string = 'padding-top'
     // protected _width: number = 100
 
     // protected _initialColor: string = 'aqua'
