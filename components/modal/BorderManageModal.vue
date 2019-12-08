@@ -16,13 +16,13 @@
                     Zarządzanie obramowaniem
                 </h4>
                 <ul class=" content-item__elem_container">
-                    <li class="content-item__elem" v-for="el in textAligns" :key="el">
+                    <!-- <li class="content-item__elem" v-for="el in textAligns" :key="el">
                         <label :for="'textAlign-' + el">
                             {{ el }}
                             <input type="radio" v-model="textAlign" :value="el" name="textAlign" :id="'textAlign-' + el">
 
                         </label>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="content-item">
@@ -62,10 +62,10 @@
     import BaseModal from '~/components/BaseModal.vue';
     import FontWeight from '../../src/Css/Text/FontWeight';
     import BasePropertyCss from '../../src/Css/BasePropertyCss';
-import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
-import AbstractModal from '../AbstractModal';
-import Named from '../../src/Unit/Color/Named';
-import BorderStyle from '../../src/Layout/Border/Style/BorderStyle';
+    import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
+    import AbstractModal from '../AbstractModal';
+    import Named from '../../src/Unit/Color/Named';
+    import BorderStyle from '~/src/Css/Border/BorderStyle';
 
 
     @Component
@@ -91,15 +91,15 @@ import BorderStyle from '../../src/Layout/Border/Style/BorderStyle';
             
         }
 
-        get textAlign()
-        {
-            return this.getPropertyFromModel(TextAlign.PROP_NAME)
-        }
+        // get textAlign()
+        // {
+        //     return this.getPropertyFromModel(TextAlign.PROP_NAME)
+        // }
         
-        set textAlign(newVal: string)
-        {
-            this.setPropertyToModel(new TextAlign(newVal, new Named())) 
-        }
+        // set textAlign(newVal: string)
+        // {
+        //     this.setPropertyToModel(new TextAlign(newVal, new Named())) 
+        // }
         
         get fontWeight()
         {

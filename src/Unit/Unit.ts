@@ -12,7 +12,7 @@ export default abstract class Unit extends AggregateRoot {
 
 
     /**
-     * getName
+     * getValue
      */
     public abstract getValue(val): string 
     
