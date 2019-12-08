@@ -21,7 +21,7 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
         r: 255,
         g: 255,
         b: 255,
-        a: 1
+        a: 0
     }
     protected _defaultSizeUnit = new Pixel()
     protected _defaultColorUnit = new Named()

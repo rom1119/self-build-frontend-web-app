@@ -88,9 +88,12 @@
                                     @borderMouseOut="onBorderMouseOut" 
                                     @paddingMouseOver="onPaddingMouseOver" 
                                     @paddingMouseOut="onPaddingMouseOut" 
+                                    @marginMouseOver="onMarginMouseOver" 
+                                    @marginMouseOut="onMarginMouseOut" 
                                     @contentMouseDown="onContentMouseDownChild($event)" 
                                     @borderMouseDown="onBorderMouseDownChild($event)" 
                                     @paddingMouseDown="onPaddingMouseDownChild($event)" 
+                                    @marginMouseDown="onMarginMouseDownChild($event)" 
                                     v-for="child in children" 
                                     :value="child" 
                                     :key="child.uuid"  > 
