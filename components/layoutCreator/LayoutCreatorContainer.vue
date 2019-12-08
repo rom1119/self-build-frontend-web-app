@@ -48,9 +48,9 @@ export default class LayoutCreatorContainer extends Vue {
     activeElController: ActiveElController = new DefaultActiveElController()
 
     onMouseOver(val) {
-        console.log('over');
-        console.log(val);
-        console.log('over');
+        // console.log('over');
+        // console.log(val);
+        // console.log('over');
         
         // console.log(val.innerText);
         // let controller = this.getElSizeController('mouseover', val)
@@ -60,16 +60,16 @@ export default class LayoutCreatorContainer extends Vue {
     }
 
     onMouseOut(val) {
-        console.log('out');
-        console.log(val);
-        console.log('out');
+        // console.log('out');
+        // console.log(val);
+        // console.log('out');
         this.activeElController.deactiveEl(val)
     }
 
     onMouseDown(source)
     {
         let controller = this.getElSizeController('mouseDown', source.target)
-console.log('down');
+        console.log('down');
         console.log(source.target);
         console.log(controller);
         console.log('down');

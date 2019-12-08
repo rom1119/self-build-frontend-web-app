@@ -48,7 +48,7 @@ export default class PaddingRight extends PaddingModel {
         var baseStyles = super.cssList
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.height, this.heightUnit)
-        baseStyles.height = height.getValue()
+        baseStyles.height = '100%'
         baseStyles.width = width.getValue()
 
         return baseStyles

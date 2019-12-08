@@ -18,10 +18,14 @@ export default class PaddingElSizeController extends SizeElController
     }
     private beforeStartMouseMove(ev: MouseEvent)
     {
+        // console.log('aaa');
+        // console.log(this.currentElement);
+        // console.log('aaa');
         if (this.currentElement instanceof PaddingLeft || this.currentElement instanceof PaddingRight) {
             this.mouseDetector = new WidthSizeDetector()
             this.mouseDetector.initPosition(ev.clientX)
             this.mouseDetector.initSize(this.currentElement.width)
+            
             
         } else {
             this.mouseDetector =  new HeightSizeDetector()
@@ -79,7 +83,7 @@ export default class PaddingElSizeController extends SizeElController
     }
 
     private getMouseAxisPosition(ev: MouseEvent): number {
-        if (this.currentElement instanceof BorderLeft || this.currentElement instanceof BorderRight) {
+        if (this.currentElement instanceof PaddingLeft || this.currentElement instanceof PaddingRight) {
             return ev.clientX
         } else {
             return ev.clientY
