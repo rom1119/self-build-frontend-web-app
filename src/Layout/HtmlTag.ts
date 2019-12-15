@@ -15,18 +15,22 @@ import BackgroundColor from "../Css/Background/BackgroundColor";
 import BasePropertyCss from "../Css/BasePropertyCss";
 import PaddingModel from './Padding/PaddingModel'; 
 import MarginModel from "./Margin/MarginModel";
+import BorderModelFactory from "./Border/BorderModelFactory";
+import PaddingModelFactory from "./Padding/PaddingModelFactory";
+import MarginModelFactory from "./Margin/MarginModelFactory";
+import FilterCssInjector from "../FilterCssInjector";
+import PaddingFilterCssInjector from "../FilterCssInjector/PaddingFilterCssInjector";
+import BasePaddingCss from '../Css/BoxModel/BasePadding';
+import PaddingCss from "../Css/BoxModel/Padding/PaddingCss";
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
-    
     protected _tag = 'h1'
-    protected _htmlEl
     protected _innerText: string = 'Example text from abstract HtmlTag class'
-    protected isActive = false
-    protected borderActive = false
-    protected paddingActive = false
-    protected marginActive = false
-    protected contentActive = false
+
+    borderFactory: BorderModelFactory = new BorderModelFactory()
+    paddingFactory: PaddingModelFactory = new PaddingModelFactory()
+    marginFactory: MarginModelFactory = new MarginModelFactory()
 
     protected _borders: BorderModel[] = []
     borderBottom: BorderModel
@@ -53,21 +57,83 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     private _backgroundColor = this.initialBackgroundColor;
     private _initialColorUnit: UnitColor = new Named();
     protected sizeUnitCurrent: UnitSize = new Pixel()
+
+    paddingFilter: FilterCssInjector
     
     constructor()
     {
         super()
+        this.initPaddings()
+        this.initBorders()
+        this.initMargins()
         this.initCssAccessor()
+    }
+
+    initBorders()
+    {
+        let left = this.borderFactory.createLeft()
+        let right = this.borderFactory.createRight()
+        let top = this.borderFactory.createTop()
+        let bottom = this.borderFactory.createBottom()
+
+        this.borders.push(left)
+        this.borders.push(right)
+        this.borders.push(top)
+        this.borders.push(bottom)
+        
+        this.borderBottom = bottom
+        this.borderTop = top
+        this.borderLeft = left
+        this.borderRight = right
+    }
+    
+    initPaddings()
+    {
+        let left = this.paddingFactory.createLeft(this)
+        let right = this.paddingFactory.createRight(this)
+        let top = this.paddingFactory.createTop(this)
+        let bottom = this.paddingFactory.createBottom(this)
+
+        this.paddings.push(left)
+        this.paddings.push(right)
+        this.paddings.push(top)
+        this.paddings.push(bottom)
+
+        this.paddingBottom = bottom
+        this.paddingTop = top
+        this.paddingLeft = left
+        this.paddingRight = right
+    }
+    
+    initMargins()
+    {
+        let left = this.marginFactory.createLeft(this)
+        let right = this.marginFactory.createRight(this)
+        let top = this.marginFactory.createTop(this)
+        let bottom = this.marginFactory.createBottom(this)
+
+        this.margins.push(left)
+        this.margins.push(right)
+        this.margins.push(top)
+        this.margins.push(bottom)
+
+        this.marginBottom = bottom
+        this.marginTop = top
+        this.marginLeft = left
+        this.marginRight = right
     }
 
     protected initCssAccessor()
     {
         super.initCssAccessor()
+        this.paddingFilter = new PaddingFilterCssInjector(this)
         // console.log(`%c${this._width}`, 'font-size: 20px;')
         
+        let padding = new PaddingCss('11', new Pixel())
         let width = new Width(this._width, this.sizeUnitCurrent)
         let height = new Height(this._height, this.sizeUnitCurrent)
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
+        this._cssPropertyAccesor.addNewProperty(padding)
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(backgroundColor)
@@ -78,10 +144,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         return this._width
     }
 
-    // set width(value) {
-    //     this._htmlEl = value;
-    //  }
-
     get height()
     {
         return this._height
@@ -90,15 +152,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     // set height(value) {
     //     this._height = value;
     //  }
-
-    
-    get htmlEl() {
-        return this._htmlEl;
-    }
-
-    set htmlEl(value) {
-       this._htmlEl = value;
-    }
 
     get backgroundColor() {
         return this._backgroundColor;
@@ -131,10 +184,34 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         return this.cssAccessor.isPropertyLikeThis(cssProp, 'background')
     }
 
+    // get paddingRightWidth(): number
+    // {
+        
+        //     return this.paddingRight.width
+        // }
+        
+    // set paddingRightUnit(newVal: UnitSize)
+    // {        
+    //      this.paddingRight.widthUnit = newVal
+    // }
+
+    private filterCss(css: BasePropertyCss): boolean
+    {
+        if (css instanceof BasePaddingCss) {
+            return false
+        }
+
+        return true
+
+    }
+
     get cssList() : any
     {
         let css = {}
         for (const cssProp of this._cssPropertyAccesor.all) {
+            if (!this.filterCss(cssProp)) {
+                continue
+            }
             if (!this.isLikeBackgroundCss(cssProp)) {
                 css[cssProp.getName()] = cssProp.getValue()
             }
@@ -223,6 +300,12 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let css = {}
         
         for (const cssProp of this.cssAccessor.all) {
+            if (cssProp instanceof BasePaddingCss) {
+                
+            }
+            if (!this.filterCss(cssProp)) {
+                continue
+            }
             if (cssProp instanceof Width || cssProp instanceof Height) {
                 css[cssProp.getName()] = cssProp.getValue()
 
@@ -260,6 +343,9 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let css = {}
         
         for (const cssProp of this.cssAccessor.all) {
+            if (!this.filterCss(cssProp)) {
+                continue
+            }
             if (!(cssProp instanceof Width) && !(cssProp instanceof Height)) {
                 css[cssProp.getName()] = cssProp.getValue()
             }

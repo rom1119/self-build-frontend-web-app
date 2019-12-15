@@ -73,8 +73,6 @@
         
         timeout
         // value: HtmlTag
-
-
         
         borderStyles: string[] = BorderStyle.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
@@ -112,32 +110,7 @@
             this.setPropertyToModel(new FontWeight(newVal, new Named())) 
         }
 
-        private getPropertyFromModel(prop: string)
-        {
-            if (!this.value) {
-                return ''
-            }
-            let align = this.value.cssAccessor.getProperty(prop)
-            if (align) {
-                return align.getValue()
-            }
-            return ''
-        }
-
-        private setPropertyToModel(newCssProp: BasePropertyCss)
-        {
-            if (!this.value) {
-                return ''
-            }
-            if (!this.value.cssAccessor.hasCssProperty(newCssProp.getName())) {
-                let textALign = newCssProp
-                this.value.cssAccessor.addNewProperty(textALign)
-
-            } else {
-                this.value.updateCssProperty(newCssProp.getName(), newCssProp)
-                
-            }
-        }
+        
 
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)

@@ -16,16 +16,30 @@
                     Wyrównianie tekstu
                 </h4>
                 <ul class=" content-item__elem_container">
-                    <li class="content-item__elem" v-for="el in textAligns" :key="el">
-                        <label :for="'textAlign-' + el">
-                            {{ el }}
-                            <input type="radio" v-model="textAlign" :value="el" name="textAlign" :id="'textAlign-' + el">
+                    <li class="content-item__elem" >
+                        <label for="padding-left">
+                            Padding-left
+                            <input type="number" v-model="paddingLeft" name="paddingLeft" id="padding-left">
 
                         </label>
                     </li>
+                    
+                    <li class="content-item__elem" >
+                        <label for="padding-right">
+                            Padding-right
+                            <input type="number" v-model="paddingRight" name="paddingRight" id="padding-right">
+
+                        </label>
+                    </li>
+                    <li class="content-item__elem" >
+                        Padding Unit
+                        <select name="paddingUnit" id="paddingUnit">
+                            <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit">{{ unit.name }}</option>
+                        </select>
+                    </li>
                 </ul>
             </div>
-            <div class="content-item">
+            <!-- <div class="content-item">
                 <h4 class="content-item__header">
                     Pogrubienie tekstu
                 </h4>
@@ -38,7 +52,7 @@
                         </label>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </template>
         <template slot="footer">
             <button class="to-left" @click="restore($event)">
@@ -65,19 +79,33 @@
     import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
     import AbstractModal from '../AbstractModal';
     import Named from '../../src/Unit/Color/Named';
+import UnitSize from '../../src/Unit/UnitSize';
+import Pixel from '../../src/Unit/Size/Pixel';
+import Percent from '../../src/Unit/Size/Percent';
+import EM from '../../src/Unit/Size/EM';
+import REM from '../../src/Unit/Size/REM';
+import PaddingRightCss from '../../src/Css/BoxModel/Padding/PaddingRightCss';
 
     @Component
-    export default class TextManageModal extends AbstractModal {
+    export default class BoxModelManageModal extends AbstractModal {
         
         timeout
         // value: HtmlTag
-
+        paddingMarginUnits: UnitSize[] = []
 
         
         textAligns: string[] = TextAlign.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
 
         idName = 'text-property-modal'
+
+        created()
+        {
+            this.paddingMarginUnits.push(new Pixel())
+            this.paddingMarginUnits.push(new Percent())
+            this.paddingMarginUnits.push(new EM())
+            this.paddingMarginUnits.push(new REM())
+        }
 
         get hashID(): string
         {
@@ -89,26 +117,41 @@
             
         }
 
-        get textAlign()
+        get paddingAll()
         {
             return this.getPropertyFromModel(TextAlign.PROP_NAME)
         }
         
-        set textAlign(newVal: string)
+        set paddingAll(newVal: string)
+        {
+            this.setPropertyToModel(new PaddingRightCss(newVal, new Pixel())) 
+        }
+        
+        get paddingRight()
+        {
+
+            return this.getPropertyFromModel(PaddingRightCss.PROP_NAME)
+        }
+        
+        set paddingRight(newVal: string)
+        {
+            let newProp = new PaddingRightCss(newVal, new Pixel())
+            this.value.paddingFilter.injectCssProperty(newProp)
+            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            // this.setPropertyToModel() 
+        }
+        
+        get paddingLeft()
+        {
+            return this.getPropertyFromModel(TextAlign.PROP_NAME)
+        }
+        
+        set paddingLeft(newVal: string)
         {
             this.setPropertyToModel(new TextAlign(newVal, new Named())) 
         }
         
-        get fontWeight()
-        {
-            return this.getPropertyFromModel(FontWeight.PROP_NAME)
-        }
-        
-        set fontWeight(newVal: string)
-        {
-            console.log(newVal);
-            this.setPropertyToModel(new FontWeight(newVal, new Named())) 
-        }
+
 
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)

@@ -1,8 +1,16 @@
 import BasePropertyCss from "./BasePropertyCss";
 import CssWithoutValue from "../Errors/CssWithoutValue";
+import Unit from "../Unit/Unit";
 
 export default abstract class CssComposite extends BasePropertyCss
 {
+
+    constructor(val: any, unit: Unit)
+    {
+        super(unit)
+        this.values.push(val)
+    }
+    
     addPropVal(val: string) {
         this.values.push(val)
     }
@@ -14,13 +22,28 @@ export default abstract class CssComposite extends BasePropertyCss
         }
         var val = ''
         this.values.forEach(element => {
-            val += element + ' '
+            val += this.unit.getValue(element) + ' '
         });
+        
         return val
     }
+
+    public getClearValue() {
+        var val = ''
+        this.values.forEach(element => {
+            val += element + ' '
+        });
+        
+        return val
+    }
+
     
-    public withValue(newVal)
+    public withValues(newVals: string[])
     {
-        this.value
+        this.values = []
+
+        for (var i = 0; i < newVals.length; i++) {
+            this.values.push(newVals[i])
+        }
     }
 }

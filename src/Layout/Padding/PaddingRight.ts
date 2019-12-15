@@ -13,7 +13,6 @@ import HtmlTag from "../HtmlTag";
 
 export default class PaddingRight extends PaddingModel {
     protected _name: string = 'padding-right'
-    protected _height: number = 100
     // protected _float: string = 'left';
 
     constructor(tag: HtmlTag)
@@ -32,21 +31,12 @@ export default class PaddingRight extends PaddingModel {
         this._cssPropertyAccesor.addNewProperty(height)
     }
     
-    get widthUnit(): UnitSize {
-        return new Pixel()
-    }    
-    get heightUnit(): UnitSize {
-        return new Percent()
-    }
     get width(): number {
         return this._width
     }
     
     set width(newVal: number) {
         this._width = newVal
-    }
-    get height(): number {
-        return this._height
     }
 
     get left(): string 

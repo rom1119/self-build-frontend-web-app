@@ -152,7 +152,6 @@
             @marginMouseOut="onMarginMouseOut"
             @marginMouseDown="onMarginMouseDown(marginRight, $event)"
             />
-        
     </div>
 </template>
 
@@ -175,10 +174,6 @@ import MarginModelFactory from '../../../src/Layout/Margin/MarginModelFactory';
 export default class HTMLWrapper extends Vue {
     @Prop()
     value: HtmlTag
-
-    borderFactory: BorderModelFactory = new BorderModelFactory()
-    paddingFactory: PaddingModelFactory = new PaddingModelFactory()
-    marginFactory: MarginModelFactory = new MarginModelFactory()
 
     contextMenuName = 'cm-create-html-element123'
 
@@ -429,74 +424,18 @@ export default class HTMLWrapper extends Vue {
     {
         this.value.marginTop = arg
     }
-
-    initBorders()
-    {
-        let left = this.borderFactory.createLeft()
-        let right = this.borderFactory.createRight()
-        let top = this.borderFactory.createTop()
-        let bottom = this.borderFactory.createBottom()
-
-        this.value.borders.push(left)
-        this.value.borders.push(right)
-        this.value.borders.push(top)
-        this.value.borders.push(bottom)
-        
-        this.borderBottom = bottom
-        this.borderTop = top
-        this.borderLeft = left
-        this.borderRight = right
-    }
-    
-    initPaddings()
-    {
-        let left = this.paddingFactory.createLeft(this.value)
-        let right = this.paddingFactory.createRight(this.value)
-        let top = this.paddingFactory.createTop(this.value)
-        let bottom = this.paddingFactory.createBottom(this.value)
-
-        this.value.paddings.push(left)
-        this.value.paddings.push(right)
-        this.value.paddings.push(top)
-        this.value.paddings.push(bottom)
-
-        this.paddingBottom = bottom
-        this.paddingTop = top
-        this.paddingLeft = left
-        this.paddingRight = right
-    }
-    
-    initMargins()
-    {
-        let left = this.marginFactory.createLeft(this.value)
-        let right = this.marginFactory.createRight(this.value)
-        let top = this.marginFactory.createTop(this.value)
-        let bottom = this.marginFactory.createBottom(this.value)
-
-        this.value.margins.push(left)
-        this.value.margins.push(right)
-        this.value.margins.push(top)
-        this.value.margins.push(bottom)
-
-        this.marginBottom = bottom
-        this.marginTop = top
-        this.marginLeft = left
-        this.marginRight = right
-    }
     
     created() {
         // console.log(this.value.uuid);
-        this.initPaddings()
-        this.initBorders()
-        this.initMargins()
+
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
         
     }
 
     mounted()
     {
-        var htmlEl = window.document.getElementById(this.value.uuid)
-        this.value.htmlEl = htmlEl
+        // var htmlEl = window.document.getElementById(this.value.uuid)
+        // this.value.htmlEl = htmlEl
     }
 }
 </script>

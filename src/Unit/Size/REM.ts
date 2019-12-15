@@ -1,7 +1,7 @@
 import UnitSize from "../UnitSize";
 
-export default class EM extends UnitSize {
-    protected _name: string = 'em'
+export default class REM extends UnitSize {
+    protected _name: string = 'rem'
 
 
     constructor()
@@ -11,6 +11,6 @@ export default class EM extends UnitSize {
     }
     
     public getValue(val): string {
-        return val + 'em'
+        return val + 'rem'
     }
 }

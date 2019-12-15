@@ -23,15 +23,9 @@ export default class PaddingBottom extends PaddingModel
     {
         super.initCssAccessor()
         let width = new Width(100, new Percent())
-        let height = new Height(this.height, this.heightUnit)
+        let height = new Height(this.width, this.widthUnit)
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
-    }
-    get widthUnit(): UnitSize {
-        return new Percent()
-    }    
-    get heightUnit(): UnitSize {
-        return new Pixel()
     }
     get width(): number {
         return this._width
@@ -39,9 +33,6 @@ export default class PaddingBottom extends PaddingModel
 
     set width(newVal: number) {
         this._width = newVal
-    }
-    get height(): number {
-        return this._width
     }
 
     get top(): string 
@@ -53,7 +44,7 @@ export default class PaddingBottom extends PaddingModel
     {
         let css = super.cssList
         let width = new Width(100, new Percent())
-        let height = new Height(this.height, this.heightUnit)
+        let height = new Height(this.width, this.widthUnit)
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
 

@@ -33,17 +33,25 @@ export default abstract class LayoutEl {
     public updateCssProperty(propName: string, val: BasePropertyCss)
     {
         let currentBackground = this.cssAccessor.getProperty(val.getName())
-        // console.log('bef');
-        // console.log(currentBackground.getValue());
-        // console.log(val.getValue());
-        // console.log('af');
         if (currentBackground.getValue() == val.getValue()) {
-            // console.log('AAAAAA');
-            
             return
         }
         this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         this.updateModelComponent()
+    }
+    
+    public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
+    {
+        if (!this.cssAccessor.hasCssProperty(val.getName())) {
+            this.cssAccessor.addNewProperty(val)
+
+        } else {            
+            let currentBackground = this.cssAccessor.getProperty(val.getName())
+            if (currentBackground.getValue() == val.getValue()) {
+                return
+            }
+            this._cssPropertyAccesor.setNewPropertyValue(propName, val)
+        }
     }
     
     protected updateModelComponent()

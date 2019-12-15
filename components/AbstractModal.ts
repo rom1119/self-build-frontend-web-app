@@ -34,4 +34,30 @@ export default abstract class AbstractModal extends Vue
         this.active = false
         this.value = null
     }
+
+    protected getPropertyFromModel(prop: string)
+    {
+        if (!this.value) {
+            return ''
+        }
+        let oldProp = this.value.cssAccessor.getProperty(prop)
+        if (oldProp) {
+            return oldProp.getValue()
+        }
+        return ''
+    }
+
+    protected setPropertyToModel(newCssProp: BasePropertyCss)
+    {
+        if (!this.value) {
+            return ''
+        }
+        if (!this.value.cssAccessor.hasCssProperty(newCssProp.getName())) {
+            this.value.cssAccessor.addNewProperty(newCssProp)
+
+        } else {
+            this.value.updateCssProperty(newCssProp.getName(), newCssProp)
+            
+        }
+    }
 }

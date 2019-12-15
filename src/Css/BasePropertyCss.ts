@@ -36,11 +36,16 @@ export default abstract class BasePropertyCss
 
     setValue(val: string)
     {
-        this.values[0] = val
+        this.clearValue()
+        this.values.push(val)
         // this.values.push(val)
     }
 
     public abstract getName(): string
+
+    public getClearValue() {
+        return this.values[0]
+    }
 
     public clearValue()
     {

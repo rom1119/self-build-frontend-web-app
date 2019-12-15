@@ -19,6 +19,7 @@
                 <context-menu-item :action="showTextCssModal">Font</context-menu-item>
                 <context-menu-item :action="showBackgroundCssModal">Background</context-menu-item>
                 <context-menu-item :action="showBorderCssModal">Border</context-menu-item>
+                <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
 
     </context-menu>
 </template>
@@ -62,6 +63,11 @@ export default class HtmlElementContextMenu extends Vue {
     showBorderCssModal()
     {
         this.$borderManageModal.show(this.htmlTagModel)
+    }
+    
+    showBoxModelModal()
+    {
+        this.$boxModelManageModal.show(this.htmlTagModel)
     }
 
     createPElement(target, cm, a) {

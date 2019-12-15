@@ -19,9 +19,11 @@ export default class ContentElSizeController extends SizeElController
 
     public mouseDownHandler(source: any) {
         this.mouseDown = true
-        let el = source.target
+        let el: HtmlTag = source.target
         let event = source.event
         console.log(el.toString());
+        console.log(el.cssAccessor.all);
+        // console.log(el.paddingRightWidth);
         
         clearTimeout(this.timeout)
             this.timeout = setTimeout(async () => {
@@ -52,7 +54,13 @@ export default class ContentElSizeController extends SizeElController
         // console.log(e.clientX);
         this.mouseDetector.x = ev.clientX
         this.mouseDetector.y = ev.clientY
-        this.currentElement.initSize(this.mouseDetector.computedWidth, this.mouseDetector.computedHeight)
+        let newValWidth = this.mouseDetector.computedWidth
+        let newValHeight = this.mouseDetector.computedHeight
+
+        if (newValWidth > 0 && newValHeight > 0) {
+
+            this.currentElement.initSize(newValWidth, newValHeight)
+        }
     }
 
 }

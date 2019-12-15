@@ -5,7 +5,8 @@
             <html-el-editable :value="value" ref="editableEl">
             </html-el-editable>
         </div>
-        <div  v-show="!value.isEdited" class="inner-text-el">
+        <!-- {{ value.paddingRightWidth }} -->
+        <div  v-show="!value.isEdited" :key="value.paddingRightWidth" class="inner-text-el">
             {{ value.innerText }}
         </div>
         <slot ></slot>

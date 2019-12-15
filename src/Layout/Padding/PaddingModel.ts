@@ -23,15 +23,17 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
         b: 65,
         a: 0
     }
-    protected _defaultSizeUnit = new Pixel()
+    protected _defaultSizeUnit: UnitSize = new Pixel()
     protected _defaultColorUnit = new Named()
     protected htmlTag: HtmlTag
+    widthUnit: UnitSize
 
     constructor(tag: HtmlTag)
     {
         super()
         this._color = this._initialColor
         this.htmlTag = tag
+        this.widthUnit = this._defaultSizeUnit
         this.initCssAccessor()
 
     }
@@ -58,12 +60,6 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
     {
         this._width = arg
     }
-
-    abstract get widthUnit(): UnitSize
-    abstract get heightUnit(): UnitSize
-
-    abstract get height(): number
-
     // onMouseOver(target: BorderModel) 
     // {        
     //     // console.log(this._name)

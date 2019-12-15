@@ -9,7 +9,6 @@ import Height from "~/src/Css/Size/Height";
 export default class PaddingLeft extends PaddingModel
 {
     protected _name: string = 'padding-left'
-    protected _height: number = 100
 
     // protected _float: string = 'left';
     constructor(tag: HtmlTag)
@@ -26,11 +25,7 @@ export default class PaddingLeft extends PaddingModel
         let height = new Height(100, new Percent())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
-    }
-
-    get widthUnit(): UnitSize {
-        return new Pixel()
-    }    
+    } 
     
     get width(): number {
         return this._width
@@ -40,12 +35,6 @@ export default class PaddingLeft extends PaddingModel
         this._width = newVal
     }
 
-    get height(): number {
-        return this._height
-    }
-    get heightUnit(): UnitSize {
-        return new Percent()
-    }
 
     get cssList() : any
     {
