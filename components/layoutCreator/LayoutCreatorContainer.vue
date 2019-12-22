@@ -26,7 +26,6 @@
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import HtmlTag from '../../src/Layout/HtmlTag';
 import HtmlTagFactory from '../../src/Layout/HtmlTagFactory';
-import TwoDimensionalPositionDetector from '~/src/PositionDetector/TwoDimensionalPositionDetector';
 import ActiveElController from '../../src/ActiveElController';
 import SizeElController from '../../src/SizeElController';
 import ContentElSizeController from '../../src/Controller/ContentElSizeController';

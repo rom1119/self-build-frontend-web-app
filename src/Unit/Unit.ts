@@ -15,5 +15,10 @@ export default abstract class Unit extends AggregateRoot {
      * getValue
      */
     public abstract getValue(val): string 
+
+    public equals(el: Unit): boolean
+    {
+        return this.name === el.name
+    }
     
 }

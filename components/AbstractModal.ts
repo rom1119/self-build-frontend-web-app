@@ -2,6 +2,8 @@ import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
 import HtmlTag from '~/src/Layout/HtmlTag'
 import BasePropertyCss from '~/src/Css/BasePropertyCss'
 import _ from 'lodash'
+import MoveEventController from '~/src/MoveEventController'
+import DefaultMoveEventController from '../src/Controller/DefaultMoveEventController';
 
 
 export default abstract class AbstractModal extends Vue
@@ -9,6 +11,11 @@ export default abstract class AbstractModal extends Vue
     protected active = false
     protected value: HtmlTag
     copiedCssList: BasePropertyCss[] = []
+
+    constructor()
+    {
+        super()
+    }
 
     restore(e)
     {
@@ -45,6 +52,26 @@ export default abstract class AbstractModal extends Vue
             return oldProp.getValue()
         }
         return ''
+    }
+    
+    protected getPropertyCssFromModel(prop: string)
+    {
+        if (!this.value) {
+            return null
+        }
+        return this.value.cssAccessor.getProperty(prop)
+    }
+    
+    protected getPropertyUnitFromModel(prop: string)
+    {
+        if (!this.value) {
+            return ''
+        }
+        let oldProp = this.value.cssAccessor.getProperty(prop)
+        if (oldProp) {
+            return oldProp.getUnit()
+        }
+        return null
     }
 
     protected setPropertyToModel(newCssProp: BasePropertyCss)

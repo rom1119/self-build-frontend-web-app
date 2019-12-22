@@ -20,7 +20,6 @@ import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
 import BorderComponent from './Border.vue';
-import YPositionDetector from "~/src/PositionDetector/YPositionDetector";
 
 @Component
 export default class BorderBottomComponent extends BorderComponent {

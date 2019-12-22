@@ -15,17 +15,25 @@ $minHeighFooter: 50px;
     margin-left: auto;
     border-radius: 20px;
     padding: 5px;
+    &__move {
+        height: 40px;
+        width: 100%;
+        background-color: blue;
+        cursor: move;
+    }
     &__header{
         position: relative;
         text-align: center;
         width: 100%;
-        padding: 15px 0;
+        padding: 0 0 15px;
+        
         h4 {
             font-weight: bold;
             
         }
         .close {
-            
+            position: relative;
+            top: 0;
         }
     }
     &__content{

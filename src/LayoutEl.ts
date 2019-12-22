@@ -33,7 +33,7 @@ export default abstract class LayoutEl {
     public updateCssProperty(propName: string, val: BasePropertyCss)
     {
         let currentBackground = this.cssAccessor.getProperty(val.getName())
-        if (currentBackground.getValue() == val.getValue()) {
+        if (currentBackground.getValue() == val.getValue() ) {
             return
         }
         this._cssPropertyAccesor.setNewPropertyValue(propName, val)

@@ -13,7 +13,7 @@
         <template slot="content">
             <div class="content-item">
                 <h4 class="content-item__header">
-                    Wyrównianie tekstu
+                    Wyrównanie tekstu
                 </h4>
                 <ul class=" content-item__elem_container">
                     <li class="content-item__elem" >
@@ -33,7 +33,7 @@
                     </li>
                     <li class="content-item__elem" >
                         Padding Unit
-                        <select name="paddingUnit" id="paddingUnit">
+                        <select name="paddingUnit" v-model="currentPaddingUnit" id="paddingUnit">
                             <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit">{{ unit.name }}</option>
                         </select>
                     </li>
@@ -85,6 +85,7 @@ import Percent from '../../src/Unit/Size/Percent';
 import EM from '../../src/Unit/Size/EM';
 import REM from '../../src/Unit/Size/REM';
 import PaddingRightCss from '../../src/Css/BoxModel/Padding/PaddingRightCss';
+import PaddingCss from '~/src/Css/BoxModel/Padding/PaddingCss';
 
     @Component
     export default class BoxModelManageModal extends AbstractModal {
@@ -97,6 +98,11 @@ import PaddingRightCss from '../../src/Css/BoxModel/Padding/PaddingRightCss';
         textAligns: string[] = TextAlign.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
 
+        _currentPaddingUnit: UnitSize
+        _currentMarginUnit: UnitSize
+
+
+
         idName = 'text-property-modal'
 
         created()
@@ -105,6 +111,48 @@ import PaddingRightCss from '../../src/Css/BoxModel/Padding/PaddingRightCss';
             this.paddingMarginUnits.push(new Percent())
             this.paddingMarginUnits.push(new EM())
             this.paddingMarginUnits.push(new REM())
+
+            this.currentPaddingUnit = this.paddingMarginUnits[0]
+            this.currentMarginUnit = this.paddingMarginUnits[0]
+        }
+
+        // onMouseOver() {            
+        //     this.moveController.onMouseOver(this)
+        // }
+
+        // onMouseOut() {
+        //     super.onMouseOut(this)
+        // }
+        
+        // onMouseDown(ev) {
+        //     this.moveController.onMouseDown(this, ev)
+        // }
+
+        set currentPaddingUnit(newVal: UnitSize)
+        {
+            console.log('1111111111');
+            
+            let prop = this.getPropertyCssFromModel(PaddingRightCss.PROP_NAME)
+            if (prop) {
+            console.log('222222');
+            console.log(newVal);
+                prop.setUnit(newVal)
+                this.setPropertyToModel(prop)
+                this.value.paddingFilter.injectCssProperty(prop)
+
+                this._currentPaddingUnit = prop.getUnit()
+
+            }
+        }
+        
+        get currentPaddingUnit(): UnitSize
+        {
+            let prop = this.getPropertyCssFromModel(PaddingRightCss.PROP_NAME)
+            if (prop) {
+                this._currentPaddingUnit = <UnitSize>prop.getUnit()
+
+            }
+            return this._currentPaddingUnit
         }
 
         get hashID(): string
@@ -119,7 +167,7 @@ import PaddingRightCss from '../../src/Css/BoxModel/Padding/PaddingRightCss';
 
         get paddingAll()
         {
-            return this.getPropertyFromModel(TextAlign.PROP_NAME)
+            return this.getPropertyFromModel(PaddingRightCss.PROP_NAME)
         }
         
         set paddingAll(newVal: string)

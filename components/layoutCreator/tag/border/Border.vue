@@ -5,7 +5,6 @@ import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import Left from '~/src/Site/Left';
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
 import ActiveElController from "~/src/ActiveElController";
-import AxisPositionDetector from '../../../../src/AxisPositionDetector';
 
 export default abstract class BorderComponent extends Vue {
 
