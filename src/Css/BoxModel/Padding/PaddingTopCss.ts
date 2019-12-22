@@ -1,6 +1,6 @@
 import CssComposite from '../../CssComposite';
 import CssDirectionComposite from '../../CssDirectionComposite';
-import BasePaddingCss from '../BasePadding';
+import BasePaddingCss from '../BasePaddingCss';
 
 export default class PaddingTopCss extends BasePaddingCss
 {

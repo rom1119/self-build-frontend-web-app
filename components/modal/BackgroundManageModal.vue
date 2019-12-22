@@ -143,7 +143,8 @@ interface Color {
 
         get backgroundColor()
         {
-            return this.getPropertyFromModel(BackgroundColor.PROP_NAME)
+            var prop = this.getPropertyFromModel(BackgroundColor.PROP_NAME)
+            return prop
         }
         
         set backgroundColor(newVal)

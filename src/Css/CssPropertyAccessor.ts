@@ -6,11 +6,21 @@ import Unit from '../Unit/Unit';
 import LayoutEl from '../LayoutEl';
 export default abstract class CssPropertyAccessor
 {
+    
     protected value: LayoutEl
     protected cssProps: BasePropertyCss[]
     constructor(val: LayoutEl) {
         this.value = val
         this.cssProps = []
+    }
+
+    public removePropWithName(name: string) {
+        let prop = this.getProperty(name)
+
+        let index = this.cssProps.indexOf(prop)
+        if (index !== -1) {
+            this.cssProps.splice(index, 1);
+        }
     }
 
     public isPropertyLikeThis(prop: BasePropertyCss, propNameToCompare: string): boolean

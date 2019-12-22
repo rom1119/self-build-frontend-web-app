@@ -24,6 +24,7 @@ import HtmlTag from '~/src/Layout/HtmlTag';
 import AbstractModal from './AbstractModal';
 import MoveEventController from '~/src/MoveEventController';
 import DefaultMoveEventController from '~/src/Controller/DefaultMoveEventController';
+import MouseMoveEventSource from '../src/Controller/MouseMoveEventSource';
 
 
     @Component
@@ -40,9 +41,13 @@ import DefaultMoveEventController from '~/src/Controller/DefaultMoveEventControl
 
 
         onMouseDown(ev) {
-            this.moveController.mouseDownHandler(ev)
+            var source = new MouseMoveEventSource()
+            source.event = ev
+            source.target = (<HTMLElement>ev.target).parentElement.parentElement
+            this.moveController.mouseDownHandler(source)
             this.mouseMoveHandler = (ev) => {
                 this.moveController.mouseMoveHandler(ev)
+                
             }
             
             this.mouseUpHandler = (ev) => {

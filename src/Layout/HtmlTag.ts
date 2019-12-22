@@ -20,7 +20,7 @@ import PaddingModelFactory from "./Padding/PaddingModelFactory";
 import MarginModelFactory from "./Margin/MarginModelFactory";
 import FilterCssInjector from "../FilterCssInjector";
 import PaddingFilterCssInjector from "../FilterCssInjector/PaddingFilterCssInjector";
-import BasePaddingCss from '../Css/BoxModel/BasePadding';
+import BasePaddingCss from '../Css/BoxModel/BasePaddingCss';
 import PaddingCss from "../Css/BoxModel/Padding/PaddingCss";
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
@@ -129,7 +129,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.paddingFilter = new PaddingFilterCssInjector(this)
         // console.log(`%c${this._width}`, 'font-size: 20px;')
         
-        let padding = new PaddingCss('11', new Pixel())
+        let padding = new PaddingCss('41', new Pixel())
         let width = new Width(this._width, this.sizeUnitCurrent)
         let height = new Height(this._height, this.sizeUnitCurrent)
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
@@ -137,6 +137,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(backgroundColor)
+
+        this.paddingFilter.injectCssProperty(padding)
     }
 
     get width()
@@ -301,7 +303,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         
         for (const cssProp of this.cssAccessor.all) {
             if (cssProp instanceof BasePaddingCss) {
-                
+                // this.paddingFilter.injectCssProperty(cssProp)
             }
             if (!this.filterCss(cssProp)) {
                 continue

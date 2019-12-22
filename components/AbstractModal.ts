@@ -44,10 +44,13 @@ export default abstract class AbstractModal extends Vue
 
     protected getPropertyFromModel(prop: string)
     {
+        // console.log('oldProp', oldProp);
         if (!this.value) {
             return ''
         }
+        console.log('prop', prop);
         let oldProp = this.value.cssAccessor.getProperty(prop)
+        
         if (oldProp) {
             return oldProp.getValue()
         }
@@ -65,7 +68,7 @@ export default abstract class AbstractModal extends Vue
     protected getPropertyUnitFromModel(prop: string)
     {
         if (!this.value) {
-            return ''
+            return null
         }
         let oldProp = this.value.cssAccessor.getProperty(prop)
         if (oldProp) {
@@ -77,7 +80,7 @@ export default abstract class AbstractModal extends Vue
     protected setPropertyToModel(newCssProp: BasePropertyCss)
     {
         if (!this.value) {
-            return ''
+            return false
         }
         if (!this.value.cssAccessor.hasCssProperty(newCssProp.getName())) {
             this.value.cssAccessor.addNewProperty(newCssProp)

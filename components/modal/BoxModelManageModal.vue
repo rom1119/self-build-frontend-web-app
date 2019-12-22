@@ -7,7 +7,7 @@
                 <button @click="close($event)">X</button>
             </div>
             <h4>
-                Zarządzaj tekstem
+                Zarządzaj paddingiem i marginem
             </h4>
         </template>
         <template slot="content">
@@ -15,29 +15,96 @@
                 <h4 class="content-item__header">
                     Wyrównanie tekstu
                 </h4>
-                <ul class=" content-item__elem_container">
-                    <li class="content-item__elem" >
-                        <label for="padding-left">
-                            Padding-left
-                            <input type="number" v-model="paddingLeft" name="paddingLeft" id="padding-left">
-
-                        </label>
-                    </li>
-                    
-                    <li class="content-item__elem" >
-                        <label for="padding-right">
+                <div class=" content-item__elem_container">
+                    <!-- <div class="content-item__elem content-item__elem-4" >
+                        <div class="item">
                             Padding-right
-                            <input type="number" v-model="paddingRight" name="paddingRight" id="padding-right">
 
-                        </label>
-                    </li>
-                    <li class="content-item__elem" >
-                        Padding Unit
-                        <select name="paddingUnit" v-model="currentPaddingUnit" id="paddingUnit">
+                        </div>
+                        <div class="item">
+                            <input type="checkbox" v-model="hasPaddingTop" name="hasPaddingTop" id="padding-top-check">
+
+                        </div>
+                        <div class="item" >
+                            Value
+                            <input class="item" type="number" v-model="paddingTop" name="paddingTop" id="padding-top">
+
+                        </div>
+                        <div class="item">
+                            Unit
+                        </div> 
+                        <select name="paddingUnitTop" class="item" v-model="paddingUnitTop" id="paddingUnitTop">
                             <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit">{{ unit.name }}</option>
                         </select>
-                    </li>
-                </ul>
+                    </div>
+                    
+                    <div class="content-item__elem content-item__elem-4" >
+                        <div class="item">
+                            Padding-right
+
+                        </div>
+                        <div class="item">
+                            <input type="checkbox" v-model="hasPaddingRight" name="hasPaddingRight" id="padding-right-check">
+
+                        </div>
+                        <div class="item" >
+                            Value
+                            <input class="item" type="number" v-model="paddingRight" name="paddingRight" id="padding-right">
+
+                        </div>
+                        <div class="item">
+                            Unit
+                        </div> 
+                        <select name="paddingUnitRight" class="item" v-model="paddingUnitRight" id="paddingUnitRight">
+                            <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit">{{ unit.name }}</option>
+                        </select>
+                    </div>
+                    
+                    <div class="content-item__elem content-item__elem-4" >
+                        <div class="item">
+                            Padding-bottom
+
+                        </div>
+                        <div class="item">
+                            <input type="checkbox" v-model="hasPaddingBottom" name="hasPaddingBottom" id="padding-bottom-check">
+
+                        </div>
+                        <div class="item" >
+                            Value
+                            <input class="item" type="number" v-model="paddingBottom" name="paddingBottom" id="padding-bottom">
+
+                        </div>
+                        <div class="item">
+                            Unit
+                        </div> 
+                        <select name="paddingUnitBottom" class="item" v-model="paddingUnitBottom" id="paddingUnitBottom">
+                            <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit">{{ unit.name }}</option>
+                        </select>
+                    </div>
+   -->
+                    <div class="content-item__elem content-item__elem-4" >
+                        <div class="item">
+                            Padding-left
+
+                        </div>
+                        <label for="padding-left" class="item">
+                            <input type="checkbox" v-model="hasPaddingLeft" name="hasPaddingLeft" id="padding-left-check">
+
+                        </label>
+                        <label class="item" for="padding-right">
+                            Value
+                            <input class="item" type="number" v-model="paddingLeft" name="paddingLeft" id="padding-left">
+
+                        </label>
+                        <div class="item">
+                            Unit
+                        </div> 
+                        <select name="paddingUnitLeft" class="item" v-model="paddingUnitLeft" id="paddingUnitLeft">
+                            <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit">{{ unit.name }}</option>
+                        </select>
+                    </div>
+                    
+                </div>
             </div>
             <!-- <div class="content-item">
                 <h4 class="content-item__header">
@@ -79,16 +146,20 @@
     import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
     import AbstractModal from '../AbstractModal';
     import Named from '../../src/Unit/Color/Named';
-import UnitSize from '../../src/Unit/UnitSize';
-import Pixel from '../../src/Unit/Size/Pixel';
-import Percent from '../../src/Unit/Size/Percent';
-import EM from '../../src/Unit/Size/EM';
-import REM from '../../src/Unit/Size/REM';
-import PaddingRightCss from '../../src/Css/BoxModel/Padding/PaddingRightCss';
-import PaddingCss from '~/src/Css/BoxModel/Padding/PaddingCss';
+    import UnitSize from '../../src/Unit/UnitSize';
+    import Pixel from '../../src/Unit/Size/Pixel';
+    import Percent from '../../src/Unit/Size/Percent';
+    import EM from '../../src/Unit/Size/EM';
+    import REM from '../../src/Unit/Size/REM';
+    import PaddingRightCss from '../../src/Css/BoxModel/Padding/PaddingRightCss';
+    import PaddingCss from '~/src/Css/BoxModel/Padding/PaddingCss';
+import PaddingLeftCss from '../../src/Css/BoxModel/Padding/PaddingLeftCss';
+import BasePaddingCss from '../../src/Css/BoxModel/BasePaddingCss';
 
     @Component
     export default class BoxModelManageModal extends AbstractModal {
+      
+      
         
         timeout
         // value: HtmlTag
@@ -100,8 +171,7 @@ import PaddingCss from '~/src/Css/BoxModel/Padding/PaddingCss';
 
         _currentPaddingUnit: UnitSize
         _currentMarginUnit: UnitSize
-
-
+        _paddingLeft
 
         idName = 'text-property-modal'
 
@@ -116,43 +186,62 @@ import PaddingCss from '~/src/Css/BoxModel/Padding/PaddingCss';
             this.currentMarginUnit = this.paddingMarginUnits[0]
         }
 
-        // onMouseOver() {            
-        //     this.moveController.onMouseOver(this)
-        // }
+        deactiveCssProp(prop: BasePaddingCss): any {
+            this.value.cssAccessor.removePropWithName(prop.getName())
+            this.value.paddingFilter.deactivateProp(prop)
+            return null
+        }
 
-        // onMouseOut() {
-        //     super.onMouseOut(this)
-        // }
-        
-        // onMouseDown(ev) {
-        //     this.moveController.onMouseDown(this, ev)
-        // }
+        activePaddingProp(prop: BasePaddingCss): any {
+            if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
+                this.value.cssAccessor.addNewProperty(prop)
 
-        set currentPaddingUnit(newVal: UnitSize)
+            }
+            console.log('activr');
+            
+            this.value.paddingFilter.activateProp(prop)
+            return prop
+        }
+
+        updateCssPropWithPadingFilter(newProp: BasePropertyCss)
+        {
+            this.value.paddingFilter.injectCssProperty(newProp)
+            console.log(newProp);
+            
+            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+        }
+
+        updateUnitInModel(unit: UnitSize)
         {
             console.log('1111111111');
             
-            let prop = this.getPropertyCssFromModel(PaddingRightCss.PROP_NAME)
+            let prop = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
             if (prop) {
             console.log('222222');
-            console.log(newVal);
-                prop.setUnit(newVal)
+            console.log(unit);
+                prop.setUnit(unit)
                 this.setPropertyToModel(prop)
                 this.value.paddingFilter.injectCssProperty(prop)
-
-                this._currentPaddingUnit = prop.getUnit()
-
             }
         }
-        
-        get currentPaddingUnit(): UnitSize
-        {
-            let prop = this.getPropertyCssFromModel(PaddingRightCss.PROP_NAME)
-            if (prop) {
-                this._currentPaddingUnit = <UnitSize>prop.getUnit()
 
+        getUnitFromPropName(name: string) 
+        {
+            let prop = this.getPropertyCssFromModel(name)
+            if (prop) {
+                return <UnitSize>prop.getUnit()
             }
-            return this._currentPaddingUnit
+            return null
+        }
+
+        set paddingUnitLeft(newVal: UnitSize)
+        {
+            this.updateUnitInModel(newVal)
+        }
+        
+        get paddingUnitLeft(): UnitSize
+        {
+            return this.getUnitFromPropName(PaddingLeftCss.PROP_NAME)
         }
 
         get hashID(): string
@@ -191,15 +280,34 @@ import PaddingCss from '~/src/Css/BoxModel/Padding/PaddingCss';
         
         get paddingLeft()
         {
-            return this.getPropertyFromModel(TextAlign.PROP_NAME)
+            this._paddingLeft = this.getPropertyFromModel(PaddingLeftCss.PROP_NAME)
+            return this._paddingLeft
         }
         
         set paddingLeft(newVal: string)
         {
-            this.setPropertyToModel(new TextAlign(newVal, new Named())) 
+            console.log('SET paddingLeft', newVal);
+            this._paddingLeft = this.updateCssPropWithPadingFilter(new PaddingLeftCss(newVal, new Pixel()))
+            
         }
         
-
+        get hasPaddingLeft(): boolean
+        {
+            // console.log('hasPaddingLeft', this.getPropertyFromModel(PaddingLeftCss.PROP_NAME).length);
+            
+            return this._paddingLeft
+        }
+        
+        set hasPaddingLeft(newVal: boolean)
+        {
+            // console.log('hasPaddingLeft', newVal);
+            if (!newVal) {
+                this._paddingLeft = this.deactiveCssProp(new PaddingLeftCss(null, null))
+            } else {
+                this._paddingLeft = this.activePaddingProp(new PaddingLeftCss(null, null))
+                
+            }
+        }
 
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)

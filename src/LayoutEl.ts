@@ -10,12 +10,13 @@ export default abstract class LayoutEl {
     protected _updateComponent = 0
 
     protected _children: LayoutEl[] = []
+    protected _active: boolean = true;
     
 
     constructor()
     {
         this._uuid = Math.floor(Math.random() * 10000000) + ''
-        this.initCssAccessor()
+        // this.initCssAccessor()
 
     }
 
@@ -24,6 +25,15 @@ export default abstract class LayoutEl {
         this._cssPropertyAccesor = new ContentElPropertyAccessor(this)
 
     }
+
+    public activate() {
+        this._active = true
+    }
+
+    public deactivate() {
+        this._active = false
+    }
+    
 
     get cssAccessor(): CssPropertyAccessor
     {
