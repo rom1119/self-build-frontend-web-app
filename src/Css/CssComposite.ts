@@ -37,6 +37,11 @@ export default abstract class CssComposite extends BasePropertyCss
         return val
     }
 
+    public amountValues(): number
+    {
+        return this.values.length
+    }
+
     
     public withValues(newVals: string[])
     {

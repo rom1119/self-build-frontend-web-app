@@ -18,12 +18,32 @@ import PaddingLeftCss from "../Css/BoxModel/Padding/PaddingLeftCss";
 
 export default class PaddingFilterCssInjector extends FilterCssInjector
 {
+    
     protected htmlTag: HtmlTag
 
     constructor(htmlTag: HtmlTag)
     {
         super()
         this.htmlTag = htmlTag
+
+    }
+
+    public createDefaultProp(propName: string): BasePropertyCss {
+        switch (propName) {
+            case PaddingLeftCss.PROP_NAME:
+                return new PaddingLeftCss(this.htmlTag.paddingLeft.width, this.htmlTag.paddingLeft.widthUnit)
+            case PaddingRightCss.PROP_NAME:
+                return new PaddingRightCss(this.htmlTag.paddingRight.width, this.htmlTag.paddingRight.widthUnit)
+            case PaddingTopCss.PROP_NAME:
+                return new PaddingTopCss(this.htmlTag.paddingTop.width, this.htmlTag.paddingTop.widthUnit)
+            case PaddingBottomCss.PROP_NAME:
+                return new PaddingBottomCss(this.htmlTag.paddingBottom.width, this.htmlTag.paddingBottom.widthUnit)
+            case PaddingCss.PROP_NAME:
+                return new PaddingCss(this.htmlTag.paddingLeft.width, this.htmlTag.paddingLeft.widthUnit)
+        }
+
+        throw Error(`Can not create Default Padding from property name ${propName}`)
+
 
     }
 
@@ -133,13 +153,6 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
             this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
             this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
         }
-
-        // console.log(parseInt(right.getClearValue()));
-        // console.log(right.getUnit());
-        
-        // this.htmlTag.paddingLeft.updateCssProperty(left.getName(), left)
-        // this.htmlTag.paddingTop.updateCssProperty(top.getName(), top)
-        // this.htmlTag.paddingBottom.updateCssProperty(bottom.getName(), bottom)
     }
     
 }

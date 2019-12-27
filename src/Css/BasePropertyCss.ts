@@ -4,6 +4,7 @@ export default abstract class BasePropertyCss
 {
     protected values: string[]
     protected unit: Unit
+    protected _active = true
 
     constructor(unit: Unit)
     {
@@ -24,8 +25,8 @@ export default abstract class BasePropertyCss
     getValue(): string
     {
         if (!this.values[0]) {
-
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+            if (this.values[0].toString().length < 1)
+                throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
         }
         if (!this.unit) {
             throw new Error(`CSS property ${this.getName()} not have set Unit` )
@@ -57,6 +58,21 @@ export default abstract class BasePropertyCss
     public equals(el: BasePropertyCss): boolean
     {
         return el.getName() === this.getName()
+    }
+
+    public isActive()
+    {
+        return this._active === true
+    }
+
+    public setActive(val: boolean)
+    {
+        this._active = val
+    }
+
+    public getActive()
+    {
+        return this._active
     }
 
 }

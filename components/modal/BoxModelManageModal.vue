@@ -94,13 +94,37 @@
                         <label class="item" for="padding-right">
                             Value
                             <input class="item" type="number" v-model="paddingLeft" name="paddingLeft" id="padding-left">
-
                         </label>
                         <div class="item">
                             Unit
                         </div> 
                         <select name="paddingUnitLeft" class="item" v-model="paddingUnitLeft" id="paddingUnitLeft">
-                            <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit">{{ unit.name }}</option>
+                            <option disabled value="">Please select one</option>
+                            <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
+                        </select>
+                    </div>
+                    
+                </div>
+                <div class=" content-item__elem_container">
+                    <div class="content-item__elem content-item__elem-4" >
+                        <div class="item">
+                            Padding-global
+
+                        </div>
+                        <label for="padding-global" class="item">
+                            <input type="checkbox" v-model="hasPaddingGlobal" name="hasPaddingGlobal" id="padding-global-check">
+
+                        </label>
+                        <label class="item" for="padding-global">
+                            Value
+                            <input class="item" type="number" v-model="paddingGlobal" name="paddingGlobal" id="padding-global">
+                        </label>
+                        <div class="item">
+                            Unit
+                        </div> 
+                        <select name="paddingUnitGlobal" class="item" v-model="paddingUnitGlobal" id="paddingUnitGlobal">
+                            <option disabled value="">Please select one</option>
+                            <option v-for="unit in paddingMarginUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
                         </select>
                     </div>
                     
@@ -155,11 +179,19 @@
     import PaddingCss from '~/src/Css/BoxModel/Padding/PaddingCss';
 import PaddingLeftCss from '../../src/Css/BoxModel/Padding/PaddingLeftCss';
 import BasePaddingCss from '../../src/Css/BoxModel/BasePaddingCss';
+import FetcherRealCssProp from '../../src/FetcherRealCssProp';
+import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetcher';
 
     @Component
     export default class BoxModelManageModal extends AbstractModal {
       
-      
+        DEFAULT_PADDING = 30
+        DEFAULT_PADDING_UNIT = new Percent()
+        paddingLeftData = new PaddingLeftCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
+        
+        paddingGlobalData = new PaddingCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
+
+        paddingRealFetcher: FetcherRealCssProp
         
         timeout
         // value: HtmlTag
@@ -168,10 +200,7 @@ import BasePaddingCss from '../../src/Css/BoxModel/BasePaddingCss';
         
         textAligns: string[] = TextAlign.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
-
-        _currentPaddingUnit: UnitSize
-        _currentMarginUnit: UnitSize
-        _paddingLeft
+        // _paddingLeft: BasePaddingCss
 
         idName = 'text-property-modal'
 
@@ -184,6 +213,54 @@ import BasePaddingCss from '../../src/Css/BoxModel/BasePaddingCss';
 
             this.currentPaddingUnit = this.paddingMarginUnits[0]
             this.currentMarginUnit = this.paddingMarginUnits[0]
+        }
+
+        createDefaultPaddingProp()
+        {
+
+        }
+
+        show(val: HtmlTag){
+            super.show(val)
+            this.paddingRealFetcher = new PaddingRealCssFetcher(this.value)
+            
+        }
+
+        initPaddings()
+        {
+            var propLeft = this.getPropertyFromModel(PaddingLeftCss.PROP_NAME)
+            var propGlobal = this.getPropertyFromModel(PaddingCss.PROP_NAME)
+            if (propLeft) {
+                this.paddingLeftData.setActive(true)
+            } else {
+                console.log('9999999')
+                this.paddingLeftData.setActive(false)
+            }
+            
+            if (propGlobal) {
+                this.paddingGlobalData.setActive(true)
+            } else {
+                console.log('9999999')
+                this.paddingGlobalData.setActive(false)
+            }
+            this.paddingLeftData.setValue(this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME))
+            this.paddingGlobalData.setValue(this.paddingRealFetcher.fetchPropValue(PaddingCss.PROP_NAME))
+        }
+
+
+        getCurrentValueCssProp(){
+            var prop = this.getPropertyFromModel(PaddingLeftCss.PROP_NAME)
+        }
+
+        getUnitByName(unitName: string): UnitSize
+        {
+            for (const unit of this.paddingMarginUnits) {
+                if (unit.name === unitName) {
+                    return unit
+                }
+            }
+
+            return null
         }
 
         deactiveCssProp(prop: BasePaddingCss): any {
@@ -209,6 +286,8 @@ import BasePaddingCss from '../../src/Css/BoxModel/BasePaddingCss';
             console.log(newProp);
             
             this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+
+            return newProp.getClearValue()
         }
 
         updateUnitInModel(unit: UnitSize)
@@ -233,78 +312,147 @@ import BasePaddingCss from '../../src/Css/BoxModel/BasePaddingCss';
             }
             return null
         }
-
-        set paddingUnitLeft(newVal: UnitSize)
-        {
-            this.updateUnitInModel(newVal)
-        }
-        
-        get paddingUnitLeft(): UnitSize
-        {
-            return this.getUnitFromPropName(PaddingLeftCss.PROP_NAME)
-        }
-
-        get hashID(): string
-        {
-            return this.idName
-        }
-
-        async mounted()
-        {
-            
-        }
-
-        get paddingAll()
-        {
-            return this.getPropertyFromModel(PaddingRightCss.PROP_NAME)
-        }
-        
-        set paddingAll(newVal: string)
-        {
-            this.setPropertyToModel(new PaddingRightCss(newVal, new Pixel())) 
-        }
         
         get paddingRight()
         {
-
+            
             return this.getPropertyFromModel(PaddingRightCss.PROP_NAME)
         }
         
         set paddingRight(newVal: string)
         {
+            
             let newProp = new PaddingRightCss(newVal, new Pixel())
             this.value.paddingFilter.injectCssProperty(newProp)
             this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
             // this.setPropertyToModel() 
         }
-        
-        get paddingLeft()
+
+        set paddingUnitLeft(newVal: string)
         {
-            this._paddingLeft = this.getPropertyFromModel(PaddingLeftCss.PROP_NAME)
-            return this._paddingLeft
+            console.log('SET paddingUnitLeft', newVal);
+            var newUnit = this.getUnitByName(newVal)
+            this.updateUnitInModel(newUnit)
+            this.paddingLeftData.setUnit(newUnit)
         }
         
-        set paddingLeft(newVal: string)
+        get paddingUnitLeft(): string
         {
-            console.log('SET paddingLeft', newVal);
-            this._paddingLeft = this.updateCssPropWithPadingFilter(new PaddingLeftCss(newVal, new Pixel()))
+            console.log('GET paddingUnitLeft', this.paddingLeftData.getUnit());
+
+            return this.paddingLeftData.getUnit().name
+        }
+        
+        get paddingLeft(): number
+        {
+            // this._paddingLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
+            console.log('GET paddingLeft', this.paddingLeftData.getClearValue());
+            // console.log(this._paddingLeft.getClearValue().toString());
+            var v = this.paddingLeftData.getClearValue()
+            
+            return parseInt(v)
+        }
+        
+        set paddingLeft(newVal: number)
+        {
+            if (!this.paddingLeftData.isActive()) {
+                return
+            }
+            var a = this.updateCssPropWithPadingFilter(new PaddingLeftCss(newVal, new Pixel()))
+            console.log('SET paddingLeft', a);
+            // this._paddingLeft = null
+            this.paddingLeftData.setValue(a)
+            console.log(this.paddingLeftData);
             
         }
         
         get hasPaddingLeft(): boolean
         {
-            // console.log('hasPaddingLeft', this.getPropertyFromModel(PaddingLeftCss.PROP_NAME).length);
+            console.log('hasPaddingLeft', this.paddingLeftData.getUnit());
+            console.log(this.paddingLeftData);
             
-            return this._paddingLeft
+            return  this.paddingLeftData.getActive()
         }
         
         set hasPaddingLeft(newVal: boolean)
         {
             // console.log('hasPaddingLeft', newVal);
             if (!newVal) {
-                this._paddingLeft = this.deactiveCssProp(new PaddingLeftCss(null, null))
+                console.log('FALSE');
+                
+                this.paddingLeftData.setActive(false)
+                this.deactiveCssProp(new PaddingLeftCss(null, null))
             } else {
-                this._paddingLeft = this.activePaddingProp(new PaddingLeftCss(null, null))
+                console.log('TRUE');
+                this.paddingLeftData.setActive(true)
+                let defaultPadding = this.paddingLeftData
+
+                this.activePaddingProp(defaultPadding)
+                
+            }
+        }
+        
+        
+        set paddingUnitGlobal(newVal: string)
+        {
+            console.log('SET paddingUnitGlobal', newVal);
+            var newUnit = this.getUnitByName(newVal)
+            this.updateUnitInModel(newUnit)
+            this.paddingGlobalData.setUnit(newUnit)
+        }
+        
+        get paddingUnitLeft(): string
+        {
+            console.log('GET paddingUnitLeft', this.paddingLeftData.getUnit());
+
+            return this.paddingLeftData.getUnit().name
+        }
+        
+        get paddingLeft(): number
+        {
+            // this._paddingLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
+            console.log('GET paddingLeft', this.paddingLeftData.getClearValue());
+            // console.log(this._paddingLeft.getClearValue().toString());
+            var v = this.paddingLeftData.getClearValue()
+            
+            return parseInt(v)
+        }
+        
+        set paddingLeft(newVal: number)
+        {
+            if (!this.paddingLeftData.isActive()) {
+                return
+            }
+            var a = this.updateCssPropWithPadingFilter(new PaddingLeftCss(newVal, new Pixel()))
+            console.log('SET paddingLeft', a);
+            // this._paddingLeft = null
+            this.paddingLeftData.setValue(a)
+            console.log(this.paddingLeftData);
+            
+        }
+        
+        get hasPaddingLeft(): boolean
+        {
+            console.log('hasPaddingLeft', this.paddingLeftData.getUnit());
+            console.log(this.paddingLeftData);
+            
+            return  this.paddingLeftData.getActive()
+        }
+        
+        set hasPaddingLeft(newVal: boolean)
+        {
+            // console.log('hasPaddingLeft', newVal);
+            if (!newVal) {
+                console.log('FALSE');
+                
+                this.paddingLeftData.setActive(false)
+                this.deactiveCssProp(new PaddingLeftCss(null, null))
+            } else {
+                console.log('TRUE');
+                this.paddingLeftData.setActive(true)
+                let defaultPadding = this.paddingLeftData
+
+                this.activePaddingProp(defaultPadding)
                 
             }
         }
