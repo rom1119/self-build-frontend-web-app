@@ -21,6 +21,7 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
     
     protected htmlTag: HtmlTag
 
+
     constructor(htmlTag: HtmlTag)
     {
         super()

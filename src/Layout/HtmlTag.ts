@@ -22,6 +22,10 @@ import FilterCssInjector from "../FilterCssInjector";
 import PaddingFilterCssInjector from "../FilterCssInjector/PaddingFilterCssInjector";
 import BasePaddingCss from '../Css/BoxModel/BasePaddingCss';
 import PaddingCss from "../Css/BoxModel/Padding/PaddingCss";
+import FontSize from '../Css/Text/FontSize';
+import PaddingLeftCss from '../Css/BoxModel/Padding/PaddingLeftCss';
+import FetcherRealCssProp from "../FetcherRealCssProp";
+import PaddingRealCssFetcher from "../Css/RealCssProp/PadingRealCssFetcher";
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
@@ -59,6 +63,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     protected sizeUnitCurrent: UnitSize = new Pixel()
 
     paddingFilter: FilterCssInjector
+    paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     
     constructor()
     {
@@ -67,6 +72,9 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.initBorders()
         this.initMargins()
         this.initCssAccessor()
+        console.log(this.paddingRealFetcher);
+        
+
     }
 
     initBorders()
@@ -217,6 +225,10 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
             if (!this.isLikeBackgroundCss(cssProp)) {
                 css[cssProp.getName()] = cssProp.getValue()
             }
+
+            if (cssProp instanceof FontSize) {
+                this._innerText = 'Font-size: ' + cssProp.getValue()
+            }
         }    
         
         if (css[Width.PROP_NAME]) {
@@ -245,6 +257,19 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     //     }
     // }
 
+    public getComputedCssVal(prop: BasePropertyCss): string
+    {
+        console.log(prop.getName());
+        console.log(prop.getValue());
+        
+        this.getHtmlEl().style[prop.getName()] = prop.getValue()
+        var a = window.getComputedStyle(this.getHtmlEl())
+        var val = a.getPropertyValue(prop.getName())
+        this.getHtmlEl().removeAttribute('style')
+
+        return val
+    }
+
     get cssBoxList() : any
     {
         if (this.sizeUnitCurrent instanceof Percent) {
@@ -262,10 +287,33 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let borderTopWidth = this.borderTop.borderWidth
         let borderBottomWidth = this.borderBottom.borderWidth
 
-        let paddingLeftWidth = this.paddingLeft.width
-        let paddingRightWidth = this.paddingRight.width
-        let paddingTopWidth = this.paddingTop.width
-        let paddingBottomWidth = this.paddingBottom.width
+        var paddingLeftWidth, paddingRightWidth, paddingTopWidth, paddingBottomWidth
+        if (this.paddingLeft.isActive() &&  this.getHtmlEl()) {
+            // let width = this.paddingLeft.width
+            // let widthUnit = this.paddingLeft.widthUnit
+            // console.log('ALA MA');
+            // console.log(width);
+            // console.log(widthUnit);
+            // console.log('ALA MA');
+            
+            // this.getHtmlEl().style.paddingLeft = width + widthUnit.name
+            // var a = window.getComputedStyle(this.getHtmlEl())
+            // console.log(a);
+            // var prop = new PaddingLeftCss(parseInt(a.getPropertyValue('padding-left')), new Pixel())
+            // this.paddingFilter.injectCssProperty(prop)
+            // console.log(prop);
+
+            // console.log(`%c${width}`, 'font-size: 22px;')
+            // console.log(`%c${a.getPropertyValue('padding-left')}`, 'font-size: 20px;')
+
+            // paddingLeftWidth =  prop.getClearValue()
+        }
+        
+        
+        paddingLeftWidth = this.paddingLeft.isActive() ? this.paddingLeft.width : 0
+        paddingRightWidth = this.paddingRight.isActive() ? this.paddingRight.width : 0
+        paddingTopWidth = this.paddingTop.isActive() ? this.paddingTop.width : 0
+        paddingBottomWidth = this.paddingBottom.isActive() ? this.paddingBottom.width : 0
         
         let marginLeftWidth = this.marginLeft.width
         let marginRightWidth = this.marginRight.width
@@ -313,6 +361,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
             }
         }
+
+
         
         return css
     }
@@ -336,11 +386,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         // let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
 
         let allCssList = this.cssAccessor
-        // allCssList.setNewPropertyValue(BackgroundColor.PROP_NAME, backgroundColor)
-        // console.log('AAAAA');
-
-        // console.log(height.getValue());
-        
         
         let css = {}
         

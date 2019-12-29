@@ -11,6 +11,7 @@ import RGBA from '../../Unit/Color/RGBA';
 import Height from "~/src/Css/Size/Height";
 import HtmlTag from "../HtmlTag";
 import Display from '../../Css/Display/Display';
+import { Vue } from 'vue-property-decorator';
 
 export default abstract class PaddingModel extends LayoutEl implements CssList, SizeActivable
 {
@@ -22,7 +23,7 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
         r: 250,
         g: 250,
         b: 65,
-        a: 0
+        a: 0.5
     }
     protected _defaultSizeUnit: UnitSize = new Pixel()
     protected _defaultColorUnit = new Named()
@@ -102,11 +103,11 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
     }
 
     public changeAsActiveSize() {
-        this.htmlTag.focusPaddings()
+        // this.htmlTag.focusPaddings()
     }
     
     public changeAsDeactiveSize() {
-        this.htmlTag.blurPaddings()
+        // this.htmlTag.blurPaddings()
     }
     
     

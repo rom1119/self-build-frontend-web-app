@@ -4,6 +4,7 @@ import CssPropNotFound from '../Errors/CssPropNotFound';
 import CssComposite from './CssComposite';
 import Unit from '../Unit/Unit';
 import LayoutEl from '../LayoutEl';
+import Vue from 'vue';
 export default abstract class CssPropertyAccessor
 {
     
@@ -11,7 +12,8 @@ export default abstract class CssPropertyAccessor
     protected cssProps: BasePropertyCss[]
     constructor(val: LayoutEl) {
         this.value = val
-        this.cssProps = []
+        Vue.set(this, 'cssProps', [])
+
     }
 
     public removePropWithName(name: string) {
@@ -66,7 +68,7 @@ export default abstract class CssPropertyAccessor
         let index = this.cssProps.indexOf(prop)
         if (index !== -1) {
             if (this.cssProps[index].getValue() != newVal.getValue()) {
-                this.cssProps[index] = newVal;
+                this.cssProps[index].setValue(newVal.getClearValue())
 
             }
         }
@@ -82,6 +84,7 @@ export default abstract class CssPropertyAccessor
         if (!prop) {
             throw new CssPropNotFound(`Property with name ${propName} not exist in this HTML ELEMENT ${this.toString()}`)
         }
+
         // prop.clearValue()
         if (prop instanceof CssComposite) {
             prop.addPropVal(val.getValue())
@@ -97,8 +100,11 @@ export default abstract class CssPropertyAccessor
         if (prop) {
             throw new CssPropNotFound(`Property with name ${newProp.getName()} has exist in this HTML ELEMENT ${this.toString()} you can not add two the same css property`)
         }
+        Vue.set(this.cssProps, this.cssProps.length, newProp)
+        console.log(this.cssProps);
+        
         // prop.clearValue()
-        this.cssProps.push(newProp)
+        // this.cssProps.push(newProp)
 
         return this
     }

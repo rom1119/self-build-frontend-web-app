@@ -53,10 +53,6 @@ export default class LayoutCreatorContainer extends Vue {
         // console.log('over');
         // console.log(val);
         // console.log('over');
-        
-        // console.log(val.innerText);
-        // let controller = this.getElSizeController('mouseover', val)
- 
         this.activeElController.updateActiveEl(val)
 
     }

@@ -8,6 +8,7 @@ export default abstract class LayoutEl {
     protected _uuid: string;
     protected _cssPropertyAccesor: CssPropertyAccessor
     protected _updateComponent = 0
+    protected _htmlEl = null
 
     protected _children: LayoutEl[] = []
     protected _active: boolean = true;
@@ -26,6 +27,10 @@ export default abstract class LayoutEl {
 
     }
 
+    public isActive(): boolean {
+        return this._active === true
+    }
+    
     public activate() {
         this._active = true
     }
@@ -43,11 +48,19 @@ export default abstract class LayoutEl {
     public updateCssProperty(propName: string, val: BasePropertyCss)
     {
         let currentBackground = this.cssAccessor.getProperty(val.getName())
-        if (currentBackground.getValue() == val.getValue() ) {
+        // console.log(`%c$ PPPPPP`)
+        // console.log(currentBackground.getValue())
+        // console.log(val)
+        // console.log(val.getValue())
+        // console.log(currentBackground.getUnit())
+        // console.log(val.getUnit())
+        if (currentBackground.getValue() == val.getValue()) {
+  
             return
         }
         this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         this.updateModelComponent()
+
     }
     
     public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
@@ -64,7 +77,7 @@ export default abstract class LayoutEl {
         }
     }
     
-    protected updateModelComponent()
+    public updateModelComponent()
     {
         this._updateComponent++
 
@@ -104,6 +117,16 @@ export default abstract class LayoutEl {
         return this.uuid === el.uuid
     }
     
+
+    public setHtmlEl(htmlEl)
+    {
+        this._htmlEl = htmlEl
+    }
+    
+    public getHtmlEl()
+    {
+        return this._htmlEl
+    }
 
     
 }

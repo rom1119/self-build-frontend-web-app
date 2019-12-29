@@ -60,6 +60,12 @@ export default abstract class BasePropertyCss
         return el.getName() === this.getName()
     }
 
+    public clone(): BasePropertyCss {
+        var clone = Object.create(this);
+
+        return clone;
+    }
+
     public isActive()
     {
         return this._active === true

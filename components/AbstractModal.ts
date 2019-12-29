@@ -4,6 +4,8 @@ import BasePropertyCss from '~/src/Css/BasePropertyCss'
 import _ from 'lodash'
 import MoveEventController from '~/src/MoveEventController'
 import DefaultMoveEventController from '../src/Controller/DefaultMoveEventController';
+import UnitSize from '~/src/Unit/UnitSize'
+import Unit from '../src/Unit/Unit';
 
 
 export default abstract class AbstractModal extends Vue
@@ -88,6 +90,31 @@ export default abstract class AbstractModal extends Vue
         } else {
             this.value.updateCssProperty(newCssProp.getName(), newCssProp)
             
+        }
+        this.value.updateModelComponent()
+
+    }
+
+    protected getUnitByName(units: Unit[],unitName: string): UnitSize
+    {
+        for (const unit of units) {
+            if (unit.name === unitName) {
+                return unit
+            }
+        }
+
+        return null
+    }
+
+    protected updateUnitInModel(unit: UnitSize, paddingPropType: string)
+    {
+        console.log('1111111111');
+        let prop = this.getPropertyCssFromModel(paddingPropType)
+        if (prop) {
+            console.log('222222');
+            console.log(unit);
+            prop.setUnit(unit)
+            this.setPropertyToModel(prop)
         }
     }
 }

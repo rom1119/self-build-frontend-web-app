@@ -1,6 +1,9 @@
 <template>
-    <div class="wrapper" :style="value.cssBoxList" :key="value.updateComponentKey" :id="value.uuid" >
+    <div class="wrapper"   :key="value.updateComponentKey" :id="value.uuid" >
         
+        <div class="none">
+            <span :style="value.cssBoxList"  ></span>
+        </div>
         <!-- <context-menu
                 shift="both"
                 :ref="value.uuid">
@@ -430,17 +433,27 @@ export default class HTMLWrapper extends Vue {
 
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
         
+      
     }
 
     mounted()
     {
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
+        this.value.setHtmlEl(this.$el)
     }
 }
 </script>
 
 <style lang="scss">
+    .none {
+        display: none !important;
+        width: 0px !important;
+        height: 0px !important;
+        overflow: hidden !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
     .wrapper {
         display: flex;
         // display: flex;

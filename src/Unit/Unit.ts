@@ -18,6 +18,9 @@ export default abstract class Unit extends AggregateRoot {
 
     public equals(el: Unit): boolean
     {
+        if (!el) {
+            return false
+        }
         return this.name === el.name
     }
     

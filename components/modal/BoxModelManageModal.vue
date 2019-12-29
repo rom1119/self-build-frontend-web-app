@@ -181,22 +181,21 @@ import PaddingLeftCss from '../../src/Css/BoxModel/Padding/PaddingLeftCss';
 import BasePaddingCss from '../../src/Css/BoxModel/BasePaddingCss';
 import FetcherRealCssProp from '../../src/FetcherRealCssProp';
 import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetcher';
+import VW from '../../src/Unit/Size/VW';
 
     @Component
     export default class BoxModelManageModal extends AbstractModal {
       
         DEFAULT_PADDING = 30
-        DEFAULT_PADDING_UNIT = new Percent()
-        paddingLeftData = new PaddingLeftCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
-        
-        paddingGlobalData = new PaddingCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
+        DEFAULT_PADDING_UNIT = new Pixel()
+        paddingLeftData 
+        paddingGlobalData 
 
         paddingRealFetcher: FetcherRealCssProp
         
         timeout
         // value: HtmlTag
         paddingMarginUnits: UnitSize[] = []
-
         
         textAligns: string[] = TextAlign.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
@@ -208,11 +207,10 @@ import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetche
         {
             this.paddingMarginUnits.push(new Pixel())
             this.paddingMarginUnits.push(new Percent())
+            this.paddingMarginUnits.push(new VW())
             this.paddingMarginUnits.push(new EM())
             this.paddingMarginUnits.push(new REM())
 
-            this.currentPaddingUnit = this.paddingMarginUnits[0]
-            this.currentMarginUnit = this.paddingMarginUnits[0]
         }
 
         createDefaultPaddingProp()
@@ -222,29 +220,41 @@ import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetche
 
         show(val: HtmlTag){
             super.show(val)
-            this.paddingRealFetcher = new PaddingRealCssFetcher(this.value)
-            
+            this.paddingRealFetcher = this.value.paddingRealFetcher
+            this.initPaddings()
         }
 
         initPaddings()
         {
-            var propLeft = this.getPropertyFromModel(PaddingLeftCss.PROP_NAME)
-            var propGlobal = this.getPropertyFromModel(PaddingCss.PROP_NAME)
+            var propLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
+            var propGlobal = this.getPropertyCssFromModel(PaddingCss.PROP_NAME)
+            console.log(propLeft);
+            console.log(propGlobal);
+            
             if (propLeft) {
+                this.paddingLeftData = propLeft
                 this.paddingLeftData.setActive(true)
-            } else {
-                console.log('9999999')
-                this.paddingLeftData.setActive(false)
-            }
+                this.paddingLeftData.setUnit(propLeft.getUnit())
+            } 
+            // else {
+            //     console.log('9999999')
+            //     this.paddingLeftData.setActive(false)
+            // }
             
             if (propGlobal) {
-                this.paddingGlobalData.setActive(true)
-            } else {
-                console.log('9999999')
+                this.paddingGlobalData = propGlobal
                 this.paddingGlobalData.setActive(false)
+                this.paddingGlobalData.setActive(true)
+                this.paddingGlobalData.setUnit(propGlobal.getUnit())
             }
-            this.paddingLeftData.setValue(this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME))
-            this.paddingGlobalData.setValue(this.paddingRealFetcher.fetchPropValue(PaddingCss.PROP_NAME))
+            //  else {
+            //     console.log('9999999')
+            //     this.paddingGlobalData.setActive(false)
+            // }
+            // this.paddingLeftData.setValue(this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME))
+            // this.paddingGlobalData.setValue(this.paddingRealFetcher.fetchPropValue(PaddingCss.PROP_NAME))
+
+            
         }
 
 
@@ -252,18 +262,9 @@ import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetche
             var prop = this.getPropertyFromModel(PaddingLeftCss.PROP_NAME)
         }
 
-        getUnitByName(unitName: string): UnitSize
-        {
-            for (const unit of this.paddingMarginUnits) {
-                if (unit.name === unitName) {
-                    return unit
-                }
-            }
+        
 
-            return null
-        }
-
-        deactiveCssProp(prop: BasePaddingCss): any {
+        deactivePaddingProp(prop: BasePaddingCss): any {
             this.value.cssAccessor.removePropWithName(prop.getName())
             this.value.paddingFilter.deactivateProp(prop)
             return null
@@ -282,27 +283,24 @@ import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetche
 
         updateCssPropWithPadingFilter(newProp: BasePropertyCss)
         {
-            this.value.paddingFilter.injectCssProperty(newProp)
+            console.log('ALA MA');
+            let val = this.value.getComputedCssVal(newProp)
+            let clonedCss = newProp.clone()
+            clonedCss.setValue(parseInt(val).toString())
+            clonedCss.setUnit(new Pixel())
+            console.log(newProp);
+            console.log(val);
+            console.log(clonedCss);
+            console.log('ALA MA');
+            this.value.paddingFilter.injectCssProperty(clonedCss)
             console.log(newProp);
             
-            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            // this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
 
             return newProp.getClearValue()
         }
 
-        updateUnitInModel(unit: UnitSize)
-        {
-            console.log('1111111111');
-            
-            let prop = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
-            if (prop) {
-            console.log('222222');
-            console.log(unit);
-                prop.setUnit(unit)
-                this.setPropertyToModel(prop)
-                this.value.paddingFilter.injectCssProperty(prop)
-            }
-        }
+        
 
         getUnitFromPropName(name: string) 
         {
@@ -313,38 +311,45 @@ import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetche
             return null
         }
         
-        get paddingRight()
-        {
-            
-            return this.getPropertyFromModel(PaddingRightCss.PROP_NAME)
-        }
-        
-        set paddingRight(newVal: string)
-        {
-            
-            let newProp = new PaddingRightCss(newVal, new Pixel())
-            this.value.paddingFilter.injectCssProperty(newProp)
-            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
-            // this.setPropertyToModel() 
-        }
 
         set paddingUnitLeft(newVal: string)
         {
+            if (!this.paddingLeftData) {
+                return 
+            }
+            if (!this.paddingLeftData.isActive()) {
+                return
+            }
+            if (!newVal) {
+                return
+            }
             console.log('SET paddingUnitLeft', newVal);
-            var newUnit = this.getUnitByName(newVal)
-            this.updateUnitInModel(newUnit)
+            var newUnit = this.getUnitByName(this.paddingMarginUnits, newVal)
+            // this.updateUnitInModel(newUnit, PaddingLeftCss.PROP_NAME)
             this.paddingLeftData.setUnit(newUnit)
+            this.updateCssPropWithPadingFilter(this.paddingLeftData)
+
         }
         
         get paddingUnitLeft(): string
         {
+            if (!this.paddingLeftData) {
+                return ''
+            }
             console.log('GET paddingUnitLeft', this.paddingLeftData.getUnit());
+            if (this.paddingLeftData.getUnit()) {
+                return this.paddingLeftData.getUnit().name
 
-            return this.paddingLeftData.getUnit().name
+            }
+
+            return ''
         }
         
         get paddingLeft(): number
         {
+            if (!this.paddingLeftData) {
+                return 0
+            }
             // this._paddingLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
             console.log('GET paddingLeft', this.paddingLeftData.getClearValue());
             // console.log(this._paddingLeft.getClearValue().toString());
@@ -355,19 +360,28 @@ import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetche
         
         set paddingLeft(newVal: number)
         {
+            if (!this.paddingLeftData) {
+                return 
+            }
             if (!this.paddingLeftData.isActive()) {
                 return
             }
-            var a = this.updateCssPropWithPadingFilter(new PaddingLeftCss(newVal, new Pixel()))
+            if (!newVal) {
+                return
+            }
+            this.paddingLeftData.setValue(a)
+            var a = this.updateCssPropWithPadingFilter(this.paddingLeftData)
             console.log('SET paddingLeft', a);
             // this._paddingLeft = null
-            this.paddingLeftData.setValue(a)
             console.log(this.paddingLeftData);
             
         }
         
         get hasPaddingLeft(): boolean
         {
+            if (!this.paddingLeftData) {
+                return false
+            }
             console.log('hasPaddingLeft', this.paddingLeftData.getUnit());
             console.log(this.paddingLeftData);
             
@@ -381,9 +395,12 @@ import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetche
                 console.log('FALSE');
                 
                 this.paddingLeftData.setActive(false)
-                this.deactiveCssProp(new PaddingLeftCss(null, null))
+                this.deactivePaddingProp(new PaddingLeftCss(null, null))
             } else {
                 console.log('TRUE');
+                if (!this.paddingLeftData) {
+                    this.paddingLeftData = new PaddingLeftCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
+                }
                 this.paddingLeftData.setActive(true)
                 let defaultPadding = this.paddingLeftData
 
@@ -395,62 +412,89 @@ import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetche
         
         set paddingUnitGlobal(newVal: string)
         {
+            if (!this.paddingGlobalData.isActive()) {
+                return
+            }
+            if (!newVal) {
+                return
+            }
             console.log('SET paddingUnitGlobal', newVal);
-            var newUnit = this.getUnitByName(newVal)
-            this.updateUnitInModel(newUnit)
+            var newUnit = this.getUnitByName(this.paddingMarginUnits, newVal)
+            // this.updateUnitInModel(newUnit, PaddingCss.PROP_NAME)
             this.paddingGlobalData.setUnit(newUnit)
-        }
-        
-        get paddingUnitLeft(): string
-        {
-            console.log('GET paddingUnitLeft', this.paddingLeftData.getUnit());
+            this.updateCssPropWithPadingFilter(this.paddingGlobalData)
 
-            return this.paddingLeftData.getUnit().name
         }
         
-        get paddingLeft(): number
+        get paddingUnitGlobal(): string
         {
+            if (!this.paddingGlobalData) {
+                return ''
+            }
+            console.log('GET paddingUnitGlobal', this.paddingGlobalData.getUnit());
+            if (this.paddingGlobalData.getUnit()) {
+                return this.paddingGlobalData.getUnit().name
+            }
+
+            return ''
+        }
+        
+        get paddingGlobal(): number
+        {
+            if (!this.paddingGlobalData) {
+                return 0
+            }
             // this._paddingLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
-            console.log('GET paddingLeft', this.paddingLeftData.getClearValue());
+            console.log('GET paddingGlobal', this.paddingGlobalData.getClearValue());
             // console.log(this._paddingLeft.getClearValue().toString());
-            var v = this.paddingLeftData.getClearValue()
+            var v = this.paddingGlobalData.getClearValue()
             
             return parseInt(v)
         }
         
-        set paddingLeft(newVal: number)
+        set paddingGlobal(newVal: number)
         {
-            if (!this.paddingLeftData.isActive()) {
+            if (!this.paddingGlobalData) {
                 return
             }
-            var a = this.updateCssPropWithPadingFilter(new PaddingLeftCss(newVal, new Pixel()))
-            console.log('SET paddingLeft', a);
+            if (!this.paddingGlobalData.isActive()) {
+                return
+            }
+            if (!newVal) {
+                return
+            }
+            this.paddingGlobalData.setValue(newVal)
+            console.log('SET paddingGlobal', newVal);
+            var a = this.updateCssPropWithPadingFilter(this.paddingGlobalData)
             // this._paddingLeft = null
-            this.paddingLeftData.setValue(a)
-            console.log(this.paddingLeftData);
+            console.log(this.paddingGlobalData);
             
         }
         
-        get hasPaddingLeft(): boolean
+        get hasPaddingGlobal(): boolean
         {
-            console.log('hasPaddingLeft', this.paddingLeftData.getUnit());
-            console.log(this.paddingLeftData);
             
-            return  this.paddingLeftData.getActive()
+            if (!this.paddingGlobalData) {
+                return false
+            }
+            console.log('hasPaddingLeft', this.paddingGlobalData.getUnit());
+            console.log(this.paddingGlobalData);
+            
+            return  this.paddingGlobalData.getActive()
         }
         
-        set hasPaddingLeft(newVal: boolean)
+        set hasPaddingGlobal(newVal: boolean)
         {
             // console.log('hasPaddingLeft', newVal);
             if (!newVal) {
                 console.log('FALSE');
                 
-                this.paddingLeftData.setActive(false)
-                this.deactiveCssProp(new PaddingLeftCss(null, null))
+                this.paddingGlobalData.setActive(false)
+                this.deactivePaddingProp(new PaddingCss(null, null))
             } else {
                 console.log('TRUE');
                 this.paddingLeftData.setActive(true)
-                let defaultPadding = this.paddingLeftData
+                let defaultPadding = this.paddingGlobalData
 
                 this.activePaddingProp(defaultPadding)
                 

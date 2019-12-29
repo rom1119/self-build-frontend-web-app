@@ -34,7 +34,7 @@ export default abstract class CssComposite extends BasePropertyCss
             val += element + ' '
         });
         
-        return val
+        return val.trim()
     }
 
     public amountValues(): number

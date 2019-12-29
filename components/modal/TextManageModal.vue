@@ -39,6 +39,32 @@
                     </li>
                 </ul>
             </div>
+            <div class=" content-item__elem_container">
+                    <div class="content-item__elem content-item__elem-4" >
+                        <div class="item">
+                            Font-size
+
+                        </div>
+                        <label for="has-font-size" class="item">
+                            <input v-if="fontSizeUnit" type="checkbox" v-model="hasFontSize" name="hasFontSize" id="has-font-size">
+                            <input v-else disabled type="checkbox" v-model="hasFontSize" name="hasFontSize" id="has-font-size">
+
+                        </label>
+                        <label class="item" for="font-size">
+                            Value
+                            <input class="item" type="number" v-model="fontSize" name="fontSize" id="font-size">
+                        </label>
+                        <div class="item">
+                            Unit
+                        </div> 
+                        <select name="fontSizeUnit" class="item" v-model="fontSizeUnit" id="fontSizeUnit">
+                            <option disabled value="">Please select one</option>
+                            <option v-for="unit in units" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
+                        </select>
+                    </div>
+                    
+                </div>
+            </div>
         </template>
         <template slot="footer">
             <button class="to-left" @click="restore($event)">
@@ -65,17 +91,27 @@
     import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
     import AbstractModal from '../AbstractModal';
     import Named from '../../src/Unit/Color/Named';
+import UnitSize from '~/src/Unit/UnitSize';
+import Pixel from '~/src/Unit/Size/Pixel';
+import Percent from '~/src/Unit/Size/Percent';
+import VW from '~/src/Unit/Size/VW';
+import EM from '~/src/Unit/Size/EM';
+import REM from '~/src/Unit/Size/REM';
+import FontSize from '../../src/Css/Text/FontSize';
 
     @Component
     export default class TextManageModal extends AbstractModal {
         
         timeout
         // value: HtmlTag
-
-
+        DEFAULT_FONT_SIZE = 20
+        DEFAULT_FONT_SIZE_UNIT = new EM()
+        fontSizeData = new FontSize(this.DEFAULT_FONT_SIZE, this.DEFAULT_FONT_SIZE_UNIT)
         
         textAligns: string[] = TextAlign.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
+
+        units: UnitSize[] = []
 
         idName = 'text-property-modal'
 
@@ -84,9 +120,44 @@
             return this.idName
         }
 
-        async mounted()
+        created() 
         {
+            this.units.push(new Pixel())
+            this.units.push(new Percent())
+            this.units.push(new VW())
+            this.units.push(new EM())
+            this.units.push(new REM())
+        }
+
+        show(val: HtmlTag){
+            super.show(val)
+            var propLeft = this.getPropertyCssFromModel(FontSize.PROP_NAME)
+            if (propLeft) {
+                this.fontSizeData.setActive(true)
+                this.fontSizeData.setUnit(propLeft.getUnit())
+                this.fontSizeData.setValue(propLeft.getClearValue())
+            } else {
+                console.log('9999999')
+                this.fontSizeData.setActive(false)
+            }
             
+        }
+
+        deactiveProp(prop: BasePropertyCss): any {
+            this.value.cssAccessor.removePropWithName(prop.getName())
+            // this.value.paddingFilter.deactivateProp(prop)
+            return null
+        }
+
+        activeProp(prop: BasePropertyCss): any {
+            if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
+                this.value.cssAccessor.addNewProperty(prop)
+
+            }
+            console.log('activr');
+            
+            // this.value.paddingFilter.activateProp(prop)
+            return prop
         }
 
         get textAlign()
@@ -108,6 +179,79 @@
         {
             console.log(newVal);
             this.setPropertyToModel(new FontWeight(newVal, new Named())) 
+        }
+
+        set fontSizeUnit(newVal: string)
+        {
+            console.log('SET paddingUnitGlobal', newVal);
+            var newUnit = this.getUnitByName(this.units ,newVal)
+            this.updateUnitInModel(newUnit, FontSize.PROP_NAME)
+            this.fontSizeData.setUnit(newUnit)
+        }
+        
+        get fontSizeUnit(): string
+        {
+            console.log('GET paddingUnitGlobal', this.fontSizeData.getUnit());
+
+            if (this.fontSizeData.getUnit()) {
+                return this.fontSizeData.getUnit().name
+            }
+
+            return ''
+        }
+        
+        get fontSize(): number
+        {
+            // this._paddingLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
+            console.log('GET paddingGlobal', this.fontSizeData.getClearValue());
+            // console.log(this._paddingLeft.getClearValue().toString());
+            var v = this.fontSizeData.getClearValue()
+            
+            return parseFloat(v)
+        }
+        
+        set fontSize(newVal: number)
+        {
+            if (!this.fontSizeData.isActive()) {
+                return
+            }
+
+            console.log('SET fontSize', newVal);
+            if (!newVal) {
+                return
+            }
+            var newProp = new FontSize(newVal, this.fontSizeData.getUnit())
+            this.value.updateCssProperty(newProp.getName(), newProp)
+            // this._paddingLeft = null
+            this.fontSizeData.setValue(newProp.getClearValue())
+            console.log(this.fontSizeData);
+            
+        }
+        
+        get hasFontSize(): boolean
+        {
+            console.log('hasPaddingLeft', this.fontSizeData.getUnit());
+            console.log(this.fontSizeData);
+            
+            return  this.fontSizeData.getActive()
+        }
+        
+        set hasFontSize(newVal: boolean)
+        {
+            // console.log('hasPaddingLeft', newVal);
+            if (!newVal) {
+                console.log('FALSE');
+                
+                this.fontSizeData.setActive(false)
+                this.deactiveProp(new FontSize(null, null))
+            } else {
+                console.log('TRUE');
+                this.fontSizeData.setActive(true)
+                let defaultPadding = this.fontSizeData
+
+                this.activeProp(defaultPadding)
+                
+            }
         }
 
         @Watch('pagination.page', {deep: false, immediate: false})
