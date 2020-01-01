@@ -6,6 +6,8 @@ import PaddingRightCss from '../BoxModel/Padding/PaddingRightCss';
 import PaddingTopCss from '../BoxModel/Padding/PaddingTopCss';
 import PaddingBottomCss from '../BoxModel/Padding/PaddingBottomCss';
 import PaddingCss from '../BoxModel/Padding/PaddingCss';
+import Unit from '../../Unit/Unit';
+import UnitSize from '../../Unit/UnitSize';
 export default class PaddingRealCssFetcher implements FetcherRealCssProp
 {
 
@@ -31,7 +33,25 @@ export default class PaddingRealCssFetcher implements FetcherRealCssProp
                     return this.getGlobal()
         }
 
-        throw Error(`Can not create Default Padding from property name ${propName}`)
+        throw Error(`Can not fetch Default Padding from property name ${propName}`)
+
+    }
+    
+    fetchUnit(propName: string): Unit {
+        switch (propName) {
+            case PaddingLeftCss.PROP_NAME:
+                return this.getLeftUnit()
+            case PaddingRightCss.PROP_NAME:
+                return this.getRightUnit()
+            case PaddingTopCss.PROP_NAME:
+                return this.getTopUnit()
+            case PaddingBottomCss.PROP_NAME:
+                return this.getBottomUnit()
+                case PaddingCss.PROP_NAME:
+                    return this.getGlobalUnit()
+        }
+
+        throw Error(`Can not fetch Default Padding Unit from property name ${propName}`)
 
     }
 
@@ -106,6 +126,79 @@ export default class PaddingRealCssFetcher implements FetcherRealCssProp
         }
 
         return 0 + ''
+    }
+
+    private getLeftUnit(): UnitSize
+    {
+        let propName = PaddingLeftCss.PROP_NAME
+        var prop = this.getProp(propName)
+        if (prop) {
+            return prop.getUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getUnit()
+        }
+
+        return null
+    }
+
+    private getRightUnit(): UnitSize
+    {
+        let propName = PaddingRightCss.PROP_NAME
+        var prop = this.getProp(propName)
+        if (prop) {
+            return prop.getUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getUnit()
+        }
+
+        return null
+    }
+    
+    private getTopUnit(): UnitSize
+    {
+        let propName = PaddingTopCss.PROP_NAME
+        var prop = this.getProp(propName)
+        if (prop) {
+            return prop.getUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getUnit()
+        }
+
+        return null
+    }
+    
+    private getBottomUnit(): UnitSize
+    {
+        let propName = PaddingBottomCss.PROP_NAME
+        var prop = this.getProp(propName)
+        if (prop) {
+            return prop.getUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getUnit()
+        }
+
+        return null
+    }
+    
+    private getGlobalUnit(): UnitSize
+    {
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            if (propBase.amountValues() == 1) {
+
+                return propBase.getUnit()
+            }
+        }
+
+        return null
     }
 
 

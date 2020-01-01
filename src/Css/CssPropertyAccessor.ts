@@ -69,6 +69,7 @@ export default abstract class CssPropertyAccessor
         if (index !== -1) {
             if (this.cssProps[index].getValue() != newVal.getValue()) {
                 this.cssProps[index].setValue(newVal.getClearValue())
+                this.cssProps[index].setUnit(newVal.getUnit())
 
             }
         }

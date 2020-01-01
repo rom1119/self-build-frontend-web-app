@@ -5,6 +5,7 @@ import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
 import HtmlTag from "../HtmlTag";
 import Height from "~/src/Css/Size/Height";
+import PaddingLeftCss from '../../Css/BoxModel/Padding/PaddingLeftCss';
 
 export default class PaddingLeft extends PaddingModel
 {
@@ -35,6 +36,11 @@ export default class PaddingLeft extends PaddingModel
         this._width = newVal
     }
 
+    public updatePixelPropertyForTag()
+    {
+        this.htmlTag.updateCssPropertyWithoutModel(PaddingLeftCss.PROP_NAME, new PaddingLeftCss(this.width, new Pixel()))
+
+    }
 
     get cssList() : any
     {

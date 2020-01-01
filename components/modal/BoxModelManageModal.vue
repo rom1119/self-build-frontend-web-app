@@ -161,6 +161,7 @@
     import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
     import 'vue-cal/dist/vuecal.css'
     import moment from 'moment'
+    import _ from 'lodash'
     import {Pagination} from "~/types/Pagination";
     import HtmlTag from '../../src/Layout/HtmlTag';
     import TextAlign from '../../src/Css/Text/TextAlign';
@@ -182,14 +183,15 @@ import BasePaddingCss from '../../src/Css/BoxModel/BasePaddingCss';
 import FetcherRealCssProp from '../../src/FetcherRealCssProp';
 import PaddingRealCssFetcher from '../../src/Css/RealCssProp/PadingRealCssFetcher';
 import VW from '../../src/Unit/Size/VW';
+import VH from '~/src/Unit/Size/VH';
 
     @Component
     export default class BoxModelManageModal extends AbstractModal {
       
-        DEFAULT_PADDING = 30
+        DEFAULT_PADDING = 0
         DEFAULT_PADDING_UNIT = new Pixel()
-        paddingLeftData 
-        paddingGlobalData 
+        paddingLeftData: BasePaddingCss = new PaddingLeftCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
+        paddingGlobalData: BasePaddingCss = new PaddingCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
 
         paddingRealFetcher: FetcherRealCssProp
         
@@ -207,9 +209,13 @@ import VW from '../../src/Unit/Size/VW';
         {
             this.paddingMarginUnits.push(new Pixel())
             this.paddingMarginUnits.push(new Percent())
-            this.paddingMarginUnits.push(new VW())
             this.paddingMarginUnits.push(new EM())
             this.paddingMarginUnits.push(new REM())
+            this.paddingMarginUnits.push(new VW())
+            this.paddingMarginUnits.push(new VH())
+
+            this.paddingGlobalData.setActive(false)
+            this.paddingLeftData.setActive(false)
 
         }
 
@@ -226,27 +232,53 @@ import VW from '../../src/Unit/Size/VW';
 
         initPaddings()
         {
-            var propLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
-            var propGlobal = this.getPropertyCssFromModel(PaddingCss.PROP_NAME)
-            console.log(propLeft);
-            console.log(propGlobal);
+            // var propLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
+            // var propGlobal = this.getPropertyCssFromModel(PaddingCss.PROP_NAME)
+            // console.log(propLeft);
+            // console.log(propGlobal);
+            let leftPadding = this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME)
+            let leftPaddingUnit = this.paddingRealFetcher.fetchUnit(PaddingLeftCss.PROP_NAME)
             
-            if (propLeft) {
-                this.paddingLeftData = propLeft
+            if (leftPadding) {
                 this.paddingLeftData.setActive(true)
-                this.paddingLeftData.setUnit(propLeft.getUnit())
-            } 
+                this.paddingLeftData.setValue(leftPadding)
+            }  
+            if (leftPaddingUnit) {
+                this.paddingLeftData.setUnit(leftPaddingUnit)
+
+            }
+            
+            let globalPadding = this.paddingRealFetcher.fetchPropValue(PaddingCss.PROP_NAME)
+            let globalPaddingUnit = this.paddingRealFetcher.fetchUnit(PaddingCss.PROP_NAME)
+            
+            if (globalPadding) {
+                this.paddingGlobalData.setActive(true)
+                this.paddingGlobalData.setValue(globalPadding)
+            }  
+            if (globalPaddingUnit) {
+                this.paddingGlobalData.setUnit(globalPaddingUnit)
+
+            }
+
             // else {
             //     console.log('9999999')
             //     this.paddingLeftData.setActive(false)
             // }
             
-            if (propGlobal) {
-                this.paddingGlobalData = propGlobal
-                this.paddingGlobalData.setActive(false)
-                this.paddingGlobalData.setActive(true)
-                this.paddingGlobalData.setUnit(propGlobal.getUnit())
-            }
+            // if (propGlobal) {
+            //     console.log('START');
+            //     console.log(this.paddingGlobalData);
+
+            //     console.log(this.paddingGlobalData);
+            //     this.paddingGlobalData.setActive(true)
+            //     this.paddingGlobalData.setUnit(propGlobal.getUnit())
+            //     this.paddingGlobalData.setValue(propGlobal.getClearValue())
+            //     console.log(this.paddingGlobalData);
+            //     // console.log(a);
+                
+            //     // let a = this.paddingGlobal
+                
+            // }
             //  else {
             //     console.log('9999999')
             //     this.paddingGlobalData.setActive(false)
@@ -284,8 +316,10 @@ import VW from '../../src/Unit/Size/VW';
         updateCssPropWithPadingFilter(newProp: BasePropertyCss)
         {
             console.log('ALA MA');
+            console.log(newProp.getUnit());
+            console.log(newProp);
             let val = this.value.getComputedCssVal(newProp)
-            let clonedCss = newProp.clone()
+            let clonedCss = _.cloneDeep(newProp)
             clonedCss.setValue(parseInt(val).toString())
             clonedCss.setUnit(new Pixel())
             console.log(newProp);
@@ -295,7 +329,7 @@ import VW from '../../src/Unit/Size/VW';
             this.value.paddingFilter.injectCssProperty(clonedCss)
             console.log(newProp);
             
-            // this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
 
             return newProp.getClearValue()
         }
@@ -355,7 +389,12 @@ import VW from '../../src/Unit/Size/VW';
             // console.log(this._paddingLeft.getClearValue().toString());
             var v = this.paddingLeftData.getClearValue()
             
-            return parseInt(v)
+            if (this.paddingGlobalData.getUnit() instanceof Pixel) {
+                return parseInt(v)
+
+            }
+
+            return parseFloat(v)
         }
         
         set paddingLeft(newVal: number)
@@ -369,9 +408,9 @@ import VW from '../../src/Unit/Size/VW';
             if (!newVal) {
                 return
             }
-            this.paddingLeftData.setValue(a)
+            this.paddingLeftData.setValue(newVal.toString())
             var a = this.updateCssPropWithPadingFilter(this.paddingLeftData)
-            console.log('SET paddingLeft', a);
+            console.log('SET paddingLeft', newVal);
             // this._paddingLeft = null
             console.log(this.paddingLeftData);
             
@@ -449,7 +488,12 @@ import VW from '../../src/Unit/Size/VW';
             // console.log(this._paddingLeft.getClearValue().toString());
             var v = this.paddingGlobalData.getClearValue()
             
-            return parseInt(v)
+            if (this.paddingGlobalData.getUnit() instanceof Pixel) {
+                return parseInt(v)
+
+            }
+
+            return parseFloat(v)
         }
         
         set paddingGlobal(newVal: number)
@@ -463,7 +507,7 @@ import VW from '../../src/Unit/Size/VW';
             if (!newVal) {
                 return
             }
-            this.paddingGlobalData.setValue(newVal)
+            this.paddingGlobalData.setValue(newVal.toString())
             console.log('SET paddingGlobal', newVal);
             var a = this.updateCssPropWithPadingFilter(this.paddingGlobalData)
             // this._paddingLeft = null
@@ -493,7 +537,7 @@ import VW from '../../src/Unit/Size/VW';
                 this.deactivePaddingProp(new PaddingCss(null, null))
             } else {
                 console.log('TRUE');
-                this.paddingLeftData.setActive(true)
+                this.paddingGlobalData.setActive(true)
                 let defaultPadding = this.paddingGlobalData
 
                 this.activePaddingProp(defaultPadding)

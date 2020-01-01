@@ -5,6 +5,7 @@ import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
 import HtmlTag from "../HtmlTag";
 import Height from "~/src/Css/Size/Height";
+import PaddingBottomCss from "~/src/Css/BoxModel/Padding/PaddingBottomCss";
 
 export default class PaddingBottom extends PaddingModel
 {
@@ -38,6 +39,12 @@ export default class PaddingBottom extends PaddingModel
     get top(): string 
     {
         return 'none'
+    }
+
+    public updatePixelPropertyForTag()
+    {
+        this.htmlTag.updateCssPropertyWithoutModel(PaddingBottomCss.PROP_NAME, new PaddingBottomCss(this.width, new Pixel()))
+
     }
 
     get cssList() : any

@@ -85,6 +85,7 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
     public initSize(w) 
     {
         this.width = w
+
     }
 
     public focusColor()
@@ -109,7 +110,8 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
     public changeAsDeactiveSize() {
         // this.htmlTag.blurPaddings()
     }
-    
+
+    abstract updatePixelPropertyForTag()
     
 
     get cssList() : any

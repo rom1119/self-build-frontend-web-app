@@ -8,6 +8,7 @@ import AxisPositionDetector from '../AxisSizeDetector';
 import PaddingLeft from '../Layout/Padding/PaddingLeft';
 import PaddingRight from '../Layout/Padding/PaddingRight';
 import PaddingModel from '../Layout/Padding/PaddingModel';
+import Pixel from '../Unit/Size/Pixel';
 export default class PaddingElSizeController extends SizeElController
 {
     protected currentElement: PaddingModel
@@ -77,7 +78,9 @@ export default class PaddingElSizeController extends SizeElController
         // console.log(this.mouseDetector.computedVal());
         let newVal = this.mouseDetector.computedVal()
         if (newVal > 0) {
+            
             this.currentElement.initSize(newVal)
+            this.currentElement.updatePixelPropertyForTag()
 
         }
     }

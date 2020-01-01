@@ -6,6 +6,7 @@ import Top from '../../Site/Top';
 import Width from "~/src/Css/Size/Width";
 import Height from "~/src/Css/Size/Height";
 import HtmlTag from "../HtmlTag";
+import PaddingTopCss from "~/src/Css/BoxModel/Padding/PaddingTopCss";
 
 export default class PaddingTop extends PaddingModel
 {
@@ -36,6 +37,12 @@ export default class PaddingTop extends PaddingModel
 
     set width(newVal: number) {
         this._width = newVal
+    }
+    
+    public updatePixelPropertyForTag()
+    {
+        this.htmlTag.updateCssPropertyWithoutModel(PaddingTopCss.PROP_NAME, new PaddingTopCss(this.width, new Pixel()))
+
     }
 
     get cssList() : any
