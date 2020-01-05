@@ -94,6 +94,22 @@ export default abstract class AbstractModal extends Vue
         this.value.updateModelComponent()
 
     }
+    
+    protected setTmpPropertyToModel(newCssProp: BasePropertyCss)
+    {
+        if (!this.value) {
+            return false
+        }
+        if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+            this.value.tmpCssAccessor.addNewProperty(newCssProp)
+
+        } else {
+            this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+            
+        }
+        this.value.updateModelComponent()
+
+    }
 
     protected getUnitByName(units: Unit[],unitName: string): UnitSize
     {
@@ -117,4 +133,14 @@ export default abstract class AbstractModal extends Vue
             this.setPropertyToModel(prop)
         }
     }
+
+    protected getUnitFromPropName(name: string) 
+    {
+        let prop = this.getPropertyCssFromModel(name)
+        if (prop) {
+            return <UnitSize>prop.getUnit()
+        }
+        return null
+    }
+    
 }

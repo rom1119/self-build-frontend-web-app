@@ -67,7 +67,7 @@ export default class PaddingRealCssFetcher implements FetcherRealCssProp
             return propBase.left
         }
 
-        return 0 + ''
+        return ''
     }
     
     private getRight(): string
@@ -82,7 +82,7 @@ export default class PaddingRealCssFetcher implements FetcherRealCssProp
             return propBase.right
         }
 
-        return 0 + ''
+        return ''
     }
     
     private getTop(): string
@@ -97,7 +97,7 @@ export default class PaddingRealCssFetcher implements FetcherRealCssProp
             return propBase.top
         }
 
-        return 0 + ''
+        return ''
     }
     
     private getBottom(): string
@@ -112,7 +112,7 @@ export default class PaddingRealCssFetcher implements FetcherRealCssProp
             return propBase.bottom
         }
 
-        return 0 + ''
+        return ''
     }
     
     private getGlobal(): string
@@ -125,7 +125,7 @@ export default class PaddingRealCssFetcher implements FetcherRealCssProp
             }
         }
 
-        return 0 + ''
+        return ''
     }
 
     private getLeftUnit(): UnitSize

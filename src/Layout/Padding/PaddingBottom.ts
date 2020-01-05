@@ -43,7 +43,15 @@ export default class PaddingBottom extends PaddingModel
 
     public updatePixelPropertyForTag()
     {
-        this.htmlTag.updateCssPropertyWithoutModel(PaddingBottomCss.PROP_NAME, new PaddingBottomCss(this.width, new Pixel()))
+        var prop = this.htmlTag.tmpCssAccessor.getProperty(PaddingBottomCss.PROP_NAME)
+        if (prop) {
+            prop.setValue(this.width.toString())
+            prop.setUnit(new Pixel())
+            prop.setActive(true)
+        } else {
+            prop = new PaddingBottomCss(this.width, new Pixel())
+        }
+        this.htmlTag.updateCssPropertyWithoutModel(PaddingBottomCss.PROP_NAME, prop)
 
     }
 

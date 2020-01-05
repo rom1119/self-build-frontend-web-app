@@ -26,6 +26,7 @@ import FontSize from '../Css/Text/FontSize';
 import PaddingLeftCss from '../Css/BoxModel/Padding/PaddingLeftCss';
 import FetcherRealCssProp from "../FetcherRealCssProp";
 import PaddingRealCssFetcher from "../Css/RealCssProp/PadingRealCssFetcher";
+import ContentElPropertyAccessor from "../Css/PropertyAccessor/ContentElCssPropertyAccessor";
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
@@ -62,6 +63,9 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     private _initialColorUnit: UnitColor = new Named();
     protected sizeUnitCurrent: UnitSize = new Pixel()
 
+    protected _tmpCssPropertyAccesor: CssPropertyAccessor
+
+
     paddingFilter: FilterCssInjector
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     
@@ -73,7 +77,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.initMargins()
         this.initCssAccessor()
         console.log(this.paddingRealFetcher);
-        
+        this._tmpCssPropertyAccesor = new ContentElPropertyAccessor(this)
 
     }
 
@@ -147,6 +151,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this._cssPropertyAccesor.addNewProperty(backgroundColor)
 
         this.paddingFilter.injectCssProperty(padding)
+    }
+
+    get tmpCssAccessor(): CssPropertyAccessor
+    {
+        return this._tmpCssPropertyAccesor
     }
 
     get width()

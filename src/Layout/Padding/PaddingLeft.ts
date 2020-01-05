@@ -38,8 +38,15 @@ export default class PaddingLeft extends PaddingModel
 
     public updatePixelPropertyForTag()
     {
-        this.htmlTag.updateCssPropertyWithoutModel(PaddingLeftCss.PROP_NAME, new PaddingLeftCss(this.width, new Pixel()))
-
+        var prop = this.htmlTag.tmpCssAccessor.getProperty(PaddingLeftCss.PROP_NAME)
+        if (prop) {
+            prop.setValue(this.width.toString())
+            prop.setUnit(new Pixel())
+            prop.setActive(true)
+        } else {
+            prop = new PaddingLeftCss(this.width, new Pixel())
+        }
+        this.htmlTag.updateCssPropertyWithoutModel(PaddingLeftCss.PROP_NAME, prop)
     }
 
     get cssList() : any

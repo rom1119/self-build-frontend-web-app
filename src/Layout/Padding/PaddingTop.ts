@@ -41,8 +41,15 @@ export default class PaddingTop extends PaddingModel
     
     public updatePixelPropertyForTag()
     {
-        this.htmlTag.updateCssPropertyWithoutModel(PaddingTopCss.PROP_NAME, new PaddingTopCss(this.width, new Pixel()))
-
+        var prop = this.htmlTag.tmpCssAccessor.getProperty(PaddingTopCss.PROP_NAME)
+        if (prop) {
+            prop.setValue(this.width.toString())
+            prop.setUnit(new Pixel())
+            prop.setActive(true)
+        } else {
+            prop = new PaddingTopCss(this.width, new Pixel())
+        }
+        this.htmlTag.updateCssPropertyWithoutModel(PaddingTopCss.PROP_NAME, prop)
     }
 
     get cssList() : any

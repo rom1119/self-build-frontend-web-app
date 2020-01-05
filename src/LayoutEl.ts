@@ -11,20 +11,17 @@ export default abstract class LayoutEl {
     protected _htmlEl = null
 
     protected _children: LayoutEl[] = []
-    protected _active: boolean = true;
-    
+    protected _active: boolean = true;  
 
     constructor()
     {
         this._uuid = Math.floor(Math.random() * 10000000) + ''
         // this.initCssAccessor()
-
     }
 
     protected initCssAccessor()
     {
         this._cssPropertyAccesor = new ContentElPropertyAccessor(this)
-
     }
 
     public isActive(): boolean {
@@ -38,7 +35,6 @@ export default abstract class LayoutEl {
     public deactivate() {
         this._active = false
     }
-    
 
     get cssAccessor(): CssPropertyAccessor
     {
@@ -55,7 +51,6 @@ export default abstract class LayoutEl {
         // console.log(currentBackground.getUnit())
         // console.log(val.getUnit())
         if (currentBackground.getValue() == val.getValue()) {
-  
             return
         }
         this._cssPropertyAccesor.setNewPropertyValue(propName, val)

@@ -4,7 +4,7 @@ export default abstract class BasePropertyCss
 {
     protected values: string[]
     protected unit: Unit
-    protected _active = true
+    public active = true
 
     constructor(unit: Unit)
     {
@@ -68,17 +68,13 @@ export default abstract class BasePropertyCss
 
     public isActive()
     {
-        return this._active === true
+        return this.active === true
     }
 
     public setActive(val: boolean)
     {
-        this._active = val
+        this.active = val
     }
 
-    public getActive()
-    {
-        return this._active
-    }
 
 }

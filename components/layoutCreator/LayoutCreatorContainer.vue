@@ -32,7 +32,7 @@ import ContentElSizeController from '../../src/Controller/ContentElSizeControlle
 import BorderElSizeController from '../../src/Controller/BorderElSizeController';
 import BorderModel from "../../src/Layout/Border/BorderModel";
 import DefaultActiveElController from '../../src/Controller/DefaultActiveElController';
-import PaddingElSizeController from '../../src/Controller/PaddingElSizeController.1';
+import PaddingElSizeController from '../../src/Controller/PaddingElSizeController';
 import PaddingModel from "~/src/Layout/Padding/PaddingModel";
 import MarginElSizeController from '../../src/Controller/MarginElSizeController';
 import MarginModel from "~/src/Layout/Margin/MarginModel";

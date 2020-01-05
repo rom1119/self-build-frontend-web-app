@@ -233,7 +233,7 @@ import FontSize from '../../src/Css/Text/FontSize';
             console.log('hasPaddingLeft', this.fontSizeData.getUnit());
             console.log(this.fontSizeData);
             
-            return  this.fontSizeData.getActive()
+            return  this.fontSizeData.active
         }
         
         set hasFontSize(newVal: boolean)

@@ -47,8 +47,15 @@ export default class PaddingRight extends PaddingModel {
 
     public updatePixelPropertyForTag()
     {
-        this.htmlTag.updateCssPropertyWithoutModel(PaddingRightCss.PROP_NAME, new PaddingRightCss(this.width, new Pixel()))
-
+        var prop = this.htmlTag.tmpCssAccessor.getProperty(PaddingRightCss.PROP_NAME)
+        if (prop) {
+            prop.setValue(this.width.toString())
+            prop.setUnit(new Pixel())
+            prop.setActive(true)
+        } else {
+            prop = new PaddingRightCss(this.width, new Pixel())
+        }
+        this.htmlTag.updateCssPropertyWithoutModel(PaddingRightCss.PROP_NAME, prop)
     }
 
     get cssList() : any

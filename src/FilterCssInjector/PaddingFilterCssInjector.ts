@@ -53,40 +53,6 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         return cssProp instanceof BasePaddingCss
     }
 
-    public deactivateProp(cssProp: BasePropertyCss) {
-        if (cssProp instanceof PaddingLeftCss) {
-            this.htmlTag.paddingLeft.deactivate()
-        } else if (cssProp instanceof PaddingRightCss) {
-            this.htmlTag.paddingRight.deactivate()
-        } else if (cssProp instanceof PaddingTopCss) {
-            this.htmlTag.paddingTop.deactivate()
-        } else if (cssProp instanceof PaddingBottomCss) {
-            this.htmlTag.paddingBottom.deactivate()
-        } else if (cssProp instanceof PaddingCss) {
-            this.htmlTag.paddingLeft.deactivate()
-            this.htmlTag.paddingRight.deactivate()
-            this.htmlTag.paddingTop.deactivate()
-            this.htmlTag.paddingBottom.deactivate()
-        }
-        
-    }
-    public activateProp(cssProp: BasePaddingCss) {
-        if (cssProp instanceof PaddingLeftCss) {
-            this.htmlTag.paddingLeft.activate()
-        } else if (cssProp instanceof PaddingRightCss) {
-            this.htmlTag.paddingRight.activate()
-        } else if (cssProp instanceof PaddingTopCss) {
-            this.htmlTag.paddingTop.activate()
-        } else if (cssProp instanceof PaddingBottomCss) {
-            this.htmlTag.paddingBottom.activate()
-        } else if (cssProp instanceof PaddingCss) {
-            this.htmlTag.paddingLeft.activate()
-            this.htmlTag.paddingRight.activate()
-            this.htmlTag.paddingTop.activate()
-            this.htmlTag.paddingBottom.activate()
-        }
-    }
-
     public injectCssProperty(cssProp: BasePropertyCss) {
         if (!this.canInjectCssProperty(cssProp)) {
             return
@@ -107,6 +73,51 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         }
 
     }
+
+    public deactivateProp(cssProp: BasePropertyCss) {
+        if (cssProp instanceof PaddingLeftCss) {
+            this.htmlTag.paddingLeft.deactivate()
+        } else if (cssProp instanceof PaddingRightCss) {
+            this.htmlTag.paddingRight.deactivate()
+        } else if (cssProp instanceof PaddingTopCss) {
+            this.htmlTag.paddingTop.deactivate()
+        } else if (cssProp instanceof PaddingBottomCss) {
+            this.htmlTag.paddingBottom.deactivate()
+        } else if (cssProp instanceof PaddingCss) {
+            if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingLeftCss.PROP_NAME)) {
+                this.htmlTag.paddingLeft.deactivate()
+            }
+            if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingRightCss.PROP_NAME)) {
+                this.htmlTag.paddingRight.deactivate()
+            }
+            if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingTopCss.PROP_NAME)) {
+                this.htmlTag.paddingTop.deactivate()
+            }
+            if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingBottomCss.PROP_NAME)) {
+                this.htmlTag.paddingBottom.deactivate()
+            }
+            // this.htmlTag.paddingTop.deactivate()
+            // this.htmlTag.paddingBottom.deactivate()
+        }
+        
+    }
+    public activateProp(cssProp: BasePaddingCss) {
+        if (cssProp instanceof PaddingLeftCss) {
+            this.htmlTag.paddingLeft.activate()
+        } else if (cssProp instanceof PaddingRightCss) {
+            this.htmlTag.paddingRight.activate()
+        } else if (cssProp instanceof PaddingTopCss) {
+            this.htmlTag.paddingTop.activate()
+        } else if (cssProp instanceof PaddingBottomCss) {
+            this.htmlTag.paddingBottom.activate()
+        } else if (cssProp instanceof PaddingCss) {
+            this.htmlTag.paddingLeft.activate()
+            this.htmlTag.paddingRight.activate()
+            this.htmlTag.paddingTop.activate()
+            this.htmlTag.paddingBottom.activate()
+        }
+    }
+
     updateVal(cssProp: BasePropertyCss, paddingModel: PaddingModel) {
         var prop: BasePropertyCss
         if (paddingModel instanceof PaddingLeft ||  paddingModel instanceof PaddingRight) {
@@ -131,25 +142,30 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         
         var left: BasePropertyCss = new Width(cssProp.left, cssProp.getUnit());
         var right: BasePropertyCss = new Width(cssProp.right, cssProp.getUnit());
-        if (parseInt(right.getClearValue()) > -1) {
+
+        var leftProp = this.htmlTag.cssAccessor.hasCssProperty(PaddingLeftCss.PROP_NAME)
+        var rightProp = this.htmlTag.cssAccessor.hasCssProperty(PaddingRightCss.PROP_NAME)
+        var topProp = this.htmlTag.cssAccessor.hasCssProperty(PaddingTopCss.PROP_NAME)
+        var bottomProp = this.htmlTag.cssAccessor.hasCssProperty(PaddingBottomCss.PROP_NAME)
+        if (parseInt(right.getClearValue()) > -1 && !rightProp) {
 
             this.htmlTag.paddingRight.width = parseInt(right.getClearValue())
             this.htmlTag.paddingRight.widthUnit = right.getUnit()
         }
         
-        if (parseInt(left.getClearValue()) > -1) {
+        if (parseInt(left.getClearValue()) > -1 && !leftProp) {
 
             this.htmlTag.paddingLeft.width = parseInt(left.getClearValue())
             this.htmlTag.paddingLeft.widthUnit = left.getUnit()
         }
         
-        if (parseInt(top.getClearValue()) > -1) {
+        if (parseInt(top.getClearValue()) > -1 && !topProp) {
 
             this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
             this.htmlTag.paddingTop.widthUnit = top.getUnit()
         }
         
-        if (parseInt(bottom.getClearValue()) > -1) {
+        if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
 
             this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
             this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
