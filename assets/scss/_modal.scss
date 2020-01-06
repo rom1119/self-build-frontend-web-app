@@ -1,14 +1,14 @@
-$widthModal: 600px;
-$minHeighModal: 400px;
-$heighContent: 350px;
+$widthModal: 650px;
+$minHeighModal: 300px;
+$heighContent: 300px;
 $minHeighFooter: 50px;
 .my-modal {
-    background-color:rgb(204, 255, 156) ;
+    background-color:rgb(211, 211, 211) ;
     position: fixed;
     z-index: 99999999999999;
     width: $widthModal;
     min-height: $minHeighModal;
-    top: 50px;
+    top: 0px;
     right: 0;
     left: 0;
     margin-right: auto;
@@ -63,7 +63,6 @@ $minHeighFooter: 50px;
         }
     }
 
-
     &__footer{
         display: inline-flex;
         justify-content: space-between;
@@ -82,6 +81,10 @@ $minHeighFooter: 50px;
 
     .flex-inline {
         display: inline-flex;
+    }
+
+    .flex-center {
+        justify-content: center;
     }
 
     ul {

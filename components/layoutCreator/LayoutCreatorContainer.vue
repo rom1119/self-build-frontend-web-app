@@ -49,6 +49,17 @@ export default class LayoutCreatorContainer extends Vue {
 
     activeElController: ActiveElController = new DefaultActiveElController()
 
+    mounted()
+    {
+        window.addEventListener('resize', (e) => {
+            console.log('width', (<Window>e.target).innerWidth);
+            console.log('height', e.target.innerHeight);
+            for (const htmlTag of this.htmlTags) {
+                htmlTag.recalculateRealComputedProperties()
+            }
+        })
+    }
+
     onMouseOver(val) {
         // console.log('over');
         // console.log(val);

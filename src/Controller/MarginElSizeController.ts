@@ -77,6 +77,7 @@ export default class MarginElSizeController extends SizeElController
         let newVal = this.mouseDetector.computedVal()
         if (newVal > 0) {
             this.currentElement.initSize(newVal)
+            this.currentElement.updatePixelPropertyForTag()
 
         }
     }

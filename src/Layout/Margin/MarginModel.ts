@@ -10,6 +10,7 @@ import BackgroundColor from '../../Css/Background/BackgroundColor';
 import RGBA from '../../Unit/Color/RGBA';
 import Height from "~/src/Css/Size/Height";
 import HtmlTag from "../HtmlTag";
+import Display from "~/src/Css/Display/Display";
 
 export default abstract class MarginModel extends LayoutEl implements CssList, SizeActivable
 {
@@ -26,12 +27,15 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     protected _defaultSizeUnit = new Pixel()
     protected _defaultColorUnit = new Named()
     protected htmlTag: HtmlTag
+    widthUnit: UnitSize
+
 
     constructor(tag: HtmlTag)
     {
         super()
         this._color = this._initialColor
         this.htmlTag = tag
+        this.widthUnit = this._defaultSizeUnit
         this.initCssAccessor()
 
     }
@@ -41,7 +45,16 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
         super.initCssAccessor()
   
         let background = new BackgroundColor(this._color, new RGBA())
+        var active= this._active
+        var display
+        let css = {}
+        if (active) {
+            display = new Display(Display.BLOCK, new Named())
+        } else {
+            display = new Display(Display.NONE, new Named())
+        }
         this._cssPropertyAccesor.addNewProperty(background)
+        this._cssPropertyAccesor.addNewProperty(display)
         // this._cssPropertyAccesor.addNewProperty(borderWidth)
     }
 
@@ -58,11 +71,6 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     {
         this._width = arg
     }
-
-    abstract get widthUnit(): UnitSize
-    abstract get heightUnit(): UnitSize
-
-    abstract get height(): number
 
     // onMouseOver(target: BorderModel) 
     // {        
@@ -103,10 +111,22 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
         this.htmlTag.blurMargins()
     }
 
+    abstract updatePixelPropertyForTag()
+
     get cssList() : any
     {
-        
+        let active = this._active
+        var display
         let css = {}
+        if (active) {
+            display = new Display(Display.BLOCK, new Named())
+        } else {
+            display = new Display(Display.NONE, new Named())
+        }
+
+        this.updateCssProperty(Display.PROP_NAME, display)
+
+
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         } 
@@ -116,6 +136,8 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
             this._cssPropertyAccesor.setNewPropertyValue(BackgroundColor.PROP_NAME, borderColor)
             css[BackgroundColor.PROP_NAME] = borderColor.getValue()
         }
+
+        
 
         return css
     }

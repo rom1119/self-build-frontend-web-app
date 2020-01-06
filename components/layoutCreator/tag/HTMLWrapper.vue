@@ -2,7 +2,7 @@
     <div class="wrapper"   :key="value.updateComponentKey" :id="value.uuid" >
         
         <div class="none">
-            <span :style="value.cssBoxList"  ></span>
+            <!-- <span :style="value.cssBoxList"  ></span> -->
         </div>
         <!-- <context-menu
                 shift="both"

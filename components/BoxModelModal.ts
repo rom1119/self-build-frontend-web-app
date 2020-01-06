@@ -15,237 +15,110 @@ import FetcherRealCssProp from '~/src/FetcherRealCssProp'
 import PaddingRightCss from '~/src/Css/BoxModel/Padding/PaddingRightCss'
 import PaddingTopCss from '~/src/Css/BoxModel/Padding/PaddingTopCss'
 import PaddingBottomCss from '~/src/Css/BoxModel/Padding/PaddingBottomCss'
+import BaseMarginCss from '~/src/Css/BoxModel/BaseMarginCss'
+import MarginLeftCss from '~/src/Css/BoxModel/Margin/MarginLeftCss'
+import MarginRightCss from '~/src/Css/BoxModel/Margin/MarginRightCss'
+import MarginTopCss from '~/src/Css/BoxModel/Margin/MarginTopCss'
+import MarginBottomCss from '~/src/Css/BoxModel/Margin/MarginBottomCss'
+import MarginCss from '~/src/Css/BoxModel/Margin/MarginCss'
+import DirectionComputedPropertyManager from './computedPropertyManagers/DirectionComputedPropertyManager'
+import PaddingComputedPropertyManager from './computedPropertyManagers/impl/PaddingComputedPropertyManager';
+import MarginComputedPropertyManager from './computedPropertyManagers/impl/MarginComputedPropertyManager'
 
 
 export default abstract class BoxModelModal extends AbstractModal
 {
-
-    DEFAULT_PADDING = 0
-    DEFAULT_PADDING_UNIT = new Pixel()
-    
-    paddingLeftData: BasePaddingCss = new PaddingLeftCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
-    paddingRightData: BasePaddingCss = new PaddingRightCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
-    paddingTopData: BasePaddingCss = new PaddingTopCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
-    paddingBottomData: BasePaddingCss = new PaddingBottomCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
-    paddingGlobalData: BasePaddingCss = new PaddingCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
     paddingRealFetcher: FetcherRealCssProp
+    marginRealFetcher: FetcherRealCssProp
+
+    paddingManager: DirectionComputedPropertyManager
+    marginManager: DirectionComputedPropertyManager
 
     constructor()
     {
         super()
-        this.paddingGlobalData.setActive(false)
-        this.paddingLeftData.setActive(false)
-        this.paddingRightData.setActive(false)
-        this.paddingTopData.setActive(false)
-        this.paddingBottomData.setActive(false)
+        this.paddingManager = new PaddingComputedPropertyManager()
+        this.marginManager = new MarginComputedPropertyManager()
 
     }
 
     show(val: HtmlTag){
         super.show(val)
         this.paddingRealFetcher = this.value.paddingRealFetcher
+        this.marginRealFetcher = this.value.marginRealFetcher
+        this.paddingManager.setHtmlEl(val)
+        this.paddingManager.setFetcher(this.paddingRealFetcher)
+        this.marginManager.setHtmlEl(val)
+        this.marginManager.setFetcher(this.marginRealFetcher)
         this.initPaddings()
+        this.initMargins()
     }
 
+    // PADDING METHODS
     updateDirectionsPaddings()
     {
-        this.paddingGlobalData.setActive(false)
-        this.paddingLeftData.setActive(false)
-        this.paddingRightData.setActive(false)
-        this.paddingTopData.setActive(false)
-        this.paddingBottomData.setActive(false)
-        this.initPaddings()
+        this.paddingManager.updateDirections()
     }
 
     initPaddings()
     {   
-        var propLeft = this.getPropertyCssFromModel(this.paddingLeftData.getName())
-        let valLeft = this.paddingRealFetcher.fetchPropValue(this.paddingLeftData.getName())
-        let unitLeft = this.paddingRealFetcher.fetchUnit(this.paddingLeftData.getName())
-        
-        if (propLeft) {
-            this.paddingLeftData = <BasePaddingCss>propLeft
-            this.paddingLeftData.setActive(true)
-        } else {
-            if (valLeft) {
-                // this.paddingLeftData.setActive(true)
-                this.paddingLeftData.setValue(valLeft)
-            }  
-            if (unitLeft) {
-                this.paddingLeftData.setUnit(unitLeft)
-            }
-            this.setTmpPropertyToModel(this.paddingLeftData)
-        }
-
-        var propRight = this.getPropertyCssFromModel(this.paddingRightData.getName())
-        let valRight = this.paddingRealFetcher.fetchPropValue(this.paddingRightData.getName())
-        let unitRight = this.paddingRealFetcher.fetchUnit(this.paddingRightData.getName())
-        
-        if (propRight) {
-            this.paddingRightData = <BasePaddingCss>propRight
-            this.paddingRightData.setActive(true)
-        } else {
-            if (valRight) {
-                this.paddingRightData.setValue(valRight)
-            }  
-            if (unitRight) {
-                this.paddingRightData.setUnit(unitRight)
-            }
-            this.setTmpPropertyToModel(this.paddingRightData)
-        }
-        
-        var propTop = this.getPropertyCssFromModel(this.paddingTopData.getName())
-        let valTop = this.paddingRealFetcher.fetchPropValue(this.paddingTopData.getName())
-        let unitTop = this.paddingRealFetcher.fetchUnit(this.paddingTopData.getName())
-        
-        if (propTop) {
-            this.paddingTopData = <BasePaddingCss>propTop
-            this.paddingTopData.setActive(true)
-        } else {
-            if (valTop) {
-                this.paddingTopData.setValue(valTop)
-            }  
-            if (unitTop) {
-                this.paddingTopData.setUnit(unitTop)
-            }
-            this.setTmpPropertyToModel(this.paddingTopData)
-        }
-        
-        var propGlobal = this.getPropertyCssFromModel(this.paddingBottomData.getName())
-        let valBottom = this.paddingRealFetcher.fetchPropValue(this.paddingBottomData.getName())
-        let unitBottom = this.paddingRealFetcher.fetchUnit(this.paddingBottomData.getName())
-        
-        if (propGlobal) {
-            this.paddingBottomData = <BasePaddingCss>propGlobal
-            this.paddingBottomData.setActive(true)
-        } else {
-            if (valBottom) {
-                this.paddingBottomData.setValue(valBottom)
-            }  
-            if (unitBottom) {
-                this.paddingBottomData.setUnit(unitBottom)
-            }
-            this.setTmpPropertyToModel(this.paddingBottomData)
-
-        }
-        
-        var propGlobal = this.getPropertyCssFromModel(this.paddingGlobalData.getName())
-        let valGlobal = this.paddingRealFetcher.fetchPropValue(this.paddingGlobalData.getName())
-        let unitGlobal = this.paddingRealFetcher.fetchUnit(this.paddingGlobalData.getName())
-        
-        if (propGlobal) {
-            this.paddingGlobalData = <BasePaddingCss>propGlobal
-            this.paddingGlobalData.setActive(true)
-        } else {
-            if (valGlobal) {
-                this.paddingGlobalData.setValue(valGlobal)
-            }  
-            if (unitGlobal) {
-                this.paddingGlobalData.setUnit(unitGlobal)
-            }
-        }
-        
-        
-    }
-
-    private initPadding(propData: BasePaddingCss)
-    {
-        var prop = this.getPropertyCssFromModel(propData.getName())
-        let val = this.paddingRealFetcher.fetchPropValue(propData.getName())
-        let unit = this.paddingRealFetcher.fetchUnit(propData.getName())
-        // console.log('START');
-        // console.log(propData);
-        // console.log(prop);
-        // console.log(val);
-        // console.log(unit);
-        // console.log('END');
-        
-        if (prop) {
-            propData = <BasePaddingCss>prop
-            propData.setActive(true)
-        } else {
-            if (val) {
-                propData.setActive(true)
-                propData.setValue(val)
-            }  
-            if (unit) {
-                propData.setUnit(unit)
-    
-            }
-
-        }
+        this.paddingManager.init()   
     }
 
     setDirectionsPaddingsFromVal(newVal, newUnit: UnitSize)
     {
-        if (!this.value.cssAccessor.hasCssProperty(PaddingLeftCss.PROP_NAME)) {
-            this.paddingLeftData.setValue(newVal)
-            this.paddingLeftData.setUnit(newUnit)
-        }
-        if (!this.value.cssAccessor.hasCssProperty(PaddingRightCss.PROP_NAME)) {
-            this.paddingRightData.setValue(newVal)
-            this.paddingRightData.setUnit(newUnit)
-        }
-        if (!this.value.cssAccessor.hasCssProperty(PaddingTopCss.PROP_NAME)) {
-            this.paddingTopData.setValue(newVal)
-            this.paddingTopData.setUnit(newUnit)
-        }
-        if (!this.value.cssAccessor.hasCssProperty(PaddingBottomCss.PROP_NAME)) {
-            this.paddingBottomData.setValue(newVal)
-            this.paddingBottomData.setUnit(newUnit)
-        }
+        this.paddingManager.setDirectionsPropertiesFromVal(newVal, newUnit)
     }
 
     deactiveGlobalPaddingProp(prop: BasePaddingCss): any {
-        this.value.cssAccessor.removePropWithName(prop.getName())
-        this.value.paddingFilter.deactivateProp(prop)
-        return null
+        this.paddingManager.deactiveGlobalPropCss(prop)
     }
     
     deactivePaddingProp(prop: BasePaddingCss): any {
-        this.value.cssAccessor.removePropWithName(prop.getName())
-        if (!this.paddingGlobalData.active) {
-            this.value.paddingFilter.deactivateProp(prop)
-
-        } else {
-            
-            prop.setValue(this.paddingGlobalData.getClearValue())
-            prop.setUnit(this.paddingGlobalData.getUnit())
-            this.value.paddingFilter.injectCssProperty(this.paddingGlobalData)
-        }
-        return null
+        this.paddingManager.deactivePropCss(prop)
     }
 
     activePaddingProp(prop: BasePaddingCss): any {
-        if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
-            this.value.cssAccessor.addNewProperty(prop)
-
-        }
-        console.log('activr');
-        
-        this.value.paddingFilter.activateProp(prop)
-        return prop
+        this.paddingManager.activePropCss(prop)
     }
 
-    updateCssPropWithPadingFilter(newProp: BasePropertyCss)
+    updateCssPropWithPaddingFilter(prop: BasePropertyCss)
     {
-        console.log('ALA MA');
-        console.log(newProp.getUnit());
-        console.log(newProp);
-        let val = this.value.getComputedCssVal(newProp)
-        let clonedCss = _.cloneDeep(newProp)
-        clonedCss.setValue(parseInt(val).toString())
-        clonedCss.setUnit(new Pixel())
-        console.log(newProp);
-        console.log(val);
-        console.log(clonedCss);
-        console.log('ALA MA');
-        this.value.paddingFilter.injectCssProperty(clonedCss)
-        console.log(newProp);
-        
-        this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+        this.paddingManager.updateCssProp(prop)
+    }
 
-        return newProp.getClearValue()
+    // MARGIN METHODS
+
+    updateDirectionsMargins()
+    {
+        this.marginManager.updateDirections()
+    }
+
+    initMargins()
+    {   
+        this.marginManager.init()   
+    }
+
+    setDirectionsMarginsFromVal(newVal, newUnit: UnitSize)
+    {
+        this.marginManager.setDirectionsPropertiesFromVal(newVal, newUnit)
+    }
+
+    deactiveGlobalMarginProp(prop: BaseMarginCss): any {
+        this.marginManager.deactiveGlobalPropCss(prop)
+    }
+    
+    deactiveMarginProp(prop: BaseMarginCss): any {
+        this.marginManager.deactivePropCss(prop)
+    }
+
+    activeMarginProp(prop: BaseMarginCss): any {
+        this.marginManager.activePropCss(prop)
+    }
+
+    updateCssPropWithMarginFilter(prop: BasePropertyCss)
+    {
+        this.marginManager.updateCssProp(prop)
     }
 
 

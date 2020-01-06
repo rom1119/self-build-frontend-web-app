@@ -5,11 +5,11 @@ import Width from "~/src/Css/Size/Width";
 import HtmlTag from "../HtmlTag";
 import MarginModel from "./MarginModel";
 import Height from "~/src/Css/Size/Height";
+import MarginLeftCss from "~/src/Css/BoxModel/Margin/MarginLeftCss";
 
 export default class MarginLeft extends MarginModel
 {
     protected _name: string = 'margin-left'
-    protected _height: number = 100
 
     // protected _float: string = 'left';
     constructor(tag: HtmlTag)
@@ -27,11 +27,7 @@ export default class MarginLeft extends MarginModel
         let height = new Height(100, new Percent())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
-    }
-
-    get widthUnit(): UnitSize {
-        return new Pixel()
-    }    
+    } 
     
     get width(): number {
         return this._width
@@ -41,11 +37,17 @@ export default class MarginLeft extends MarginModel
         this._width = newVal
     }
 
-    get height(): number {
-        return this._height
-    }
-    get heightUnit(): UnitSize {
-        return new Percent()
+    public updatePixelPropertyForTag()
+    {
+        var prop = this.htmlTag.tmpCssAccessor.getProperty(MarginLeftCss.PROP_NAME)
+        if (prop) {
+            prop.setValue(this.width.toString())
+            prop.setUnit(new Pixel())
+            prop.setActive(true)
+        } else {
+            prop = new MarginLeftCss(this.width, new Pixel())
+        }
+        this.htmlTag.updateCssPropertyWithoutModel(MarginLeftCss.PROP_NAME, prop)
     }
 
     get cssList() : any

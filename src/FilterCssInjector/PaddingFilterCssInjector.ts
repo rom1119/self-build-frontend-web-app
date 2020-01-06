@@ -45,7 +45,6 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
 
         throw Error(`Can not create Default Padding from property name ${propName}`)
 
-
     }
 
     canInjectCssProperty(cssProp: BasePropertyCss): boolean
@@ -143,11 +142,13 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         var left: BasePropertyCss = new Width(cssProp.left, cssProp.getUnit());
         var right: BasePropertyCss = new Width(cssProp.right, cssProp.getUnit());
 
-        var leftProp = this.htmlTag.cssAccessor.hasCssProperty(PaddingLeftCss.PROP_NAME)
-        var rightProp = this.htmlTag.cssAccessor.hasCssProperty(PaddingRightCss.PROP_NAME)
-        var topProp = this.htmlTag.cssAccessor.hasCssProperty(PaddingTopCss.PROP_NAME)
-        var bottomProp = this.htmlTag.cssAccessor.hasCssProperty(PaddingBottomCss.PROP_NAME)
+        var leftProp = this.htmlTag.cssAccessor.getProperty(PaddingLeftCss.PROP_NAME)
+        var rightProp = this.htmlTag.cssAccessor.getProperty(PaddingRightCss.PROP_NAME)
+        var topProp = this.htmlTag.cssAccessor.getProperty(PaddingTopCss.PROP_NAME)
+        var bottomProp = this.htmlTag.cssAccessor.getProperty(PaddingBottomCss.PROP_NAME)
         if (parseInt(right.getClearValue()) > -1 && !rightProp) {
+
+            // if (!rightProp.isActive()) {
 
             this.htmlTag.paddingRight.width = parseInt(right.getClearValue())
             this.htmlTag.paddingRight.widthUnit = right.getUnit()
@@ -155,20 +156,25 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         
         if (parseInt(left.getClearValue()) > -1 && !leftProp) {
 
+            // if (!leftProp.isActive()) {
             this.htmlTag.paddingLeft.width = parseInt(left.getClearValue())
             this.htmlTag.paddingLeft.widthUnit = left.getUnit()
+
+            // }
         }
         
         if (parseInt(top.getClearValue()) > -1 && !topProp) {
 
-            this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
-            this.htmlTag.paddingTop.widthUnit = top.getUnit()
+                this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
+                this.htmlTag.paddingTop.widthUnit = top.getUnit()
+            
         }
         
         if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
 
-            this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
-            this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
+                this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
+                this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
+            
         }
     }
     

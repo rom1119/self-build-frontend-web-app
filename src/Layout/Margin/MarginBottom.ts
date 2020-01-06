@@ -5,6 +5,7 @@ import Width from "~/src/Css/Size/Width";
 import HtmlTag from "../HtmlTag";
 import MarginModel from "./MarginModel";
 import Height from "~/src/Css/Size/Height";
+import MarginBottomCss from "~/src/Css/BoxModel/Margin/MarginBottomCss";
 
 export default class MarginBottom extends MarginModel
 {
@@ -23,17 +24,11 @@ export default class MarginBottom extends MarginModel
     {
         super.initCssAccessor()
         let width = new Width(100, new Percent())
-        let height = new Height(this.height, this.heightUnit)
+        let height = new Height(this.width, this.widthUnit)
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
     }
 
-    get widthUnit(): UnitSize {
-        return new Percent()
-    }    
-    get heightUnit(): UnitSize {
-        return new Pixel()
-    }
     get width(): number {
         return this._width
     }
@@ -41,20 +36,31 @@ export default class MarginBottom extends MarginModel
     set width(newVal: number) {
         this._width = newVal
     }
-    get height(): number {
-        return this._width
-    }
 
     get top(): string 
     {
         return 'none'
     }
 
+    public updatePixelPropertyForTag()
+    {
+        var prop = this.htmlTag.tmpCssAccessor.getProperty(MarginBottomCss.PROP_NAME)
+        if (prop) {
+            prop.setValue(this.width.toString())
+            prop.setUnit(new Pixel())
+            prop.setActive(true)
+        } else {
+            prop = new MarginBottomCss(this.width, new Pixel())
+        }
+        this.htmlTag.updateCssPropertyWithoutModel(MarginBottomCss.PROP_NAME, prop)
+
+    }
+
     get cssList() : any
     {
         let css = super.cssList
         let width = new Width(100, new Percent())
-        let height = new Height(this.height, this.heightUnit)
+        let height = new Height(this.width, this.widthUnit)
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
 

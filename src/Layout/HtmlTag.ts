@@ -27,6 +27,13 @@ import PaddingLeftCss from '../Css/BoxModel/Padding/PaddingLeftCss';
 import FetcherRealCssProp from "../FetcherRealCssProp";
 import PaddingRealCssFetcher from "../Css/RealCssProp/PadingRealCssFetcher";
 import ContentElPropertyAccessor from "../Css/PropertyAccessor/ContentElCssPropertyAccessor";
+import MarginFilterCssInjector from "../FilterCssInjector/MarginFilterCssInjector";
+import MarginCss from "../Css/BoxModel/Margin/MarginCss";
+import BaseMarginCss from "../Css/BoxModel/BaseMarginCss";
+import MarginRealCssFetcher from "../Css/RealCssProp/MarginRealCssFetcher";
+import _ from 'lodash'
+import CssAuto from '~/src/Css/CssAuto';
+
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
 {
@@ -65,9 +72,10 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     protected _tmpCssPropertyAccesor: CssPropertyAccessor
 
-
     paddingFilter: FilterCssInjector
+    marginFilter: FilterCssInjector
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
+    marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
     
     constructor()
     {
@@ -139,18 +147,22 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     {
         super.initCssAccessor()
         this.paddingFilter = new PaddingFilterCssInjector(this)
+        this.marginFilter = new MarginFilterCssInjector(this)
         // console.log(`%c${this._width}`, 'font-size: 20px;')
         
         let padding = new PaddingCss('41', new Pixel())
+        let margin = new MarginCss('11', new Pixel())
         let width = new Width(this._width, this.sizeUnitCurrent)
         let height = new Height(this._height, this.sizeUnitCurrent)
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         this._cssPropertyAccesor.addNewProperty(padding)
+        this._cssPropertyAccesor.addNewProperty(margin)
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(backgroundColor)
 
         this.paddingFilter.injectCssProperty(padding)
+        this.marginFilter.injectCssProperty(margin)
     }
 
     get tmpCssAccessor(): CssPropertyAccessor
@@ -219,6 +231,10 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         if (css instanceof BasePaddingCss) {
             return false
         }
+        
+        if (css instanceof BaseMarginCss) {
+            return false
+        }
 
         return true
 
@@ -266,16 +282,59 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     //     }
     // }
 
+    recalculateRealComputedProperties()
+    {
+        for (const prop of this.cssAccessor.getAll()) {
+            
+            console.log('ALA MA');
+            // console.log(newProp.getUnit());
+            // console.log(newProp);
+            if (prop instanceof BasePaddingCss) {
+
+                let val = this.getComputedCssVal(prop)
+                let clonedCss = _.cloneDeep(prop)
+                clonedCss.setValue(parseInt(val).toString())
+                clonedCss.setUnit(new Pixel())
+                // console.log(newProp);
+                console.log(val);
+                // console.log(clonedCss);
+                console.log('ALA MA');
+                this.paddingFilter.injectCssProperty(clonedCss)
+            }
+        }
+    }
+
     public getComputedCssVal(prop: BasePropertyCss): string
     {
+
+        console.log('COMPUTED');
         console.log(prop.getName());
         console.log(prop.getValue());
-        
-        this.getHtmlEl().style[prop.getName()] = prop.getValue()
+        // console.log(this.getHtmlEl());
+        // console.log(this.getHtmlEl());
+        // @ts-ignore
+        if (typeof prop.isAuto === 'function') {
+            // @ts-ignore
+            if (prop.isAuto()) {
+                this.getHtmlEl().style[prop.getName()] = 'auto'
+                this.getHtmlEl().style['margin-left'] = 'auto'
+                // throw Error('AJAJAJA')
+            } else {
+                this.getHtmlEl().style[prop.getName()] = prop.getValue()
+
+            }
+            
+        } else {
+            this.getHtmlEl().style[prop.getName()] = prop.getValue()
+
+        }
         var a = window.getComputedStyle(this.getHtmlEl())
         var val = a.getPropertyValue(prop.getName())
         this.getHtmlEl().removeAttribute('style')
-
+        
+        console.log(a);
+        console.log(val);
+        console.log('COMPUTED-END');
         return val
     }
 

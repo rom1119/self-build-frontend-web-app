@@ -14,7 +14,6 @@ import PaddingRightCss from "~/src/Css/BoxModel/Padding/PaddingRightCss";
 
 export default class PaddingRight extends PaddingModel {
     protected _name: string = 'padding-right'
-    // protected _float: string = 'left';
 
     constructor(tag: HtmlTag)
     {

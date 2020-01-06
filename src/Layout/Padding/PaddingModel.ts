@@ -127,7 +127,6 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
 
         this.updateCssProperty(Display.PROP_NAME, display)
 
-
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         } 
