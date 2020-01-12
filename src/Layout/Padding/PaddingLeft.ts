@@ -6,6 +6,9 @@ import Width from "~/src/Css/Size/Width";
 import HtmlTag from "../HtmlTag";
 import Height from "~/src/Css/Size/Height";
 import PaddingLeftCss from '../../Css/BoxModel/Padding/PaddingLeftCss';
+import LeftCss from "~/src/Css/Position/Direction/LeftCss";
+import TopCss from "~/src/Css/Position/Direction/TopCss";
+import Named from "~/src/Unit/Color/Named";
 
 export default class PaddingLeft extends PaddingModel
 {
@@ -24,8 +27,13 @@ export default class PaddingLeft extends PaddingModel
         super.initCssAccessor()
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(100, new Percent())
+        let left = new LeftCss(this.offset, new Pixel())
+        let top = new TopCss(0, new Named())
+        
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
+        this._cssPropertyAccesor.addNewProperty(left)
+        this._cssPropertyAccesor.addNewProperty(top)
     } 
     
     get width(): number {
@@ -54,8 +62,13 @@ export default class PaddingLeft extends PaddingModel
         let css = super.cssList
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(100, new Percent())
+        let left = new LeftCss(this.offset, new Pixel())
+        let top = new TopCss(0, new Named())
+
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
+        this._cssPropertyAccesor.setNewPropertyValue(LeftCss.PROP_NAME, left)
+        this._cssPropertyAccesor.setNewPropertyValue(TopCss.PROP_NAME, top)
 
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()

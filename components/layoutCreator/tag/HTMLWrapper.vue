@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper"   :key="value.updateComponentKey" :id="value.uuid" >
+    <div class="wrapper" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.uuid" >
         
         <div class="none">
             <!-- <span :style="value.cssBoxList"  ></span> -->
@@ -456,11 +456,10 @@ export default class HTMLWrapper extends Vue {
     }
     .wrapper {
         display: flex;
+        position: relative;
         // display: flex;
     }
-    .relative {
-        position: relative;
-    }
+    
     .wrapper-el-editable {
         flex-grow: 1;
         flex-grow: 1;

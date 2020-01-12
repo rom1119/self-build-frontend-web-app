@@ -33,6 +33,10 @@ import BaseMarginCss from "../Css/BoxModel/BaseMarginCss";
 import MarginRealCssFetcher from "../Css/RealCssProp/MarginRealCssFetcher";
 import _ from 'lodash'
 import CssAuto from '~/src/Css/CssAuto';
+import BorderRealCssFetcher from "../Css/RealCssProp/BorderRealCssFetcher";
+import BorderGlobalCss from "../Css/Border/BorderGlobalCss";
+import BoxSizing from '../Css/BoxModel/BoxSizing';
+import BaseBorderCss from "../Css/Border/BaseBorderCss";
 
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
@@ -74,8 +78,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     paddingFilter: FilterCssInjector
     marginFilter: FilterCssInjector
+    borderFilter: FilterCssInjector
+
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
+    borderRealFetcher: FetcherRealCssProp = new BorderRealCssFetcher(this)
     
     constructor()
     {
@@ -91,10 +98,10 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     initBorders()
     {
-        let left = this.borderFactory.createLeft()
-        let right = this.borderFactory.createRight()
-        let top = this.borderFactory.createTop()
-        let bottom = this.borderFactory.createBottom()
+        let left = this.borderFactory.createLeft(this)
+        let right = this.borderFactory.createRight(this)
+        let top = this.borderFactory.createTop(this)
+        let bottom = this.borderFactory.createBottom(this)
 
         this.borders.push(left)
         this.borders.push(right)
@@ -148,18 +155,25 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         super.initCssAccessor()
         this.paddingFilter = new PaddingFilterCssInjector(this)
         this.marginFilter = new MarginFilterCssInjector(this)
+        this.marginFilter = new MarginFilterCssInjector(this)
         // console.log(`%c${this._width}`, 'font-size: 20px;')
         
+        let border = new BorderGlobalCss(this.width, new Pixel())
+        border.addPropVal('dotted')
+        let unitColor =  new Named()
+        border.addPropVal(unitColor.getValue('red'))
         let padding = new PaddingCss('41', new Pixel())
         let margin = new MarginCss('11', new Pixel())
         let width = new Width(this._width, this.sizeUnitCurrent)
         let height = new Height(this._height, this.sizeUnitCurrent)
+        let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         this._cssPropertyAccesor.addNewProperty(padding)
         this._cssPropertyAccesor.addNewProperty(margin)
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(backgroundColor)
+        this._cssPropertyAccesor.addNewProperty(boxSizing)
 
         this.paddingFilter.injectCssProperty(padding)
         this.marginFilter.injectCssProperty(margin)
@@ -301,6 +315,19 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 console.log('ALA MA');
                 this.paddingFilter.injectCssProperty(clonedCss)
             }
+            
+            if (prop instanceof BaseMarginCss) {
+
+                let val = this.getComputedCssVal(prop)
+                let clonedCss = _.cloneDeep(prop)
+                clonedCss.setValue(parseInt(val).toString())
+                clonedCss.setUnit(new Pixel())
+                // console.log(newProp);
+                console.log(val);
+                // console.log(clonedCss);
+                console.log('ALA MA');
+                this.marginFilter.injectCssProperty(clonedCss)
+            }
         }
     }
 
@@ -330,7 +357,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         }
         var a = window.getComputedStyle(this.getHtmlEl())
         var val = a.getPropertyValue(prop.getName())
-        this.getHtmlEl().removeAttribute('style')
+        // this.getHtmlEl().removeAttribute('style')
         
         console.log(a);
         console.log(val);
@@ -392,8 +419,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         // let paddingRightWidth = 0
         // let paddingTopWidth = 0
         // let paddingBottomWidth = 0
-        let boxWidth = marginLeftWidth + borderLeftWidth + paddingLeftWidth + marginRightWidth + borderRightWidth + paddingRightWidth + this._width
-        let boxHeight = marginTopWidth + borderTopWidth + paddingTopWidth + marginBottomWidth + borderBottomWidth + paddingBottomWidth + this._height
+        // let boxWidth = marginLeftWidth + borderLeftWidth + paddingLeftWidth + marginRightWidth + borderRightWidth + paddingRightWidth + this._width
+        // let boxHeight = marginTopWidth + borderTopWidth + paddingTopWidth + marginBottomWidth + borderBottomWidth + paddingBottomWidth + this._height
+        
+        let boxWidth = this._width
+        let boxHeight = this._height
         if (this._backgroundColor) {
 
         }
@@ -422,9 +452,17 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 // this.paddingFilter.injectCssProperty(cssProp)
             }
             if (!this.filterCss(cssProp)) {
-                continue
+                // continue
             }
-            if (cssProp instanceof Width || cssProp instanceof Height) {
+            if (cssProp instanceof Width ||
+                cssProp instanceof Height ||
+                cssProp instanceof BaseMarginCss ||
+                cssProp instanceof BasePaddingCss || 
+                cssProp instanceof BaseBorderCss || 
+                cssProp instanceof BoxSizing 
+            )
+                
+            {
                 css[cssProp.getName()] = cssProp.getValue()
 
             }

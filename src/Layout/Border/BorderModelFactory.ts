@@ -3,27 +3,28 @@ import BorderLeft from './BorderLeft';
 import BorderRight from './BorderRight';
 import BorderTop from './BorderTop';
 import BorderBottom from './BorderBottom';
+import HtmlTag from '../HtmlTag';
 
 
 export default class BorderModelFactory 
 {
-    public createLeft() : BorderLeft
+    public createLeft(tag: HtmlTag) : BorderLeft
     {
-        return new BorderLeft
+        return new BorderLeft(tag)
     }
 
-    public createRight() : BorderRight 
+    public createRight(tag: HtmlTag) : BorderRight 
     {
-        return new BorderRight
+        return new BorderRight(tag)
     }
 
-    public createTop() : BorderTop 
+    public createTop(tag: HtmlTag) : BorderTop 
     {
-        return new BorderTop
+        return new BorderTop(tag)
     }
 
-    public createBottom() : BorderBottom 
+    public createBottom(tag: HtmlTag) : BorderBottom 
     {
-        return new BorderBottom
+        return new BorderBottom(tag)
     }
 }

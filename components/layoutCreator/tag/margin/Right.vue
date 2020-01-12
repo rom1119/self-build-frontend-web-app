@@ -1,9 +1,7 @@
 <template>
 
-    <div class="stretch stretch__flex cursor-resize-to-right margin-right" 
-            >
-        <div class="stretch" 
-            :style="value.cssList"
+    <div class="stretch stretch__flex cursor-resize-to-right absolute margin-right" :style="value.cssList">
+        <div class="stretch full-box" 
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
             @mouseout.stop="onMouseOut" 

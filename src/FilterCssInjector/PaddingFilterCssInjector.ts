@@ -117,6 +117,59 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         }
     }
 
+    private updateOffset(cssProp: BasePaddingCss) {
+        if (cssProp instanceof PaddingLeftCss) {
+            this.updateLeftOffset()
+        } else if (cssProp instanceof PaddingRightCss) {
+            this.updateRightOffset()
+        } else if (cssProp instanceof PaddingTopCss) {
+            this.updateTopOffset()
+            
+        } else if (cssProp instanceof PaddingBottomCss) {
+            this.updateBottomOffset()
+            
+        } else if (cssProp instanceof PaddingCss) {
+            this.updateLeftOffset()
+            this.updateRightOffset()
+            this.updateTopOffset()
+            this.updateBottomOffset()
+            
+        }
+    }
+
+    private updateLeftOffset()
+    {
+        // let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
+        // let borderLeftWidth = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
+        let newOff = -Math.abs(this.htmlTag.marginLeft.width )
+        this.htmlTag.paddingLeft.offset =newOff
+    }
+    
+    private updateRightOffset()
+    {
+        // let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
+        // let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
+        let newOff = -Math.abs(this.htmlTag.marginRight.width)
+        this.htmlTag.marginRight.offset =newOff
+    }
+    
+    private updateTopOffset()
+    {
+        // let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
+        // let borderTopWidth = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
+        let newOff = -Math.abs(this.htmlTag.marginTop.width)
+        this.htmlTag.marginTop.offset =newOff
+    }
+    
+    private updateBottomOffset()
+    {
+        // let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
+        // let borderBottomWidth = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
+        let newOff = -Math.abs(this.htmlTag.marginBottom.width)
+        this.htmlTag.marginBottom.offset =newOff
+    }
+
+
     updateVal(cssProp: BasePropertyCss, paddingModel: PaddingModel) {
         var prop: BasePropertyCss
         if (paddingModel instanceof PaddingLeft ||  paddingModel instanceof PaddingRight) {

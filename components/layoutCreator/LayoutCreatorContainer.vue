@@ -52,8 +52,8 @@ export default class LayoutCreatorContainer extends Vue {
     mounted()
     {
         window.addEventListener('resize', (e) => {
-            console.log('width', (<Window>e.target).innerWidth);
-            console.log('height', e.target.innerHeight);
+            // console.log('width', (<Window>e.target).innerWidth);
+            // console.log('height', e.target.innerHeight);
             for (const htmlTag of this.htmlTags) {
                 htmlTag.recalculateRealComputedProperties()
             }

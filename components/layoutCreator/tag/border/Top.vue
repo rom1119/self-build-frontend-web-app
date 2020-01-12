@@ -1,8 +1,8 @@
 <template>
 
-    <div  class="cursor-resize-to-top">
+    <div  class="cursor-resize-to-top" :style="value.cssList">
         <border-html-context-menu :value="value"  :ref="value.uuid" />
-        <div :style="value.cssList" 
+        <div
         v-context-menu="value.uuid" 
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
@@ -20,7 +20,6 @@ import Top from '~/src/Site/Top';
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BorderModel from '../../../../src/Layout/Border/BorderModel';
 import BorderComponent from './Border.vue';
-import YPositionDetector from "~/src/PositionDetector/YPositionDetector";
 
 @Component
 export default class BorderTopComponent extends BorderComponent {

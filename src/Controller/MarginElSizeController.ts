@@ -7,10 +7,18 @@ import AxisPositionDetector from '../AxisSizeDetector';
 import MarginModel from '../Layout/Margin/MarginModel';
 import MarginLeft from '../Layout/Margin/MarginLeft';
 import MarginRight from '../Layout/Margin/MarginRight';
+import OffsetCalculator from '../Calculator/OffsetCalculator';
+import MarginOffsetCalculator from '../Calculator/Offset/MarginOffsetCalculator';
 export default class MarginElSizeController extends SizeElController
 {
     protected currentElement: MarginModel
     protected mouseDetector: AxisPositionDetector
+    protected offsetCalculator: OffsetCalculator<MarginModel>
+
+    constructor() {
+        super()
+
+    }
     
     public hasActiveEl(): boolean {
         return this.mouseDown == true
@@ -78,6 +86,9 @@ export default class MarginElSizeController extends SizeElController
         if (newVal > 0) {
             this.currentElement.initSize(newVal)
             this.currentElement.updatePixelPropertyForTag()
+            this.currentElement.updateOpposedProperty()
+            this.offsetCalculator = new MarginOffsetCalculator(this.currentElement.getHtmlTag())
+            this.currentElement.offset = this.offsetCalculator.calculate(this.currentElement)
 
         }
     }

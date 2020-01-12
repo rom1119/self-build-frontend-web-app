@@ -9,6 +9,10 @@ import Percent from "~/src/Unit/Size/Percent";
 import Width from "~/src/Css/Size/Width";
 import BorderRightWidth from "~/src/Css/Border/BorderRightWidth";
 import Height from "~/src/Css/Size/Height";
+import RightCss from "~/src/Css/Position/Direction/RightCss";
+import TopCss from "~/src/Css/Position/Direction/TopCss";
+import HtmlTag from "../HtmlTag";
+import BorderRightCss from "~/src/Css/Border/BorderRightCss";
 
 
 export default class BorderRight extends BorderModel {
@@ -17,9 +21,9 @@ export default class BorderRight extends BorderModel {
     // protected _float: string = 'left';
     protected _initialColor: string = 'blue'
 
-    constructor()
+    constructor(tag: HtmlTag)
     {
-        super()
+        super(tag)
         this._color = this._initialColor
         this.initCssAccessor()
     }
@@ -31,31 +35,31 @@ export default class BorderRight extends BorderModel {
         let width = new Width('none', new Named())
         let height = new Height('none', new Named())
         let borderWidth = new BorderRightWidth(this.width, this.widthUnit)
+        let right = new RightCss(this.offset, new Pixel())
+        let top = new TopCss(0, new Named())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(borderWidth)
+        this._cssPropertyAccesor.addNewProperty(right)
+        this._cssPropertyAccesor.addNewProperty(top)
     }
-
-    get widthUnit(): UnitSize {
-        return new Pixel()
-    }    
-    get heightUnit(): UnitSize {
-        return new Percent()
-    }
-    get width(): number {
-        return this._borderWidth
-    }
-    
-    set width(newVal: number) {
-        this._borderWidth = newVal
-    }
-    get height(): number {
-        return this._height
-    }
-
     get left(): string 
     {
         return 'none'
+    }
+
+    public updatePixelPropertyForTag()
+    {
+        var prop = <BorderRightCss>this.htmlTag.tmpCssAccessor.getProperty(BorderRightCss.PROP_NAME)
+        if (prop) {
+            prop.setWidth(this.width, new Pixel())
+            prop.setActive(true)
+        } else {
+            prop = new BorderRightCss(this.width, new Pixel())
+            prop.addPropVal(this._initialType)
+            prop.addPropVal(this._initialColorUnit.getValue(this._initialColor))
+        }
+        this.htmlTag.updateCssPropertyWithoutModel(BorderRightCss.PROP_NAME, prop)
     }
 
     get cssList() : any
@@ -64,9 +68,13 @@ export default class BorderRight extends BorderModel {
         let width = new Width('none', new Named())
         let height = new Height('none', new Named())
         let borderWidth = new BorderRightWidth(this.width, this.widthUnit)
+        let right = new RightCss(this.offset, new Pixel())
+        let top = new TopCss(0, new Named())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
         this._cssPropertyAccesor.setNewPropertyValue(BorderRightWidth.PROP_NAME, borderWidth)
+        this._cssPropertyAccesor.setNewPropertyValue(RightCss.PROP_NAME, right)
+        this._cssPropertyAccesor.setNewPropertyValue(TopCss.PROP_NAME, top)
 
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()

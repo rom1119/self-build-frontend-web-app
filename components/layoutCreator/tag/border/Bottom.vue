@@ -1,8 +1,8 @@
 <template>
-    <div  v-if="value != null" class="cursor-resize-to-bottom">
+    <div  v-if="value != null" class="cursor-resize-to-bottom absolute" :style="value.cssList">
         <border-html-context-menu :value="value"  :ref="value.uuid" />
 
-        <div :style="value.cssList" 
+        <div  
             v-context-menu="value.uuid"
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
@@ -26,7 +26,6 @@ export default class BorderBottomComponent extends BorderComponent {
 
     contextMenuName = 'cm-create-html-element123'
     
-
     onMouseOver() {            
         super.onMouseOver(this)
     }
@@ -44,8 +43,7 @@ export default class BorderBottomComponent extends BorderComponent {
         let compStyles = window.getComputedStyle(e.target);
         var heightTable = compStyles.getPropertyValue('height')
 
-        // console.log(heightTable);
-            
+        // console.log(heightTable);    
 
     }
     created() {

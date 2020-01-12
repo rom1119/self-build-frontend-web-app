@@ -14,6 +14,8 @@ import UnitColor from "~/src/Unit/UnitColor";
 import BorderStyle from '../../Css/Border/BorderStyle';
 import BorderColor from "~/src/Css/Border/BorderColor";
 import BorderWidth from '../../Css/Border/BorderWidth';
+import Display from "~/src/Css/Display/Display";
+import HtmlTag from "../HtmlTag";
 
 export default abstract class BorderModel extends LayoutEl implements CssList, SizeActivable
 {
@@ -21,6 +23,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     protected _name: string = 'border-base'
     protected _style: string
     protected _borderWidth: number = 15
+    protected _offset: number = -15
     protected _color: string
     protected _colorUnit: UnitColor
     protected _initialColor: string = 'red'
@@ -29,15 +32,22 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     protected _initialStyleUnit: UnitColor = new Named()
     protected _defaultSizeUnit = new Pixel()
     protected _defaultColorUnit = new Named()
+    protected _width: number = 15
+    protected htmlTag: HtmlTag
+    widthUnit: UnitSize
+
+
     protected _cssPropertyAccesor: CssPropertyAccessor
 
 
-    constructor()
+    constructor(tag: HtmlTag)
     {
         super()
+        this.htmlTag = tag
         this._color = this._initialColor
         this._colorUnit = this._initialColorUnit
         this._style = this._initialType
+        this.widthUnit = this._defaultSizeUnit
 
     }
 
@@ -49,11 +59,21 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         let borderColor = new BorderColor(this._color, this._initialColorUnit)
         // let borderWidth = new BorderWidth(this._color, this._initialColorUnit)
         let borderStyle = new BorderStyle(this._style, this._initialStyleUnit)
+
+        var active= this._active
+        var display
+        let css = {}
+        if (active) {
+            display = new Display(Display.BLOCK, new Named())
+        } else {
+            display = new Display(Display.NONE, new Named())
+        }
         // this._cssPropertyAccesor.addNewProperty(width)
         // this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(borderColor)
         // this._cssPropertyAccesor.addNewProperty(borderWidth)
         this._cssPropertyAccesor.addNewProperty(borderStyle)
+        this._cssPropertyAccesor.addNewProperty(display)
     }
 
     get borderWidth(): number
@@ -65,18 +85,29 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         this._borderWidth = arg
     }
 
+    get offset(): number
+    {
+        return this._offset
+    }
+    set offset(arg: number)
+    {
+        this._offset = arg
+    }
+
+    get width(): number
+    {
+        return this._width
+    }
+    set width(arg: number)
+    {
+        this._width = arg
+    }
+    
+
     public toString(): string
     {
         return `${this._name}, UUID=${this.uuid} `
     }
-
-    
-    abstract get widthUnit(): UnitSize
-    abstract get heightUnit(): UnitSize
-
-    abstract get width(): number
-    abstract set width(val: number)
-    abstract get height(): number
 
     // onMouseOver(target: BorderModel) 
     // {        
@@ -107,24 +138,23 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     public changeAsDeactiveSize() {
         this._color = this._initialColor
     }
+    
+    abstract updatePixelPropertyForTag()
+
 
     get cssList() : any
     {
-        
+        let active = this._active
+        var display
+        if (active) {
+            display = new Display(Display.BLOCK, new Named())
+        } else {
+            display = new Display(Display.NONE, new Named())
+        }
         let css = {}
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         } 
-
-        if (css[Width.PROP_NAME]) {
-            let width = new Width(this.width, this.widthUnit)
-            css[Width.PROP_NAME] = width.getValue()
-        }
-        
-        if (css[Height.PROP_NAME]) {
-            let height = new Height(this.height, this.heightUnit)
-            css[Height.PROP_NAME] = height.getValue()
-        }
         
         if (css[BorderColor.PROP_NAME]) {
             let borderColor = new BorderColor(this._color, this._colorUnit)

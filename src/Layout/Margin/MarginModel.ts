@@ -17,6 +17,7 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     
     protected _name: string = 'border-base'
     protected _width: number = 55
+    protected _offset: number = -55
     protected _color: any
     protected _initialColor: any = {
         r: 255,
@@ -58,6 +59,11 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
         // this._cssPropertyAccesor.addNewProperty(borderWidth)
     }
 
+    public getHtmlTag(): HtmlTag
+    {
+        return this.htmlTag
+    }
+
     public toString(): string
     {
         return `${this._name}, UUID=${this.uuid} `
@@ -70,6 +76,15 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     set width(arg: number)
     {
         this._width = arg
+    }
+    
+    get offset(): number
+    {
+        return this._offset
+    }
+    set offset(arg: number)
+    {
+        this._offset = arg
     }
 
     // onMouseOver(target: BorderModel) 
@@ -112,6 +127,7 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     }
 
     abstract updatePixelPropertyForTag()
+    abstract updateOpposedProperty()
 
     get cssList() : any
     {

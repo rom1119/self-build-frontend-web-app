@@ -1,8 +1,8 @@
 <template>
 
-    <div v-if="value != null" class="cursor-resize-to-bottom margin-bottom">
+    <div v-if="value != null" class="cursor-resize-to-bottom absolute margin-bottom" :style="value.cssList">
 
-        <div :style="value.cssList" 
+        <div  
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
             @mouseout.stop="onMouseOut" 

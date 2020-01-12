@@ -1,7 +1,7 @@
 <template>
 
-    <div  class="cursor-resize-to-top padding-top">
-        <div :style="value.cssList" 
+    <div  class="cursor-resize-to-top absolute padding-top" :style="value.cssList" >
+        <div
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
             @mouseout.stop="onMouseOut" 

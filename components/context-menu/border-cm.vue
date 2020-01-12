@@ -25,21 +25,21 @@ export default class HtmlBorderContextMenu extends Vue {
     setSolid(a)
     {
         
-        this.value.setSolid()
+        // this.value.setSolid()
     }
 
     setDotted()
     {
-        this.value.setDotted()
+        // this.value.setDotted()
     }
 
     setDashed()
     {
-        this.value.setDashed()
+        // this.value.setDashed()
     }
     setNone()
     {
-        this.value.setNone()
+        // this.value.setNone()
     }
 
 }

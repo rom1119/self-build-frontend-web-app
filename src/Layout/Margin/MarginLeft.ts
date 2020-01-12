@@ -6,6 +6,11 @@ import HtmlTag from "../HtmlTag";
 import MarginModel from "./MarginModel";
 import Height from "~/src/Css/Size/Height";
 import MarginLeftCss from "~/src/Css/BoxModel/Margin/MarginLeftCss";
+import Left from '~/src/Site/Left';
+import LeftCss from "~/src/Css/Position/Direction/LeftCss";
+import TopCss from '../../Css/Position/Direction/TopCss';
+import Named from '../../Unit/Color/Named';
+import BaseMarginCss from '../../Css/BoxModel/BaseMarginCss';
 
 export default class MarginLeft extends MarginModel
 {
@@ -25,8 +30,13 @@ export default class MarginLeft extends MarginModel
         super.initCssAccessor()
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(100, new Percent())
+        let left = new LeftCss(this.offset, new Pixel())
+        let top = new TopCss(0, new Named())
+
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
+        this._cssPropertyAccesor.addNewProperty(left)
+        this._cssPropertyAccesor.addNewProperty(top)
     } 
     
     get width(): number {
@@ -39,15 +49,21 @@ export default class MarginLeft extends MarginModel
 
     public updatePixelPropertyForTag()
     {
-        var prop = this.htmlTag.tmpCssAccessor.getProperty(MarginLeftCss.PROP_NAME)
+        var prop = <BaseMarginCss>this.htmlTag.tmpCssAccessor.getProperty(MarginLeftCss.PROP_NAME)
         if (prop) {
             prop.setValue(this.width.toString())
             prop.setUnit(new Pixel())
             prop.setActive(true)
+            prop.notAuto()
         } else {
             prop = new MarginLeftCss(this.width, new Pixel())
         }
         this.htmlTag.updateCssPropertyWithoutModel(MarginLeftCss.PROP_NAME, prop)
+    }
+
+    public updateOpposedProperty()
+    {
+        this.htmlTag.marginRight.updatePixelPropertyForTag()
     }
 
     get cssList() : any
@@ -55,8 +71,12 @@ export default class MarginLeft extends MarginModel
         let css = super.cssList
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(100, new Percent())
+        let left = new LeftCss(this.offset, new Pixel())
+        let top = new TopCss(0, new Named())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
+        this._cssPropertyAccesor.setNewPropertyValue(LeftCss.PROP_NAME, left)
+        this._cssPropertyAccesor.setNewPropertyValue(TopCss.PROP_NAME, top)
 
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()

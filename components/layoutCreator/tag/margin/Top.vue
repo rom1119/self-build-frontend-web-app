@@ -1,14 +1,13 @@
 <template>
 
-    <div  class="cursor-resize-to-top margin-top">
-        <div :style="value.cssList" 
+    <div  class="cursor-resize-to-top absolute margin-top" :style="value.cssList" >
+        <div 
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
             @mouseout.stop="onMouseOut" 
          >
         </div>
     </div>
-
 </template>
 
 <script lang="ts">

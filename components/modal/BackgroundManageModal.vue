@@ -209,6 +209,7 @@ interface Color {
           if (input.files && input.files[0]) {
             var reader = new FileReader()
             reader.onload = function (e) {
+                // @ts-ignore
               that.backgroundImage = e.target.result
               // el.imgUrl = e.target.result
             //   console.log(el)

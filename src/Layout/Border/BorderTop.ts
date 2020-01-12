@@ -12,6 +12,10 @@ import Width from "~/src/Css/Size/Width";
 import Height from "~/src/Css/Size/Height";
 import BorderBottomWidth from "~/src/Css/Border/BorderBottomWidth";
 import BorderTopWidth from "~/src/Css/Border/BorderTopWidth";
+import HtmlTag from "../HtmlTag";
+import LeftCss from "~/src/Css/Position/Direction/LeftCss";
+import TopCss from "~/src/Css/Position/Direction/TopCss";
+import BorderTopCss from "~/src/Css/Border/BorderTopCss";
 
 export default class BorderTop extends BorderModel
 {
@@ -21,9 +25,9 @@ export default class BorderTop extends BorderModel
     protected _initialColor: string = 'aqua'
 
     // protected _float: string = 'left';
-    constructor()
+    constructor(tag: HtmlTag)
     {
-        super()
+        super(tag)
         this._color = this._initialColor
         this.initCssAccessor()
 
@@ -34,28 +38,28 @@ export default class BorderTop extends BorderModel
         super.initCssAccessor()
         let width = new Width('100', new Percent())
         let height = new Height('none', new Named())
-        let borderWidth = new BorderTopWidth(this.height, this.heightUnit)
+        let borderWidth = new BorderTopWidth(this.width, this.widthUnit)
+        let left = new LeftCss(0, new Named())
+        let top = new TopCss(this.offset, new Pixel())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(borderWidth)
+        this._cssPropertyAccesor.addNewProperty(left)
+        this._cssPropertyAccesor.addNewProperty(top)
     }
 
-    get widthUnit(): UnitSize {
-        return new Percent()
-    }    
-    get heightUnit(): UnitSize {
-        return new Pixel()
-    }
-    get width(): number {
-        return this._borderWidth
-    }
-
-    set width(newVal: number) {
-        this._borderWidth = newVal
-    }
-
-    get height(): number {
-        return this._borderWidth
+    public updatePixelPropertyForTag()
+    {
+        var prop = <BorderTopCss>this.htmlTag.tmpCssAccessor.getProperty(BorderTopCss.PROP_NAME)
+        if (prop) {
+            prop.setWidth(this.width, new Pixel())
+            prop.setActive(true)
+        } else {
+            prop = new BorderTopCss(this.width, new Pixel())
+            prop.addPropVal(this._initialType)
+            prop.addPropVal(this._initialColorUnit.getValue(this._initialColor))
+        }
+        this.htmlTag.updateCssPropertyWithoutModel(BorderTopCss.PROP_NAME, prop)
     }
 
     get cssList() : any
@@ -63,10 +67,14 @@ export default class BorderTop extends BorderModel
         let css = super.cssList
         let width = new Width('100', new Percent())
         let height = new Height('none', new Named())
-        let borderWidth = new BorderTopWidth(this.height, this.heightUnit)
+        let borderWidth = new BorderTopWidth(this.width, this.widthUnit)
+        let left = new LeftCss(0, new Named())
+        let top = new TopCss(this.offset, new Pixel())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
         this._cssPropertyAccesor.setNewPropertyValue(BorderTopWidth.PROP_NAME, borderWidth)
+        this._cssPropertyAccesor.setNewPropertyValue(LeftCss.PROP_NAME, left)
+        this._cssPropertyAccesor.setNewPropertyValue(TopCss.PROP_NAME, top)
 
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
