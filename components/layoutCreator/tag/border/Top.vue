@@ -1,12 +1,15 @@
 <template>
 
-    <div  class="cursor-resize-to-top" :style="value.cssList">
+    <div  class="cursor-resize-to-top absolute" 
+        :style="value.cssList"
+        v-context-menu="value.uuid" 
+        @mousedown.stop="onMouseDown($event)"  
+        @mouseover.stop="onMouseOver"
+        @mouseout.stop="onMouseOut" 
+    
+    >
         <border-html-context-menu :value="value"  :ref="value.uuid" />
         <div
-        v-context-menu="value.uuid" 
-            @mousedown.stop="onMouseDown($event)"  
-            @mouseover.stop="onMouseOver"
-            @mouseout.stop="onMouseOut" 
          >
         </div>
     </div>

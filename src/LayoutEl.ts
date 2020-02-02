@@ -55,14 +55,12 @@ export default abstract class LayoutEl {
         }
         this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         this.updateModelComponent()
-
     }
     
     public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
     {
         if (!this.cssAccessor.hasCssProperty(val.getName())) {
             this.cssAccessor.addNewProperty(val)
-
         } else {            
             let currentBackground = this.cssAccessor.getProperty(val.getName())
             if (currentBackground.getValue() === val.getValue()) {

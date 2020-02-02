@@ -64,6 +64,11 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
         return `${this._name}, UUID=${this.uuid} `
     }
 
+    public getHtmlTag(): HtmlTag
+    {
+        return this.htmlTag
+    }
+
     get width(): number
     {
         return this._width
@@ -114,11 +119,11 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
     }
 
     public changeAsActiveSize() {
-        // this.htmlTag.focusPaddings()
+        this.htmlTag.focusPaddings()
     }
     
     public changeAsDeactiveSize() {
-        // this.htmlTag.blurPaddings()
+        this.htmlTag.blurPaddings()
     }
 
     abstract updatePixelPropertyForTag()

@@ -16,7 +16,7 @@ export default class PaddingOffsetCalculator implements OffsetCalculator<Padding
 
     }
 
-    calculate(el: PaddingModel): number {
+    calculateOffset(el: PaddingModel): number {
         if (el instanceof PaddingLeft) {
             return this.calculateLeftOffset()
         } else if (el instanceof PaddingRight) {
@@ -36,8 +36,8 @@ export default class PaddingOffsetCalculator implements OffsetCalculator<Padding
     {
         let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
         let borderLeftWidth = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginLeft.width + paddingLeftWidth + borderLeftWidth)
-        return newOff
+        let newOff = -Math.abs( paddingLeftWidth)
+        return 0
     }
     
     private calculateRightOffset(): number
@@ -45,7 +45,7 @@ export default class PaddingOffsetCalculator implements OffsetCalculator<Padding
         let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
         let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
         let newOff = -Math.abs(this.htmlTag.marginRight.width + paddingRightWidth + borderRightWidth)
-        return newOff
+        return 0
     }
     
     private calculateTopOffset(): number
@@ -53,7 +53,7 @@ export default class PaddingOffsetCalculator implements OffsetCalculator<Padding
         let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
         let borderTopWidth = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
         let newOff = -Math.abs(this.htmlTag.marginTop.width )
-        return newOff
+        return 0
     }
     
     private calculateBottomOffset(): number
@@ -61,7 +61,7 @@ export default class PaddingOffsetCalculator implements OffsetCalculator<Padding
         let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
         let borderBottomWidth = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
         let newOff = -Math.abs(this.htmlTag.marginBottom.width + paddingBottomWidth + borderBottomWidth)
-        return newOff
+        return 0
     }
 
     

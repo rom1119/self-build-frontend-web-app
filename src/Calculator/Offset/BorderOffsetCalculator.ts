@@ -1,12 +1,12 @@
 import OffsetCalculator from '../OffsetCalculator';
 import HtmlTag from '~/src/Layout/HtmlTag';
-import MarginModel from '../../Layout/Margin/MarginModel';
-import MarginLeft from '~/src/Layout/Margin/MarginLeft';
-import MarginRight from '~/src/Layout/Margin/MarginRight';
-import MarginTop from '~/src/Layout/Margin/MarginTop';
-import MarginBottom from '~/src/Layout/Margin/MarginBottom';
+import BorderModel from '../../Layout/Border/BorderModel';
+import BorderLeft from '~/src/Layout/Border/BorderLeft';
+import BorderRight from '~/src/Layout/Border/BorderRight';
+import BorderTop from '~/src/Layout/Border/BorderTop';
+import BorderBottom from '~/src/Layout/Border/BorderBottom';
 
-export default class MarginOffsetCalculator implements OffsetCalculator<MarginModel>
+export default class BorderOffsetCalculator implements OffsetCalculator<BorderModel>
 {
     protected htmlTag: HtmlTag
 
@@ -16,15 +16,15 @@ export default class MarginOffsetCalculator implements OffsetCalculator<MarginMo
 
     }
 
-    calculateOffset(el: MarginModel): number {
-        if (el instanceof MarginLeft) {
+    calculateOffset(el: BorderModel): number {
+        if (el instanceof BorderLeft) {
             return this.calculateLeftOffset()
-        } else if (el instanceof MarginRight) {
+        } else if (el instanceof BorderRight) {
             return this.calculateRightOffset()
-        } else if (el instanceof MarginTop) {
+        } else if (el instanceof BorderTop) {
             return this.calculateTopOffset()
             
-        } else if (el instanceof MarginBottom) {
+        } else if (el instanceof BorderBottom) {
             return this.calculateBottomOffset()
             
         }
@@ -36,7 +36,7 @@ export default class MarginOffsetCalculator implements OffsetCalculator<MarginMo
     {
         let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
         let borderLeftWidth = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginLeft.width + borderLeftWidth)
+        let newOff = -Math.abs( borderLeftWidth)
         return newOff
     }
     
@@ -44,7 +44,7 @@ export default class MarginOffsetCalculator implements OffsetCalculator<MarginMo
     {
         let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
         let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginRight.width + borderRightWidth)
+        let newOff = -Math.abs(borderRightWidth)
         return newOff
     }
     
@@ -52,7 +52,7 @@ export default class MarginOffsetCalculator implements OffsetCalculator<MarginMo
     {
         let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
         let borderTopWidth = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginTop.width + borderTopWidth )
+        let newOff = -Math.abs(borderTopWidth)
         return newOff
     }
     
@@ -60,7 +60,7 @@ export default class MarginOffsetCalculator implements OffsetCalculator<MarginMo
     {
         let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
         let borderBottomWidth = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginBottom.width + borderBottomWidth)
+        let newOff = -Math.abs(borderBottomWidth)
         return newOff
     }
 

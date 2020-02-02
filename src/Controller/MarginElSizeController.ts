@@ -88,7 +88,7 @@ export default class MarginElSizeController extends SizeElController
             this.currentElement.updatePixelPropertyForTag()
             this.currentElement.updateOpposedProperty()
             this.offsetCalculator = new MarginOffsetCalculator(this.currentElement.getHtmlTag())
-            this.currentElement.offset = this.offsetCalculator.calculate(this.currentElement)
+            this.currentElement.offset = this.offsetCalculator.calculateOffset(this.currentElement)
 
         }
     }

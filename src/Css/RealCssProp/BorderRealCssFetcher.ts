@@ -1,13 +1,13 @@
 import FetcherRealCssProp from '../../FetcherRealCssProp';
-import BorderLeftCss from '../Border/BorderLeftCss';
+import BorderLeftCss from '../Border/Left/BorderLeftCss';
 import HtmlTag from '~/src/Layout/HtmlTag';
-import BorderRightCss from '../Border/BorderRightCss';
-import BorderTopCss from '../Border/BorderTopCss';
-import BorderBottomCss from '../Border/BorderBottomCss';
+import BorderRightCss from '../Border/Right/BorderRightCss';
+import BorderTopCss from '../Border/Top/BorderTopCss';
+import BorderBottomCss from '../Border/Bottom/BorderBottomCss';
 import Unit from '../../Unit/Unit';
 import UnitSize from '../../Unit/UnitSize';
 import BaseBorderCss from '../Border/BaseBorderCss';
-import BorderGlobalCss from '../Border/BorderGlobalCss';
+import BorderGlobalCss from '../Border/Global/BorderGlobalCss';
 export default class BorderRealCssFetcher implements FetcherRealCssProp
 {
 

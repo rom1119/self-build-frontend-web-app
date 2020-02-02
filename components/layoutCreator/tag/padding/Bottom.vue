@@ -1,10 +1,12 @@
 <template>
-    <div class="cursor-resize-to-bottom absolute padding-bottom" :style="value.cssList" >
+    <div class="cursor-resize-to-bottom absolute padding-bottom" 
+        :style="value.cssList" 
+        @mousedown.stop="onMouseDown($event)"  
+        @mouseover.stop="onMouseOver"
+        @mouseout.stop="onMouseOut" 
+    >
 
         <div 
-            @mousedown.stop="onMouseDown($event)"  
-            @mouseover.stop="onMouseOver"
-            @mouseout.stop="onMouseOut" 
             >
         </div>
 

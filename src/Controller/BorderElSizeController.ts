@@ -5,10 +5,15 @@ import BorderLeft from '~/src/Layout/Border/BorderLeft';
 import BorderRight from '../Layout/Border/BorderRight';
 import WidthSizeDetector from '../SizeDetector/WidthSizeDetector';
 import AxisPositionDetector from '../AxisSizeDetector';
+import OffsetCalculator from '../Calculator/OffsetCalculator';
+import BorderOffsetCalculator from '../Calculator/Offset/BorderOffsetCalculator';
+import MarginOffsetCalculator from '../Calculator/Offset/MarginOffsetCalculator';
 export default class BorderElSizeController extends SizeElController
 {
     protected currentElement: BorderModel
     protected mouseDetector: AxisPositionDetector
+    protected offsetCalculator: OffsetCalculator<BorderModel>
+
     
     public hasActiveEl(): boolean {
         return this.mouseDown == true
@@ -72,6 +77,10 @@ export default class BorderElSizeController extends SizeElController
         // console.log(this.currentElement);
         if (newVal > 0) {
             this.currentElement.initSize(newVal)
+            this.currentElement.updatePixelPropertyForTag()
+            this.offsetCalculator = new BorderOffsetCalculator(this.currentElement.getHtmlTag())
+            this.currentElement.offset = this.offsetCalculator.calculateOffset(this.currentElement)
+            
 
         }
     }

@@ -65,7 +65,7 @@
     import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
     import AbstractModal from '../AbstractModal';
     import Named from '../../src/Unit/Color/Named';
-    import BorderStyle from '~/src/Css/Border/BorderStyle';
+    import BorderGlobalStyle from '~/src/Css/Border/Global/BorderGlobalStyle';
 
 
     @Component
@@ -74,7 +74,7 @@
         timeout
         // value: HtmlTag
         
-        borderStyles: string[] = BorderStyle.getAccessableProperty()
+        borderStyles: string[] = BorderGlobalStyle.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
 
         idName = 'text-property-modal'

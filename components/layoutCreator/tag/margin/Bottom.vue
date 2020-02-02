@@ -3,6 +3,7 @@
     <div v-if="value != null" class="cursor-resize-to-bottom absolute margin-bottom" :style="value.cssList">
 
         <div  
+            class="full-box"
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
             @mouseout.stop="onMouseOut" 

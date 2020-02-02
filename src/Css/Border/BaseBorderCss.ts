@@ -4,9 +4,33 @@ import UnitSize from '../../Unit/UnitSize';
 import UnitColor from '../../Unit/UnitColor';
 import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
+import CssWithoutValue from "~/src/Errors/CssWithoutValue";
+import Unit from "~/src/Unit/Unit";
 
 export default abstract class BaseBorderCss extends CssDirectionComposite
 {
+    private _widthUnit
+    private _colorUnit
+
+    constructor(val: any, unit: Unit)
+    {
+        super(val, unit)
+        this.clearValue()
+        this.values.push(unit.getValue(val))
+        this._widthUnit = unit
+    }
+    getValue(): string
+    {
+        if (!this.values[0]) {
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+        }
+        var val = ''
+        this.values.forEach(element => {
+            val += element + ' '
+        });
+        
+        return val
+    }
 
     public setWidth(val: number, unit: UnitSize)
     {
@@ -33,5 +57,33 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
         } else {
             this.values.push(unit.getValue(val))
         }
+
+        this._colorUnit = unit
+
+    }
+
+    public getWidth(): string
+    {
+        return this.values[0]
+    }
+    
+    public getType(): string
+    {
+        return this.values[1]
+    }
+    
+    public getColor(): string
+    {
+        return this.values[2]
+    }
+
+    public getWidthUnit()
+    {
+        return this._widthUnit
+    }
+    
+    public getColorUnit()
+    {
+        return this._colorUnit
     }
 }

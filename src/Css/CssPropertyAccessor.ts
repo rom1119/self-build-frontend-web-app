@@ -57,7 +57,7 @@ export default abstract class CssPropertyAccessor
         let prop = this.getProperty(propName)
         // console.log('lol');
         // console.log(propName);
-        // console.log(prop);
+        // console.log(newVal);
         // console.log('lol2');
         // console.log(this.cssProps);
         if (!prop) {
@@ -102,7 +102,7 @@ export default abstract class CssPropertyAccessor
             throw new CssPropNotFound(`Property with name ${newProp.getName()} has exist in this HTML ELEMENT ${this.toString()} you can not add two the same css property`)
         }
         Vue.set(this.cssProps, this.cssProps.length, newProp)
-        console.log(this.cssProps);
+        // console.log(this.cssProps);
         
         // prop.clearValue()
         // this.cssProps.push(newProp)

@@ -11,23 +11,24 @@ import BorderElPropertyAccessor from "~/src/Css/PropertyAccessor/BorderElCssProp
 import Height from "~/src/Css/Size/Height";
 import BackgroundColor from "~/src/Css/Background/BackgroundColor";
 import UnitColor from "~/src/Unit/UnitColor";
-import BorderStyle from '../../Css/Border/BorderStyle';
-import BorderColor from "~/src/Css/Border/BorderColor";
-import BorderWidth from '../../Css/Border/BorderWidth';
+import BorderGlobalStyle from '../../Css/Border/Global/BorderGlobalStyle';
+import BorderWidth from '../../Css/Border/Global/BorderGlobalWidth';
 import Display from "~/src/Css/Display/Display";
 import HtmlTag from "../HtmlTag";
+import BorderGlobalColor from "~/src/Css/Border/Global/BorderGlobalColor";
+import MarginOffsetCalculator from "~/src/Calculator/Offset/MarginOffsetCalculator";
 
 export default abstract class BorderModel extends LayoutEl implements CssList, SizeActivable
 {
     
     protected _name: string = 'border-base'
     protected _style: string
-    protected _borderWidth: number = 15
     protected _offset: number = -15
+    protected _length: number = 0
     protected _color: string
     protected _colorUnit: UnitColor
     protected _initialColor: string = 'red'
-    protected _initialType: string = BorderStyle.DASHED
+    protected _initialType: string = BorderGlobalStyle.DASHED
     protected _initialColorUnit: UnitColor = new Named()
     protected _initialStyleUnit: UnitColor = new Named()
     protected _defaultSizeUnit = new Pixel()
@@ -36,9 +37,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     protected htmlTag: HtmlTag
     widthUnit: UnitSize
 
-
     protected _cssPropertyAccesor: CssPropertyAccessor
-
 
     constructor(tag: HtmlTag)
     {
@@ -48,7 +47,6 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         this._colorUnit = this._initialColorUnit
         this._style = this._initialType
         this.widthUnit = this._defaultSizeUnit
-
     }
 
     protected initCssAccessor()
@@ -56,9 +54,9 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         super.initCssAccessor()
         // let width = new Width(this.width, this.widthUnit)
         // let height = new Height(this.height, this.heightUnit)
-        let borderColor = new BorderColor(this._color, this._initialColorUnit)
+        let borderColor = new BorderGlobalColor(this._color, this._initialColorUnit)
         // let borderWidth = new BorderWidth(this._color, this._initialColorUnit)
-        let borderStyle = new BorderStyle(this._style, this._initialStyleUnit)
+        let borderStyle = new BorderGlobalStyle(this._style, this._initialStyleUnit)
 
         var active= this._active
         var display
@@ -76,15 +74,6 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         this._cssPropertyAccesor.addNewProperty(display)
     }
 
-    get borderWidth(): number
-    {
-        return this._borderWidth
-    }
-    set borderWidth(arg: number)
-    {
-        this._borderWidth = arg
-    }
-
     get offset(): number
     {
         return this._offset
@@ -92,8 +81,22 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     set offset(arg: number)
     {
         this._offset = arg
+        let marginCal = new MarginOffsetCalculator(this.getHtmlTag())
+        this.getHtmlTag().marginRight.offset = marginCal.calculateOffset(this.getHtmlTag().marginRight)
+        this.getHtmlTag().marginBottom.offset = marginCal.calculateOffset(this.getHtmlTag().marginBottom)
+        this.getHtmlTag().marginTop.offset = marginCal.calculateOffset(this.getHtmlTag().marginTop)
+        this.getHtmlTag().marginLeft.offset = marginCal.calculateOffset(this.getHtmlTag().marginLeft)
     }
 
+    get length(): number
+    {
+        return this._length
+    }
+    set length(arg: number)
+    {
+        this._length = arg
+    }
+    
     get width(): number
     {
         return this._width
@@ -103,7 +106,29 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         this._width = arg
     }
     
+    get color(): string
+    {
+        return this._color
+    }
+    set color(arg: string)
+    {
+        this._color = arg
+    }
+    
+    get style(): string
+    {
+        return this._style
+    }
+    set style(arg: string)
+    {
+        this._style = arg
+    }
 
+    public getHtmlTag(): HtmlTag
+    {
+        return this.htmlTag
+    }
+    
     public toString(): string
     {
         return `${this._name}, UUID=${this.uuid} `
@@ -123,7 +148,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
 
     onClick(target: BorderModel) 
     {
-        target._borderWidth++
+        target._width++
     }
 
     public initSize(w) 
@@ -152,16 +177,18 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
             display = new Display(Display.NONE, new Named())
         }
         let css = {}
+        
+        // css[BorderGlobalColor.PROP_NAME] = borderStyle.getValue()
+
+        
+        // if (css[BorderGlobalColor.PROP_NAME]) {
+        let borderColor = new BorderGlobalColor(this._color, this._colorUnit)
+        this._cssPropertyAccesor.setNewPropertyValue(BorderGlobalColor.PROP_NAME, borderColor)
+            // css[BorderGlobalColor.PROP_NAME] = borderColor.getValue()
+            // }
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         } 
-        
-        if (css[BorderColor.PROP_NAME]) {
-            let borderColor = new BorderColor(this._color, this._colorUnit)
-            this._cssPropertyAccesor.setNewPropertyValue(BorderColor.PROP_NAME, borderColor)
-
-            css[BorderColor.PROP_NAME] = borderColor.getValue()
-        }
 
         return css
     }

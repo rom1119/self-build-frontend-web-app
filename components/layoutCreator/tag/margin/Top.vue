@@ -1,7 +1,9 @@
 <template>
 
-    <div  class="cursor-resize-to-top absolute margin-top" :style="value.cssList" >
+    <div  class="cursor-resize-to-top absolute margin-top" 
+    :style="value.cssList" >
         <div 
+            class="full-box"
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
             @mouseout.stop="onMouseOut" 

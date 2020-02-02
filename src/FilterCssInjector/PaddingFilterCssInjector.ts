@@ -15,18 +15,19 @@ import PaddingBottomCss from "../Css/BoxModel/Padding/PaddingBottomCss";
 import PaddingTopCss from '../Css/BoxModel/Padding/PaddingTopCss';
 import PaddingRightCss from '../Css/BoxModel/Padding/PaddingRightCss';
 import PaddingLeftCss from "../Css/BoxModel/Padding/PaddingLeftCss";
+import OffsetCalculator from "../Calculator/OffsetCalculator";
+import PaddingOffsetCalculator from "../Calculator/Offset/PaddingOffsetCalculator";
 
 export default class PaddingFilterCssInjector extends FilterCssInjector
 {
-    
     protected htmlTag: HtmlTag
-
+    protected offsetCalculator: OffsetCalculator<PaddingModel>
 
     constructor(htmlTag: HtmlTag)
     {
         super()
         this.htmlTag = htmlTag
-
+        this.offsetCalculator = new PaddingOffsetCalculator(htmlTag)
     }
 
     public createDefaultProp(propName: string): BasePropertyCss {
@@ -117,57 +118,57 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         }
     }
 
-    private updateOffset(cssProp: BasePaddingCss) {
-        if (cssProp instanceof PaddingLeftCss) {
-            this.updateLeftOffset()
-        } else if (cssProp instanceof PaddingRightCss) {
-            this.updateRightOffset()
-        } else if (cssProp instanceof PaddingTopCss) {
-            this.updateTopOffset()
+    // private updateOffset(cssProp: BasePaddingCss) {
+    //     if (cssProp instanceof PaddingLeftCss) {
+    //         this.updateLeftOffset()
+    //     } else if (cssProp instanceof PaddingRightCss) {
+    //         this.updateRightOffset()
+    //     } else if (cssProp instanceof PaddingTopCss) {
+    //         this.updateTopOffset()
             
-        } else if (cssProp instanceof PaddingBottomCss) {
-            this.updateBottomOffset()
+    //     } else if (cssProp instanceof PaddingBottomCss) {
+    //         this.updateBottomOffset()
             
-        } else if (cssProp instanceof PaddingCss) {
-            this.updateLeftOffset()
-            this.updateRightOffset()
-            this.updateTopOffset()
-            this.updateBottomOffset()
+    //     } else if (cssProp instanceof PaddingCss) {
+    //         this.updateLeftOffset()
+    //         this.updateRightOffset()
+    //         this.updateTopOffset()
+    //         this.updateBottomOffset()
             
-        }
-    }
+    //     }
+    // }
 
-    private updateLeftOffset()
-    {
-        // let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
-        // let borderLeftWidth = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginLeft.width )
-        this.htmlTag.paddingLeft.offset =newOff
-    }
+    // private updateLeftOffset()
+    // {
+    //     // let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
+    //     // let borderLeftWidth = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
+    //     let newOff = -Math.abs(this.htmlTag.marginLeft.width )
+    //     this.htmlTag.paddingLeft.offset =newOff
+    // }
     
-    private updateRightOffset()
-    {
-        // let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
-        // let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginRight.width)
-        this.htmlTag.marginRight.offset =newOff
-    }
+    // private updateRightOffset()
+    // {
+    //     // let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
+    //     // let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
+    //     let newOff = -Math.abs(this.htmlTag.marginRight.width)
+    //     this.htmlTag.marginRight.offset =newOff
+    // }
     
-    private updateTopOffset()
-    {
-        // let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
-        // let borderTopWidth = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginTop.width)
-        this.htmlTag.marginTop.offset =newOff
-    }
+    // private updateTopOffset()
+    // {
+    //     // let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
+    //     // let borderTopWidth = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
+    //     let newOff = -Math.abs(this.htmlTag.marginTop.width)
+    //     this.htmlTag.marginTop.offset =newOff
+    // }
     
-    private updateBottomOffset()
-    {
-        // let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
-        // let borderBottomWidth = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginBottom.width)
-        this.htmlTag.marginBottom.offset =newOff
-    }
+    // private updateBottomOffset()
+    // {
+    //     // let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
+    //     // let borderBottomWidth = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
+    //     let newOff = -Math.abs(this.htmlTag.marginBottom.width)
+    //     this.htmlTag.marginBottom.offset =newOff
+    // }
 
 
     updateVal(cssProp: BasePropertyCss, paddingModel: PaddingModel) {
@@ -182,6 +183,8 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
             
             paddingModel.width = parseInt(prop.getClearValue())
             paddingModel.widthUnit = prop.getUnit()
+            paddingModel.offset = this.offsetCalculator.calculateOffset(paddingModel)
+
         }
 
         // paddingModel.updateCssProperty(prop.getName(), prop)
@@ -202,9 +205,10 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         if (parseInt(right.getClearValue()) > -1 && !rightProp) {
 
             // if (!rightProp.isActive()) {
-
             this.htmlTag.paddingRight.width = parseInt(right.getClearValue())
             this.htmlTag.paddingRight.widthUnit = right.getUnit()
+            this.htmlTag.paddingRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingRight)
+
         }
         
         if (parseInt(left.getClearValue()) > -1 && !leftProp) {
@@ -212,22 +216,22 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
             // if (!leftProp.isActive()) {
             this.htmlTag.paddingLeft.width = parseInt(left.getClearValue())
             this.htmlTag.paddingLeft.widthUnit = left.getUnit()
-
+            this.htmlTag.paddingLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingLeft)
             // }
         }
         
         if (parseInt(top.getClearValue()) > -1 && !topProp) {
 
-                this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
-                this.htmlTag.paddingTop.widthUnit = top.getUnit()
-            
+            this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
+            this.htmlTag.paddingTop.widthUnit = top.getUnit()
+            this.htmlTag.paddingTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingTop)
         }
         
         if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
 
-                this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
-                this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
-            
+            this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
+            this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
+            this.htmlTag.paddingBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingBottom)
         }
     }
     

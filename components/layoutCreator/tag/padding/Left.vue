@@ -1,10 +1,13 @@
 <template>
 
-    <div class="stretch stretch__flex cursor-resize-to-left absolute padding-left" :style="value.cssList">
+    <div class="stretch stretch__flex cursor-resize-to-left absolute padding-left" 
+        :style="value.cssList"
+        @mousedown.stop="onMouseDown($event)"  
+        @mouseover.stop="onMouseOver"
+        @mouseout.stop="onMouseOut" 
+
+    >
         <div class="stretch" 
-            @mousedown.stop="onMouseDown($event)"  
-            @mouseover.stop="onMouseOver"
-            @mouseout.stop="onMouseOut" 
            >
         </div>
     </div>

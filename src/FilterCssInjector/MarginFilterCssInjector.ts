@@ -122,58 +122,6 @@ export default class MarginFilterCssInjector extends FilterCssInjector
         }
     }
 
-    private updateOffset(cssProp: BaseMarginCss) {
-        if (cssProp instanceof MarginLeftCss) {
-            this.updateLeftOffset()
-        } else if (cssProp instanceof MarginRightCss) {
-            this.updateRightOffset()
-        } else if (cssProp instanceof MarginTopCss) {
-            this.updateTopOffset()
-            
-        } else if (cssProp instanceof MarginBottomCss) {
-            this.updateBottomOffset()
-            
-        } else if (cssProp instanceof MarginCss) {
-            this.updateLeftOffset()
-            this.updateRightOffset()
-            this.updateTopOffset()
-            this.updateBottomOffset()
-            
-        }
-    }
-
-    private updateLeftOffset()
-    {
-        let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
-        let borderLeftWidth = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginLeft.width + paddingLeftWidth + borderLeftWidth)
-        this.htmlTag.marginLeft.offset =newOff
-    }
-    
-    private updateRightOffset()
-    {
-        let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
-        let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginRight.width + paddingRightWidth + borderRightWidth)
-        this.htmlTag.marginRight.offset =newOff
-    }
-    
-    private updateTopOffset()
-    {
-        let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
-        let borderTopWidth = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginTop.width + paddingTopWidth + borderTopWidth)
-        this.htmlTag.marginTop.offset =newOff
-    }
-    
-    private updateBottomOffset()
-    {
-        let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
-        let borderBottomWidth = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginBottom.width + paddingBottomWidth + borderBottomWidth)
-        this.htmlTag.marginBottom.offset =newOff
-    }
-
     private updateVal(cssProp: BasePropertyCss, marginModel: MarginModel) {
         var prop: BasePropertyCss
         if (marginModel instanceof MarginLeft ||  marginModel instanceof MarginRight) {
@@ -186,7 +134,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             
             marginModel.width = parseInt(prop.getClearValue())
             marginModel.widthUnit = prop.getUnit()
-            marginModel.offset = this.offsetCalculator.calculate(marginModel)
+            marginModel.offset = this.offsetCalculator.calculateOffset(marginModel)
         }
         // marginModel.updateCssProperty(prop.getName(), prop)
     }
@@ -209,7 +157,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             
             this.htmlTag.marginRight.width = parseInt(right.getClearValue())
             this.htmlTag.marginRight.widthUnit = right.getUnit()
-            this.htmlTag.marginRight.offset = this.offsetCalculator.calculate(this.htmlTag.marginRight)
+            this.htmlTag.marginRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginRight)
 
         }
         
@@ -217,7 +165,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
 
             this.htmlTag.marginLeft.width = parseInt(left.getClearValue())
             this.htmlTag.marginLeft.widthUnit = left.getUnit()
-            this.htmlTag.marginLeft.offset = this.offsetCalculator.calculate(this.htmlTag.marginLeft)
+            this.htmlTag.marginLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginLeft)
 
         }
         
@@ -225,7 +173,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
 
             this.htmlTag.marginTop.width = parseInt(top.getClearValue())
             this.htmlTag.marginTop.widthUnit = top.getUnit()
-            this.htmlTag.marginTop.offset = this.offsetCalculator.calculate(this.htmlTag.marginTop)
+            this.htmlTag.marginTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginTop)
 
         }
         
@@ -233,7 +181,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
 
             this.htmlTag.marginBottom.width = parseInt(bottom.getClearValue())
             this.htmlTag.marginBottom.widthUnit = bottom.getUnit()
-            this.htmlTag.marginBottom.offset = this.offsetCalculator.calculate(this.htmlTag.marginBottom)
+            this.htmlTag.marginBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginBottom)
 
         }
     }

@@ -26,10 +26,25 @@
             @marginMouseDown="onMarginMouseDown(marginLeft, $event)"
 
             />
-            
 
-        <span style="display: block;" >
-            <margin-top 
+        <border-left 
+            :value="borderLeft"
+            :key="borderLeft.uuid"
+            @borderMouseOver="onBorderMouseOver" 
+            @borderMouseOut="onBorderMouseOut"
+            @borderMouseDown="onBorderMouseDown(borderLeft, $event)"
+
+            />
+
+        <padding-left 
+            :value="paddingLeft" 
+            :key="paddingLeft.uuid"
+            @paddingMouseOver="onPaddingMouseOver" 
+            @paddingMouseOut="onPaddingMouseOut"
+            @paddingMouseDown="onPaddingMouseDown(paddingLeft, $event)"
+        />
+
+        <margin-top 
             :value="marginTop"
             :key="marginTop.uuid"
             @marginMouseOver="onMarginMouseOver" 
@@ -37,41 +52,74 @@
             @marginMouseDown="onMarginMouseDown(marginTop, $event)"
 
             />
+
+        <border-top 
+            :value="borderTop" 
+            :key="borderTop.uuid"
+            @borderMouseOver="onBorderMouseOver" 
+            @borderMouseOut="onBorderMouseOut"
+            @borderMouseDown="onBorderMouseDown(borderTop, $event)"
+
+            /> 
+
+            <padding-top 
+                :value="paddingTop" 
+                :key="paddingTop.uuid"
+                @paddingMouseOver="onPaddingMouseOver" 
+                @paddingMouseOut="onPaddingMouseOut"
+                @paddingMouseDown="onPaddingMouseDown(paddingTop, $event)"
+            />
+
+            <padding-bottom 
+                :value="paddingBottom" 
+                :key="paddingBottom.uuid"
+                @paddingMouseOver="onPaddingMouseOver" 
+                @paddingMouseOut="onPaddingMouseOut"
+                @paddingMouseDown="onPaddingMouseDown(paddingBottom, $event)"
+            />
+            <border-bottom 
+                :value="borderBottom" 
+                :key="borderBottom.uuid"
+                @borderMouseOver="onBorderMouseOver" 
+                @borderMouseOut="onBorderMouseOut"
+                @borderMouseDown="onBorderMouseDown(borderBottom, $event)"
+                />
+
+            <margin-bottom 
+                :value="marginBottom"
+                :key="marginBottom.uuid"
+                @marginMouseOver="onMarginMouseOver" 
+                @marginMouseOut="onMarginMouseOut"
+                @marginMouseDown="onMarginMouseDown(marginBottom, $event)"
+
+            />
+
+            <padding-right 
+                :value="paddingRight" 
+                :key="paddingRight.uuid"
+                @paddingMouseOver="onPaddingMouseOver" 
+                @paddingMouseOut="onPaddingMouseOut"
+                @paddingMouseDown="onPaddingMouseDown(paddingRight, $event)"
+            />
+            <border-right 
+                :value="borderRight" 
+                :key="borderRight.uuid"
+                @borderMouseOver="onBorderMouseOver" 
+                @borderMouseOut="onBorderMouseOut"
+                @borderMouseDown="onBorderMouseDown(borderRight, $event)"
+            />
+            <margin-right 
+                :value="marginRight"
+                :key="marginRight.uuid"
+                @marginMouseOver="onMarginMouseOver" 
+                @marginMouseOut="onMarginMouseOut"
+                @marginMouseDown="onMarginMouseDown(marginRight, $event)"
+            />
+
+        <span style="display: block;" >
             <span style="display: flex;" :style="value.cssContentBoxList" class="content-and-padding-and-border">
-                <border-left 
-                    :value="borderLeft"
-                    :key="borderLeft.uuid"
-                    @borderMouseOver="onBorderMouseOver" 
-                    @borderMouseOut="onBorderMouseOut"
-                    @borderMouseDown="onBorderMouseDown(borderLeft, $event)"
-
-                    />
-                
                 <span style="display: flex; flex-direction: column;">
-                    
-                    <border-top 
-                        :value="borderTop" 
-                        :key="borderTop.uuid"
-                        @borderMouseOver="onBorderMouseOver" 
-                        @borderMouseOut="onBorderMouseOut"
-                        @borderMouseDown="onBorderMouseDown(borderTop, $event)"
-
-                        />  
-                        <padding-top 
-                            :value="paddingTop" 
-                            :key="paddingTop.uuid"
-                            @paddingMouseOver="onPaddingMouseOver" 
-                            @paddingMouseOut="onPaddingMouseOut"
-                            @paddingMouseDown="onPaddingMouseDown(paddingTop, $event)"
-                        />
-                    <span style="display: inline-flex;">
-                        <padding-left 
-                            :value="paddingLeft" 
-                            :key="paddingLeft.uuid"
-                            @paddingMouseOver="onPaddingMouseOver" 
-                            @paddingMouseOut="onPaddingMouseOut"
-                            @paddingMouseDown="onPaddingMouseDown(paddingLeft, $event)"
-                        />
+                    <span style="display: inline-flex;">     
                         <html-el 
                             @contentMouseOver="onContentMouseOver" 
                             @contentMouseOut="onContentMouseOut" 
@@ -104,57 +152,10 @@
                                 <!-- </template>
                             </div> -->
                         </html-el>
-                        <padding-right 
-                            :value="paddingRight" 
-                            :key="paddingRight.uuid"
-                            @paddingMouseOver="onPaddingMouseOver" 
-                            @paddingMouseOut="onPaddingMouseOut"
-                            @paddingMouseDown="onPaddingMouseDown(paddingRight, $event)"
-                        />
                     </span>
-                    <padding-bottom 
-                        :value="paddingBottom" 
-                        :key="paddingBottom.uuid"
-                        @paddingMouseOver="onPaddingMouseOver" 
-                        @paddingMouseOut="onPaddingMouseOut"
-                        @paddingMouseDown="onPaddingMouseDown(paddingBottom, $event)"
-                    />
-                    <border-bottom 
-                        :value="borderBottom" 
-                        :key="borderBottom.uuid"
-                        @borderMouseOver="onBorderMouseOver" 
-                        @borderMouseOut="onBorderMouseOut"
-                        @borderMouseDown="onBorderMouseDown(borderBottom, $event)"
-                        />
-                
                 </span>
-                
-                <border-right 
-                    :value="borderRight" 
-                    :key="borderRight.uuid"
-                    @borderMouseOver="onBorderMouseOver" 
-                    @borderMouseOut="onBorderMouseOut"
-                    @borderMouseDown="onBorderMouseDown(borderRight, $event)"
-                />
-            </span>
-
-        <margin-bottom 
-                :value="marginBottom"
-                :key="marginBottom.uuid"
-                @marginMouseOver="onMarginMouseOver" 
-                @marginMouseOut="onMarginMouseOut"
-                @marginMouseDown="onMarginMouseDown(marginBottom, $event)"
-
-        />
+            </span>        
         </span>
-        
-        <margin-right 
-            :value="marginRight"
-            :key="marginRight.uuid"
-            @marginMouseOver="onMarginMouseOver" 
-            @marginMouseOut="onMarginMouseOut"
-            @marginMouseDown="onMarginMouseDown(marginRight, $event)"
-            />
     </div>
 </template>
 

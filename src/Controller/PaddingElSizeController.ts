@@ -9,10 +9,14 @@ import PaddingLeft from '../Layout/Padding/PaddingLeft';
 import PaddingRight from '../Layout/Padding/PaddingRight';
 import PaddingModel from '../Layout/Padding/PaddingModel';
 import Pixel from '../Unit/Size/Pixel';
+import OffsetCalculator from '../Calculator/OffsetCalculator';
+import PaddingOffsetCalculator from '../Calculator/Offset/PaddingOffsetCalculator';
 export default class PaddingElSizeController extends SizeElController
 {
     protected currentElement: PaddingModel
     protected mouseDetector: AxisPositionDetector
+    protected offsetCalculator: OffsetCalculator<PaddingModel>
+
     
     public hasActiveEl(): boolean {
         return this.mouseDown == true
@@ -81,6 +85,8 @@ export default class PaddingElSizeController extends SizeElController
             
             this.currentElement.initSize(newVal)
             this.currentElement.updatePixelPropertyForTag()
+            this.offsetCalculator = new PaddingOffsetCalculator(this.currentElement.getHtmlTag())
+            this.currentElement.offset = this.offsetCalculator.calculateOffset(this.currentElement)
 
         }
     }

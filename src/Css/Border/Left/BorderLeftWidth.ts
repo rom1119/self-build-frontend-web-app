@@ -1,5 +1,5 @@
-import CssSimple from "../CssSimple";
-import CssPropertyLimitable from "../CssPropertyLimitable";
+import CssSimple from "../../CssSimple";
+import CssPropertyLimitable from "../../CssPropertyLimitable";
 
 export default class BorderLeftWidth extends CssSimple 
 {

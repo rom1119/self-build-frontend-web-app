@@ -24,9 +24,12 @@ export default abstract class BasePropertyCss
 
     getValue(): string
     {
-        if (!this.values[0]) {
-            if (this.values[0].toString().length < 1)
-                throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+        if (this.values[0] == 'undefined') {
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+        }
+        if (this.values[0].toString().length < 1) {
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+
         }
         if (!this.unit) {
             throw new Error(`CSS property ${this.getName()} not have set Unit` )
