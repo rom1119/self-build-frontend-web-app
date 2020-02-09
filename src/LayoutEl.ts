@@ -73,7 +73,6 @@ export default abstract class LayoutEl {
     public updateModelComponent()
     {
         this._updateComponent++
-
     }
 
     get updateComponentKey()

@@ -11,6 +11,11 @@ import PaddingModel from '../Layout/Padding/PaddingModel';
 import Pixel from '../Unit/Size/Pixel';
 import OffsetCalculator from '../Calculator/OffsetCalculator';
 import PaddingOffsetCalculator from '../Calculator/Offset/PaddingOffsetCalculator';
+import HtmlTag from '../Layout/HtmlTag';
+import MarginSizeCalculator from '../Calculator/Size/MarginSizeCalculator';
+import MarginOffsetSizeCalculator from '../Calculator/OffsetSize/MarginOffsetSizeCalculator';
+import BorderSizeCalculator from '../Calculator/Size/BorderSizeCalculator';
+import BorderOffsetSizeCalculator from '../Calculator/OffsetSize/BorderOffsetSizeCalculator';
 export default class PaddingElSizeController extends SizeElController
 {
     protected currentElement: PaddingModel
@@ -87,7 +92,45 @@ export default class PaddingElSizeController extends SizeElController
             this.currentElement.updatePixelPropertyForTag()
             this.offsetCalculator = new PaddingOffsetCalculator(this.currentElement.getHtmlTag())
             this.currentElement.offset = this.offsetCalculator.calculateOffset(this.currentElement)
+            this.recalculateMargins(this.currentElement, this.currentElement.getHtmlTag())
+            this.recalculateBorders(this.currentElement, this.currentElement.getHtmlTag())
+            // this.currentElement.getHtmlTag().recalculateRealComputedProperties()
+        }
+    }
 
+    private recalculateMargins(currentElement, htmlTag: HtmlTag)
+    {
+        let sizeCalc = new MarginSizeCalculator(htmlTag)
+        let offsetSizeCalc = new MarginOffsetSizeCalculator(htmlTag)
+        if (currentElement instanceof PaddingLeft || currentElement instanceof PaddingRight) {
+            htmlTag.marginTop.length = sizeCalc.calculateSize(htmlTag.marginTop)
+            htmlTag.marginTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginTop)
+            htmlTag.marginBottom.length = sizeCalc.calculateSize(htmlTag.marginBottom)
+            htmlTag.marginBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginBottom)
+        } else {
+            htmlTag.marginLeft.length = sizeCalc.calculateSize(htmlTag.marginLeft)
+            htmlTag.marginLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginLeft)
+            htmlTag.marginRight.length = sizeCalc.calculateSize(htmlTag.marginRight)
+            htmlTag.marginRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginRight)
+            
+        }
+    }
+
+    private recalculateBorders(currentElement, htmlTag: HtmlTag)
+    {
+        let sizeCalc = new BorderSizeCalculator(htmlTag)
+        let offsetSizeCalc = new BorderOffsetSizeCalculator(htmlTag)
+        if (currentElement instanceof PaddingLeft || currentElement instanceof PaddingRight) {
+            htmlTag.borderTop.length = sizeCalc.calculateSize(htmlTag.borderTop)
+            htmlTag.borderTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderTop)
+            htmlTag.borderBottom.length = sizeCalc.calculateSize(htmlTag.borderBottom)
+            htmlTag.borderBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderBottom)
+        } else {
+            htmlTag.borderLeft.length = sizeCalc.calculateSize(htmlTag.borderLeft)
+            htmlTag.borderLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderLeft)
+            htmlTag.borderRight.length = sizeCalc.calculateSize(htmlTag.borderRight)
+            htmlTag.borderRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderRight)
+            
         }
     }
 

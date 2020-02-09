@@ -5,7 +5,7 @@
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut" 
-            
+        :key="value.updateComponentKey"
             >
         <div class="stretch" 
         

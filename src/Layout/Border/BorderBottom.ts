@@ -12,6 +12,7 @@ import LeftCss from "~/src/Css/Position/Direction/LeftCss";
 import BottomCss from "~/src/Css/Position/Direction/BottomCss";
 import BorderBottomCss from "~/src/Css/Border/Bottom/BorderBottomCss";
 import BorderBottomStyle from '../../Css/Border/Bottom/BorderBottomStyle';
+import BorderGlobalCss from "~/src/Css/Border/Global/BorderGlobalCss";
 
 export default class BorderBottom extends BorderModel
 {
@@ -33,7 +34,7 @@ export default class BorderBottom extends BorderModel
         let height = new Height('none', new Named())
         let borderWidth = new BorderBottomWidth(this.width, this.widthUnit)
         let borderStyle = new BorderBottomStyle(this.style, new Named())
-        let left = new LeftCss(0, new Named())
+        let left = new LeftCss(this.lengthOffset, new Pixel())
         let bottom = new BottomCss(this.offset, new Pixel())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
@@ -51,9 +52,17 @@ export default class BorderBottom extends BorderModel
     public updatePixelPropertyForTag()
     {
         var prop = <BorderBottomCss>this.htmlTag.tmpCssAccessor.getProperty(BorderBottomCss.PROP_NAME)
+        var propGlobal = <BorderGlobalCss>this.htmlTag.tmpCssAccessor.getProperty(BorderGlobalCss.PROP_NAME)
+
         if (prop) {
             prop.setWidth(this.width, new Pixel())
             prop.setActive(true)
+        } else if (propGlobal) {
+            prop = new BorderBottomCss(this.width, new Pixel())
+            propGlobal.setWidth(parseInt(propGlobal.getWidth()), propGlobal.getWidthUnit())
+            prop.setColor(propGlobal.getColor(), propGlobal.getColorUnit())
+            prop.setType(propGlobal.getType())
+            propGlobal.setActive(true)
         } else {
             prop = new BorderBottomCss(this.width, new Pixel())
             prop.setWidth(this.width, new Pixel())
@@ -70,7 +79,7 @@ export default class BorderBottom extends BorderModel
         let height = new Height('none', new Named())
         let borderWidth = new BorderBottomWidth(this.width, this.widthUnit)
         let borderStyle = new BorderBottomStyle(this.style, new Named())
-        let left = new LeftCss(0, new Named())
+        let left = new LeftCss(this.lengthOffset, new Pixel())
         let bottom = new BottomCss(this.offset, new Pixel())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)

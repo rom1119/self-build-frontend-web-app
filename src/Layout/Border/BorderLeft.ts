@@ -17,6 +17,9 @@ import TopCss from "~/src/Css/Position/Direction/TopCss";
 import BorderLeftCss from "~/src/Css/Border/Left/BorderLeftCss";
 import HtmlTag from "../HtmlTag";
 import BorderLeftStyle from "~/src/Css/Border/Left/BorderLeftStyle";
+import BorderGlobalCss from "~/src/Css/Border/Global/BorderGlobalCss";
+import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";
+import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
 
 export default class BorderLeft extends BorderModel
 {
@@ -40,7 +43,7 @@ export default class BorderLeft extends BorderModel
         let borderStyle = new BorderLeftStyle(this.style, new Named())
 
         let left = new LeftCss(this.offset, new Pixel())
-        let top = new TopCss(0, new Named())
+        let top = new TopCss(this.lengthOffset, new Pixel())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(left)
@@ -52,9 +55,17 @@ export default class BorderLeft extends BorderModel
     public updatePixelPropertyForTag()
     {
         var prop = <BorderLeftCss>this.htmlTag.tmpCssAccessor.getProperty(BorderLeftCss.PROP_NAME)
+        var propGlobal = <BorderGlobalCss>this.htmlTag.tmpCssAccessor.getProperty(BorderGlobalCss.PROP_NAME)
+
         if (prop) {
             prop.setWidth(this.width, new Pixel())
             prop.setActive(true)
+        } else if (propGlobal) {
+            prop = new BorderLeftCss(this.width, new Pixel())
+            propGlobal.setWidth(parseInt(propGlobal.getWidth()), propGlobal.getWidthUnit())
+            prop.setColor(propGlobal.getColor(), propGlobal.getColorUnit())
+            prop.setType(propGlobal.getType())
+            propGlobal.setActive(true)
         } else {
             prop = new BorderLeftCss(this.width, new Pixel())
             prop.setWidth(this.width, new Pixel())
@@ -73,7 +84,7 @@ export default class BorderLeft extends BorderModel
         let borderStyle = new BorderLeftStyle(this.style, new Named())
 
         let left = new LeftCss(this.offset, new Pixel())
-        let top = new TopCss(0, new Named())
+        let top = new TopCss(this.lengthOffset, new Pixel())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
         this._cssPropertyAccesor.setNewPropertyValue(BorderLeftWidth.PROP_NAME, borderWidth)

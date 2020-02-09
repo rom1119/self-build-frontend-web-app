@@ -4,7 +4,8 @@
         <div class="stretch full-box" 
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"
-            @mouseout.stop="onMouseOut" 
+            @mouseout.stop="onMouseOut"
+            :key="value.updateComponentKey"
            >
         </div>
     </div>

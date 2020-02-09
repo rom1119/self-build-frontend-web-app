@@ -38,6 +38,7 @@ import BorderGlobalCss from "../Css/Border/Global/BorderGlobalCss";
 import BoxSizing from '../Css/BoxModel/BoxSizing';
 import BaseBorderCss from "../Css/Border/BaseBorderCss";
 import BorderFilterCssInjector from "../FilterCssInjector/BorderFilterCssInjector";
+import Display from '../Css/Display/Display';
 
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
@@ -91,9 +92,9 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.initPaddings()
         this.initBorders()
         this.initMargins()
+        this._tmpCssPropertyAccesor = new ContentElPropertyAccessor(this)
         this.initCssAccessor()
         console.log(this.paddingRealFetcher);
-        this._tmpCssPropertyAccesor = new ContentElPropertyAccessor(this)
 
     }
 
@@ -161,8 +162,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         
         let border = new BorderGlobalCss('15', new Pixel())
         border.setType('dotted')
-        border.setColor('red', new Named())
-        console.log('PPPP', border.getValue());
+        border.setColor('blue', new Named())
+        // console.log('PPPP', border.getValue());
         
         let padding = new PaddingCss('41', new Pixel())
         let margin = new MarginCss('11', new Pixel())
@@ -170,18 +171,37 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let height = new Height(this._height, this.sizeUnitCurrent)
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
-        this._cssPropertyAccesor.addNewProperty(padding)
-        this._cssPropertyAccesor.addNewProperty(margin)
-        this._cssPropertyAccesor.addNewProperty(width)
-        this._cssPropertyAccesor.addNewProperty(height)
-        this._cssPropertyAccesor.addNewProperty(backgroundColor)
-        this._cssPropertyAccesor.addNewProperty(boxSizing)
-        this._cssPropertyAccesor.addNewProperty(border)
+        let display = new Display(Display.INLINE_BLOCK, new Named())
+        let cssList = [border, padding, margin, width, height, boxSizing, backgroundColor, display]
+
+        this.addPropsToAccessor(this._cssPropertyAccesor, cssList)
+        this.addPropsToAccessor(this._tmpCssPropertyAccesor, cssList)
 
         this.paddingFilter.injectCssProperty(padding)
         this.marginFilter.injectCssProperty(margin)
         this.borderFilter.injectCssProperty(border)
+    }
 
+    public addPropsToAccessor( accessor: CssPropertyAccessor, cssList: BasePropertyCss[] )
+    {
+        for (const cssProp of cssList) {
+            accessor.addNewProperty(cssProp)
+        }
+    }
+
+    public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
+    {
+        super.updateCssPropertyWithoutModel(propName, val)
+        if (!this.tmpCssAccessor.hasCssProperty(val.getName())) {
+            this.tmpCssAccessor.addNewProperty(val)
+        } else {            
+            let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
+            if (currentBackground.getValue() === val.getValue()) {
+                return
+            }
+            this.tmpCssAccessor.setNewPropertyValue(propName, val)
+        }
+        
     }
 
     get tmpCssAccessor(): CssPropertyAccessor
@@ -271,8 +291,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 continue
             }
             if (!this.isLikeBackgroundCss(cssProp)) {
-                css[cssProp.getName()] = cssProp.getValue()
             }
+            css[cssProp.getName()] = cssProp.getValue()
 
             if (cssProp instanceof FontSize) {
                 this._innerText = 'Font-size: ' + cssProp.getValue()
@@ -295,6 +315,24 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         //     height: `${this._height}${this.sizeUnitCurrent.value}`,
         //     'background-color': `${this._backgroundColor}${this._colorUnit.value}`,
         // }
+    }
+
+    public updateAllModelsComponents()
+    {
+        this.paddingLeft.updateModelComponent()
+        this.paddingRight.updateModelComponent()
+        this.paddingBottom.updateModelComponent()
+        this.paddingTop.updateModelComponent()
+
+        this.borderLeft.updateModelComponent()
+        this.borderRight.updateModelComponent()
+        this.borderBottom.updateModelComponent()
+        this.borderTop.updateModelComponent()
+        
+        this.marginLeft.updateModelComponent()
+        this.marginRight.updateModelComponent()
+        this.marginBottom.updateModelComponent()
+        this.marginTop.updateModelComponent()
     }
 
     // get cssContentSizeList() : any
@@ -488,9 +526,9 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
             )
                 
             {
-                css[cssProp.getName()] = cssProp.getValue()
-
+                
             }
+            css[cssProp.getName()] = cssProp.getValue()
         }
 
 

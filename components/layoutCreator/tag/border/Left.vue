@@ -1,11 +1,12 @@
 <template>
 
-    <div class="stretch stretch__flex absolute cursor-resize-to-left" 
+    <div class="stretch stretch__flex absolute cursor-resize-to-left" style="opacity: 0 !important;"
         :style="value.cssList" 
         v-context-menu="value.uuid"
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut" 
+        :key="value.updateComponentKey"
     >
         <border-html-context-menu :value="value"  :ref="value.uuid" />
         <div class="stretch" 

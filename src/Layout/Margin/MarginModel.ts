@@ -11,6 +11,10 @@ import RGBA from '../../Unit/Color/RGBA';
 import Height from "~/src/Css/Size/Height";
 import HtmlTag from "../HtmlTag";
 import Display from "~/src/Css/Display/Display";
+import SizeCalculator from "~/src/Calculator/SizeCalculator";
+import OffsetSizeCalculator from "~/src/Calculator/OffsetSizeCalculator";
+import MarginSizeCalculator from '../../Calculator/Size/MarginSizeCalculator';
+import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
 
 export default abstract class MarginModel extends LayoutEl implements CssList, SizeActivable
 {
@@ -18,6 +22,9 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     protected _name: string = 'border-base'
     protected _width: number = 55
     protected _offset: number = -55
+    protected _length: number = 0
+    protected _lengthOffset: number = 0
+
     protected _color: any
     protected _initialColor: any = {
         r: 255,
@@ -31,6 +38,9 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     widthUnit: UnitSize
 
 
+    protected sizeCalculator: SizeCalculator<MarginModel>
+    protected offsetSizeCalculator: OffsetSizeCalculator<MarginModel>
+
     constructor(tag: HtmlTag)
     {
         super()
@@ -38,6 +48,8 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
         this.htmlTag = tag
         this.widthUnit = this._defaultSizeUnit
         this.initCssAccessor()
+        // this.sizeCalculator = new MarginSizeCalculator(tag)
+        // this.offsetSizeCalculator = new MarginOffsetSizeCalculator(this.htmlTag)
 
     }
 
@@ -76,6 +88,25 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     set width(arg: number)
     {
         this._width = arg
+    }
+
+    get lengthOffset(): number
+    {
+        return this._lengthOffset
+    }
+    set lengthOffset(arg: number)
+    {
+        this._lengthOffset = arg
+    }
+    
+
+    get length(): number
+    {
+        return this._length
+    }
+    set length(arg: number)
+    {
+        this._length = arg
     }
     
     get offset(): number

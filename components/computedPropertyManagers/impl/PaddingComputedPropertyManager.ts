@@ -11,6 +11,10 @@ import PaddingRightCss from "~/src/Css/BoxModel/Padding/PaddingRightCss";
 import PaddingTopCss from "~/src/Css/BoxModel/Padding/PaddingTopCss";
 import PaddingBottomCss from "~/src/Css/BoxModel/Padding/PaddingBottomCss";
 import PaddingCss from "~/src/Css/BoxModel/Padding/PaddingCss";
+import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";
+import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
+import BorderSizeCalculator from "~/src/Calculator/Size/BorderSizeCalculator";
+import BorderOffsetSizeCalculator from "~/src/Calculator/OffsetSize/BorderOffsetSizeCalculator";
 
 export default class PaddingComputedPropertyManager implements DirectionComputedPropertyManager
 {
@@ -191,6 +195,9 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
     deactiveGlobalPropCss(prop: BasePropertyCss) {
         this.value.cssAccessor.removePropWithName(prop.getName())
         this.value.paddingFilter.deactivateProp(prop)
+
+        this.recalculateBorders(this.value)
+        this.recalculateMargins(this.value)
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
@@ -204,6 +211,9 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             prop.setUnit(this.globalProperty.getUnit())
             this.value.paddingFilter.injectCssProperty(this.globalProperty)
         }
+
+        this.recalculateBorders(this.value)
+        this.recalculateMargins(this.value)
         return null
     }
     activePropCss(prop: BasePropertyCss) {
@@ -214,6 +224,9 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         console.log('activr');
         
         this.value.paddingFilter.activateProp(prop)
+
+        this.recalculateBorders(this.value)
+        this.recalculateMargins(this.value)
         return prop
     }
     updateCssProp(newProp: BasePropertyCss) {
@@ -233,7 +246,42 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         
         this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
 
+        this.recalculateBorders(this.value)
+        this.recalculateMargins(this.value)
+
         return newProp.getClearValue()
+    }
+
+    private recalculateMargins(htmlTag: HtmlTag)
+    {
+        let sizeCalc = new MarginSizeCalculator(htmlTag)
+        let offsetSizeCalc = new MarginOffsetSizeCalculator(htmlTag)
+        
+        htmlTag.marginTop.length = sizeCalc.calculateSize(htmlTag.marginTop)
+        htmlTag.marginTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginTop)
+        htmlTag.marginBottom.length = sizeCalc.calculateSize(htmlTag.marginBottom)
+        htmlTag.marginBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginBottom)
+        htmlTag.marginLeft.length = sizeCalc.calculateSize(htmlTag.marginLeft)
+        htmlTag.marginLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginLeft)
+        htmlTag.marginRight.length = sizeCalc.calculateSize(htmlTag.marginRight)
+        htmlTag.marginRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginRight)
+            
+    }
+
+    private recalculateBorders(htmlTag: HtmlTag)
+    {
+        let sizeCalc = new BorderSizeCalculator(htmlTag)
+        let offsetSizeCalc = new BorderOffsetSizeCalculator(htmlTag)
+        
+        htmlTag.borderTop.length = sizeCalc.calculateSize(htmlTag.borderTop)
+        htmlTag.borderTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderTop)
+        htmlTag.borderBottom.length = sizeCalc.calculateSize(htmlTag.borderBottom)
+        htmlTag.borderBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderBottom)
+        htmlTag.borderLeft.length = sizeCalc.calculateSize(htmlTag.borderLeft)
+        htmlTag.borderLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderLeft)
+        htmlTag.borderRight.length = sizeCalc.calculateSize(htmlTag.borderRight)
+        htmlTag.borderRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderRight)
+            
     }
 
 

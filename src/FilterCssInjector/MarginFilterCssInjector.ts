@@ -17,12 +17,18 @@ import MarginRightCss from '../Css/BoxModel/Margin/MarginRightCss';
 import MarginLeftCss from "../Css/BoxModel/Margin/MarginLeftCss";
 import OffsetCalculator from "../Calculator/OffsetCalculator";
 import MarginOffsetCalculator from '../Calculator/Offset/MarginOffsetCalculator';
+import SizeCalculator from "../Calculator/SizeCalculator";
+import MarginSizeCalculator from "../Calculator/Size/MarginSizeCalculator";
+import OffsetSizeCalculator from "../Calculator/OffsetSizeCalculator";
+import MarginOffsetSizeCalculator from "../Calculator/OffsetSize/MarginOffsetSizeCalculator";
 
 export default class MarginFilterCssInjector extends FilterCssInjector
 {
     
     protected htmlTag: HtmlTag
     protected offsetCalculator: OffsetCalculator<MarginModel>
+    protected sizeCalculator: SizeCalculator<MarginModel>
+    protected offsetSizeCalculator: OffsetSizeCalculator<MarginModel>
 
 
     constructor(htmlTag: HtmlTag)
@@ -30,6 +36,8 @@ export default class MarginFilterCssInjector extends FilterCssInjector
         super()
         this.htmlTag = htmlTag
         this.offsetCalculator = new MarginOffsetCalculator(htmlTag)
+        this.sizeCalculator = new MarginSizeCalculator(htmlTag)
+        this.offsetSizeCalculator = new MarginOffsetSizeCalculator(htmlTag)
 
     }
 
@@ -135,6 +143,9 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             marginModel.width = parseInt(prop.getClearValue())
             marginModel.widthUnit = prop.getUnit()
             marginModel.offset = this.offsetCalculator.calculateOffset(marginModel)
+            marginModel.length = this.sizeCalculator.calculateSize(marginModel)
+            marginModel.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(marginModel)
+
         }
         // marginModel.updateCssProperty(prop.getName(), prop)
     }
@@ -158,6 +169,9 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginRight.width = parseInt(right.getClearValue())
             this.htmlTag.marginRight.widthUnit = right.getUnit()
             this.htmlTag.marginRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginRight)
+            this.htmlTag.marginRight.length = this.sizeCalculator.calculateSize(this.htmlTag.marginRight)
+            this.htmlTag.marginRight.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginRight)
+
 
         }
         
@@ -166,6 +180,8 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginLeft.width = parseInt(left.getClearValue())
             this.htmlTag.marginLeft.widthUnit = left.getUnit()
             this.htmlTag.marginLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginLeft)
+            this.htmlTag.marginLeft.length = this.sizeCalculator.calculateSize(this.htmlTag.marginLeft)
+            this.htmlTag.marginLeft.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginLeft)
 
         }
         
@@ -174,6 +190,8 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginTop.width = parseInt(top.getClearValue())
             this.htmlTag.marginTop.widthUnit = top.getUnit()
             this.htmlTag.marginTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginTop)
+            this.htmlTag.marginTop.length = this.sizeCalculator.calculateSize(this.htmlTag.marginTop)
+            this.htmlTag.marginTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginTop)
 
         }
         
@@ -182,6 +200,8 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginBottom.width = parseInt(bottom.getClearValue())
             this.htmlTag.marginBottom.widthUnit = bottom.getUnit()
             this.htmlTag.marginBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginBottom)
+            this.htmlTag.marginBottom.length = this.sizeCalculator.calculateSize(this.htmlTag.marginBottom)
+            this.htmlTag.marginBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginBottom)
 
         }
     }

@@ -17,6 +17,7 @@ import Display from "~/src/Css/Display/Display";
 import HtmlTag from "../HtmlTag";
 import BorderGlobalColor from "~/src/Css/Border/Global/BorderGlobalColor";
 import MarginOffsetCalculator from "~/src/Calculator/Offset/MarginOffsetCalculator";
+import PaddingOffsetCalculator from "~/src/Calculator/Offset/PaddingOffsetCalculator";
 
 export default abstract class BorderModel extends LayoutEl implements CssList, SizeActivable
 {
@@ -25,6 +26,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     protected _style: string
     protected _offset: number = -15
     protected _length: number = 0
+    protected _lengthOffset: number = 0
     protected _color: string
     protected _colorUnit: UnitColor
     protected _initialColor: string = 'red'
@@ -86,8 +88,18 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         this.getHtmlTag().marginBottom.offset = marginCal.calculateOffset(this.getHtmlTag().marginBottom)
         this.getHtmlTag().marginTop.offset = marginCal.calculateOffset(this.getHtmlTag().marginTop)
         this.getHtmlTag().marginLeft.offset = marginCal.calculateOffset(this.getHtmlTag().marginLeft)
+        
     }
 
+    get lengthOffset(): number
+    {
+        return this._lengthOffset
+    }
+    set lengthOffset(arg: number)
+    {
+        this._lengthOffset = arg
+    }
+    
     get length(): number
     {
         return this._length
@@ -104,6 +116,12 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     set width(arg: number)
     {
         this._width = arg
+        // let paddingCal = new PaddingOffsetCalculator(this.getHtmlTag())
+        // this.getHtmlTag().paddingRight.offset = paddingCal.calculateOffset(this.getHtmlTag().paddingRight)
+        // this.getHtmlTag().paddingBottom.offset = paddingCal.calculateOffset(this.getHtmlTag().paddingBottom)
+        // this.getHtmlTag().paddingTop.offset = paddingCal.calculateOffset(this.getHtmlTag().paddingTop)
+        // this.getHtmlTag().paddingLeft.offset = paddingCal.calculateOffset(this.getHtmlTag().paddingLeft)
+        this.getHtmlTag().updateAllModelsComponents()
     }
     
     get color(): string
@@ -157,11 +175,11 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     }
 
     public changeAsActiveSize() {
-        this._color = 'pink'
+        // this._color = 'pink'
     }
     
     public changeAsDeactiveSize() {
-        this._color = this._initialColor
+        // this._color = this._initialColor
     }
     
     abstract updatePixelPropertyForTag()

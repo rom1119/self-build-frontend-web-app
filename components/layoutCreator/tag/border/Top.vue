@@ -1,12 +1,12 @@
 <template>
 
-    <div  class="cursor-resize-to-top absolute" 
+    <div  class="cursor-resize-to-top absolute" style="opacity: 0 !important;"
         :style="value.cssList"
         v-context-menu="value.uuid" 
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut" 
-    
+        :key="value.updateComponentKey"
     >
         <border-html-context-menu :value="value"  :ref="value.uuid" />
         <div

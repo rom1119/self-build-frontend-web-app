@@ -20,11 +20,14 @@ import BorderOffsetCalculator from "../Calculator/Offset/BorderOffsetCalculator"
 import MarginOffsetCalculator from "../Calculator/Offset/MarginOffsetCalculator";
 import BorderSizeCalculator from "../Calculator/Size/BorderSizeCalculator";
 import SizeCalculator from "../Calculator/SizeCalculator";
+import OffsetSizeCalculator from "../Calculator/OffsetSizeCalculator";
+import BorderOffsetSizeCalculator from "../Calculator/OffsetSize/BorderOffsetSizeCalculator";
 
 export default class BorderFilterCssInjector extends FilterCssInjector
 { 
     protected htmlTag: HtmlTag
     protected offsetCalculator: OffsetCalculator<BorderModel>
+    protected offsetSizeCalculator: OffsetSizeCalculator<BorderModel>
     protected sizeCalculator: SizeCalculator<BorderModel>
 
     constructor(htmlTag: HtmlTag)
@@ -32,6 +35,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
         super()
         this.htmlTag = htmlTag
         this.offsetCalculator = new BorderOffsetCalculator(htmlTag)
+        this.offsetSizeCalculator = new BorderOffsetSizeCalculator(htmlTag)
         this.sizeCalculator = new BorderSizeCalculator(htmlTag)
 
     }
@@ -173,27 +177,31 @@ export default class BorderFilterCssInjector extends FilterCssInjector
     //     this.htmlTag.marginBottom.offset =newOff
     // }
 
-    updateVal(cssProp: BaseBorderCss, paddingModel: BorderModel) {
+    updateVal(cssProp: BaseBorderCss, model: BorderModel) {
         var prop: BasePropertyCss
-        if (paddingModel instanceof BorderLeft ||  paddingModel instanceof BorderRight) {
-            prop = new Width(cssProp.getClearValue(), cssProp.getUnit());
+        if (model instanceof BorderLeft ||  model instanceof BorderRight) {
+            prop = new Width(cssProp.getWidth(), cssProp.getWidthUnit());
         } else {
-            prop = new Height(cssProp.getClearValue(), cssProp.getUnit());
+            prop = new Height(cssProp.getWidth(), cssProp.getWidthUnit());
 
         }
         if (parseInt(prop.getClearValue()) > -1) {
-            
-            paddingModel.width = parseInt(prop.getClearValue())
-            paddingModel.widthUnit = prop.getUnit()
-            paddingModel.style = cssProp.getType()
-            paddingModel.color = cssProp.getColor()
-            paddingModel.offset = this.offsetCalculator.calculateOffset(paddingModel)
+            // console.log('+++++++++');
+            // console.log(cssProp);
+            // console.log(cssProp.getColor());
+            // console.log('+++++++++');
+            model.width = parseInt(prop.getClearValue())
+            model.widthUnit = prop.getUnit()
+            model.style = cssProp.getType()
+            model.color = cssProp.getColor()
+            model.offset = this.offsetCalculator.calculateOffset(model)
+            model.length = this.sizeCalculator.calculateSize(model)
+            model.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(model)
 
         }
 
         // borderModel.updateCssProperty(prop.getName(), prop)
     }
-    
     
     updateAllDirectionsVal(cssProp: BaseBorderCss) {
         var top: BasePropertyCss = new Height(cssProp.getWidth(), cssProp.getUnit());
@@ -219,10 +227,16 @@ export default class BorderFilterCssInjector extends FilterCssInjector
             this.htmlTag.borderRight.width = parseInt(right.getClearValue())
             this.htmlTag.borderRight.widthUnit = right.getUnit()
             this.htmlTag.borderRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderRight)
+            this.htmlTag.borderRight.length = this.sizeCalculator.calculateSize(this.htmlTag.borderRight)
+            this.htmlTag.borderRight.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderRight)
+
             this.htmlTag.borderRight.style = cssProp.getType()
+            // console.log('=========');
+            // console.log(cssProp);
+            // console.log(cssProp.getColor());
+            // console.log('=========');
+            
             this.htmlTag.borderRight.color = cssProp.getColor()
-
-
             
         }
         
@@ -233,6 +247,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
             this.htmlTag.borderLeft.widthUnit = left.getUnit()
             this.htmlTag.borderLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderLeft)
             this.htmlTag.borderLeft.length = this.sizeCalculator.calculateSize(this.htmlTag.borderLeft)
+            this.htmlTag.borderLeft.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderLeft)
 
             this.htmlTag.borderLeft.style = cssProp.getType()
             this.htmlTag.borderLeft.color = cssProp.getColor()
@@ -244,6 +259,10 @@ export default class BorderFilterCssInjector extends FilterCssInjector
             this.htmlTag.borderTop.width = parseInt(top.getClearValue())
             this.htmlTag.borderTop.widthUnit = top.getUnit()
             this.htmlTag.borderTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderTop)
+            this.htmlTag.borderTop.length = this.sizeCalculator.calculateSize(this.htmlTag.borderTop)
+            this.htmlTag.borderTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderTop)
+
+
             this.htmlTag.borderTop.style = cssProp.getType()
             this.htmlTag.borderTop.color = cssProp.getColor()
         }
@@ -253,6 +272,9 @@ export default class BorderFilterCssInjector extends FilterCssInjector
             this.htmlTag.borderBottom.width = parseInt(bottom.getClearValue())
             this.htmlTag.borderBottom.widthUnit = bottom.getUnit()
             this.htmlTag.borderBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderBottom)
+            this.htmlTag.borderBottom.length = this.sizeCalculator.calculateSize(this.htmlTag.borderBottom)
+            this.htmlTag.borderBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderBottom)
+
             this.htmlTag.borderBottom.style = cssProp.getType()
             this.htmlTag.borderBottom.color = cssProp.getColor()
         }

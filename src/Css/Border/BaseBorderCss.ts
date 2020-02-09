@@ -34,7 +34,7 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
 
     public setWidth(val: number, unit: UnitSize)
     {
-        if (this.values[0]) {
+        if (this.values[0] !== 'undefined') {
             this.values[0] = unit.getValue(val)
         } else {
             this.values.push(unit.getValue(val))
@@ -43,7 +43,7 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
     
     public setType(val: string)
     {
-        if (this.values[1]) {
+        if (this.values[1] !== 'undefined') {
             this.values[1] = val
         } else {
             this.values.push(val)
@@ -52,7 +52,7 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
     
     public setColor(val: string, unit: UnitColor)
     {
-        if (this.values[2]) {
+        if (this.values[2] !== 'undefined') {
             this.values[2] = unit.getValue(val)
         } else {
             this.values.push(unit.getValue(val))

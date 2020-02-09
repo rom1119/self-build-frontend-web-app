@@ -17,6 +17,9 @@ import LeftCss from "~/src/Css/Position/Direction/LeftCss";
 import TopCss from "~/src/Css/Position/Direction/TopCss";
 import BorderTopCss from "~/src/Css/Border/Top/BorderTopCss";
 import BorderTopStyle from "~/src/Css/Border/Top/BorderTopStyle";
+import BorderGlobalCss from "~/src/Css/Border/Global/BorderGlobalCss";
+import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";
+import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
 
 export default class BorderTop extends BorderModel
 {
@@ -31,7 +34,6 @@ export default class BorderTop extends BorderModel
         super(tag)
         this._color = this._initialColor
         this.initCssAccessor()
-
     }
 
     protected initCssAccessor()
@@ -42,7 +44,7 @@ export default class BorderTop extends BorderModel
         let borderWidth = new BorderTopWidth(this.width, this.widthUnit)
         let borderStyle = new BorderTopStyle(this.style, new Named())
 
-        let left = new LeftCss(0, new Named())
+        let left = new LeftCss(this.lengthOffset, new Pixel())
         let top = new TopCss(this.offset, new Pixel())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
@@ -55,9 +57,17 @@ export default class BorderTop extends BorderModel
     public updatePixelPropertyForTag()
     {
         var prop = <BorderTopCss>this.htmlTag.tmpCssAccessor.getProperty(BorderTopCss.PROP_NAME)
+        var propGlobal = <BorderGlobalCss>this.htmlTag.tmpCssAccessor.getProperty(BorderGlobalCss.PROP_NAME)
+
         if (prop) {
             prop.setWidth(this.width, new Pixel())
             prop.setActive(true)
+        } else if (propGlobal) {
+            prop = new BorderTopCss(this.width, new Pixel())
+            propGlobal.setWidth(parseInt(propGlobal.getWidth()), propGlobal.getWidthUnit())
+            prop.setColor(propGlobal.getColor(), propGlobal.getColorUnit())
+            prop.setType(propGlobal.getType())
+            propGlobal.setActive(true)
         } else {
             prop = new BorderTopCss(this.width, new Pixel())
             prop.addPropVal(this._initialType)
@@ -76,7 +86,7 @@ export default class BorderTop extends BorderModel
         let borderWidth = new BorderTopWidth(this.width, this.widthUnit)
         let borderStyle = new BorderTopStyle(this.style, new Named())
 
-        let left = new LeftCss(0, new Named())
+        let left = new LeftCss(this.lengthOffset, new Pixel())
         let top = new TopCss(this.offset, new Pixel())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
