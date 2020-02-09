@@ -39,6 +39,10 @@ import BoxSizing from '../Css/BoxModel/BoxSizing';
 import BaseBorderCss from "../Css/Border/BaseBorderCss";
 import BorderFilterCssInjector from "../FilterCssInjector/BorderFilterCssInjector";
 import Display from '../Css/Display/Display';
+import ApiService from "../Api/ApiService";
+import DefaultApiService from "../Api/impl/DefaultApiService";
+
+
 
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
@@ -85,10 +89,13 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
     borderRealFetcher: FetcherRealCssProp = new BorderRealCssFetcher(this)
+
+    api: ApiService
     
     constructor()
     {
         super()
+        this.api = new DefaultApiService();
         this.initPaddings()
         this.initBorders()
         this.initMargins()
@@ -591,6 +598,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     public setNotEdited()
     {
+        this.api.postTag(this)
+
         this._isEdited = false
     }
 
