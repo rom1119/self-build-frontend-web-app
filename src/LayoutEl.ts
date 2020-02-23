@@ -19,6 +19,8 @@ export default abstract class LayoutEl {
         // this.initCssAccessor()
     }
 
+    public abstract getTagName(): string
+
     protected initCssAccessor()
     {
         this._cssPropertyAccesor = new ContentElPropertyAccessor(this)
@@ -92,6 +94,11 @@ export default abstract class LayoutEl {
     get uuid() : string
     {
         return this._uuid
+    }
+    
+    set uuid(arg: string)
+    {
+        this._uuid = arg
     }
 
     get children(): LayoutEl[]

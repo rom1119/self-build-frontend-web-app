@@ -49,6 +49,11 @@ export default class LayoutCreatorContainer extends Vue {
 
     activeElController: ActiveElController = new DefaultActiveElController()
 
+    public addHtmlTag(tag: HtmlTag)
+    {
+        this.htmlTags.push(tag)
+    }
+
     mounted()
     {
         window.addEventListener('resize', (e) => {

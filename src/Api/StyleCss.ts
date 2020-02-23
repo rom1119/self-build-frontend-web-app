@@ -2,6 +2,7 @@ import HtmlTag from "../Layout/HtmlTag";
 
 export default class StyleCss
 {
+    id
     private _key
     private _val
 

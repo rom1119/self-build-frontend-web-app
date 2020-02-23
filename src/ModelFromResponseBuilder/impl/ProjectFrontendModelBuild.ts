@@ -1,27 +1,27 @@
 import ModelFromResponse from "~/src/ModelFromResponseBuilder/ModelFromResponse";
 
-import ProjectFrontendModelResponse from '~/types/ProjectFrontendModel';
+import ProjectFrontendResponse from '~/types/response/ProjectFrontendResponse';
 import ProjectFrontendModel from "~/types/ProjectFrontendModel";
-import HtmlTagModelResponse from '~/types/HtmlTagModel';
+import HtmlTagResponse from '~/types/response/HtmlTagResponse';
 import HtmlTagModel from "~/types/HtmlTagModel";
 import HtmlTagModelBuild from "./HtmlTagModelBuild";
 
-export default class ProjectFrontendModelBuild implements ModelFromResponse<ProjectFrontendModelResponse, ProjectFrontendModel>{
+export default class ProjectFrontendModelBuild implements ModelFromResponse<ProjectFrontendResponse, ProjectFrontendModel>{
 
-    protected htmlTagModelBuilder: ModelFromResponse<HtmlTagModelResponse, HtmlTagModel>
+    protected htmlTagModelBuilder: ModelFromResponse<HtmlTagResponse, HtmlTagModel>
 
     constructor()
     {
         this.htmlTagModelBuilder = new HtmlTagModelBuild()
     }
 
-    build(from: ProjectFrontendModelResponse): ProjectFrontendModel {
+    build(from: ProjectFrontendResponse): ProjectFrontendModel {
         let model = new ProjectFrontendModel()
         model.id = from.id
         model.name = from.name
 
-        if (from.htmlTags) {
-            for (const tag of from.htmlTags) {
+        if (from.items) {
+            for (const tag of from.items) {
                 let subModel = this.htmlTagModelBuilder.build(tag)
                 model.htmlTags.push(subModel)
             }

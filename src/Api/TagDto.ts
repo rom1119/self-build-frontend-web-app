@@ -1,12 +1,13 @@
 import HtmlTag from "../Layout/HtmlTag";
 import StyleCss from "./StyleCss";
+import AggregateRoot from "~/types/AggregateRoot";
 
-export default class TagDto
+export default class TagDto extends AggregateRoot
 {
-    id = 0
+    id = ''
     tagName = ''
     children: TagDto[]  = []
+    parent: TagDto
     styles: StyleCss[]  = []
-
 
 }

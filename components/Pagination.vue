@@ -102,14 +102,18 @@
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)
         {
+            // console.log(e);
+            
             this.$loadingDialog.show()
             await this.fetchItems()
             this.$loadingDialog.hide()
         }
 
         @Watch('pagination.itemsPerPage', {deep: false, immediate: false})
-        async onItemsPerPageChange()
+        async onItemsPerPageChange(e)
         {
+            // console.log(e);
+
             this.$loadingDialog.show()
             await this.fetchItems()
             this.$loadingDialog.hide()
@@ -147,9 +151,11 @@
         async fetchItems() {
             // console.log(this.pagination)
             // this.$loadingDialog.show()
+            var page = this.pagination.page
+            page--
             let response = await this.$store.dispatch(this.storeFetchEndpoint, {
                 paginator: {
-                    page: this.pagination.page,
+                    page: page,
                     size: this.pagination.itemsPerPage
                 },
                 order: {
@@ -160,7 +166,7 @@
             })
 
             let items = response.data
-            console.log(items);
+            // console.log(items);
             
             this.reInitPagination(response)
             this.$emit('loadData', items)
@@ -172,10 +178,10 @@
         private reInitPagination(responseData)
         {
             this.pagination.pageCount = parseInt(responseData.pagesCount)
-            this.pagination.page = parseInt(responseData.page)
-            this.pagination.totalItems = parseInt(responseData.total_items)
+            this.pagination.page = parseInt(responseData.pageNumber)
+            this.pagination.totalItems = parseInt(responseData.totalItemsCount)
             this.pagination.itemsPerPage = parseInt(responseData.pageSize)
-            this.pagination.items = responseData.data
+            this.pagination.items = responseData.items
         }
 
 

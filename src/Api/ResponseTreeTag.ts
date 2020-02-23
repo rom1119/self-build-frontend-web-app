@@ -1,9 +1,9 @@
 import HtmlTag from "../Layout/HtmlTag";
-import ResponseTag from "./TagDto";
+import TagDto from "./TagDto";
 
 export default interface ResponseTreeTag
 {
 
-    getListTags(tag: HtmlTag) : ResponseTag[]
+    getListTags(tag: HtmlTag) : TagDto[]
 
 }

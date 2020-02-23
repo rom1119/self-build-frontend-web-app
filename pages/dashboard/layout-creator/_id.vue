@@ -18,6 +18,8 @@
     import {Component, Vue, Watch} from 'vue-property-decorator'
     // import vadin from '@vaadin/vaadin'
 import H1 from '../../components/html/H1.vue';
+import ModelToDomain from '~/src/Transformer/ModelToDomain';
+import DefaultModelToDomain from '~/src/Transformer/impl/DefaultModelToDomain';
 
 
     @Component({
@@ -29,13 +31,8 @@ import H1 from '../../components/html/H1.vue';
         // }
     })
     export default class LayoutCreatorPage extends Vue {
-        provinces = []
-        communities = []
-
-
-        currentProvince = null
-        currentCommune = null
-        currentYear = null
+        storeFetchEndpoint = 'frontendProject/findOne'
+        modelToDomainTransformer: ModelToDomain
 
         
 
@@ -54,7 +51,7 @@ import H1 from '../../components/html/H1.vue';
             // other actions...
         }
 
-        @Watch('currentProvince')
+        // @Watch('currentProvince')
         async onCurrentProvince() {
             this.$loadingDialog.show()
             try {
@@ -67,15 +64,23 @@ import H1 from '../../components/html/H1.vue';
 
         async mounted()
         {
+            this.modelToDomainTransformer = new DefaultModelToDomain()
+
+            if (this.$route.params.id) {
+                let response = await this.$store.dispatch(this.storeFetchEndpoint, this.$route.params.id)
+                let tag = this.modelToDomainTransformer.transform(response.htmlTags[0])
+                console.log(this.$route.params.id);
+                console.log(tag);
+                console.log(response);
+                
+            }
             this.$loadingDialog.show()
             // let provinces = await this.$axios.$get('/units/provinces')
             // this.provinces = provinces
             this.$loadingDialog.hide()
         }
 
-        goToReport() {
-            this.$router.push(`/report-new?commune=${this.currentCommune.id}&year=${this.currentYear.name}`)
-        }
+
     }
 
 </script>

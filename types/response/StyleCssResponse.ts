@@ -1,9 +1,8 @@
 import ResponseObject from "~/types/response/ResponseObject";
 
-export default class TokenResponse extends ResponseObject{
+export default class StyleCssResponse extends ResponseObject{
      id
-     version
      name
-     items
+     value
 
 }

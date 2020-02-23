@@ -189,6 +189,12 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.borderFilter.injectCssProperty(border)
     }
 
+    public addNewPropertyCss(css: BasePropertyCss)
+    {
+        this.cssAccessor.addNewProperty(css)
+        this.tmpCssAccessor.addNewProperty(css)
+    }
+
     public addPropsToAccessor( accessor: CssPropertyAccessor, cssList: BasePropertyCss[] )
     {
         for (const cssProp of cssList) {
@@ -236,8 +242,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
      set backgroundColor(value) {
         this._backgroundColor = value;
     }
-
-    protected abstract getTagName(): string
 
     public toString(): string
     {

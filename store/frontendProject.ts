@@ -31,6 +31,7 @@ const actions: ActionTree<FrontendProjectState, FrontendProjectState> = {
         response = await this.$axios.$get(`/api/html-project${createUriFromObj({ ...paginator, ...order, ...filter, search })}`)
 
     }
+    commit('deleteAll')
 
     let returnArray: ProjectFrontendModel[] = []
     for (let answer of response.items) {
@@ -40,11 +41,18 @@ const actions: ActionTree<FrontendProjectState, FrontendProjectState> = {
       commit('insert', model)
       returnArray.push(model)
     }
-
     // console.log(returnArray);
     
     return { ...response, data: returnArray }
   }, 
+  async findOne({ commit, state }, id) {
+    // @ts-ignore
+    let response = await this.$axios.$get(`/api/html-project/${id}`)
+    let model = builder.build(response)
+    commit('insert', model)
+
+    return model
+  },
   async create({ commit, state}, token: ProjectFrontendModel) {
       // @ts-ignore
       let model = builder.build(token)

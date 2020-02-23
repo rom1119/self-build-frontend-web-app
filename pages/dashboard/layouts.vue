@@ -16,6 +16,9 @@
                                 :key="el.id"
                             >
                                 <td >
+                                    <div class="publication-name">{{ el.id }}</div>
+                                </td>
+                                <td >
                                     <div ><img :src="el.logo" width="60" height="60" alt=""></div>
                                 </td>
                                 <td >
@@ -32,7 +35,7 @@
 
                                 <td>
 
-                                    <nuxt-link tag="a" class="btn btn-primary"  :to="{ name: 'institutions-id', params: { id: el.id }}">
+                                    <nuxt-link tag="a" class="btn btn-primary"  :to="{ name: 'dashboard-layout-creator-id', params: { id: el.id }}">
                                         Otwórz projekt
                                     </nuxt-link>
 
@@ -66,12 +69,13 @@
     </div>
 
 
-
-
 </template>
 
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator'
+import DomainToModel from '../../src/Transformer/DomainToModel';
+import ModelToDomain from '../../src/Transformer/ModelToDomain';
+import DefaultModelToDomain from '../../src/Transformer/impl/DefaultModelToDomain';
 
     @Component({
         'layout': 'dashboard-layout',

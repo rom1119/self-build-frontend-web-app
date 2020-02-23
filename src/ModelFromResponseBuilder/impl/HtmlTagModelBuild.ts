@@ -1,32 +1,49 @@
 import ModelFromResponse from "~/src/ModelFromResponseBuilder/ModelFromResponse";
-import TokenResponse from "~/types/response/TokenResponse";
-import Token from "~/types/Token";
-import HtmlTagModelResponse from '~/types/HtmlTagModel';
+import HtmlTagResponse from '~/types/response/HtmlTagResponse';
 import HtmlTagModel from "~/types/HtmlTagModel";
 import StyleCssModelResponse from '~/types/StyleCssModel';
 import StyleCssModel from "~/types/StyleCssModel";
 import StyleCssModelBuild from "./StyleCssModelBuild";
+import StyleCssResponse from "~/types/response/StyleCssResponse";
 
-export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagModelResponse, HtmlTagModel>{
-    protected styleModelBuilder: ModelFromResponse<StyleCssModelResponse, StyleCssModel>
+export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagResponse, HtmlTagModel>{
+    protected styleModelBuilder: ModelFromResponse<StyleCssResponse, StyleCssModel>
 
     constructor()
     {
         this.styleModelBuilder = new StyleCssModelBuild()
     }
-    build(from: HtmlTagModelResponse): HtmlTagModel {
+
+    build(from: HtmlTagResponse): HtmlTagModel {
+        let model = this.buildRecursive(from, null)
+
+        return model;
+    }
+
+    buildRecursive(from: HtmlTagResponse, parent: HtmlTagModel)
+    {
         let model = new HtmlTagModel
         model.id = from.id
         model.tagName = from.tagName
+        if (parent) {
+            model.children.push(model)
+            model.parent = parent
+        }
 
-        if (from.styles) {
-            for (const style of from.styles) {
+        if (from.cssStyleList) {
+            for (const style of from.cssStyleList) {
                 let subModel = this.styleModelBuilder.build(style)
                 model.styles.push(subModel)
             }
         }
+        
+        if (from.children) {
+            for (const el of from.children) {
+                this.buildRecursive(el, model)
+            }
+        }
 
-        return model;
+        return model
     }
 
 }
