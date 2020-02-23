@@ -5,7 +5,7 @@ export default abstract class AggregateRoot extends BaseModel{
     private _id
     private _hashCode: number
 
-    get id() : number {
+    get id() {
         return this._id
     }
 

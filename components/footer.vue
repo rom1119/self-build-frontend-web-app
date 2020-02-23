@@ -11,20 +11,10 @@
                     <div class="col-6">
                         <div class="row">
                             <div class="col-6">
-                                <h3>Watchdogs</h3>
+                                <h3>Generator projektów</h3>
                                 <ul class="nav flex-column">
-                                    <nuxt-link tag="li" class="nav-item" to="/" active-class="active" exact>
-                                        <a class="nav-link">Wyszukiwarka danych</a>
-                                    </nuxt-link>
-                                    <nuxt-link tag="li" class="nav-item" to="/events" active-class="active">
-                                        <a class="nav-link">Wydarzenia</a>
-                                    </nuxt-link>
-                                    <nuxt-link tag="li" class="nav-item" to="/publications" active-class="active">
-                                        <a class="nav-link">Publikacje</a>
-                                    </nuxt-link>
-
-                                    <nuxt-link tag="li" class="nav-item" to="/institutions/list" active-class="active">
-                                        <a class="nav-link">Organizacje</a>
+                                    <nuxt-link tag="li" class="nav-item" to="/dashboard/layouts" active-class="active" exact>
+                                        <a class="nav-link">Layouty</a>
                                     </nuxt-link>
 
                                 </ul>
@@ -32,9 +22,9 @@
                             <div class="col-6">
                                 <h3>Baza wiedzy</h3>
                                 <ul class="nav flex-column">
-                                    <li class="nav-item"  v-for="cat in faqCategories">
+                                    <!-- <li class="nav-item"  v-for="cat in faqCategories">
                                         <a class="nav-link active" @click.prevent="$router.push('/faqs-by-category/' + cat.id)">{{ cat.name }}</a>
-                                    </li>
+                                    </li> -->
 
                                 </ul>
                             </div>

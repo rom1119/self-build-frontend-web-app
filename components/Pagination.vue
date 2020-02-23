@@ -13,6 +13,7 @@
                                 <li
                                     class="page-item"
                                     :class="{'active': paginationItem == pagination.page}"
+                                    :key="paginationItem"
                                     v-if="
                                                 paginationItem == 1 ||
                                                  paginationItem == pagination.pageCount ||
@@ -143,14 +144,13 @@
         }
 
 
-
         async fetchItems() {
             // console.log(this.pagination)
             // this.$loadingDialog.show()
             let response = await this.$store.dispatch(this.storeFetchEndpoint, {
                 paginator: {
                     page: this.pagination.page,
-                    items_per_page: this.pagination.itemsPerPage
+                    size: this.pagination.itemsPerPage
                 },
                 order: {
                     order_by: this.pagination.sortBy,
@@ -160,6 +160,8 @@
             })
 
             let items = response.data
+            console.log(items);
+            
             this.reInitPagination(response)
             this.$emit('loadData', items)
             // console.log(this.pagination)
@@ -169,10 +171,10 @@
 
         private reInitPagination(responseData)
         {
-            this.pagination.pageCount = parseInt(responseData.pages_count)
+            this.pagination.pageCount = parseInt(responseData.pagesCount)
             this.pagination.page = parseInt(responseData.page)
             this.pagination.totalItems = parseInt(responseData.total_items)
-            this.pagination.itemsPerPage = parseInt(responseData.items_per_page)
+            this.pagination.itemsPerPage = parseInt(responseData.pageSize)
             this.pagination.items = responseData.data
         }
 

@@ -23,8 +23,8 @@
         menu = [
             {
                 // header: true,
-                href: '/dashboard/layout-creator',
-                title: 'Tworzenie layoutu',
+                href: '/dashboard/layouts',
+                title: 'Lista projektów frontendowych',
                 icon: 'fa fa-user',
                 hiddenOnCollapse: true
             },

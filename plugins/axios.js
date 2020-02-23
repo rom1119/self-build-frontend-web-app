@@ -37,7 +37,7 @@ export default function ({ $axios, redirect, store, app }) {
             // app.$auth.$storage.dispatch('Bearer ' + token.access_token)
 
         } else if (!res.config.url.match(urlRegEx)) {
-            refreshTokenRequest($axios, store)
+            // refreshTokenRequest($axios, store)
 
         } else {
         }
