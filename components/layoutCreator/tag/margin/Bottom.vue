@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="value != null" class="cursor-resize-to-bottom absolute margin-bottom" :style="value.cssList">
+    <div v-if="value != null" v-show="value.isActive()" class="cursor-resize-to-bottom absolute margin-bottom" :style="value.cssList">
 
         <div  
             class="full-box"

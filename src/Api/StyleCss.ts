@@ -5,11 +5,13 @@ export default class StyleCss
     id
     private _key
     private _val
+    private _unitName
 
-    constructor(key: string, val: string)
+    constructor(key: string, val: any, unitName: string)
     {
         this._key = key
         this._val = val
+        this._unitName = unitName
     }
 
 
@@ -21,6 +23,12 @@ export default class StyleCss
     getValue(): string
     {
         return this._val
+
+    }
+    
+    getUnitName(): string
+    {
+        return this._unitName
 
     }
 

@@ -19,7 +19,6 @@ export default abstract class LayoutEl {
         // this.initCssAccessor()
     }
 
-    public abstract getTagName(): string
 
     protected initCssAccessor()
     {

@@ -2,6 +2,7 @@
 
     <div  class="cursor-resize-to-top absolute padding-top" 
         :style="value.cssList" 
+        v-show="value.isActive()"
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut" 

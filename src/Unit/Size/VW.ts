@@ -1,7 +1,9 @@
 import UnitSize from "../UnitSize";
 
 export default class VW extends UnitSize {
-    protected _name: string = 'vw'
+    public static PROP_NAME = 'vw-size-unit'
+
+    protected _name: string = VW.PROP_NAME
 
 
     constructor()

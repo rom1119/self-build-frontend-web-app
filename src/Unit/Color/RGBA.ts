@@ -4,8 +4,8 @@ interface ParamsRGBA {
 }
 export default class RGBA extends UnitColor {
     
-
-    protected _name: string = 'rgba'
+    public static PROP_NAME = 'rgba-color-unit'
+    protected _name: string = RGBA.PROP_NAME
     private r
     private g
     private b

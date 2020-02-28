@@ -1,6 +1,7 @@
 <template>
     <div  v-if="value != null" style="opacity: 0 !important;" class="cursor-resize-to-bottom absolute" 
         v-context-menu="value.uuid"
+        v-show="value.isActive()"
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut" 

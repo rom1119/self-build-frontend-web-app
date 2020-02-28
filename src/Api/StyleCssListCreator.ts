@@ -8,7 +8,7 @@ export default class StyleCssListCreator
     {
         let list = []
         for (const el of tag.cssAccessor.all) {
-            let css = new StyleCss(el.getName(), el.getValue())
+            let css = new StyleCss(el.getName(), el.getClearValue(), el.getUnit().name)
             list.push(css)
             
         }

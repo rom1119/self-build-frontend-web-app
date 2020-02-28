@@ -2,6 +2,7 @@
 
     <div  class="cursor-resize-to-top absolute" style="opacity: 0 !important;"
         :style="value.cssList"
+        v-show="value.isActive()"
         v-context-menu="value.uuid" 
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"

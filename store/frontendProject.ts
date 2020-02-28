@@ -5,8 +5,9 @@ import ProjectFrontendModel from "~/types/ProjectFrontendModel";
 import ModelFromResponse from "~/src/ModelFromResponseBuilder/ModelFromResponse";
 import _ from 'lodash'
 import ProjectFrontendModelBuild from '~/src/ModelFromResponseBuilder/impl/ProjectFrontendModelBuild';
+import ProjectFrontendResponse from '~/types/response/ProjectFrontendResponse';
 
-let builder: ModelFromResponse<ProjectFrontendModel, ProjectFrontendModel> = new ProjectFrontendModelBuild()
+let builder: ModelFromResponse<ProjectFrontendResponse, ProjectFrontendModel> = new ProjectFrontendModelBuild()
 
 interface FrontendProjectState {
   items: ProjectFrontendModel[]

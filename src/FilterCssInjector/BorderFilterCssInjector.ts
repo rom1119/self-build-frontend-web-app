@@ -197,7 +197,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
             model.offset = this.offsetCalculator.calculateOffset(model)
             model.length = this.sizeCalculator.calculateSize(model)
             model.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(model)
-
+            model.activate()
         }
 
         // borderModel.updateCssProperty(prop.getName(), prop)
@@ -221,7 +221,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
         
         if (parseInt(right.getClearValue()) > -1 && !rightProp) {
             
-            console.log('JAJAJA');
+            // console.log('JAJAJA');
             // if (!rightProp.isActive()) {
 
             this.htmlTag.borderRight.width = parseInt(right.getClearValue())
@@ -231,53 +231,57 @@ export default class BorderFilterCssInjector extends FilterCssInjector
             this.htmlTag.borderRight.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderRight)
 
             this.htmlTag.borderRight.style = cssProp.getType()
+            this.htmlTag.borderRight.color = cssProp.getColor()
+            this.htmlTag.borderRight.activate()
             // console.log('=========');
             // console.log(cssProp);
             // console.log(cssProp.getColor());
             // console.log('=========');
             
-            this.htmlTag.borderRight.color = cssProp.getColor()
             
         }
         
         if (parseInt(left.getClearValue()) > -1 && !leftProp) {
-
+            
             // if (!leftProp.isActive()) {
-            this.htmlTag.borderLeft.width = parseInt(left.getClearValue())
-            this.htmlTag.borderLeft.widthUnit = left.getUnit()
-            this.htmlTag.borderLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderLeft)
-            this.htmlTag.borderLeft.length = this.sizeCalculator.calculateSize(this.htmlTag.borderLeft)
-            this.htmlTag.borderLeft.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderLeft)
-
-            this.htmlTag.borderLeft.style = cssProp.getType()
-            this.htmlTag.borderLeft.color = cssProp.getColor()
-            // }
-        }
-        
-        if (parseInt(top.getClearValue()) > -1 && !topProp) {
-
-            this.htmlTag.borderTop.width = parseInt(top.getClearValue())
-            this.htmlTag.borderTop.widthUnit = top.getUnit()
-            this.htmlTag.borderTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderTop)
-            this.htmlTag.borderTop.length = this.sizeCalculator.calculateSize(this.htmlTag.borderTop)
-            this.htmlTag.borderTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderTop)
-
-
-            this.htmlTag.borderTop.style = cssProp.getType()
-            this.htmlTag.borderTop.color = cssProp.getColor()
-        }
-        
-        if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
-
-            this.htmlTag.borderBottom.width = parseInt(bottom.getClearValue())
-            this.htmlTag.borderBottom.widthUnit = bottom.getUnit()
-            this.htmlTag.borderBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderBottom)
-            this.htmlTag.borderBottom.length = this.sizeCalculator.calculateSize(this.htmlTag.borderBottom)
-            this.htmlTag.borderBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderBottom)
-
-            this.htmlTag.borderBottom.style = cssProp.getType()
-            this.htmlTag.borderBottom.color = cssProp.getColor()
-        }
+                this.htmlTag.borderLeft.width = parseInt(left.getClearValue())
+                this.htmlTag.borderLeft.widthUnit = left.getUnit()
+                this.htmlTag.borderLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderLeft)
+                this.htmlTag.borderLeft.length = this.sizeCalculator.calculateSize(this.htmlTag.borderLeft)
+                this.htmlTag.borderLeft.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderLeft)
+                
+                this.htmlTag.borderLeft.style = cssProp.getType()
+                this.htmlTag.borderLeft.color = cssProp.getColor()
+                this.htmlTag.borderLeft.activate()
+                // }
+            }
+            
+            if (parseInt(top.getClearValue()) > -1 && !topProp) {
+                
+                this.htmlTag.borderTop.width = parseInt(top.getClearValue())
+                this.htmlTag.borderTop.widthUnit = top.getUnit()
+                this.htmlTag.borderTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderTop)
+                this.htmlTag.borderTop.length = this.sizeCalculator.calculateSize(this.htmlTag.borderTop)
+                this.htmlTag.borderTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderTop)
+                
+                
+                this.htmlTag.borderTop.style = cssProp.getType()
+                this.htmlTag.borderTop.color = cssProp.getColor()
+                this.htmlTag.borderTop.activate()
+            }
+            
+            if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
+                
+                this.htmlTag.borderBottom.width = parseInt(bottom.getClearValue())
+                this.htmlTag.borderBottom.widthUnit = bottom.getUnit()
+                this.htmlTag.borderBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderBottom)
+                this.htmlTag.borderBottom.length = this.sizeCalculator.calculateSize(this.htmlTag.borderBottom)
+                this.htmlTag.borderBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderBottom)
+                
+                this.htmlTag.borderBottom.style = cssProp.getType()
+                this.htmlTag.borderBottom.color = cssProp.getColor()
+                this.htmlTag.borderBottom.activate()
+            }
     }
     
 }

@@ -167,6 +167,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.borderFilter = new BorderFilterCssInjector(this)
         // console.log(`%c${this._width}`, 'font-size: 20px;')
         
+
+    }
+
+    public injectInitialCssStyles()
+    {
         let border = new BorderGlobalCss('15', new Pixel())
         border.setType('dotted')
         border.setColor('blue', new Named())
@@ -181,12 +186,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let display = new Display(Display.INLINE_BLOCK, new Named())
         let cssList = [border, padding, margin, width, height, boxSizing, backgroundColor, display]
 
-        this.addPropsToAccessor(this._cssPropertyAccesor, cssList)
-        this.addPropsToAccessor(this._tmpCssPropertyAccesor, cssList)
-
-        this.paddingFilter.injectCssProperty(padding)
-        this.marginFilter.injectCssProperty(margin)
-        this.borderFilter.injectCssProperty(border)
+        this.addPropsToAccessor(cssList)
     }
 
     public addNewPropertyCss(css: BasePropertyCss)
@@ -195,10 +195,12 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.tmpCssAccessor.addNewProperty(css)
     }
 
-    public addPropsToAccessor( accessor: CssPropertyAccessor, cssList: BasePropertyCss[] )
+    public abstract getTagName(): string
+
+    public addPropsToAccessor(cssList: BasePropertyCss[] )
     {
         for (const cssProp of cssList) {
-            accessor.addNewProperty(cssProp)
+            this.updateCssPropertyWithoutModel(cssProp.getName(), cssProp)
         }
     }
 
@@ -213,6 +215,20 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 return
             }
             this.tmpCssAccessor.setNewPropertyValue(propName, val)
+        }
+        if (val instanceof BasePaddingCss) {
+            this.paddingFilter.injectCssProperty(val)
+            return false
+        }
+        
+        if (val instanceof BaseMarginCss) {
+            this.marginFilter.injectCssProperty(val)
+            return false
+        }
+        
+        if (val instanceof BaseBorderCss) {
+            this.borderFilter.injectCssProperty(val)
+            return false
         }
         
     }
@@ -510,9 +526,13 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         // console.log(`%c${width.getValue()}`, 'font-size: 20px;')
 
         let height = new Height(boxHeight, this.sizeUnitCurrent)
-        
-        allCssList.setNewPropertyValue(Width.PROP_NAME, width)
-        allCssList.setNewPropertyValue(Height.PROP_NAME, height)
+        try {
+            allCssList.setNewPropertyValue(Width.PROP_NAME, width)
+            allCssList.setNewPropertyValue(Height.PROP_NAME, height)
+
+        } catch (e) {
+            return 
+        }
         // allCssList.setNewPropertyValue(BackgroundColor.PROP_NAME, backgroundColor)
         // console.log('AAAAA');
 

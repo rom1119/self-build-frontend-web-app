@@ -2,7 +2,7 @@
     <div class="">
         
         
-        <layout-creator-container>
+        <layout-creator-container ref="creatorContainer">
 
         </layout-creator-container>
            
@@ -34,6 +34,9 @@ import DefaultModelToDomain from '~/src/Transformer/impl/DefaultModelToDomain';
         storeFetchEndpoint = 'frontendProject/findOne'
         modelToDomainTransformer: ModelToDomain
 
+        $$refs: {
+            creatorContainer
+        }
         
 
         createPElement(target, cm) {
@@ -68,10 +71,16 @@ import DefaultModelToDomain from '~/src/Transformer/impl/DefaultModelToDomain';
 
             if (this.$route.params.id) {
                 let response = await this.$store.dispatch(this.storeFetchEndpoint, this.$route.params.id)
-                let tag = this.modelToDomainTransformer.transform(response.htmlTags[0])
-                console.log(this.$route.params.id);
-                console.log(tag);
-                console.log(response);
+                for (const tagModel of response.htmlTags) {
+                    let tag = this.modelToDomainTransformer.transform(tagModel)
+                    // @ts-ignore
+                    this.$refs.creatorContainer.addHtmlTag(tag)
+                    tag.recalculateRealComputedProperties()
+                    
+                }
+                // console.log(this.$route.params.id);
+                // console.log(tag);
+                // console.log(response);
                 
             }
             this.$loadingDialog.show()

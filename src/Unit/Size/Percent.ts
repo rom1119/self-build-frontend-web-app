@@ -1,8 +1,8 @@
 import UnitSize from "../UnitSize";
 
 export default class Percent extends UnitSize {
-
-    protected _name: string = 'percent'
+    public static PROP_NAME = 'percent-size-unit'
+    protected _name: string = Percent.PROP_NAME
 
     constructor()
     {

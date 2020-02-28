@@ -1,6 +1,6 @@
 <template>
 
-    <div class="stretch stretch__flex cursor-resize-to-right absolute margin-right" :style="value.cssList">
+    <div class="stretch stretch__flex cursor-resize-to-right absolute margin-right" v-show="value.isActive()" :style="value.cssList">
         <div class="stretch full-box" 
             @mousedown.stop="onMouseDown($event)"  
             @mouseover.stop="onMouseOver"

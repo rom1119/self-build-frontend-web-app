@@ -2,6 +2,7 @@
 
     <div class="stretch stretch__flex cursor-resize-to-right absolute padding-right" 
         :style="value.cssList" 
+        v-show="value.isActive()"
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut" 

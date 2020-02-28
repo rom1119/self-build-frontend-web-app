@@ -184,7 +184,7 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
             paddingModel.width = parseInt(prop.getClearValue())
             paddingModel.widthUnit = prop.getUnit()
             paddingModel.offset = this.offsetCalculator.calculateOffset(paddingModel)
-
+            paddingModel.activate()
         }
 
         // paddingModel.updateCssProperty(prop.getName(), prop)
@@ -208,7 +208,7 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
             this.htmlTag.paddingRight.width = parseInt(right.getClearValue())
             this.htmlTag.paddingRight.widthUnit = right.getUnit()
             this.htmlTag.paddingRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingRight)
-
+            this.htmlTag.paddingRight.activate()
         }
         
         if (parseInt(left.getClearValue()) > -1 && !leftProp) {
@@ -217,6 +217,8 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
             this.htmlTag.paddingLeft.width = parseInt(left.getClearValue())
             this.htmlTag.paddingLeft.widthUnit = left.getUnit()
             this.htmlTag.paddingLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingLeft)
+            this.htmlTag.paddingLeft.activate()
+
             // }
         }
         
@@ -225,6 +227,8 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
             this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
             this.htmlTag.paddingTop.widthUnit = top.getUnit()
             this.htmlTag.paddingTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingTop)
+            this.htmlTag.paddingTop.activate()
+
         }
         
         if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
@@ -232,6 +236,8 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
             this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
             this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
             this.htmlTag.paddingBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingBottom)
+            this.htmlTag.paddingBottom.activate()
+
         }
     }
     

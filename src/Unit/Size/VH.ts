@@ -1,7 +1,8 @@
 import UnitSize from "../UnitSize";
 
 export default class VH extends UnitSize {
-    protected _name: string = 'vh'
+    public static PROP_NAME = 'vh-size-unit'
+    protected _name: string = VH.PROP_NAME
 
 
     constructor()

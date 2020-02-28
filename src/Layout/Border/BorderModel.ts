@@ -38,6 +38,8 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     protected _width: number = 15
     protected htmlTag: HtmlTag
     widthUnit: UnitSize
+    protected _active: boolean = false;
+
 
     protected _cssPropertyAccesor: CssPropertyAccessor
 
@@ -73,7 +75,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         this._cssPropertyAccesor.addNewProperty(borderColor)
         // this._cssPropertyAccesor.addNewProperty(borderWidth)
         this._cssPropertyAccesor.addNewProperty(borderStyle)
-        this._cssPropertyAccesor.addNewProperty(display)
+        // this._cssPropertyAccesor.addNewProperty(display)
     }
 
     get offset(): number

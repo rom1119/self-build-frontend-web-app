@@ -1,7 +1,8 @@
 import UnitSize from "../UnitSize";
 
 export default class EM extends UnitSize {
-    protected _name: string = 'em'
+    public static PROP_NAME = 'em-size-unit'
+    protected _name: string = EM.PROP_NAME
 
 
     constructor()

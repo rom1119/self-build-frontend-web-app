@@ -1,6 +1,7 @@
 <template>
 
     <div  class="cursor-resize-to-top absolute margin-top" 
+    v-show="value.isActive()"
     :style="value.cssList" >
         <div 
             class="full-box"

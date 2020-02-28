@@ -7,7 +7,7 @@ import StyleCssModel from "~/types/StyleCssModel";
 export default class StyleCssModelBuild implements ModelFromResponse<StyleCssResponse, StyleCssModel>{
 
     build(from: StyleCssResponse): StyleCssModel {
-        let model = new StyleCssModel(from.name, from.value)
+        let model = new StyleCssModel(from.name, from.value, from.unitName)
         model.id = from.id
         return model;
     }

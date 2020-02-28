@@ -12,6 +12,9 @@ import Named from "~/src/Unit/Color/Named";
 
 export default class PaddingLeft extends PaddingModel
 {
+    public getTagName(): string {
+        throw new Error("Method not implemented.");
+    }
     protected _name: string = 'padding-left'
 
     // protected _float: string = 'left';

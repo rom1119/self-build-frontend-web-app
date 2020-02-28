@@ -26,6 +26,8 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
         b: 65,
         a: 0.5
     }
+    protected _active: boolean = false;
+
     protected _defaultSizeUnit: UnitSize = new Pixel()
     protected _defaultColorUnit = new Named()
     protected htmlTag: HtmlTag
@@ -55,7 +57,7 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
             display = new Display(Display.NONE, new Named())
         }
         this._cssPropertyAccesor.addNewProperty(background)
-        this._cssPropertyAccesor.addNewProperty(display)
+        // this._cssPropertyAccesor.addNewProperty(display)
         // this._cssPropertyAccesor.addNewProperty(borderWidth)
     }
 
@@ -140,7 +142,7 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
             display = new Display(Display.NONE, new Named())
         }
 
-        this.updateCssProperty(Display.PROP_NAME, display)
+        // this.updateCssProperty(Display.PROP_NAME, display)
 
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()

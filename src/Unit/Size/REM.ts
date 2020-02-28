@@ -1,7 +1,9 @@
 import UnitSize from "../UnitSize";
 
 export default class REM extends UnitSize {
-    protected _name: string = 'rem'
+    public static PROP_NAME = 'rem-size-unit'
+
+    protected _name: string = REM.PROP_NAME
 
 
     constructor()

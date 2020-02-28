@@ -2,7 +2,8 @@ import UnitColor from '../UnitColor';
 
 export default class Hexadecimal extends UnitColor {
 
-    protected _name: string = 'hexadecimal'
+    public static PROP_NAME = 'hexadecimal-color-unit'
+    protected _name: string = Hexadecimal.PROP_NAME
 
 
     constructor()

@@ -1,8 +1,8 @@
 import UnitSize from "../UnitSize";
 
 export default class Pixel extends UnitSize {
-    
-    protected _name: string = 'px'
+    public static PROP_NAME = 'pixel-size-unit'
+    protected _name: string = Pixel.PROP_NAME
     
     constructor()
     {

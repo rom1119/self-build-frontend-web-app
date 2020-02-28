@@ -145,7 +145,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             marginModel.offset = this.offsetCalculator.calculateOffset(marginModel)
             marginModel.length = this.sizeCalculator.calculateSize(marginModel)
             marginModel.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(marginModel)
-
+            marginModel.activate()
         }
         // marginModel.updateCssProperty(prop.getName(), prop)
     }
@@ -171,38 +171,42 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginRight)
             this.htmlTag.marginRight.length = this.sizeCalculator.calculateSize(this.htmlTag.marginRight)
             this.htmlTag.marginRight.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginRight)
-
-
+            this.htmlTag.marginRight.activate()
+            
+            
         }
         
         if (parseInt(left.getClearValue()) > -1 && !leftProp) {
-
+            
             this.htmlTag.marginLeft.width = parseInt(left.getClearValue())
             this.htmlTag.marginLeft.widthUnit = left.getUnit()
             this.htmlTag.marginLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginLeft)
             this.htmlTag.marginLeft.length = this.sizeCalculator.calculateSize(this.htmlTag.marginLeft)
             this.htmlTag.marginLeft.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginLeft)
-
+            this.htmlTag.marginLeft.activate()
+            
         }
         
         if (parseInt(top.getClearValue()) > -1 && !topProp) {
-
+            
             this.htmlTag.marginTop.width = parseInt(top.getClearValue())
             this.htmlTag.marginTop.widthUnit = top.getUnit()
             this.htmlTag.marginTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginTop)
             this.htmlTag.marginTop.length = this.sizeCalculator.calculateSize(this.htmlTag.marginTop)
             this.htmlTag.marginTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginTop)
-
+            this.htmlTag.marginTop.activate()
+            
         }
         
         if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
-
+            
             this.htmlTag.marginBottom.width = parseInt(bottom.getClearValue())
             this.htmlTag.marginBottom.widthUnit = bottom.getUnit()
             this.htmlTag.marginBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginBottom)
             this.htmlTag.marginBottom.length = this.sizeCalculator.calculateSize(this.htmlTag.marginBottom)
             this.htmlTag.marginBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginBottom)
-
+            this.htmlTag.marginBottom.activate()
+            
         }
     }
     

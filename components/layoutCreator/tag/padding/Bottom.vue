@@ -1,6 +1,7 @@
 <template>
     <div class="cursor-resize-to-bottom absolute padding-bottom" 
         :style="value.cssList" 
+        v-show="value.isActive()"
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut" 

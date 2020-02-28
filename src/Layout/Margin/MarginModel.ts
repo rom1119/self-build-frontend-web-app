@@ -24,6 +24,8 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     protected _offset: number = -55
     protected _length: number = 0
     protected _lengthOffset: number = 0
+    protected _active: boolean = false;
+
 
     protected _color: any
     protected _initialColor: any = {
@@ -67,7 +69,7 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
             display = new Display(Display.NONE, new Named())
         }
         this._cssPropertyAccesor.addNewProperty(background)
-        this._cssPropertyAccesor.addNewProperty(display)
+        // this._cssPropertyAccesor.addNewProperty(display)
         // this._cssPropertyAccesor.addNewProperty(borderWidth)
     }
 
@@ -171,7 +173,7 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
             display = new Display(Display.NONE, new Named())
         }
 
-        this.updateCssProperty(Display.PROP_NAME, display)
+        // this.updateCssProperty(Display.PROP_NAME, display)
 
 
         for (const cssProp of this._cssPropertyAccesor.all) {
