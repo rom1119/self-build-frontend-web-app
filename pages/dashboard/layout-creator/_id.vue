@@ -20,6 +20,7 @@
 import H1 from '../../components/html/H1.vue';
 import ModelToDomain from '~/src/Transformer/ModelToDomain';
 import DefaultModelToDomain from '~/src/Transformer/impl/DefaultModelToDomain';
+import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorContainer.vue';
 
 
     @Component({
@@ -35,7 +36,7 @@ import DefaultModelToDomain from '~/src/Transformer/impl/DefaultModelToDomain';
         modelToDomainTransformer: ModelToDomain
 
         $$refs: {
-            creatorContainer
+            creatorContainer: LayoutCreatorContainer
         }
         
 
@@ -75,11 +76,11 @@ import DefaultModelToDomain from '~/src/Transformer/impl/DefaultModelToDomain';
                     let tag = this.modelToDomainTransformer.transform(tagModel)
                     // @ts-ignore
                     this.$refs.creatorContainer.addHtmlTag(tag)
-                    tag.recalculateRealComputedProperties()
+                // console.log(tag);
+                    // tag.recalculateRealComputedProperties()
                     
                 }
                 // console.log(this.$route.params.id);
-                // console.log(tag);
                 // console.log(response);
                 
             }

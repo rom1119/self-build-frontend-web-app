@@ -7,7 +7,7 @@ import MarginModel from "./MarginModel";
 import Height from "~/src/Css/Size/Height";
 import MarginBottomCss from "~/src/Css/BoxModel/Margin/MarginBottomCss";
 import LeftCss from "~/src/Css/Position/Direction/LeftCss";
-import Named from "~/src/Unit/Color/Named";
+import Named from "~/src/Unit/Named";
 import BottomCss from "~/src/Css/Position/Direction/BottomCss";
 import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
 

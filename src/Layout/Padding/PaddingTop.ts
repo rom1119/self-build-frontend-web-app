@@ -8,7 +8,7 @@ import Height from "~/src/Css/Size/Height";
 import HtmlTag from "../HtmlTag";
 import PaddingTopCss from "~/src/Css/BoxModel/Padding/PaddingTopCss";
 import LeftCss from "~/src/Css/Position/Direction/LeftCss";
-import Named from "~/src/Unit/Color/Named";
+import Named from "~/src/Unit/Named";
 import TopCss from "~/src/Css/Position/Direction/TopCss";
 
 export default class PaddingTop extends PaddingModel

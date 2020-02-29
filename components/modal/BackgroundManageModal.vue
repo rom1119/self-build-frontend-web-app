@@ -91,7 +91,7 @@
 import { Chrome }  from '~/node_modules/vue-color';
 import BackgroundColor from '~/src/Css/Background/BackgroundColor';
 import RGBA from '../../src/Unit/Color/RGBA';
-import Named from '~/src/Unit/Color/Named';
+import Named from '~/src/Unit/Named';
 import BackgroundImage from '../../src/Css/Background/BackgroundImage';
 import UnitUrl from '../../src/Unit/UnitUrl';
 import base64 from 'base-64';

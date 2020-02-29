@@ -5,7 +5,7 @@ import UnitSize from '~/src/Unit/UnitSize';
 import CssList from './CssList';
 import HtmlTag from '~/src/Layout/HtmlTag';
 import UnitColor from '../Unit/UnitColor';
-import Named from "../Unit/Color/Named";
+import Named from "../Unit/Named";
 
 export default abstract class HtmlTagBlock extends HtmlTag
 {

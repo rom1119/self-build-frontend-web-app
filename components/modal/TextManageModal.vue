@@ -90,7 +90,7 @@
     import BasePropertyCss from '../../src/Css/BasePropertyCss';
     import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
     import AbstractModal from '../AbstractModal';
-    import Named from '../../src/Unit/Color/Named';
+    import Named from '../../src/Unit/Named';
 import UnitSize from '~/src/Unit/UnitSize';
 import Pixel from '~/src/Unit/Size/Pixel';
 import Percent from '~/src/Unit/Size/Percent';

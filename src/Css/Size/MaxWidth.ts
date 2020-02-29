@@ -1,6 +1,7 @@
 import CssSimple from "../CssSimple";
+import ContentSizeCss from "./ContentSizeCss";
 
-export default class MaxWidth extends CssSimple 
+export default class MaxWidth extends ContentSizeCss 
 {
     public static PROP_NAME = 'max-width'
     public getName(): string {

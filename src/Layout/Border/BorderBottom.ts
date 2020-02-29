@@ -4,7 +4,7 @@ import BorderModel from "./BorderModel";
 import Percent from '../../Unit/Size/Percent';
 import Width from "~/src/Css/Size/Width";
 import Height from "~/src/Css/Size/Height";
-import Named from "~/src/Unit/Color/Named";
+import Named from "~/src/Unit/Named";
 import BorderTopWidth from "~/src/Css/Border/Top/BorderTopWidth";
 import BorderBottomWidth from "~/src/Css/Border/Bottom/BorderBottomWidth";
 import HtmlTag from "../HtmlTag";

@@ -34,6 +34,7 @@ export default class ContentElSizeController extends SizeElController
                 if (this.mouseDown && el) {
                     this.currentElement = el
                     this.mouseDetector.initPosition(event.clientX, event.clientY)
+                    
                     this.mouseDetector.initSize(el.width, el.height)
                     // this.currentElement.changeAsActiveSize()
 

@@ -1,6 +1,6 @@
 import Site from "~/src/Site/Site";
 import UnitSize from "~/src/Unit/UnitSize";
-import Named from '../../Unit/Color/Named';
+import Named from '../../Unit/Named';
 import Pixel from '../../Unit/Size/Pixel';
 import CssList from "../CssList";
 import LayoutEl from "../../LayoutEl";

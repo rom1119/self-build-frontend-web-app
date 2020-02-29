@@ -442,6 +442,8 @@ export default class HTMLWrapper extends Vue {
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
         this.value.setHtmlEl(this.$el)
+        this.value.recalculateRealComputedProperties()
+        
     }
 }
 </script>

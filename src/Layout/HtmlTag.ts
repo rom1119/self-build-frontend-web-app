@@ -4,7 +4,7 @@ import Pixel from "../Unit/Size/Pixel";
 import UnitSize from '~/src/Unit/UnitSize';
 import CssList from './CssList';
 import UnitColor from "../Unit/UnitColor";
-import Named from "../Unit/Color/Named";
+import Named from "../Unit/Named";
 import SizeActivable from "../SizeActivable";
 import BorderModel from "./Border/BorderModel";
 import CssPropertyAccessor from '../Css/CssPropertyAccessor';
@@ -41,6 +41,8 @@ import BorderFilterCssInjector from "../FilterCssInjector/BorderFilterCssInjecto
 import Display from '../Css/Display/Display';
 import ApiService from "../Api/ApiService";
 import DefaultApiService from "../Api/impl/DefaultApiService";
+import ContentFilterCssInjector from "../FilterCssInjector/ContentFilterCssInjector";
+import ContentSizeCss from '../Css/Size/ContentSizeCss';
 
 
 
@@ -73,8 +75,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     marginRight: MarginModel
     
     protected _isEdited = false
-    protected _width = 100
-    protected _height = 100
+    protected _width = HtmlTag.INITIAL_WIDTH
+    protected _height = HtmlTag.INITIAL_HEIGHT
+    public static INITIAL_WIDTH = 100
+    public static INITIAL_HEIGHT = 100
+    public static INITIAL_SIZE_UNIT: UnitSize = new Pixel()
     protected initialBackgroundColor = 'red'
     private _backgroundColor = this.initialBackgroundColor;
     private _initialColorUnit: UnitColor = new Named();
@@ -85,6 +90,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     paddingFilter: FilterCssInjector
     marginFilter: FilterCssInjector
     borderFilter: FilterCssInjector
+    contentFilter: FilterCssInjector
 
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
@@ -165,6 +171,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.paddingFilter = new PaddingFilterCssInjector(this)
         this.marginFilter = new MarginFilterCssInjector(this)
         this.borderFilter = new BorderFilterCssInjector(this)
+        this.contentFilter = new ContentFilterCssInjector(this)
         // console.log(`%c${this._width}`, 'font-size: 20px;')
         
 
@@ -216,6 +223,9 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
             }
             this.tmpCssAccessor.setNewPropertyValue(propName, val)
         }
+        // if (!this.getHtmlEl()) {
+        //     return
+        // }
         if (val instanceof BasePaddingCss) {
             this.paddingFilter.injectCssProperty(val)
             return false
@@ -228,6 +238,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         
         if (val instanceof BaseBorderCss) {
             this.borderFilter.injectCssProperty(val)
+            return false
+        }
+        
+        if (val instanceof ContentSizeCss) {
+            this.contentFilter.injectCssProperty(val)
             return false
         }
         
@@ -280,17 +295,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     {
         return this.cssAccessor.isPropertyLikeThis(cssProp, 'background')
     }
-
-    // get paddingRightWidth(): number
-    // {
-        
-        //     return this.paddingRight.width
-        // }
-        
-    // set paddingRightUnit(newVal: UnitSize)
-    // {        
-    //      this.paddingRight.widthUnit = newVal
-    // }
 
     private filterCss(css: BasePropertyCss): boolean
     {
@@ -377,6 +381,23 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
             console.log('ALA MA');
             // console.log(newProp.getUnit());
             // console.log(newProp);
+            // if (prop instanceof ContentSizeCss) {
+
+            //     let val = this.getComputedCssVal(prop)
+            //     console.log('+=======+++');
+            //     console.log(val);
+                
+            //     let clonedCss = _.cloneDeep(prop)
+            //     clonedCss.setValue(parseInt(val).toString())
+            //     clonedCss.setUnit(new Pixel())
+            //     // console.log(newProp);
+            //     // console.log(val);
+            //     // // console.log(clonedCss);
+            //     // console.log('ALA MA');
+            //     this.contentFilter.injectCssProperty(clonedCss)
+            //     continue
+            // }
+            
             if (prop instanceof BasePaddingCss) {
 
                 let val = this.getComputedCssVal(prop)
@@ -388,6 +409,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 // // console.log(clonedCss);
                 // console.log('ALA MA');
                 this.paddingFilter.injectCssProperty(clonedCss)
+                continue
             }
             
             if (prop instanceof BaseMarginCss) {
@@ -401,6 +423,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 // // console.log(clonedCss);
                 // console.log('ALA MA');
                 this.marginFilter.injectCssProperty(clonedCss)
+                continue
             }
             
             if (prop instanceof BaseBorderCss) {
@@ -413,10 +436,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 clonedCss.setType(prop.getType())
                 clonedCss.setColor(prop.getColor(), prop.getColorUnit())
                 // console.log(newProp);
-                console.log(val);
-                console.log(clonedCss);
-                console.log('ALA MA');
+                // console.log(val);
+                // console.log(clonedCss);
+                // console.log('ALA MA');
                 this.borderFilter.injectCssProperty(clonedCss)
+                continue
             }
         }
     }
@@ -527,11 +551,14 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
         let height = new Height(boxHeight, this.sizeUnitCurrent)
         try {
-            allCssList.setNewPropertyValue(Width.PROP_NAME, width)
             allCssList.setNewPropertyValue(Height.PROP_NAME, height)
 
         } catch (e) {
-            return 
+        }
+        try {
+            allCssList.setNewPropertyValue(Width.PROP_NAME, width)
+
+        } catch (e) {
         }
         // allCssList.setNewPropertyValue(BackgroundColor.PROP_NAME, backgroundColor)
         // console.log('AAAAA');
@@ -637,9 +664,24 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     public initSize(w, h) 
     {
         this.sizeUnitCurrent = new Pixel()
+        // console.log(w);
+        // console.log(h);
+        
         this._width = w
         this._height = h
         
+    }
+
+    public initWidth(w)
+    {
+        this.sizeUnitCurrent = new Pixel()
+        this._width = w
+    }
+    
+    public initHeight(w)
+    {
+        this.sizeUnitCurrent = new Pixel()
+        this._height = w
     }
 
     public onDoubleClick(e) 

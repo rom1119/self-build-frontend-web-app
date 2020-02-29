@@ -9,7 +9,7 @@ import MarginLeftCss from "~/src/Css/BoxModel/Margin/MarginLeftCss";
 import Left from '~/src/Site/Left';
 import LeftCss from "~/src/Css/Position/Direction/LeftCss";
 import TopCss from '../../Css/Position/Direction/TopCss';
-import Named from '../../Unit/Color/Named';
+import Named from '../../Unit/Named';
 import BaseMarginCss from '../../Css/BoxModel/BaseMarginCss';
 import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";
 import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";

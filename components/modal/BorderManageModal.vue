@@ -64,7 +64,7 @@
     import BasePropertyCss from '../../src/Css/BasePropertyCss';
     import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
     import AbstractModal from '../AbstractModal';
-    import Named from '../../src/Unit/Color/Named';
+    import Named from '../../src/Unit/Named';
     import BorderGlobalStyle from '~/src/Css/Border/Global/BorderGlobalStyle';
 
 

@@ -2,7 +2,7 @@ import UnitSize from "~/src/Unit/UnitSize"
 import Site from "~/src/Site/Site"
 import UnitColor from '../../Unit/UnitColor';
 import Pixel from '../../Unit/Size/Pixel';
-import Named from '../../Unit/Color/Named';
+import Named from '../../Unit/Named';
 import CssList from "../CssList";
 import Left from '~/src/Site/Left';
 import BorderModel from "./BorderModel";

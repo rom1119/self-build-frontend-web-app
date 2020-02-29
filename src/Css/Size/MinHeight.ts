@@ -1,7 +1,8 @@
 import CssSimple from "../CssSimple";
 import CssPropertyLimitable from "../CssPropertyLimitable";
+import ContentSizeCss from "./ContentSizeCss";
 
-export default class MinHeight extends CssSimple 
+export default class MinHeight extends ContentSizeCss 
 {
     public static PROP_NAME = 'min-height'
     public getName(): string {

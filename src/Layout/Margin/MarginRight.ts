@@ -8,7 +8,7 @@ import HtmlTag from "../HtmlTag";
 import MarginModel from "./MarginModel";
 import MarginRightCss from "~/src/Css/BoxModel/Margin/MarginRightCss";
 import TopCss from "~/src/Css/Position/Direction/TopCss";
-import Named from "~/src/Unit/Color/Named";
+import Named from "~/src/Unit/Named";
 import RightCss from "~/src/Css/Position/Direction/RightCss";
 import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
 import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";

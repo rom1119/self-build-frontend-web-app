@@ -34,6 +34,19 @@ import BorderGlobalWidth from './Border/Global/BorderGlobalWidth';
 import Width from './Size/Width';
 import Height from './Size/Height';
 
+// box model
+import BoxSizing from './BoxModel/BoxSizing';
+import MarginBottomCss from './BoxModel/Margin/MarginBottomCss';
+import MarginTopCss from './BoxModel/Margin/MarginTopCss';
+import MarginLeftCss from './BoxModel/Margin/MarginLeftCss';
+import MarginRightCss from './BoxModel/Margin/MarginRightCss';
+import MarginCss from './BoxModel/Margin/MarginCss';
+import PaddingBottomCss from './BoxModel/Padding/PaddingBottomCss';
+import PaddingTopCss from './BoxModel/Padding/PaddingTopCss';
+import PaddingLeftCss from './BoxModel/Padding/PaddingLeftCss';
+import PaddingRightCss from './BoxModel/Padding/PaddingRightCss';
+import PaddingCss from './BoxModel/Padding/PaddingCss';
+
 
 export {
     BackgroundColor,
@@ -42,4 +55,15 @@ export {
     BackgroundSize,
     Width,
     Height,
+    BoxSizing,
+    MarginBottomCss,
+    MarginTopCss,
+    MarginLeftCss,
+    MarginRightCss,
+    MarginCss,
+    PaddingBottomCss,
+    PaddingTopCss,
+    PaddingLeftCss,
+    PaddingRightCss,
+    PaddingCss,
 }

@@ -2,7 +2,7 @@
 // color
 import Hexadecimal from './Color/Hexadecimal';
 import RGBA from './Color/RGBA';
-import Named from './Color/Named';
+import Named from './Named';
 
 // size
 import EM from './Size/EM';
