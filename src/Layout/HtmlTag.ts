@@ -191,7 +191,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         let height = new Height(this._height, this.sizeUnitCurrent)
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
-        let display = new Display(Display.INLINE_BLOCK, new Named())
+        let display = new Display(Display.BLOCK, new Named())
         let cssList = [border, padding, margin, width, height, boxSizing, backgroundColor, display]
 
         this.addPropsToAccessor(cssList)

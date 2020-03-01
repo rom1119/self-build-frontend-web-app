@@ -71,6 +71,8 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     }
     
     init() {
+
+        // =============================================
         var propLeft = this.getPropertyCssFromModel(this.leftProperty.getName())
         let valLeft = this.realFetcher.fetchPropValue(this.leftProperty.getName())
         let unitLeft = this.realFetcher.fetchUnit(this.leftProperty.getName())
@@ -79,16 +81,24 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.leftProperty = <BaseMarginCss>propLeft
             this.leftProperty.setActive(true)
         } else {
+            this.leftProperty.setActive(false)
+            let copy = _.cloneDeep(this.leftProperty)
+            this.leftProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valLeft) {
                 // this.marginLeftData.setActive(true)
                 this.leftProperty.setValue(valLeft)
-            }  
+            } else {
+                this.leftProperty.setValue(this.DEFAULT_PADDING.toString())
+            }
             if (unitLeft) {
                 this.leftProperty.setUnit(unitLeft)
+            } else {
+                this.leftProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            this.leftProperty.setActive(false)
-            this.setTmpPropertyToModel(this.leftProperty)
+            
         }
+        // =============================================
 
         var propRight = this.getPropertyCssFromModel(this.rightProperty.getName())
         let valRight = this.realFetcher.fetchPropValue(this.rightProperty.getName())
@@ -98,16 +108,24 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.rightProperty = <BaseMarginCss>propRight
             this.rightProperty.setActive(true)
         } else {
+            this.rightProperty.setActive(false)
+            let copy = _.cloneDeep(this.rightProperty)
+            this.rightProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valRight) {
                 this.rightProperty.setValue(valRight)
+            } else {
+                this.rightProperty.setValue(this.DEFAULT_PADDING.toString())
             }  
             if (unitRight) {
                 this.rightProperty.setUnit(unitRight)
+            } else {
+                this.rightProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            this.rightProperty.setActive(false)
-            this.setTmpPropertyToModel(this.rightProperty)
+
         }
-        
+        // =============================================
+
         var propTop = this.getPropertyCssFromModel(this.topProperty.getName())
         let valTop = this.realFetcher.fetchPropValue(this.topProperty.getName())
         let unitTop = this.realFetcher.fetchUnit(this.topProperty.getName())
@@ -116,16 +134,23 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.topProperty = <BaseMarginCss>propTop
             this.topProperty.setActive(true)
         } else {
+            this.topProperty.setActive(false)
+            let copy = _.cloneDeep(this.topProperty)
+            this.topProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valTop) {
                 this.topProperty.setValue(valTop)
-            }  
+            } else {
+                this.topProperty.setValue(this.DEFAULT_PADDING.toString())
+            }
             if (unitTop) {
                 this.topProperty.setUnit(unitTop)
+            } else {
+                this.topProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            this.topProperty.setActive(false)
-            this.setTmpPropertyToModel(this.topProperty)
         }
-        
+        // =============================================
+
         var propGlobal = this.getPropertyCssFromModel(this.bottomProperty.getName())
         let valBottom = this.realFetcher.fetchPropValue(this.bottomProperty.getName())
         let unitBottom = this.realFetcher.fetchUnit(this.bottomProperty.getName())
@@ -134,17 +159,24 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.bottomProperty = <BaseMarginCss>propGlobal
             this.bottomProperty.setActive(true)
         } else {
+            this.bottomProperty.setActive(false)
+            let copy = _.cloneDeep(this.bottomProperty)
+            this.bottomProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valBottom) {
                 this.bottomProperty.setValue(valBottom)
-            }  
+            } else {
+                this.bottomProperty.setValue(this.DEFAULT_PADDING.toString())
+            }
             if (unitBottom) {
                 this.bottomProperty.setUnit(unitBottom)
+            } else {
+                this.bottomProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            this.bottomProperty.setActive(false)
-            this.setTmpPropertyToModel(this.bottomProperty)
 
         }
-        
+        // =============================================
+
         var propGlobal = this.getPropertyCssFromModel(this.globalProperty.getName())
         let valGlobal = this.realFetcher.fetchPropValue(this.globalProperty.getName())
         let unitGlobal = this.realFetcher.fetchUnit(this.globalProperty.getName())
@@ -153,12 +185,21 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.globalProperty = <BaseMarginCss>propGlobal
             this.globalProperty.setActive(true)
         } else {
+            this.globalProperty.setActive(false)
+            let copy = _.cloneDeep(this.globalProperty)
+            this.globalProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valGlobal) {
                 this.globalProperty.setValue(valGlobal)
+            } else {
+                this.globalProperty.setValue(this.DEFAULT_PADDING.toString())
             }  
             if (unitGlobal) {
                 this.globalProperty.setUnit(unitGlobal)
+            } else {
+                this.globalProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
+
         }
     }
 

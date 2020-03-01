@@ -56,6 +56,7 @@ export default class LayoutCreatorContainer extends Vue {
     activeElController: ActiveElController = new DefaultActiveElController()
     activeToManageController: ActiveToManageController = new DefaultActiveToManageController()
     htmlTagRemover: Remover<string>
+    hasAccualControllerWorks = false
 
     public addHtmlTag(tag: HtmlTag)
     {
@@ -91,18 +92,20 @@ export default class LayoutCreatorContainer extends Vue {
 
     onContentMouseClick(source)
     {
-        console.log('click');
-        console.log(source.target);
-        
-        this.activeToManageController.updateActiveTag(source.target)
+        // console.log('click');
+        // console.log(source.target);
+        if (!this.hasAccualControllerWorks) {
+            this.activeToManageController.updateActiveTag(source.target)
+
+        }
     }
     
     onTagRemove(source)
     {
-        console.log('tagRemove');
-        console.log(source);
+        // console.log('tagRemove');
+        // console.log(source);
         let a = this.htmlTagRemover.removeBy(source.target.uuid)
-        console.log(a);
+        // console.log(a);
     }
 
     onMouseDown(source)
@@ -120,7 +123,11 @@ export default class LayoutCreatorContainer extends Vue {
         let controller = this.getElSizeController('mouseUp')
         
         if (controller) {
-            controller.mouseUpHandler(e)
+            setTimeout(() => {
+                controller.mouseUpHandler(e)
+                this.hasAccualControllerWorks = false
+
+            }, 0)
         }
     }
 
@@ -129,7 +136,7 @@ export default class LayoutCreatorContainer extends Vue {
         let controller = this.getElSizeController('mouseover')
         if (controller) {
             controller.mouseMoveHandler(e)
-
+            this.hasAccualControllerWorks = true
         }
 
     }

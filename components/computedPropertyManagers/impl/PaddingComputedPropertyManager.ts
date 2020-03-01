@@ -82,15 +82,20 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.leftProperty = <BasePaddingCss>propLeft
             this.leftProperty.setActive(true)
         } else {
+            this.leftProperty.setActive(false)
+            let copy = _.cloneDeep(this.leftProperty)
+            this.leftProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valLeft) {
-                // this.paddingLeftData.setActive(true)
                 this.leftProperty.setValue(valLeft)
-            }  
+            } else {
+                this.leftProperty.setValue(this.DEFAULT_PADDING.toString())
+            }
             if (unitLeft) {
                 this.leftProperty.setUnit(unitLeft)
+            } else {
+                this.leftProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            this.leftProperty.setActive(false)
-            this.setTmpPropertyToModel(this.leftProperty)
         }
 
         var propRight = this.getPropertyCssFromModel(this.rightProperty.getName())
@@ -101,14 +106,21 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.rightProperty = <BasePaddingCss>propRight
             this.rightProperty.setActive(true)
         } else {
+            this.rightProperty.setActive(false)
+            let copy = _.cloneDeep(this.rightProperty)
+            this.rightProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valRight) {
                 this.rightProperty.setValue(valRight)
-            }  
+            } else {
+                this.rightProperty.setValue(this.DEFAULT_PADDING.toString())
+            }
             if (unitRight) {
                 this.rightProperty.setUnit(unitRight)
+            } else {
+                this.rightProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            this.rightProperty.setActive(false)
-            this.setTmpPropertyToModel(this.rightProperty)
+
         }
         
         var propTop = this.getPropertyCssFromModel(this.topProperty.getName())
@@ -119,14 +131,21 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.topProperty = <BasePaddingCss>propTop
             this.topProperty.setActive(true)
         } else {
+            this.topProperty.setActive(false)
+            let copy = _.cloneDeep(this.topProperty)
+            this.topProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valTop) {
                 this.topProperty.setValue(valTop)
-            }  
+            } else {
+                this.topProperty.setValue(this.DEFAULT_PADDING.toString())
+            }
             if (unitTop) {
                 this.topProperty.setUnit(unitTop)
+            } else {
+                this.topProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            this.topProperty.setActive(false)
-            this.setTmpPropertyToModel(this.topProperty)
+
         }
         
         var propGlobal = this.getPropertyCssFromModel(this.bottomProperty.getName())
@@ -137,14 +156,21 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.bottomProperty = <BasePaddingCss>propGlobal
             this.bottomProperty.setActive(true)
         } else {
+            this.bottomProperty.setActive(false)
+            let copy = _.cloneDeep(this.bottomProperty)
+            this.bottomProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valBottom) {
                 this.bottomProperty.setValue(valBottom)
-            }  
+            } else {
+                this.bottomProperty.setValue(this.DEFAULT_PADDING.toString())
+            }
             if (unitBottom) {
                 this.bottomProperty.setUnit(unitBottom)
+            } else {
+                this.bottomProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            this.bottomProperty.setActive(false)
-            this.setTmpPropertyToModel(this.bottomProperty)
+
 
         }
         
@@ -156,11 +182,19 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.globalProperty = <BasePaddingCss>propGlobal
             this.globalProperty.setActive(true)
         } else {
+            this.globalProperty.setActive(false)
+            let copy = _.cloneDeep(this.globalProperty)
+            this.globalProperty = copy
+            this.setTmpPropertyToModel(copy)
             if (valGlobal) {
                 this.globalProperty.setValue(valGlobal)
-            }  
+            } else {
+                this.globalProperty.setValue(this.DEFAULT_PADDING.toString())
+            }
             if (unitGlobal) {
                 this.globalProperty.setUnit(unitGlobal)
+            } else {
+                this.globalProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
         }
     }
