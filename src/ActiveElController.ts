@@ -4,7 +4,7 @@ import SizeActivable from './SizeActivable';
 export default abstract class ActiveElController
 {
     
-    private accualActiveEl: SizeActivable
+    protected accualActiveEl: SizeActivable
 
     public updateActiveEl(elToActive: SizeActivable) 
     {

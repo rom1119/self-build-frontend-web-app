@@ -43,12 +43,12 @@ import ApiService from "../Api/ApiService";
 import DefaultApiService from "../Api/impl/DefaultApiService";
 import ContentFilterCssInjector from "../FilterCssInjector/ContentFilterCssInjector";
 import ContentSizeCss from '../Css/Size/ContentSizeCss';
+import ActivableTagToManage from "../ActivableTagToManage";
 
 
-
-
-export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable
+export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable, ActivableTagToManage
 {
+    
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
 
@@ -73,6 +73,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     marginTop: MarginModel
     marginLeft: MarginModel
     marginRight: MarginModel
+    protected _toManage = false
     
     protected _isEdited = false
     protected _width = HtmlTag.INITIAL_WIDTH
@@ -647,10 +648,21 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         return this._isEdited
     }
 
+    public changeAsActiveToManage() {
+        this._toManage = true
+    }
+
+    public changeAsNotActiveToManage() {
+        this._toManage = false
+    }
+
+    public isActiveTagToManage(): boolean {
+        return this._toManage === true
+    }
+
     public setNotEdited()
     {
         this.api.postTag(this)
-
         this._isEdited = false
     }
 

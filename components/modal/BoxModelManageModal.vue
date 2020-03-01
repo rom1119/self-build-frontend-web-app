@@ -559,7 +559,7 @@ import CssAuto from '~/src/Css/CssAuto';
 
         // *****************************************  MARGIN ****************************************************
 
-        // MARGIN RIGHT
+        // MARGIN TOP
         set marginUnitTop(newVal: string)
         {
             this.setPropMarginUnit(newVal, this.marginManager.topProperty)

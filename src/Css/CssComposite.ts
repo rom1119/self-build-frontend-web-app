@@ -17,8 +17,12 @@ export default abstract class CssComposite extends BasePropertyCss
 
     get value(): string
     {
-        if (!this.values[0]) {
+        if (this.values[0] == 'undefined') {
             throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+        }
+        if (this.values[0].toString().length < 1) {
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+
         }
         var val = ''
         this.values.forEach(element => {

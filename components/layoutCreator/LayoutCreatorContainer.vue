@@ -10,9 +10,11 @@
                     
                     <template v-for="htmlTag in htmlTags">
                         <html-component
+                         @tagRemove="onTagRemove"
                          @anyElementMouseOver="onMouseOver"
                          @anyElementMouseOut="onMouseOut" 
                          @anyElementMouseDown="onMouseDown" 
+                         @contentMouseClick="onContentMouseClick" 
                          :value="htmlTag" 
                          :key="htmlTag.uuid">
                         </html-component>
@@ -36,6 +38,10 @@ import PaddingElSizeController from '../../src/Controller/PaddingElSizeControlle
 import PaddingModel from "~/src/Layout/Padding/PaddingModel";
 import MarginElSizeController from '../../src/Controller/MarginElSizeController';
 import MarginModel from "~/src/Layout/Margin/MarginModel";
+import DefaultActiveToManageController from '../../src/Controller/DefaultActiveToManageController';
+import ActiveToManageController from "~/src/ActiveToManageController";
+import Remover from '../../src/Remover';
+import HtmlTagRemover from '../../src/Remover/HtmlTagRemover';
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -48,6 +54,8 @@ export default class LayoutCreatorContainer extends Vue {
     marginElSizeController: SizeElController = new MarginElSizeController()
 
     activeElController: ActiveElController = new DefaultActiveElController()
+    activeToManageController: ActiveToManageController = new DefaultActiveToManageController()
+    htmlTagRemover: Remover<string>
 
     public addHtmlTag(tag: HtmlTag)
     {
@@ -56,6 +64,7 @@ export default class LayoutCreatorContainer extends Vue {
 
     mounted()
     {
+        this.htmlTagRemover = new HtmlTagRemover(this.htmlTags)
         window.addEventListener('resize', (e) => {
             // console.log('width', (<Window>e.target).innerWidth);
             // console.log('height', e.target.innerHeight);
@@ -78,6 +87,22 @@ export default class LayoutCreatorContainer extends Vue {
         // console.log(val);
         // console.log('out');
         this.activeElController.deactiveEl(val)
+    }
+
+    onContentMouseClick(source)
+    {
+        console.log('click');
+        console.log(source.target);
+        
+        this.activeToManageController.updateActiveTag(source.target)
+    }
+    
+    onTagRemove(source)
+    {
+        console.log('tagRemove');
+        console.log(source);
+        let a = this.htmlTagRemover.removeBy(source.target.uuid)
+        console.log(a);
     }
 
     onMouseDown(source)

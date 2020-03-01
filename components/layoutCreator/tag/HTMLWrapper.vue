@@ -4,6 +4,9 @@
         <div class="none">
             <!-- <span :style="value.cssBoxList"  ></span> -->
         </div>
+        <div class="remove" v-show="value.isActiveTagToManage()" @click.stop="onEmitRemove(value, $event)">
+            X
+        </div>
         <!-- <context-menu
                 shift="both"
                 :ref="value.uuid">
@@ -123,9 +126,10 @@
                         <html-el 
                             @contentMouseOver="onContentMouseOver" 
                             @contentMouseOut="onContentMouseOut" 
+                            @contentMouseClick="onContentMouseClick(value, $event)" 
+                            @contentMouseDown="onContentMouseDown(value, $event)"                 
                             @borderMouseOver="onBorderMouseOver" 
                             @borderMouseOut="onBorderMouseOut"
-                            @contentMouseDown="onContentMouseDown(value, $event)"                 
                             @borderMouseDown="onBorderMouseDown(value, $event)"                 
                             
                             :value="value" 
@@ -135,6 +139,8 @@
                                     <html-component 
                                     @contentMouseOver="onContentMouseOver" 
                                     @contentMouseOut="onContentMouseOut" 
+                                    @contentMouseClick="onContentMouseClickChild($event)" 
+                                    @tagRemove="onEmitRemoveChild($event)" 
                                     @borderMouseOver="onBorderMouseOver" 
                                     @borderMouseOut="onBorderMouseOut" 
                                     @paddingMouseOver="onPaddingMouseOver" 
@@ -244,6 +250,34 @@ export default class HTMLWrapper extends Vue {
     {
         this.$emit('contentMouseDown', val)  
         this.$emit('anyElementMouseDown', val) 
+    }
+    
+    onEmitRemoveChild(val)
+    {
+        this.$emit('tagRemove', val)  
+    }
+    
+    onEmitRemove(val, event)
+    {
+        let ev = {
+            event: event,
+            target: val
+        }
+        this.$emit('tagRemove', ev)
+    }
+    onContentMouseClick(val, event)
+    {
+        let ev = {
+            event: event,
+            target: val
+        }
+        this.$emit('contentMouseClick', ev)
+        this.$emit('anyElementMouseClick', ev) 
+    }
+    onContentMouseClickChild(val)
+    {
+        this.$emit('contentMouseClick', val)  
+        this.$emit('anyElementMouseClick', val) 
     }
     
     onBorderMouseDown(val, event)
@@ -461,6 +495,21 @@ export default class HTMLWrapper extends Vue {
         display: flex;
         position: relative;
         // display: flex;
+    }
+
+    .remove {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px;
+        border-radius: 100%;
+        background-color: aqua;
+        z-index: 99999999;
+        border: 2px solid #998866
+    }
+    .remove:hover {
+        background-color: rgb(67, 184, 184);
     }
     
     .wrapper-el-editable {

@@ -1,6 +1,6 @@
 <template>
 
-    <component class="wrapper-el" :is="value.getTagName()" @dblclick.stop="onDoubleClick($event)" :style="value.cssList" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+    <component class="wrapper-el" :is="value.getTagName()" @dblclick.stop="onDoubleClick($event)" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
         <div v-show="value.isEdited" class="wrapper-el-editable" >
             <html-el-editable :value="value" ref="editableEl">
             </html-el-editable>
@@ -52,10 +52,13 @@ export default class HTMLEL extends Vue {
     }
 
     onMouseDown(ev) {
-        
-        
         this.$emit('contentMouseDown', ev)
     }
+    
+    onClick(ev) {
+        this.$emit('contentMouseClick', ev)
+    }
+    
     onDoubleClick(e) 
     {
         this.value.onDoubleClick(e)
