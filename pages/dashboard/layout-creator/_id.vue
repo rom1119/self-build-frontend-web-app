@@ -74,6 +74,7 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
                 let response = await this.$store.dispatch(this.storeFetchEndpoint, this.$route.params.id)
                 for (const tagModel of response.htmlTags) {
                     let tag = this.modelToDomainTransformer.transform(tagModel)
+                    tag.setProjectId(this.$route.params.id)
                     // @ts-ignore
                     this.$refs.creatorContainer.addHtmlTag(tag)
                 // console.log(tag);

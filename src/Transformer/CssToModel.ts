@@ -1,10 +1,11 @@
 import LayoutEl from '../LayoutEl';
 import BaseModel from '~/types/BaseModel';
 import BasePropertyCss from '../Css/BasePropertyCss';
-export default interface DomainToModel<T extends BasePropertyCss, S extends BaseModel>
+import StyleCss from '../Api/StyleCss';
+export default interface CssToModel
 {
     /**
      * transform
      */
-    transform(domain: T) : S 
+    transform(domain: BasePropertyCss) : StyleCss 
 }

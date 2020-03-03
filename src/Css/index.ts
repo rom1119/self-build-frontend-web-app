@@ -30,6 +30,11 @@ import BorderGlobalCss from './Border/Global/BorderGlobalCss';
 import BorderGlobalStyle from './Border/Global/BorderGlobalStyle';
 import BorderGlobalWidth from './Border/Global/BorderGlobalWidth';
 
+// display
+
+import Display from './Display/Display';
+
+
 // size
 import Width from './Size/Width';
 import Height from './Size/Height';
@@ -66,4 +71,9 @@ export {
     PaddingLeftCss,
     PaddingRightCss,
     PaddingCss,
+    BorderGlobalCss,
+    BorderGlobalColor,
+    BorderGlobalStyle,
+    BorderGlobalWidth,
+    Display,
 }

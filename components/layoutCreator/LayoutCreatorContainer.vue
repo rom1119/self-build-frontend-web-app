@@ -42,6 +42,8 @@ import DefaultActiveToManageController from '../../src/Controller/DefaultActiveT
 import ActiveToManageController from "~/src/ActiveToManageController";
 import Remover from '../../src/Remover';
 import HtmlTagRemover from '../../src/Remover/HtmlTagRemover';
+import ApiService from "../../src/Api/ApiService";
+import DefaultApiService from "~/src/Api/impl/DefaultApiService";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {

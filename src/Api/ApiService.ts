@@ -3,9 +3,8 @@ import ResponseTreeTag from "./ResponseTreeTag";
 
 export default interface ApiService 
 {
-
     getTreeTags(tag: HtmlTag) : ResponseTreeTag
-    postTag(tag: HtmlTag)
+    appendTag(tag: HtmlTag)
     putTag(tag: HtmlTag)
     deleteTag(tag: HtmlTag)
 }

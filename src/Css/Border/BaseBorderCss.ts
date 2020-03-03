@@ -16,9 +16,25 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
     {
         super(val, unit)
         this.clearValue()
-        this.values.push(unit.getValue(val))
-        this._widthUnit = unit
+        if (unit) {
+
+            this.values.push(unit.getValue(val))
+            this._widthUnit = unit
+        }
     }
+
+    setValue(val: string)
+    {
+        this.clearValue()
+        let arr = val.toString().split(' ')
+        for (const el of arr) {
+            this.values.push(el)
+            // console.log(el);
+            
+        }
+    }
+
+
     getValue(): string
     {
         if (!this.values[0]) {

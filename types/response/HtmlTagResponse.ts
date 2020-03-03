@@ -5,6 +5,6 @@ export default class HtmlTagResponse extends ResponseObject{
      version
      tagName
      children
-     cssStyleList
+     cssStyleList = []
 
 }

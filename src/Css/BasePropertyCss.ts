@@ -2,6 +2,7 @@ import CssWithoutValue from '../Errors/CssWithoutValue';
 import Unit from '../Unit/Unit';
 export default abstract class BasePropertyCss
 {
+    id
     protected values: string[]
     protected unit: Unit
     public active = true

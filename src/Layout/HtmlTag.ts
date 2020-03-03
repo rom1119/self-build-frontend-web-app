@@ -49,6 +49,7 @@ import ActivableTagToManage from "../ActivableTagToManage";
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable, ActivableTagToManage
 {
     
+    projectId: string
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
 
@@ -102,7 +103,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     constructor()
     {
         super()
-        this.api = new DefaultApiService();
         this.initPaddings()
         this.initBorders()
         this.initMargins()
@@ -110,6 +110,16 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.initCssAccessor()
         console.log(this.paddingRealFetcher);
 
+    }
+
+    public setApi(api: ApiService)
+    {
+        this.api = api
+    }
+    
+    public setProjectId(id: string)
+    {
+        this.projectId = id
     }
 
     initBorders()
@@ -180,7 +190,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     public injectInitialCssStyles()
     {
-        let border = new BorderGlobalCss('15', new Pixel())
+        let border = new BorderGlobalCss('15px', new Named())
         border.setType('dotted')
         border.setColor('blue', new Named())
         // console.log('PPPP', border.getValue());
@@ -432,10 +442,22 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 let val = this.getComputedCssVal(prop)
                 let clonedCss = _.cloneDeep(prop)
                 // clonedCss.setValue(parseInt(val).toString())
-                clonedCss.setUnit(new Pixel())
-                clonedCss.setWidth(parseInt(val).toString(), new Pixel())
-                clonedCss.setType(prop.getType())
-                clonedCss.setColor(prop.getColor(), prop.getColorUnit())
+                console.log(val);
+                
+                if (prop instanceof BaseBorderCss) {
+
+                    if (prop.getColorUnit()) {
+                        clonedCss.setUnit(new Pixel())
+                        clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+                        clonedCss.setType(prop.getType())
+                        clonedCss.setColor(prop.getColor(), prop.getColorUnit())
+
+                    } else {
+                        clonedCss.setValue(val)
+                    }
+                } else {
+                    clonedCss.setValue(val)
+                }
                 // console.log(newProp);
                 // console.log(val);
                 // console.log(clonedCss);

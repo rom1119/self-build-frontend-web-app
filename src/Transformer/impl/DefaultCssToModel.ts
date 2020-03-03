@@ -9,7 +9,9 @@ import BasePropertyCss from '../../Css/BasePropertyCss';
 import StyleCss from '~/src/Api/StyleCss';
 import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName';
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
-export default class DefaultModelToCss implements ModelToCss
+import CssToModel from '../CssToModel';
+import StyleCssModel from '~/types/StyleCssModel';
+export default class DefaultCssToModel implements CssToModel
 {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
@@ -23,17 +25,18 @@ export default class DefaultModelToCss implements ModelToCss
         // this.styleTransformer = new HtmlTagFactoryFromName()
     }
 
-    transform(model: StyleCss): BasePropertyCss {
-        var domain = this.cssFactoryFromName.create(model.getKey())
-        var unit = this.unitCssFactoryFromName.create(model.getUnitName())
-        domain.setValue(model.getValue())
-        domain.setUnit(unit)
-        domain.id = model.id
-        
+    transform(domain: BasePropertyCss): StyleCss {
+        let model = new StyleCssModel(domain.getName(), domain.getClearValue(), domain.getUnit().name)
+        model.id = domain.id
+        // this.cssFactoryFromName.create(model.getKey())
+        // var unit = this.unitCssFactoryFromName.create(model.getUnitName())
+        // domain.setValue(model.getValue())
+        // domain.setUnit(unit)
+        // domain.id = model.id
 
         console.log(domain);
                     
-        return domain
+        return model
 
     }
    

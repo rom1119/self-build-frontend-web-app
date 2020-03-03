@@ -72,7 +72,7 @@
     export default class PaginationComponent extends Vue {
         pagination: Pagination = {
             descending: false,
-            page: 1,
+            page: 0,
             pageCount: 0,
             itemsPerPage: 5,
             totalItems: 0,
@@ -151,11 +151,10 @@
         async fetchItems() {
             // console.log(this.pagination)
             // this.$loadingDialog.show()
-            var page = this.pagination.page
-            page--
+
             let response = await this.$store.dispatch(this.storeFetchEndpoint, {
                 paginator: {
-                    page: page,
+                    page: this.pagination.page,
                     size: this.pagination.itemsPerPage
                 },
                 order: {
