@@ -18,8 +18,13 @@ export default class HtmlTagModelBuildResponse implements ResponseFromModel<Html
 
     build(from: HtmlTagModel): HtmlTagResponse {
         let response = new HtmlTagResponse()
-        response.id = from.id
+        // response.id = from.id
         response.tagName = from.tagName
+        response.version = from.version
+        response.project = {
+            "id": from.projectId,
+            "version": 1
+        }
         // if (parent) {
         //     parent.children.push(response)
         //     response.parent = parent

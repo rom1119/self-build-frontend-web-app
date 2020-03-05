@@ -5,7 +5,9 @@ import AggregateRoot from "~/types/AggregateRoot";
 export default class TagDto extends AggregateRoot
 {
     id = ''
+    projectId = ''
     tagName = ''
+    version = 1
     children: TagDto[]  = []
     parent: TagDto
     styles: StyleCss[]  = []

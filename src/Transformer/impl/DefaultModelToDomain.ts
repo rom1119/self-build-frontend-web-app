@@ -30,11 +30,13 @@ export default class DefaultModelToDomain implements ModelToDomain
     {
         let domain = this.htmlTagFactory.create(model.tagName)
         domain.uuid  = model.id
+        domain.version  = model.version
+        domain.projectId  = model.projectId
         console.log('LLLLLLLLLLLLL');
         console.log(model);
         if (parent) {
             parent.children.push(domain)
-            
+            domain.parent = parent
             // domain.parent = parent
         }
 

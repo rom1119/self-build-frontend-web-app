@@ -34,11 +34,17 @@ export default class DefaultApiService implements ApiService
         throw new Error("Method not implemented.");
     }
     
-    appendTag(tag: HtmlTag) {
+    appendTagToProject(tag: HtmlTag) {
         let model = this.domainToModelTransformer.transform(tag)
         let response = this.tagModelToResponse.build(model)
         Axios.post(DefaultApiService.HOST + `/api/html-project/${tag.projectId}/append-tag`, response)
 
+    }
+    
+    appendChild(tag: HtmlTag) {
+        let model = this.domainToModelTransformer.transform(tag)
+        let response = this.tagModelToResponse.build(model)
+        Axios.post(DefaultApiService.HOST + `/api/html-tag/${tag.parent.uuid}/append-tag`, response)
 
     }
     putTag(tag: HtmlTag) {

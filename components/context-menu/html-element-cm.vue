@@ -56,11 +56,13 @@ export default class HtmlElementContextMenu extends Vue {
     createH1Element(target, cm, a) {
 
         var el = this.htmlFactory.createH1()
+        el.parent = this.htmlTagModel
+        el.projectId = this.htmlTagModel.projectId
         el.injectInitialCssStyles()
         this.value.push(el)
         el.setApi(this.api)
         el.setProjectId(this.$route.params.id)
-        this.api.appendTag(el)
+        this.api.appendChild(el)
 
         this.$emit('createdTag', el)
 

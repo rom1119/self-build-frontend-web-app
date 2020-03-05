@@ -12,6 +12,8 @@ export default abstract class LayoutEl {
 
     protected _children: LayoutEl[] = []
     protected _active: boolean = true;  
+    parent: LayoutEl  
+    version: number = 1  
 
     constructor()
     {

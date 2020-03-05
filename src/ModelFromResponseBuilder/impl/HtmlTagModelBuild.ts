@@ -25,6 +25,7 @@ export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagRespo
         let model = new HtmlTagModel
         model.id = from.id
         model.tagName = from.tagName
+        model.version = from.version
         if (parent) {
             parent.children.push(model)
             model.parent = parent
