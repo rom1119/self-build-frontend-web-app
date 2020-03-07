@@ -31,7 +31,7 @@ export default class DefaultModelToCss implements ModelToCss
         domain.id = model.id
         
 
-        console.log(domain);
+        // console.log(domain);
                     
         return domain
 

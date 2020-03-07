@@ -44,6 +44,8 @@ import DefaultApiService from "../Api/impl/DefaultApiService";
 import ContentFilterCssInjector from "../FilterCssInjector/ContentFilterCssInjector";
 import ContentSizeCss from '../Css/Size/ContentSizeCss';
 import ActivableTagToManage from "../ActivableTagToManage";
+import HtmlTagPropertyAccessor from '../Css/PropertyAccessor/HtmlTagPropertyAccessor';
+import HtmlTagSynchronizer from "../Synchronizer/Impl/HtmlTagSynchronizer";
 
 
 export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable, ActivableTagToManage
@@ -88,6 +90,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     protected sizeUnitCurrent: UnitSize = new Pixel()
 
     protected _tmpCssPropertyAccesor: CssPropertyAccessor
+    protected _cssPropertyAccesor: HtmlTagPropertyAccessor
 
     paddingFilter: FilterCssInjector
     marginFilter: FilterCssInjector
@@ -98,6 +101,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
     borderRealFetcher: FetcherRealCssProp = new BorderRealCssFetcher(this)
 
+    protected synchronizer: HtmlTagSynchronizer
     api: ApiService
     
     constructor()
@@ -108,13 +112,14 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this.initMargins()
         this._tmpCssPropertyAccesor = new ContentElPropertyAccessor(this)
         this.initCssAccessor()
-        console.log(this.paddingRealFetcher);
+        // console.log(this.paddingRealFetcher);
 
     }
-
+    
     public setApi(api: ApiService)
     {
         this.api = api
+        this.synchronizer = new HtmlTagSynchronizer(this, api)
     }
     
     public setProjectId(id: string)
@@ -178,7 +183,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     protected initCssAccessor()
     {
-        super.initCssAccessor()
+        this._cssPropertyAccesor = new HtmlTagPropertyAccessor(this)
+
         this.paddingFilter = new PaddingFilterCssInjector(this)
         this.marginFilter = new MarginFilterCssInjector(this)
         this.borderFilter = new BorderFilterCssInjector(this)
@@ -222,6 +228,12 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         }
     }
 
+    public removeCssProperty(prop: BasePropertyCss)
+    {
+        super.removeCssProperty(prop)
+        this.synchronizer.synchronize()
+    }
+
     public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
     {
         super.updateCssPropertyWithoutModel(propName, val)
@@ -230,32 +242,32 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         } else {            
             let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
             if (currentBackground.getValue() === val.getValue()) {
-                return
+                // return
             }
             this.tmpCssAccessor.setNewPropertyValue(propName, val)
         }
+        // console.log('UPDATE');
+        
         // if (!this.getHtmlEl()) {
         //     return
         // }
         if (val instanceof BasePaddingCss) {
             this.paddingFilter.injectCssProperty(val)
-            return false
-        }
+        } 
         
         if (val instanceof BaseMarginCss) {
             this.marginFilter.injectCssProperty(val)
-            return false
         }
         
         if (val instanceof BaseBorderCss) {
             this.borderFilter.injectCssProperty(val)
-            return false
         }
         
         if (val instanceof ContentSizeCss) {
             this.contentFilter.injectCssProperty(val)
-            return false
         }
+
+        this.synchronizer.synchronize()
         
     }
 
@@ -443,9 +455,11 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                 let clonedCss = _.cloneDeep(prop)
                 // clonedCss.setValue(parseInt(val).toString())
                 console.log(val);
-                
+                clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+
                 if (prop instanceof BaseBorderCss) {
 
+                    
                     if (prop.getColorUnit()) {
                         clonedCss.setUnit(new Pixel())
                         clonedCss.setWidth(parseInt(val).toString(), new Pixel())
@@ -453,6 +467,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
                         clonedCss.setColor(prop.getColor(), prop.getColorUnit())
 
                     } else {
+                        clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+
                         clonedCss.setValue(val)
                     }
                 } else {
@@ -684,7 +700,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     public setNotEdited()
     {
-        this.api.postTag(this)
         this._isEdited = false
     }
 
@@ -703,6 +718,8 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         
         this._width = w
         this._height = h
+        this.synchronizer.synchronize()
+
         
     }
 
@@ -710,12 +727,16 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     {
         this.sizeUnitCurrent = new Pixel()
         this._width = w
+        this.synchronizer.synchronize()
+
     }
     
     public initHeight(w)
     {
         this.sizeUnitCurrent = new Pixel()
         this._height = w
+        this.synchronizer.synchronize()
+
     }
 
     public onDoubleClick(e) 

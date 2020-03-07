@@ -19,6 +19,7 @@ export default class DefaultDomainToModel implements DomainToModel
 
         let model = new TagDto()
         model.id = domain.uuid
+        
         model.tagName = tagName
         model.projectId = domain.projectId
         model.version = domain.version

@@ -231,12 +231,12 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
+        this.value.removeCssProperty(prop)
         this.value.marginFilter.deactivateProp(prop)
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
+        this.value.removeCssProperty(prop)
         if (!this.globalProperty.active) {
             this.value.marginFilter.deactivateProp(prop)
 
@@ -250,7 +250,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     }
     activePropCss(prop: BasePropertyCss) {
         if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
-            this.value.cssAccessor.addNewProperty(prop)
+            this.value.updateCssPropertyWithoutModel(prop.getName(), prop)
 
         }
         console.log('activr');

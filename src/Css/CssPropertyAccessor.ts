@@ -10,6 +10,7 @@ export default abstract class CssPropertyAccessor
     
     protected value: LayoutEl
     protected cssProps: BasePropertyCss[]
+
     constructor(val: LayoutEl) {
         this.value = val
         Vue.set(this, 'cssProps', [])

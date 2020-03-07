@@ -55,6 +55,9 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
         } else {
             this.values.push(unit.getValue(val))
         }
+
+        this._widthUnit = unit
+
     }
     
     public setType(val: string)

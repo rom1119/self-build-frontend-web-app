@@ -35,7 +35,7 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
         storeFetchEndpoint = 'frontendProject/findOne'
         modelToDomainTransformer: ModelToDomain
 
-        $$refs: {
+        $refs: {
             creatorContainer: LayoutCreatorContainer
         }
         

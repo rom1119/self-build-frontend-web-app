@@ -72,6 +72,11 @@ export default abstract class LayoutEl {
             this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         }
     }
+
+    public removeCssProperty(prop: BasePropertyCss)
+    {
+        this._cssPropertyAccesor.removePropWithName(prop.getName())
+    }
     
     public updateModelComponent()
     {

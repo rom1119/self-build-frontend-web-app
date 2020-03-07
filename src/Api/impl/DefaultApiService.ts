@@ -14,6 +14,11 @@ import TagDto from '../TagDto';
 import HtmlTagResponse from '../../../types/response/HtmlTagResponse';
 import DefaultDomainToModel from '../../Transformer/impl/DefaultDomainToModel';
 import HtmlTagModelBuildResponse from '../../ModelFromResponseBuilder/impl/HtmlTagModelBuildResponse';
+import ModelFromResponse from '../../ModelFromResponseBuilder/ModelFromResponse';
+import ModelToDomain from "~/src/Transformer/ModelToDomain";
+import DefaultModelToDomain from '../../Transformer/impl/DefaultModelToDomain';
+import HtmlTagModelBuild from '../../ModelFromResponseBuilder/impl/HtmlTagModelBuild';
+import CssPropertyFactoryFromName from '../../Factory/CssPropertyFactoryFromName';
 
 export default class DefaultApiService implements ApiService
 {
@@ -21,12 +26,20 @@ export default class DefaultApiService implements ApiService
 
     private domainToModelTransformer: DomainToModel
     private tagModelToResponse: ResponseFromModel<TagDto, HtmlTagResponse>
+    
+    private modelToDomainTransformer: ModelToDomain
+    private responseToTagModel: ModelFromResponse<HtmlTagResponse, TagDto>
+
+
+    private cssFromName: CssPropertyFactoryFromName
 
 
     constructor()
     {
         this.domainToModelTransformer = new DefaultDomainToModel()
         this.tagModelToResponse = new HtmlTagModelBuildResponse()
+
+        this.cssFromName = new CssPropertyFactoryFromName()
 
     }
 
@@ -37,21 +50,55 @@ export default class DefaultApiService implements ApiService
     appendTagToProject(tag: HtmlTag) {
         let model = this.domainToModelTransformer.transform(tag)
         let response = this.tagModelToResponse.build(model)
-        Axios.post(DefaultApiService.HOST + `/api/html-project/${tag.projectId}/append-tag`, response)
+        Axios.post(DefaultApiService.HOST + `/api/html-project/${tag.projectId}/append-tag`, response).then(
+            (res) => {
+                let data: HtmlTagResponse = res.data
+                tag.uuid = data.id
+                for (const cssRes of data.cssStyleList) {
+                    for (const cssDomain of tag.cssAccessor.all) {
+                        if (cssDomain.getName() === cssRes.name) {
+                            cssDomain.id = cssRes.id
+                        }
+                    }
+                }
+
+            },
+            () => {
+            
+            },
+        )
 
     }
     
     appendChild(tag: HtmlTag) {
         let model = this.domainToModelTransformer.transform(tag)
         let response = this.tagModelToResponse.build(model)
-        Axios.post(DefaultApiService.HOST + `/api/html-tag/${tag.parent.uuid}/append-tag`, response)
+        Axios.post(DefaultApiService.HOST + `/api/html-tag/${tag.parent.uuid}/append-tag`, response).then(
+            (res) => {
+                let data: HtmlTagResponse = res.data
+                tag.uuid = data.id
+                for (const cssRes of data.cssStyleList) {
+                    for (const cssDomain of tag.cssAccessor.all) {
+                        if (cssDomain.getName() === cssRes.name) {
+                            cssDomain.id = cssRes.id
+                        }
+                    }
+                }
+            },
+            () => {
+            
+            },
+        )
 
     }
-    putTag(tag: HtmlTag) {
-        throw new Error("Method not implemented.");
+    putTag(tag: HtmlTag) : Promise<any> {
+        let model = this.domainToModelTransformer.transform(tag)
+        let response = this.tagModelToResponse.build(model)
+        return Axios.put(DefaultApiService.HOST + `/api/html-tag/${tag.uuid}`, response)
     }
-    deleteTag(tag: HtmlTag) {
-        throw new Error("Method not implemented.");
+
+    deleteTag(tag: HtmlTag) : Promise<any> {
+        return Axios.delete(DefaultApiService.HOST + `/api/html-tag/${tag.uuid}`)
     }
 
  

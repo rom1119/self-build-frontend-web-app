@@ -25,10 +25,6 @@ export default class HtmlTagModelBuildResponse implements ResponseFromModel<Html
             "id": from.projectId,
             "version": 1
         }
-        // if (parent) {
-        //     parent.children.push(response)
-        //     response.parent = parent
-        // }
 
         if (from.styles) {
             for (const style of from.styles) {

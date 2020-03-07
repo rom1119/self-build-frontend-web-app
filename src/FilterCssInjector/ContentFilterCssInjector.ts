@@ -132,9 +132,9 @@ export default class ContentFilterCssInjector extends FilterCssInjector
         
         if (parseInt(cssProp.getClearValue()) > -1) {
             
-            this.htmlTag.width = parseInt(prop.getClearValue())
+            // this.htmlTag.width = parseInt(cssProp.getClearValue())
   
-            paddingModel.activate()
+            // paddingModel.activate()
         }
 
         // paddingModel.updateCssProperty(prop.getName(), prop)
@@ -152,43 +152,43 @@ export default class ContentFilterCssInjector extends FilterCssInjector
         var rightProp = this.htmlTag.cssAccessor.getProperty(PaddingRightCss.PROP_NAME)
         var topProp = this.htmlTag.cssAccessor.getProperty(PaddingTopCss.PROP_NAME)
         var bottomProp = this.htmlTag.cssAccessor.getProperty(PaddingBottomCss.PROP_NAME)
-        if (parseInt(right.getClearValue()) > -1 && !rightProp) {
+        // if (parseInt(right.getClearValue()) > -1 && !rightProp) {
 
-            // if (!rightProp.isActive()) {
-            this.htmlTag.paddingRight.width = parseInt(right.getClearValue())
-            this.htmlTag.paddingRight.widthUnit = right.getUnit()
-            this.htmlTag.paddingRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingRight)
-            this.htmlTag.paddingRight.activate()
-        }
+        //     // if (!rightProp.isActive()) {
+        //     this.htmlTag.paddingRight.width = parseInt(right.getClearValue())
+        //     this.htmlTag.paddingRight.widthUnit = right.getUnit()
+        //     this.htmlTag.paddingRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingRight)
+        //     this.htmlTag.paddingRight.activate()
+        // }
         
-        if (parseInt(left.getClearValue()) > -1 && !leftProp) {
+        // if (parseInt(left.getClearValue()) > -1 && !leftProp) {
 
-            // if (!leftProp.isActive()) {
-            this.htmlTag.paddingLeft.width = parseInt(left.getClearValue())
-            this.htmlTag.paddingLeft.widthUnit = left.getUnit()
-            this.htmlTag.paddingLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingLeft)
-            this.htmlTag.paddingLeft.activate()
+        //     // if (!leftProp.isActive()) {
+        //     this.htmlTag.paddingLeft.width = parseInt(left.getClearValue())
+        //     this.htmlTag.paddingLeft.widthUnit = left.getUnit()
+        //     // this.htmlTag.paddingLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingLeft)
+        //     this.htmlTag.paddingLeft.activate()
 
-            // }
-        }
+        //     // }
+        // }
         
-        if (parseInt(top.getClearValue()) > -1 && !topProp) {
+        // if (parseInt(top.getClearValue()) > -1 && !topProp) {
 
-            this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
-            this.htmlTag.paddingTop.widthUnit = top.getUnit()
-            this.htmlTag.paddingTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingTop)
-            this.htmlTag.paddingTop.activate()
+        //     this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
+        //     this.htmlTag.paddingTop.widthUnit = top.getUnit()
+        //     this.htmlTag.paddingTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingTop)
+        //     this.htmlTag.paddingTop.activate()
 
-        }
+        // }
         
-        if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
+        // if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
 
-            this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
-            this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
-            this.htmlTag.paddingBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingBottom)
-            this.htmlTag.paddingBottom.activate()
+        //     this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
+        //     this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
+        //     this.htmlTag.paddingBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingBottom)
+        //     this.htmlTag.paddingBottom.activate()
 
-        }
+        // }
     }
     
 }

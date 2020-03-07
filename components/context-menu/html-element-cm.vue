@@ -60,7 +60,6 @@ export default class HtmlElementContextMenu extends Vue {
         el.projectId = this.htmlTagModel.projectId
         el.injectInitialCssStyles()
         this.value.push(el)
-        el.setApi(this.api)
         el.setProjectId(this.$route.params.id)
         this.api.appendChild(el)
 

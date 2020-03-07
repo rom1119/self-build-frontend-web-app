@@ -106,7 +106,16 @@ export default class LayoutCreatorContainer extends Vue {
     {
         // console.log('tagRemove');
         // console.log(source);
-        let a = this.htmlTagRemover.removeBy(source.target.uuid)
+        let tag: HtmlTag = source.target
+        tag.api.deleteTag(tag).then(
+            (res) => {
+                
+                let a = this.htmlTagRemover.removeBy(source.target.uuid)
+            },
+            () => {
+                alert("Błąd serwera")
+            },
+        )
         // console.log(a);
     }
 

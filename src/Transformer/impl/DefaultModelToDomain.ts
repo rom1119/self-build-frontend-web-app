@@ -32,8 +32,8 @@ export default class DefaultModelToDomain implements ModelToDomain
         domain.uuid  = model.id
         domain.version  = model.version
         domain.projectId  = model.projectId
-        console.log('LLLLLLLLLLLLL');
-        console.log(model);
+        // console.log('LLLLLLLLLLLLL');
+        // console.log(model);
         if (parent) {
             parent.children.push(domain)
             domain.parent = parent

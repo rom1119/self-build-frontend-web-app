@@ -218,10 +218,14 @@ export default class BorderFilterCssInjector extends FilterCssInjector
         // console.log(right.getUnit());
         // console.log(cssProp.getType());
         // console.log(cssProp.getColor());
+        console.log('JAN');
+        console.log(right.getClearValue());
+        console.log(right.getUnit());
+        console.log(parseInt(right.getClearValue()))
         
         if (parseInt(right.getClearValue()) > -1 && !rightProp) {
             
-            // console.log('JAJAJA');
+            console.log('JAJAJAright');
             // if (!rightProp.isActive()) {
 
             this.htmlTag.borderRight.width = parseInt(right.getClearValue())

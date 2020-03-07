@@ -7,7 +7,7 @@ import LayoutEl from "../../LayoutEl";
 import Width from '../../Css/Size/Width';
 import SizeActivable from "~/src/SizeActivable";
 import CssPropertyAccessor from "~/src/Css/CssPropertyAccessor";
-import BorderElPropertyAccessor from "~/src/Css/PropertyAccessor/BorderElCssPropertyAccessor";
+import BorderElPropertyAccessor from "~/src/Css/PropertyAccessor/HtmlTagPropertyAccessor";
 import Height from "~/src/Css/Size/Height";
 import BackgroundColor from "~/src/Css/Background/BackgroundColor";
 import UnitColor from "~/src/Unit/UnitColor";
