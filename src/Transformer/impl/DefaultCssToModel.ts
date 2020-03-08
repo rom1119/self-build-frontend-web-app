@@ -26,7 +26,11 @@ export default class DefaultCssToModel implements CssToModel
     }
 
     transform(domain: BasePropertyCss): StyleCss {
-        let model = new StyleCssModel(domain.getName(), domain.getClearValue(), domain.getUnit().name)
+        var value = domain.getClearValue()
+        if (typeof value === 'object') {
+            value = JSON.stringify(value)
+        }
+        let model = new StyleCssModel(domain.getName(), value, domain.getUnit().name)
         model.id = domain.id
         // this.cssFactoryFromName.create(model.getKey())
         // var unit = this.unitCssFactoryFromName.create(model.getUnitName())
