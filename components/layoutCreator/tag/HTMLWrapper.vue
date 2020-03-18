@@ -135,28 +135,36 @@
                             :value="value" 
                             v-context-menu="value.uuid">
                             <!-- <div class="wrapper-children"> -->
-                                <!-- <template v-for="child in children"> -->
+                                <template v-for="child in children">
                                     <html-component 
-                                    @contentMouseOver="onContentMouseOver" 
-                                    @contentMouseOut="onContentMouseOut" 
-                                    @contentMouseClick="onContentMouseClickChild($event)" 
-                                    @tagRemove="onEmitRemoveChild($event)" 
-                                    @borderMouseOver="onBorderMouseOver" 
-                                    @borderMouseOut="onBorderMouseOut" 
-                                    @paddingMouseOver="onPaddingMouseOver" 
-                                    @paddingMouseOut="onPaddingMouseOut" 
-                                    @marginMouseOver="onMarginMouseOver" 
-                                    @marginMouseOut="onMarginMouseOut" 
-                                    @contentMouseDown="onContentMouseDownChild($event)" 
-                                    @borderMouseDown="onBorderMouseDownChild($event)" 
-                                    @paddingMouseDown="onPaddingMouseDownChild($event)" 
-                                    @marginMouseDown="onMarginMouseDownChild($event)" 
-                                    v-for="child in children" 
-                                    :value="child" 
-                                    :key="child.uuid"  > 
+                                        v-if="!child.isTextNode"
+                                        @contentMouseOver="onContentMouseOver" 
+                                        @contentMouseOut="onContentMouseOut" 
+                                        @contentMouseClick="onContentMouseClickChild($event)" 
+                                        @tagRemove="onEmitRemoveChild($event)" 
+                                        @borderMouseOver="onBorderMouseOver" 
+                                        @borderMouseOut="onBorderMouseOut" 
+                                        @paddingMouseOver="onPaddingMouseOver" 
+                                        @paddingMouseOut="onPaddingMouseOut" 
+                                        @marginMouseOver="onMarginMouseOver" 
+                                        @marginMouseOut="onMarginMouseOut" 
+                                        @contentMouseDown="onContentMouseDownChild($event)" 
+                                        @borderMouseDown="onBorderMouseDownChild($event)" 
+                                        @paddingMouseDown="onPaddingMouseDownChild($event)" 
+                                        @marginMouseDown="onMarginMouseDownChild($event)" 
+                                        
+                                        :value="child" 
+                                        :key="child.uuid"  > 
                                     </html-component>
-                                <!-- </template>
-                            </div> -->
+                                    <html-text-node 
+                                        v-else 
+                                        @tagRemove="onEmitRemove(child, $event)"
+                                        :value="child" 
+                                        :key="child.uuid"
+                                        >
+                                    </html-text-node>
+                                </template>
+                            <!-- </div>  -->
                         </html-el>
                     </span>
                 </span>
@@ -476,7 +484,10 @@ export default class HTMLWrapper extends Vue {
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
         this.value.setHtmlEl(this.$el)
-        this.value.recalculateRealComputedProperties()
+        if (this.value instanceof HtmlTag)  {
+            this.value.recalculateRealComputedProperties()
+
+        }
         
     }
 }

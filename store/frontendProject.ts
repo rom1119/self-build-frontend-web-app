@@ -65,7 +65,6 @@ const actions: ActionTree<FrontendProjectState, FrontendProjectState> = {
     return _.cloneDeep(model)
   },
 
-
 }
 
 const mutations: MutationTree<FrontendProjectState> = {

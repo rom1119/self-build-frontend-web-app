@@ -19,19 +19,26 @@ export default class HtmlTagModelBuildResponse implements ResponseFromModel<Html
     build(from: HtmlTagModel): HtmlTagResponse {
         let response = new HtmlTagResponse()
         // response.id = from.id
-        response.tagName = from.tagName
+        if (from.isTextNode) {
+            response.text = from.text
+            response.isTextNode = from.isTextNode
+
+        } else {
+            response.tagName = from.tagName
+            if (from.styles) {
+                for (const style of from.styles) {
+                    let subModel = this.styleModelBuilderResponse.build(style)
+                    response.cssStyleList.push(subModel)
+                }
+            }
+
+        }
         response.version = from.version
         response.project = {
             "id": from.projectId,
             "version": 1
         }
 
-        if (from.styles) {
-            for (const style of from.styles) {
-                let subModel = this.styleModelBuilderResponse.build(style)
-                response.cssStyleList.push(subModel)
-            }
-        }
 
         return response;
     }

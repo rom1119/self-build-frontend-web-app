@@ -1,17 +1,26 @@
 import Synchronizer from "../Synchronizer";
 import HtmlTag from '../../Layout/HtmlTag';
 import ApiService from "~/src/Api/ApiService";
+import SocketApi from "~/src/Api/SocketApi";
+import DefaultSocketApi from "~/src/Api/impl/DefaultSocketApi";
+import LayoutEl from '../../LayoutEl';
+import HtmlNode from '../../Layout/HtmlNode';
+import TextNode from '../../Layout/TextNode';
 
 export default class HtmlTagSynchronizer implements Synchronizer
 {
 
     protected isNowSynchronized 
     protected isQueued = false
-    protected tag: HtmlTag
+    protected tag: HtmlNode
     protected api: ApiService
+    protected apiSocket: SocketApi
 
-    constructor(tag: HtmlTag, api: ApiService)
+    constructor(tag: HtmlNode, api: ApiService)
     {
+        this.apiSocket = new DefaultSocketApi()
+        this.apiSocket.connect()
+        this.apiSocket.onGetMessage()
         this.tag = tag
         this.api = api
         this.isNowSynchronized = false
@@ -25,7 +34,6 @@ export default class HtmlTagSynchronizer implements Synchronizer
             return
         }
         this.isNowSynchronized = true
-
         return this.updateApi()
 
     }
@@ -42,10 +50,11 @@ export default class HtmlTagSynchronizer implements Synchronizer
     private updateApi()
     {
             setTimeout(() => { 
+                this.apiSocket.sendMessage()
 
-                this.api.putTag(this.tag).then(
+                this.setAsNowReadyToSynchronize()
+                this.updatePromise().then(
                     (arg) => {
-                        this.setAsNowReadyToSynchronize()
                         console.log('success');
                         console.log(arg);
                         this.trySynchronize()
@@ -59,7 +68,20 @@ export default class HtmlTagSynchronizer implements Synchronizer
                     }
                 )
 
-            }, 1000)
+            }, 3000)
+    }
+
+    private updatePromise() : Promise<any>
+    {
+        if (this.tag instanceof HtmlTag) {
+            return this.api.putTag(this.tag)
+        }
+
+        if (this.tag instanceof TextNode) {
+            return this.api.putText(this.tag)
+        }
+
+        throw Error(`Not implementede update object ${this.tag}`)
     }
 
     private trySynchronize()

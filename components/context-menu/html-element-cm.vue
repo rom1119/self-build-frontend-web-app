@@ -13,13 +13,14 @@
         </context-menu>
         <!-- <create-html-element-context-menu :value="value"  :ref="createElementNameCM" /> -->
         
-                <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
+        <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
+        <context-menu-item :action="createText">Dodaj tekst</context-menu-item>
 
-           
-                <context-menu-item :action="showTextCssModal">Font</context-menu-item>
-                <context-menu-item :action="showBackgroundCssModal">Background</context-menu-item>
-                <context-menu-item :action="showBorderCssModal">Border</context-menu-item>
-                <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
+    
+        <context-menu-item :action="showTextCssModal">Font</context-menu-item>
+        <context-menu-item :action="showBackgroundCssModal">Background</context-menu-item>
+        <context-menu-item :action="showBorderCssModal">Border</context-menu-item>
+        <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
 
     </context-menu>
 </template>
@@ -30,12 +31,14 @@ import HtmlTagFactory from '~/src/Layout/HtmlTagFactory';
 import HtmlTag from '../../src/Layout/HtmlTag';
 import ApiService from '~/src/Api/ApiService';
 import DefaultApiService from '~/src/Api/impl/DefaultApiService';
+import TextNode from '~/src/Layout/TextNode';
+import LayoutEl from '../../src/LayoutEl';
 
 @Component
 export default class HtmlElementContextMenu extends Vue {
 
     @Prop({required: true, default: null})
-    value: HtmlTag[]
+    value: LayoutEl[]
 
     @Prop({required: true, default: null})
     htmlTagModel: HtmlTag
@@ -67,6 +70,15 @@ export default class HtmlElementContextMenu extends Vue {
 
     }
 
+    createText()
+    {
+        let text = this.htmlFactory.createText();
+        text.parent = this.htmlTagModel
+        text.projectId = this.htmlTagModel.projectId
+        this.value.push(text)
+        this.api.appendChild(text)
+    }
+    
     showTextCssModal()
     {
         this.$textManageModal.show(this.htmlTagModel)

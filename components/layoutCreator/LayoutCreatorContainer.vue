@@ -44,6 +44,8 @@ import Remover from '../../src/Remover';
 import HtmlTagRemover from '../../src/Remover/HtmlTagRemover';
 import ApiService from "../../src/Api/ApiService";
 import DefaultApiService from "~/src/Api/impl/DefaultApiService";
+import LayoutEl from "../../src/LayoutEl";
+import HtmlNode from "../../src/Layout/HtmlNode";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -104,9 +106,9 @@ export default class LayoutCreatorContainer extends Vue {
     
     onTagRemove(source)
     {
-        // console.log('tagRemove');
-        // console.log(source);
-        let tag: HtmlTag = source.target
+        console.log('tagRemove');
+        console.log(source);
+        let tag: HtmlNode = source.target
         tag.api.deleteTag(tag).then(
             (res) => {
                 

@@ -3,6 +3,7 @@ import Vue from 'vue'
 import LayoutCreatorContainer from './LayoutCreatorContainer.vue'
 import HTMLWrapper from './tag/HTMLWrapper.vue'
 import HTMLEL from './tag/HTMLEL.vue'
+import HTMLTextNode from './tag/HTMLTextNode.vue'
 import HTMLELEditable from './tag/HTMLELEditable.vue'
 
 import BorderMainComponent from './tag/border/Border.vue'
@@ -26,6 +27,7 @@ import MarginBottom from './tag/margin/Bottom.vue'
 Vue.component('layout-creator-container', LayoutCreatorContainer)
 Vue.component('html-component', HTMLWrapper)
 Vue.component('html-el', HTMLEL)
+Vue.component('html-text-node', HTMLTextNode)
 Vue.component('html-el-editable', HTMLELEditable)
 
 // Borders

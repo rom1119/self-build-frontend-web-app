@@ -2,6 +2,7 @@ import H1 from './tag/H1';
 import HtmlTagFactory from './HtmlTagFactory';
 import HtmlTag from './HtmlTag';
 import UnableCreateDomainTagFromName from '../Errors/UnableCreateDomainTagFromName';
+import TextNode from './TextNode';
 export default class HtmlTagFactoryFromName {
 
     private htmlTagFactory: HtmlTagFactory
@@ -11,6 +12,9 @@ export default class HtmlTagFactoryFromName {
         this.htmlTagFactory = new HtmlTagFactory()
     }
 
+    createText(): TextNode {
+        return this.htmlTagFactory.createText()
+    }
     create(name: string) : HtmlTag {
 
         switch (name) {

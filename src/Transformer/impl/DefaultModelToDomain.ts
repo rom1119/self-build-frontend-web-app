@@ -7,6 +7,7 @@ import HtmlTagFactoryFromName from '~/src/Layout/HtmlTagFactoryFromName';
 import ModelToCss from '../ModelToCss';
 import DefaultModelToCss from './DefaultModelToCss';
 import HtmlTag from '../../Layout/HtmlTag';
+import TextNode from '../../Layout/TextNode';
 export default class DefaultModelToDomain implements ModelToDomain
 {
 
@@ -19,39 +20,57 @@ export default class DefaultModelToDomain implements ModelToDomain
         this.styleTransformer = new DefaultModelToCss()
     }
 
-    transform(model: TagDto): HtmlTag {
+    transform(model: TagDto): LayoutEl {
         var domain = this.buildRecursive(model, null)
                     
         return domain
 
     }
 
-    buildRecursive(model: TagDto, parent: HtmlTag): HtmlTag
+    buildRecursive(model: TagDto, parent: HtmlTag): LayoutEl
     {
-        let domain = this.htmlTagFactory.create(model.tagName)
-        domain.uuid  = model.id
-        domain.version  = model.version
-        domain.projectId  = model.projectId
-        // console.log('LLLLLLLLLLLLL');
-        // console.log(model);
-        if (parent) {
-            parent.children.push(domain)
-            domain.parent = parent
-            // domain.parent = parent
-        }
+        var domain
+        if (model.isTextNode) {
+            domain = this.htmlTagFactory.createText()
+            domain.uuid  = model.id
+            domain.version  = model.version
+            domain.projectId  = model.projectId
+            domain.text  = model.text
+            // console.log('LLLLLLLLLLLLL');
+            // console.log(model);
+            if (parent) {
+                parent.children.push(domain)
+                domain.parent = parent
+                // domain.parent = parent
+            }
+        } else {
+            domain = this.htmlTagFactory.create(model.tagName)
+            domain.uuid  = model.id
+            domain.version  = model.version
+            domain.projectId  = model.projectId
+            // console.log('LLLLLLLLLLLLL');
+            // console.log(model);
+            if (parent) {
+                parent.children.push(domain)
+                domain.parent = parent
+                domain.projectId = parent.projectId
+                // domain.parent = parent
+            }
+    
+            if (model.styles) {
+                for (const style of model.styles) {
+                    let subModel = this.styleTransformer.transform(style)
+                    domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
+                    // domain..push(subModel)
+                }
+            }
+            
+            if (model.children) {
+                for (const el of model.children) {
+                    this.buildRecursive(el, domain)
+                }
+            }
 
-        if (model.styles) {
-            for (const style of model.styles) {
-                let subModel = this.styleTransformer.transform(style)
-                domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
-                // domain..push(subModel)
-            }
-        }
-        
-        if (model.children) {
-            for (const el of model.children) {
-                this.buildRecursive(el, domain)
-            }
         }
 
         return domain

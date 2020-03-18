@@ -26,6 +26,7 @@ export default class ContentElSizeController extends SizeElController
         let el: HtmlTag = source.target
         let event = source.event
         console.log(el.toString());
+        console.log(el.projectId);
         console.log(el.cssAccessor.all);
         // console.log(el.paddingRightWidth);
         

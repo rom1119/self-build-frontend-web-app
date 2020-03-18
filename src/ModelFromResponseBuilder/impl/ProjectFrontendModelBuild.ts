@@ -23,6 +23,7 @@ export default class ProjectFrontendModelBuild implements ModelFromResponse<Proj
         if (from.items) {
             for (const tag of from.items) {
                 let subModel = this.htmlTagModelBuilder.build(tag)
+                subModel.projectId = model.id
                 model.htmlTags.push(subModel)
             }
         }

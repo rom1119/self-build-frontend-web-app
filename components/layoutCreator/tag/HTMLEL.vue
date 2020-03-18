@@ -1,14 +1,6 @@
 <template>
 
-    <component class="wrapper-el" :is="value.getTagName()" @dblclick.stop="onDoubleClick($event)" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
-        <div v-show="value.isEdited" class="wrapper-el-editable" >
-            <html-el-editable :value="value" ref="editableEl">
-            </html-el-editable>
-        </div>
-        <!-- {{ value.paddingRightWidth }} -->
-        <div  v-show="!value.isEdited" :key="value.paddingRightWidth" class="inner-text-el">
-            {{ value.innerText }}
-        </div>
+    <component class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
         <slot ></slot>
     </component>
 
@@ -61,12 +53,12 @@ export default class HTMLEL extends Vue {
     
     onDoubleClick(e) 
     {
-        this.value.onDoubleClick(e)
-        // console.log(this);
-        // console.log(this.$refs);
-        // console.log(this.$refs.editableEl);
+        // this.value.onDoubleClick(e)
+        // // console.log(this);
+        // // console.log(this.$refs);
+        // // console.log(this.$refs.editableEl);
         
-        this.$refs.editableEl.focus()
+        // this.$refs.editableEl.focus()
 
 
         // console.log(heightTable);

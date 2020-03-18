@@ -8,5 +8,5 @@ export default interface ModelToDomain
     /**
      * transform
      */
-    transform(model: TagDto ) :  HtmlTag
+    transform(model: TagDto ) :  LayoutEl
 }

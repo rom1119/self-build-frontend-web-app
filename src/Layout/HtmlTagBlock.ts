@@ -27,10 +27,5 @@ export default abstract class HtmlTagBlock extends HtmlTag
         this._height = h
     }
 
-    public onDoubleClick(e) 
-    {
-        this._isEdited = true
-    }
-
 
 }

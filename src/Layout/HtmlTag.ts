@@ -46,12 +46,11 @@ import ContentSizeCss from '../Css/Size/ContentSizeCss';
 import ActivableTagToManage from "../ActivableTagToManage";
 import HtmlTagPropertyAccessor from '../Css/PropertyAccessor/HtmlTagPropertyAccessor';
 import HtmlTagSynchronizer from "../Synchronizer/Impl/HtmlTagSynchronizer";
+import HtmlNode from "./HtmlNode";
 
 
-export default abstract class HtmlTag extends LayoutEl implements CssList, SizeActivable, ActivableTagToManage
+export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage
 {
-    
-    projectId: string
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
 
@@ -78,7 +77,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     marginRight: MarginModel
     protected _toManage = false
     
-    protected _isEdited = false
     protected _width = HtmlTag.INITIAL_WIDTH
     protected _height = HtmlTag.INITIAL_HEIGHT
     public static INITIAL_WIDTH = 100
@@ -120,11 +118,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
     {
         this.api = api
         this.synchronizer = new HtmlTagSynchronizer(this, api)
-    }
-    
-    public setProjectId(id: string)
-    {
-        this.projectId = id
     }
 
     initBorders()
@@ -681,10 +674,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         this._innerText = text
     }
 
-    get isEdited() : boolean
-    {
-        return this._isEdited
-    }
+
 
     public changeAsActiveToManage() {
         this._toManage = true
@@ -698,10 +688,7 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
         return this._toManage === true
     }
 
-    public setNotEdited()
-    {
-        this._isEdited = false
-    }
+
 
     public onMouseMove(w, h) 
     {
@@ -739,10 +726,6 @@ export default abstract class HtmlTag extends LayoutEl implements CssList, SizeA
 
     }
 
-    public onDoubleClick(e) 
-    {
-        this._isEdited = true
-    }
 
     get borders() : BorderModel[]
     {

@@ -24,6 +24,8 @@ export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagRespo
     {
         let model = new HtmlTagModel
         model.id = from.id
+        model.text = from.text
+        model.isTextNode = from.isTextNode
         model.tagName = from.tagName
         model.version = from.version
         if (parent) {
