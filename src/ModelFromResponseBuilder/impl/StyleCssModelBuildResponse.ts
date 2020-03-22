@@ -13,6 +13,10 @@ export default class StyleCssModelBuildResponse implements ResponseFromModel<Sty
         response.name = from.getKey()
         response.value = from.getValue()
         response.unitName = from.getUnitName()
+        response.valueSecond = from.getValueSecond()
+        response.valueThird = from.getValueThird()
+        response.unitNameSecond = from.getUnitNameSecond()
+        response.unitNameThird = from.getUnitNameThird()
         
         return response;
     }

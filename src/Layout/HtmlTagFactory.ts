@@ -6,9 +6,13 @@ export default class HtmlTagFactory {
 
     api: ApiService
 
+
     constructor()
     {
         this.api = new DefaultApiService();
+    }
+
+    createrSynchronizer(){
 
     }
 

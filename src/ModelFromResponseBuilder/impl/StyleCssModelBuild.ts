@@ -9,6 +9,10 @@ export default class StyleCssModelBuild implements ModelFromResponse<StyleCssRes
     build(from: StyleCssResponse): StyleCssModel {
         let model = new StyleCssModel(from.name, from.value, from.unitName)
         model.id = from.id
+        model.setValueSecond(from.valueSecond)
+        model.setValueThird(from.valueThird)
+        model.setUnitNameSecond(from.unitNameSecond)
+        model.setUnitNameThird(from.unitNameThird)
         return model;
     }
 

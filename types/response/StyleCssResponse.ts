@@ -5,5 +5,9 @@ export default class StyleCssResponse extends ResponseObject{
      name
      value
      unitName
+     valueSecond
+     unitNameSecond
+     valueThird
+     unitNameThird
 
 }

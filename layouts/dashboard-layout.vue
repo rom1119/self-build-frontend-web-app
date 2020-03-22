@@ -17,11 +17,12 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator'
+    import {Component, Vue, Watch} from 'vue-property-decorator'
     import Navbar from '@/components/navbar.vue'
     import FooterComponent from '@/components/footer.vue'
     import LoadingDialog from "~/components/LoadingDialog.vue";
     import Sidebar from "~/components/sidebar.vue";
+    import HtmlSocketApi from '~/src/Api/impl/HtmlSocketApi';
 
     @Component({
         components: {
@@ -33,6 +34,7 @@
     })
     export default class DashboardLayout extends Vue {
 
+        
     }
 </script>
 <style  lang="scss">

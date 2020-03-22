@@ -20,10 +20,14 @@ import DefaultModelToDomain from '../../Transformer/impl/DefaultModelToDomain';
 import HtmlTagModelBuild from '../../ModelFromResponseBuilder/impl/HtmlTagModelBuild';
 import CssPropertyFactoryFromName from '../../Factory/CssPropertyFactoryFromName';
 import SocketApi from "../SocketApi";
+import Vue from 'vue'
 
-export default class DefaultSocketApi implements SocketApi
+
+export default class HtmlSocketApi implements SocketApi
 {
     static HOST = 'http://localhost:8080'
+    static IS_CONNECTED = false
+    static CURRENT_SESSION_ID = {value: null}
 
     private domainToModelTransformer: DomainToModel
     private tagModelToResponse: ResponseFromModel<TagDto, HtmlTagResponse>
@@ -34,25 +38,54 @@ export default class DefaultSocketApi implements SocketApi
 
     private cssFromName: CssPropertyFactoryFromName
 
-    private stompClient: Stomp
-    private socket: SockJS
+    private static stompClient: Stomp
+    private static socket: SockJS
 
+    protected projectId
 
     constructor()
     {
+        // Vue.set(HtmlSocketApi.CURRENT_SESSION_ID, 'value', '')
+
         this.domainToModelTransformer = new DefaultDomainToModel()
         this.tagModelToResponse = new HtmlTagModelBuildResponse()
 
         this.cssFromName = new CssPropertyFactoryFromName()
-
+        // this.projectId = projectID
+        
+        
     }
-    sendMessage() {
-        this.stompClient.send("/app/hello", {}, 'params');
+
+
+    sendMessage(projectId) {
+        if (projectId) {
+            HtmlSocketApi.stompClient.send("/app/update/html-code", {}, projectId);
+
+        }
     }
     async connect() {
-        this.socket = new SockJS('http://localhost:8080/gs-guide-websocket');
-        this.stompClient = Stomp.over(this.socket);
-        await this.stompClient.connect();
+        if (HtmlSocketApi.IS_CONNECTED) {
+            return
+        }
+        HtmlSocketApi.IS_CONNECTED = true
+        HtmlSocketApi.socket = new SockJS(HtmlSocketApi.HOST + '/gs-guide-websocket');
+        HtmlSocketApi.stompClient = Stomp.over(HtmlSocketApi.socket);
+        await HtmlSocketApi.stompClient.connect('guest', 'guest', () => { 
+            // HtmlSocketApi.CURRENT_SESSION_ID = this.getSessionId()
+            // @ts-ignore
+            // state.sessionId = HtmlSocketApi.CURRENT_SESSION_ID
+
+            // mapMutations.setSessionId(HtmlSocketApi.CURRENT_SESSION_ID)
+            // console.log(getters);
+            HtmlSocketApi.CURRENT_SESSION_ID.value = this.getSessionId()
+            // Vue.set(, 'value', )
+            
+            // var a = {...mapMutations({
+            //     asd: 'globals/setSessionId'
+            // })}
+            // a.asd('aefsdd')
+            // Vue.store.commit('globals/setSessionId', HtmlSocketApi.CURRENT_SESSION_ID)
+        });
         // setTimeout(() => {
         //     console.log('ConnectedAAAAA: ');
             
@@ -60,7 +93,8 @@ export default class DefaultSocketApi implements SocketApi
         // }, 9000)
     }
     subscribeMsg(msg: string) {
-        this.stompClient.subscribe(msg, function (greeting) {
+        
+        HtmlSocketApi.stompClient.subscribe(msg, function (greeting) {
             // this.showGreeting(JSON.parse(greeting.body).content);
 
             console.log('subscribe');
@@ -68,14 +102,27 @@ export default class DefaultSocketApi implements SocketApi
             
         });
     }
-    onGetMessage() {
-        this.socket.onmessage = function(e) {
-            console.log('messageAAAAAA++++++');
-            console.log('message', e.data);
-            console.log( e);
-            console.log('messageAAAAAA=====');
+    onGetMessage(fn) {
+        HtmlSocketApi.socket.onmessage = function(e) {
+            // console.log('messageAAAAAA++++++');
+            // console.log('message', e.data);
+            // console.log( e);
+            // console.log('messageAAAAAA=====');
+            fn(e)
             // sock.close();
         };
+    }
+
+    private getSessionId()
+    {
+        var url = HtmlSocketApi.stompClient.ws._transport.url;
+        console.log("Your current session is: " + url);
+        url = url.replace(
+          "ws://localhost:8080/gs-guide-websocket/",  "");
+        url = url.replace("/websocket", "");
+        url = url.replace(/^[0-9]+\//, "");
+        console.log("Your current session is: " + url);
+        return url;
     }
 
     // getTreeTags(tag: HtmlTag): ResponseTreeTag {

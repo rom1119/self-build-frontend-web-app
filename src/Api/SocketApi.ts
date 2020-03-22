@@ -4,8 +4,8 @@ import ResponseTreeTag from "./ResponseTreeTag";
 export default interface SocketApi 
 {
     connect()
-    onGetMessage()
-    sendMessage()
+    onGetMessage(fn)
+    sendMessage(projectId)
     subscribeMsg(msg: string)
     
 }

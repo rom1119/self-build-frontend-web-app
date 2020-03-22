@@ -39,7 +39,6 @@ export default class HTMLELEditable extends Vue {
     @Watch('value.text')
     onChangeText(e) 
     {
-            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
         autosize(this.$refs.textInput)
 
     }
@@ -62,13 +61,12 @@ export default class HTMLELEditable extends Vue {
     {
         let textarea: HTMLTextAreaElement = <HTMLTextAreaElement>this.$refs.textInput
 
-        console.log(autosize);
+        // console.log(autosize);
         textarea.addEventListener('focus', function(){
             autosize(textarea);
             autosize.update(textarea);
         });
         // autosize(this.$refs.textInput)
-        
         
     }
 }

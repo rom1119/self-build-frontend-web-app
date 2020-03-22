@@ -1,17 +1,17 @@
 <template>
-    <div @dblclick.stop="onDoubleClick($event)" @mousedown.stop="" @click.stop="" >
-        <div v-show="value.isEdited" class="wrapper-el-editable" >
+    <span @dblclick.stop="onDoubleClick($event)" @mousedown.stop="" @click.stop="" >
+        <span v-show="value.isEdited" class="wrapper-el-editable" >
             <div class="remove-text" @mousedown.stop="setAsClicked" @click.stop="onEmitRemove(value, $event)">
                 X
             </div>
             <html-el-editable :value="value" style="width: 100%" class="boxsizingBorder" @blur="onBlur" ref="editableEl">
             </html-el-editable>
-        </div>
+        </span>
         <!-- {{ value.paddingRightWidth }} -->
-        <div  v-show="!value.isEdited" :key="value.paddingRightWidth" class="inner-text-el">
+        <span  v-show="!value.isEdited" :key="value.paddingRightWidth" class="inner-text-el">
             {{ value.text }}
-        </div>
-    </div>
+        </span>
+    </span>
 
 </template>
 

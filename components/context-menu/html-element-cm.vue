@@ -38,10 +38,7 @@ import LayoutEl from '../../src/LayoutEl';
 export default class HtmlElementContextMenu extends Vue {
 
     @Prop({required: true, default: null})
-    value: LayoutEl[]
-
-    @Prop({required: true, default: null})
-    htmlTagModel: HtmlTag
+    value: HtmlTag
 
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
 
@@ -51,7 +48,7 @@ export default class HtmlElementContextMenu extends Vue {
 
     mounted() {
         // console.log(this.value.uuid);
-        this.createElementNameCM = this.createElementNameCM.concat(this.htmlTagModel.uuid)
+        this.createElementNameCM = this.createElementNameCM.concat(this.value.uuid)
         this.api = new DefaultApiService();
         
     }
@@ -59,12 +56,11 @@ export default class HtmlElementContextMenu extends Vue {
     createH1Element(target, cm, a) {
 
         var el = this.htmlFactory.createH1()
-        el.parent = this.htmlTagModel
-        el.projectId = this.htmlTagModel.projectId
+        el.parent = this.value
+        el.projectId = this.value.projectId
         el.injectInitialCssStyles()
-        this.value.push(el)
         el.setProjectId(this.$route.params.id)
-        this.api.appendChild(el)
+        this.value.appendChild(el)
 
         this.$emit('createdTag', el)
 
@@ -73,30 +69,31 @@ export default class HtmlElementContextMenu extends Vue {
     createText()
     {
         let text = this.htmlFactory.createText();
-        text.parent = this.htmlTagModel
-        text.projectId = this.htmlTagModel.projectId
-        this.value.push(text)
-        this.api.appendChild(text)
+        text.parent = this.value
+        text.projectId = this.value.projectId
+        text.setProjectId(this.$route.params.id)
+
+        this.value.appendChild(text)
     }
     
     showTextCssModal()
     {
-        this.$textManageModal.show(this.htmlTagModel)
+        this.$textManageModal.show(this.value)
     }
     
     showBackgroundCssModal()
     {
-        this.$backgroundManageModal.show(this.htmlTagModel)
+        this.$backgroundManageModal.show(this.value)
     }
     
     showBorderCssModal()
     {
-        this.$borderManageModal.show(this.htmlTagModel)
+        this.$borderManageModal.show(this.value)
     }
     
     showBoxModelModal()
     {
-        this.$boxModelManageModal.show(this.htmlTagModel)
+        this.$boxModelManageModal.show(this.value)
     }
 
     createPElement(target, cm, a) {

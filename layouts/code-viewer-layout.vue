@@ -22,8 +22,6 @@
     import FooterComponent from '@/components/footer.vue'
     import LoadingDialog from "~/components/LoadingDialog.vue";
     import Sidebar from "~/components/sidebar.vue";
-import SocketApi from '~/src/Api/SocketApi';
-import DefaultSocketApi from '~/src/Api/impl/DefaultSocketApi';
 
     @Component({
         components: {
@@ -34,15 +32,7 @@ import DefaultSocketApi from '~/src/Api/impl/DefaultSocketApi';
         }
     })
     export default class CodeViewerLayout extends Vue {
-        public static SOCKET_MSG_NAME = '/topic/greetings'
-        protected apiSocket: SocketApi
 
-        mounted() {
-            this.apiSocket = new DefaultSocketApi()
-            this.apiSocket.connect()
-            this.apiSocket.onGetMessage()
-
-        }
     }
 </script>
 <style  lang="scss">

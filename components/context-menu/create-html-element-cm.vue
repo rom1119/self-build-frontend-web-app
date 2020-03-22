@@ -38,6 +38,7 @@ export default class CreateHtmlElementContextMenu extends Vue {
         this.value.push(el)
         el.setProjectId(this.$route.params.id)
         this.api.appendTagToProject(el)
+        el.synchronize()
 
         this.$emit('createdTag', el)
 

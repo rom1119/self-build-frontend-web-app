@@ -28,9 +28,14 @@ export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagRespo
         model.isTextNode = from.isTextNode
         model.tagName = from.tagName
         model.version = from.version
+        if (from.project) {
+            model.projectId = from.project.id
+
+        }
         if (parent) {
             parent.children.push(model)
             model.parent = parent
+            model.projectId = parent.projectId
         }
 
         if (from.cssStyleList) {

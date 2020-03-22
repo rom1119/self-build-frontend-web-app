@@ -15,10 +15,25 @@ export default class HtmlNode extends LayoutEl
         this.synchronizer = new HtmlTagSynchronizer(this, api)
     }
 
+    public synchronize()
+    {
+        if (this.synchronizer) {
+            this.synchronizer.synchronize()
+        }
+    }
 
     public setProjectId(id: string)
     {
         this.projectId = id
+        
+    }
+
+    public appendChild(node: HtmlNode)
+    {
+        this.children.push(node)
+        this.api.appendChild(node)
+        this.synchronizer.synchronize()
+
     }
 
     get isEdited() : boolean

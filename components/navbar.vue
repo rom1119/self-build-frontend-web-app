@@ -43,20 +43,34 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator'
+    import {Component, Vue, Watch} from 'vue-property-decorator'
     import base64 from  'base-64'
+import HtmlSocketApi from '~/src/Api/impl/HtmlSocketApi'
 
     @Component
     export default class Navbar extends Vue {
 
-        get hasInstitution() {
-            return !!this.$auth.user.institution
+        sessionID = {value: null}
+        created()
+        {
+            // Vue.set(HtmlSocketApi, 'CURRENT_SESSION_ID', {value: null})
+            this.sessionID = HtmlSocketApi.CURRENT_SESSION_ID
+            console.log(HtmlSocketApi.CURRENT_SESSION_ID);
+            console.log(this.sessionID);
+        }
+
+        @Watch('sessionID', {deep: true})
+        sessionIdWatch(a)
+        {
+            console.log('@@&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@');
+            console.log(a);
+            // return this.$store.getters['globals/sessionId']
         }
 
         generattingCode()
         {
-            window.open('/code-viewer/html-project/'  + this.$route.params.id)
 
+            var wind = window.open('/code-viewer/html-project/'  + this.sessionID.value)
         }
 
         logout()

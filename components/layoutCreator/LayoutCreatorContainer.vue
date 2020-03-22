@@ -112,6 +112,7 @@ export default class LayoutCreatorContainer extends Vue {
         tag.api.deleteTag(tag).then(
             (res) => {
                 
+                tag.synchronize()
                 let a = this.htmlTagRemover.removeBy(source.target.uuid)
             },
             () => {

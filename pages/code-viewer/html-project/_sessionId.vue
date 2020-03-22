@@ -32,6 +32,10 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
 import ProjectFrontendResponse from '~/types/response/ProjectFrontendResponse';
 import 'highlight.js/styles/atom-one-dark.css';
 import hljs from 'highlight.js';
+import SocketApi from '../../../src/Api/SocketApi';
+import HtmlSocketApi from '~/src/Api/impl/HtmlSocketApi';
+import {css} from 'js-beautify';
+import {html} from 'js-beautify';
 
 
     @Component({
@@ -46,6 +50,63 @@ import hljs from 'highlight.js';
         storeFetchEndpoint = 'frontendProject/findOne'
         modelToDomainTransformer: ModelToDomain
         project: ProjectFrontendResponse = new ProjectFrontendResponse()
+        socketApi: SocketApi = new HtmlSocketApi()
+        htmlCode = ''
+        cssCode = ''
+        public SOCKET_MSG_NAME = `/queue/position-updates-user`
+
+        mounted() {
+            this.socketApi.connect()
+            this.socketApi.onGetMessage((e) => {
+                console.log('messageAAAAAA++++++');
+                console.log('message', e.data);
+                console.log( e);
+                console.log('messageAAAAAA=====');
+
+                if (e.data.indexOf('content-length') > -1) {
+
+                    this.fetchHtmlContent(e.data)
+                    this.fetchCssContent(e.data)
+                }
+            })
+            setTimeout(() => {
+                this.socketApi.subscribeMsg(this.SOCKET_MSG_NAME + this.$route.params.sessionId)
+            }, 2000)
+
+        }
+
+        fetchHtmlContent(socketMsgString)
+        {
+            var html = socketMsgString.split("\n")
+
+            console.log(html);
+            html = html[html.length - 1]
+            html = html
+            html = html.substr(0, html.length - 1)
+            console.log(html);
+            // console.log(html.substr(125));
+            
+            var jsonContent = JSON.parse(html.trim().toString())
+            this.htmlCode = jsonContent.html
+            // this.htmlCode = jsonContent.html.replace(/>/g, '>\n')
+
+        }
+
+        fetchCssContent(socketMsgString)
+        {
+            var html = socketMsgString.split("\n")
+
+            console.log(html);
+            html = html[html.length - 1]
+            html = html
+            html = html.substr(0, html.length - 1)
+            console.log(html);
+            // console.log(html.substr(125));
+            
+            var jsonContent = JSON.parse(html.trim().toString())
+            this.cssCode = jsonContent.css
+
+        }
 
         // $refs: {
         //     creatorContainer: LayoutCreatorContainer
@@ -53,58 +114,27 @@ import hljs from 'highlight.js';
 
         get htmlContent()
         {
-          return  hljs.highlight('html', `
-    <div class="footer__top">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-5">
-                    <h3>O nas</h3>
-                    <p>Malesuada a nulla a venenatis parturient a malesuada nunc auctor metus consectetur velit dolor eget diam mi condimentum ac ut a tellus vitae.</p>
-                    <a href="">Dołącz do nas</a>
-                </div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-6">
-                            <h3>Generator projektów</h3>
-                            <ul class="nav flex-column">
-                                <nuxt-link tag="li" class="nav-item" to="/dashboard/layouts" active-class="active" exact>
-                                    <a class="nav-link">Layouty</a>
-                                </nuxt-link>
-
-                            </ul>
-                        </div>
-                        <div class="col-6">
-                            <h3>Baza wiedzy</h3>
-                            <ul class="nav flex-column">
-                                <!-- <li class="nav-item"  v-for="cat in faqCategories">
-                                    <a class="nav-link active" @click.prevent="$router.push('/faqs-by-category/' + cat.id)">{{ cat.name }}</a>
-                                </li> -->
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-           `).value
+          return  hljs.highlight('html', html(this.htmlCode,
+          {
+            "indent_size": 2,
+            "html": {
+                    "end_with_newline": true,
+                    "js": {
+                        "indent_size": 2
+                    },
+                    "css": {
+                        "indent_size": 2
+                    }
+            }
+          }
+          )
+          
+            ).value
         }
         
         get cssContent()
         {
-          return  hljs.highlight('css', `
-            .rst-versions {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 300px;
-                color: #fcfcfc;
-                background: #1f1d1d;
-                font-family: "Lato","proxima-nova","Helvetica Neue",Arial,sans-serif;
-                z-index: 400;
-            }
-           `).value
+          return  hljs.highlight('css',css(this.cssCode)).value
         }
         
 
@@ -134,33 +164,33 @@ import hljs from 'highlight.js';
             this.$loadingDialog.hide()
         }
 
-        async mounted()
-        {
-            hljs.initHighlightingOnLoad();
-            // console.log(this.htmlContent());
+        // async mounted()
+        // {
+        //     hljs.initHighlightingOnLoad();
+        //     // console.log(this.htmlContent());
             
-            // this.modelToDomainTransformer = new DefaultModelToDomain()
+        //     // this.modelToDomainTransformer = new DefaultModelToDomain()
 
-            if (this.$route.params.id) {
-                this.project = await this.$store.dispatch(this.storeFetchEndpoint, this.$route.params.id)
-                // for (const tagModel of response.htmlTags) {
-                //     let tag = this.modelToDomainTransformer.transform(tagModel)
-                //     tag.setProjectId(this.$route.params.id)
-                //     // @ts-ignore
-                //     this.$refs.creatorContainer.addHtmlTag(tag)
-                // // console.log(tag);
-                //     // tag.recalculateRealComputedProperties()
+        //     if (this.$route.params.sessionId) {
+        //         // this.project = await this.$store.dispatch(this.storeFetchEndpoint, this.$route.params.id)
+        //         // for (const tagModel of response.htmlTags) {
+        //         //     let tag = this.modelToDomainTransformer.transform(tagModel)
+        //         //     tag.setProjectId(this.$route.params.id)
+        //         //     // @ts-ignore
+        //         //     this.$refs.creatorContainer.addHtmlTag(tag)
+        //         // // console.log(tag);
+        //         //     // tag.recalculateRealComputedProperties()
                     
-                // }
-                // console.log(this.$route.params.id);
-                // console.log(response);
+        //         // }
+        //         // console.log(this.$route.params.id);
+        //         // console.log(response);
                 
-            }
-            this.$loadingDialog.show()
-            // let provinces = await this.$axios.$get('/units/provinces')
-            // this.provinces = provinces
-            this.$loadingDialog.hide()
-        }
+        //     }
+        //     this.$loadingDialog.show()
+        //     // let provinces = await this.$axios.$get('/units/provinces')
+        //     // this.provinces = provinces
+        //     this.$loadingDialog.hide()
+        // }
 
 
     }
@@ -182,7 +212,7 @@ import hljs from 'highlight.js';
         overflow: hidden;
     }
     .code-section {
-        width: 45%;
+        // width: 45%;
         overflow: hidden;
         display: inline-flex;
 
