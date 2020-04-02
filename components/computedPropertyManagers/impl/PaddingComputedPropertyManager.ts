@@ -236,6 +236,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
     }
     deactivePropCss(prop: BasePropertyCss) {
         this.value.cssAccessor.removePropWithName(prop.getName())
+        prop.id = null
         if (!this.globalProperty.active) {
             this.value.paddingFilter.deactivateProp(prop)
 
@@ -246,11 +247,15 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.value.paddingFilter.injectCssProperty(this.globalProperty)
         }
 
+        this.value.synchronize()
+
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
         return null
     }
     activePropCss(prop: BasePropertyCss) {
+        prop.id = null
+
         if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
             this.value.cssAccessor.addNewProperty(prop)
 
@@ -258,6 +263,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         console.log('activr');
         
         this.value.paddingFilter.activateProp(prop)
+        this.value.synchronize()
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)

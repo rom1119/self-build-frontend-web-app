@@ -8,6 +8,7 @@ import ModelToCss from '../ModelToCss';
 import DefaultModelToCss from './DefaultModelToCss';
 import HtmlTag from '../../Layout/HtmlTag';
 import TextNode from '../../Layout/TextNode';
+import HtmlNode from '../../Layout/HtmlNode';
 export default class DefaultModelToDomain implements ModelToDomain
 {
 
@@ -65,6 +66,7 @@ export default class DefaultModelToDomain implements ModelToDomain
                     // domain..push(subModel)
                 }
             }
+            domain.updateModelComponent()
             
             if (model.children) {
                 for (const el of model.children) {

@@ -9,6 +9,10 @@ import BasePropertyCss from '../../Css/BasePropertyCss';
 import StyleCss from '~/src/Api/StyleCss';
 import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName';
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
+import CssDoubleValue from '~/src/Css/CssDoubleValue';
+import CssTripleValue from '~/src/Css/CssTripleValue';
+import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
+import RGBA from '../../Unit/Color/RGBA';
 export default class DefaultModelToCss implements ModelToCss
 {
 
@@ -29,6 +33,46 @@ export default class DefaultModelToCss implements ModelToCss
         domain.setValue(model.getValue())
         domain.setUnit(unit)
         domain.id = model.id
+
+        // @ts-ignore
+        if (typeof domain.getWidth === 'function') {
+            
+            var domainCastBorder: BaseBorderCss = <BaseBorderCss><unknown>domain
+            let unitBorder = this.unitCssFactoryFromName.create(model.getUnitName())
+            domainCastBorder.setWidth(Number(model.getValue()), unitBorder)
+            console.log(unitBorder);
+            
+            domainCastBorder.setUnit(unitBorder)
+            domain = domainCastBorder
+            
+        }
+
+        // @ts-ignore
+        if (typeof domain.getSecondValue === 'function') {
+            var domainCast: CssDoubleValue = <CssDoubleValue><unknown>domain
+            domainCast.setSecondValue(model.getValueSecond())
+            let unitSecond = this.unitCssFactoryFromName.create(model.getUnitNameSecond())
+            domainCast.setSecondUnit(unitSecond)
+
+            domain = <BaseBorderCss>domainCast
+        }
+
+        // @ts-ignore
+        if (typeof domain.getThirdValue === 'function') {
+            var domainCastThird: CssTripleValue = <CssTripleValue><unknown>domain
+            let unitThird = this.unitCssFactoryFromName.create(model.getUnitNameThird())
+            var val
+            if (unitThird instanceof RGBA) {
+                val = JSON.parse(model.getValueThird())
+            } else {
+                val = model.getValueThird()
+            }
+            domainCastThird.setThirdValue(val)
+            domainCastThird.setThirdUnit(unitThird)
+
+            domain = <BaseBorderCss>domainCastThird
+
+        }
         
 
         // console.log(domain);

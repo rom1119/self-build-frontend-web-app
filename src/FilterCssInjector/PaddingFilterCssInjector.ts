@@ -78,6 +78,11 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
         if (cssProp instanceof PaddingLeftCss) {
             this.htmlTag.paddingLeft.deactivate()
         } else if (cssProp instanceof PaddingRightCss) {
+            // this.updateVal(cssProp, this.htmlTag.paddingRight)
+            if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingRightCss.PROP_NAME)) {
+                console.error('QWER');
+                
+            }
             this.htmlTag.paddingRight.deactivate()
         } else if (cssProp instanceof PaddingTopCss) {
             this.htmlTag.paddingTop.deactivate()
@@ -103,14 +108,19 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
     }
     public activateProp(cssProp: BasePaddingCss) {
         if (cssProp instanceof PaddingLeftCss) {
+            this.updateVal(cssProp, this.htmlTag.paddingLeft)
             this.htmlTag.paddingLeft.activate()
         } else if (cssProp instanceof PaddingRightCss) {
+            this.updateVal(cssProp, this.htmlTag.paddingRight)
             this.htmlTag.paddingRight.activate()
         } else if (cssProp instanceof PaddingTopCss) {
+            this.updateVal(cssProp, this.htmlTag.paddingTop)
             this.htmlTag.paddingTop.activate()
         } else if (cssProp instanceof PaddingBottomCss) {
+            this.updateVal(cssProp, this.htmlTag.paddingBottom)
             this.htmlTag.paddingBottom.activate()
         } else if (cssProp instanceof PaddingCss) {
+            this.updateAllDirectionsVal(cssProp)
             this.htmlTag.paddingLeft.activate()
             this.htmlTag.paddingRight.activate()
             this.htmlTag.paddingTop.activate()

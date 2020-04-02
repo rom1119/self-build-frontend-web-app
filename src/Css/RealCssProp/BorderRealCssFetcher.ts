@@ -8,7 +8,9 @@ import Unit from '../../Unit/Unit';
 import UnitSize from '../../Unit/UnitSize';
 import BaseBorderCss from '../Border/BaseBorderCss';
 import BorderGlobalCss from '../Border/Global/BorderGlobalCss';
-export default class BorderRealCssFetcher implements FetcherRealCssProp
+import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp';
+import UnitColor from '../../Unit/UnitColor';
+export default class BorderRealCssFetcher implements BorderFetcherRealCssProp
 {
 
     protected htmlTag: HtmlTag
@@ -19,187 +21,542 @@ export default class BorderRealCssFetcher implements FetcherRealCssProp
 
     }
     
-    fetchPropValue(propName: string): string {
+    fetchPropWidth(propName: string): string {
         switch (propName) {
             case BorderLeftCss.PROP_NAME:
-                return this.getLeft()
+                return this.getLeftWidth()
             case BorderRightCss.PROP_NAME:
-                return this.getRight()
+                return this.getRightWidth()
             case BorderTopCss.PROP_NAME:
-                return this.getTop()
+                return this.getTopWidth()
             case BorderBottomCss.PROP_NAME:
-                return this.getBottom()
-                case BorderGlobalCss.PROP_NAME:
-                    return this.getGlobal()
+                return this.getBottomWidth()
+            case BorderGlobalCss.PROP_NAME:
+                return this.getGlobalWidth()
         }
 
-        throw Error(`Can not fetch Default Border from property name ${propName}`)
+        throw Error(`Can not fetch Default Border width from property name ${propName}`)
 
     }
     
-    fetchUnit(propName: string): Unit {
+    fetchPropStyle(propName: string): string {
         switch (propName) {
             case BorderLeftCss.PROP_NAME:
-                return this.getLeftUnit()
+                return this.getLeftStyle()
             case BorderRightCss.PROP_NAME:
-                return this.getRightUnit()
+                return this.getRightStyle()
             case BorderTopCss.PROP_NAME:
-                return this.getTopUnit()
+                return this.getTopStyle()
             case BorderBottomCss.PROP_NAME:
-                return this.getBottomUnit()
-                case BorderGlobalCss.PROP_NAME:
-                    return this.getGlobalUnit()
+                return this.getBottomStyle()
+            case BorderGlobalCss.PROP_NAME:
+                return this.getGlobalStyle()
         }
 
-        throw Error(`Can not fetch Default Border Unit from property name ${propName}`)
+        throw Error(`Can not fetch Default Border  style from property name ${propName}`)
+
+    }
+    
+    fetchPropColor(propName: string): string {
+        switch (propName) {
+            case BorderLeftCss.PROP_NAME:
+                return this.getLeftColor()
+            case BorderRightCss.PROP_NAME:
+                return this.getRightColor()
+            case BorderTopCss.PROP_NAME:
+                return this.getTopColor()
+            case BorderBottomCss.PROP_NAME:
+                return this.getBottomColor()
+            case BorderGlobalCss.PROP_NAME:
+                return this.getGlobalColor()
+        }
+
+        throw Error(`Can not fetch Default Border  Color from property name ${propName}`)
+
+    }
+    
+    fetchUnitWidth(propName: string): UnitSize {
+        switch (propName) {
+            case BorderLeftCss.PROP_NAME:
+                return this.getLeftUnitWidth()
+            case BorderRightCss.PROP_NAME:
+                return this.getRightUnitWidth()
+            case BorderTopCss.PROP_NAME:
+                return this.getTopUnitWidth()
+            case BorderBottomCss.PROP_NAME:
+                return this.getBottomUnitWidth()
+            case BorderGlobalCss.PROP_NAME:
+                return this.getGlobalUnitWidth()
+        }
+
+        throw Error(`Can not fetch Default Border Unit Width from property name ${propName}`)
 
     }
 
-    private getLeft(): string
+    fetchUnitStyle(propName: string): Unit {
+        switch (propName) {
+            case BorderLeftCss.PROP_NAME:
+                return this.getLeftUnitStyle()
+            case BorderRightCss.PROP_NAME:
+                return this.getRightUnitStyle()
+            case BorderTopCss.PROP_NAME:
+                return this.getTopUnitStyle()
+            case BorderBottomCss.PROP_NAME:
+                return this.getBottomUnitStyle()
+            case BorderGlobalCss.PROP_NAME:
+                return this.getGlobalUnitStyle()
+        }
+
+        throw Error(`Can not fetch Default Border Unit  Style from property name ${propName}`)
+
+    }
+    
+    fetchUnitColor(propName: string): UnitColor {
+        switch (propName) {
+            case BorderLeftCss.PROP_NAME:
+                return this.getLeftUnitColor()
+            case BorderRightCss.PROP_NAME:
+                return this.getRightUnitColor()
+            case BorderTopCss.PROP_NAME:
+                return this.getTopUnitColor()
+            case BorderBottomCss.PROP_NAME:
+                return this.getBottomUnitColor()
+            case BorderGlobalCss.PROP_NAME:
+                return this.getGlobalUnitColor()
+        }
+
+        throw Error(`Can not fetch Default Border Unit  Color from property name ${propName}`)
+
+    }
+
+    private getLeftWidth(): string
     {
         let propName = BorderLeftCss.PROP_NAME
-        var prop = this.getProp(propName)
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
         if (prop) {
-            return prop.getClearValue()
+            return prop.getClearWidth()
         }
         var propBase = this.getBaseProp()
         if (propBase) {
-            return propBase.left
+            return propBase.getClearWidth()
         }
 
         return ''
     }
     
-    private getRight(): string
+    private getRightWidth(): string
     {
         let propName = BorderRightCss.PROP_NAME
-        var prop = this.getProp(propName)
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
         if (prop) {
-            return prop.getClearValue()
+            return prop.getClearWidth()
         }
         var propBase = this.getBaseProp()
         if (propBase) {
-            return propBase.right
+            return propBase.getClearWidth()
         }
 
         return ''
     }
     
-    private getTop(): string
+    private getTopWidth(): string
     {
         let propName = BorderTopCss.PROP_NAME
-        var prop = this.getProp(propName)
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
         if (prop) {
-            return prop.getClearValue()
+            return prop.getClearWidth()
         }
         var propBase = this.getBaseProp()
         if (propBase) {
-            return propBase.top
+            return propBase.getClearWidth()
         }
 
         return ''
     }
     
-    private getBottom(): string
+    private getBottomWidth(): string
     {
         let propName = BorderBottomCss.PROP_NAME
-        var prop = this.getProp(propName)
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
         if (prop) {
-            return prop.getClearValue()
+            return prop.getClearWidth()
         }
         var propBase = this.getBaseProp()
         if (propBase) {
-            return propBase.bottom
+            return propBase.getClearWidth()
         }
 
         return ''
     }
     
-    private getGlobal(): string
+    private getGlobalWidth(): string
     {
-        var propBase = this.getBaseProp()
+        var propBase: BaseBorderCss = this.getBaseProp()
         if (propBase) {
-            if (propBase.amountValues() == 1) {
-
-                return propBase.getClearValue()
-            }
+            return propBase.getClearWidth()
         }
 
         return ''
     }
 
-    private getLeftUnit(): UnitSize
+    private getLeftStyle(): string
     {
         let propName = BorderLeftCss.PROP_NAME
-        var prop = this.getProp(propName)
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
         if (prop) {
-            return prop.getUnit()
+            return prop.getClearStyle()
         }
         var propBase = this.getBaseProp()
         if (propBase) {
-            return propBase.getUnit()
+            return propBase.getClearStyle()
         }
 
-        return null
+        return ''
     }
-
-    private getRightUnit(): UnitSize
+    
+    private getRightStyle(): string
     {
         let propName = BorderRightCss.PROP_NAME
-        var prop = this.getProp(propName)
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
         if (prop) {
-            return prop.getUnit()
+            return prop.getClearStyle()
         }
         var propBase = this.getBaseProp()
         if (propBase) {
-            return propBase.getUnit()
+            return propBase.getClearStyle()
         }
 
-        return null
+        return ''
     }
     
-    private getTopUnit(): UnitSize
+    private getTopStyle(): string
     {
         let propName = BorderTopCss.PROP_NAME
-        var prop = this.getProp(propName)
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
         if (prop) {
-            return prop.getUnit()
+            return prop.getClearStyle()
         }
         var propBase = this.getBaseProp()
         if (propBase) {
-            return propBase.getUnit()
+            return propBase.getClearStyle()
         }
 
-        return null
+        return ''
     }
     
-    private getBottomUnit(): UnitSize
+    private getBottomStyle(): string
     {
         let propName = BorderBottomCss.PROP_NAME
-        var prop = this.getProp(propName)
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
         if (prop) {
-            return prop.getUnit()
+            return prop.getClearStyle()
         }
         var propBase = this.getBaseProp()
         if (propBase) {
-            return propBase.getUnit()
+            return propBase.getClearStyle()
+        }
+
+        return ''
+    }
+    
+    private getGlobalStyle(): string
+    {
+        var propBase: BaseBorderCss = this.getBaseProp()
+        if (propBase) {
+            return propBase.getClearStyle()
+        }
+
+        return ''
+    }
+
+    private getLeftColor(): string
+    {
+        let propName = BorderLeftCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getClearColor()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getClearColor()
+        }
+
+        return ''
+    }
+    
+    private getRightColor(): string
+    {
+        let propName = BorderRightCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getClearColor()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getClearColor()
+        }
+
+        return ''
+    }
+    
+    private getTopColor(): string
+    {
+        let propName = BorderTopCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getClearColor()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getClearColor()
+        }
+
+        return ''
+    }
+    
+    private getBottomColor(): string
+    {
+        let propName = BorderBottomCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getClearColor()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getClearColor()
+        }
+
+        return ''
+    }
+    
+    private getGlobalColor(): string
+    {
+        var propBase: BaseBorderCss = this.getBaseProp()
+        if (propBase) {
+            return propBase.getClearColor()
+        }
+
+        return ''
+    }
+
+    private getLeftUnitWidth(): UnitSize
+    {
+        let propName = BorderLeftCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getWidthUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getWidthUnit()
+        }
+
+        return null
+    }
+
+    private getRightUnitWidth(): UnitSize
+    {
+        let propName = BorderRightCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getWidthUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getWidthUnit()
         }
 
         return null
     }
     
-    private getGlobalUnit(): UnitSize
+    private getTopUnitWidth(): UnitSize
     {
+        let propName = BorderTopCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getWidthUnit()
+        }
         var propBase = this.getBaseProp()
         if (propBase) {
-            if (propBase.amountValues() == 1) {
-
-                return propBase.getUnit()
-            }
+            return propBase.getWidthUnit()
         }
 
         return null
     }
+    
+    private getBottomUnitWidth(): UnitSize
+    {
+        let propName = BorderBottomCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getWidthUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getWidthUnit()
+        }
+
+        return null
+    }
+    
+    private getGlobalUnitWidth(): UnitSize
+    {
+        let propName = BorderGlobalCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getWidthUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getWidthUnit()
+        }
+
+        return null
+    }
+
+    private getLeftUnitStyle(): Unit
+    {
+        let propName = BorderLeftCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getTypeUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getTypeUnit()
+        }
+
+        return null
+    }
+
+    private getRightUnitStyle(): Unit
+    {
+        let propName = BorderRightCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getTypeUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getTypeUnit()
+        }
+
+        return null
+    }
+    
+    private getTopUnitStyle(): Unit
+    {
+        let propName = BorderTopCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getTypeUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getTypeUnit()
+        }
+
+        return null
+    }
+    
+    private getBottomUnitStyle(): Unit
+    {
+        let propName = BorderBottomCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getTypeUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getTypeUnit()
+        }
+
+        return null
+    }
+    
+    private getGlobalUnitStyle(): Unit
+    {
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getTypeUnit()
+        }
+
+        return null
+    }
+
+
+
+    private getLeftUnitColor(): UnitColor
+    {
+        let propName = BorderLeftCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getColorUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getColorUnit()
+        }
+
+        return null
+    }
+
+    private getRightUnitColor(): UnitColor
+    {
+        let propName = BorderRightCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getColorUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getColorUnit()
+        }
+
+        return null
+    }
+    
+    private getTopUnitColor(): UnitColor
+    {
+        let propName = BorderTopCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getColorUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getColorUnit()
+        }
+
+        return null
+    }
+    
+    private getBottomUnitColor(): UnitColor
+    {
+        let propName = BorderBottomCss.PROP_NAME
+        var prop: BaseBorderCss = <BaseBorderCss>this.getProp(propName)
+        if (prop) {
+            return prop.getColorUnit()
+        }
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getColorUnit()
+        }
+
+        return null
+    }
+    
+    private getGlobalUnitColor(): UnitColor
+    {
+        var propBase = this.getBaseProp()
+        if (propBase) {
+            return propBase.getColorUnit()
+        }
+
+        return null
+    }
+
+
 
 
     private getProp(propName)

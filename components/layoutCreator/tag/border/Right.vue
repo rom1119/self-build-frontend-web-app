@@ -3,13 +3,12 @@
     <div class="stretch stretch__flex absolute cursor-resize-to-right"  style="opacity: 0 !important;"
         :style="value.cssList" 
         v-show="value.isActive()"
-        v-context-menu="value.uuid" 
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut" 
         :key="value.updateComponentKey"
     >
-        <border-html-context-menu :value="value"  :ref="value.uuid" />
+        <!-- <border-html-context-menu :value="value"  :ref="contextMenuName" /> -->
         <div class="stretch" 
            >
         </div>
@@ -29,7 +28,7 @@ import BorderComponent from './Border.vue';
 @Component
 export default class BorderRightComponent extends BorderComponent {
     
-    contextMenuName = 'cm-create-html-element123'
+    contextMenuName = 'cm-border-right-component-'
     onMouseOver() {            
         super.onMouseOver(this)
     }

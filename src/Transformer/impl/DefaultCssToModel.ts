@@ -11,6 +11,9 @@ import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
 import CssToModel from '../CssToModel';
 import StyleCssModel from '~/types/StyleCssModel';
+import CssDoubleValue from '../../Css/CssDoubleValue';
+import CssTripleValue from '~/src/Css/CssTripleValue';
+import BaseBorderCss from '../../Css/Border/BaseBorderCss';
 export default class DefaultCssToModel implements CssToModel
 {
 
@@ -32,6 +35,33 @@ export default class DefaultCssToModel implements CssToModel
         }
         let model = new StyleCssModel(domain.getName(), value, domain.getUnit().name)
         model.id = domain.id
+
+        // @ts-ignore
+        if (typeof domain.getWidth === 'function') {
+            var domainCastBorder: BaseBorderCss = <BaseBorderCss><unknown>domain
+            model.setValue(domainCastBorder.getClearWidth())
+            model.setUnitName(domainCastBorder.getUnit().name)
+        }
+        // @ts-ignore
+        if (typeof domain.getSecondValue === 'function') {
+            var domainCast: CssDoubleValue = <CssDoubleValue><unknown>domain
+            model.setValueSecond(domainCast.getSecondValue())
+            model.setUnitNameSecond(domainCast.getSecondUnit().name)
+        }
+
+        // @ts-ignore
+        if (typeof domain.getThirdValue === 'function') {
+            var domainCastThird: CssTripleValue = <CssTripleValue><unknown>domain
+            if (typeof domainCastThird.getThirdValue() === 'object') {
+                var valueJsonStr = JSON.stringify(domainCastThird.getThirdValue())
+                model.setValueThird(valueJsonStr)
+            } else {
+                model.setValueThird(domainCastThird.getThirdValue())
+
+            }
+
+            model.setUnitNameThird(domainCastThird.getThirdUnit().name)
+        }
         // this.cssFactoryFromName.create(model.getKey())
         // var unit = this.unitCssFactoryFromName.create(model.getUnitName())
         // domain.setValue(model.getValue())

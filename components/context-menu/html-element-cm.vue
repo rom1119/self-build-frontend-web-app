@@ -3,8 +3,8 @@
         shift="both"
         ref="wrapped-context-menu">
         <context-menu
-        shift="both"
-        :ref="createElementNameCM">
+            shift="both"
+            :ref="createElementNameCM">
 
                 <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
          

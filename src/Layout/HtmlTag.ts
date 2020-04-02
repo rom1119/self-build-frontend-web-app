@@ -47,6 +47,7 @@ import ActivableTagToManage from "../ActivableTagToManage";
 import HtmlTagPropertyAccessor from '../Css/PropertyAccessor/HtmlTagPropertyAccessor';
 import HtmlTagSynchronizer from "../Synchronizer/Impl/HtmlTagSynchronizer";
 import HtmlNode from "./HtmlNode";
+import BorderFetcherRealCssProp from "../BorderFetcherRealCssProp";
 
 
 export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage
@@ -97,7 +98,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
-    borderRealFetcher: FetcherRealCssProp = new BorderRealCssFetcher(this)
+    borderRealFetcher: BorderFetcherRealCssProp = new BorderRealCssFetcher(this)
 
     protected synchronizer: HtmlTagSynchronizer
     api: ApiService
@@ -189,7 +190,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     public injectInitialCssStyles()
     {
-        let border = new BorderGlobalCss('15px', new Named())
+        let border = new BorderGlobalCss('15', new Pixel())
         border.setType('dotted')
         border.setColor('blue', new Named())
         // console.log('PPPP', border.getValue());
@@ -443,7 +444,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             }
             
             if (prop instanceof BaseBorderCss) {
-
+                // return
                 let val = this.getComputedCssVal(prop)
                 let clonedCss = _.cloneDeep(prop)
                 // clonedCss.setValue(parseInt(val).toString())
@@ -490,7 +491,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             // @ts-ignore
             if (prop.isAuto()) {
                 this.getHtmlEl().style[prop.getName()] = 'auto'
-                this.getHtmlEl().style['margin-left'] = 'auto'
+                // this.getHtmlEl().style['margin-left'] = 'auto'
                 // throw Error('AJAJAJA')
             } else {
                 this.getHtmlEl().style[prop.getName()] = prop.getValue()
@@ -516,7 +517,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         if (this.sizeUnitCurrent instanceof Percent) {
             let css = this.cssList
                 
-            return css
+            // return css
             // return {
             //     width: `${this._width}${this.sizeUnitCurrent.value}`,
             //     height: `${this._height}${this.sizeUnitCurrent.value}`,

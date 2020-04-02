@@ -6,21 +6,65 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
+import CssTripleValue from "../CssTripleValue";
+import Named from '../../Unit/Named';
+import Vue from 'vue'
 
-export default abstract class BaseBorderCss extends CssDirectionComposite
+export default abstract class BaseBorderCss extends CssDirectionComposite implements CssTripleValue
 {
     private _widthUnit
     private _colorUnit
+    private _typeUnit
 
     constructor(val: any, unit: Unit)
     {
         super(val, unit)
         this.clearValue()
         if (unit) {
-
             this.values.push(unit.getValue(val))
+            Vue.set(this.values, 0, val)
+            // Vue.set(this, '', val)
+
             this._widthUnit = unit
         }
+        this._typeUnit = new Named()
+    }
+    getThirdValue(): string {
+        return this.values[2]
+    }
+    setThirdValue(val: string) {
+        if (this.values[2] !== 'undefined') {
+            this.values[2] = val
+        } else {
+            this.values.push(val)
+        }
+        Vue.set(this.values, 2, val)
+
+    }
+    getThirdUnit(): Unit {
+        return this._colorUnit
+    }
+    setThirdUnit(unit: Unit) {
+        this._colorUnit = unit
+    }
+    getSecondValue(): string {
+        return this.values[1]
+    }
+    setSecondValue(val: string) {
+        if (this.values[1] !== 'undefined') {
+            this.values[1] = val
+        } else {
+            this.values.push(val)
+        }
+
+        Vue.set(this.values, 1, val)
+
+    }
+    getSecondUnit(): Unit {
+        return this._typeUnit
+    }
+    setSecondUnit(unit: Unit) {
+        this._typeUnit = unit
     }
 
     setValue(val: string)
@@ -34,28 +78,32 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
         }
     }
 
-
     getValue(): string
     {
-        if (!this.values[0]) {
+        if (this.values[0] == 'undefined') {
             throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
         }
-        var val = ''
-        this.values.forEach(element => {
-            val += element + ' '
-        });
+        if (this.values[0].toString().length < 1) {
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+
+        }
+        // var val = ''
+        // this.values.forEach(element => {
+        //     val += element + ' '
+        // });
         
-        return val
+        return `${this.getWidth()} ${this.getType()} ${this.getColor()}`
     }
 
     public setWidth(val: number, unit: UnitSize)
     {
         if (this.values[0] !== 'undefined') {
-            this.values[0] = unit.getValue(val)
+            this.values[0] = val
         } else {
-            this.values.push(unit.getValue(val))
+            this.values.push(val)
         }
 
+        Vue.set(this.values, 0, val)
         this._widthUnit = unit
 
     }
@@ -67,33 +115,116 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
         } else {
             this.values.push(val)
         }
+
+        Vue.set(this.values, 1, val)
+
     }
     
-    public setColor(val: string, unit: UnitColor)
+    public setColor(val: any, unit: UnitColor)
     {
         if (this.values[2] !== 'undefined') {
-            this.values[2] = unit.getValue(val)
+            this.values[2] = val
         } else {
-            this.values.push(unit.getValue(val))
+            this.values.push(val)
         }
+
+        Vue.set(this.values, 2, val)
+
 
         this._colorUnit = unit
 
     }
 
-    public getWidth(): string
+    public getClearWidth(): string
     {
         return this.values[0]
     }
     
-    public getType(): string
+    public getClearStyle(): string
     {
         return this.values[1]
     }
     
-    public getColor(): string
+    public getClearColor(): string
     {
         return this.values[2]
+    }
+
+    get clearWidth()
+    {
+        return this.values[0]
+    }
+    
+    set clearWidth(val)
+    {
+        if (this.values[0] !== 'undefined') {
+            this.values[0] = val
+        } else {
+            this.values.push(val)
+        }
+
+        Vue.set(this.values, 0, val)
+
+    }
+    
+    
+    
+    set clearWidthUnit(val)
+    {
+
+        Vue.set(this, '_widthUnit', val)
+
+    }
+    
+    get clearWidthUnit()
+    {
+        return this._widthUnit
+    }
+
+    get clearStyle()
+    {
+        return this.values[1]
+    }
+    
+    set clearStyle(val)
+    {
+        if (this.values[1] !== 'undefined') {
+            this.values[1] = val
+
+        } else {
+            this.values.push(val)
+        }
+        Vue.set(this.values, 1, val)
+    }
+    
+    get clearColor()
+    {
+        return this.values[2]
+    }
+    
+    set clearColor(val)
+    {
+        if (this.values[2] !== 'undefined') {
+            this.values[2] = val
+        } else {
+            this.values.push(val)
+        }
+        Vue.set(this.values, 2, val)
+    }
+
+    public getWidth(): string
+    {
+        return this._widthUnit ? this._widthUnit.getValue(this.values[0]) : ''
+    }
+    
+    public getType(): string
+    {
+        return this._typeUnit ? this._typeUnit.getValue(this.values[1]) : ''
+    }
+    
+    public getColor(): string
+    {
+        return this._colorUnit ? this._colorUnit.getValue(this.values[2]) : ''
     }
 
     public getWidthUnit()
@@ -104,5 +235,10 @@ export default abstract class BaseBorderCss extends CssDirectionComposite
     public getColorUnit()
     {
         return this._colorUnit
+    }
+
+    public getTypeUnit()
+    {
+        return this._typeUnit
     }
 }

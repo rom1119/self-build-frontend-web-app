@@ -35,6 +35,16 @@ export default class StyleCss
 
     }
 
+    public setValue(val)
+    {
+        this._val = val
+    }
+    
+    public setUnitName(val)
+    {
+        this._unitName = val
+    }
+
     public setValueSecond(val)
     {
         this._valueSecond = val

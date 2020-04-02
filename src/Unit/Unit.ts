@@ -2,12 +2,21 @@ import AggregateRoot from '../../types/AggregateRoot';
 export default abstract class Unit extends AggregateRoot {
 
     protected _name: string
+    protected _label: string
     /**
      * getName
      */
     public get name() : string 
     {
         return this._name
+    }
+    
+    /**
+     * getLabel
+     */
+    public get label() : string 
+    {
+        return this._label
     }
 
 

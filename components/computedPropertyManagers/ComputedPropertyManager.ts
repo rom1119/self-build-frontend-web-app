@@ -6,7 +6,7 @@ import HtmlTag from "~/src/Layout/HtmlTag";
 export default interface ComputedPropertyManager {
 
     init()
-    setFetcher(paddingRealFetcher: FetcherRealCssProp)
+    setFetcher(realFetcher)
     setHtmlEl(val: HtmlTag)
     deactiveGlobalPropCss(newProp: BasePropertyCss)
     deactivePropCss(newProp: BasePropertyCss)

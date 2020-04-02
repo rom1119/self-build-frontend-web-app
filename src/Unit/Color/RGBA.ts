@@ -6,6 +6,8 @@ export default class RGBA extends UnitColor {
     
     public static PROP_NAME = 'rgba-color-unit'
     protected _name: string = RGBA.PROP_NAME
+    protected _label: string = 'rgba'
+
     private r
     private g
     private b

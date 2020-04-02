@@ -16,111 +16,169 @@
                     Padding
                 </h4>
                 <!-- BOX MODEL FOR FEATURE -->
-                <!-- <div class=" content-item__elem_container rel w-550 h-550">
-                    <div class="margin-box-model">
+                <div  class=" box-model content-item__elem_container rel w-400 h-400">
+                    <div v-if="value" class="margin-box-model">
+                        
+                        <site-box-model-element
+                            @changeHasProp="hasMarginTop = $event"
+                            @changeProp="marginTop = $event"
+                            @changePropUnit="marginUnitTop = $event"
+                            :hasProperty="hasMarginTop"
+                            :property="marginTop"
+                            :propertyUnit="marginUnitTop"
+                            :classList="['top-margin','margin']"
+                            :contextMenuName="value.uuid.concat('-margin-top-box')"
+                        />
+                        <site-box-model-element
+                            @changeHasProp="hasMarginBottom = $event"
+                            @changeProp="marginBottom = $event"
+                            @changePropUnit="marginUnitBottom = $event"
+                            :hasProperty="hasMarginBottom"
+                            :property="marginBottom"
+                            :propertyUnit="marginUnitBottom"
+                            :classList="['bottom-margin','margin']"
+                            :contextMenuName="value.uuid.concat('-margin-bottom-box')"
+                        />
+                        
+                        <site-box-model-element 
+                            :propAuto="marginLeftAuto"
+                            :setPropAuto="true"
+                            @clickAuto="setPropMarginAuto(marginManager.leftProperty)"
+                            @changeHasProp="hasMarginLeft = $event"
+                            @changeProp="marginLeft = $event"
+                            @changePropUnit="marginUnitLeft = $event"
+                            :hasProperty="hasMarginLeft"
+                            :property="marginLeft"
+                            :propertyUnit="marginUnitLeft"
+                            :classList="['left-margin','margin']"
+                            :contextMenuName="value.uuid.concat('-margin-left-box')"
+                        />
+                        
+                        <site-box-model-element 
+                            :propAuto="marginRightAuto"
+                            :setPropAuto="true"
+                            @clickAuto="setPropMarginAuto(marginManager.rightProperty)"
+                            @changeHasProp="hasMarginRight = $event"
+                            @changeProp="marginRight = $event"
+                            @changePropUnit="marginUnitRight = $event"
+                            :hasProperty="hasMarginRight"
+                            :property="marginRight"
+                            :propertyUnit="marginUnitRight"
+                            :classList="['right-margin','margin']"
+                            :contextMenuName="value.uuid.concat('-margin-right-box')"
+                        />
+                        
+                        
+                        <site-box-model-element 
+                            :globalEl="true"
+                            @changeHasProp="hasMarginGlobal = $event"
+                            @changeProp="marginGlobal = $event"
+                            @changePropUnit="marginUnitGlobal = $event"
+                            :hasProperty="hasMarginGlobal"
+                            :property="marginGlobal"
+                            :propertyUnit="marginUnitGlobal"
+                            :classList="['global-margin','margin']"
+                            :contextMenuName="value.uuid.concat('-margin-global-box')"
+                        />
                         <div class="border-box-model">
+                            <border-site-model-element
+                                @changeProperty="marginUnitTop = $event"
+                                :property="borderTop"
+                                :borderManager="borderManager"
+                                :classList="['top-border','border']"
+                                :contextMenuName="value.uuid.concat('-border-top-box')"
+                            />
+                            <border-site-model-element
+                                :globalEl="true"
+                                @changeProperty="marginUnitTop = $event"
+                                :property="borderGlobal"
+                                :borderManager="borderManager"
+                                :classList="['global-border','border']"
+                                :contextMenuName="value.uuid.concat('-border-global-box')"
+                            />
+                            <div class="right-border border"></div>
+                            <div class="bottom-border border"></div>
+                            <div class="left-border border"></div>
                             <div class="padding-box-model">
+                                
+                                    <site-box-model-element
+                                        @changeHasProp="hasPaddingTop = $event"
+                                        @changeProp="paddingTop = $event"
+                                        @changePropUnit="paddingUnitTop = $event"
+                                        :hasProperty="hasPaddingTop"
+                                        :property="paddingTop"
+                                        :propertyUnit="paddingUnitTop"
+                                        :classList="['top-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-padding-top-box')"
+                                    />
+                                    <site-box-model-element
+                                        @changeHasProp="hasPaddingBottom = $event"
+                                        @changeProp="paddingBottom = $event"
+                                        @changePropUnit="paddingUnitBottom = $event"
+                                        :hasProperty="hasPaddingBottom"
+                                        :property="paddingBottom"
+                                        :propertyUnit="paddingUnitBottom"
+                                        :classList="['bottom-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-padding-bottom-box')"
+                                    />
+                                    
+                                    <site-box-model-element 
+                                        @changeHasProp="hasPaddingLeft = $event"
+                                        @changeProp="paddingLeft = $event"
+                                        @changePropUnit="paddingUnitLeft = $event"
+                                        :hasProperty="hasPaddingLeft"
+                                        :property="paddingLeft"
+                                        :propertyUnit="paddingUnitLeft"
+                                        :classList="['left-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-padding-left-box')"
+                                    />
+                                    
+                                    <site-box-model-element 
+                                        @changeHasProp="hasPaddingRight = $event"
+                                        @changeProp="paddingRight = $event"
+                                        @changePropUnit="paddingUnitRight = $event"
+                                        :hasProperty="hasPaddingRight"
+                                        :property="paddingRight"
+                                        :propertyUnit="paddingUnitRight"
+                                        :classList="['right-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-padding-right-box')"
+                                    />
+                                    
+                                    <site-box-model-element 
+                                        @changeHasProp="hasPaddingRight = $event"
+                                        @changeProp="paddingRight = $event"
+                                        @changePropUnit="paddingUnitRight = $event"
+                                        :hasProperty="hasPaddingRight"
+                                        :property="paddingRight"
+                                        :propertyUnit="paddingUnitRight"
+                                        :classList="['right-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-padding-right-box')"
+                                    />
+                                    
+                                    <site-box-model-element 
+                                        :globalEl="true"
+                                        @changeHasProp="hasPaddingGlobal = $event"
+                                        @changeProp="paddingGlobal = $event"
+                                        @changePropUnit="paddingUnitGlobal = $event"
+                                        :hasProperty="hasPaddingGlobal"
+                                        :property="paddingGlobal"
+                                        :propertyUnit="paddingUnitGlobal"
+                                        :classList="['global-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-padding-global-box')"
+                                    />
+                                        
+                                    
+    
                                 <div class="content-box-model">
                         
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> -->
-                <div class="content-item__elem_container ">
-                     <div :class="{'active': hasPaddingTop}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasPaddingTop === true ? hasPaddingTop = false : hasPaddingTop = true" class="item">
-                            Padding-top
-
-                        </div>
-                        <div class="item" >
-                            Value
-                            <input v-if="hasPaddingTop" class="item" type="number" v-model="paddingTop" name="paddingTop" id="padding-top">
-                            <input v-else disabled class="disabled item" type="number" v-model="paddingTop" name="paddingTop" id="padding-top">
-                        </div>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select v-if="hasPaddingTop" name="paddingUnitTop" class="item" v-model="paddingUnitTop" id="paddingUnitTop">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                        <select v-else disabled name="paddingUnitTop" class=" item" v-model="paddingUnitTop" id="paddingUnitTop">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-                    
-                    <div :class="{'active': hasPaddingRight}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasPaddingRight === true ? hasPaddingRight = false : hasPaddingRight = true" class="item">
-                            Padding-right
-                        </div>
-                        <div class="item" >
-                            <div>
-                                Value <button :class="{'green-bg': paddingRightAuto}" @click.stop="setPropPaddingAuto(paddingManager.rightProperty)"  class="auto-prop">auto</button>
-                            </div>
-                            <input v-if="hasPaddingRight" class="item" type="number" v-model="paddingRight" name="paddingRight" id="padding-right">
-                            <input v-else disabled class="disabled item" type="number" v-model="paddingRight" name="paddingRight" id="padding-right">
-
-                        </div>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select v-if="hasPaddingRight" name="paddingUnitRight" class="item" v-model="paddingUnitRight" id="paddingUnitRight">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                        <select v-else disabled name="paddingUnitRight" class=" item" v-model="paddingUnitRight" id="paddingUnitRight">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-                    
-                    <div :class="{'active': hasPaddingBottom}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasPaddingBottom === true ? hasPaddingBottom = false : hasPaddingBottom = true" class="item">
-                            Padding-bottom
-
-                        </div>
-                        <div class="item" >
-                            Value
-                            <input v-if="hasPaddingBottom" class="item" type="number" v-model="paddingBottom" name="paddingBottom" id="padding-bottom">
-                            <input v-else disabled class="disabled item" type="number" v-model="paddingBottom" name="paddingBottom" id="padding-bottom">
-
-                        </div>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select v-if="hasPaddingBottom" name="paddingUnitBottom" class="item" v-model="paddingUnitBottom" id="paddingUnitBottom">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                        <select v-else disabled name="paddingUnitBottom" class=" item" v-model="paddingUnitBottom" id="paddingUnitBottom">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-   
-                    <div :class="{'active': hasPaddingLeft}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasPaddingLeft === true ? hasPaddingLeft = false : hasPaddingLeft = true" class="item">
-                            Padding-left
-
-                        </div>
-                        <label class="item" for="padding-left">
-                            <div>
-                                Value <button :class="{'green-bg': paddingLeftAuto}" @click.stop="setPropPaddingAuto(paddingManager.leftProperty)"  class="auto-prop">auto</button>
-                            </div>
-                            <input v-if="hasPaddingLeft" class="item" type="number" v-model="paddingLeft" name="paddingLeft" id="padding-left">
-                            <input v-else disabled class="disabled item" type="number" v-model="paddingLeft" name="paddingLeft" id="padding-left">
-                        </label>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select v-if="hasPaddingLeft" name="paddingUnitLeft" class="item" v-model="paddingUnitLeft" id="paddingUnitLeft">
-                            <option disabled value="">Please select one</option>
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                        <select v-else disabled name="paddingUnitLeft" class=" item" v-model="paddingUnitLeft" id="paddingUnitLeft">
-                            <option disabled value="">Please select one</option>
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-                    
                 </div>
-                <div  class=" content-item__elem_container flex-center">
+                <!-- <div class="content-item__elem_container "> -->
+                    
+                <!-- <div  class=" content-item__elem_container flex-center">
                     <div :class="{'active': hasPaddingGlobal}" class="content-item__elem content-item__elem-4" >
                         <div @click="hasPaddingGlobal === true ? hasPaddingGlobal = false : hasPaddingGlobal = true" class="item">
                             Padding-global
@@ -138,125 +196,8 @@
                         </select>
                     </div>
                     
-                </div>
-            </div>
-            <div class="content-item">
-                <h4 class="content-item__header">
-                    Margin
-                </h4>
-                <div class="content-item__elem_container ">
-                     <div :class="{'active': hasMarginTop}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasMarginTop === true ? hasMarginTop = false : hasMarginTop = true" class="item">
-                            Margin-top
-
-                        </div>
-                        <div class="item" >
-                            Value
-                            <input v-if="hasMarginTop" class="item" type="number" v-model="marginTop" name="marginTop" id="margin-top">
-                            <input v-else disabled class="disabled item" type="number" v-model="marginTop" name="marginTop" id="margin-top">
-
-                        </div>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select v-if="hasMarginTop" name="marginUnitTop" class="item" v-model="marginUnitTop" id="marginUnitTop">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                        <select v-else disabled name="marginUnitTop" class=" item" v-model="marginUnitTop" id="marginUnitTop">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-                    
-                    <div :class="{'active': hasMarginRight}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasMarginRight === true ? hasMarginRight = false : hasMarginRight = true" class="item">
-                            Margin-right
-                        </div>
-                        <div class="item" >
-                            <div>
-                                Value <button :class="{'green-bg': marginRightAuto}" @click.stop="setPropMarginAuto(marginManager.rightProperty)"  class="auto-prop">auto</button>
-                            </div>
-                            <input v-if="hasMarginRight" class="item" type="number" v-model="marginRight" name="marginRight" id="margin-right">
-                            <input v-else disabled class="disabled item" type="number" v-model="marginRight" name="marginRight" id="margin-right">
-
-                        </div>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select v-if="hasMarginRight" name="marginUnitRight" class="item" v-model="marginUnitRight" id="marginUnitRight">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                        <select v-else disabled name="marginUnitRight" class=" item" v-model="marginUnitRight" id="marginUnitRight">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-                    
-                    <div :class="{'active': hasMarginBottom}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasMarginBottom === true ? hasMarginBottom = false : hasMarginBottom = true" class="item">
-                            Margin-bottom
-
-                        </div>
-                        <div class="item" >
-                            Value
-                            <input v-if="hasMarginBottom" class="item" type="number" v-model="marginBottom" name="marginBottom" id="margin-bottom">
-                            <input v-else disabled class="disabled item" type="number" v-model="marginBottom" name="marginBottom" id="margin-bottom">
-
-                        </div>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select v-if="hasMarginBottom" name="marginUnitBottom" class="item" v-model="marginUnitBottom" id="marginUnitBottom">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                        <select v-else disabled name="marginUnitBottom" class=" item" v-model="marginUnitBottom" id="marginUnitBottom">
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-   
-                    <div :class="{'active': hasMarginLeft}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasMarginLeft === true ? hasMarginLeft = false : hasMarginLeft = true" class="item">
-                            Margin-left
-
-                        </div>
-                        <label class="item" for="margin-left">
-                            <div>
-                                Value <button :class="{'green-bg': marginLeftAuto}" @click.stop="setPropMarginAuto(marginManager.leftProperty)"  class="auto-prop">auto</button>
-                            </div>
-                            <input v-if="hasMarginLeft" class="item" type="number" v-model="marginLeft" name="marginLeft" id="margin-left">
-                            <input v-else disabled class="disabled item" type="number" v-model="marginLeft" name="marginLeft" id="margin-left">
-                        </label>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select v-if="hasMarginLeft" name="marginUnitLeft" class="item" v-model="marginUnitLeft" id="marginUnitLeft">
-                            <option disabled value="">Please select one</option>
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                        <select v-else disabled name="marginUnitLeft" class=" item" v-model="marginUnitLeft" id="marginUnitLeft">
-                            <option disabled value="">Please select one</option>
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-                    
-                </div>
-                <div  class=" content-item__elem_container flex-center">
-                    <div :class="{'active': hasMarginGlobal}" class="content-item__elem content-item__elem-4" >
-                        <div @click="hasMarginGlobal === true ? hasMarginGlobal = false : hasMarginGlobal = true" class="item">
-                            Margin-global
-                        </div>
-                        <label class="item" for="margin-global">
-                            Value
-                            <input class="item" type="number" v-model="marginGlobal" name="marginGlobal" id="margin-global">
-                        </label>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select name="marginUnitGlobal" class="item" v-model="marginUnitGlobal" id="marginUnitGlobal">
-                            <option disabled value="">Please select one</option>
-                            <option v-for="unit in allUnits" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
-                    </div>
-                    
-                </div>
+                </div> -->
+            
             </div>
         </template>
         <template slot="footer">
@@ -308,6 +249,7 @@ import MarginBottomCss from '~/src/Css/BoxModel/Margin/MarginBottomCss';
 import MarginRightCss from '~/src/Css/BoxModel/Margin/MarginRightCss';
 import MarginTopCss from '~/src/Css/BoxModel/Margin/MarginTopCss';
 import CssAuto from '~/src/Css/CssAuto';
+import BaseBorderCss from '../../src/Css/Border/BaseBorderCss';
 
     @Component
     export default class BoxModelManageModal extends BoxModelModal {
@@ -328,6 +270,8 @@ import CssAuto from '~/src/Css/CssAuto';
         fontWeights: string[] = FontWeight.getAccessableProperty()
         // _paddingLeft: BasePaddingCss
 
+        
+
         idName = 'text-property-modal'
 
         created()
@@ -338,18 +282,18 @@ import CssAuto from '~/src/Css/CssAuto';
             this.allUnits.push(new REM())
             this.allUnits.push(new VW())
             this.allUnits.push(new VH())
-
+            
         }
 
         // *****************************************  PADDING ****************************************************
 
         // PADDING RIGHT
-        set paddingUnitTop(newVal: string)
+        set paddingUnitTop(newVal: UnitSize)
         {
             this.setPropPaddingUnit(newVal, this.paddingManager.topProperty)
         }
         
-        get paddingUnitTop(): string
+        get paddingUnitTop(): UnitSize
         {
             return this.getUnitPropVal(this.paddingManager.topProperty)
         }
@@ -391,12 +335,12 @@ import CssAuto from '~/src/Css/CssAuto';
         }
 
         // PADDING RIGHT
-        set paddingUnitRight(newVal: string)
+        set paddingUnitRight(newVal: UnitSize)
         {
             this.setPropPaddingUnit(newVal, this.paddingManager.rightProperty)
         }
         
-        get paddingUnitRight(): string
+        get paddingUnitRight(): UnitSize
         {
             return this.getUnitPropVal(this.paddingManager.rightProperty)
         }
@@ -453,12 +397,12 @@ import CssAuto from '~/src/Css/CssAuto';
         }
 
         // PADDING BOTTOM
-        set paddingUnitBottom(newVal: string)
+        set paddingUnitBottom(newVal: UnitSize)
         {
             this.setPropPaddingUnit(newVal, this.paddingManager.bottomProperty)
         }
         
-        get paddingUnitBottom(): string
+        get paddingUnitBottom(): UnitSize
         {
             return this.getUnitPropVal(this.paddingManager.bottomProperty)
         }
@@ -485,12 +429,12 @@ import CssAuto from '~/src/Css/CssAuto';
         }
 
         // PADDING LEFT
-        set paddingUnitLeft(newVal: string)
+        set paddingUnitLeft(newVal: UnitSize)
         {
             this.setPropPaddingUnit(newVal, this.paddingManager.leftProperty)
         }
         
-        get paddingUnitLeft(): string
+        get paddingUnitLeft(): UnitSize
         {
             return this.getUnitPropVal(this.paddingManager.leftProperty)
         }
@@ -524,13 +468,13 @@ import CssAuto from '~/src/Css/CssAuto';
 
         // PADDING GLOBAL
         
-        set paddingUnitGlobal(newVal: string)
+        set paddingUnitGlobal(newVal: UnitSize)
         {
             this.setPropPaddingUnit(newVal, this.paddingManager.globalProperty)
             this.setDirectionsPaddingsFromVal(this.paddingManager.globalProperty.getClearValue(), this.paddingManager.globalProperty.getUnit())
         }
         
-        get paddingUnitGlobal(): string
+        get paddingUnitGlobal(): UnitSize
         {
             return this.getUnitPropVal(this.paddingManager.globalProperty)
         }
@@ -560,12 +504,12 @@ import CssAuto from '~/src/Css/CssAuto';
         // *****************************************  MARGIN ****************************************************
 
         // MARGIN TOP
-        set marginUnitTop(newVal: string)
+        set marginUnitTop(newVal: UnitSize)
         {
             this.setPropMarginUnit(newVal, this.marginManager.topProperty)
         }
         
-        get marginUnitTop(): string
+        get marginUnitTop(): UnitSize
         {
             return this.getUnitPropVal(this.marginManager.topProperty)
         }
@@ -592,12 +536,12 @@ import CssAuto from '~/src/Css/CssAuto';
         }
 
         // MARGIN RIGHT
-        set marginUnitRight(newVal: string)
+        set marginUnitRight(newVal: UnitSize)
         {
             this.setPropMarginUnit(newVal, this.marginManager.rightProperty)
         }
         
-        get marginUnitRight(): string
+        get marginUnitRight(): UnitSize
         {
             return this.getUnitPropVal(this.marginManager.rightProperty)
         }
@@ -630,12 +574,12 @@ import CssAuto from '~/src/Css/CssAuto';
         }
 
         // MARGIN BOTTOM
-        set marginUnitBottom(newVal: string)
+        set marginUnitBottom(newVal: UnitSize)
         {
             this.setPropMarginUnit(newVal, this.marginManager.bottomProperty)
         }
         
-        get marginUnitBottom(): string
+        get marginUnitBottom(): UnitSize
         {
             return this.getUnitPropVal(this.marginManager.bottomProperty)
         }
@@ -662,12 +606,12 @@ import CssAuto from '~/src/Css/CssAuto';
         }
 
         // MARGIN LEFT
-        set marginUnitLeft(newVal: string)
+        set marginUnitLeft(newVal: UnitSize)
         {
             this.setPropMarginUnit(newVal, this.marginManager.leftProperty)
         }
         
-        get marginUnitLeft(): string
+        get marginUnitLeft(): UnitSize
         {
             return this.getUnitPropVal(this.marginManager.leftProperty)
         }
@@ -695,19 +639,19 @@ import CssAuto from '~/src/Css/CssAuto';
 
         get marginLeftAuto(): boolean
         {
-            return (<BasePaddingCss>this.marginManager.leftProperty).isAuto()
+            return (<BaseMarginCss>this.marginManager.leftProperty).isAuto()
 
         }
 
         // MARGIN GLOBAL
         
-        set marginUnitGlobal(newVal: string)
+        set marginUnitGlobal(newVal: UnitSize)
         {
             this.setPropMarginUnit(newVal, this.marginManager.globalProperty)
             this.setDirectionsMarginsFromVal(this.marginManager.globalProperty.getClearValue(), this.marginManager.globalProperty.getUnit())
         }
         
-        get marginUnitGlobal(): string
+        get marginUnitGlobal(): UnitSize
         {
             return this.getUnitPropVal(this.marginManager.globalProperty)
         }
@@ -734,20 +678,36 @@ import CssAuto from '~/src/Css/CssAuto';
 
         // *****************************************  MARGIN - END ****************************************************
 
+
+        // *****************************************  BORDER ****************************************************
+
+
+        get borderTop(): BaseBorderCss
+        {
+            return this.borderManager.topProperty
+        }
+        
+        get borderGlobal(): BaseBorderCss
+        {
+            return this.borderManager.globalProperty
+        }
+
+        // *****************************************  BORDER - END ****************************************************
+
         private getHasProp(prop: BasePropertyCss){
             return  prop.active
         }
         
         private getUnitPropVal(prop: BasePropertyCss){
             if (!prop) {
-                return ''
+                return null
             }
             console.log('GET paddingUnitGlobal', prop.getUnit());
             if (prop.getUnit()) {
-                return prop.getUnit().name
+                return prop.getUnit()
             }
 
-            return ''
+            return null
         }
 
         private getProp(prop: BasePropertyCss, defaultVal)
@@ -807,7 +767,7 @@ import CssAuto from '~/src/Css/CssAuto';
                 return
             }
             // console.log('SET paddingUnitGlobal', newVal);
-            var newUnit = this.getUnitByName(this.allUnits, newVal)
+            var newUnit = newVal
             // this.updateUnitInModel(newUnit, PaddingCss.PROP_NAME)
             prop.setUnit(newUnit)
             this.updateCssPropWithPaddingFilter(prop)
@@ -904,17 +864,12 @@ import CssAuto from '~/src/Css/CssAuto';
 </script>
 
 <style lang="scss" scoped> 
-    .active {
+    
+        .auto-prop {
         background-color: red;
-    }
-    .disabled {
-        opacity: 0.6;
-    }
-    .auto-prop {
-        background-color: red;
-        padding: 3px;
-        margin-left: 3px;
-        border-radius: 5px;
+        // padding: 3px;
+        // margin-left: 3px;
+        // border-radius: 5px;
     }
     .green-bg {
         background-color: greenyellow;
@@ -927,51 +882,11 @@ import CssAuto from '~/src/Css/CssAuto';
     .h-550 {
         height: 550px;
     }
-    .w-550 {
-        width: 550px;
+    .w-400 {
+        width: 400px;
     }
-
-    .margin-box-model {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 1;
-        background-color: rgb(243, 206, 165)
+    
+    .h-400 {
+        height: 400px;
     }
-
-    .border-box-model {
-        width: 80%;
-        height: 80%;
-        position: absolute;
-        left: 60px;
-        top: 60px;
-        z-index: 2;
-        background-color: rgb(249, 222, 164)
-    }
-
-    .padding-box-model {
-        width: 70%;
-        height: 70%;
-        position: absolute;
-        left: 70px;
-        top: 70px;
-        z-index: 3;
-        background-color: rgb(200, 208, 147)
-
-    }
-
-    .content-box-model {
-        width: 50%;
-        height: 50%;
-        position: absolute;
-        left: 70px;
-        top: 70px;
-        z-index: 4;
-        background-color: rgb(148, 181, 192)
-
-    }
-
-
 </style>

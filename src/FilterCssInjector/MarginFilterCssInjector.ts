@@ -115,14 +115,19 @@ export default class MarginFilterCssInjector extends FilterCssInjector
     }
     public activateProp(cssProp: BaseMarginCss) {
         if (cssProp instanceof MarginLeftCss) {
+            this.updateVal(cssProp, this.htmlTag.marginLeft)
             this.htmlTag.marginLeft.activate()
         } else if (cssProp instanceof MarginRightCss) {
+            this.updateVal(cssProp, this.htmlTag.marginRight)
             this.htmlTag.marginRight.activate()
         } else if (cssProp instanceof MarginTopCss) {
+            this.updateVal(cssProp, this.htmlTag.marginTop)
             this.htmlTag.marginTop.activate()
         } else if (cssProp instanceof MarginBottomCss) {
+            this.updateVal(cssProp, this.htmlTag.marginBottom)
             this.htmlTag.marginBottom.activate()
         } else if (cssProp instanceof MarginCss) {
+            this.updateAllDirectionsVal(cssProp)
             this.htmlTag.marginLeft.activate()
             this.htmlTag.marginRight.activate()
             this.htmlTag.marginTop.activate()

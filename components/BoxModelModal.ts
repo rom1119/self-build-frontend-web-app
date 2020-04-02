@@ -24,21 +24,27 @@ import MarginCss from '~/src/Css/BoxModel/Margin/MarginCss'
 import DirectionComputedPropertyManager from './computedPropertyManagers/DirectionComputedPropertyManager'
 import PaddingComputedPropertyManager from './computedPropertyManagers/impl/PaddingComputedPropertyManager';
 import MarginComputedPropertyManager from './computedPropertyManagers/impl/MarginComputedPropertyManager'
+import BorderComputedPropertyManager from './computedPropertyManagers/impl/BorderComputedPropertyManager'
+import BaseBorderCss from '~/src/Css/Border/BaseBorderCss'
+import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp'
 
 
 export default abstract class BoxModelModal extends AbstractModal
 {
     paddingRealFetcher: FetcherRealCssProp
     marginRealFetcher: FetcherRealCssProp
+    borderRealFetcher: BorderFetcherRealCssProp
 
     paddingManager: DirectionComputedPropertyManager
     marginManager: DirectionComputedPropertyManager
+    borderManager: BorderComputedPropertyManager
 
     constructor()
     {
         super()
         this.paddingManager = new PaddingComputedPropertyManager()
         this.marginManager = new MarginComputedPropertyManager()
+        this.borderManager = new BorderComputedPropertyManager()
 
     }
 
@@ -46,12 +52,16 @@ export default abstract class BoxModelModal extends AbstractModal
         super.show(val)
         this.paddingRealFetcher = this.value.paddingRealFetcher
         this.marginRealFetcher = this.value.marginRealFetcher
+        this.borderRealFetcher = this.value.borderRealFetcher
         this.paddingManager.setHtmlEl(val)
         this.paddingManager.setFetcher(this.paddingRealFetcher)
         this.marginManager.setHtmlEl(val)
         this.marginManager.setFetcher(this.marginRealFetcher)
+        this.borderManager.setHtmlEl(val)
+        this.borderManager.setFetcher(this.borderRealFetcher)
         this.initPaddings()
         this.initMargins()
+        this.initBorders()
     }
 
     // PADDING METHODS
@@ -85,6 +95,39 @@ export default abstract class BoxModelModal extends AbstractModal
     updateCssPropWithPaddingFilter(prop: BasePropertyCss)
     {
         this.paddingManager.updateCssProp(prop)
+    }
+
+    // BORDERS METHODS
+    updateDirectionsBorders()
+    {
+        this.borderManager.updateDirections()
+    }
+
+    initBorders()
+    {   
+        this.borderManager.init()   
+    }
+
+    setDirectionsBordersFromVal(newVal, newUnit: UnitSize)
+    {
+        this.borderManager.setDirectionsPropertiesFromVal(newVal, newUnit)
+    }
+
+    deactiveGlobalBorderProp(prop: BaseBorderCss): any {
+        this.borderManager.deactiveGlobalPropCss(prop)
+    }
+    
+    deactiveBorderProp(prop: BaseBorderCss): any {
+        this.borderManager.deactivePropCss(prop)
+    }
+
+    activeBorderProp(prop: BaseBorderCss): any {
+        this.borderManager.activePropCss(prop)
+    }
+
+    updateCssPropWithBorderFilter(prop: BasePropertyCss)
+    {
+        this.borderManager.updateCssProp(prop)
     }
 
     // MARGIN METHODS

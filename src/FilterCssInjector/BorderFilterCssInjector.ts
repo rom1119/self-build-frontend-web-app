@@ -204,11 +204,11 @@ export default class BorderFilterCssInjector extends FilterCssInjector
     }
     
     updateAllDirectionsVal(cssProp: BaseBorderCss) {
-        var top: BasePropertyCss = new Height(cssProp.getWidth(), cssProp.getUnit());
-        var bottom: BasePropertyCss = new Height(cssProp.getWidth(), cssProp.getUnit());
+        var top: BasePropertyCss = new Height(cssProp.getClearWidth(), cssProp.getUnit());
+        var bottom: BasePropertyCss = new Height(cssProp.getClearWidth(), cssProp.getUnit());
         
-        var left: BasePropertyCss = new Width(cssProp.getWidth(), cssProp.getUnit());
-        var right: BasePropertyCss = new Width(cssProp.getWidth(), cssProp.getUnit());
+        var left: BasePropertyCss = new Width(cssProp.getClearWidth(), cssProp.getUnit());
+        var right: BasePropertyCss = new Width(cssProp.getClearWidth(), cssProp.getUnit());
 
         var leftProp = this.htmlTag.cssAccessor.getProperty(BorderLeftCss.PROP_NAME)
         var rightProp = this.htmlTag.cssAccessor.getProperty(BorderRightCss.PROP_NAME)
@@ -218,14 +218,16 @@ export default class BorderFilterCssInjector extends FilterCssInjector
         // console.log(right.getUnit());
         // console.log(cssProp.getType());
         // console.log(cssProp.getColor());
-        console.log('JAN');
-        console.log(right.getClearValue());
-        console.log(right.getUnit());
-        console.log(parseInt(right.getClearValue()))
+        // console.log('JAN');
+        // console.log(cssProp);
+        // console.log(right.getClearValue());
+        // console.log(right.getUnit());
+        // console.log(parseInt(right.getClearValue()))
         
         if (parseInt(right.getClearValue()) > -1 && !rightProp) {
             
-            console.log('JAJAJAright');
+            // console.log('JAJAJAright9999');
+            // console.log(right);
             // if (!rightProp.isActive()) {
 
             this.htmlTag.borderRight.width = parseInt(right.getClearValue())

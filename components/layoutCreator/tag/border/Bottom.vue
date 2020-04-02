@@ -1,6 +1,5 @@
 <template>
     <div  v-if="value != null" style="opacity: 0 !important;" class="cursor-resize-to-bottom absolute" 
-        v-context-menu="value.uuid"
         v-show="value.isActive()"
         @mousedown.stop="onMouseDown($event)"  
         @mouseover.stop="onMouseOver"
@@ -8,7 +7,7 @@
         :style="value.cssList"
         :key="value.updateComponentKey"
         >
-        <border-html-context-menu :value="value"  :ref="value.uuid" />
+        <!-- <border-html-context-menu :value="value"  :ref="contextMenuName" /> -->
 
         <div  
             
@@ -29,7 +28,7 @@ import BorderComponent from './Border.vue';
 @Component
 export default class BorderBottomComponent extends BorderComponent {
 
-    contextMenuName = 'cm-create-html-element123'
+    contextMenuName = 'cm-border-bottom-component-'
     
     onMouseOver() {            
         super.onMouseOver(this)

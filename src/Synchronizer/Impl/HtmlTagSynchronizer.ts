@@ -51,7 +51,7 @@ export default class HtmlTagSynchronizer implements Synchronizer
     {
         setTimeout(() => { 
 
-            this.setAsNowReadyToSynchronize()
+            // this.setAsNowReadyToSynchronize()
             this.updatePromise().then(
                 (arg) => {
                     console.log('success');

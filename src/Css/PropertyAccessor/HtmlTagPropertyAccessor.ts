@@ -15,8 +15,6 @@ export default class HtmlTagPropertyAccessor extends CssPropertyAccessor
     }
 
 
-
-
     public setNewPropertyValue(propName: string, newVal: BasePropertyCss): CssPropertyAccessor
     {
         super.setNewPropertyValue(propName, newVal)        
