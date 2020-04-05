@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.uuid" >
+    <component :is="value.getTagName()" class="wrapper" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.uuid" >
         
         <div class="none">
             <!-- <span :style="value.cssBoxList"  ></span> -->
@@ -170,7 +170,7 @@
                 </span>
             </span>        
         </span>
-    </div>
+    </component>
 </template>
 
 <script lang="ts">

@@ -30,7 +30,14 @@ export default class DefaultModelToCss implements ModelToCss
     transform(model: StyleCss): BasePropertyCss {
         var domain = this.cssFactoryFromName.create(model.getKey())
         var unit = this.unitCssFactoryFromName.create(model.getUnitName())
-        domain.setValue(model.getValue())
+
+        var val
+        if (unit instanceof RGBA) {
+            val = JSON.parse(model.getValue())
+        } else {
+            val = model.getValue()
+        }
+        domain.setValue(val)
         domain.setUnit(unit)
         domain.id = model.id
 

@@ -125,7 +125,7 @@ export default abstract class BoxModelModal extends AbstractModal
         this.borderManager.activePropCss(prop)
     }
 
-    updateCssPropWithBorderFilter(prop: BasePropertyCss)
+    updateCssPropWithBorderFilter(prop: BaseBorderCss)
     {
         this.borderManager.updateCssProp(prop)
     }

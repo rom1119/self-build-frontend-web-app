@@ -9,8 +9,8 @@
                 <code class="html" v-html="htmlContent">
                 </code>
             </pre>
-            <pre class="left-code code-section" >
-                <code class="html" v-html="cssContent">
+            <pre class="right-code code-section" >
+                <code class="css" v-html="cssContent">
                 </code>
             </pre>
         </div>

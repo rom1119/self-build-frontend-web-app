@@ -5,7 +5,7 @@
 
                 <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
          
-                <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
+                <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
   
     </context-menu>
 </template>
@@ -44,12 +44,15 @@ export default class CreateHtmlElementContextMenu extends Vue {
 
     }
 
-    createPElement(target, cm, a) {
-        // var el = this.htmlFactory.cre()
-        // this.value.push(el)
-        // this.$emit('createdTag', el)
-        // console.log(cm);
-        // other actions...
+    createDivElement(target, cm, a) {
+        var el = this.htmlFactory.createDiv()
+        el.injectInitialCssStyles()
+        this.value.push(el)
+        el.setProjectId(this.$route.params.id)
+        this.api.appendTagToProject(el)
+        el.synchronize()
+
+        this.$emit('createdTag', el)
     }
 }
 </script>

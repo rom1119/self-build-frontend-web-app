@@ -15,10 +15,13 @@ export default class HtmlTagFactoryFromName {
     createText(): TextNode {
         return this.htmlTagFactory.createText()
     }
+    
     create(name: string) : HtmlTag {
 
         switch (name) {
             case 'h1':
+                return this.htmlTagFactory.createH1()
+            case 'div':
                 return this.htmlTagFactory.createH1()
         }
         throw new UnableCreateDomainTagFromName(`Can not create tag from name ${name}`)

@@ -53,9 +53,20 @@ export default class HtmlTagSynchronizer implements Synchronizer
 
             // this.setAsNowReadyToSynchronize()
             this.updatePromise().then(
-                (arg) => {
+                (res) => {
                     console.log('success');
-                    console.log(arg);
+                    console.log(res);
+
+                    if (this.tag instanceof HtmlTag) {
+                        for (const cssRes of res.data.cssStyleList) {
+                            for (const cssDomain of this.tag.cssAccessor.all) {
+                                if (cssDomain.getName() === cssRes.name) {
+                                    cssDomain.id = cssRes.id
+                                }
+                            }
+                        }
+    
+                    }
                     this.setAsNowReadyToSynchronize()
                     this.apiSocket.sendMessage(this.tag.projectId)
 
