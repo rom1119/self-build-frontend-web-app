@@ -54,6 +54,7 @@ import {html} from 'js-beautify';
         htmlCode = ''
         cssCode = ''
         public SOCKET_MSG_NAME = `/queue/position-updates-user`
+        public SOCKET_MSG_NAME2 = `/user/user_TEST_ASD/queue/position-updates`
 
         mounted() {
             this.socketApi.connect()
@@ -70,7 +71,8 @@ import {html} from 'js-beautify';
                 }
             })
             setTimeout(() => {
-                this.socketApi.subscribeMsg(this.SOCKET_MSG_NAME + this.$route.params.sessionId)
+                // this.socketApi.subscribeMsg(this.SOCKET_MSG_NAME + this.$route.params.sessionId)
+                this.socketApi.subscribeMsg(this.SOCKET_MSG_NAME2)
             }, 2000)
 
         }
