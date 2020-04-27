@@ -22,6 +22,7 @@ import CssPropertyFactoryFromName from '../../Factory/CssPropertyFactoryFromName
 import LayoutEl from "~/src/LayoutEl";
 import TextNode from '../../Layout/TextNode';
 import HtmlNode from "~/src/Layout/HtmlNode";
+import CssResource from '../../Css/CssResource';
 
 export default class DefaultApiService implements ApiService
 {
@@ -116,6 +117,14 @@ export default class DefaultApiService implements ApiService
         let model = this.domainToModelTransformer.transform(tag)
         let response = this.tagModelToResponse.build(model)
         return Axios.put(DefaultApiService.HOST + `/api/html-tag/text/${tag.uuid}`, response)
+    }
+    
+    putCssStyle(css: CssResource): Promise<any> {
+        // let model = this.domainToModelTransformer.transform(css)
+        // let response = this.tagModelToResponse.build(model)
+        let formData = new FormData()
+        formData.append('file', css.getResourceFile())
+        return Axios.post(DefaultApiService.HOST + `/api/css-style/${css.getId()}/resource`, formData)
     }
 
     deleteTag(tag: HtmlNode) : Promise<any> {

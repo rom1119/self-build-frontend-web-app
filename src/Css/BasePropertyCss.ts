@@ -39,7 +39,7 @@ export default abstract class BasePropertyCss
     }
     
 
-    setValue(val: string)
+    setValue(val: any)
     {
         this.clearValue()
         this.values.push(val)

@@ -17,6 +17,7 @@ export default class StyleCssModelBuildResponse implements ResponseFromModel<Sty
         response.valueThird = from.getValueThird()
         response.unitNameSecond = from.getUnitNameSecond()
         response.unitNameThird = from.getUnitNameThird()
+        // response.resourcePath = from.getResourcePath()
         
         return response;
     }

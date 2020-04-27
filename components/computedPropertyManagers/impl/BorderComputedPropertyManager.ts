@@ -277,17 +277,17 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         return prop
     }
     updateCssProp(newProp: BaseBorderCss) {
-        console.log('ALA MA');
-        console.log(newProp.getUnit());
-        console.log(newProp);
+        // console.log('ALA MA');
+        // console.log(newProp.getUnit());
+        // console.log(newProp);
         let val = this.value.getComputedCssVal(newProp)
         let clonedCss: BaseBorderCss = _.cloneDeep(newProp)
         clonedCss.setWidth(parseInt(val), new Pixel())
         // clonedCss.setUnit()
-        console.log(newProp);
-        console.log(val);
-        console.log(clonedCss);
-        console.log('ALA MA');
+        // console.log(newProp);
+        // console.log(val);
+        // console.log(clonedCss);
+        // console.log('ALA MA');
         this.value.borderFilter.injectCssProperty(clonedCss)
         console.log(newProp);
         

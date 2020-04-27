@@ -270,17 +270,17 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         return prop
     }
     updateCssProp(newProp: BasePropertyCss) {
-        console.log('ALA MA');
-        console.log(newProp.getUnit());
-        console.log(newProp);
+        // console.log('ALA MA');
+        // console.log(newProp.getUnit());
+        // console.log(newProp);
         let val = this.value.getComputedCssVal(newProp)
         let clonedCss = _.cloneDeep(newProp)
         clonedCss.setValue(parseInt(val).toString())
         clonedCss.setUnit(new Pixel())
-        console.log(newProp);
-        console.log(val);
-        console.log(clonedCss);
-        console.log('ALA MA');
+        // console.log(newProp);
+        // console.log(val);
+        // console.log(clonedCss);
+        // console.log('ALA MA');
         this.value.paddingFilter.injectCssProperty(clonedCss)
         console.log(newProp);
         

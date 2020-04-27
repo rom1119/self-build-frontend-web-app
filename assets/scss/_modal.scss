@@ -46,6 +46,10 @@ $minHeighFooter: 50px;
             text-align: center;
             width: 100%;
             padding: 10px 0;
+
+            &-half {
+                width: 50%;
+            }
             &__header {
 
             }

@@ -11,30 +11,33 @@
             </h4>
         </template>
         <template slot="content">
-            <div class="content-item">
-                <h4 class="content-item__header">
-                    Kolor tła
-                </h4>
-                <div class=" content-item__elem_container">
-                    <h2>
-                        {{ backgroundColor }}
-                    </h2>
-                    <Chrome v-model="backgroundColor" :color="backgroundColor" label="Color" />
+            <div class="content-item__elem_container ">
+                <div class="content-item-half" @dblclick="hasBackgroundColor = !hasBackgroundColor" :class="{'active': hasBackgroundColor}">
+                    <h4 class="content-item__header">
+                        Kolor tła
+                    </h4>
+                    <div class=" content-item__elem_container">
+                        <h2>
+                            {{ backgroundColor }}
+                        </h2>
+                        <Chrome v-model="backgroundColor" :color="backgroundColor" label="Color" />
 
-                    
+                        
+                    </div>
+
                 </div>
+                <div class="content-item-half" @dblclick="hasBackgroundImage = !hasBackgroundImage" :class="{'active': hasBackgroundImage}">
+                    <h4 class="content-item__header">
+                        Zdjęcie tła
+                    </h4>
+                    <div class=" content-item">
+                        
+                        <input type="file" id="imgFile" @change="previewThumbnail($event);" accept="image/*" class="input-file">  
+                        <img :src="backgroundImage" alt="" width="200" height="200">
+                    </div>
+                </div> 
             </div>  
-            <div class="content-item">
-                <h4 class="content-item__header">
-                    Zdjęcie tła
-                </h4>
-                <div class=" content-item__elem_container">
-                    <h2>
-                        {{ backgroundColor }}
-                    </h2>
-                    <input type="file" id="imgFile" @change="previewThumbnail($event);" accept="image/*" class="input-file">  
-                </div>
-            </div> 
+            
             <div class="content-item">
                 <h4 class="content-item__header">
                     Background position
@@ -97,6 +100,9 @@ import UnitUrl from '../../src/Unit/UnitUrl';
 import base64 from 'base-64';
 import BackgroundSize from '../../src/Css/Background/BackgroundSize';
 import BackgroundPosition from '../../src/Css/Background/BackgroundPosition';
+import BackgroundModal from '../BackgroundModal';
+import UnitColor from '../../src/Unit/UnitColor';
+import FileInput from '../forms/FileInput.vue';
 
 // let Chrome = ColourPicker.Chrome
 
@@ -116,7 +122,7 @@ interface Color {
             }
         }
     )
-    export default class BackgroundManageModal extends AbstractModal {
+    export default class BackgroundManageModal extends BackgroundModal {
         
         timeout
         imgEl
@@ -124,7 +130,7 @@ interface Color {
         colour = '#fff'
         backgroundSizes: string[] = BackgroundSize.getAccessableProperty()
         backgroundPositions: string[] = BackgroundPosition.getAccessableProperty()
-
+        file: File
         idName = 'text-property-modal'
 
         created() {
@@ -141,43 +147,39 @@ interface Color {
             
         }
 
-        get backgroundColor()
+        
+        
+        get backgroundImage(): string
         {
-            var prop = this.getPropertyFromModel(BackgroundColor.PROP_NAME)
-            return prop
+            return this.backgroundImageManager.getProperty().resource
         }
         
-        set backgroundColor(newVal)
+        set backgroundImage(newVal: string)
         {   
-            var col: Color = <any>newVal
-            let red = col.rgba.r
-            let green = col.rgba.g
-            let blue = col.rgba.b
-            let alpha = col.rgba.a
-            let color = new RGBA()
-            this.setPropertyToModel(new BackgroundColor(col.rgba, color)) 
-        }
-        
-        get backgroundImage()
-        {
-            return this.getPropertyFromModel(BackgroundImage.PROP_NAME)
-        }
-        
-        set backgroundImage(newVal)
-        {   
-            // var col: Color = <any>newVal
-            // let red = col.rgba.r
-            // let green = col.rgba.g
-            // let blue = col.rgba.b
-            // let alpha = col.rgba.a
-            // console.log(newVal);
-            
-            // return
             let base64Img = newVal
             let color = new UnitUrl()
                         console.log(123456);
 
-            this.setPropertyToModel(new BackgroundImage(base64Img, color)) 
+            // this.setPropertyToModel(new BackgroundImage(base64Img, color)) 
+            this.backgroundImageManager.getProperty().setResource(base64Img)
+            this.backgroundImageManager.getProperty().file = this.file
+            this.backgroundImageManager.getProperty().setValue(base64Img)
+            this.backgroundImageManager.updateCssProp(this.backgroundImageManager.getProperty())
+        }
+
+        get hasBackgroundImage(): boolean
+        {
+            return  this.backgroundImageManager.getProperty().active
+        }
+        
+        set hasBackgroundImage(newVal: boolean)
+        {
+            if (!newVal) {
+                this.backgroundImageManager.deactivePropCss(this.backgroundImageManager.getProperty())
+            
+            } else {
+                this.backgroundImageManager.activePropCss(this.backgroundImageManager.getProperty())
+            }
         }
         
         get backgroundSize()
@@ -200,6 +202,52 @@ interface Color {
             this.setPropertyToModel(new BackgroundPosition(newVal, new Named())) 
         }
 
+        set backgroundColorUnit(newVal: UnitColor)
+        {
+            this.backgroundImageManager.getProperty().setUnit(newVal)
+        }
+        
+        get backgroundColorUnit(): UnitColor
+        {
+            return this.backgroundColorManager.getProperty().getUnit()
+        }
+
+        get backgroundColor()
+        {
+            var prop = this.getPropertyFromModel(BackgroundColor.PROP_NAME)
+            return prop
+        }
+        
+        set backgroundColor(newVal)
+        {   
+            var col: Color = <any>newVal
+            let red = col.rgba.r
+            let green = col.rgba.g
+            let blue = col.rgba.b
+            let alpha = col.rgba.a
+            let color = new RGBA()
+            console.log(newVal);
+            this.backgroundColorManager.getProperty().setUnit(color)
+            this.backgroundColorManager.getProperty().setValue(col.rgba)
+            this.backgroundColorManager.updateCssProp(this.backgroundColorManager.getProperty())
+            
+        }
+        
+        get hasBackgroundColor(): boolean
+        {
+            return  this.backgroundColorManager.getProperty().active
+        }
+        
+        set hasBackgroundColor(newVal: boolean)
+        {
+            if (!newVal) {
+                this.backgroundColorManager.deactivePropCss(this.backgroundColorManager.getProperty())
+            
+            } else {
+                this.backgroundColorManager.activePropCss(this.backgroundColorManager.getProperty())
+            }
+        }
+
 
         previewThumbnail (event) {
           var input = event.target
@@ -207,6 +255,11 @@ interface Color {
         //   this.formData.file = event.target.files[0]
           console.log(event.target.files)
           if (input.files && input.files[0]) {
+              this.file = input.files[0]
+              console.log(event);
+              console.log(event.target);
+              console.log(event.target.files[0]);
+              
             var reader = new FileReader()
             reader.onload = function (e) {
                 // @ts-ignore
@@ -218,6 +271,38 @@ interface Color {
             reader.readAsDataURL(input.files[0])
           }
         }
+        
+        
+        
+        // private setPropUnit(newVal, prop: BasePropertyCss){
+        //     if (!prop.isActive()) {
+        //         return
+        //     }
+        //     if (!newVal) {
+        //         return
+        //     }
+        //     // console.log('SET paddingUnitGlobal', newVal);
+        //     var newUnit = this.getUnitByName(this.allUnits, newVal)
+        //     // this.updateUnitInModel(newUnit, MarginCss.PROP_NAME)
+        //     prop.setUnit(newUnit)
+        //     this.updateCssPropWithMarginFilter(prop)
+
+        // }
+
+        // private setProp(newVal, prop: BasePropertyCss)
+        // {
+        //     if (!prop) {
+        //         return
+        //     }
+        //     if (!prop.isActive()) {
+        //         return
+        //     }
+        //     if (!newVal) {
+        //         return
+        //     }
+        //     prop.setValue(newVal.toString())
+        //     var a = this.updateCssPropWithMarginFilter(prop)
+        // }
 
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)
@@ -232,5 +317,7 @@ interface Color {
 </script>
 
 <style lang="scss" scoped> 
-    
+    .active {
+        background-color: rgba($color: #d81121, $alpha: .4);
+    }
 </style>

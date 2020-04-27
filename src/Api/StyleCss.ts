@@ -10,6 +10,7 @@ export default class StyleCss
     private  _unitNameSecond
     private _valueThird
     private _unitNameThird
+    private _resourcePath
 
     constructor(key: string, val: any, unitName: string)
     {
@@ -86,6 +87,18 @@ export default class StyleCss
     getUnitNameThird(): string
     {
         return this._unitNameThird
+    }
+
+    public setResourcePath(val)
+    {
+        this._resourcePath = val
+    }
+    
+
+    public getResourcePath(): string
+    {
+        return this._resourcePath
+
     }
 
 

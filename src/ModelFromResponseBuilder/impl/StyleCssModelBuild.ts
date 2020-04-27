@@ -13,6 +13,7 @@ export default class StyleCssModelBuild implements ModelFromResponse<StyleCssRes
         model.setValueThird(from.valueThird)
         model.setUnitNameSecond(from.unitNameSecond)
         model.setUnitNameThird(from.unitNameThird)
+        model.setResourcePath(from.resourcePath)
         return model;
     }
 

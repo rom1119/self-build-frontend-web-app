@@ -9,5 +9,6 @@ export default class StyleCssResponse extends ResponseObject{
      unitNameSecond
      valueThird
      unitNameThird
+     resourcePath
 
 }

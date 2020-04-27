@@ -14,6 +14,7 @@ import StyleCssModel from '~/types/StyleCssModel';
 import CssDoubleValue from '../../Css/CssDoubleValue';
 import CssTripleValue from '~/src/Css/CssTripleValue';
 import BaseBorderCss from '../../Css/Border/BaseBorderCss';
+import CssResource from '~/src/Css/CssResource';
 export default class DefaultCssToModel implements CssToModel
 {
 
@@ -36,6 +37,12 @@ export default class DefaultCssToModel implements CssToModel
         let model = new StyleCssModel(domain.getName(), value, domain.getUnit().name)
         model.id = domain.id
 
+        // @ts-ignore
+        if (typeof domain.getResource === 'function') {
+            var domainResource: CssResource = <CssResource><unknown>domain
+            model.setResourcePath(domainResource.getResource())
+        }
+        
         // @ts-ignore
         if (typeof domain.getWidth === 'function') {
             var domainCastBorder: BaseBorderCss = <BaseBorderCss><unknown>domain

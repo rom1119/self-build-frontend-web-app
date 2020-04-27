@@ -13,6 +13,7 @@ import CssDoubleValue from '~/src/Css/CssDoubleValue';
 import CssTripleValue from '~/src/Css/CssTripleValue';
 import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
 import RGBA from '../../Unit/Color/RGBA';
+import CssResource from '~/src/Css/CssResource';
 export default class DefaultModelToCss implements ModelToCss
 {
 
@@ -51,6 +52,16 @@ export default class DefaultModelToCss implements ModelToCss
             
             domainCastBorder.setUnit(unitBorder)
             domain = domainCastBorder
+            
+        }
+        
+        // @ts-ignore
+        if (typeof domain.getResource === 'function') {
+            
+            var domainResource: CssResource = <CssResource><unknown>domain
+            domainResource.setResource(model.getResourcePath())
+            
+            domain = <BasePropertyCss><unknown>domainResource
             
         }
 
