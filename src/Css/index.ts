@@ -3,6 +3,8 @@ import BackgroundColor from './Background/BackgroundColor';
 import BackgroundImage from './Background/BackgroundImage';
 import BackgroundPosition from './Background/BackgroundPosition';
 import BackgroundSize from './Background/BackgroundSize';
+import BackgroundRepeat from './Background/BackgroundRepeat';
+import BackgroundAttachment from './Background/BackgroundAttachment';
 
 //border
 import BorderBottomColor from './Border/Bottom/BorderBottomColor';
@@ -58,6 +60,8 @@ export {
     BackgroundImage,
     BackgroundPosition,
     BackgroundSize,
+    BackgroundAttachment,
+    BackgroundRepeat,
     Width,
     Height,
     BoxSizing,
@@ -75,5 +79,22 @@ export {
     BorderGlobalColor,
     BorderGlobalStyle,
     BorderGlobalWidth,
+    BorderLeftCss,
+    BorderLeftWidth,
+    BorderLeftStyle,
+    BorderLeftColor,
+    BorderTopCss,
+    BorderTopWidth,
+    BorderTopStyle,
+    BorderTopColor,
+    BorderRightCss,
+    BorderRightWidth,
+    BorderRightStyle,
+    BorderRightColor,
+    BorderBottomCss,
+    BorderBottomWidth,
+    BorderBottomStyle,
+    BorderBottomColor,
+
     Display,
 }

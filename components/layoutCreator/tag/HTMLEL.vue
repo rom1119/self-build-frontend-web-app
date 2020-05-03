@@ -80,10 +80,11 @@ export default class HTMLEL extends Vue {
     }
     .wrapper-el {
         // float: left;
+        width: 100%;
+        height: 100%;
+
     }
     .inner-text-el {
-        // width: 100%;
-        // height: 100%;
     }
     #loadingDialog {
         .v-dialog {

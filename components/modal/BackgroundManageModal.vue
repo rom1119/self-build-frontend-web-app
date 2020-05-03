@@ -38,7 +38,7 @@
                 </div> 
             </div>  
             
-            <div class="content-item">
+            <div class="content-item" @dblclick="hasBackgroundPosition = !hasBackgroundPosition" :class="{'active': hasBackgroundPosition}">
                 <h4 class="content-item__header">
                     Background position
                 </h4>
@@ -52,7 +52,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="content-item">
+            <div class="content-item" @dblclick="hasBackgroundSize = !hasBackgroundSize" :class="{'active': hasBackgroundSize}">
                 <h4 class="content-item__header">
                     Background size
                 </h4>
@@ -61,6 +61,34 @@
                         <label :for="'backgroundSize-' + el">
                             {{ el }}
                             <input type="radio" v-model="backgroundSize" :value="el" name="backgroundSize" :id="'backgroundSize-' + el">
+
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-item" @dblclick="hasBackgroundRepeat = !hasBackgroundRepeat" :class="{'active': hasBackgroundRepeat}">
+                <h4 class="content-item__header">
+                    Background Repeat
+                </h4>
+                <ul class=" content-item__elem_container">
+                    <li class="content-item__elem" v-for="el in backgroundRepeats" :key="el">
+                        <label :for="'backgroundSize-' + el">
+                            {{ el }}
+                            <input type="radio" v-model="backgroundRepeat" :value="el" name="backgroundRepeat" :id="'backgroundRepeat-' + el">
+
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-item" @dblclick="hasBackgroundAttachment = !hasBackgroundAttachment" :class="{'active': hasBackgroundAttachment}">
+                <h4 class="content-item__header">
+                    Background Attachment
+                </h4>
+                <ul class=" content-item__elem_container">
+                    <li class="content-item__elem" v-for="el in backgroundAttachments" :key="el">
+                        <label :for="'backgroundSize-' + el">
+                            {{ el }}
+                            <input type="radio" v-model="backgroundAttachment" :value="el" name="backgroundAttachment" :id="'backgroundAttachment-' + el">
 
                         </label>
                     </li>
@@ -103,6 +131,7 @@ import BackgroundPosition from '../../src/Css/Background/BackgroundPosition';
 import BackgroundModal from '../BackgroundModal';
 import UnitColor from '../../src/Unit/UnitColor';
 import FileInput from '../forms/FileInput.vue';
+import { BackgroundRepeat, BackgroundAttachment } from '~/src/Css';
 
 // let Chrome = ColourPicker.Chrome
 
@@ -130,6 +159,8 @@ interface Color {
         colour = '#fff'
         backgroundSizes: string[] = BackgroundSize.getAccessableProperty()
         backgroundPositions: string[] = BackgroundPosition.getAccessableProperty()
+        backgroundRepeats: string[] = BackgroundRepeat.getAccessableProperty()
+        backgroundAttachments: string[] = BackgroundAttachment.getAccessableProperty()
         file: File
         idName = 'text-property-modal'
 
@@ -176,7 +207,6 @@ interface Color {
         {
             if (!newVal) {
                 this.backgroundImageManager.deactivePropCss(this.backgroundImageManager.getProperty())
-            
             } else {
                 this.backgroundImageManager.activePropCss(this.backgroundImageManager.getProperty())
             }
@@ -184,23 +214,108 @@ interface Color {
         
         get backgroundSize()
         {
-            return this.getPropertyFromModel(BackgroundSize.PROP_NAME)
+            return  this.backgroundSizeManager.getProperty().value
         }
         
         set backgroundSize(newVal: string)
         {
-            this.setPropertyToModel(new BackgroundSize(newVal, new Named())) 
+            this.backgroundSizeManager.getProperty().setValue(newVal)
+            this.backgroundSizeManager.updateCssProp(this.backgroundSizeManager.getProperty())             
+        }
+
+        get hasBackgroundSize()
+        {
+            return  this.backgroundSizeManager.getProperty().active
         }
         
+        set hasBackgroundSize(newVal: boolean)
+        {
+            if (!newVal) {
+                this.backgroundSizeManager.deactivePropCss(this.backgroundSizeManager.getProperty())
+            } else {
+                this.backgroundSizeManager.activePropCss(this.backgroundSizeManager.getProperty())
+            }
+
+        }
+
+        get backgroundRepeat()
+        {
+            return  this.backgroundRepeatManager.getProperty().value
+        }
+        
+        set backgroundRepeat(newVal: string)
+        {
+            this.backgroundRepeatManager.getProperty().setValue(newVal)
+            this.backgroundRepeatManager.updateCssProp(this.backgroundRepeatManager.getProperty())             
+        }
+
+        get hasBackgroundRepeat()
+        {
+            return  this.backgroundRepeatManager.getProperty().active
+        }
+        
+        set hasBackgroundRepeat(newVal: boolean)
+        {
+            if (!newVal) {
+                this.backgroundRepeatManager.deactivePropCss(this.backgroundRepeatManager.getProperty())
+            } else {
+                this.backgroundRepeatManager.activePropCss(this.backgroundRepeatManager.getProperty())
+            }
+        }
+
+        get backgroundAttachment()
+        {
+            return  this.backgroundAttachmentManager.getProperty().value
+        }
+        
+        set backgroundAttachment(newVal: string)
+        {
+            this.backgroundAttachmentManager.getProperty().setValue(newVal)
+            this.backgroundAttachmentManager.updateCssProp(this.backgroundAttachmentManager.getProperty())             
+        }
+
+        get hasBackgroundAttachment()
+        {
+            return  this.backgroundAttachmentManager.getProperty().active
+        }
+        
+        set hasBackgroundAttachment(newVal: boolean)
+        {
+            if (!newVal) {
+                this.backgroundAttachmentManager.deactivePropCss(this.backgroundAttachmentManager.getProperty())
+            } else {
+                this.backgroundAttachmentManager.activePropCss(this.backgroundAttachmentManager.getProperty())
+            }
+        }
+        
+
+        get hasBackgroundPosition()
+        {
+            return  this.backgroundPositionManager.getProperty().active
+        }
+        
+        set hasBackgroundPosition(newVal: boolean)
+        {
+            if (!newVal) {
+                this.backgroundPositionManager.deactivePropCss(this.backgroundPositionManager.getProperty())
+            } else {
+                this.backgroundPositionManager.activePropCss(this.backgroundPositionManager.getProperty())
+            }
+
+        }
+
         get backgroundPosition()
         {
-            return this.getPropertyFromModel(BackgroundPosition.PROP_NAME)
+            return  this.backgroundPositionManager.getProperty().value
+
         }
         
         set backgroundPosition(newVal: string)
         {
-            this.setPropertyToModel(new BackgroundPosition(newVal, new Named())) 
+            this.backgroundPositionManager.getProperty().setValue(newVal)
+            this.backgroundPositionManager.updateCssProp(this.backgroundPositionManager.getProperty())        
         }
+
 
         set backgroundColorUnit(newVal: UnitColor)
         {

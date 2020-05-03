@@ -9,14 +9,22 @@ import DefaultModelToCss from './DefaultModelToCss';
 import HtmlTag from '../../Layout/HtmlTag';
 import TextNode from '../../Layout/TextNode';
 import HtmlNode from '../../Layout/HtmlNode';
+import HtmlTagRecalculator from '~/src/Recalculator/HtmlTagRecalculator';
+import BorderRecalculate from '~/src/Recalculator/HtmlTagImpl/BorderRecalculate';
+import MarginRecalculate from '~/src/Recalculator/HtmlTagImpl/MarginRecalculate';
 export default class DefaultModelToDomain implements ModelToDomain
 {
 
     private htmlTagFactory: HtmlTagFactoryFromName
     private styleTransformer: ModelToCss
 
+
+
+
     constructor()
     {
+        
+        
         this.htmlTagFactory = new HtmlTagFactoryFromName()
         this.styleTransformer = new DefaultModelToCss()
     }
@@ -62,11 +70,13 @@ export default class DefaultModelToDomain implements ModelToDomain
             if (model.styles) {
                 for (const style of model.styles) {
                     let subModel = this.styleTransformer.transform(style)
-                    domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
+                    domain.addNewPropertyCss(subModel)
                     // domain..push(subModel)
                 }
             }
-            domain.updateModelComponent()
+            // domain.updateModelComponent()
+
+            // this.recalculate(domain)
             
             if (model.children) {
                 for (const el of model.children) {
@@ -78,5 +88,11 @@ export default class DefaultModelToDomain implements ModelToDomain
 
         return domain
     }
+
+    // private recalculate(tag: HtmlTag)
+    // {
+    //     this.borderRecalculator.recalculate(tag)
+    //     this.marginRecalculator.recalculate(tag)
+    // }
    
 }

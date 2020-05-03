@@ -27,6 +27,11 @@ import MarginComputedPropertyManager from './computedPropertyManagers/impl/Margi
 import BorderComputedPropertyManager from './computedPropertyManagers/impl/BorderComputedPropertyManager'
 import BaseBorderCss from '~/src/Css/Border/BaseBorderCss'
 import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp'
+import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
+import Width from '../src/Css/Size/Width';
+import { Height } from '~/src/Css'
+import WidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty'
+import HeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/HeightProperty';
 
 
 export default abstract class BoxModelModal extends AbstractModal
@@ -39,12 +44,18 @@ export default abstract class BoxModelModal extends AbstractModal
     marginManager: DirectionComputedPropertyManager
     borderManager: BorderComputedPropertyManager
 
+    widthManager: BaseComputedPropertyManager<Width>
+    heightManager: BaseComputedPropertyManager<Height>
+
+
     constructor()
     {
         super()
         this.paddingManager = new PaddingComputedPropertyManager()
         this.marginManager = new MarginComputedPropertyManager()
         this.borderManager = new BorderComputedPropertyManager()
+        this.widthManager = new WidthProperty()
+        this.heightManager = new HeightProperty()
 
     }
 
@@ -53,15 +64,23 @@ export default abstract class BoxModelModal extends AbstractModal
         this.paddingRealFetcher = this.value.paddingRealFetcher
         this.marginRealFetcher = this.value.marginRealFetcher
         this.borderRealFetcher = this.value.borderRealFetcher
+
         this.paddingManager.setHtmlEl(val)
-        this.paddingManager.setFetcher(this.paddingRealFetcher)
         this.marginManager.setHtmlEl(val)
-        this.marginManager.setFetcher(this.marginRealFetcher)
         this.borderManager.setHtmlEl(val)
+        this.widthManager.setHtmlEl(val)
+        this.heightManager.setHtmlEl(val)
+
+        this.paddingManager.setFetcher(this.paddingRealFetcher)
+        this.marginManager.setFetcher(this.marginRealFetcher)
         this.borderManager.setFetcher(this.borderRealFetcher)
+
         this.initPaddings()
         this.initMargins()
         this.initBorders()
+
+        this.widthManager.init()
+        this.heightManager.init()
     }
 
     // PADDING METHODS

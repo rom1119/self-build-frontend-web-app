@@ -9,12 +9,10 @@ export default class DefaultMoveEventController extends MoveEventController
     protected mouseDetector: Move2DDetector
     protected mouseDownTimeout = 200
 
-
     constructor()
     {
         super()
         this.mouseDetector = new Move2DDetector()
-
     }
 
     public hasActiveEl(): boolean {
@@ -26,8 +24,6 @@ export default class DefaultMoveEventController extends MoveEventController
         let el = source.target
         let event = source.event
         // console.log(el.toString());
-        // console.log(el.cssAccessor.all);
-        console.log(event);
         
         clearTimeout(this.timeout)
         this.timeout = setTimeout(async () => {
@@ -74,7 +70,6 @@ export default class DefaultMoveEventController extends MoveEventController
         let newY = this.mouseDetector.computeY
         
         // if (newX > 0 && newY > 0) {
-
             this.currentElement.style.right = 'unset'
             this.currentElement.style.left = newX + 'px'
             this.currentElement.style.top = newY + 'px'

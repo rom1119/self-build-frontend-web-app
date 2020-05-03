@@ -7,7 +7,7 @@
         >
         <select-unit-context-menu :propertyUnit="customPropUnit" @changePropUnit="customPropUnit = $event" :ref="cmName" />
 
-        <div   class="asd content">
+        <div class="">
             <div v-if="setPropAuto">
                 <button :class="{'green-bg': propAuto}" @click.stop="clickAutoBtn"  class="auto-prop">auto</button>
             </div>

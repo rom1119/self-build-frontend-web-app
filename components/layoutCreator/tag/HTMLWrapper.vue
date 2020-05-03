@@ -119,10 +119,7 @@
                 @marginMouseDown="onMarginMouseDown(marginRight, $event)"
             />
 
-        <span style="display: block;" >
-            <span style="display: flex;" :style="value.cssContentBoxList" class="content-and-padding-and-border">
-                <span style="display: flex; flex-direction: column;">
-                    <span style="display: inline-flex;">     
+            <span class="content-and-padding-and-border">
                         <html-el 
                             @contentMouseOver="onContentMouseOver" 
                             @contentMouseOut="onContentMouseOut" 
@@ -167,9 +164,6 @@
                             <!-- </div>  -->
                         </html-el>
                     </span>
-                </span>
-            </span>        
-        </span>
     </component>
 </template>
 
@@ -186,12 +180,18 @@ import PaddingBottom from '../../../src/Layout/Padding/PaddingBottom';
 import PaddingModel from "~/src/Layout/Padding/PaddingModel";
 import MarginModel from "~/src/Layout/Margin/MarginModel";
 import MarginModelFactory from '../../../src/Layout/Margin/MarginModelFactory';
+import HtmlTagRecalculator from "~/src/Recalculator/HtmlTagRecalculator";
+import BorderRecalculate from "~/src/Recalculator/HtmlTagImpl/BorderRecalculate";
+import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
 
 
 @Component
 export default class HTMLWrapper extends Vue {
     @Prop()
     value: HtmlTag
+
+    protected borderRecalculator: HtmlTagRecalculator
+    protected marginRecalculator: HtmlTagRecalculator
 
     contextMenuName = 'cm-create-html-element123'
 
@@ -481,14 +481,28 @@ export default class HTMLWrapper extends Vue {
 
     mounted()
     {
+        this.borderRecalculator = new BorderRecalculate()
+        this.marginRecalculator = new MarginRecalculate()
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
+        // return
         this.value.setHtmlEl(this.$el)
-        if (this.value instanceof HtmlTag)  {
-            this.value.recalculateRealComputedProperties()
+        // this.value.updateModelComponent()
+        // this.value.updateModelComponent()
 
-        }
+
+        console.log('11@@@@@@@@@@@@@11');
         
+        // if (this.value instanceof HtmlTag)  {
+        //     this.value.recalculateRealComputedProperties()
+
+        // }
+        
+        // this.borderRecalculator.recalculate(this.value)
+        // this.marginRecalculator.recalculate(this.value)
+
+        // this.value.updateModelComponent()
+
     }
 }
 </script>
@@ -501,6 +515,11 @@ export default class HTMLWrapper extends Vue {
         overflow: hidden !important;
         visibility: hidden !important;
         opacity: 0 !important;
+    }
+    .content-and-padding-and-border {
+        display: block;
+        width: 100%;
+        height: 100%;
     }
     .wrapper {
         display: flex;

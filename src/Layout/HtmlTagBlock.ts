@@ -22,7 +22,7 @@ export default abstract class HtmlTagBlock extends HtmlTag
 
     public onMouseMove(w, h) 
     {
-        this.sizeUnitCurrent = new Pixel()
+        this.widthUnitCurrent = new Pixel()
         this._width = w
         this._height = h
     }

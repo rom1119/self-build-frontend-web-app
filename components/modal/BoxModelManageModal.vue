@@ -7,14 +7,12 @@
                 <button @click="close($event)">X</button>
             </div>
             <h4>
-                Zarządzaj paddingiem i marginem
+                Zarządzaj box modelem
             </h4>
         </template>
         <template slot="content">
             <div class="content-item">
-                <h4 class="content-item__header">
-                    Padding
-                </h4>
+                
                 <!-- BOX MODEL FOR FEATURE -->
                 <div  class=" box-model content-item__elem_container rel w-400 h-400">
                     <div v-if="value" class="margin-box-model">
@@ -170,7 +168,22 @@
                                     
     
                                 <div class="content-box-model">
-                        
+                                    <div class="content-box-model-link">Width
+                                        <div class="width-prop-container">
+                                                <site-box-model-element 
+                                                    @changeHasProp="hasWidth = $event"
+                                                    @changeProp="width = $event"
+                                                    @changePropUnit="widthUnit = $event"
+                                                    :hasProperty="hasWidth"
+                                                    :property="width"
+                                                    :propertyUnit="widthUnit"
+                                                    :classList="['top-padding','padding']"
+                                                    :contextMenuName="value.uuid.concat('-width-box')"
+                                                />
+                                        </div>
+                                    </div>
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -250,6 +263,7 @@ import MarginRightCss from '~/src/Css/BoxModel/Margin/MarginRightCss';
 import MarginTopCss from '~/src/Css/BoxModel/Margin/MarginTopCss';
 import CssAuto from '~/src/Css/CssAuto';
 import BaseBorderCss from '../../src/Css/Border/BaseBorderCss';
+import { Width } from '~/src/Css';
 
     @Component
     export default class BoxModelManageModal extends BoxModelModal {
@@ -283,6 +297,46 @@ import BaseBorderCss from '../../src/Css/Border/BaseBorderCss';
             this.allUnits.push(new VW())
             this.allUnits.push(new VH())
             
+        }
+
+        // *****************************************  WIDTH ****************************************************
+
+    // PADDING BOTTOM
+        
+        get width()
+        {
+            return  this.widthManager.getProperty().value
+        }
+        
+        set width(newVal: string)
+        {
+            this.widthManager.getProperty().setValue(newVal)
+            this.widthManager.updateCssProp(this.widthManager.getProperty())             
+        }
+        
+        get widthUnit()
+        {
+            return  this.widthManager.getProperty().getUnit()
+        }
+        
+        set widthUnit(newVal: UnitSize)
+        {
+            this.widthManager.getProperty().setUnit(newVal)
+            this.widthManager.updateCssProp(this.widthManager.getProperty())             
+        }
+
+        get hasWidth()
+        {
+            return  this.widthManager.getProperty().active
+        }
+        
+        set hasWidth(newVal: boolean)
+        {
+            if (!newVal) {
+                this.widthManager.deactivePropCss(this.widthManager.getProperty())
+            } else {
+                this.widthManager.activePropCss(this.widthManager.getProperty())
+            }
         }
 
         // *****************************************  PADDING ****************************************************
@@ -865,7 +919,7 @@ import BaseBorderCss from '../../src/Css/Border/BaseBorderCss';
 
 <style lang="scss" scoped> 
     
-        .auto-prop {
+    .auto-prop {
         background-color: red;
         // padding: 3px;
         // margin-left: 3px;

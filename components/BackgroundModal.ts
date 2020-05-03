@@ -29,9 +29,13 @@ import BaseBorderCss from '~/src/Css/Border/BaseBorderCss'
 import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp'
 import BackgroundImageProperty from './computedPropertyManagers/impl/ComputedProperty/Background/BackgroundImageProperty'
 import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
-import { BackgroundImage } from '~/src/Css'
+import { BackgroundImage, BackgroundPosition, BackgroundSize, BackgroundRepeat, BackgroundAttachment } from '~/src/Css'
 import BackgroundColor from '../src/Css/Background/BackgroundColor';
 import BackgroundColorProperty from './computedPropertyManagers/impl/ComputedProperty/Background/BackgroundColorProperty'
+import BackgroundPositionProperty from './computedPropertyManagers/impl/ComputedProperty/Background/BackgroundPositionProperty'
+import BackgroundSizeProperty from './computedPropertyManagers/impl/ComputedProperty/Background/BackgroundSizeProperty'
+import BackgroundAttachmentProperty from './computedPropertyManagers/impl/ComputedProperty/Background/BackgrountAttachmentProperty'
+import BackgroundRepeatProperty from './computedPropertyManagers/impl/ComputedProperty/Background/BackgroundRepeatProperty'
 
 
 export default abstract class BackgroundModal extends AbstractModal
@@ -39,12 +43,20 @@ export default abstract class BackgroundModal extends AbstractModal
 
     backgroundImageManager: BaseComputedPropertyManager<BackgroundImage>
     backgroundColorManager: BaseComputedPropertyManager<BackgroundColor>
+    backgroundPositionManager: BaseComputedPropertyManager<BackgroundPosition>
+    backgroundSizeManager: BaseComputedPropertyManager<BackgroundSize>
+    backgroundRepeatManager: BaseComputedPropertyManager<BackgroundRepeat>
+    backgroundAttachmentManager: BaseComputedPropertyManager<BackgroundAttachment>
 
     constructor()
     {
         super()
         this.backgroundImageManager = new BackgroundImageProperty()
         this.backgroundColorManager = new BackgroundColorProperty()
+        this.backgroundPositionManager = new BackgroundPositionProperty()
+        this.backgroundSizeManager = new BackgroundSizeProperty()
+        this.backgroundRepeatManager = new BackgroundRepeatProperty()
+        this.backgroundAttachmentManager = new BackgroundAttachmentProperty()
     }
 
     show(val: HtmlTag){
@@ -52,9 +64,17 @@ export default abstract class BackgroundModal extends AbstractModal
 
         this.backgroundImageManager.setHtmlEl(val)
         this.backgroundColorManager.setHtmlEl(val)
+        this.backgroundPositionManager.setHtmlEl(val)
+        this.backgroundSizeManager.setHtmlEl(val)
+        this.backgroundRepeatManager.setHtmlEl(val)
+        this.backgroundAttachmentManager.setHtmlEl(val)
 
         this.backgroundImageManager.init()   
         this.backgroundColorManager.init()   
+        this.backgroundPositionManager.init()   
+        this.backgroundSizeManager.init()   
+        this.backgroundRepeatManager.init()   
+        this.backgroundAttachmentManager.init()   
 
     }
 

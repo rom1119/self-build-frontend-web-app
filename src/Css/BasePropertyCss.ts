@@ -23,6 +23,11 @@ export default abstract class BasePropertyCss
         this.unit = unit
     }
 
+    get value(): any
+    {
+        return this.values[0]
+    }
+
     getValue(): string
     {
         if (this.values[0] == 'undefined') {

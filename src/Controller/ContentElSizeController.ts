@@ -28,6 +28,7 @@ export default class ContentElSizeController extends SizeElController
         console.log(el.toString());
         console.log(el.projectId);
         console.log(el.cssAccessor.all);
+        // console.log(el.getComputedWidthPixele());
         // console.log(el.paddingRightWidth);
         
         clearTimeout(this.timeout)

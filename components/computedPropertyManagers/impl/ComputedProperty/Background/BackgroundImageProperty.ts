@@ -31,12 +31,6 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
         return this.DEFAULT_UNIT
     }
 
-    init()
-    {
-        super.init()
-        
-    }
-
     dataURItoBlob(dataURI) {
         console.log(dataURI);
         

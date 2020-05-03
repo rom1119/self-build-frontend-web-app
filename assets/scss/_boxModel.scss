@@ -294,3 +294,27 @@
     }
 }
 
+.content-box-model-link {
+    width: 100%;
+    padding: 5px 0;
+    background-color: rgb(70, 163, 70);
+    cursor: pointer;
+    position: relative;
+    .width-prop-container {
+        position: absolute;
+        right: -100%;
+        top: 0;
+        width: 100px;
+        height: 100px;
+        display: none;
+        background-color: white;
+    }
+    &:hover {
+        background-color: rgb(91, 201, 91);
+        .width-prop-container {
+
+            display: block;
+        }
+    }
+}
+

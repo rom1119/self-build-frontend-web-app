@@ -6,6 +6,8 @@ import MarginRight from '~/src/Layout/Margin/MarginRight';
 import MarginTop from '~/src/Layout/Margin/MarginTop';
 import MarginBottom from '~/src/Layout/Margin/MarginBottom';
 import SizeCalculator from '../SizeCalculator';
+import { Width } from '~/src/Css';
+import { Pixel } from '~/src/Unit';
 
 export default class MarginSizeCalculator implements SizeCalculator<MarginModel>
 {
@@ -61,7 +63,9 @@ export default class MarginSizeCalculator implements SizeCalculator<MarginModel>
         let rightWidthBorder = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
         let leftWidthPadding = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
         let rightWidthPadding = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
-        let width =  this.htmlTag.width 
+        let width = this.htmlTag.getComputedWidthPixele() 
+        // let width =  parseInt(this.htmlTag.getComputedCssVal(new Width(0, new Pixel())) )
+
         let newOff = leftWidthBorder + rightWidthBorder + leftWidthPadding + rightWidthPadding + leftWidthMargin + rightWidthMargin + width
         return newOff
     }

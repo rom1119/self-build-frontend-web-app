@@ -23,6 +23,9 @@ import BorderRadiusBottomRight from "~/src/Css/Border/Radius/BorderRadiusBottomR
 import BorderRadiusTopRight from "~/src/Css/Border/Radius/BorderRadiusTopRight";
 import BorderRadiusTopLeft from "~/src/Css/Border/Radius/BorderRadiusTopLeft";
 import BorderRadiusGlobal from "~/src/Css/Border/Radius/BorderRadiusGlobal";
+import BorderRecalculate from '../../../src/Recalculator/HtmlTagImpl/BorderRecalculate';
+import HtmlTagRecalculator from '../../../src/Recalculator/HtmlTagRecalculator';
+import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
 
 export default class BorderComputedPropertyManager implements DirectionComputedPropertyManager
 {
@@ -49,9 +52,15 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     globalRadiusProperty: BaseBorderRadiusCss = new BorderRadiusGlobal(this.DEFAULT_BORDER_RADIUS, this.DEFAULT_BORDER_RADIUS_UNIT)
 
     protected realFetcher: BorderFetcherRealCssProp
+    protected borderRecalculator: HtmlTagRecalculator
+    protected marginRecalculator: HtmlTagRecalculator
+
 
     constructor(  )
-    {
+    {   
+        this.borderRecalculator = new BorderRecalculate()
+        this.marginRecalculator = new MarginRecalculate()
+
         this.leftProperty.setActive(false)
         this.leftProperty.setType(this.DEFAULT_BORDER_STYLE)
         this.leftProperty.setColor(this.DEFAULT_BORDER_COLOR, this.DEFAULT_BORDER_COLOR_UNIT)
@@ -301,34 +310,13 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
 
     private recalculateMargins(htmlTag: HtmlTag)
     {
-        let sizeCalc = new MarginSizeCalculator(htmlTag)
-        let offsetSizeCalc = new MarginOffsetSizeCalculator(htmlTag)
-        
-        htmlTag.marginTop.length = sizeCalc.calculateSize(htmlTag.marginTop)
-        htmlTag.marginTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginTop)
-        htmlTag.marginBottom.length = sizeCalc.calculateSize(htmlTag.marginBottom)
-        htmlTag.marginBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginBottom)
-        htmlTag.marginLeft.length = sizeCalc.calculateSize(htmlTag.marginLeft)
-        htmlTag.marginLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginLeft)
-        htmlTag.marginRight.length = sizeCalc.calculateSize(htmlTag.marginRight)
-        htmlTag.marginRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginRight)
+        this.marginRecalculator.recalculate(htmlTag)
             
     }
 
     private recalculateBorders(htmlTag: HtmlTag)
     {
-        let sizeCalc = new BorderSizeCalculator(htmlTag)
-        let offsetSizeCalc = new BorderOffsetSizeCalculator(htmlTag)
-        
-        htmlTag.borderTop.length = sizeCalc.calculateSize(htmlTag.borderTop)
-        htmlTag.borderTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderTop)
-        htmlTag.borderBottom.length = sizeCalc.calculateSize(htmlTag.borderBottom)
-        htmlTag.borderBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderBottom)
-        htmlTag.borderLeft.length = sizeCalc.calculateSize(htmlTag.borderLeft)
-        htmlTag.borderLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderLeft)
-        htmlTag.borderRight.length = sizeCalc.calculateSize(htmlTag.borderRight)
-        htmlTag.borderRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderRight)
-            
+        this.borderRecalculator.recalculate(htmlTag)
     }
 
 

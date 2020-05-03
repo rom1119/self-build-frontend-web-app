@@ -69,12 +69,6 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
     init() {
         var prop = this.getPropertyCssFromModel(this.getProperty().getName())
         let clearval = this.getProperty().getClearValue()
-            // console.log(propertyArg.getName());
-            // console.log(prop);
-            // console.log(propertyArg);
-            // console.log(clearWidth);
-            // console.log(clearColor);
-            
         let unit = this.getProperty().getUnit()
         
         if (prop) {

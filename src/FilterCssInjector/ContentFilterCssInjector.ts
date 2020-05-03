@@ -63,14 +63,23 @@ export default class ContentFilterCssInjector extends FilterCssInjector
             return
         }
         
-        console.log('+++++++');
+        console.log('WIDTH+++++++WIDTH');
         console.log(cssProp.getClearValue());
+        console.log(cssProp.getUnit());
         
         if (cssProp instanceof Width) {
-            this.htmlTag.initWidth(parseInt(cssProp.getClearValue()))
+            this.htmlTag.setWithUnit(cssProp.getUnit())
+            this.htmlTag.setWidth(parseInt(cssProp.getClearValue()))
+            // var val = this.htmlTag.getComputedCssVal(cssProp)
+            // console.log(val);
+            // console.log('!@#$');
+            
+            // this.htmlTag.initWidth(parseInt(val))
             // this.updateVal(cssProp, this.htmlTag.paddingLeft)
         } else if (cssProp instanceof Height) {
-            this.htmlTag.initHeight(parseInt(cssProp.getClearValue()))
+            // this.htmlTag.initHeight(parseInt(cssProp.getClearValue()))
+            this.htmlTag.setHeightUnit(cssProp.getUnit())
+            this.htmlTag.setHeight(parseInt(cssProp.getClearValue()))
         }
         // else if (cssProp instanceof PaddingTopCss) {
         //     this.updateVal(cssProp, this.htmlTag.paddingTop)
@@ -138,57 +147,6 @@ export default class ContentFilterCssInjector extends FilterCssInjector
         }
 
         // paddingModel.updateCssProperty(prop.getName(), prop)
-    }
-    
-    
-    updateAllDirectionsVal(cssProp: PaddingCss) {
-        var top: BasePropertyCss = new Height(cssProp.top, cssProp.getUnit());
-        var bottom: BasePropertyCss = new Height(cssProp.bottom, cssProp.getUnit());
-        
-        var left: BasePropertyCss = new Width(cssProp.left, cssProp.getUnit());
-        var right: BasePropertyCss = new Width(cssProp.right, cssProp.getUnit());
-
-        var leftProp = this.htmlTag.cssAccessor.getProperty(PaddingLeftCss.PROP_NAME)
-        var rightProp = this.htmlTag.cssAccessor.getProperty(PaddingRightCss.PROP_NAME)
-        var topProp = this.htmlTag.cssAccessor.getProperty(PaddingTopCss.PROP_NAME)
-        var bottomProp = this.htmlTag.cssAccessor.getProperty(PaddingBottomCss.PROP_NAME)
-        // if (parseInt(right.getClearValue()) > -1 && !rightProp) {
-
-        //     // if (!rightProp.isActive()) {
-        //     this.htmlTag.paddingRight.width = parseInt(right.getClearValue())
-        //     this.htmlTag.paddingRight.widthUnit = right.getUnit()
-        //     this.htmlTag.paddingRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingRight)
-        //     this.htmlTag.paddingRight.activate()
-        // }
-        
-        // if (parseInt(left.getClearValue()) > -1 && !leftProp) {
-
-        //     // if (!leftProp.isActive()) {
-        //     this.htmlTag.paddingLeft.width = parseInt(left.getClearValue())
-        //     this.htmlTag.paddingLeft.widthUnit = left.getUnit()
-        //     // this.htmlTag.paddingLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingLeft)
-        //     this.htmlTag.paddingLeft.activate()
-
-        //     // }
-        // }
-        
-        // if (parseInt(top.getClearValue()) > -1 && !topProp) {
-
-        //     this.htmlTag.paddingTop.width = parseInt(top.getClearValue())
-        //     this.htmlTag.paddingTop.widthUnit = top.getUnit()
-        //     this.htmlTag.paddingTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingTop)
-        //     this.htmlTag.paddingTop.activate()
-
-        // }
-        
-        // if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
-
-        //     this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue())
-        //     this.htmlTag.paddingBottom.widthUnit = bottom.getUnit()
-        //     this.htmlTag.paddingBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.paddingBottom)
-        //     this.htmlTag.paddingBottom.activate()
-
-        // }
     }
     
 }

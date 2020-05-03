@@ -86,7 +86,8 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     protected initialBackgroundColor = 'red'
     private _backgroundColor = this.initialBackgroundColor;
     private _initialColorUnit: UnitColor = new Named();
-    protected sizeUnitCurrent: UnitSize = new Pixel()
+    protected widthUnitCurrent: UnitSize = new Pixel()
+    protected heightUnitCurrent: UnitSize = new Pixel()
 
     protected _tmpCssPropertyAccesor: CssPropertyAccessor
     protected _cssPropertyAccesor: HtmlTagPropertyAccessor
@@ -119,6 +120,16 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     {
         this.api = api
         this.synchronizer = new HtmlTagSynchronizer(this, api)
+    }
+
+    public setWithUnit(unit: UnitSize)
+    {
+        this.widthUnitCurrent = unit
+    }
+    
+    public setHeightUnit(unit: UnitSize)
+    {
+        this.heightUnitCurrent = unit
     }
 
     initBorders()
@@ -197,8 +208,8 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         
         let padding = new PaddingCss('41', new Pixel())
         let margin = new MarginCss('11', new Pixel())
-        let width = new Width(this._width, this.sizeUnitCurrent)
-        let height = new Height(this._height, this.sizeUnitCurrent)
+        let width = new Width(this._width, this.widthUnitCurrent)
+        let height = new Height(this._height, this.heightUnitCurrent)
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         let display = new Display(Display.BLOCK, new Named())
@@ -280,6 +291,16 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         return this._height
     }
 
+    public setWidth(arg: number)
+    {
+        this._width = arg
+    }
+    
+    public setHeight(arg: number)
+    {
+        this._height = arg
+    }
+
     // set height(value) {
     //     this._height = value;
     //  }
@@ -305,7 +326,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     
     public changeAsDeactiveSize()
     {
-        this._backgroundColor = this.initialBackgroundColor
+        // this._backgroundColor = this.initialBackgroundColor
     }
     
     private isLikeBackgroundCss(cssProp: BasePropertyCss): boolean
@@ -331,11 +352,24 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     }
 
+    canAddToCssList(css: BasePropertyCss): boolean
+    {
+        if (css instanceof Display) {
+            return true
+        }
+        
+        // if (css instanceof ContentSizeCss) {
+        //     return true
+        // }
+        
+        return false
+    }
+
     get cssList() : any
     {
         let css = {}
         for (const cssProp of this._cssPropertyAccesor.all) {
-            if (!this.filterCss(cssProp)) {
+            if (!this.canAddToCssList(cssProp)) {
                 continue
             }
             if (!this.isLikeBackgroundCss(cssProp)) {
@@ -348,12 +382,12 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         }    
         
         if (css[Width.PROP_NAME]) {
-            let width = new Width(this._width, this.sizeUnitCurrent)
+            let width = new Width(this._width, this.widthUnitCurrent)
             css[Width.PROP_NAME] = width.getValue()
         }
         
         if (css[Height.PROP_NAME]) {
-            let height = new Height(this._height, this.sizeUnitCurrent)
+            let height = new Height(this._height, this.heightUnitCurrent)
             css[Height.PROP_NAME] = height.getValue()
         }
 
@@ -363,6 +397,19 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         //     height: `${this._height}${this.sizeUnitCurrent.value}`,
         //     'background-color': `${this._backgroundColor}${this._colorUnit.value}`,
         // }
+    }
+
+    getComputedWidthPixele()
+    {
+        this.updateModelComponent()
+        setTimeout(() => {
+
+            // var val = this.getComputedCssVal(new Width(this._width, this.widthUnitCurrent))
+            // console.log('getComputedWidthPixele');
+            // console.log(val);
+        }, 300)
+        
+        return 0
     }
 
     public updateAllModelsComponents()
@@ -414,6 +461,22 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             //     this.contentFilter.injectCssProperty(clonedCss)
             //     continue
             // }
+
+            if (prop instanceof Width || prop instanceof Height ) {
+                console.log("CONTR_FILTR");
+                console.log(prop);
+                
+                let val = this.getComputedCssVal(prop)
+                let clonedCss = _.cloneDeep(prop)
+                clonedCss.setValue(parseInt(val))
+                clonedCss.setUnit(new Pixel())
+                // console.log(prop);
+                // console.log(val);
+                // console.log(clonedCss);
+                // console.log('ALA MA');
+                this.contentFilter.injectCssProperty(clonedCss)
+                continue
+            }
             
             if (prop instanceof BasePaddingCss) {
 
@@ -506,16 +569,22 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         var val = a.getPropertyValue(prop.getName())
         // this.getHtmlEl().removeAttribute('style')
         
-        // console.log(a);
-        // console.log(val);
-        // console.log('COMPUTED-END');
+        // console.log(prop);
+        // console.log(prop.getValue());
+        // console.log(this.getHtmlEl().style);
+        console.log(this.getHtmlEl());
+        console.log(a);
+        console.log(val);
+        console.log('COMPUTED-END');
+
+        // document.body.removeChild(this.getHtmlEl())
         return val
     }
 
     get cssBoxList() : any
     {
-        if (this.sizeUnitCurrent instanceof Percent) {
-            let css = this.cssList
+        if (this.widthUnitCurrent instanceof Percent) {
+            // let css = this.cssList
                 
             // return css
             // return {
@@ -552,15 +621,15 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         }
         
         
-        paddingLeftWidth = this.paddingLeft.isActive() ? this.paddingLeft.width : 0
-        paddingRightWidth = this.paddingRight.isActive() ? this.paddingRight.width : 0
-        paddingTopWidth = this.paddingTop.isActive() ? this.paddingTop.width : 0
-        paddingBottomWidth = this.paddingBottom.isActive() ? this.paddingBottom.width : 0
+        // paddingLeftWidth = this.paddingLeft.isActive() ? this.paddingLeft.width : 0
+        // paddingRightWidth = this.paddingRight.isActive() ? this.paddingRight.width : 0
+        // paddingTopWidth = this.paddingTop.isActive() ? this.paddingTop.width : 0
+        // paddingBottomWidth = this.paddingBottom.isActive() ? this.paddingBottom.width : 0
         
-        let marginLeftWidth = this.marginLeft.width
-        let marginRightWidth = this.marginRight.width
-        let marginTopWidth = this.marginTop.width
-        let marginBottomWidth = this.marginBottom.width
+        // let marginLeftWidth = this.marginLeft.width
+        // let marginRightWidth = this.marginRight.width
+        // let marginTopWidth = this.marginTop.width
+        // let marginBottomWidth = this.marginBottom.width
         
         // let paddingLeftWidth = 0
         // let paddingRightWidth = 0
@@ -569,27 +638,31 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // let boxWidth = marginLeftWidth + borderLeftWidth + paddingLeftWidth + marginRightWidth + borderRightWidth + paddingRightWidth + this._width
         // let boxHeight = marginTopWidth + borderTopWidth + paddingTopWidth + marginBottomWidth + borderBottomWidth + paddingBottomWidth + this._height
         
-        let boxWidth = this._width
         let boxHeight = this._height
         if (this._backgroundColor) {
-
+            
         }
-
+        
         // let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
-
+        
         let allCssList = this.cssAccessor
         
-        let width = new Width(boxWidth, this.sizeUnitCurrent)
-        // console.log(`%c${width.getValue()}`, 'font-size: 20px;')
-
-        let height = new Height(boxHeight, this.sizeUnitCurrent)
+        let height = new Height(boxHeight, this.heightUnitCurrent)
         try {
-            allCssList.setNewPropertyValue(Height.PROP_NAME, height)
-
+            if (this.cssAccessor.hasCssProperty(Height.PROP_NAME)) {
+                // allCssList.setNewPropertyValue(Height.PROP_NAME, height)
+                
+            }
+            
         } catch (e) {
         }
+        let boxWidth = this._width
+        let width = new Width(boxWidth, this.widthUnitCurrent)
         try {
-            allCssList.setNewPropertyValue(Width.PROP_NAME, width)
+            if (this.cssAccessor.hasCssProperty(Width.PROP_NAME)) {
+
+                // allCssList.setNewPropertyValue(Width.PROP_NAME, width)
+            }
 
         } catch (e) {
         }
@@ -602,24 +675,31 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         let css = {}
         
         for (const cssProp of this.cssAccessor.all) {
-            if (cssProp instanceof BasePaddingCss) {
-                // this.paddingFilter.injectCssProperty(cssProp)
-            }
-            if (!this.filterCss(cssProp)) {
-                // continue
-            }
+            // if (cssProp instanceof BasePaddingCss) {
+            //     this.paddingFilter.injectCssProperty(cssProp)
+            // }
+            // if (!this.filterCss(cssProp)) {
+            //     continue
+            // }
+            var propCss = cssProp
             if (cssProp instanceof Width ||
-                cssProp instanceof Height ||
-                cssProp instanceof BaseMarginCss ||
-                cssProp instanceof BasePaddingCss || 
-                cssProp instanceof BaseBorderCss || 
-                cssProp instanceof BoxSizing 
-            )
-                
+                cssProp instanceof Height
+                // cssProp instanceof BaseMarginCss ||
+                // cssProp instanceof BasePaddingCss || 
+                // cssProp instanceof BaseBorderCss || 
+                // cssProp instanceof BoxSizing 
+            ) 
             {
                 
             }
-            css[cssProp.getName()] = cssProp.getValue()
+            if (cssProp instanceof Width) {
+                css[cssProp.getName()] = this.widthUnitCurrent.getValue(this._width)
+            } else if (cssProp instanceof Height) {
+                css[cssProp.getName()] = this.heightUnitCurrent.getValue(this._height)
+            } else {
+                css[cssProp.getName()] = cssProp.getValue()
+
+            }
         }
 
 
@@ -629,7 +709,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     
     get cssContentBoxList(): any
     {
-        if (this.sizeUnitCurrent instanceof Percent) {
+        if (this.widthUnitCurrent instanceof Percent) {
             let css = this.cssList
                 
             return css
@@ -648,6 +728,8 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         let allCssList = this.cssAccessor
         
         let css = {}
+
+        return css
         
         for (const cssProp of this.cssAccessor.all) {
             if (!this.filterCss(cssProp)) {
@@ -689,18 +771,24 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         return this._toManage === true
     }
 
+    private toInitSizeUnits()
+    {
+        this.widthUnitCurrent = new Pixel()
+        this.heightUnitCurrent = new Pixel()
+    }
+
 
 
     public onMouseMove(w, h) 
     {
-        this.sizeUnitCurrent = new Pixel()
+        this.toInitSizeUnits()  
         this._width = w
         this._height = h
     }
 
     public initSize(w, h) 
     {
-        this.sizeUnitCurrent = new Pixel()
+        this.toInitSizeUnits()  
         // console.log(w);
         // console.log(h);
         
@@ -713,7 +801,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     public initWidth(w)
     {
-        this.sizeUnitCurrent = new Pixel()
+        this.widthUnitCurrent = new Pixel()
         this._width = w
         this.synchronizer.synchronize()
 
@@ -721,7 +809,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     
     public initHeight(w)
     {
-        this.sizeUnitCurrent = new Pixel()
+        this.heightUnitCurrent = new Pixel()
         this._height = w
         this.synchronizer.synchronize()
 
