@@ -38,7 +38,7 @@ export default class BorderRight extends BorderModel {
     {
         super.initCssAccessor()
         let width = new Width('none', new Named())
-        let height = new Height(this.length, new Pixel())
+        let height = new Height(this.lengthCalc, new Named())
         let borderWidth = new BorderRightWidth(this.width, this.widthUnit)
         let borderStyle = new BorderRightStyle(this.style, new Named())
 
@@ -82,7 +82,7 @@ export default class BorderRight extends BorderModel {
     {
         let css = super.cssList
         let width = new Width('none', new Named())
-        let height = new Height(this.length, new Pixel())
+        let height = new Height(this.lengthCalc, new Named())
         let borderWidth = new BorderRightWidth(this.width, this.widthUnit)
         let right = new RightCss(this.offset, new Pixel())
         let top = new TopCss(this.lengthOffset, new Pixel())

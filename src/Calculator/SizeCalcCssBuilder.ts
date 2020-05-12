@@ -1,5 +1,5 @@
 
 export default interface SizeCalculator<T>
 {
-    calculateSize(el: T): number
+    build(el: T): string
 }

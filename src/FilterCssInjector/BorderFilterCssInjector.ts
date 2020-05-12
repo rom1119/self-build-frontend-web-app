@@ -19,7 +19,7 @@ import OffsetCalculator from "../Calculator/OffsetCalculator";
 import BorderOffsetCalculator from "../Calculator/Offset/BorderOffsetCalculator";
 import MarginOffsetCalculator from "../Calculator/Offset/MarginOffsetCalculator";
 import BorderSizeCalculator from "../Calculator/Size/BorderSizeCalculator";
-import SizeCalculator from "../Calculator/SizeCalculator";
+import SizeCalculator from "../Calculator/SizeCalcCssBuilder";
 import OffsetSizeCalculator from "../Calculator/OffsetSizeCalculator";
 import BorderOffsetSizeCalculator from "../Calculator/OffsetSize/BorderOffsetSizeCalculator";
 
@@ -85,11 +85,28 @@ export default class BorderFilterCssInjector extends FilterCssInjector
 
     }
 
+    private deactiveProp(cssProp: BasePropertyCss, model: BorderModel)
+    {
+        var global: BorderGlobalCss = <BorderGlobalCss>this.htmlTag.cssAccessor.getProperty(BorderGlobalCss.PROP_NAME)
+        
+        if (global) {
+            model.width = <number><unknown>global.getClearValue()
+            model.widthUnit = global.getUnit()
+            model.color = global.getClearColor()
+            model.colorUnit = global.getColorUnit()
+            model.style = global.getClearStyle()
+        } else {
+            model.deactivate()
+
+        }
+    }
+
     public deactivateProp(cssProp: BasePropertyCss) {
         if (cssProp instanceof BorderLeftCss) {
             this.htmlTag.borderLeft.deactivate()
         } else if (cssProp instanceof BorderRightCss) {
-            this.htmlTag.borderRight.deactivate()
+            // .deactivate()
+            this.deactiveProp(cssProp, this.htmlTag.borderRight)
         } else if (cssProp instanceof BorderTopCss) {
             this.htmlTag.borderTop.deactivate()
         } else if (cssProp instanceof BorderBottomCss) {
@@ -195,7 +212,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
             model.style = cssProp.getType()
             model.color = cssProp.getColor()
             model.offset = this.offsetCalculator.calculateOffset(model)
-            model.length = this.sizeCalculator.calculateSize(model)
+            model.lengthCalc = this.sizeCalculator.build(model)
             model.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(model)
             model.activate()
         }
@@ -233,7 +250,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
             this.htmlTag.borderRight.width = parseInt(right.getClearValue())
             this.htmlTag.borderRight.widthUnit = right.getUnit()
             this.htmlTag.borderRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderRight)
-            this.htmlTag.borderRight.length = this.sizeCalculator.calculateSize(this.htmlTag.borderRight)
+            this.htmlTag.borderRight.lengthCalc = this.sizeCalculator.build(this.htmlTag.borderRight)
             this.htmlTag.borderRight.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderRight)
 
             this.htmlTag.borderRight.style = cssProp.getType()
@@ -253,7 +270,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
                 this.htmlTag.borderLeft.width = parseInt(left.getClearValue())
                 this.htmlTag.borderLeft.widthUnit = left.getUnit()
                 this.htmlTag.borderLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderLeft)
-                this.htmlTag.borderLeft.length = this.sizeCalculator.calculateSize(this.htmlTag.borderLeft)
+                this.htmlTag.borderLeft.lengthCalc = this.sizeCalculator.build(this.htmlTag.borderLeft)
                 this.htmlTag.borderLeft.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderLeft)
                 
                 this.htmlTag.borderLeft.style = cssProp.getType()
@@ -267,7 +284,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
                 this.htmlTag.borderTop.width = parseInt(top.getClearValue())
                 this.htmlTag.borderTop.widthUnit = top.getUnit()
                 this.htmlTag.borderTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderTop)
-                this.htmlTag.borderTop.length = this.sizeCalculator.calculateSize(this.htmlTag.borderTop)
+                this.htmlTag.borderTop.lengthCalc = this.sizeCalculator.build(this.htmlTag.borderTop)
                 this.htmlTag.borderTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderTop)
                 
                 
@@ -281,7 +298,7 @@ export default class BorderFilterCssInjector extends FilterCssInjector
                 this.htmlTag.borderBottom.width = parseInt(bottom.getClearValue())
                 this.htmlTag.borderBottom.widthUnit = bottom.getUnit()
                 this.htmlTag.borderBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.borderBottom)
-                this.htmlTag.borderBottom.length = this.sizeCalculator.calculateSize(this.htmlTag.borderBottom)
+                this.htmlTag.borderBottom.lengthCalc = this.sizeCalculator.build(this.htmlTag.borderBottom)
                 this.htmlTag.borderBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.borderBottom)
                 
                 this.htmlTag.borderBottom.style = cssProp.getType()

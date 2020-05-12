@@ -30,7 +30,7 @@ export default class BorderBottom extends BorderModel
     protected initCssAccessor()
     {
         super.initCssAccessor()
-        let width = new Width(this.length, new Pixel())
+        let width = new Width(this.lengthCalc, new Named())
         let height = new Height('none', new Named())
         let borderWidth = new BorderBottomWidth(this.width, this.widthUnit)
         let borderStyle = new BorderBottomStyle(this.style, new Named())
@@ -75,7 +75,7 @@ export default class BorderBottom extends BorderModel
     get cssList() : any
     {
         let css = super.cssList
-        let width = new Width(this.length, new Pixel())
+        let width = new Width(this.lengthCalc, new Named())
         let height = new Height('none', new Named())
         let borderWidth = new BorderBottomWidth(this.width, this.widthUnit)
         let borderStyle = new BorderBottomStyle(this.style, new Named())

@@ -25,7 +25,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     protected _name: string = 'border-base'
     protected _style: string
     protected _offset: number = -15
-    protected _length: number = 0
+    protected _lengthCalc: string = 'calc(0px)'
     protected _lengthOffset: number = 0
     protected _color: string
     protected _colorUnit: UnitColor
@@ -102,13 +102,13 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
         this._lengthOffset = arg
     }
     
-    get length(): number
+    get lengthCalc(): string
     {
-        return this._length
+        return this._lengthCalc
     }
-    set length(arg: number)
+    set lengthCalc(arg: string)
     {
-        this._length = arg
+        this._lengthCalc = arg
     }
     
     get width(): number
@@ -133,6 +133,15 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
     set color(arg: string)
     {
         this._color = arg
+    }
+    
+    get colorUnit(): UnitColor
+    {
+        return this._colorUnit
+    }
+    set colorUnit(arg: UnitColor)
+    {
+        this._colorUnit = arg
     }
     
     get style(): string

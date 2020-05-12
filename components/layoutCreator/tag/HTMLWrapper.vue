@@ -1,6 +1,5 @@
 <template>
     <component :is="value.getTagName()" class="wrapper" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.uuid" >
-        
         <div class="none">
             <!-- <span :style="value.cssBoxList"  ></span> -->
         </div>
@@ -493,13 +492,13 @@ export default class HTMLWrapper extends Vue {
 
         console.log('11@@@@@@@@@@@@@11');
         
-        // if (this.value instanceof HtmlTag)  {
-        //     this.value.recalculateRealComputedProperties()
+        if (this.value instanceof HtmlTag)  {
+            this.value.recalculateRealComputedProperties()
 
-        // }
+        }
         
-        // this.borderRecalculator.recalculate(this.value)
-        // this.marginRecalculator.recalculate(this.value)
+        this.borderRecalculator.recalculate(this.value)
+        this.marginRecalculator.recalculate(this.value)
 
         // this.value.updateModelComponent()
 

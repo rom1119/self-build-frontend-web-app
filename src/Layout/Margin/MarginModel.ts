@@ -11,7 +11,7 @@ import RGBA from '../../Unit/Color/RGBA';
 import Height from "~/src/Css/Size/Height";
 import HtmlTag from "../HtmlTag";
 import Display from "~/src/Css/Display/Display";
-import SizeCalculator from "~/src/Calculator/SizeCalculator";
+import SizeCalculator from "~/src/Calculator/SizeCalcCssBuilder";
 import OffsetSizeCalculator from "~/src/Calculator/OffsetSizeCalculator";
 import MarginSizeCalculator from '../../Calculator/Size/MarginSizeCalculator';
 import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
@@ -22,7 +22,7 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     protected _name: string = 'border-base'
     protected _width: number = 55
     protected _offset: number = -55
-    protected _length: number = 0
+    protected _lengthCalc: string = 'calc(0px)'
     protected _lengthOffset: number = 0
     protected _active: boolean = false;
 
@@ -102,13 +102,13 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     }
     
 
-    get length(): number
+    get lengthCalc(): string
     {
-        return this._length
+        return this._lengthCalc
     }
-    set length(arg: number)
+    set lengthCalc(arg: string)
     {
-        this._length = arg
+        this._lengthCalc = arg
     }
     
     get offset(): number

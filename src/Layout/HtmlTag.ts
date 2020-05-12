@@ -48,7 +48,7 @@ import HtmlTagPropertyAccessor from '../Css/PropertyAccessor/HtmlTagPropertyAcce
 import HtmlTagSynchronizer from "../Synchronizer/Impl/HtmlTagSynchronizer";
 import HtmlNode from "./HtmlNode";
 import BorderFetcherRealCssProp from "../BorderFetcherRealCssProp";
-
+import { VueFixStyleListTransform } from "../Vue/VueFixStyleListTransform";
 
 export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage
 {
@@ -63,8 +63,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     borderBottom: BorderModel
     borderTop: BorderModel
     borderLeft: BorderModel
-    borderRight: BorderModel
-    
+    borderRight: BorderModel    
     protected _paddings: PaddingModel[] = []
     paddingBottom: PaddingModel
     paddingTop: PaddingModel
@@ -103,6 +102,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     protected synchronizer: HtmlTagSynchronizer
     api: ApiService
+    transformStyleList: VueFixStyleListTransform
     
     constructor()
     {
@@ -112,6 +112,8 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this.initMargins()
         this._tmpCssPropertyAccesor = new ContentElPropertyAccessor(this)
         this.initCssAccessor()
+        this.transformStyleList = new VueFixStyleListTransform(this)
+
         // console.log(this.paddingRealFetcher);
 
     }
@@ -130,6 +132,26 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     public setHeightUnit(unit: UnitSize)
     {
         this.heightUnitCurrent = unit
+    }
+    
+    public getWithUnit(): UnitSize
+    {
+        return this.widthUnitCurrent
+    }
+    
+    public getHeightUnit() : UnitSize
+    {
+        return this.heightUnitCurrent
+    }
+
+    public getWidthValue()
+    {
+        return this.widthUnitCurrent.getValue(this.width)
+    }
+    
+    public getHeightValue()
+    {
+        return this.heightUnitCurrent.getValue(this.height)
     }
 
     initBorders()
@@ -399,19 +421,6 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // }
     }
 
-    getComputedWidthPixele()
-    {
-        this.updateModelComponent()
-        setTimeout(() => {
-
-            // var val = this.getComputedCssVal(new Width(this._width, this.widthUnitCurrent))
-            // console.log('getComputedWidthPixele');
-            // console.log(val);
-        }, 300)
-        
-        return 0
-    }
-
     public updateAllModelsComponents()
     {
         this.paddingLeft.updateModelComponent()
@@ -494,15 +503,15 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             
             if (prop instanceof BaseMarginCss) {
 
-                let val = this.getComputedCssVal(prop)
-                let clonedCss = _.cloneDeep(prop)
-                clonedCss.setValue(parseInt(val).toString())
-                clonedCss.setUnit(new Pixel())
-                // console.log(newProp);
-                // console.log(val);
-                // // console.log(clonedCss);
-                // console.log('ALA MA');
-                this.marginFilter.injectCssProperty(clonedCss)
+                // let val = this.getComputedCssVal(prop)
+                // let clonedCss = _.cloneDeep(prop)
+                // clonedCss.setValue(parseInt(val).toString())
+                // clonedCss.setUnit(new Pixel())
+                // // console.log(newProp);
+                // // console.log(val);
+                // // // console.log(clonedCss);
+                // // console.log('ALA MA');
+                this.marginFilter.injectCssProperty(prop)
                 continue
             }
             
@@ -572,14 +581,16 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // console.log(prop);
         // console.log(prop.getValue());
         // console.log(this.getHtmlEl().style);
-        console.log(this.getHtmlEl());
-        console.log(a);
-        console.log(val);
-        console.log('COMPUTED-END');
+        // console.log(this.getHtmlEl());
+        // console.log(a);
+        // console.log(val);
+        // console.log('COMPUTED-END');
 
         // document.body.removeChild(this.getHtmlEl())
         return val
     }
+
+
 
     get cssBoxList() : any
     {
@@ -673,38 +684,38 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         
         
         let css = {}
-        
-        for (const cssProp of this.cssAccessor.all) {
-            // if (cssProp instanceof BasePaddingCss) {
-            //     this.paddingFilter.injectCssProperty(cssProp)
-            // }
-            // if (!this.filterCss(cssProp)) {
-            //     continue
-            // }
-            var propCss = cssProp
-            if (cssProp instanceof Width ||
-                cssProp instanceof Height
-                // cssProp instanceof BaseMarginCss ||
-                // cssProp instanceof BasePaddingCss || 
-                // cssProp instanceof BaseBorderCss || 
-                // cssProp instanceof BoxSizing 
-            ) 
-            {
+
+        // for (const cssProp of this.cssAccessor.all) {
+        //     // if (cssProp instanceof BasePaddingCss) {
+        //     //     this.paddingFilter.injectCssProperty(cssProp)
+        //     // }
+        //     // if (!this.filterCss(cssProp)) {
+        //     //     continue
+        //     // }
+        //     var propCss = cssProp
+        //     if (cssProp instanceof Width ||
+        //         cssProp instanceof Height
+        //         // cssProp instanceof BaseMarginCss ||
+        //         // cssProp instanceof BasePaddingCss || 
+        //         // cssProp instanceof BaseBorderCss || 
+        //         // cssProp instanceof BoxSizing 
+        //     ) 
+        //     {
                 
-            }
-            if (cssProp instanceof Width) {
-                css[cssProp.getName()] = this.widthUnitCurrent.getValue(this._width)
-            } else if (cssProp instanceof Height) {
-                css[cssProp.getName()] = this.heightUnitCurrent.getValue(this._height)
-            } else {
-                css[cssProp.getName()] = cssProp.getValue()
+        //     }
+        //     if (cssProp instanceof Width) {
+        //         css[cssProp.getName()] = this.widthUnitCurrent.getValue(this._width)
+        //     } else if (cssProp instanceof Height) {
+        //         css[cssProp.getName()] = this.heightUnitCurrent.getValue(this._height)
+        //     } else {
+        //         css[cssProp.getName()] = cssProp.getValue()
 
-            }
-        }
+        //     }
+        // }
 
-
+        return this.transformStyleList.transform(this.cssAccessor.all)
         
-        return css
+        // return css
     }
     
     get cssContentBoxList(): any

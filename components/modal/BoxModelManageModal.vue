@@ -80,15 +80,34 @@
                         />
                         <div class="border-box-model">
                             <border-site-model-element
-                                @changeProperty="marginUnitTop = $event"
                                 :property="borderTop"
                                 :borderManager="borderManager"
                                 :classList="['top-border','border']"
                                 :contextMenuName="value.uuid.concat('-border-top-box')"
                             />
                             <border-site-model-element
+                                :property="borderRight"
+                                :borderManager="borderManager"
+                                :classList="['right-border','border']"
+                                :contextMenuName="value.uuid.concat('-border-right-box')"
+                            />
+                            
+                            <border-site-model-element
+                                :property="borderBottom"
+                                :borderManager="borderManager"
+                                :classList="['bottom-border','border']"
+                                :contextMenuName="value.uuid.concat('-border-bottom-box')"
+                            />
+                            
+                            <border-site-model-element
+                                :property="borderLeft"
+                                :borderManager="borderManager"
+                                :classList="['left-border','border']"
+                                :contextMenuName="value.uuid.concat('-border-left-box')"
+                            />
+                            
+                            <border-site-model-element
                                 :globalEl="true"
-                                @changeProperty="marginUnitTop = $event"
                                 :property="borderGlobal"
                                 :borderManager="borderManager"
                                 :classList="['global-border','border']"
@@ -741,10 +760,26 @@ import { Width } from '~/src/Css';
             return this.borderManager.topProperty
         }
         
+        get borderRight(): BaseBorderCss
+        {
+            return this.borderManager.rightProperty
+        }
+        
+        get borderBottom(): BaseBorderCss
+        {
+            return this.borderManager.bottomProperty
+        }
+        
+        get borderLeft(): BaseBorderCss
+        {
+            return this.borderManager.leftProperty
+        }
+
         get borderGlobal(): BaseBorderCss
         {
             return this.borderManager.globalProperty
         }
+        
 
         // *****************************************  BORDER - END ****************************************************
 

@@ -9,13 +9,13 @@ export default class BorderRecalculate implements HtmlTagRecalculator {
         let sizeCalc = new BorderSizeCalculator(htmlTag)
         let offsetSizeCalc = new BorderOffsetSizeCalculator(htmlTag)
         
-        htmlTag.borderTop.length = sizeCalc.calculateSize(htmlTag.borderTop)
+        htmlTag.borderTop.lengthCalc = sizeCalc.build(htmlTag.borderTop)
         htmlTag.borderTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderTop)
-        htmlTag.borderBottom.length = sizeCalc.calculateSize(htmlTag.borderBottom)
+        htmlTag.borderBottom.lengthCalc = sizeCalc.build(htmlTag.borderBottom)
         htmlTag.borderBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderBottom)
-        htmlTag.borderLeft.length = sizeCalc.calculateSize(htmlTag.borderLeft)
+        htmlTag.borderLeft.lengthCalc = sizeCalc.build(htmlTag.borderLeft)
         htmlTag.borderLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderLeft)
-        htmlTag.borderRight.length = sizeCalc.calculateSize(htmlTag.borderRight)
+        htmlTag.borderRight.lengthCalc = sizeCalc.build(htmlTag.borderRight)
         htmlTag.borderRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderRight)
     }
 

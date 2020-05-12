@@ -29,8 +29,8 @@ export default class PaddingRealCssFetcher implements FetcherRealCssProp
                 return this.getTop()
             case PaddingBottomCss.PROP_NAME:
                 return this.getBottom()
-                case PaddingCss.PROP_NAME:
-                    return this.getGlobal()
+            case PaddingCss.PROP_NAME:
+                return this.getGlobal()
         }
 
         throw Error(`Can not fetch Default Padding from property name ${propName}`)

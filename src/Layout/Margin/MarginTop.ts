@@ -30,7 +30,7 @@ export default class MarginTop extends MarginModel
     protected initCssAccessor()
     {
         super.initCssAccessor()
-        let width = new Width(this.length, new Pixel())
+        let width = new Width(this.lengthCalc, new Named())
         let height = new Height(this.width, this.widthUnit)
         let left = new LeftCss(this.lengthOffset, new Pixel())
         let top = new TopCss(this.offset, new Pixel())
@@ -71,7 +71,7 @@ export default class MarginTop extends MarginModel
     get cssList() : any
     {
         let css = super.cssList
-        let width = new Width(this.length, new Pixel())
+        let width = new Width(this.lengthCalc, new Named())
         let height = new Height(this.width, this.widthUnit)
         let left = new LeftCss(this.lengthOffset, new Pixel())
         let top = new TopCss(this.offset, new Pixel())

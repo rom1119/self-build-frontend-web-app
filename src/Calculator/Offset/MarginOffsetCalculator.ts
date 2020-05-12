@@ -42,9 +42,19 @@ export default class MarginOffsetCalculator implements OffsetCalculator<MarginMo
     
     private calculateRightOffset(): number
     {
-        let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
+        let marginRightWidth = this.htmlTag.marginRight.isActive() ? this.htmlTag.marginRight.width : 0
         let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginRight.width + borderRightWidth)
+        let newOff = -Math.abs(marginRightWidth + borderRightWidth)
+        // console.log('oooooooooooooo');
+        // console.log(marginRightWidth);
+        // console.log(borderRightWidth);
+        // console.log(newOff);
+        // console.log('oooooooooooooo');
+        
+        // console.log(newOff);
+        // console.log(this.htmlTag.marginRight.width );
+        // console.log(borderRightWidth);
+        
         return newOff
     }
     

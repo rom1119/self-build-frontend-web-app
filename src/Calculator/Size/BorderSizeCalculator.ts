@@ -5,7 +5,8 @@ import BorderLeft from '~/src/Layout/Border/BorderLeft';
 import BorderRight from '~/src/Layout/Border/BorderRight';
 import BorderTop from '~/src/Layout/Border/BorderTop';
 import BorderBottom from '~/src/Layout/Border/BorderBottom';
-import SizeCalculator from '../SizeCalculator';
+import SizeCalculator from '../SizeCalcCssBuilder';
+import { Pixel } from '~/src/Unit';
 
 export default class BorderSizeCalculator implements SizeCalculator<BorderModel>
 {
@@ -16,61 +17,70 @@ export default class BorderSizeCalculator implements SizeCalculator<BorderModel>
         this.htmlTag = htmlTag
     }
 
-    calculateSize(el: BorderModel): number {
+    build(el: BorderModel): string {
         if (el instanceof BorderLeft) {
-            return this.calculateLeft()
+            return `calc(${this.left()})`
         } else if (el instanceof BorderRight) {
-            return this.calculateRight()
+            return `calc(${this.right()})`
         } else if (el instanceof BorderTop) {
-            return this.calculateTop()
+            return `calc(${this.top()})`
             
         } else if (el instanceof BorderBottom) {
-            return this.calculateBottom() 
+            return `calc(${this.bottom()})`
         }
         throw Error('Not implemented for ' + el)
     }
 
-    private calculateLeft(): number
+    private left(): string
     {
+        var px = new Pixel();
+
         let topWidthBorder = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
         let bottomWidthBorder = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
         let topWidthPadding = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
         let bottomWidthPadding = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
-        let height =  this.htmlTag.height 
-        let newOff = topWidthBorder + bottomWidthBorder + topWidthPadding + bottomWidthPadding + height
+        let height =  '100%'
+        let newOff = `${px.getValue(topWidthBorder)} + ${px.getValue(bottomWidthBorder)} + ${height}`
         return newOff
     }
     
-    private calculateRight(): number
+    private right(): string
     {
+        var px = new Pixel();
+
         let topWidthBorder = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
         let bottomWidthBorder = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
         let topWidthPadding = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
         let bottomWidthPadding = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
-        let height =  this.htmlTag.height 
-        let newOff = topWidthBorder + bottomWidthBorder + topWidthPadding + bottomWidthPadding + height
+        let height =  '100%' 
+        let newOff = `${px.getValue(topWidthBorder)} + ${px.getValue(bottomWidthBorder)} + ${height}`
         return newOff
     }
     
-    private calculateTop(): number
+    private top(): string
     {
+        var px = new Pixel();
+
         let leftWidthBorder = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
         let rightWidthBorder = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
         let leftWidthPadding = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
         let rightWidthPadding = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
-        let width =  this.htmlTag.width 
-        let newOff = leftWidthBorder + rightWidthBorder + leftWidthPadding + rightWidthPadding + width
+        let width =  '100%'
+        let newOff = `${px.getValue(leftWidthBorder)} + ${px.getValue(rightWidthBorder)} + ${width}`
         return newOff
     }
     
-    private calculateBottom(): number
+    private bottom(): string
     {
+        var px = new Pixel();
+
         let leftWidthBorder = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
         let rightWidthBorder = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
         let leftWidthPadding = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
         let rightWidthPadding = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
-        let width =  this.htmlTag.width 
-        let newOff = leftWidthBorder + rightWidthBorder + leftWidthPadding + rightWidthPadding + width
+        let width =  '100%' 
+        let newOff = `${px.getValue(leftWidthBorder)} + ${px.getValue(rightWidthBorder)} + ${width}`
+        
         return newOff
     }
 

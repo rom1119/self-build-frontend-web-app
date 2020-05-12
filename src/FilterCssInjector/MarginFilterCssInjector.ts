@@ -17,7 +17,7 @@ import MarginRightCss from '../Css/BoxModel/Margin/MarginRightCss';
 import MarginLeftCss from "../Css/BoxModel/Margin/MarginLeftCss";
 import OffsetCalculator from "../Calculator/OffsetCalculator";
 import MarginOffsetCalculator from '../Calculator/Offset/MarginOffsetCalculator';
-import SizeCalculator from "../Calculator/SizeCalculator";
+import SizeCalculator from "../Calculator/SizeCalcCssBuilder";
 import MarginSizeCalculator from "../Calculator/Size/MarginSizeCalculator";
 import OffsetSizeCalculator from "../Calculator/OffsetSizeCalculator";
 import MarginOffsetSizeCalculator from "../Calculator/OffsetSize/MarginOffsetSizeCalculator";
@@ -86,9 +86,22 @@ export default class MarginFilterCssInjector extends FilterCssInjector
 
     }
 
+    private deactiveProp(cssProp: BasePropertyCss, model: MarginModel)
+    {
+        var global: BasePropertyCss = this.htmlTag.cssAccessor.getProperty(MarginCss.PROP_NAME)
+        
+        if (global) {
+            model.width = global.getClearValue()
+            model.widthUnit = global.getUnit()
+        } else {
+            model.deactivate()
+
+        }
+    }
+
     public deactivateProp(cssProp: BasePropertyCss) {
         if (cssProp instanceof MarginLeftCss) {
-            this.htmlTag.marginLeft.deactivate()
+            this.deactiveProp(cssProp, this.htmlTag.marginLeft)
         } else if (cssProp instanceof MarginRightCss) {
             this.htmlTag.marginRight.deactivate()
         } else if (cssProp instanceof MarginTopCss) {
@@ -148,7 +161,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             marginModel.width = parseInt(prop.getClearValue())
             marginModel.widthUnit = prop.getUnit()
             marginModel.offset = this.offsetCalculator.calculateOffset(marginModel)
-            marginModel.length = this.sizeCalculator.calculateSize(marginModel)
+            marginModel.lengthCalc = this.sizeCalculator.build(marginModel)
             marginModel.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(marginModel)
             marginModel.activate()
         }
@@ -174,7 +187,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginRight.width = parseInt(right.getClearValue())
             this.htmlTag.marginRight.widthUnit = right.getUnit()
             this.htmlTag.marginRight.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginRight)
-            this.htmlTag.marginRight.length = this.sizeCalculator.calculateSize(this.htmlTag.marginRight)
+            this.htmlTag.marginRight.lengthCalc = this.sizeCalculator.build(this.htmlTag.marginRight)
             this.htmlTag.marginRight.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginRight)
             this.htmlTag.marginRight.activate()
             
@@ -186,7 +199,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginLeft.width = parseInt(left.getClearValue())
             this.htmlTag.marginLeft.widthUnit = left.getUnit()
             this.htmlTag.marginLeft.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginLeft)
-            this.htmlTag.marginLeft.length = this.sizeCalculator.calculateSize(this.htmlTag.marginLeft)
+            this.htmlTag.marginLeft.lengthCalc = this.sizeCalculator.build(this.htmlTag.marginLeft)
             this.htmlTag.marginLeft.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginLeft)
             this.htmlTag.marginLeft.activate()
             
@@ -197,7 +210,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginTop.width = parseInt(top.getClearValue())
             this.htmlTag.marginTop.widthUnit = top.getUnit()
             this.htmlTag.marginTop.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginTop)
-            this.htmlTag.marginTop.length = this.sizeCalculator.calculateSize(this.htmlTag.marginTop)
+            this.htmlTag.marginTop.lengthCalc = this.sizeCalculator.build(this.htmlTag.marginTop)
             this.htmlTag.marginTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginTop)
             this.htmlTag.marginTop.activate()
             
@@ -208,7 +221,7 @@ export default class MarginFilterCssInjector extends FilterCssInjector
             this.htmlTag.marginBottom.width = parseInt(bottom.getClearValue())
             this.htmlTag.marginBottom.widthUnit = bottom.getUnit()
             this.htmlTag.marginBottom.offset = this.offsetCalculator.calculateOffset(this.htmlTag.marginBottom)
-            this.htmlTag.marginBottom.length = this.sizeCalculator.calculateSize(this.htmlTag.marginBottom)
+            this.htmlTag.marginBottom.lengthCalc = this.sizeCalculator.build(this.htmlTag.marginBottom)
             this.htmlTag.marginBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.htmlTag.marginBottom)
             this.htmlTag.marginBottom.activate()
             

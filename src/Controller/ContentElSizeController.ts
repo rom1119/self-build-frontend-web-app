@@ -78,13 +78,13 @@ export default class ContentElSizeController extends SizeElController
         let sizeCalc = new MarginSizeCalculator(htmlTag)
         let offsetSizeCalc = new MarginOffsetSizeCalculator(htmlTag)
         
-        htmlTag.marginTop.length = sizeCalc.calculateSize(htmlTag.marginTop)
+        htmlTag.marginTop.lengthCalc = sizeCalc.build(htmlTag.marginTop)
         htmlTag.marginTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginTop)
-        htmlTag.marginBottom.length = sizeCalc.calculateSize(htmlTag.marginBottom)
+        htmlTag.marginBottom.lengthCalc = sizeCalc.build(htmlTag.marginBottom)
         htmlTag.marginBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginBottom)
-        htmlTag.marginLeft.length = sizeCalc.calculateSize(htmlTag.marginLeft)
+        htmlTag.marginLeft.lengthCalc = sizeCalc.build(htmlTag.marginLeft)
         htmlTag.marginLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginLeft)
-        htmlTag.marginRight.length = sizeCalc.calculateSize(htmlTag.marginRight)
+        htmlTag.marginRight.lengthCalc = sizeCalc.build(htmlTag.marginRight)
         htmlTag.marginRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginRight)
             
     }
@@ -94,13 +94,13 @@ export default class ContentElSizeController extends SizeElController
         let sizeCalc = new BorderSizeCalculator(htmlTag)
         let offsetSizeCalc = new BorderOffsetSizeCalculator(htmlTag)
         
-        htmlTag.borderTop.length = sizeCalc.calculateSize(htmlTag.borderTop)
+        htmlTag.borderTop.lengthCalc = sizeCalc.build(htmlTag.borderTop)
         htmlTag.borderTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderTop)
-        htmlTag.borderBottom.length = sizeCalc.calculateSize(htmlTag.borderBottom)
+        htmlTag.borderBottom.lengthCalc = sizeCalc.build(htmlTag.borderBottom)
         htmlTag.borderBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderBottom)
-        htmlTag.borderLeft.length = sizeCalc.calculateSize(htmlTag.borderLeft)
+        htmlTag.borderLeft.lengthCalc = sizeCalc.build(htmlTag.borderLeft)
         htmlTag.borderLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderLeft)
-        htmlTag.borderRight.length = sizeCalc.calculateSize(htmlTag.borderRight)
+        htmlTag.borderRight.lengthCalc = sizeCalc.build(htmlTag.borderRight)
         htmlTag.borderRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderRight)
             
     }

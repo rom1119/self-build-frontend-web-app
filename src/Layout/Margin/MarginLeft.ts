@@ -31,7 +31,7 @@ export default class MarginLeft extends MarginModel
     {
         super.initCssAccessor()
         let width = new Width(this.width, this.widthUnit)
-        let height = new Height(this.length, new Pixel())
+        let height = new Height(this.lengthCalc, new Named())
         let left = new LeftCss(this.offset, new Pixel())
         let top = new TopCss(this.lengthOffset, new Pixel())
 
@@ -49,9 +49,9 @@ export default class MarginLeft extends MarginModel
         this._width = newVal
         this.sizeCalculator = new MarginSizeCalculator(this.htmlTag)
         this.offsetSizeCalculator = new MarginOffsetSizeCalculator(this.htmlTag)
-        this.getHtmlTag().marginTop.length = this.sizeCalculator.calculateSize(this.getHtmlTag().marginTop)
+        this.getHtmlTag().marginTop.lengthCalc = this.sizeCalculator.build(this.getHtmlTag().marginTop)
         this.getHtmlTag().marginTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.getHtmlTag().marginTop)
-        this.getHtmlTag().marginBottom.length = this.sizeCalculator.calculateSize(this.getHtmlTag().marginBottom)
+        this.getHtmlTag().marginBottom.lengthCalc = this.sizeCalculator.build(this.getHtmlTag().marginBottom)
         this.getHtmlTag().marginBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.getHtmlTag().marginBottom)
     }
 
@@ -78,7 +78,7 @@ export default class MarginLeft extends MarginModel
     {
         let css = super.cssList
         let width = new Width(this.width, this.widthUnit)
-        let height = new Height(this.length, new Pixel())
+        let height = new Height(this.lengthCalc, new Named())
         let left = new LeftCss(this.offset, new Pixel())
         let top = new TopCss(this.lengthOffset, new Pixel())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)

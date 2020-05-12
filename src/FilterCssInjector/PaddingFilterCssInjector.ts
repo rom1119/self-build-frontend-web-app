@@ -74,16 +74,29 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
 
     }
 
+    private deactiveProp(cssProp: BasePropertyCss, model: PaddingModel)
+    {
+        var global: BasePropertyCss = this.htmlTag.cssAccessor.getProperty(PaddingCss.PROP_NAME)
+        
+        if (global) {
+            this.htmlTag.paddingRight.width = global.getClearValue()
+            this.htmlTag.paddingRight.widthUnit = global.getUnit()
+        } else {
+            this.htmlTag.paddingRight.deactivate()
+
+        }
+    }
+
     public deactivateProp(cssProp: BasePropertyCss) {
         if (cssProp instanceof PaddingLeftCss) {
             this.htmlTag.paddingLeft.deactivate()
         } else if (cssProp instanceof PaddingRightCss) {
             // this.updateVal(cssProp, this.htmlTag.paddingRight)
-            if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingRightCss.PROP_NAME)) {
-                console.error('QWER');
+            // if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingRightCss.PROP_NAME)) {
+            //     console.error('QWER');
                 
-            }
-            this.htmlTag.paddingRight.deactivate()
+            // }
+            
         } else if (cssProp instanceof PaddingTopCss) {
             this.htmlTag.paddingTop.deactivate()
         } else if (cssProp instanceof PaddingBottomCss) {

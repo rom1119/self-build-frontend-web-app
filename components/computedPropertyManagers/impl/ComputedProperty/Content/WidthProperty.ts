@@ -39,7 +39,7 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
     init()
     {
         super.init()
-        this.value.setWithUnit(this.getProperty().getUnit())
+        // this.value.setWithUnit(this.getProperty().getUnit())
     }
 
     activePropCss(prop: BasePropertyCss) {
@@ -60,18 +60,17 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
         if (!this.getProperty().isActive()) {
             return
         }
-        Vue.nextTick(() => {
-            let val = this.value.getComputedCssVal(newProp)
-            let clonedCss = _.cloneDeep(newProp)
-            clonedCss.setValue(parseInt(val))
-            // clonedCss.setUnit(new Pixel())
-        // console.log(newProp);
-        // console.log(val);
-        // console.log(clonedCss);
-        // console.log('ALA MA');
-            
-        this.value.contentFilter.injectCssProperty(newProp)
-        })
+        
+        let val = this.value.getComputedCssVal(newProp)
+        let clonedCss = _.cloneDeep(newProp)
+        clonedCss.setValue(parseInt(val))
+        // clonedCss.setUnit(new Pixel())
+    // console.log(newProp);
+    // console.log(val);
+    // console.log(clonedCss);
+    // console.log('ALA MA');
+        
+    this.value.contentFilter.injectCssProperty(newProp)
         // this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
 
         // this.value.updateModelComponent()
