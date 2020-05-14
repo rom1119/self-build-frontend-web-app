@@ -5,12 +5,13 @@ import { BackgroundImage, BackgroundPosition, Width, Height } from "~/src/Css";
 import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
 import { Named } from "~/src/Unit";
 import Unit from "~/src/Unit/Unit";
+import Pixel from '../../../../../src/Unit/Size/Pixel';
 
 export default class HeightProperty extends BaseComputedPropertyManager<Height> {
 
     protected value: HtmlTag
-    DEFAULT_VAL = Height.INITIAL
-    DEFAULT_UNIT = new Named()
+    DEFAULT_VAL = 100
+    DEFAULT_UNIT = new Pixel()
     property: Height = new Height(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
     getDefaultVal(): any {

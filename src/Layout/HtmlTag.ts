@@ -472,18 +472,19 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             // }
 
             if (prop instanceof Width || prop instanceof Height ) {
-                console.log("CONTR_FILTR");
-                console.log(prop);
+                // console.log("CONTR_FILTR");
+                // console.log(prop);
                 
-                let val = this.getComputedCssVal(prop)
-                let clonedCss = _.cloneDeep(prop)
-                clonedCss.setValue(parseInt(val))
-                clonedCss.setUnit(new Pixel())
+                // let val = this.getComputedCssVal(prop)
+                // let clonedCss = _.cloneDeep(prop)
+                // console.log(val);
+                // clonedCss.setValue(parseInt(val))
+                // clonedCss.setUnit(new Pixel())
                 // console.log(prop);
                 // console.log(val);
                 // console.log(clonedCss);
                 // console.log('ALA MA');
-                this.contentFilter.injectCssProperty(clonedCss)
+                this.contentFilter.injectCssProperty(prop)
                 continue
             }
             
@@ -649,43 +650,43 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // let boxWidth = marginLeftWidth + borderLeftWidth + paddingLeftWidth + marginRightWidth + borderRightWidth + paddingRightWidth + this._width
         // let boxHeight = marginTopWidth + borderTopWidth + paddingTopWidth + marginBottomWidth + borderBottomWidth + paddingBottomWidth + this._height
         
-        let boxHeight = this._height
-        if (this._backgroundColor) {
+        // let boxHeight = this._height
+        // if (this._backgroundColor) {
             
-        }
+        // }
         
-        // let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
+        // // let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
         
-        let allCssList = this.cssAccessor
+        // let allCssList = this.cssAccessor
         
-        let height = new Height(boxHeight, this.heightUnitCurrent)
-        try {
-            if (this.cssAccessor.hasCssProperty(Height.PROP_NAME)) {
-                // allCssList.setNewPropertyValue(Height.PROP_NAME, height)
+        // let height = new Height(boxHeight, this.heightUnitCurrent)
+        // try {
+        //     if (this.cssAccessor.hasCssProperty(Height.PROP_NAME)) {
+        //         // allCssList.setNewPropertyValue(Height.PROP_NAME, height)
                 
-            }
+        //     }
             
-        } catch (e) {
-        }
-        let boxWidth = this._width
-        let width = new Width(boxWidth, this.widthUnitCurrent)
-        try {
-            if (this.cssAccessor.hasCssProperty(Width.PROP_NAME)) {
+        // } catch (e) {
+        // }
+        // let boxWidth = this._width
+        // let width = new Width(boxWidth, this.widthUnitCurrent)
+        // try {
+        //     if (this.cssAccessor.hasCssProperty(Width.PROP_NAME)) {
 
-                // allCssList.setNewPropertyValue(Width.PROP_NAME, width)
-            }
+        //         // allCssList.setNewPropertyValue(Width.PROP_NAME, width)
+        //     }
 
-        } catch (e) {
-        }
+        // } catch (e) {
+        // }
         // allCssList.setNewPropertyValue(BackgroundColor.PROP_NAME, backgroundColor)
         // console.log('AAAAA');
 
         // console.log(height.getValue());
         
         
-        let css = {}
+        let css = this.cssAccessor.all
 
-        // for (const cssProp of this.cssAccessor.all) {
+        // for (const cssProp of ) {
         //     // if (cssProp instanceof BasePaddingCss) {
         //     //     this.paddingFilter.injectCssProperty(cssProp)
         //     // }

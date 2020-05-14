@@ -28,7 +28,7 @@ export class VueFixStyleListTransform
             if (cssProp instanceof Width) {
                 css[cssProp.getName()] = this.tag.getWidthValue()
             } else if (cssProp instanceof Height) {
-                css[cssProp.getName()] = this.tag.getHeightUnit()
+                css[cssProp.getName()] = this.tag.getHeightValue()
             } else {
                 css[cssProp.getName()] = cssVal
 

@@ -201,6 +201,20 @@
                                                 />
                                         </div>
                                     </div>
+                                    <div class="content-box-model-link">Height
+                                        <div class="width-prop-container">
+                                                <site-box-model-element 
+                                                    @changeHasProp="hasHeight = $event"
+                                                    @changeProp="height = $event"
+                                                    @changePropUnit="heightUnit = $event"
+                                                    :hasProperty="hasHeight"
+                                                    :property="height"
+                                                    :propertyUnit="heightUnit"
+                                                    :classList="['height-prop','height']"
+                                                    :contextMenuName="value.uuid.concat('-height-box')"
+                                                />
+                                        </div>
+                                    </div>
 
                                     
                                 </div>
@@ -319,8 +333,6 @@ import { Width } from '~/src/Css';
         }
 
         // *****************************************  WIDTH ****************************************************
-
-    // PADDING BOTTOM
         
         get width()
         {
@@ -355,6 +367,44 @@ import { Width } from '~/src/Css';
                 this.widthManager.deactivePropCss(this.widthManager.getProperty())
             } else {
                 this.widthManager.activePropCss(this.widthManager.getProperty())
+            }
+        }
+        
+        // *****************************************  WIDTH ****************************************************
+        
+        get height()
+        {
+            return  this.heightManager.getProperty().value
+        }
+        
+        set height(newVal: string)
+        {
+            this.heightManager.getProperty().setValue(newVal)
+            this.heightManager.updateCssProp(this.heightManager.getProperty())             
+        }
+        
+        get heightUnit()
+        {
+            return  this.heightManager.getProperty().getUnit()
+        }
+        
+        set heightUnit(newVal: UnitSize)
+        {
+            this.heightManager.getProperty().setUnit(newVal)
+            this.heightManager.updateCssProp(this.heightManager.getProperty())             
+        }
+
+        get hasHeight()
+        {
+            return  this.heightManager.getProperty().active
+        }
+        
+        set hasHeight(newVal: boolean)
+        {
+            if (!newVal) {
+                this.heightManager.deactivePropCss(this.heightManager.getProperty())
+            } else {
+                this.heightManager.activePropCss(this.heightManager.getProperty())
             }
         }
 

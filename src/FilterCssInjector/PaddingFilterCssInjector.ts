@@ -74,15 +74,15 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
 
     }
 
-    private deactiveProp(cssProp: BasePropertyCss, model: PaddingModel)
+    private deactiveProp(model: PaddingModel)
     {
         var global: BasePropertyCss = this.htmlTag.cssAccessor.getProperty(PaddingCss.PROP_NAME)
         
         if (global) {
-            this.htmlTag.paddingRight.width = global.getClearValue()
-            this.htmlTag.paddingRight.widthUnit = global.getUnit()
+            model.width = global.getClearValue()
+            model.widthUnit = global.getUnit()
         } else {
-            this.htmlTag.paddingRight.deactivate()
+            model.deactivate()
 
         }
     }
@@ -90,17 +90,26 @@ export default class PaddingFilterCssInjector extends FilterCssInjector
     public deactivateProp(cssProp: BasePropertyCss) {
         if (cssProp instanceof PaddingLeftCss) {
             this.htmlTag.paddingLeft.deactivate()
+            this.deactiveProp(this.htmlTag.paddingLeft)
+
         } else if (cssProp instanceof PaddingRightCss) {
             // this.updateVal(cssProp, this.htmlTag.paddingRight)
             // if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingRightCss.PROP_NAME)) {
             //     console.error('QWER');
                 
             // }
+            this.deactiveProp(this.htmlTag.paddingRight)
+            // this.htmlTag.paddingLeft.deactivate()
+
             
         } else if (cssProp instanceof PaddingTopCss) {
-            this.htmlTag.paddingTop.deactivate()
+            // this.htmlTag.paddingTop.deactivate()
+            this.deactiveProp(this.htmlTag.paddingTop)
+
         } else if (cssProp instanceof PaddingBottomCss) {
-            this.htmlTag.paddingBottom.deactivate()
+            this.deactiveProp(this.htmlTag.paddingBottom)
+
+            // this.htmlTag.paddingBottom.deactivate()
         } else if (cssProp instanceof PaddingCss) {
             if (!this.htmlTag.cssAccessor.hasCssProperty(PaddingLeftCss.PROP_NAME)) {
                 this.htmlTag.paddingLeft.deactivate()

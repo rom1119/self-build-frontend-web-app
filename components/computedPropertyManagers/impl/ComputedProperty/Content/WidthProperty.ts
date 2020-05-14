@@ -10,12 +10,13 @@ import BorderRecalculate from "~/src/Recalculator/HtmlTagImpl/BorderRecalculate"
 import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
 import _ from 'lodash'
 import Vue from "vue";
+import Percent from '../../../../../src/Unit/Size/Percent';
 
 export default class WidthProperty extends BaseComputedPropertyManager<Width> {
 
     protected value: HtmlTag
-    DEFAULT_VAL = Width.INITIAL
-    DEFAULT_UNIT = new Named()
+    DEFAULT_VAL = 100
+    DEFAULT_UNIT = new Percent()
     property: Width = new Width(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
     protected borderRecalculator: HtmlTagRecalculator
