@@ -6,6 +6,7 @@ import PaddingLeftCss from '../Css/BoxModel/Padding/PaddingLeftCss';
 export class VueFixStyleListTransform 
 {
     private tag: HtmlTag
+    private rand: number
 
     constructor(tag: HtmlTag)
     {
@@ -16,14 +17,15 @@ export class VueFixStyleListTransform
         var css = {}
         var allStyles = styleList
 
+        this.rand = Math.floor(Math.random() * 100);
+
+
         for (const cssProp of allStyles) {
-            
-            var propCss = cssProp
-            
+                        
             var cssName = cssProp.getName()
             var cssVal = cssProp.getValue()
             if (cssName.indexOf('-') > -1) {
-                cssVal += ' /* */'
+                cssVal += ` /* ${this.rand} */`
             }
             if (cssProp instanceof Width) {
                 css[cssProp.getName()] = this.tag.getWidthValue()
@@ -34,17 +36,18 @@ export class VueFixStyleListTransform
 
             }
 
-            console.log(cssProp.getName());
+            // console.log(cssProp.getName());
             
         }
 
-        console.log('VueFixStyleListTransform START');
-        console.log(css);
+        // console.log('VueFixStyleListTransform START');
+        // console.log(css);
+        // console.log(css);
+        // console.log('VueFixStyleListTransform END');
         
         this.checkBorders(css)
         this.checkPaddings(css)
         this.checkMargins(css)
-        console.log(css);
         
         // for (const key in css) {
         //     if (css.hasOwnProperty(key)) {
@@ -52,8 +55,6 @@ export class VueFixStyleListTransform
                 
         //     }
         // }
-        console.log(css);
-        console.log('VueFixStyleListTransform END');
         return css
     }
     checkMargins(css: {}) {
@@ -151,6 +152,7 @@ export class VueFixStyleListTransform
         prop += this.tag.borderRealFetcher.fetchUnitStyle(propName).getValue(this.tag.borderRealFetcher.fetchPropStyle(propName))
         prop += ' '
         prop += this.tag.borderRealFetcher.fetchUnitColor(propName).getValue(this.tag.borderRealFetcher.fetchPropColor(propName))
+        prop += ` /* ${this.rand} */`
 
         return prop
     }
@@ -159,6 +161,7 @@ export class VueFixStyleListTransform
     {
         var prop = ''
         prop += this.tag.paddingRealFetcher.fetchUnit(propName).getValue(this.tag.paddingRealFetcher.fetchPropValue(propName))
+        prop += ` /* ${this.rand} */`
 
         return prop
     }
@@ -167,6 +170,8 @@ export class VueFixStyleListTransform
     {
         var prop = ''
         prop += this.tag.marginRealFetcher.fetchUnit(propName).getValue(this.tag.marginRealFetcher.fetchPropValue(propName))
+        prop += ` /* ${this.rand} */`
+
 
         return prop
     }

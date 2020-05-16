@@ -29,9 +29,13 @@ import BaseBorderCss from '~/src/Css/Border/BaseBorderCss'
 import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp'
 import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
 import Width from '../src/Css/Size/Width';
-import { Height } from '~/src/Css'
+import { Height, MinWidth, MaxWidth, MinHeight, MaxHeight } from '~/src/Css'
 import WidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty'
 import HeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/HeightProperty';
+import MinWidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MinWidthProperty'
+import MaxWidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MaxWidthProperty'
+import MinHeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MinHeightProperty'
+import MaxHeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MaxHeightProperty'
 
 
 export default abstract class BoxModelModal extends AbstractModal
@@ -44,8 +48,13 @@ export default abstract class BoxModelModal extends AbstractModal
     marginManager: DirectionComputedPropertyManager
     borderManager: BorderComputedPropertyManager
 
+    minWidthManager: BaseComputedPropertyManager<MinWidth>
     widthManager: BaseComputedPropertyManager<Width>
+    maxWidthManager: BaseComputedPropertyManager<MaxWidth>
+
+    minHeightManager: BaseComputedPropertyManager<MinHeight>
     heightManager: BaseComputedPropertyManager<Height>
+    maxHeightManager: BaseComputedPropertyManager<MaxHeight>
 
 
     constructor()
@@ -54,8 +63,14 @@ export default abstract class BoxModelModal extends AbstractModal
         this.paddingManager = new PaddingComputedPropertyManager()
         this.marginManager = new MarginComputedPropertyManager()
         this.borderManager = new BorderComputedPropertyManager()
+
+        this.minWidthManager = new MinWidthProperty()
         this.widthManager = new WidthProperty()
+        this.maxWidthManager = new MaxWidthProperty()
+
+        this.minHeightManager = new MinHeightProperty()
         this.heightManager = new HeightProperty()
+        this.maxHeightManager = new MaxHeightProperty()
 
     }
 
@@ -69,7 +84,11 @@ export default abstract class BoxModelModal extends AbstractModal
         this.marginManager.setHtmlEl(val)
         this.borderManager.setHtmlEl(val)
         this.widthManager.setHtmlEl(val)
+        this.minWidthManager.setHtmlEl(val)
+        this.maxWidthManager.setHtmlEl(val)
         this.heightManager.setHtmlEl(val)
+        this.minHeightManager.setHtmlEl(val)
+        this.maxHeightManager.setHtmlEl(val)
 
         this.paddingManager.setFetcher(this.paddingRealFetcher)
         this.marginManager.setFetcher(this.marginRealFetcher)
@@ -79,8 +98,13 @@ export default abstract class BoxModelModal extends AbstractModal
         this.initMargins()
         this.initBorders()
 
+        this.minWidthManager.init()
         this.widthManager.init()
+        this.maxWidthManager.init()
+
+        this.minHeightManager.init()
         this.heightManager.init()
+        this.maxHeightManager.init()
     }
 
     // PADDING METHODS

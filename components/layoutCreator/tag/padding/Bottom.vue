@@ -7,7 +7,6 @@
         @mouseout.stop="onMouseOut" 
         :key="value.updateComponentKey"
     >
-        <html-element-context-menu :value="value" :ref="value.uuid" />
 
         <div 
             >

@@ -1,7 +1,7 @@
 import ComputedPropertyManager from "../../../ComputedPropertyManager";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
-import { BackgroundImage, BackgroundPosition, Width } from "~/src/Css";
+import { BackgroundImage, BackgroundPosition, Height, MinHeight } from "~/src/Css";
 import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
 import { Named } from "~/src/Unit";
 import Unit from "~/src/Unit/Unit";
@@ -12,12 +12,12 @@ import _ from 'lodash'
 import Vue from "vue";
 import Percent from '../../../../../src/Unit/Size/Percent';
 
-export default class WidthProperty extends BaseComputedPropertyManager<Width> {
+export default class MinHeightProperty extends BaseComputedPropertyManager<MinHeight> {
 
     protected value: HtmlTag
     DEFAULT_VAL = 100
     DEFAULT_UNIT = new Percent()
-    property: Width = new Width(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    property: MinHeight = new MinHeight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
     protected borderRecalculator: HtmlTagRecalculator
     protected marginRecalculator: HtmlTagRecalculator
@@ -58,7 +58,23 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
     }
 
     updateCssProp(newProp: BasePropertyCss) {
-        super.updateCssProp(newProp)
+        if (!this.getProperty().isActive()) {
+            return
+        }
+        
+        let val = this.value.getComputedCssVal(newProp)
+        let clonedCss = _.cloneDeep(newProp)
+        clonedCss.setValue(parseInt(val))
+        // clonedCss.setUnit(new Pixel())
+    // console.log(newProp);
+    // console.log(val);
+    // console.log(clonedCss);
+    // console.log('ALA MA');
+        
+    this.value.contentFilter.injectCssProperty(newProp)
+        // this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+
+        // this.value.updateModelComponent()
         this.recalculate(this.value)
 
         return newProp.getClearValue()

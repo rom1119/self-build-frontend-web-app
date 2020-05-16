@@ -103,14 +103,20 @@ export default class BorderFilterCssInjector extends FilterCssInjector
 
     public deactivateProp(cssProp: BasePropertyCss) {
         if (cssProp instanceof BorderLeftCss) {
-            this.htmlTag.borderLeft.deactivate()
+            // this.htmlTag.borderLeft.deactivate()
+            this.deactiveProp(cssProp, this.htmlTag.borderLeft)
+
         } else if (cssProp instanceof BorderRightCss) {
             // .deactivate()
             this.deactiveProp(cssProp, this.htmlTag.borderRight)
         } else if (cssProp instanceof BorderTopCss) {
-            this.htmlTag.borderTop.deactivate()
+            // this.htmlTag.borderTop.deactivate()
+            this.deactiveProp(cssProp, this.htmlTag.borderTop)
+            
         } else if (cssProp instanceof BorderBottomCss) {
-            this.htmlTag.borderBottom.deactivate()
+            // this.htmlTag.borderBottom.deactivate()
+            this.deactiveProp(cssProp, this.htmlTag.borderBottom)
+            
         } else if (cssProp instanceof BorderGlobalCss) {
             if (!this.htmlTag.cssAccessor.hasCssProperty(BorderLeftCss.PROP_NAME)) {
                 this.htmlTag.borderLeft.deactivate()

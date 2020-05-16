@@ -7,7 +7,7 @@
         
         
             <context-menu-item :key="unit.name" v-for="unit in allUnits" >
-                <div @mousedown.stop="selectUnit(unit)" class="context-item" :class="{'active': unit ===  propertyUnit}" >
+                <div @mousedown.stop="selectUnit(unit)" class="context-item" :class="{'active': unit.name ===  propertyUnit.name}" >
                 {{ unit.name }}
                 </div>
 

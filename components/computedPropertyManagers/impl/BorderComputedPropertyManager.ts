@@ -246,6 +246,9 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         this.value.cssAccessor.removePropWithName(prop.getName())
         this.value.borderFilter.deactivateProp(prop)
 
+        this.value.recalculateRealComputedProperties()
+        // this.value.updateCssPropertyWithoutModel(prop.getName(), prop)
+
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
         return null
@@ -264,6 +267,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         }
 
         this.value.synchronize()
+        this.value.recalculateRealComputedProperties()
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
@@ -280,6 +284,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         
         this.value.borderFilter.activateProp(prop)
         this.value.synchronize()
+        this.value.recalculateRealComputedProperties()
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
@@ -297,10 +302,13 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         // console.log(val);
         // console.log(clonedCss);
         // console.log('ALA MA');
-        this.value.borderFilter.injectCssProperty(clonedCss)
+        this.value.borderFilter.injectCssProperty(newProp)
         console.log(newProp);
         
         this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+
+        this.value.recalculateRealComputedProperties()
+
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)

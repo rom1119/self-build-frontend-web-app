@@ -158,7 +158,7 @@
     position: absolute;
     left: 50px;
     top: 50px;
-    z-index: 3;
+    z-index: 6;
     background-color: rgb(200, 208, 147);
 
     .padding {
@@ -233,7 +233,7 @@
     position: absolute;
     left: 50px;
     top: 50px;
-    z-index: 4;
+    z-index: 7;
     background-color: rgb(148, 181, 192);
 
 }
@@ -300,8 +300,12 @@
     background-color: rgb(70, 163, 70);
     cursor: pointer;
     position: relative;
+    font-size: 0.7em;
+
     .width-prop-container {
         position: absolute;
+        z-index: 9999999;
+
         right: -100%;
         top: 0;
         width: 100px;
@@ -312,9 +316,50 @@
     &:hover {
         background-color: rgb(91, 201, 91);
         .width-prop-container {
-
             display: block;
         }
+    }
+
+    &_right {
+        .width-prop-container-right {
+            position: absolute;
+            z-index: 9999999;
+    
+            right: -100%;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            display: none;
+            background-color: white;
+        }
+        &:hover {
+            background-color: rgb(91, 201, 91);
+            .width-prop-container-right {
+                display: block;
+            }
+        }
+
+    }
+
+    &_left {
+        .width-prop-container-left {
+            position: absolute;
+            z-index: 9999999;
+    
+            left: -100%;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            display: none;
+            background-color: white;
+        }
+        &:hover {
+            background-color: rgb(91, 201, 91);
+            .width-prop-container-left {
+                display: block;
+            }
+        }
+        
     }
 }
 

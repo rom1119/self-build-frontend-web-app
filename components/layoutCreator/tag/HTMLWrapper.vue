@@ -1,5 +1,5 @@
 <template>
-    <component :is="value.getTagName()" class="wrapper" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.uuid" >
+    <component :is="value.getTagName()" v-context-menu="value.uuid" @click.stop="onContentMouseClick(value, $event)" class="wrapper" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.uuid" >
         <div class="none">
             <!-- <span :style="value.cssBoxList"  ></span> -->
         </div>
@@ -129,7 +129,7 @@
                             @borderMouseDown="onBorderMouseDown(value, $event)"                 
                             
                             :value="value" 
-                            v-context-menu="value.uuid">
+                            >
                             <!-- <div class="wrapper-children"> -->
                                 <template v-for="child in children">
                                     <html-component 
@@ -245,7 +245,7 @@ export default class HTMLWrapper extends Vue {
 
 
     onContentMouseDown(val, event)
-    {
+    {        
         let ev = {
             event: event,
             target: val

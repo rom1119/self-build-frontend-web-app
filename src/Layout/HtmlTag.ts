@@ -52,6 +52,7 @@ import { VueFixStyleListTransform } from "../Vue/VueFixStyleListTransform";
 
 export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage
 {
+    
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
 
@@ -633,15 +634,15 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         }
         
         
-        // paddingLeftWidth = this.paddingLeft.isActive() ? this.paddingLeft.width : 0
-        // paddingRightWidth = this.paddingRight.isActive() ? this.paddingRight.width : 0
-        // paddingTopWidth = this.paddingTop.isActive() ? this.paddingTop.width : 0
-        // paddingBottomWidth = this.paddingBottom.isActive() ? this.paddingBottom.width : 0
+        paddingLeftWidth = this.paddingLeft.isActive() ? this.paddingLeft.width : 0
+        paddingRightWidth = this.paddingRight.isActive() ? this.paddingRight.width : 0
+        paddingTopWidth = this.paddingTop.isActive() ? this.paddingTop.width : 0
+        paddingBottomWidth = this.paddingBottom.isActive() ? this.paddingBottom.width : 0
         
-        // let marginLeftWidth = this.marginLeft.width
-        // let marginRightWidth = this.marginRight.width
-        // let marginTopWidth = this.marginTop.width
-        // let marginBottomWidth = this.marginBottom.width
+        let marginLeftWidth = this.marginLeft.width
+        let marginRightWidth = this.marginRight.width
+        let marginTopWidth = this.marginTop.width
+        let marginBottomWidth = this.marginBottom.width
         
         // let paddingLeftWidth = 0
         // let paddingRightWidth = 0
@@ -650,7 +651,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // let boxWidth = marginLeftWidth + borderLeftWidth + paddingLeftWidth + marginRightWidth + borderRightWidth + paddingRightWidth + this._width
         // let boxHeight = marginTopWidth + borderTopWidth + paddingTopWidth + marginBottomWidth + borderBottomWidth + paddingBottomWidth + this._height
         
-        // let boxHeight = this._height
+        let boxHeight = this._height
         // if (this._backgroundColor) {
             
         // }
@@ -742,19 +743,6 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         let css = {}
 
         return css
-        
-        for (const cssProp of this.cssAccessor.all) {
-            if (!this.filterCss(cssProp)) {
-                continue
-            }
-            if (!(cssProp instanceof Width) && !(cssProp instanceof Height)) {
-                css[cssProp.getName()] = cssProp.getValue()
-            }
-        }
-        
-
-        
-        return css
     }
 
     
@@ -768,8 +756,6 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     {
         this._innerText = text
     }
-
-
 
     public changeAsActiveToManage() {
         this._toManage = true
@@ -789,8 +775,6 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this.heightUnitCurrent = new Pixel()
     }
 
-
-
     public onMouseMove(w, h) 
     {
         this.toInitSizeUnits()  
@@ -806,7 +790,13 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         
         this._width = w
         this._height = h
-        this.synchronizer.synchronize()
+
+        let width = new Width(this._width, this.widthUnitCurrent)
+        let height = new Height(this._height, this.heightUnitCurrent)
+        this.updateCssPropertyWithoutModel(width.getName(), width)
+        this.updateCssPropertyWithoutModel(height.getName(), height)
+
+        // this.synchronizer.synchronize()
 
         
     }
@@ -885,6 +875,18 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     {
         super.setHtmlEl(htmlEl)
         this.recalculateRealComputedProperties()
+    }
+
+    getComputedHeight(): number {
+        let val = this.getComputedCssVal(new Height(this._height, this.heightUnitCurrent))
+        // let clonedCss = _.cloneDeep(newProp)
+        // clonedCss.setValue(val.toString())
+        return parseInt(val)
+    }
+    getComputedWidth(): number {
+        let val = this.getComputedCssVal(new Width(this._width, this.widthUnitCurrent))
+        // let clonedCss = _.cloneDeep(newProp)
+        return parseInt(val)
     }
 
 

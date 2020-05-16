@@ -124,9 +124,9 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         if (!this.getProperty().isActive()) {
             return
         }
-        let val = this.value.getComputedCssVal(newProp)
-        let clonedCss = _.cloneDeep(newProp)
-        clonedCss.setValue(val.toString())
+        // let val = this.value.getComputedCssVal(newProp)
+        // let clonedCss = _.cloneDeep(newProp)
+        // clonedCss.setValue(val.toString())
         // clonedCss.setUnit(new Pixel())
         // console.log(newProp);
         // console.log(val);

@@ -39,7 +39,11 @@ import Display from './Display/Display';
 
 // size
 import Width from './Size/Width';
+import MinWidth from './Size/MinWidth';
+import MaxWidth from './Size/MaxWidth';
 import Height from './Size/Height';
+import MinHeight from './Size/MinHeight';
+import MaxHeight from './Size/MaxHeight';
 
 // box model
 import BoxSizing from './BoxModel/BoxSizing';
@@ -63,7 +67,11 @@ export {
     BackgroundAttachment,
     BackgroundRepeat,
     Width,
+    MinWidth,
+    MaxWidth,
     Height,
+    MinHeight,
+    MaxHeight,
     BoxSizing,
     MarginBottomCss,
     MarginTopCss,

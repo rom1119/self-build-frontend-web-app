@@ -113,9 +113,7 @@
                                 :classList="['global-border','border']"
                                 :contextMenuName="value.uuid.concat('-border-global-box')"
                             />
-                            <div class="right-border border"></div>
-                            <div class="bottom-border border"></div>
-                            <div class="left-border border"></div>
+            
                             <div class="padding-box-model">
                                 
                                     <site-box-model-element
@@ -187,7 +185,11 @@
                                     
     
                                 <div class="content-box-model">
-                                    <div class="content-box-model-link">Width
+                                    <div class="content-box-model-link">
+                                        Width 
+                                        <span v-show="hasWidth">
+                                            {{ value.getWidthValue() }}
+                                        </span>
                                         <div class="width-prop-container">
                                                 <site-box-model-element 
                                                     @changeHasProp="hasWidth = $event"
@@ -201,7 +203,62 @@
                                                 />
                                         </div>
                                     </div>
-                                    <div class="content-box-model-link">Height
+                                    <div class="content-box-model-link">
+                                        <span class="content-box-model-link_left" style="width: 48%; display: inline-block;">
+                                            <span>
+                                                Min:
+
+                                            </span>
+                                            </br>
+                                            <span>
+                                                {{ minWidthManager.getProperty().getValue() }}
+
+                                            </span>
+                                            <div class="width-prop-container-left">
+                                                <site-box-model-element 
+                                                    @changeHasProp="hasMinWidth = $event"
+                                                    @changeProp="minWidth = $event"
+                                                    @changePropUnit="minWidthUnit = $event"
+                                                    :hasProperty="hasMinWidth"
+                                                    :property="minWidth"
+                                                    :propertyUnit="minWidthUnit"
+                                                    :classList="['top-padding','padding']"
+                                                    :contextMenuName="value.uuid.concat('min-width-box')"
+                                                />
+                                            </div>
+                                        </span> 
+                                        
+                                        <span class="content-box-model-link_right" style="width: 48%; display: inline-block;">
+                                            <span>
+                                                Max: 
+
+                                            </span>
+                                            </br>
+
+                                            <span>
+                                                    {{ maxWidthManager.getProperty().getValue() }}
+                                             </span>
+                                            <div class="width-prop-container-right">
+                                                <site-box-model-element 
+                                                    @changeHasProp="hasMaxWidth = $event"
+                                                    @changeProp="maxWidth = $event"
+                                                    @changePropUnit="maxWidthUnit = $event"
+                                                    :hasProperty="hasMaxWidth"
+                                                    :property="maxWidth"
+                                                    :propertyUnit="maxWidthUnit"
+                                                    :classList="['top-padding','padding']"
+                                                    :contextMenuName="value.uuid.concat('-max-width')"
+                                                />
+                                            </div>
+                                        </span> 
+                                        
+                                        
+                                    </div>
+                                    <div class="content-box-model-link">
+                                        Height
+                                        <span v-show="hasHeight">
+                                            {{ value.getHeightValue() }}
+                                        </span>
                                         <div class="width-prop-container">
                                                 <site-box-model-element 
                                                     @changeHasProp="hasHeight = $event"
@@ -210,10 +267,61 @@
                                                     :hasProperty="hasHeight"
                                                     :property="height"
                                                     :propertyUnit="heightUnit"
-                                                    :classList="['height-prop','height']"
+                                                    :classList="['top-padding','padding']"
                                                     :contextMenuName="value.uuid.concat('-height-box')"
                                                 />
                                         </div>
+                                    </div>
+                                    <div class="content-box-model-link">
+                                        
+                                         <span class="content-box-model-link_left" style="width: 48%; display: inline-block;">
+                                            <span>
+                                                Min:
+
+                                            </span>
+                                            </br>
+                                            <span>
+                                                {{ minHeightManager.getProperty().getValue() }}
+
+                                            </span>
+                                            <div class="width-prop-container-left">
+                                                <site-box-model-element 
+                                                    @changeHasProp="hasMinHeight = $event"
+                                                    @changeProp="minHeight = $event"
+                                                    @changePropUnit="minHeightUnit = $event"
+                                                    :hasProperty="hasMinHeight"
+                                                    :property="minHeight"
+                                                    :propertyUnit="minHeightUnit"
+                                                    :classList="['top-padding','padding']"
+                                                    :contextMenuName="value.uuid.concat('min-height-box')"
+                                                />
+                                            </div>
+                                        </span> 
+                                        
+                                        <span class="content-box-model-link_right" style="width: 48%; display: inline-block;">
+                                            <span>
+                                                Max: 
+
+                                            </span>
+                                            </br>
+
+                                            <span>
+                                                    {{ maxHeightManager.getProperty().getValue() }}
+                                             </span>
+                                            <div class="width-prop-container-right">
+                                                <site-box-model-element 
+                                                    @changeHasProp="hasMaxHeight = $event"
+                                                    @changeProp="maxHeight = $event"
+                                                    @changePropUnit="maxHeightUnit = $event"
+                                                    :hasProperty="hasMaxHeight"
+                                                    :property="maxHeight"
+                                                    :propertyUnit="maxHeightUnit"
+                                                    :classList="['top-padding','padding']"
+                                                    :contextMenuName="value.uuid.concat('-max-height')"
+                                                />
+                                            </div>
+                                        </span> 
+                                         
                                     </div>
 
                                     
@@ -369,8 +477,84 @@ import { Width } from '~/src/Css';
                 this.widthManager.activePropCss(this.widthManager.getProperty())
             }
         }
+
+        // *****************************************  MIN-WIDTH ****************************************************
         
-        // *****************************************  WIDTH ****************************************************
+        get minWidth()
+        {
+            return  this.minWidthManager.getProperty().value
+        }
+        
+        set minWidth(newVal: string)
+        {
+            this.minWidthManager.getProperty().setValue(newVal)
+            this.minWidthManager.updateCssProp(this.minWidthManager.getProperty())             
+        }
+        
+        get minWidthUnit()
+        {
+            return  this.minWidthManager.getProperty().getUnit()
+        }
+        
+        set minWidthUnit(newVal: UnitSize)
+        {
+            this.minWidthManager.getProperty().setUnit(newVal)
+            this.minWidthManager.updateCssProp(this.minWidthManager.getProperty())             
+        }
+
+        get hasMinWidth()
+        {
+            return  this.minWidthManager.getProperty().active
+        }
+        
+        set hasMinWidth(newVal: boolean)
+        {
+            if (!newVal) {
+                this.minWidthManager.deactivePropCss(this.minWidthManager.getProperty())
+            } else {
+                this.minWidthManager.activePropCss(this.minWidthManager.getProperty())
+            }
+        }
+        
+        // *****************************************  MAX-WIDTH ****************************************************
+        
+        get maxWidth()
+        {
+            return  this.maxWidthManager.getProperty().value
+        }
+        
+        set maxWidth(newVal: string)
+        {
+            this.maxWidthManager.getProperty().setValue(newVal)
+            this.maxWidthManager.updateCssProp(this.maxWidthManager.getProperty())             
+        }
+        
+        get maxWidthUnit()
+        {
+            return  this.maxWidthManager.getProperty().getUnit()
+        }
+        
+        set maxWidthUnit(newVal: UnitSize)
+        {
+            this.maxWidthManager.getProperty().setUnit(newVal)
+            this.maxWidthManager.updateCssProp(this.maxWidthManager.getProperty())             
+        }
+
+        get hasMaxWidth()
+        {
+            return  this.maxWidthManager.getProperty().active
+        }
+        
+        set hasMaxWidth(newVal: boolean)
+        {
+            if (!newVal) {
+                this.maxWidthManager.deactivePropCss(this.maxWidthManager.getProperty())
+            } else {
+                this.maxWidthManager.activePropCss(this.maxWidthManager.getProperty())
+            }
+        }
+        
+        // *****************************************  HEIGHT ****************************************************
         
         get height()
         {
@@ -405,6 +589,82 @@ import { Width } from '~/src/Css';
                 this.heightManager.deactivePropCss(this.heightManager.getProperty())
             } else {
                 this.heightManager.activePropCss(this.heightManager.getProperty())
+            }
+        }
+
+        // *****************************************  MIN-HEIGHT ****************************************************
+        
+        get minHeight()
+        {
+            return  this.minHeightManager.getProperty().value
+        }
+        
+        set minHeight(newVal: string)
+        {
+            this.minHeightManager.getProperty().setValue(newVal)
+            this.minHeightManager.updateCssProp(this.minHeightManager.getProperty())             
+        }
+        
+        get minHeightUnit()
+        {
+            return  this.minHeightManager.getProperty().getUnit()
+        }
+        
+        set minHeightUnit(newVal: UnitSize)
+        {
+            this.minHeightManager.getProperty().setUnit(newVal)
+            this.minHeightManager.updateCssProp(this.minHeightManager.getProperty())             
+        }
+
+        get hasMinHeight()
+        {
+            return  this.minHeightManager.getProperty().active
+        }
+        
+        set hasMinHeight(newVal: boolean)
+        {
+            if (!newVal) {
+                this.minHeightManager.deactivePropCss(this.minHeightManager.getProperty())
+            } else {
+                this.minHeightManager.activePropCss(this.minHeightManager.getProperty())
+            }
+        }
+        
+        // *****************************************  MAX-HEIGHT ****************************************************
+        
+        get maxHeight()
+        {
+            return  this.maxHeightManager.getProperty().value
+        }
+        
+        set maxHeight(newVal: string)
+        {
+            this.maxHeightManager.getProperty().setValue(newVal)
+            this.maxHeightManager.updateCssProp(this.maxHeightManager.getProperty())             
+        }
+        
+        get maxHeightUnit()
+        {
+            return  this.maxHeightManager.getProperty().getUnit()
+        }
+        
+        set maxHeightUnit(newVal: UnitSize)
+        {
+            this.maxHeightManager.getProperty().setUnit(newVal)
+            this.maxHeightManager.updateCssProp(this.maxHeightManager.getProperty())             
+        }
+
+        get hasMaxHeight()
+        {
+            return  this.maxHeightManager.getProperty().active
+        }
+        
+        set hasMaxHeight(newVal: boolean)
+        {
+            if (!newVal) {
+                this.maxHeightManager.deactivePropCss(this.maxHeightManager.getProperty())
+            } else {
+                this.maxHeightManager.activePropCss(this.maxHeightManager.getProperty())
             }
         }
 
@@ -1023,6 +1283,10 @@ import { Width } from '~/src/Css';
     }
     .w-400 {
         width: 400px;
+    }
+    
+    .w-50-pr {
+        width: 50%;
     }
     
     .h-400 {
