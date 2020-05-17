@@ -10,6 +10,7 @@ export default class Display extends CssSimple implements CssPropertyLimitable
     public static NONE = 'none'
     public static BLOCK = 'block'
     public static INLINE_BLOCK = 'inline-block'
+    public static INLINE = 'inline'
     public static FLEX = 'flex'
     public static INLINE_FLEX = 'inline-flex'
 
@@ -18,6 +19,7 @@ export default class Display extends CssSimple implements CssPropertyLimitable
         props.push(Display.NONE)
         props.push(Display.BLOCK)
         props.push(Display.INLINE_BLOCK)
+        props.push(Display.INLINE)
         props.push(Display.FLEX)
         props.push(Display.INLINE_FLEX)
 

@@ -11,11 +11,68 @@
             </h4>
         </template>
         <template slot="content">
-            <div class="content-item">
+            <div class="content-item" style="margin-top: 50px;">
                 
                 <!-- BOX MODEL FOR FEATURE -->
-                <div  class=" box-model content-item__elem_container rel w-400 h-400">
-                    <div v-if="value" class="margin-box-model">
+                <div v-if="value" class=" box-model content-item__elem_container rel w-400 h-400">
+                    <div class="border-radius-container">
+
+                        <div class="content-box-model-link_right border-radius border-radius__global">
+                            <span >
+                                {{ borderRadiusGlobalManager.getProperty().getValue() }}
+                            </span>
+                            <div class="width-prop-container-right">
+                                <site-box-model-element 
+                                        :globalEl="true"
+                                        @changeHasProp="hasBorderRadiusGlobal = $event"
+                                        @changeProp="borderRadiusGlobal = $event"
+                                        @changePropUnit="borderRadiusGlobalUnit = $event"
+                                        :hasProperty="hasBorderRadiusGlobal"
+                                        :property="borderRadiusGlobal"
+                                        :propertyUnit="borderRadiusGlobalUnit"
+                                        :classList="['top-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-border-radius-global-box')"
+                                    />
+                            </div>
+                        </div>
+                        <div class="content-box-model-link_right border-radius border-radius__top-left">
+                            <span >
+                                {{ borderRadiusTopLeftManager.getProperty().getValue() }}
+                            </span>
+                            <div class="width-prop-container-right">
+                                <site-box-model-element 
+                                        :globalEl="true"
+                                        @changeHasProp="hasBorderRadiusTopLeft = $event"
+                                        @changeProp="borderRadiusTopLeft = $event"
+                                        @changePropUnit="borderRadiusTopLeftUnit = $event"
+                                        :hasProperty="hasBorderRadiusTopLeft"
+                                        :property="borderRadiusTopLeft"
+                                        :propertyUnit="borderRadiusTopLeftUnit"
+                                        :classList="['top-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-border-radius-top-left-box')"
+                                    />
+                            </div>
+                        </div>
+                        <div class="content-box-model-link_right border-radius border-radius__top-right">
+                            <span >
+                                {{ borderRadiusTopRightManager.getProperty().getValue() }}
+                            </span>
+                            <div class="width-prop-container-right">
+                                <site-box-model-element 
+                                        :globalEl="true"
+                                        @changeHasProp="hasBorderRadiusTopRight = $event"
+                                        @changeProp="borderRadiusTopRight = $event"
+                                        @changePropUnit="borderRadiusTopRightUnit = $event"
+                                        :hasProperty="hasBorderRadiusTopRight"
+                                        :property="borderRadiusTopRight"
+                                        :propertyUnit="borderRadiusTopRightUnit"
+                                        :classList="['top-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-border-radius-top-right-box')"
+                                    />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="margin-box-model">
                         
                         <site-box-model-element
                             @changeHasProp="hasMarginTop = $event"
@@ -438,6 +495,120 @@ import { Width } from '~/src/Css';
             this.allUnits.push(new VW())
             this.allUnits.push(new VH())
             
+        }
+
+        // *****************************************  BORDER-RADIUS ****************************************************
+        
+        get borderRadiusGlobal()
+        {
+            return  this.borderRadiusGlobalManager.getProperty().value
+        }
+        
+        set borderRadiusGlobal(newVal: string)
+        {
+            this.borderRadiusGlobalManager.getProperty().setValue(newVal)
+            this.borderRadiusGlobalManager.updateCssProp(this.borderRadiusGlobalManager.getProperty())             
+        }
+        
+        get borderRadiusGlobalUnit()
+        {
+            return  this.borderRadiusGlobalManager.getProperty().getUnit()
+        }
+        
+        set borderRadiusGlobalUnit(newVal: UnitSize)
+        {
+            this.borderRadiusGlobalManager.getProperty().setUnit(newVal)
+            this.borderRadiusGlobalManager.updateCssProp(this.borderRadiusGlobalManager.getProperty())             
+        }
+
+        get hasBorderRadiusGlobal()
+        {
+            return  this.borderRadiusGlobalManager.getProperty().active
+        }
+        
+        set hasBorderRadiusGlobal(newVal: boolean)
+        {
+            if (!newVal) {
+                this.borderRadiusGlobalManager.deactivePropCss(this.borderRadiusGlobalManager.getProperty())
+            } else {
+                this.borderRadiusGlobalManager.activePropCss(this.borderRadiusGlobalManager.getProperty())
+            }
+        }
+        
+        // *****************************************  BORDER-RADIUS_LEFT-TOP ****************************************************
+        
+        get borderRadiusTopLeft()
+        {
+            return  this.borderRadiusTopLeftManager.getProperty().value
+        }
+        
+        set borderRadiusTopLeft(newVal: string)
+        {
+            this.borderRadiusTopLeftManager.getProperty().setValue(newVal)
+            this.borderRadiusTopLeftManager.updateCssProp(this.borderRadiusTopLeftManager.getProperty())             
+        }
+        
+        get borderRadiusTopLeftUnit()
+        {
+            return  this.borderRadiusTopLeftManager.getProperty().getUnit()
+        }
+        
+        set borderRadiusTopLeftUnit(newVal: UnitSize)
+        {
+            this.borderRadiusTopLeftManager.getProperty().setUnit(newVal)
+            this.borderRadiusTopLeftManager.updateCssProp(this.borderRadiusTopLeftManager.getProperty())             
+        }
+
+        get hasBorderRadiusTopLeft()
+        {
+            return  this.borderRadiusTopLeftManager.getProperty().active
+        }
+        
+        set hasBorderRadiusTopLeft(newVal: boolean)
+        {
+            if (!newVal) {
+                this.borderRadiusTopLeftManager.deactivePropCss(this.borderRadiusTopLeftManager.getProperty())
+            } else {
+                this.borderRadiusTopLeftManager.activePropCss(this.borderRadiusTopLeftManager.getProperty())
+            }
+        }
+        
+        // *****************************************  BORDER-RADIUS_RIGHT-TOP ****************************************************
+        
+        get borderRadiusTopRight()
+        {
+            return  this.borderRadiusTopRightManager.getProperty().value
+        }
+        
+        set borderRadiusTopRight(newVal: string)
+        {
+            this.borderRadiusTopRightManager.getProperty().setValue(newVal)
+            this.borderRadiusTopRightManager.updateCssProp(this.borderRadiusTopRightManager.getProperty())             
+        }
+        
+        get borderRadiusTopRightUnit()
+        {
+            return  this.borderRadiusTopRightManager.getProperty().getUnit()
+        }
+        
+        set borderRadiusTopRightUnit(newVal: UnitSize)
+        {
+            this.borderRadiusTopRightManager.getProperty().setUnit(newVal)
+            this.borderRadiusTopRightManager.updateCssProp(this.borderRadiusTopRightManager.getProperty())             
+        }
+
+        get hasBorderRadiusTopRight()
+        {
+            return  this.borderRadiusTopRightManager.getProperty().active
+        }
+        
+        set hasBorderRadiusTopRight(newVal: boolean)
+        {
+            if (!newVal) {
+                this.borderRadiusTopRightManager.deactivePropCss(this.borderRadiusTopRightManager.getProperty())
+            } else {
+                this.borderRadiusTopRightManager.activePropCss(this.borderRadiusTopRightManager.getProperty())
+            }
         }
 
         // *****************************************  WIDTH ****************************************************

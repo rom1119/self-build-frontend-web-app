@@ -32,9 +32,28 @@ import BorderGlobalCss from './Border/Global/BorderGlobalCss';
 import BorderGlobalStyle from './Border/Global/BorderGlobalStyle';
 import BorderGlobalWidth from './Border/Global/BorderGlobalWidth';
 
+// Border radius
+
+import BorderRadiusGlobal from './Border/Radius/BorderRadiusGlobal';
+import BorderRadiusTopLeft from './Border/Radius/BorderRadiusTopLeft';
+import BorderRadiusTopRight from './Border/Radius/BorderRadiusTopRight';
+import BorderRadiusBottomLeft from './Border/Radius/BorderRadiusBottomLeft';
+import BorderRadiusBottomRight from './Border/Radius/BorderRadiusBottomRight';
 // display
 
 import Display from './Display/Display';
+import Position from './Display/Position';
+import TopCss from './Position/Direction/TopCss';
+import RightCss from './Position/Direction/RightCss';
+import BottomCss from './Position/Direction/BottomCss';
+import LeftCss from './Position/Direction/LeftCss';
+
+// Font
+
+import FontSize from './Text/FontSize';
+import FontWeight from './Text/FontWeight';
+import TextAlign from './Text/TextAlign';
+import TextColor from './Text/TextColor';
 
 
 // size
@@ -66,6 +85,7 @@ export {
     BackgroundSize,
     BackgroundAttachment,
     BackgroundRepeat,
+
     Width,
     MinWidth,
     MaxWidth,
@@ -73,16 +93,19 @@ export {
     MinHeight,
     MaxHeight,
     BoxSizing,
+
     MarginBottomCss,
     MarginTopCss,
     MarginLeftCss,
     MarginRightCss,
     MarginCss,
+
     PaddingBottomCss,
     PaddingTopCss,
     PaddingLeftCss,
     PaddingRightCss,
     PaddingCss,
+
     BorderGlobalCss,
     BorderGlobalColor,
     BorderGlobalStyle,
@@ -104,5 +127,21 @@ export {
     BorderBottomStyle,
     BorderBottomColor,
 
+    BorderRadiusGlobal,
+    BorderRadiusTopLeft,
+    BorderRadiusTopRight,
+    BorderRadiusBottomLeft,
+    BorderRadiusBottomRight,
+
     Display,
+    Position,
+    TopCss,
+    RightCss,
+    BottomCss,
+    LeftCss,
+
+    FontSize,
+    FontWeight,
+    TextAlign,
+    TextColor,
 }

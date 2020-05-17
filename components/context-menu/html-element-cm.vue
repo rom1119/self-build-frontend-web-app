@@ -6,9 +6,9 @@
             shift="both"
             :ref="createElementNameCM">
 
+                <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
                 <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
          
-                <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
   
         </context-menu>
         <!-- <create-html-element-context-menu :value="value"  :ref="createElementNameCM" /> -->
@@ -21,6 +21,7 @@
         <context-menu-item :action="showBackgroundCssModal">Background</context-menu-item>
         <context-menu-item :action="showBorderCssModal">Border</context-menu-item>
         <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
+        <context-menu-item :action="showDisplayModal">Display</context-menu-item>
 
     </context-menu>
 </template>
@@ -107,6 +108,11 @@ export default class HtmlElementContextMenu extends Vue {
     showBoxModelModal()
     {
         this.$boxModelManageModal.show(this.value)
+    }
+    
+    showDisplayModal()
+    {
+        this.$displayManageModal.show(this.value)
     }
 
     createPElement(target, cm, a) {

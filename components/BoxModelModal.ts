@@ -29,13 +29,21 @@ import BaseBorderCss from '~/src/Css/Border/BaseBorderCss'
 import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp'
 import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
 import Width from '../src/Css/Size/Width';
-import { Height, MinWidth, MaxWidth, MinHeight, MaxHeight } from '~/src/Css'
+import { Height, MinWidth, MaxWidth, MinHeight, MaxHeight, BorderRadiusBottomLeft, BorderRadiusBottomRight } from '~/src/Css'
 import WidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty'
 import HeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/HeightProperty';
 import MinWidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MinWidthProperty'
 import MaxWidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MaxWidthProperty'
 import MinHeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MinHeightProperty'
 import MaxHeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MaxHeightProperty'
+import BorderRadiusGlobal from '../src/Css/Border/Radius/BorderRadiusGlobal';
+import BorderRadiusTopLeft from '../src/Css/Border/Radius/BorderRadiusTopLeft';
+import BorderRadiusTopRight from '../src/Css/Border/Radius/BorderRadiusTopRight';
+import BorderRadiusGlobalProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusGlobalProperty'
+import BorderRadiusTopLeftProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusTopLeftProperty'
+import BorderRadiusTopRightProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusTopRightProperty'
+import BorderRadiusBottomLeftProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusBottomLeftProperty'
+import BorderRadiusBottomRightProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusBottomRightProperty'
 
 
 export default abstract class BoxModelModal extends AbstractModal
@@ -47,6 +55,12 @@ export default abstract class BoxModelModal extends AbstractModal
     paddingManager: DirectionComputedPropertyManager
     marginManager: DirectionComputedPropertyManager
     borderManager: BorderComputedPropertyManager
+
+    borderRadiusGlobalManager: BaseComputedPropertyManager<BorderRadiusGlobal>
+    borderRadiusTopLeftManager: BaseComputedPropertyManager<BorderRadiusTopLeft>
+    borderRadiusTopRightManager: BaseComputedPropertyManager<BorderRadiusTopRight>
+    borderRadiusBottomLeftManager: BaseComputedPropertyManager<BorderRadiusBottomLeft>
+    borderRadiusBottomRightManager: BaseComputedPropertyManager<BorderRadiusBottomRight>
 
     minWidthManager: BaseComputedPropertyManager<MinWidth>
     widthManager: BaseComputedPropertyManager<Width>
@@ -64,6 +78,12 @@ export default abstract class BoxModelModal extends AbstractModal
         this.marginManager = new MarginComputedPropertyManager()
         this.borderManager = new BorderComputedPropertyManager()
 
+        this.borderRadiusGlobalManager = new  BorderRadiusGlobalProperty()
+        this.borderRadiusTopLeftManager = new  BorderRadiusTopLeftProperty()
+        this.borderRadiusTopRightManager = new BorderRadiusTopRightProperty()
+        this.borderRadiusBottomLeftManager = new BorderRadiusBottomLeftProperty()
+        this.borderRadiusBottomRightManager = new  BorderRadiusBottomRightProperty()
+
         this.minWidthManager = new MinWidthProperty()
         this.widthManager = new WidthProperty()
         this.maxWidthManager = new MaxWidthProperty()
@@ -79,6 +99,13 @@ export default abstract class BoxModelModal extends AbstractModal
         this.paddingRealFetcher = this.value.paddingRealFetcher
         this.marginRealFetcher = this.value.marginRealFetcher
         this.borderRealFetcher = this.value.borderRealFetcher
+
+        this.borderRadiusGlobalManager.setHtmlEl(val)
+        this.borderRadiusTopLeftManager.setHtmlEl(val)
+        this.borderRadiusTopRightManager.setHtmlEl(val)
+        this.borderRadiusBottomLeftManager.setHtmlEl(val)
+        this.borderRadiusBottomRightManager.setHtmlEl(val)
+
 
         this.paddingManager.setHtmlEl(val)
         this.marginManager.setHtmlEl(val)
@@ -97,6 +124,12 @@ export default abstract class BoxModelModal extends AbstractModal
         this.initPaddings()
         this.initMargins()
         this.initBorders()
+
+        this.borderRadiusGlobalManager.init()
+        this.borderRadiusTopLeftManager.init()
+        this.borderRadiusTopRightManager.init()
+        this.borderRadiusBottomLeftManager.init()
+        this.borderRadiusBottomRightManager.init()
 
         this.minWidthManager.init()
         this.widthManager.init()

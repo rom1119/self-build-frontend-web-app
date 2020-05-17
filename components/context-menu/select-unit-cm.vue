@@ -1,14 +1,10 @@
 <template>
     <context-menu
         shift="both"
-        ref="wrapped-context-menu">
-    
-        <!-- <create-html-element-context-menu :value="value"  :ref="createElementNameCM" /> -->
-        
-        
+        ref="wrapped-context-menu">        
             <context-menu-item :key="unit.name" v-for="unit in allUnits" >
                 <div @mousedown.stop="selectUnit(unit)" class="context-item" :class="{'active': unit.name ===  propertyUnit.name}" >
-                {{ unit.name }}
+                {{ unit.label }}
                 </div>
 
             </context-menu-item>
@@ -40,13 +36,6 @@ export default class SelectUnitContextMenu extends Vue {
 
     @Prop({default:null, required:true})
     propertyUnit
-    
-    // @Prop({default:null, required:true})
-    // value: HtmlNode
-
-    // @Prop({default:null, required:true})
-    // nameCM
-
 
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
 
