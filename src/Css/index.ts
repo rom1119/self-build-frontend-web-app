@@ -43,10 +43,21 @@ import BorderRadiusBottomRight from './Border/Radius/BorderRadiusBottomRight';
 
 import Display from './Display/Display';
 import Position from './Display/Position';
-import TopCss from './Position/Direction/TopCss';
-import RightCss from './Position/Direction/RightCss';
-import BottomCss from './Position/Direction/BottomCss';
-import LeftCss from './Position/Direction/LeftCss';
+import TopCss from './Display/Direction/TopCss';
+import RightCss from './Display/Direction/RightCss';
+import BottomCss from './Display/Direction/BottomCss';
+import LeftCss from './Display/Direction/LeftCss';
+
+// flex
+import FlexBasis from './Display/FlexBasis';
+import FlexDirection from './Display/FlexDirection';
+import FlexGrow from './Display/FlexGrow';
+import FlexOrder from './Display/FlexOrder';
+import FlexShrink from './Display/FlexShrink';
+import FlexWrap from './Display/FlexWrap';
+import JustifyContent from './Display/JustifyContent';
+import AlignItems from './Display/AlignItems';
+
 
 // Font
 
@@ -139,6 +150,15 @@ export {
     RightCss,
     BottomCss,
     LeftCss,
+
+    FlexBasis,
+    FlexShrink,
+    FlexWrap,
+    FlexDirection,
+    FlexOrder,
+    FlexGrow,
+    AlignItems,
+    JustifyContent,
 
     FontSize,
     FontWeight,
