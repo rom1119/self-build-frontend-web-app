@@ -15,6 +15,12 @@ import CssDoubleValue from '../../Css/CssDoubleValue';
 import CssTripleValue from '~/src/Css/CssTripleValue';
 import BaseBorderCss from '../../Css/Border/BaseBorderCss';
 import CssResource from '~/src/Css/CssResource';
+import CssMultipleValue from '../../Css/CssMultipleValue';
+import { BaseShadowStruct } from '~/src/Css/Shadow/BaseShadowCss';
+import StyleCssValue from '../../Api/StyleCssValue';
+import { TextShadowStruct } from '~/src/Css/Shadow/TextShadowCss';
+import TextShadowCss from '../../Css/Shadow/TextShadowCss';
+import BoxShadowCss, { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
 export default class DefaultCssToModel implements CssToModel
 {
 
@@ -55,6 +61,15 @@ export default class DefaultCssToModel implements CssToModel
             model.setValueSecond(domainCast.getSecondValue())
             model.setUnitNameSecond(domainCast.getSecondUnit().name)
         }
+        
+        // @ts-ignore
+        if (typeof domain.getValues === 'function') {
+            
+            this.transformShadows(domain, model)
+            model.setAsMultiple()
+            // model.setValueSecond(domainCast.getSecondValue())
+            // model.setUnitNameSecond(domainCast.getSecondUnit().name)
+        }
 
         // @ts-ignore
         if (typeof domain.getThirdValue === 'function') {
@@ -79,6 +94,78 @@ export default class DefaultCssToModel implements CssToModel
                     
         return model
 
+    }
+
+    private transformShadows(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<TextShadowStruct>
+        var domainCastMultiplyValBoxShadow: CssMultipleValue<BoxShadowStruct>
+        if (domain instanceof TextShadowCss) {
+            domainCastMultiplyVal = <CssMultipleValue<TextShadowStruct>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-MODEL');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            
+            for (const valCss of domainCastMultiplyVal.getValues()) {
+                valCss
+                let el = new StyleCssValue(valCss.offsetX, valCss.offsetXUnit.name)
+                el.id = valCss.id
+                el.setValue(valCss.offsetX)
+                el.setValueSecond(valCss.offsetY)
+                el.setValueThird(valCss.blur)
+                var color = valCss.color
+                if (typeof color === 'object') {
+                    var valueJsonStr = JSON.stringify(color)
+                    el.setValueFourth(valueJsonStr)
+                } else {
+                    el.setValueFourth(color)
+                }
+                
+                el.setUnitName(valCss.offsetXUnit.name)
+                el.setUnitNameSecond(valCss.offsetYUnit.name)
+                el.setUnitNameThird(valCss.blurUnit.name)
+                el.setUnitNameFourth(valCss.colorUnit.name)
+                
+                values.push(el)
+            }
+            
+        } else if (domain instanceof BoxShadowCss) {
+            domainCastMultiplyValBoxShadow = <CssMultipleValue<BoxShadowStruct>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-MODEL');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            
+            for (const valCss of domainCastMultiplyValBoxShadow.getValues()) {
+                valCss
+                let el = new StyleCssValue(valCss.offsetX, valCss.offsetXUnit.name)
+                el.id = valCss.id
+                el.setInset(valCss.inset)
+                el.setValue(valCss.offsetX)
+                el.setValueSecond(valCss.offsetY)
+                el.setValueThird(valCss.blur)
+                el.setValueFourth(valCss.spread)
+                var color = valCss.color
+                if (typeof color === 'object') {
+                    var valueJsonStr = JSON.stringify(color)
+                    el.setValueFifth(valueJsonStr)
+                } else {
+                    el.setValueFifth(color)
+                }
+                
+                el.setUnitName(valCss.offsetXUnit.name)
+                el.setUnitNameSecond(valCss.offsetYUnit.name)
+                el.setUnitNameThird(valCss.blurUnit.name)
+                el.setUnitNameFourth(valCss.spreadUnit.name)
+                el.setUnitNameFifth(valCss.colorUnit.name)
+
+                
+                values.push(el)
+            }
+        } else {
+            throw Error('Not implemented method transform CssValue for object ' + domain)
+        }
+
+        model.setValue(null)
+        model.setValues(values)
     }
    
 }

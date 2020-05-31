@@ -12,14 +12,13 @@ import BorderColor from "~/src/Css/Border/Global/BorderGlobalColor";
 import BorderStyle from "~/src/Css/Border/Global/BorderGlobalStyle";
 import Height from "~/src/Css/Size/Height";
 import BorderLeftWidth from "~/src/Css/Border/Left/BorderLeftWidth";
-import LeftCss from "~/src/Css/Position/Direction/LeftCss";
-import TopCss from "~/src/Css/Position/Direction/TopCss";
 import BorderLeftCss from "~/src/Css/Border/Left/BorderLeftCss";
 import HtmlTag from "../HtmlTag";
 import BorderLeftStyle from "~/src/Css/Border/Left/BorderLeftStyle";
 import BorderGlobalCss from "~/src/Css/Border/Global/BorderGlobalCss";
 import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";
 import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
+import { LeftCss, TopCss } from "~/src/Css";
 
 export default class BorderLeft extends BorderModel
 {

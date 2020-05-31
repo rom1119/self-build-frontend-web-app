@@ -535,7 +535,11 @@ export default class HTMLWrapper extends Vue {
         border-radius: 100%;
         background-color: aqua;
         z-index: 99999999;
-        border: 2px solid #998866
+        border: 2px solid #998866;
+        text-shadow: none;
+        color: black;
+        font-size: 1em;
+   
     }
     .remove:hover {
         background-color: rgb(67, 184, 184);

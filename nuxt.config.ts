@@ -63,6 +63,7 @@ module.exports = {
         {src: '@/plugins/modals/borderManageModal', ssr: false},
         {src: '@/plugins/modals/boxModelManageModal', ssr: false},
         {src: '@/plugins/modals/displayManageModal', ssr: false},
+        {src: '@/plugins/modals/shadowManageModal', ssr: false},
         // {src: '@/plugins/confirmDialog', ssr: false},
         {src: '@/plugins/axiosFileDownload', ssr: false},
         {src: '@/plugins/VueUploadComponent', ssr: false},

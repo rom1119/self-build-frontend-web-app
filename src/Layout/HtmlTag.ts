@@ -360,6 +360,36 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     private filterCss(css: BasePropertyCss): boolean
     {
         if (css instanceof BasePaddingCss) {
+            return true
+        }
+        
+        if (css instanceof BaseMarginCss) {
+            return true
+        }
+        
+        if (css instanceof BaseBorderCss) {
+            return true
+        }
+        
+        if (css instanceof ContentSizeCss) {
+            return true
+        }
+        
+        if (css instanceof BoxSizing) {
+            return true
+        }
+        
+        if (this.isLikeBackgroundCss(css)) {
+            return true
+        }
+        
+        return false
+
+    }
+
+    canAddToCssList(css: BasePropertyCss): boolean
+    {
+        if (css instanceof BasePaddingCss) {
             return false
         }
         
@@ -370,22 +400,12 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         if (css instanceof BaseBorderCss) {
             return false
         }
-
-        return true
-
-    }
-
-    canAddToCssList(css: BasePropertyCss): boolean
-    {
-        if (css instanceof Display) {
-            return true
+        
+        if (css instanceof ContentSizeCss) {
+            return false
         }
         
-        // if (css instanceof ContentSizeCss) {
-        //     return true
-        // }
-        
-        return false
+        return true
     }
 
     get cssList() : any
@@ -687,32 +707,37 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         
         let css = this.cssAccessor.all
 
-        // for (const cssProp of ) {
+        let cssToBox = []
+
+        // for (const cssProp of this.cssAccessor.all) {
         //     // if (cssProp instanceof BasePaddingCss) {
         //     //     this.paddingFilter.injectCssProperty(cssProp)
         //     // }
         //     // if (!this.filterCss(cssProp)) {
         //     //     continue
         //     // }
-        //     var propCss = cssProp
-        //     if (cssProp instanceof Width ||
-        //         cssProp instanceof Height
-        //         // cssProp instanceof BaseMarginCss ||
-        //         // cssProp instanceof BasePaddingCss || 
-        //         // cssProp instanceof BaseBorderCss || 
-        //         // cssProp instanceof BoxSizing 
-        //     ) 
-        //     {
+        //     if (this.filterCss(cssProp)) {
+        //         cssToBox.push(cssProp)
+        //     }
+        //     // var propCss = cssProp
+        //     // if (cssProp instanceof Width ||
+        //     //     cssProp instanceof Height
+        //     //     // cssProp instanceof BaseMarginCss ||
+        //     //     // cssProp instanceof BasePaddingCss || 
+        //     //     // cssProp instanceof BaseBorderCss || 
+        //     //     // cssProp instanceof BoxSizing 
+        //     // ) 
+        //     // {
                 
-        //     }
-        //     if (cssProp instanceof Width) {
-        //         css[cssProp.getName()] = this.widthUnitCurrent.getValue(this._width)
-        //     } else if (cssProp instanceof Height) {
-        //         css[cssProp.getName()] = this.heightUnitCurrent.getValue(this._height)
-        //     } else {
-        //         css[cssProp.getName()] = cssProp.getValue()
+        //     // }
+        //     // if (cssProp instanceof Width) {
+        //     //     css[cssProp.getName()] = this.widthUnitCurrent.getValue(this._width)
+        //     // } else if (cssProp instanceof Height) {
+        //     //     css[cssProp.getName()] = this.heightUnitCurrent.getValue(this._height)
+        //     // } else {
+        //     //     css[cssProp.getName()] = cssProp.getValue()
 
-        //     }
+        //     // }
         // }
 
         return this.transformStyleList.transform(this.cssAccessor.all)

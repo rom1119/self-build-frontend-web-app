@@ -60,10 +60,27 @@ export default class HtmlTagSynchronizer implements Synchronizer
                     if (this.tag instanceof HtmlTag) {
                         for (const cssRes of res.data.cssStyleList) {
                             for (const cssDomain of this.tag.cssAccessor.all) {
-                                if (cssDomain.getName() === cssRes.name) {
-                                    cssDomain.id = cssRes.id
+                                if (cssDomain.getName() !== cssRes.name) {
+                                    continue
                                 }
+                                cssDomain.id = cssRes.id
+                                // @ts-ignore
+                                if (typeof cssDomain.getValues === 'function') {
+                                    // @ts-ignore
+                                    for (var i = 0; i < cssDomain.getValues().length; i++) {
+                                        console.log(cssRes);
+                                        console.log(cssDomain);
+                                        
+                                        // @ts-ignore
+                                        const cssValDomain = cssDomain.getValues()[i]
+                                        cssValDomain.id = cssRes.cssValues[i].id
+                                    }
+
+                                }
+
                             }
+
+                            
                         }
     
                     }

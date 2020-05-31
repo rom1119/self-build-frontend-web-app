@@ -14,6 +14,11 @@ import CssTripleValue from '~/src/Css/CssTripleValue';
 import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
 import RGBA from '../../Unit/Color/RGBA';
 import CssResource from '~/src/Css/CssResource';
+import TextShadowCss, { TextShadowStruct } from '~/src/Css/Shadow/TextShadowCss';
+import CssMultipleValue from '~/src/Css/CssMultipleValue';
+import RGB from '~/src/Unit/Color/RGB';
+import BoxShadowCss, { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
+import StyleCssModel from '~/types/StyleCssModel';
 export default class DefaultModelToCss implements ModelToCss
 {
 
@@ -91,11 +96,110 @@ export default class DefaultModelToCss implements ModelToCss
             domain = <BaseBorderCss>domainCastThird
 
         }
+
+        // @ts-ignore
+        if (typeof domain.getValues === 'function') {
+            
+
+            domain =  <BasePropertyCss><unknown>this.transformShadows(domain, model)
+            
+            // model.setAsMultiple()
+            // model.setValues(values)
+            // model.setValueSecond(domainCast.getSecondValue())
+            // model.setUnitNameSecond(domainCast.getSecondUnit().name)
+        }
         
 
         // console.log(domain);
                     
         return domain
+
+    }
+
+    private transformShadows(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<TextShadowStruct>
+        var domainCastMultiplyValBoxShadow: CssMultipleValue<BoxShadowStruct>
+        if (domain instanceof TextShadowCss) {
+            domainCastMultiplyVal = <CssMultipleValue<TextShadowStruct>><unknown>domain
+            console.log('instanceOF TEXT_SHADOW TO-CSS');
+            console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            
+            for (const valCss of model.getValues()) {
+                    valCss
+                let el = new TextShadowStruct()
+                    el.id = valCss.id
+                    el.offsetX = parseInt(valCss.getValue())
+                    el.offsetY = parseInt(valCss.getValueSecond())
+                    el.blur = parseInt(valCss.getValueThird())
+                    
+                    var unitOffX = this.unitCssFactoryFromName.create(valCss.getUnitName())
+                    var unitOffY = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                    var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
+                    var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+
+                    var val
+                    if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                        el.color = JSON.parse(valCss.getValueFourth())
+                    } else {
+                        el.color = valCss.getValueFourth()
+                    }
+                    
+                    el.offsetXUnit = unitOffX
+                    el.offsetYUnit = unitOffY
+                    el.blurUnit = unitBlur
+                    el.colorUnit = unitColor
+                    console.log(el);
+                    
+
+                    domainCastMultiplyVal.addValue(el)
+            }
+
+            return domainCastMultiplyVal
+            
+        } else if (domain instanceof BoxShadowCss) {
+            domainCastMultiplyValBoxShadow = <CssMultipleValue<BoxShadowStruct>><unknown>domain
+            console.log('instanceOF TEXT_SHADOW TO-CSS');
+            console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            
+            for (const valCss of model.getValues()) {
+                    valCss
+                let el = new BoxShadowStruct()
+                    el.id = valCss.id
+                    el.inset = valCss.getInset()
+                    el.offsetX = parseInt(valCss.getValue())
+                    el.offsetY = parseInt(valCss.getValueSecond())
+                    el.blur = parseInt(valCss.getValueThird())
+                    el.spread = parseInt(valCss.getValueFourth())
+                    
+                    var unitOffX = this.unitCssFactoryFromName.create(valCss.getUnitName())
+                    var unitOffY = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                    var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
+                    var unitSpread = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+                    var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFifth())
+
+                    var val
+                    if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                        el.color = JSON.parse(valCss.getValueFifth())
+                    } else {
+                        el.color = valCss.getValueFifth()
+                    }
+                    
+                    el.offsetXUnit = unitOffX
+                    el.offsetYUnit = unitOffY
+                    el.blurUnit = unitBlur
+                    el.spreadUnit = unitSpread
+                    el.colorUnit = unitColor
+                    console.log(el)
+
+                    domainCastMultiplyValBoxShadow.addValue(el)
+            }
+
+            return domainCastMultiplyValBoxShadow
+        } else {
+            throw Error('Not implemented method transform CssValue for object ' + domain)
+        }
 
     }
    

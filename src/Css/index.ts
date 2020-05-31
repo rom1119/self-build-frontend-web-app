@@ -43,6 +43,8 @@ import BorderRadiusBottomRight from './Border/Radius/BorderRadiusBottomRight';
 
 import Display from './Display/Display';
 import Position from './Display/Position';
+import Float from './Display/Float';
+import Clear from './Display/Clear';
 import TopCss from './Display/Direction/TopCss';
 import RightCss from './Display/Direction/RightCss';
 import BottomCss from './Display/Direction/BottomCss';
@@ -87,6 +89,10 @@ import PaddingTopCss from './BoxModel/Padding/PaddingTopCss';
 import PaddingLeftCss from './BoxModel/Padding/PaddingLeftCss';
 import PaddingRightCss from './BoxModel/Padding/PaddingRightCss';
 import PaddingCss from './BoxModel/Padding/PaddingCss';
+
+
+import TextShadowCss from './Shadow/TextShadowCss';
+import BoxShadowCss from './Shadow/BoxShadowCss';
 
 
 export {
@@ -146,10 +152,15 @@ export {
 
     Display,
     Position,
+    Float,
+    Clear,
     TopCss,
     RightCss,
     BottomCss,
     LeftCss,
+
+    TextShadowCss,
+    BoxShadowCss,
 
     FlexBasis,
     FlexShrink,

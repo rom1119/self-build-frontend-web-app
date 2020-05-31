@@ -269,7 +269,7 @@
     }
     .color-picker {
         position: absolute;
-        left: 0;
+        left: -200px;
         top: 0px;
     }
 }
@@ -333,7 +333,6 @@
             background-color: white;
         }
         &:hover {
-            background-color: rgb(91, 201, 91);
             .width-prop-container-right {
                 display: block;
             }
@@ -370,6 +369,16 @@
     background-color: transparent;
     top: -50px;
     border: 3px solid red;
+    background-color: none;
+
+
+    .active, .active-global {
+        background-color: rgb(109, 224, 157);
+    }
+
+    &__active {
+        background-color: rgb(109, 224, 157);
+    }
 
     &__global {
         left: 50%;
@@ -388,11 +397,18 @@
     }
     
     &__bottom-left {
-        left: 50%;
+        left: 0%;
+        top: -25px;
+        border-bottom-left-radius: 15px;
+
     }
     
     &__bottom-right {
-        left: 50%;
+        right: 0%;
+        top: -25px;
+        border-bottom-right-radius: 15px;
+
+
     }
 }
 

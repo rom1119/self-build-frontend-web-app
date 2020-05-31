@@ -40,7 +40,7 @@ $minHeighFooter: 50px;
         // display: flex;
         width: 100%;
         height: $heighContent;
-        overflow-y: scroll;
+        overflow: auto;
 
         .content-item {
             text-align: center;
@@ -48,10 +48,11 @@ $minHeighFooter: 50px;
             padding: 10px 0;
 
             &-half {
-                width: 50%;
+                width: 50% !important;
             }
             &__header {
-
+                padding: 5px;
+                position: relative;
             }
             &__elem_container {
                 width: 100%;
@@ -104,6 +105,37 @@ $minHeighFooter: 50px;
     }
     .to-right {
         justify-content: flex-end;
+    }
+}
+
+.add-btn {
+    position: absolute;
+    font-weight: bold;
+    right: 10px;
+    top: -10px;
+    color: green;
+    font-size: 2em;
+    cursor: pointer;
+
+    &:hover {
+        color: rgb(95, 212, 95);
+    }
+}
+.remove-btn {
+    position: absolute;
+    font-weight: bold;
+    right: 0px;
+    top: 20px;
+    color:red;
+    padding: 1px 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 1px solid red;
+    border-radius: 20px;
+
+    &:hover {
+        color: rgb(143, 64, 64);
+        border-color: rgb(143, 64, 64);
     }
 }
 

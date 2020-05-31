@@ -19,7 +19,7 @@
     
         <context-menu-item :action="showTextCssModal">Font</context-menu-item>
         <context-menu-item :action="showBackgroundCssModal">Background</context-menu-item>
-        <context-menu-item :action="showBorderCssModal">Border</context-menu-item>
+        <context-menu-item :action="showShadowCssModal">Shadow</context-menu-item>
         <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
         <context-menu-item :action="showDisplayModal">Display</context-menu-item>
 
@@ -105,6 +105,11 @@ export default class HtmlElementContextMenu extends Vue {
         this.$borderManageModal.show(this.value)
     }
     
+    showShadowCssModal()
+    {
+        this.$shadowManageModal.show(this.value)
+    }
+    
     showBoxModelModal()
     {
         this.$boxModelManageModal.show(this.value)
@@ -128,5 +133,7 @@ export default class HtmlElementContextMenu extends Vue {
 </script>
 
 <style  scoped>
-   
+   * {
+       text-shadow: none;;
+   }
 </style>

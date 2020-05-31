@@ -6,9 +6,8 @@ import Width from "~/src/Css/Size/Width";
 import HtmlTag from "../HtmlTag";
 import Height from "~/src/Css/Size/Height";
 import PaddingLeftCss from '../../Css/BoxModel/Padding/PaddingLeftCss';
-import LeftCss from "~/src/Css/Position/Direction/LeftCss";
-import TopCss from "~/src/Css/Position/Direction/TopCss";
 import Named from "~/src/Unit/Named";
+import { LeftCss, TopCss } from "~/src/Css";
 
 export default class PaddingLeft extends PaddingModel
 {

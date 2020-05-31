@@ -11,6 +11,7 @@ import BackgroundManageModal from '~/components/modal/BackgroundManageModal.vue'
 import BorderManageModal from '~/components/modal/BorderManageModal.vue'
 import BoxModelManageModal from '~/components/modal/BoxModelManageModal.vue'
 import DisplayManageModal from '~/components/modal/DisplayManageModal.vue'
+import ShadowManageModal from '~/components/modal/ShadowManageModal.vue'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import {Auth} from "~/types/nuxtjs-auth-module";
 
@@ -27,6 +28,7 @@ declare module 'vue/types/vue' {
         $borderManageModal: BorderManageModal,
         $boxModelManageModal: BoxModelManageModal,
         $displayManageModal: DisplayManageModal,
+        $shadowManageModal: ShadowManageModal,
         $axios: NuxtAxiosInstance,
         $auth: Auth
     }

@@ -7,8 +7,7 @@ import HtmlTag from "../HtmlTag";
 import Height from "~/src/Css/Size/Height";
 import PaddingBottomCss from "~/src/Css/BoxModel/Padding/PaddingBottomCss";
 import Named from "~/src/Unit/Named";
-import LeftCss from "~/src/Css/Position/Direction/LeftCss";
-import BottomCss from "~/src/Css/Position/Direction/BottomCss";
+import { LeftCss, BottomCss } from "~/src/Css";
 
 export default class PaddingBottom extends PaddingModel
 {

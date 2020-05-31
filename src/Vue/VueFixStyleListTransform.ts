@@ -1,8 +1,9 @@
 import HtmlTag from '../Layout/HtmlTag';
 import BasePropertyCss from '../Css/BasePropertyCss';
-import { Width, Height, PaddingRightCss, PaddingBottomCss, PaddingTopCss, BorderGlobalCss, BorderLeftCss, BorderRightCss, BorderTopCss, BorderBottomCss, MarginCss, MarginLeftCss, MarginRightCss, MarginTopCss, MarginBottomCss } from '../Css';
+import { Width, Height, PaddingRightCss, PaddingBottomCss, PaddingTopCss, BorderGlobalCss, BorderLeftCss, BorderRightCss, BorderTopCss, BorderBottomCss, MarginCss, MarginLeftCss, MarginRightCss, MarginTopCss, MarginBottomCss, BorderRadiusTopLeft, BorderRadiusTopRight, BorderRadiusBottomLeft, BorderRadiusBottomRight } from '../Css';
 import PaddingCss from '../Css/BoxModel/Padding/PaddingCss';
 import PaddingLeftCss from '../Css/BoxModel/Padding/PaddingLeftCss';
+import BorderRadiusGlobal from '../Css/Border/Radius/BorderRadiusGlobal';
 export class VueFixStyleListTransform 
 {
     private tag: HtmlTag
@@ -48,6 +49,7 @@ export class VueFixStyleListTransform
         this.checkBorders(css)
         this.checkPaddings(css)
         this.checkMargins(css)
+        this.checkBorderRadius(css)
         
         // for (const key in css) {
         //     if (css.hasOwnProperty(key)) {
@@ -143,6 +145,35 @@ export class VueFixStyleListTransform
             }
         }
     }
+    
+    checkBorderRadius(css: {}) {
+        if (css[BorderRadiusGlobal.PROP_NAME]) {
+            if (css[BorderRadiusTopLeft.PROP_NAME] ||
+                css[BorderRadiusTopRight.PROP_NAME] || 
+                css[BorderRadiusBottomLeft.PROP_NAME] || 
+                css[BorderRadiusBottomRight.PROP_NAME]
+            ) {
+                delete css[BorderRadiusGlobal.PROP_NAME]
+
+                if (!css[BorderRadiusTopLeft.PROP_NAME]) {
+                    css[BorderRadiusTopLeft.PROP_NAME] = this.composeBorderRadiusProperty(BorderRadiusTopLeft.PROP_NAME)
+                }
+                
+                if (!css[BorderRadiusTopRight.PROP_NAME]) {
+                    css[BorderRadiusTopRight.PROP_NAME] = this.composeBorderRadiusProperty(BorderRadiusTopRight.PROP_NAME)
+                }
+                
+                if (!css[BorderRadiusBottomLeft.PROP_NAME]) {
+                    css[BorderRadiusBottomLeft.PROP_NAME] = this.composeBorderRadiusProperty(BorderRadiusBottomLeft.PROP_NAME)
+                }
+                
+                if (!css[BorderRadiusBottomRight.PROP_NAME]) {
+                    css[BorderRadiusBottomRight.PROP_NAME] = this.composeBorderRadiusProperty(BorderRadiusBottomRight.PROP_NAME)
+                }
+
+            }
+        }
+    }
 
     composeBorderProperty(propName: string): string
     {
@@ -152,6 +183,15 @@ export class VueFixStyleListTransform
         prop += this.tag.borderRealFetcher.fetchUnitStyle(propName).getValue(this.tag.borderRealFetcher.fetchPropStyle(propName))
         prop += ' '
         prop += this.tag.borderRealFetcher.fetchUnitColor(propName).getValue(this.tag.borderRealFetcher.fetchPropColor(propName))
+        prop += ` /* ${this.rand} */`
+
+        return prop
+    }
+    
+    composeBorderRadiusProperty(propName: string): string
+    {
+        var prop = ''
+        prop += this.tag.cssAccessor.getProperty(BorderRadiusGlobal.PROP_NAME).getValue()
         prop += ` /* ${this.rand} */`
 
         return prop

@@ -4,6 +4,7 @@ import LayoutEl from '../LayoutEl';
 import TextNode from '../Layout/TextNode';
 import HtmlNode from '../Layout/HtmlNode';
 import CssResource from "../Css/CssResource";
+import CssValue from '../Css/CssValue';
 
 export default interface ApiService 
 {
@@ -14,4 +15,5 @@ export default interface ApiService
     putTag(tag: HtmlTag): Promise<any>
     putText(tag: TextNode): Promise<any>
     deleteTag(tag: HtmlNode) : Promise<any>
+    deleteCssValue(val: CssValue) : Promise<any>
 }

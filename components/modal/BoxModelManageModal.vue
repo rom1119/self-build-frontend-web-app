@@ -17,7 +17,7 @@
                 <div v-if="value" class=" box-model content-item__elem_container rel w-400 h-400">
                     <div class="border-radius-container">
 
-                        <div class="content-box-model-link_right border-radius border-radius__global">
+                        <div :class="{'border-radius__active': hasBorderRadiusGlobal}" class="content-box-model-link_right border-radius border-radius__global">
                             <span >
                                 {{ borderRadiusGlobalManager.getProperty().getValue() }}
                             </span>
@@ -35,13 +35,12 @@
                                     />
                             </div>
                         </div>
-                        <div class="content-box-model-link_right border-radius border-radius__top-left">
+                        <div :class="{'border-radius__active': hasBorderRadiusTopLeft}" class="content-box-model-link_right border-radius border-radius__top-left">
                             <span >
                                 {{ borderRadiusTopLeftManager.getProperty().getValue() }}
                             </span>
                             <div class="width-prop-container-right">
                                 <site-box-model-element 
-                                        :globalEl="true"
                                         @changeHasProp="hasBorderRadiusTopLeft = $event"
                                         @changeProp="borderRadiusTopLeft = $event"
                                         @changePropUnit="borderRadiusTopLeftUnit = $event"
@@ -53,13 +52,12 @@
                                     />
                             </div>
                         </div>
-                        <div class="content-box-model-link_right border-radius border-radius__top-right">
+                        <div :class="{'border-radius__active': hasBorderRadiusTopRight}" class="content-box-model-link_right border-radius border-radius__top-right">
                             <span >
                                 {{ borderRadiusTopRightManager.getProperty().getValue() }}
                             </span>
                             <div class="width-prop-container-right">
                                 <site-box-model-element 
-                                        :globalEl="true"
                                         @changeHasProp="hasBorderRadiusTopRight = $event"
                                         @changeProp="borderRadiusTopRight = $event"
                                         @changePropUnit="borderRadiusTopRightUnit = $event"
@@ -68,6 +66,40 @@
                                         :propertyUnit="borderRadiusTopRightUnit"
                                         :classList="['top-padding','padding']"
                                         :contextMenuName="value.uuid.concat('-border-radius-top-right-box')"
+                                    />
+                            </div>
+                        </div>
+                        <div :class="{'border-radius__active': hasBorderRadiusBottomLeft}" class="content-box-model-link_right border-radius border-radius__bottom-left">
+                            <span >
+                                {{ borderRadiusBottomLeftManager.getProperty().getValue() }}
+                            </span>
+                            <div class="width-prop-container-right">
+                                <site-box-model-element 
+                                        @changeHasProp="hasBorderRadiusBottomLeft = $event"
+                                        @changeProp="borderRadiusBottomLeft = $event"
+                                        @changePropUnit="borderRadiusBottomLeftUnit = $event"
+                                        :hasProperty="hasBorderRadiusBottomLeft"
+                                        :property="borderRadiusBottomLeft"
+                                        :propertyUnit="borderRadiusBottomLeftUnit"
+                                        :classList="['top-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-border-radius-bottom-left-box')"
+                                    />
+                            </div>
+                        </div>
+                        <div :class="{'border-radius__active': hasBorderRadiusBottomRight}" class="content-box-model-link_right border-radius border-radius__bottom-right">
+                            <span >
+                                {{ borderRadiusBottomRightManager.getProperty().getValue() }}
+                            </span>
+                            <div class="width-prop-container-right">
+                                <site-box-model-element 
+                                        @changeHasProp="hasBorderRadiusBottomRight = $event"
+                                        @changeProp="borderRadiusBottomRight = $event"
+                                        @changePropUnit="borderRadiusBottomRightUnit = $event"
+                                        :hasProperty="hasBorderRadiusBottomRight"
+                                        :property="borderRadiusBottomRight"
+                                        :propertyUnit="borderRadiusBottomRightUnit"
+                                        :classList="['top-padding','padding']"
+                                        :contextMenuName="value.uuid.concat('-border-radius-bottom-right-box')"
                                     />
                             </div>
                         </div>
@@ -608,6 +640,84 @@ import { Width } from '~/src/Css';
                 this.borderRadiusTopRightManager.deactivePropCss(this.borderRadiusTopRightManager.getProperty())
             } else {
                 this.borderRadiusTopRightManager.activePropCss(this.borderRadiusTopRightManager.getProperty())
+            }
+        }
+
+        // *****************************************  BORDER-RADIUS_BOTTOM-LEFT ****************************************************
+        
+        get borderRadiusBottomLeft()
+        {
+            return  this.borderRadiusBottomLeftManager.getProperty().value
+        }
+        
+        set borderRadiusBottomLeft(newVal: string)
+        {
+            console.log(newVal);
+            
+            this.borderRadiusBottomLeftManager.getProperty().setValue(newVal)
+            this.borderRadiusBottomLeftManager.updateCssProp(this.borderRadiusBottomLeftManager.getProperty())             
+        }
+        
+        get borderRadiusBottomLeftUnit()
+        {
+            return  this.borderRadiusBottomLeftManager.getProperty().getUnit()
+        }
+        
+        set borderRadiusBottomLeftUnit(newVal: UnitSize)
+        {
+            this.borderRadiusBottomLeftManager.getProperty().setUnit(newVal)
+            this.borderRadiusBottomLeftManager.updateCssProp(this.borderRadiusBottomLeftManager.getProperty())             
+        }
+
+        get hasBorderRadiusBottomLeft()
+        {
+            return  this.borderRadiusBottomLeftManager.getProperty().active
+        }
+        
+        set hasBorderRadiusBottomLeft(newVal: boolean)
+        {
+            if (!newVal) {
+                this.borderRadiusBottomLeftManager.deactivePropCss(this.borderRadiusBottomLeftManager.getProperty())
+            } else {
+                this.borderRadiusBottomLeftManager.activePropCss(this.borderRadiusBottomLeftManager.getProperty())
+            }
+        }
+        
+        // *****************************************  BORDER-RADIUS_BOTTOM-RIGHT ****************************************************
+        
+        get borderRadiusBottomRight()
+        {
+            return  this.borderRadiusBottomRightManager.getProperty().value
+        }
+        
+        set borderRadiusBottomRight(newVal: string)
+        {
+            this.borderRadiusBottomRightManager.getProperty().setValue(newVal)
+            this.borderRadiusBottomRightManager.updateCssProp(this.borderRadiusBottomRightManager.getProperty())             
+        }
+        
+        get borderRadiusBottomRightUnit()
+        {
+            return  this.borderRadiusBottomRightManager.getProperty().getUnit()
+        }
+        
+        set borderRadiusBottomRightUnit(newVal: UnitSize)
+        {
+            this.borderRadiusBottomRightManager.getProperty().setUnit(newVal)
+            this.borderRadiusBottomRightManager.updateCssProp(this.borderRadiusBottomRightManager.getProperty())             
+        }
+
+        get hasBorderRadiusBottomRight()
+        {
+            return  this.borderRadiusBottomRightManager.getProperty().active
+        }
+        
+        set hasBorderRadiusBottomRight(newVal: boolean)
+        {
+            if (!newVal) {
+                this.borderRadiusBottomRightManager.deactivePropCss(this.borderRadiusBottomRightManager.getProperty())
+            } else {
+                this.borderRadiusBottomRightManager.activePropCss(this.borderRadiusBottomRightManager.getProperty())
             }
         }
 

@@ -9,8 +9,6 @@ import Percent from "~/src/Unit/Size/Percent";
 import Width from "~/src/Css/Size/Width";
 import BorderRightWidth from "~/src/Css/Border/Right/BorderRightWidth";
 import Height from "~/src/Css/Size/Height";
-import RightCss from "~/src/Css/Position/Direction/RightCss";
-import TopCss from "~/src/Css/Position/Direction/TopCss";
 import HtmlTag from "../HtmlTag";
 import BorderRightCss from "~/src/Css/Border/Right/BorderRightCss";
 import BorderGlobalStyle from "~/src/Css/Border/Global/BorderGlobalStyle";
@@ -18,6 +16,7 @@ import BorderRightStyle from "~/src/Css/Border/Right/BorderRightStyle";
 import BorderGlobalCss from "~/src/Css/Border/Global/BorderGlobalCss";
 import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";
 import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
+import { RightCss, TopCss } from "~/src/Css";
 
 
 export default class BorderRight extends BorderModel {

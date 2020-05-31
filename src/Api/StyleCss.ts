@@ -1,4 +1,5 @@
 import HtmlTag from "../Layout/HtmlTag";
+import StyleCssValue from "./StyleCssValue";
 
 export default class StyleCss
 {
@@ -11,6 +12,9 @@ export default class StyleCss
     private _valueThird
     private _unitNameThird
     private _resourcePath
+    private _resourceUrl
+    private _multipleValue = false
+    private _values: StyleCssValue[]
 
     constructor(key: string, val: any, unitName: string)
     {
@@ -29,6 +33,20 @@ export default class StyleCss
         return this._val
 
     }
+
+    isMultiple(): boolean{
+        return this._multipleValue === true
+    }
+    
+    setAsMultiple(){
+        this._multipleValue = true
+    }
+    
+    getValues(): StyleCssValue[]
+    {
+        return this._values
+
+    }
     
     getUnitName(): string
     {
@@ -39,6 +57,11 @@ export default class StyleCss
     public setValue(val)
     {
         this._val = val
+    }
+    
+    public setValues(val)
+    {
+        this._values = val
     }
     
     public setUnitName(val)
@@ -98,6 +121,18 @@ export default class StyleCss
     public getResourcePath(): string
     {
         return this._resourcePath
+
+    }
+    
+    public setResourceUrl(val)
+    {
+        this._resourceUrl = val
+    }
+    
+
+    public getResourceUrl(): string
+    {
+        return this._resourceUrl
 
     }
 

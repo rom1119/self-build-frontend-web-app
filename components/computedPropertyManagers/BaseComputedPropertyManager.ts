@@ -31,6 +31,11 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         this.property = arg   
     }
 
+    public getHtmlTag()
+    {
+        return this.value
+    }
+
     
 
     public setHtmlEl(val: HtmlTag)
@@ -51,7 +56,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         return <T>this.value.cssAccessor.getProperty(prop)
     }
 
-    protected setTmpPropertyToModel(newCssProp: BasePropertyCss)
+    protected setTmpPropertyToModel(newCssProp: T)
     {
         if (!this.value) {
             return false
@@ -91,10 +96,10 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         
     }
 
-    deactiveGlobalPropCss(newProp: BasePropertyCss) {
+    deactiveGlobalPropCss(newProp: T) {
         throw new Error("Method not implemented.");
     }
-    deactivePropCss(prop: BasePropertyCss) {
+    deactivePropCss(prop: T) {
         this.value.cssAccessor.removePropWithName(prop.getName())
         prop.id = null
         prop.setActive(false)
@@ -103,7 +108,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         this.value.synchronize()
         return null
     }
-    activePropCss(prop: BasePropertyCss) {
+    activePropCss(prop: T) {
         prop.id = null
         prop.setActive(true)
 
@@ -117,7 +122,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
 
         return prop
     }
-    updateCssProp(newProp: BasePropertyCss) {
+    updateCssProp(newProp: T) {
         // console.log('ALA MA');
         // console.log(newProp.getUnit());
         // console.log(newProp);

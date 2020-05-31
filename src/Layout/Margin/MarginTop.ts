@@ -7,10 +7,9 @@ import Height from "~/src/Css/Size/Height";
 import HtmlTag from "../HtmlTag";
 import MarginModel from "./MarginModel";
 import MarginTopCss from "~/src/Css/BoxModel/Margin/MarginTopCss";
-import TopCss from "~/src/Css/Position/Direction/TopCss";
 import Named from "~/src/Unit/Named";
-import LeftCss from "~/src/Css/Position/Direction/LeftCss";
 import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
+import { LeftCss, TopCss } from "~/src/Css";
 
 export default class MarginTop extends MarginModel
 {

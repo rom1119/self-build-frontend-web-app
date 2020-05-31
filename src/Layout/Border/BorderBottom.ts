@@ -8,11 +8,10 @@ import Named from "~/src/Unit/Named";
 import BorderTopWidth from "~/src/Css/Border/Top/BorderTopWidth";
 import BorderBottomWidth from "~/src/Css/Border/Bottom/BorderBottomWidth";
 import HtmlTag from "../HtmlTag";
-import LeftCss from "~/src/Css/Position/Direction/LeftCss";
-import BottomCss from "~/src/Css/Position/Direction/BottomCss";
 import BorderBottomCss from "~/src/Css/Border/Bottom/BorderBottomCss";
 import BorderBottomStyle from '../../Css/Border/Bottom/BorderBottomStyle';
 import BorderGlobalCss from "~/src/Css/Border/Global/BorderGlobalCss";
+import { LeftCss, BottomCss } from "~/src/Css";
 
 export default class BorderBottom extends BorderModel
 {

@@ -23,6 +23,7 @@ import LayoutEl from "~/src/LayoutEl";
 import TextNode from '../../Layout/TextNode';
 import HtmlNode from "~/src/Layout/HtmlNode";
 import CssResource from '../../Css/CssResource';
+import CssValue from "~/src/Css/CssValue";
 
 export default class DefaultApiService implements ApiService
 {
@@ -46,6 +47,7 @@ export default class DefaultApiService implements ApiService
         this.cssFromName = new CssPropertyFactoryFromName()
 
     }
+    
 
     getTreeTags(tag: HtmlTag): ResponseTreeTag {
         throw new Error("Method not implemented.");
@@ -131,8 +133,8 @@ export default class DefaultApiService implements ApiService
         return Axios.delete(DefaultApiService.HOST + `/api/html-tag/${tag.uuid}`)
     }
 
- 
-
-
+    deleteCssValue(val: CssValue): Promise<any> {
+        return Axios.delete(DefaultApiService.HOST + `/api/css-style/value/${val.getId()}`)
+    }
  
 }

@@ -10,8 +10,7 @@ import Width from "~/src/Css/Size/Width";
 import Height from '../../Css/Size/Height';
 import HtmlTag from "../HtmlTag";
 import PaddingRightCss from "~/src/Css/BoxModel/Padding/PaddingRightCss";
-import RightCss from "~/src/Css/Position/Direction/RightCss";
-import TopCss from "~/src/Css/Position/Direction/TopCss";
+import { RightCss, TopCss } from "~/src/Css";
 
 
 export default class PaddingRight extends PaddingModel {
