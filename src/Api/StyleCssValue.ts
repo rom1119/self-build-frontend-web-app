@@ -146,7 +146,7 @@ export default class StyleCssValue
 
     }
     
-    public getInset(): string
+    public getInset(): boolean
     {
         return this._inset
 
