@@ -1,7 +1,11 @@
 <template>
 
-    <component class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
-        <slot ></slot>
+    <component v-if="value.isInput" v-model="text"  class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+    </component>
+    
+    <component v-else class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+        <slot>
+        </slot>
     </component>
 
 </template>
@@ -26,6 +30,42 @@ export default class HTMLEL extends Vue {
     }
 
     contextMenuName = 'cm-create-html-element123'
+
+    created() {
+        this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
+        
+        // console.log(this.value.styleList)
+    }
+
+    get text()
+    {
+        return this.value.text
+    }
+    
+    set text(arg)
+    {
+        this.value.text = arg
+    }
+
+    mounted() {
+        var attrsArr = this.value.attributeAccessor.all
+        console.log(this.$el);
+        
+        for (const attr of attrsArr) {
+            if (attr.key == 'value') {
+                continue
+            }
+            var oldValAttr = this.$el.getAttribute(attr.key)
+            if (oldValAttr) {
+                this.$el.setAttribute(attr.key, oldValAttr + ' ' + attr.value)
+            } else {
+                this.$el.setAttribute(attr.key, attr.value)
+
+            }
+            
+        }
+        console.log(this.$el);
+    }
 
     onMouseOver() {   
         // console.log('over');
@@ -65,10 +105,7 @@ export default class HTMLEL extends Vue {
             
 
     }
-    created() {
-        this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
-        // console.log(this.value.styleList)
-    }
+    
 }
 </script>
 

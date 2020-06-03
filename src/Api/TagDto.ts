@@ -8,6 +8,8 @@ export default class TagDto extends AggregateRoot
     projectId = ''
     tagName = ''
     isTextNode = false
+    isClosingTag: boolean = true
+    attrs: any = {}
     text = ''
     version = 1
     children: TagDto[]  = []

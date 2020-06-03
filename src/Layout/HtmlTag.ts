@@ -49,6 +49,10 @@ import HtmlTagSynchronizer from "../Synchronizer/Impl/HtmlTagSynchronizer";
 import HtmlNode from "./HtmlNode";
 import BorderFetcherRealCssProp from "../BorderFetcherRealCssProp";
 import { VueFixStyleListTransform } from "../Vue/VueFixStyleListTransform";
+import AttributesAccessor from "../Attribute/AttributesAccessor";
+import DefaultAttributesAccessor from '../Attribute/impl/DefaultAttributesAccessor';
+import Input from './tag/Form/Input';
+import BoxShadowCss from '../Css/Shadow/BoxShadowCss';
 
 export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage
 {
@@ -84,13 +88,16 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     public static INITIAL_HEIGHT = 100
     public static INITIAL_SIZE_UNIT: UnitSize = new Pixel()
     protected initialBackgroundColor = 'red'
-    private _backgroundColor = this.initialBackgroundColor;
-    private _initialColorUnit: UnitColor = new Named();
+    protected _backgroundColor = this.initialBackgroundColor;
+    protected _initialColorUnit: UnitColor = new Named();
     protected widthUnitCurrent: UnitSize = new Pixel()
     protected heightUnitCurrent: UnitSize = new Pixel()
 
     protected _tmpCssPropertyAccesor: CssPropertyAccessor
     protected _cssPropertyAccesor: HtmlTagPropertyAccessor
+
+
+    protected _attributeAccesor: AttributesAccessor
 
     paddingFilter: FilterCssInjector
     marginFilter: FilterCssInjector
@@ -104,6 +111,9 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     protected synchronizer: HtmlTagSynchronizer
     api: ApiService
     transformStyleList: VueFixStyleListTransform
+
+    protected _isClosingTag = true
+    protected _isInput = false
     
     constructor()
     {
@@ -114,9 +124,29 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this._tmpCssPropertyAccesor = new ContentElPropertyAccessor(this)
         this.initCssAccessor()
         this.transformStyleList = new VueFixStyleListTransform(this)
-
+        this._attributeAccesor = new DefaultAttributesAccessor(this)
         // console.log(this.paddingRealFetcher);
 
+    }
+
+    get isInput(): boolean
+    {
+        return this._isInput
+    }
+    
+    set isInput(arg)
+    {
+        this._isInput = arg
+    }
+    
+    get isClosingTag(): boolean
+    {
+        return this._isClosingTag
+    }
+    
+    set isClosingTag(arg)
+    {
+        this._isClosingTag = arg
     }
     
     public setApi(api: ApiService)
@@ -303,6 +333,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     {
         return this._tmpCssPropertyAccesor
     }
+    
+    get attributeAccessor(): AttributesAccessor
+    {
+        return this._attributeAccesor
+    }
 
     get width()
     {
@@ -402,6 +437,10 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         }
         
         if (css instanceof ContentSizeCss) {
+            return false
+        }
+        
+        if (css instanceof BoxShadowCss) {
             return false
         }
         

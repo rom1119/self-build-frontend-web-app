@@ -65,8 +65,9 @@ import AlignItems from './Display/AlignItems';
 
 import FontSize from './Text/FontSize';
 import FontWeight from './Text/FontWeight';
+import FontStyle from './Text/FontStyle';
 import TextAlign from './Text/TextAlign';
-import TextColor from './Text/TextColor';
+import FontColor from './Text/FontColor';
 
 
 // size
@@ -172,7 +173,9 @@ export {
     JustifyContent,
 
     FontSize,
+    FontStyle,
     FontWeight,
     TextAlign,
-    TextColor,
+    FontColor,
+    
 }

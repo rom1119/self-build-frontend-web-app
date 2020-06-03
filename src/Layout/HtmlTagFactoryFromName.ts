@@ -23,6 +23,10 @@ export default class HtmlTagFactoryFromName {
                 return this.htmlTagFactory.createH1()
             case 'div':
                 return this.htmlTagFactory.createH1()
+            case 'input-text':
+                return this.htmlTagFactory.createInputText()
+            case 'button':
+                return this.htmlTagFactory.createButton()
         }
         throw new UnableCreateDomainTagFromName(`Can not create tag from name ${name}`)
     }

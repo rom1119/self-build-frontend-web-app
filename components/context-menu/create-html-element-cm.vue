@@ -6,7 +6,8 @@
                 <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
          
                 <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
-  
+                 <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
+                <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
     </context-menu>
 </template>
 
@@ -30,22 +31,29 @@ export default class CreateHtmlElementContextMenu extends Vue {
         this.api = new DefaultApiService();
         
     }
-    
+
     createH1Element(target, cm, a) {
-
         var el = this.htmlFactory.createH1()
-        el.injectInitialCssStyles()
-        this.value.push(el)
-        el.setProjectId(this.$route.params.id)
-        this.api.appendTagToProject(el)
-        el.synchronize()
-
-        this.$emit('createdTag', el)
-
+        this.initCreatedTag(el)
     }
-
+    
     createDivElement(target, cm, a) {
+
         var el = this.htmlFactory.createDiv()
+        this.initCreatedTag(el)
+    }
+    
+    createInputTextElement(target, cm, a) {
+        var el = this.htmlFactory.createInputText()
+        this.initCreatedTag(el)
+    }
+    
+    createButtonElement(target, cm, a) {
+        var el = this.htmlFactory.createButton()
+        this.initCreatedTag(el)
+    }
+
+    initCreatedTag(el){
         el.injectInitialCssStyles()
         this.value.push(el)
         el.setProjectId(this.$route.params.id)
@@ -54,6 +62,8 @@ export default class CreateHtmlElementContextMenu extends Vue {
 
         this.$emit('createdTag', el)
     }
+    
+   
 }
 </script>
 

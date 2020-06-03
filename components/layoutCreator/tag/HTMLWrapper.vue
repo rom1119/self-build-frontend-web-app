@@ -1,22 +1,13 @@
 <template>
-    <component :is="value.getTagName()" v-context-menu="value.uuid" @click.stop="onContentMouseClick(value, $event)" class="wrapper" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.uuid" >
+    <component :is="tagName" v-context-menu="value.uuid" @click.stop="onContentMouseClick(value, $event)" class="wrapper" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.uuid" >
         <div class="none">
             <!-- <span :style="value.cssBoxList"  ></span> -->
         </div>
         <div class="remove" v-show="value.isActiveTagToManage()" @click.stop="onEmitRemove(value, $event)">
             X
         </div>
-        <!-- <context-menu
-                shift="both"
-                :ref="value.uuid">
-            <div class="context-menu-container">
-                    <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
-
-                    <context-menu-item :action="createPElement">Stwórz Paragraf</context-menu-item>
-
-            </div>
-        </context-menu> -->
-        <html-element-context-menu :value="value" :ref="value.uuid" />
+        <html-element-closing-tag-context-menu v-if="value.isClosingTag" :value="value" :ref="value.uuid" />
+        <html-element-short-closing-tag-context-menu v-else :value="value" :ref="value.uuid" />
         <!-- <border-main-component v-for="border in borders" :value="border" :key="border.uuid" >
         </border-main-component> -->
 
@@ -194,6 +185,14 @@ export default class HTMLWrapper extends Vue {
 
     contextMenuName = 'cm-create-html-element123'
 
+
+    get tagName(){
+        if (this.value.isClosingTag) {
+            return this.value.getTagName()
+        }
+
+        return 'div'
+    }
     onContentMouseOver(val)
     {
         this.$emit('anyElementMouseOver', val)  

@@ -12,6 +12,7 @@ import HtmlNode from '../../Layout/HtmlNode';
 import HtmlTagRecalculator from '~/src/Recalculator/HtmlTagRecalculator';
 import BorderRecalculate from '~/src/Recalculator/HtmlTagImpl/BorderRecalculate';
 import MarginRecalculate from '~/src/Recalculator/HtmlTagImpl/MarginRecalculate';
+import HtmlAttr from '../../Attribute/HtmlAttr';
 export default class DefaultModelToDomain implements ModelToDomain
 {
 
@@ -54,8 +55,14 @@ export default class DefaultModelToDomain implements ModelToDomain
                 // domain.parent = parent
             }
         } else {
-            domain = this.htmlTagFactory.create(model.tagName)
+            var tagname = model.tagName
+            if (tagname == 'input') {
+                tagname += '-' + model.attrs.type.value
+            }
+            domain = this.htmlTagFactory.create(tagname)
+            domain.text  = model.text
             domain.uuid  = model.id
+            domain.isClosingTag  = model.isClosingTag
             domain.version  = model.version
             domain.projectId  = model.projectId
             // console.log('LLLLLLLLLLLLL');
@@ -73,6 +80,19 @@ export default class DefaultModelToDomain implements ModelToDomain
                     domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
                     // domain..push(subModel)
                     domain.updateModelComponent()
+                }
+            }
+            
+            if (model.attrs) {
+                for (const attr in model.attrs) {
+                    var key = model.attrs[attr].key
+                    var val = model.attrs[attr].value
+                    console.log(attr);
+                    console.log();
+                    console.log(model.attrs[attr].value);
+                    domain.attributeAccessor.addNewAttribute(new HtmlAttr(key, val))
+                    // domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
+                    // domain..push(subModel)
                 }
             }
 

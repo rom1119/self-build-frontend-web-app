@@ -25,6 +25,8 @@ export default class HtmlTagModelBuildResponse implements ResponseFromModel<Html
 
         } else {
             response.tagName = from.tagName
+            response.closingTag = from.isClosingTag
+            response.attrs = from.attrs
             if (from.styles) {
                 for (const style of from.styles) {
                     let subModel = this.styleModelBuilderResponse.build(style)

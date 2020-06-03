@@ -10,59 +10,46 @@
                 Zarządzaj tekstem
             </h4>
         </template>
-        <template slot="content">
-            <div class="content-item">
-                <h4 class="content-item__header">
-                    Wyrównianie tekstu
-                </h4>
-                <ul class=" content-item__elem_container">
-                    <li class="content-item__elem" v-for="el in textAligns" :key="el">
-                        <label :for="'textAlign-' + el">
-                            {{ el }}
-                            <input type="radio" v-model="textAlign" :value="el" name="textAlign" :id="'textAlign-' + el">
-
-                        </label>
-                    </li>
-                </ul>
-            </div>
-            <div class="content-item">
-                <h4 class="content-item__header">
-                    Pogrubienie tekstu
-                </h4>
-                <ul class=" content-item__elem_container">
-                    <li class="content-item__elem" v-for="el in fontWeights" :key="el">
-                        <label :for="'fontWeight-' + el">
-                            {{ el }}
-                            <input type="radio" v-model="fontWeight" :value="el" name="fontWeight" :id="'fontWeight-' + el">
-
-                        </label>
-                    </li>
-                </ul>
-            </div>
-            <div class=" content-item__elem_container">
-                    <div class="content-item__elem content-item__elem-4" >
-                        <div class="item">
-                            Font-size
+        <template slot="content" >
+            <div class="content-item" style="display: flex;">
+                <div class="content-item-half" @dblclick="hasFontColor = !hasFontColor" :class="{'active': hasFontColor}">
+                    <h4 class="content-item__header">
+                        Kolor tekstu
+                    </h4>
+                    <div class="color-picker-box" @dblclick.stop.prevent="">
+                        <!-- <label @dblclick.stop.prevent="">Kolor</label>
+                        <div @dblclick.stop.prevent="" class="color-picker-btn" @click.stop="toggleColorPicker()">
+                        </div> -->
+                       
+                        <div style="right: -100px;">
+                            <Chrome v-model="color" :color="color" label="Color" />
+                            <div class="color-picker-nav">
+                                <button @click="cancelColor">Anuluj</button>
+                                <button @click="saveColor">Zapisz</button>
+                            </div>
 
                         </div>
-                        <label for="has-font-size" class="item">
-                            <input v-if="fontSizeUnit" type="checkbox" v-model="hasFontSize" name="hasFontSize" id="has-font-size">
-                            <input v-else disabled type="checkbox" v-model="hasFontSize" name="hasFontSize" id="has-font-size">
 
-                        </label>
-                        <label class="item" for="font-size">
-                            Value
-                            <input class="item" type="number" v-model="fontSize" name="fontSize" id="font-size">
-                        </label>
-                        <div class="item">
-                            Unit
-                        </div> 
-                        <select name="fontSizeUnit" class="item" v-model="fontSizeUnit" id="fontSizeUnit">
-                            <option disabled value="">Please select one</option>
-                            <option v-for="unit in units" :key="unit.name" :value="unit.name">{{ unit.name }}</option>
-                        </select>
                     </div>
-                    
+
+                </div>
+                
+                <div class="content-item-half" @dblclick="hasFontSize = !hasFontSize" :class="{'active': hasFontSize}">
+                    <h4 class="content-item__header">
+                        Rozmiar tekstu
+                    </h4>
+                    <div class="content-item__elem"
+                            v-context-menu="cmNameFontSize"
+                        >
+                        <select-unit-context-menu :propertyUnit="fontSizeUnit" @changePropUnit="() => {fontSizeUnit = $event;}" :ref="cmNameFontSize" />
+
+                        <label :for="'fontSize-'">
+                            
+                            <input @dblclick.stop.prevent="" type="number" style="width: 40px;" class="input-text" v-model="fontSize" name="fontSize" :id="'fontSize-'">
+                            {{ fontSizeUnit.label }}
+                        </label>
+                    </div>
+
                 </div>
             </div>
         </template>
@@ -91,168 +78,349 @@
     import CssPropertyAccessor from '../../src/Css/CssPropertyAccessor';
     import AbstractModal from '../AbstractModal';
     import Named from '../../src/Unit/Named';
-import UnitSize from '~/src/Unit/UnitSize';
-import Pixel from '~/src/Unit/Size/Pixel';
-import Percent from '~/src/Unit/Size/Percent';
-import VW from '~/src/Unit/Size/VW';
-import EM from '~/src/Unit/Size/EM';
-import REM from '~/src/Unit/Size/REM';
-import FontSize from '../../src/Css/Text/FontSize';
+    import UnitSize from '~/src/Unit/UnitSize';
+    import Pixel from '~/src/Unit/Size/Pixel';
+    import Percent from '~/src/Unit/Size/Percent';
+    import VW from '~/src/Unit/Size/VW';
+    import EM from '~/src/Unit/Size/EM';
+    import REM from '~/src/Unit/Size/REM';
+    import FontSize from '../../src/Css/Text/FontSize';
+    import DisplayManageModal from '../DisplayManageModal';
+    import { RGBA } from '~/src/Unit';
+    import FontManageModal from '../FontManageModal';
+    import { Chrome }  from '~/node_modules/vue-color';
 
-    @Component
-    export default class TextManageModal extends AbstractModal {
+    @Component({
+        components: {
+            Chrome
+        }
+    })
+    export default class TextManageModal extends FontManageModal {
         
         timeout
         // value: HtmlTag
         DEFAULT_FONT_SIZE = 20
         DEFAULT_FONT_SIZE_UNIT = new EM()
         fontSizeData = new FontSize(this.DEFAULT_FONT_SIZE, this.DEFAULT_FONT_SIZE_UNIT)
-        
+        cmNameFontSize = Math.floor(Math.random() * 1000000000).toString() + 'font-size'
         textAligns: string[] = TextAlign.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
 
+        pickerActive = false
         units: UnitSize[] = []
 
         idName = 'text-property-modal'
 
-        get hashID(): string
+        color: any = {
+            r: 255,
+            g: 0,
+            b: 0,
+            a: 1
+        }        
+
+        mounted() 
         {
-            return this.idName
+            // console.log(this.contextMenuName);
+            // console.log(this.cmName);
+
+            if (this.fontColorUnit instanceof RGBA) {
+                console.log('00000000000000000');
+                // console.log(this.value.color);
+                
+                // @ts-ignore
+                this.color.r = this.fontColor.r
+                // @ts-ignore
+                this.color.g = this.fontColor.g
+                // @ts-ignore
+                this.color.b = this.fontColor.b
+                // @ts-ignore
+                this.color.a = this.fontColor.a
+            }
+            
         }
 
         created() 
         {
-            this.units.push(new Pixel())
-            this.units.push(new Percent())
-            this.units.push(new VW())
-            this.units.push(new EM())
-            this.units.push(new REM())
+   
         }
 
-        show(val: HtmlTag){
-            super.show(val)
-            var propLeft = this.getPropertyCssFromModel(FontSize.PROP_NAME)
-            if (propLeft) {
-                this.fontSizeData.setActive(true)
-                this.fontSizeData.setUnit(propLeft.getUnit())
-                this.fontSizeData.setValue(propLeft.getClearValue())
-            } else {
-                console.log('9999999')
-                this.fontSizeData.setActive(false)
-            }
-            
-        }
-
-        deactiveProp(prop: BasePropertyCss): any {
-            this.value.cssAccessor.removePropWithName(prop.getName())
-            // this.value.paddingFilter.deactivateProp(prop)
-            return null
-        }
-
-        activeProp(prop: BasePropertyCss): any {
-            if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
-                this.value.cssAccessor.addNewProperty(prop)
-
-            }
-            console.log('activr');
-            
-            // this.value.paddingFilter.activateProp(prop)
-            return prop
-        }
-
-        get textAlign()
+        // *****************************************  LINE-HEIGHT ****************************************************
+        
+        get lineHeight()
         {
-            return this.getPropertyFromModel(TextAlign.PROP_NAME)
+            return  this.lineHeightManager.getProperty().value
         }
         
-        set textAlign(newVal: string)
+        set lineHeight(newVal: string)
         {
-            this.setPropertyToModel(new TextAlign(newVal, new Named())) 
-        }
-        
-        get fontWeight()
-        {
-            return this.getPropertyFromModel(FontWeight.PROP_NAME)
-        }
-        
-        set fontWeight(newVal: string)
-        {
-            console.log(newVal);
-            this.setPropertyToModel(new FontWeight(newVal, new Named())) 
+            this.lineHeightManager.getProperty().setValue(newVal)
+            this.lineHeightManager.updateCssProp(this.lineHeightManager.getProperty())             
         }
 
-        set fontSizeUnit(newVal: string)
+        get lineHeightUnit()
         {
-            console.log('SET paddingUnitGlobal', newVal);
-            var newUnit = this.getUnitByName(this.units ,newVal)
-            this.updateUnitInModel(newUnit, FontSize.PROP_NAME)
-            this.fontSizeData.setUnit(newUnit)
+            return  this.lineHeightManager.getProperty().getUnit()
         }
         
-        get fontSizeUnit(): string
+        set lineHeightUnit(newVal: UnitSize)
         {
-            console.log('GET paddingUnitGlobal', this.fontSizeData.getUnit());
+            this.lineHeightManager.getProperty().setUnit(newVal)
+            this.lineHeightManager.updateCssProp(this.lineHeightManager.getProperty())             
+        }
 
-            if (this.fontSizeData.getUnit()) {
-                return this.fontSizeData.getUnit().name
-            }
-
-            return ''
+        get hasLineHeight()
+        {
+            return  this.lineHeightManager.getProperty().active
         }
         
-        get fontSize(): number
+        set hasLineHeight(newVal: boolean)
         {
-            // this._paddingLeft = this.getPropertyCssFromModel(PaddingLeftCss.PROP_NAME)
-            console.log('GET paddingGlobal', this.fontSizeData.getClearValue());
-            // console.log(this._paddingLeft.getClearValue().toString());
-            var v = this.fontSizeData.getClearValue()
-            
-            return parseFloat(v)
-        }
-        
-        set fontSize(newVal: number)
-        {
-            if (!this.fontSizeData.isActive()) {
-                return
-            }
-
-            console.log('SET fontSize', newVal);
             if (!newVal) {
-                return
+                this.lineHeightManager.deactivePropCss(this.lineHeightManager.getProperty())
+            } else {
+                this.lineHeightManager.activePropCss(this.lineHeightManager.getProperty())
             }
-            var newProp = new FontSize(newVal, this.fontSizeData.getUnit())
-            this.value.updateCssProperty(newProp.getName(), newProp)
-            // this._paddingLeft = null
-            this.fontSizeData.setValue(newProp.getClearValue())
-            console.log(this.fontSizeData);
-            
         }
         
-        get hasFontSize(): boolean
+        // *****************************************  FONT-SIZE ****************************************************
+        
+        get fontSize()
         {
-            console.log('hasPaddingLeft', this.fontSizeData.getUnit());
-            console.log(this.fontSizeData);
-            
-            return  this.fontSizeData.active
+            return  this.fontSizeManager.getProperty().value
+        }
+        
+        set fontSize(newVal: string)
+        {
+            this.fontSizeManager.getProperty().setValue(newVal)
+            this.fontSizeManager.updateCssProp(this.fontSizeManager.getProperty())             
+        }
+
+        get fontSizeUnit()
+        {
+            return  this.fontSizeManager.getProperty().getUnit()
+        }
+        
+        set fontSizeUnit(newVal: UnitSize)
+        {
+            this.fontSizeManager.getProperty().setUnit(newVal)
+            this.fontSizeManager.updateCssProp(this.fontSizeManager.getProperty())             
+        }
+
+        get hasFontSize()
+        {
+            return  this.fontSizeManager.getProperty().active
         }
         
         set hasFontSize(newVal: boolean)
         {
-            // console.log('hasPaddingLeft', newVal);
             if (!newVal) {
-                console.log('FALSE');
-                
-                this.fontSizeData.setActive(false)
-                this.deactiveProp(new FontSize(null, null))
+                this.fontSizeManager.deactivePropCss(this.fontSizeManager.getProperty())
             } else {
-                console.log('TRUE');
-                this.fontSizeData.setActive(true)
-                let defaultPadding = this.fontSizeData
-
-                this.activeProp(defaultPadding)
-                
+                this.fontSizeManager.activePropCss(this.fontSizeManager.getProperty())
             }
         }
+        
+        // *****************************************  FONT-COLOR ****************************************************
+        
+        get fontColor()
+        {
+            return  this.fontColorManager.getProperty().value
+        }
+        
+        set fontColor(newVal)
+        {
+            console.log('set');
+            
+            this.fontColorManager.getProperty().setValue(newVal)
+            this.fontColorManager.updateCssProp(this.fontColorManager.getProperty())             
+        }
+
+        get fontColorUnit()
+        {
+            return  this.fontColorManager.getProperty().getUnit()
+        }
+        
+        set fontColorUnit(newVal: UnitSize)
+        {
+            this.fontColorManager.getProperty().setUnit(newVal)
+            this.fontColorManager.updateCssProp(this.fontColorManager.getProperty())             
+        }
+
+        get hasFontColor()
+        {
+            return  this.fontColorManager.getProperty().active
+        }
+        
+        set hasFontColor(newVal: boolean)
+        {
+            if (!newVal) {
+                this.fontColorManager.deactivePropCss(this.fontColorManager.getProperty())
+            } else {
+                this.fontColorManager.activePropCss(this.fontColorManager.getProperty())
+            }
+        }
+
+        // *****************************************  TEXT-ALIGN ****************************************************
+        
+        get textAlign()
+        {
+            return  this.textAlignManager.getProperty().value
+        }
+        
+        set textAlign(newVal)
+        {            
+            this.textAlignManager.getProperty().setValue(newVal)
+            this.textAlignManager.updateCssProp(this.textAlignManager.getProperty())             
+        }
+
+        get hasTextAlign()
+        {
+            return  this.textAlignManager.getProperty().active
+        }
+        
+        set hasTextAlign(newVal: boolean)
+        {
+            if (!newVal) {
+                this.textAlignManager.deactivePropCss(this.textAlignManager.getProperty())
+            } else {
+                this.textAlignManager.activePropCss(this.textAlignManager.getProperty())
+            }
+        }
+        
+        // *****************************************  FONT-STRETCH ****************************************************
+        
+        get fontStretch()
+        {
+            return  this.fontStretchManager.getProperty().value
+        }
+        
+        set fontStretch(newVal)
+        {            
+            this.fontStretchManager.getProperty().setValue(newVal)
+            this.fontStretchManager.updateCssProp(this.fontStretchManager.getProperty())             
+        }
+
+        get hasFontStretch()
+        {
+            return  this.fontStretchManager.getProperty().active
+        }
+        
+        set hasFontStretch(newVal: boolean)
+        {
+            if (!newVal) {
+                this.fontStretchManager.deactivePropCss(this.fontStretchManager.getProperty())
+            } else {
+                this.fontStretchManager.activePropCss(this.fontStretchManager.getProperty())
+            }
+        }
+        
+        // *****************************************  FONT-WEIGHT ****************************************************
+        
+        get fontWeight()
+        {
+            return  this.fontWeightManager.getProperty().value
+        }
+        
+        set fontWeight(newVal)
+        {            
+            this.fontWeightManager.getProperty().setValue(newVal)
+            this.fontWeightManager.updateCssProp(this.fontWeightManager.getProperty())             
+        }
+
+        get hasFontWeight()
+        {
+            return  this.fontWeightManager.getProperty().active
+        }
+        
+        set hasFontWeight(newVal: boolean)
+        {
+            if (!newVal) {
+                this.fontWeightManager.deactivePropCss(this.fontWeightManager.getProperty())
+            } else {
+                this.fontWeightManager.activePropCss(this.fontWeightManager.getProperty())
+            }
+        }
+        
+        // *****************************************  FONT-STYLE ****************************************************
+        
+        get fontStyle()
+        {
+            return  this.fontStyleManager.getProperty().value
+        }
+        
+        set fontStyle(newVal)
+        {            
+            this.fontStyleManager.getProperty().setValue(newVal)
+            this.fontStyleManager.updateCssProp(this.fontStyleManager.getProperty())             
+        }
+
+        get hasFontStyle()
+        {
+            return  this.fontStyleManager.getProperty().active
+        }
+        
+        set hasFontStyle(newVal: boolean)
+        {
+            if (!newVal) {
+                this.fontStyleManager.deactivePropCss(this.fontStyleManager.getProperty())
+            } else {
+                this.fontStyleManager.activePropCss(this.fontStyleManager.getProperty())
+            }
+        }
+        
+        // *****************************************  FONT-FAMILY ****************************************************
+        
+        get fontFamily()
+        {
+            return  this.fontFamilyManager.getProperty().value
+        }
+        
+        set fontFamily(newVal)
+        {            
+            this.fontFamilyManager.getProperty().setValue(newVal)
+            this.fontFamilyManager.updateCssProp(this.fontFamilyManager.getProperty())             
+        }
+
+        get hasFontFamily()
+        {
+            return  this.fontFamilyManager.getProperty().active
+        }
+        
+        set hasFontFamily(newVal: boolean)
+        {
+            if (!newVal) {
+                this.fontFamilyManager.deactivePropCss(this.fontFamilyManager.getProperty())
+            } else {
+                this.fontFamilyManager.activePropCss(this.fontFamilyManager.getProperty())
+            }
+        }
+
+
+
+
+
+
+        toggleColorPicker()
+        {
+            this.pickerActive = !this.pickerActive
+        }
+
+        cancelColor()
+        {
+            // console.log(this.color);
+            
+            this.toggleColorPicker()
+        }
+
+        saveColor()
+        {
+            console.log(this.color);
+            this.fontColor = this.color.rgba
+            this.fontColorUnit = new RGBA()
+            // this.change()
+            // this.toggleColorPicker()
+        }
+
 
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)
@@ -264,5 +432,7 @@ import FontSize from '../../src/Css/Text/FontSize';
 </script>
 
 <style lang="scss" scoped> 
-    
+    .active {
+        background-color: rgba($color: #d81121, $alpha: .4);
+    }
 </style>

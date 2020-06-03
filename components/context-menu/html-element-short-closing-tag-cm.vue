@@ -2,20 +2,21 @@
     <context-menu
         shift="both"
         ref="wrapped-context-menu">
-        <context-menu
+        <!-- <context-menu
             shift="both"
             :ref="createElementNameCM">
 
                 <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
                 <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
+                <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
+                <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
          
   
-        </context-menu>
+        </context-menu> -->
         <!-- <create-html-element-context-menu :value="value"  :ref="createElementNameCM" /> -->
         
-        <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
-        <context-menu-item :action="createText">Dodaj tekst</context-menu-item>
-
+        <!-- <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
+        <context-menu-item :action="createText">Dodaj tekst</context-menu-item> -->
     
         <context-menu-item :action="showTextCssModal">Font</context-menu-item>
         <context-menu-item :action="showBackgroundCssModal">Background</context-menu-item>
@@ -36,7 +37,7 @@ import TextNode from '~/src/Layout/TextNode';
 import LayoutEl from '../../src/LayoutEl';
 
 @Component
-export default class HtmlElementContextMenu extends Vue {
+export default class HtmlElementShortClosingTagContextMenu extends Vue {
 
     @Prop({required: true, default: null})
     value: HtmlTag
@@ -55,21 +56,27 @@ export default class HtmlElementContextMenu extends Vue {
     }
     
     createH1Element(target, cm, a) {
-
         var el = this.htmlFactory.createH1()
-        el.parent = this.value
-        el.projectId = this.value.projectId
-        el.injectInitialCssStyles()
-        el.setProjectId(this.$route.params.id)
-        this.value.appendChild(el)
-
-        this.$emit('createdTag', el)
-
+        this.initCreatedTag(el)
     }
     
     createDivElement(target, cm, a) {
 
         var el = this.htmlFactory.createDiv()
+        this.initCreatedTag(el)
+    }
+    
+    createInputTextElement(target, cm, a) {
+        var el = this.htmlFactory.createInputText()
+        this.initCreatedTag(el)
+    }
+    
+    createButtonElement(target, cm, a) {
+        var el = this.htmlFactory.createButton()
+        this.initCreatedTag(el)
+    }
+
+    initCreatedTag(el){
         el.parent = this.value
         el.projectId = this.value.projectId
         el.injectInitialCssStyles()
@@ -77,7 +84,6 @@ export default class HtmlElementContextMenu extends Vue {
         this.value.appendChild(el)
 
         this.$emit('createdTag', el)
-
     }
 
     createText()

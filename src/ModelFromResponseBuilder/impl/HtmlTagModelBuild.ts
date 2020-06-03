@@ -26,8 +26,10 @@ export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagRespo
         model.id = from.id
         model.text = from.text
         model.isTextNode = from.isTextNode
+        model.isClosingTag = from.closingTag
         model.tagName = from.tagName
         model.version = from.version
+        model.attrs = from.attrs
         if (from.project) {
             model.projectId = from.project.id
 
