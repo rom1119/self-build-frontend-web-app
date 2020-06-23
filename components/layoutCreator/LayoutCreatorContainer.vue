@@ -1,5 +1,5 @@
 <template>
-    <object id="layout-object" class="main-object">
+    <object id="layout-object" class="main-object" >
         <html>
             <head>
 
@@ -39,32 +39,41 @@ import PaddingModel from "~/src/Layout/Padding/PaddingModel";
 import MarginElSizeController from '../../src/Controller/MarginElSizeController';
 import MarginModel from "~/src/Layout/Margin/MarginModel";
 import DefaultActiveToManageController from '../../src/Controller/DefaultActiveToManageController';
-import ActiveToManageController from "~/src/ActiveToManageController";
+import ActiveToController from "~/src/ActiveToController";
 import Remover from '../../src/Remover';
 import HtmlTagRemover from '../../src/Remover/HtmlTagRemover';
 import ApiService from "../../src/Api/ApiService";
 import DefaultApiService from "~/src/Api/impl/DefaultApiService";
 import LayoutEl from "../../src/LayoutEl";
 import HtmlNode from "../../src/Layout/HtmlNode";
+import ActivableTagToManage from "../../src/ActivableTagToManage";
+import ActivableTagToPosition from "../../src/ActivableTagToPosition";
+import DefaultActiveToPositionController from '../../src/Controller/DefaultActiveToPositionController';
+import HtmlTagMoveEventController from '../../src/Controller/HtmlTagMoveEventController';
+import MouseMoveTagEventSource from "~/src/Controller/MouseMoveTagEventSource";
+import MoveEventController from "~/src/MoveEventController";
+import AdvisorTagController from '../../src/Controller/AdvisorTagController';
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
     contextMenuName = 'cm-create-html-element'
     htmlTags: HtmlTag[] = []
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-    contentElSizeController: SizeElController = new ContentElSizeController()
-    borderElSizeController: SizeElController = new BorderElSizeController()
-    paddingElSizeController: SizeElController = new PaddingElSizeController()
-    marginElSizeController: SizeElController = new MarginElSizeController()
+
 
     activeElController: ActiveElController = new DefaultActiveElController()
-    activeToManageController: ActiveToManageController = new DefaultActiveToManageController()
+    activeToManageController: ActiveToController<ActivableTagToManage> = new DefaultActiveToManageController()
+    activeToPositionController: ActiveToController<ActivableTagToPosition> = new DefaultActiveToPositionController()
+
+    adivisorController: AdvisorTagController = new AdvisorTagController()
     htmlTagRemover: Remover<string>
     hasAccualControllerWorks = false
+    currentMouseOverTag: HtmlTag
 
     public addHtmlTag(tag: HtmlTag)
     {
         this.htmlTags.push(tag)
+
     }
 
     mounted()
@@ -77,21 +86,55 @@ export default class LayoutCreatorContainer extends Vue {
                 htmlTag.recalculateRealComputedProperties()
             }
         })
+
+        window.document.body.addEventListener('keydown', this.onKeyDown)
+        window.document.body.addEventListener('keyup', this.onKeyUp)
+
     }
 
     onMouseOver(val) {
         // console.log('over');
         // console.log(val);
-        // console.log('over');
-        this.activeElController.updateActiveEl(val)
+        // console.log(val);
+        if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
+            this.currentMouseOverTag = val.getHtmlTag()
+        } else if (val instanceof HtmlTag) {
+            this.currentMouseOverTag = val
+        }
+        
+        if(this.adivisorController.hasCtrlKey) {
+            if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
+                
+                this.activeToPositionController.updateActiveTag(val.getHtmlTag())
+            } else if (val instanceof HtmlTag) {
+                this.activeToPositionController.updateActiveTag(val)
 
+            }
+
+        } else {
+            this.activeElController.updateActiveEl(val)
+
+        }
+        
     }
 
     onMouseOut(val) {
         // console.log('out');
         // console.log(val);
         // console.log('out');
-        this.activeElController.deactiveEl(val)
+        this.currentMouseOverTag = null
+        if(this.adivisorController.hasCtrlKey) {
+            if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
+                
+                this.activeToPositionController.deactiveTag()
+            } else if (val instanceof HtmlTag) {
+                this.activeToPositionController.deactiveTag()
+
+            }
+
+        } else {
+            this.activeElController.deactiveEl(val)
+        }
     }
 
     onContentMouseClick(source)
@@ -106,8 +149,8 @@ export default class LayoutCreatorContainer extends Vue {
     
     onTagRemove(source)
     {
-        console.log('tagRemove');
-        console.log(source);
+        // console.log('tagRemove');
+        // console.log(source);
         let tag: HtmlNode = source.target
         tag.api.deleteTag(tag).then(
             (res) => {
@@ -124,7 +167,16 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseDown(source)
     {
-        let controller = this.getElSizeController('mouseDown', source.target)
+        // var el = source.target
+        // if (el instanceof PaddingModel || el instanceof BorderModel || el instanceof MarginModel) {
+            
+        //     el = el.getHtmlTag()
+        // } else if (el instanceof HtmlTag) {
+        //     el = el.
+
+        // }
+        
+        let controller = this.getAdviseController('mouseDown', source.target)
         // console.log('down');
         // console.log(source.target);
         // console.log(controller);
@@ -134,7 +186,7 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseUp(e)
     {        
-        let controller = this.getElSizeController('mouseUp')
+        let controller = this.getAdviseController('mouseUp')
         
         if (controller) {
             setTimeout(() => {
@@ -147,50 +199,39 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseMove(e)
     {
-        let controller = this.getElSizeController('mouseover')
+        let controller = this.getAdviseController('mouseover')
         if (controller) {
             controller.mouseMoveHandler(e)
             this.hasAccualControllerWorks = true
         }
 
     }
+
+    onKeyDown(e){
+        console.log("e.shiftKey");
+        console.log(e.shiftKey);
+        if(e.shiftKey) {
+            this.adivisorController.hasCtrlKey = true
+            if (this.currentMouseOverTag) {
+                this.activeToPositionController.updateActiveTag(this.currentMouseOverTag)
+            }
+        }
+        
+    }
     
-    private getElSizeController(eventName, el?): SizeElController
+    onKeyUp(e){
+        console.log("e.ctrlKey");
+        console.log(e.shiftKey);
+        if(this.adivisorController.hasCtrlKey) {
+            this.adivisorController.hasCtrlKey = false
+            this.activeToPositionController.deactiveTag()
+
+        }
+    }
+    
+    private getAdviseController(eventName, el?)
     {
-        if (this.contentElSizeController.hasActiveEl()) {
-            return this.contentElSizeController
-        } else if (this.borderElSizeController.hasActiveEl()) {
-            return this.borderElSizeController
-        } else if (this.paddingElSizeController.hasActiveEl()) {
-            return this.paddingElSizeController
-        } else if (this.marginElSizeController.hasActiveEl()) {
-            return this.marginElSizeController
-        }
-
-        if (el == null) {
-            return null
-        }
-
-        if (el instanceof BorderModel) {
-            return this.borderElSizeController
-        }
-        
-        if (el instanceof HtmlTag) {
-            return this.contentElSizeController
-        }
-        
-        if (el instanceof PaddingModel) {
-            return this.paddingElSizeController
-        }
-        
-        if (el instanceof MarginModel) {
-            return this.marginElSizeController
-        }
-
-        if (el == null) {
-            throw Error(`Unable to choose ActiveElController for event || ${eventName} ||`)
-        }
-
+        return this.adivisorController.advise(eventName, el)
 
     }
 }

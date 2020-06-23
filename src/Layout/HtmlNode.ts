@@ -40,6 +40,8 @@ export default class HtmlNode extends LayoutEl
     {
         return this._isEdited
     }
+    
+    
 
     public setNotEdited()
     {

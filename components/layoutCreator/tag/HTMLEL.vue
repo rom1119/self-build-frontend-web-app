@@ -1,9 +1,8 @@
 <template>
 
-    <component v-if="value.isInput" v-model="text"  class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
-    </component>
+    <component v-if="value.isInput" v-model="text" :id="value.shortUUID + '-content'"  class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)" />
     
-    <component v-else class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+    <component v-else class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
         <slot>
         </slot>
     </component>
@@ -49,7 +48,7 @@ export default class HTMLEL extends Vue {
 
     mounted() {
         var attrsArr = this.value.attributeAccessor.all
-        console.log(this.$el);
+        // console.log(this.$el);
         
         for (const attr of attrsArr) {
             if (attr.key == 'value') {
@@ -64,7 +63,7 @@ export default class HTMLEL extends Vue {
             }
             
         }
-        console.log(this.$el);
+        // console.log(this.$el);
     }
 
     onMouseOver() {   
@@ -119,7 +118,11 @@ export default class HTMLEL extends Vue {
         // float: left;
         width: 100%;
         height: 100%;
-
+        background-color: transparent;
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 9;
     }
     .inner-text-el {
     }

@@ -12,6 +12,9 @@ import MarginTopCss from "~/src/Css/BoxModel/Margin/MarginTopCss";
 import MarginBottomCss from "~/src/Css/BoxModel/Margin/MarginBottomCss";
 import MarginCss from "~/src/Css/BoxModel/Margin/MarginCss";
 import CssAuto from '../../../src/Css/CssAuto';
+import HtmlTagRecalculator from "~/src/Recalculator/HtmlTagRecalculator";
+import BorderRecalculate from "~/src/Recalculator/HtmlTagImpl/BorderRecalculate";
+import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
 
 export default class MarginComputedPropertyManager implements DirectionComputedPropertyManager
 {
@@ -26,9 +29,14 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     globalProperty: BaseMarginCss = new MarginCss(this.DEFAULT_PADDING, this.DEFAULT_PADDING_UNIT)
 
     protected realFetcher: FetcherRealCssProp
+    protected borderRecalculator: HtmlTagRecalculator
+    protected marginRecalculator: HtmlTagRecalculator
 
     constructor(  )
     {
+        this.borderRecalculator = new BorderRecalculate()
+        this.marginRecalculator = new MarginRecalculate()
+
         this.leftProperty.setActive(false)
         this.rightProperty.setActive(false)
         this.topProperty.setActive(false)
@@ -233,6 +241,9 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     deactiveGlobalPropCss(prop: BasePropertyCss) {
         this.value.removeCssProperty(prop)
         this.value.marginFilter.deactivateProp(prop)
+
+        this.recalculateBorders(this.value)
+        this.recalculateMargins(this.value)
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
@@ -246,6 +257,9 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             prop.setUnit(this.globalProperty.getUnit())
             this.value.marginFilter.injectCssProperty(this.globalProperty)
         }
+
+        this.recalculateBorders(this.value)
+        this.recalculateMargins(this.value)
         return null
     }
     activePropCss(prop: BasePropertyCss) {
@@ -256,6 +270,9 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         console.log('activr');
         
         this.value.marginFilter.activateProp(prop)
+        this.recalculateBorders(this.value)
+        this.recalculateMargins(this.value)
+
         return prop
     }
     updateCssProp(newProp: BasePropertyCss) {
@@ -276,7 +293,21 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         
         this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
 
+        this.recalculateBorders(this.value)
+        this.recalculateMargins(this.value)
+
         return newProp.getClearValue()
+    }
+
+    private recalculateMargins(htmlTag: HtmlTag)
+    {
+        this.marginRecalculator.recalculate(htmlTag)
+            
+    }
+
+    private recalculateBorders(htmlTag: HtmlTag)
+    {
+        this.borderRecalculator.recalculate(htmlTag)
     }
 
 

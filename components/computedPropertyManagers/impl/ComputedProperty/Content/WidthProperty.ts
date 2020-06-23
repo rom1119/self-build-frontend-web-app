@@ -43,21 +43,21 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
         // this.value.setWithUnit(this.getProperty().getUnit())
     }
 
-    activePropCss(prop: BasePropertyCss) {
+    activePropCss(prop: Width) {
         super.activePropCss(prop)
 
         this.recalculate(this.value)
         return prop
     }
     
-    deactivePropCss(prop: BasePropertyCss) {
+    deactivePropCss(prop: Width) {
         super.deactivePropCss(prop)
 
         this.recalculate(this.value)
         return prop
     }
 
-    updateCssProp(newProp: BasePropertyCss) {
+    updateCssProp(newProp: Width) {
         super.updateCssProp(newProp)
         this.recalculate(this.value)
 

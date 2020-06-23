@@ -68,8 +68,8 @@ export default class HtmlTagSynchronizer implements Synchronizer
                                 if (typeof cssDomain.getValues === 'function') {
                                     // @ts-ignore
                                     for (var i = 0; i < cssDomain.getValues().length; i++) {
-                                        console.log(cssRes);
-                                        console.log(cssDomain);
+                                        // console.log(cssRes);
+                                        // console.log(cssDomain);
                                         
                                         // @ts-ignore
                                         const cssValDomain = cssDomain.getValues()[i]
@@ -91,8 +91,8 @@ export default class HtmlTagSynchronizer implements Synchronizer
                 },
                 (arg) => {
                     this.setAsNowReadyToSynchronize()
-                    console.log('error');
-                    console.log(arg);
+                    // console.log('error');
+                    // console.log(arg);
                     this.trySynchronize()
                     this.apiSocket.sendMessage(this.tag.projectId)
 

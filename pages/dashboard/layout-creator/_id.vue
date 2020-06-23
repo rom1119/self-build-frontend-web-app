@@ -1,16 +1,11 @@
 <template>
     <div class="">
         
-        
         <layout-creator-container ref="creatorContainer">
 
         </layout-creator-container>
-           
-
 
     </div>
-
-
 
 </template>
 

@@ -23,9 +23,7 @@ export default class DefaultModelToDomain implements ModelToDomain
 
 
     constructor()
-    {
-        
-        
+    { 
         this.htmlTagFactory = new HtmlTagFactoryFromName()
         this.styleTransformer = new DefaultModelToCss()
     }
@@ -42,9 +40,6 @@ export default class DefaultModelToDomain implements ModelToDomain
         var domain
         if (model.isTextNode) {
             domain = this.htmlTagFactory.createText()
-            domain.uuid  = model.id
-            domain.version  = model.version
-            domain.projectId  = model.projectId
             domain.text  = model.text
             // console.log('LLLLLLLLLLLLL');
             // console.log(model);
@@ -61,10 +56,8 @@ export default class DefaultModelToDomain implements ModelToDomain
             }
             domain = this.htmlTagFactory.create(tagname)
             domain.text  = model.text
-            domain.uuid  = model.id
+            
             domain.isClosingTag  = model.isClosingTag
-            domain.version  = model.version
-            domain.projectId  = model.projectId
             // console.log('LLLLLLLLLLLLL');
             // console.log(model);
             if (parent) {
@@ -105,6 +98,11 @@ export default class DefaultModelToDomain implements ModelToDomain
             }
 
         }
+
+        domain.uuid  = model.id
+        domain.shortUUID  = model.shortUUID
+        domain.version  = model.version
+        domain.projectId  = model.projectId
 
         return domain
     }

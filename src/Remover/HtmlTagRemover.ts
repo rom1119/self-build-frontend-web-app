@@ -28,6 +28,7 @@ export default class HtmlTagRemover implements Remover<String>
     {
         if (tag.uuid === val) {
             list.splice(index, 1)
+            
             return true
         }
         

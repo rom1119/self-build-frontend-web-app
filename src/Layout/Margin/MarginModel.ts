@@ -12,7 +12,7 @@ import Height from "~/src/Css/Size/Height";
 import HtmlTag from "../HtmlTag";
 import Display from "~/src/Css/Display/Display";
 import SizeCalculator from "~/src/Calculator/SizeCalcCssBuilder";
-import OffsetSizeCalculator from "~/src/Calculator/OffsetSizeCalculator";
+import OffsetSizeCalcCssBuilder from "~/src/Calculator/OffsetSizeCalcCssBuilder";
 import MarginSizeCalculator from '../../Calculator/Size/MarginSizeCalculator';
 import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
 
@@ -21,9 +21,9 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
     
     protected _name: string = 'border-base'
     protected _width: number = 55
-    protected _offset: number = -55
+    protected _offsetCalc: string = 'calc(0px)'
     protected _lengthCalc: string = 'calc(0px)'
-    protected _lengthOffset: number = 0
+    protected _lengthOffsetCalc: string = 'calc(0px)'
     protected _active: boolean = false;
 
 
@@ -41,7 +41,7 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
 
 
     protected sizeCalculator: SizeCalculator<MarginModel>
-    protected offsetSizeCalculator: OffsetSizeCalculator<MarginModel>
+    protected offsetSizeCalculator: OffsetSizeCalcCssBuilder<MarginModel>
 
     constructor(tag: HtmlTag)
     {
@@ -92,13 +92,13 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
         this._width = arg
     }
 
-    get lengthOffset(): number
+    get lengthOffsetCalc(): string
     {
-        return this._lengthOffset
+        return this._lengthOffsetCalc
     }
-    set lengthOffset(arg: number)
+    set lengthOffsetCalc(arg: string)
     {
-        this._lengthOffset = arg
+        this._lengthOffsetCalc = arg
     }
     
 
@@ -111,13 +111,13 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
         this._lengthCalc = arg
     }
     
-    get offset(): number
+    get offsetCalc(): string
     {
-        return this._offset
+        return this._offsetCalc
     }
-    set offset(arg: number)
+    set offsetCalc(arg: string)
     {
-        this._offset = arg
+        this._offsetCalc = arg
     }
 
     // onMouseOver(target: BorderModel) 
@@ -175,7 +175,6 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
 
         // this.updateCssProperty(Display.PROP_NAME, display)
 
-
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         } 
@@ -185,8 +184,6 @@ export default abstract class MarginModel extends LayoutEl implements CssList, S
             this._cssPropertyAccesor.setNewPropertyValue(BackgroundColor.PROP_NAME, borderColor)
             css[BackgroundColor.PROP_NAME] = borderColor.getValue()
         }
-
-        
 
         return css
     }

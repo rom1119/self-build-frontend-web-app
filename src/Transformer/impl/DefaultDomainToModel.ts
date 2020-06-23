@@ -19,6 +19,7 @@ export default class DefaultDomainToModel implements DomainToModel
     transform(domain: LayoutEl): TagDto {
         let model = new TagDto()
         model.id = domain.uuid
+        model.shortUUID = domain.shortUUID
 
         if (domain instanceof HtmlTag) {
             var tagName = domain.getTagName()

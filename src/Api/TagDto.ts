@@ -5,6 +5,7 @@ import AggregateRoot from "~/types/AggregateRoot";
 export default class TagDto extends AggregateRoot
 {
     id = ''
+    shortUUID = ''
     projectId = ''
     tagName = ''
     isTextNode = false

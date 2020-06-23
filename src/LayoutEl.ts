@@ -14,11 +14,22 @@ export default abstract class LayoutEl {
     protected _active: boolean = true;  
     parent: LayoutEl  
     version: number = 1  
+    protected _shortUUID = ''
 
     constructor()
     {
         this._uuid = Math.floor(Math.random() * 10000000) + ''
         // this.initCssAccessor()
+    }
+
+    get shortUUID(): string
+    {
+        return this._shortUUID
+    }
+    
+    set shortUUID(arg: string)
+    {
+        this._shortUUID = arg
     }
 
 
@@ -128,7 +139,7 @@ export default abstract class LayoutEl {
         this._htmlEl = htmlEl
     }
     
-    public getHtmlEl()
+    public getHtmlEl(): HTMLElement
     {
         return this._htmlEl
     }

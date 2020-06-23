@@ -6,13 +6,20 @@ import PaddingLeftCss from '../Css/BoxModel/Padding/PaddingLeftCss';
 import BorderRadiusGlobal from '../Css/Border/Radius/BorderRadiusGlobal';
 export class VueFixStyleListTransform 
 {
+    
     private tag: HtmlTag
     private rand: number
+    private replacedCss: any
 
     constructor(tag: HtmlTag)
     {
         this.tag = tag
     }
+
+    setReplacedCss(replacedCss: any) {
+        this.replacedCss = replacedCss
+    }
+
     public transform(styleList: BasePropertyCss[]): Object
     {
         var css = {}
@@ -43,14 +50,16 @@ export class VueFixStyleListTransform
 
         // console.log('VueFixStyleListTransform START');
         // console.log(css);
-        // console.log(css);
-        // console.log('VueFixStyleListTransform END');
+        css = this.replaceValues(css)
+
         
         this.checkBorders(css)
         this.checkPaddings(css)
         this.checkMargins(css)
         this.checkBorderRadius(css)
         
+        // console.log(css);
+        // console.log('VueFixStyleListTransform END');
         // for (const key in css) {
         //     if (css.hasOwnProperty(key)) {
         //         const element = css[key];
@@ -58,6 +67,23 @@ export class VueFixStyleListTransform
         //     }
         // }
         return css
+    }
+    replaceValues(css: {}) {
+        for (const cssProp in css) {
+            
+            if (this.replacedCss[cssProp]) {
+                var prop = ''
+
+                prop += this.replacedCss[cssProp]
+                prop += ` /* ${this.rand} */`
+                css[cssProp] = this.replacedCss[cssProp]
+            }
+        }
+
+        this.replacedCss = {}
+
+        return css
+        
     }
     checkMargins(css: {}) {
         if (css[MarginCss.PROP_NAME]) {

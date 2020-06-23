@@ -25,7 +25,7 @@ export default class RGBA extends UnitColor {
         let blue = val.b
         let alpha = val.a
         var stringRgbaColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`
-
+            
         return stringRgbaColor
     }
     

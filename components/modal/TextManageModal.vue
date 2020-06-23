@@ -21,8 +21,8 @@
                         <div @dblclick.stop.prevent="" class="color-picker-btn" @click.stop="toggleColorPicker()">
                         </div> -->
                        
-                        <div style="right: -100px;">
-                            <Chrome v-model="color" :color="color" label="Color" />
+                        <div>
+                            <Chrome v-model="color" :color="color" style="margin: 0 auto;" label="Color" />
                             <div class="color-picker-nav">
                                 <button @click="cancelColor">Anuluj</button>
                                 <button @click="saveColor">Zapisz</button>
@@ -34,23 +34,104 @@
 
                 </div>
                 
-                <div class="content-item-half" @dblclick="hasFontSize = !hasFontSize" :class="{'active': hasFontSize}">
-                    <h4 class="content-item__header">
-                        Rozmiar tekstu
-                    </h4>
-                    <div class="content-item__elem"
-                            v-context-menu="cmNameFontSize"
-                        >
-                        <select-unit-context-menu :propertyUnit="fontSizeUnit" @changePropUnit="() => {fontSizeUnit = $event;}" :ref="cmNameFontSize" />
+                <div class="content-item-half" >
+                    <div @dblclick="hasFontSize = !hasFontSize" :class="{'active': hasFontSize}">
+                        <h4 class="content-item__header">
+                            Rozmiar tekstu
+                        </h4>
+                        <div class="content-item__elem"
+                                v-context-menu="cmNameFontSize"
+                            >
+                            <select-unit-context-menu :propertyUnit="fontSizeUnit" @changePropUnit="($event) => {fontSizeUnit = $event;}" :ref="cmNameFontSize" />
 
-                        <label :for="'fontSize-'">
-                            
-                            <input @dblclick.stop.prevent="" type="number" style="width: 40px;" class="input-text" v-model="fontSize" name="fontSize" :id="'fontSize-'">
-                            {{ fontSizeUnit.label }}
-                        </label>
+                            <label :for="'fontSize-'">
+                                
+                                <input @dblclick.stop.prevent="" type="number" style="width: 40px;" class="input-text" v-model="fontSize" name="fontSize" :id="'fontSize-'">
+                                {{ fontSizeUnit.label }}
+                            </label>
+                        </div>
+
+                    </div>
+                    <div @dblclick="hasLineHeight = !hasLineHeight" :class="{'active': hasLineHeight}">
+                        <h4 class="content-item__header">
+                            Wysokość linii
+                        </h4>
+                        <div class="content-item__elem"
+                                v-context-menu="cmNameLineHeight"
+                            >
+                            <select-unit-context-menu :propertyUnit="lineHeightUnit" @changePropUnit="($event) => {lineHeightUnit = $event;}" :ref="cmNameLineHeight" />
+
+                            <label :for="'lineHeight-'">
+                                
+                                <input @dblclick.stop.prevent="" type="number" style="width: 40px;" class="input-text" v-model="lineHeight" name="lineHeight" :id="'lineHeight-'">
+                                {{ lineHeightUnit.label }}
+                            </label>
+                        </div>
+                    </div>
+                    <div @dblclick="hasTextAlign = !hasTextAlign" :class="{'active': hasTextAlign}">
+                        <h4 class="content-item__header">
+                            Wyrównanie tekstu
+                        </h4>
+                        <div class="content-item__elem"
+                            >
+                            <ul class=" content-item__elem_container">
+                                <li class="content-item__elem" v-for="el in textAligns" :key="el">
+                                    <label :for="'textAlign-' + el">
+                                        {{ el }}
+                                        <input type="radio" v-model="textAlign" :value="el" name="textAlign" :id="'textAlign-' + el">
+
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div @dblclick="hasFontStyle = !hasFontStyle" :class="{'active': hasFontStyle}">
+                        <h4 class="content-item__header">
+                            Styl tekstu
+                        </h4>
+                        <div class="content-item__elem"
+                            >
+                            <ul class=" content-item__elem_container">
+                                <li class="content-item__elem" v-for="el in fontStyles" :key="el">
+                                    <label :for="'fontStyle-' + el">
+                                        {{ el }}
+                                        <input type="radio" v-model="fontStyle" :value="el" name="fontStyle" :id="'fontStyle-' + el">
+
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
+            </div>
+            <div class="content-item" @dblclick="hasFontWeight = !hasFontWeight" :class="{'active': hasFontWeight}">
+                <h4 class="content-item__header">
+                    Waga czcionki
+                </h4>
+                <ul class=" content-item__elem_container">
+                    <li class="content-item__elem" v-for="el in fontWeights" :key="el">
+                        <label :for="'fontWeight-' + el">
+                            {{ el }}
+                            <input type="radio" v-model="fontWeight" :value="el" name="fontWeight" :id="'fontWeight-' + el">
+
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-item" @dblclick="hasFontStretch = !hasFontStretch" :class="{'active': hasFontStretch}">
+                <h4 class="content-item__header">
+                    Font Stretch
+                </h4>
+                <ul class=" content-item__elem_container">
+                    <li class="content-item__elem" v-for="el in fontStretchs" :key="el">
+                        <label :for="'fontStretch-' + el">
+                            {{ el }}
+                            <input type="radio" v-model="fontStretch" :value="el" name="fontStretch" :id="'fontStretch-' + el">
+
+                        </label>
+                    </li>
+                </ul>
             </div>
         </template>
         <template slot="footer">
@@ -89,6 +170,8 @@
     import { RGBA } from '~/src/Unit';
     import FontManageModal from '../FontManageModal';
     import { Chrome }  from '~/node_modules/vue-color';
+import { FontStyle } from '../../src/Css';
+import FontStretch from '../../src/Css/Text/FontStretch';
 
     @Component({
         components: {
@@ -102,9 +185,14 @@
         DEFAULT_FONT_SIZE = 20
         DEFAULT_FONT_SIZE_UNIT = new EM()
         fontSizeData = new FontSize(this.DEFAULT_FONT_SIZE, this.DEFAULT_FONT_SIZE_UNIT)
+
         cmNameFontSize = Math.floor(Math.random() * 1000000000).toString() + 'font-size'
+        cmNameLineHeight = Math.floor(Math.random() * 1000000000).toString() + 'line-height'
+
         textAligns: string[] = TextAlign.getAccessableProperty()
         fontWeights: string[] = FontWeight.getAccessableProperty()
+        fontStyles: string[] = FontStyle.getAccessableProperty()
+        fontStretchs: string[] = FontStretch.getAccessableProperty()
 
         pickerActive = false
         units: UnitSize[] = []

@@ -1,16 +1,16 @@
 import SizeActivable from './SizeActivable';
 import DeletableEl from './ActivableTagToManage';
 import ActivableTagToManage from './ActivableTagToManage';
+import ActivableTagTo from './ActivableTagTo';
 
 
-export default interface ActiveToManageController
+export default interface ActiveToController<T extends ActivableTagTo>
 {
     
 
-    updateActiveTag(elToActive: ActivableTagToManage) 
+    updateActiveTag(elToActive: T) 
     
-
-    deactiveTag(val: ActivableTagToManage)
+    deactiveTag()
 
 
 }

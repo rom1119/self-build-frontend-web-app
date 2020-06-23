@@ -1,6 +1,7 @@
+import ActivableTagTo from "./ActivableTagTo";
 
 
-export default interface ActivableTagToManage
+export default interface ActivableTagToManage extends ActivableTagTo
 {
     changeAsActiveToManage()
     

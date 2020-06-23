@@ -15,6 +15,10 @@ import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";
 import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
 import BorderSizeCalculator from "~/src/Calculator/Size/BorderSizeCalculator";
 import BorderOffsetSizeCalculator from "~/src/Calculator/OffsetSize/BorderOffsetSizeCalculator";
+import HtmlTagRecalculator from "~/src/Recalculator/HtmlTagRecalculator";
+import PaddingRecalculate from "~/src/Recalculator/HtmlTagImpl/PaddingRecalculate";
+import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
+import BorderRecalculate from "~/src/Recalculator/HtmlTagImpl/BorderRecalculate";
 
 export default class PaddingComputedPropertyManager implements DirectionComputedPropertyManager
 {
@@ -30,8 +34,16 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
 
     protected realFetcher: FetcherRealCssProp
 
+    protected borderRecalculator: HtmlTagRecalculator
+    protected marginRecalculator: HtmlTagRecalculator
+    protected paddingRecalculator: HtmlTagRecalculator
+
     constructor(  )
     {
+        this.borderRecalculator = new BorderRecalculate()
+        this.marginRecalculator = new MarginRecalculate()
+        this.paddingRecalculator = new PaddingRecalculate()
+
         this.leftProperty.setActive(false)
         this.rightProperty.setActive(false)
         this.topProperty.setActive(false)
@@ -227,11 +239,13 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
+        this.value.removeCssProperty(prop)
         this.value.paddingFilter.deactivateProp(prop)
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
+        this.recalculatePaddings(this.value)
+
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
@@ -252,6 +266,8 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         // this.value.recalculateRealComputedProperties()
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
+        this.recalculatePaddings(this.value)
+
         return null
     }
     activePropCss(prop: BasePropertyCss) {
@@ -270,6 +286,8 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
+        this.recalculatePaddings(this.value)
+
         return prop
     }
     updateCssProp(newProp: BasePropertyCss) {
@@ -291,40 +309,24 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
+        this.recalculatePaddings(this.value)
 
         return newProp.getClearValue()
     }
 
     private recalculateMargins(htmlTag: HtmlTag)
     {
-        let sizeCalc = new MarginSizeCalculator(htmlTag)
-        let offsetSizeCalc = new MarginOffsetSizeCalculator(htmlTag)
-        
-        htmlTag.marginTop.lengthCalc = sizeCalc.build(htmlTag.marginTop)
-        htmlTag.marginTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginTop)
-        htmlTag.marginBottom.lengthCalc = sizeCalc.build(htmlTag.marginBottom)
-        htmlTag.marginBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginBottom)
-        htmlTag.marginLeft.lengthCalc = sizeCalc.build(htmlTag.marginLeft)
-        htmlTag.marginLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginLeft)
-        htmlTag.marginRight.lengthCalc = sizeCalc.build(htmlTag.marginRight)
-        htmlTag.marginRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.marginRight)
-            
+        this.marginRecalculator.recalculate(htmlTag)     
     }
 
     private recalculateBorders(htmlTag: HtmlTag)
     {
-        let sizeCalc = new BorderSizeCalculator(htmlTag)
-        let offsetSizeCalc = new BorderOffsetSizeCalculator(htmlTag)
-        
-        htmlTag.borderTop.lengthCalc = sizeCalc.build(htmlTag.borderTop)
-        htmlTag.borderTop.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderTop)
-        htmlTag.borderBottom.lengthCalc = sizeCalc.build(htmlTag.borderBottom)
-        htmlTag.borderBottom.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderBottom)
-        htmlTag.borderLeft.lengthCalc = sizeCalc.build(htmlTag.borderLeft)
-        htmlTag.borderLeft.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderLeft)
-        htmlTag.borderRight.lengthCalc = sizeCalc.build(htmlTag.borderRight)
-        htmlTag.borderRight.lengthOffset = offsetSizeCalc.calculateOffsetSize(htmlTag.borderRight)
-            
+        this.borderRecalculator.recalculate(htmlTag)
+    }
+    
+    private recalculatePaddings(htmlTag: HtmlTag)
+    {
+        this.paddingRecalculator.recalculate(htmlTag)
     }
 
 

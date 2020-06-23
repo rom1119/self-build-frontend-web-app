@@ -1,5 +1,5 @@
 <template>
-    <span @dblclick.stop="onDoubleClick($event)" @mousedown.stop="" @click.stop="" >
+    <span @dblclick.stop="onDoubleClick($event)" @mousedown.stop="" @click.stop="" :id="value.shortUUID" >
         <span v-show="value.isEdited" class="wrapper-el-editable" >
             <div class="remove-text" @mousedown.stop="setAsClicked" @click.stop="onEmitRemove(value, $event)">
                 X
@@ -8,7 +8,7 @@
             </html-el-editable>
         </span>
         <!-- {{ value.paddingRightWidth }} -->
-        <span  v-show="!value.isEdited" :key="value.paddingRightWidth" class="inner-text-el">
+        <span  v-show="!value.isEdited" :id="value.shortUUID + '-content'" :key="value.paddingRightWidth" class="inner-text-el">
             {{ value.text }}
         </span>
     </span>

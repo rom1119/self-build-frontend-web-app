@@ -25,10 +25,10 @@ export default class PaddingBottom extends PaddingModel
     protected initCssAccessor()
     {
         super.initCssAccessor()
-        let width = new Width(100, new Percent())
+        let width = new Width(this.lengthCalc, new Named())
         let height = new Height(this.width, this.widthUnit)
-        let left = new LeftCss(0, new Named())
-        let bottom = new BottomCss(this.offset, new Pixel())
+        let left = new LeftCss(this.lengthOffsetCalc, new Named())
+        let bottom = new BottomCss(this.offsetCalc, new Named())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(left)
@@ -64,10 +64,10 @@ export default class PaddingBottom extends PaddingModel
     get cssList() : any
     {
         let css = super.cssList
-        let width = new Width(100, new Percent())
+        let width = new Width(this.lengthCalc, new Named())
         let height = new Height(this.width, this.widthUnit)
-        let left = new LeftCss(0, new Named())
-        let bottom = new BottomCss(this.offset, new Pixel())
+        let left = new LeftCss(this.lengthOffsetCalc, new Named())
+        let bottom = new BottomCss(this.offsetCalc, new Named())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
         this._cssPropertyAccesor.setNewPropertyValue(LeftCss.PROP_NAME, left)

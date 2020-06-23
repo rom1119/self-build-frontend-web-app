@@ -32,7 +32,7 @@ export default class DefaultModelToCss implements ModelToCss
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         // this.styleTransformer = new HtmlTagFactoryFromName()
     }
-
+ 
     transform(model: StyleCss): BasePropertyCss {
         var domain = this.cssFactoryFromName.create(model.getKey())
         var unit = this.unitCssFactoryFromName.create(model.getUnitName())
@@ -53,7 +53,7 @@ export default class DefaultModelToCss implements ModelToCss
             var domainCastBorder: BaseBorderCss = <BaseBorderCss><unknown>domain
             let unitBorder = this.unitCssFactoryFromName.create(model.getUnitName())
             domainCastBorder.setWidth(Number(model.getValue()), unitBorder)
-            console.log(unitBorder);
+            // console.log(unitBorder);
             
             domainCastBorder.setUnit(unitBorder)
             domain = domainCastBorder
@@ -123,8 +123,8 @@ export default class DefaultModelToCss implements ModelToCss
         var domainCastMultiplyValBoxShadow: CssMultipleValue<BoxShadowStruct>
         if (domain instanceof TextShadowCss) {
             domainCastMultiplyVal = <CssMultipleValue<TextShadowStruct>><unknown>domain
-            console.log('instanceOF TEXT_SHADOW TO-CSS');
-            console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            // console.log('instanceOF TEXT_SHADOW TO-CSS');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
             
             for (const valCss of model.getValues()) {
                     valCss
@@ -150,7 +150,7 @@ export default class DefaultModelToCss implements ModelToCss
                     el.offsetYUnit = unitOffY
                     el.blurUnit = unitBlur
                     el.colorUnit = unitColor
-                    console.log(el);
+                    // console.log(el);
                     
 
                     domainCastMultiplyVal.addValue(el)
@@ -160,8 +160,8 @@ export default class DefaultModelToCss implements ModelToCss
             
         } else if (domain instanceof BoxShadowCss) {
             domainCastMultiplyValBoxShadow = <CssMultipleValue<BoxShadowStruct>><unknown>domain
-            console.log('instanceOF TEXT_SHADOW TO-CSS');
-            console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            // console.log('instanceOF TEXT_SHADOW TO-CSS');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
             
             for (const valCss of model.getValues()) {
                     valCss
@@ -191,7 +191,7 @@ export default class DefaultModelToCss implements ModelToCss
                     el.blurUnit = unitBlur
                     el.spreadUnit = unitSpread
                     el.colorUnit = unitColor
-                    console.log(el)
+                    // console.log(el)
 
                     domainCastMultiplyValBoxShadow.addValue(el)
             }

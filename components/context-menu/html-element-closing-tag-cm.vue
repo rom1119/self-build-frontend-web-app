@@ -141,6 +141,12 @@ export default class HtmlElementContextMenu extends Vue {
 
 <style  scoped>
    * {
-       text-shadow: none;;
+       text-shadow: none;
+       font-size: 1em;
+       font-weight: initial;
+       font-stretch: initial;
+       font-style: initial;
+        line-height: initial;
+
    }
 </style>

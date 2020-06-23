@@ -18,7 +18,9 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
     
     protected _name: string = 'border-base'
     protected _width: number = 55
-    protected _offset: number = -55
+    protected _offsetCalc: string = 'calc(0px)'
+    protected _lengthCalc: string = 'calc(0px)'
+    protected _lengthOffsetCalc: string = 'calc(0px)'
     protected _color: any
     protected _initialColor: any = {
         r: 250,
@@ -80,13 +82,32 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
         this._width = arg
     }
 
-    get offset(): number
+    get offsetCalc(): string
     {
-        return this._offset
+        return this._offsetCalc
     }
-    set offset(arg: number)
+    set offsetCalc(arg: string)
     {
-        this._offset = arg
+        this._offsetCalc = arg
+    }
+
+    get lengthOffsetCalc(): string
+    {
+        return this._lengthOffsetCalc
+    }
+    set lengthOffsetCalc(arg: string)
+    {
+        this._lengthOffsetCalc = arg
+    }
+    
+
+    get lengthCalc(): string
+    {
+        return this._lengthCalc
+    }
+    set lengthCalc(arg: string)
+    {
+        this._lengthCalc = arg
     }
 
     // onMouseOver(target: BorderModel) 

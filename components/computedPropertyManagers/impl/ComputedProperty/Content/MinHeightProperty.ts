@@ -43,14 +43,14 @@ export default class MinHeightProperty extends BaseComputedPropertyManager<MinHe
         // this.value.setWithUnit(this.getProperty().getUnit())
     }
 
-    activePropCss(prop: BasePropertyCss) {
+    activePropCss(prop: MinHeight) {
         super.activePropCss(prop)
 
         this.recalculate(this.value)
         return prop
     }
     
-    deactivePropCss(prop: BasePropertyCss) {
+    deactivePropCss(prop: MinHeight) {
         super.deactivePropCss(prop)
 
         this.recalculate(this.value)

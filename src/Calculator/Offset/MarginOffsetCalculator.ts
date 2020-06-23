@@ -1,76 +1,76 @@
-import OffsetCalculator from '../OffsetCalculator';
 import HtmlTag from '~/src/Layout/HtmlTag';
 import MarginModel from '../../Layout/Margin/MarginModel';
 import MarginLeft from '~/src/Layout/Margin/MarginLeft';
 import MarginRight from '~/src/Layout/Margin/MarginRight';
 import MarginTop from '~/src/Layout/Margin/MarginTop';
 import MarginBottom from '~/src/Layout/Margin/MarginBottom';
+import { Pixel } from '~/src/Unit';
+import OffsetCalcCssBuilder from '../OffsetCalcCssBuilder';
 
-export default class MarginOffsetCalculator implements OffsetCalculator<MarginModel>
+export default class MarginOffsetCalculator implements OffsetCalcCssBuilder<MarginModel>
 {
     protected htmlTag: HtmlTag
+    protected px: Pixel
 
     constructor(htmlTag: HtmlTag)
     {
         this.htmlTag = htmlTag
+        this.px = new Pixel();
 
     }
 
-    calculateOffset(el: MarginModel): number {
+    build(el: MarginModel): string {
         if (el instanceof MarginLeft) {
-            return this.calculateLeftOffset()
+            return `calc(${this.left()})`
         } else if (el instanceof MarginRight) {
-            return this.calculateRightOffset()
+            return `calc(${this.right()})`
         } else if (el instanceof MarginTop) {
-            return this.calculateTopOffset()
+            return `calc(${this.top()})`
             
         } else if (el instanceof MarginBottom) {
-            return this.calculateBottomOffset()
+            return `calc(${this.bottom()})`
             
         }
         throw Error('Not implemented for ' + el)
     }
 
 
-    private calculateLeftOffset(): number
+    private left(): string
     {
-        let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
-        let borderLeftWidth = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginLeft.width + borderLeftWidth)
+        let leftWidthPadding = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
+        let leftWidthBorder = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
+        let leftWidthMargin = this.htmlTag.marginLeft.isActive() ? this.htmlTag.marginLeft.width : 0
+        let width =  this.htmlTag.getWidthValue()
+        let newOff = `0px - ${this.px.getValue(leftWidthBorder)} - ${this.px.getValue(leftWidthMargin)}`
         return newOff
     }
     
-    private calculateRightOffset(): number
+    private right(): string
     {
-        let marginRightWidth = this.htmlTag.marginRight.isActive() ? this.htmlTag.marginRight.width : 0
-        let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
-        let newOff = -Math.abs(marginRightWidth + borderRightWidth)
-        // console.log('oooooooooooooo');
-        // console.log(marginRightWidth);
-        // console.log(borderRightWidth);
-        // console.log(newOff);
-        // console.log('oooooooooooooo');
-        
-        // console.log(newOff);
-        // console.log(this.htmlTag.marginRight.width );
-        // console.log(borderRightWidth);
-        
+        let rightWidthPadding = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
+        let rightWidthBorder = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
+        let rightWidthMargin = this.htmlTag.marginRight.isActive() ? this.htmlTag.marginRight.width : 0
+        let width =  '100%'
+        let newOff = `0px - ${this.px.getValue(rightWidthBorder)} - ${this.px.getValue(rightWidthMargin)}`
         return newOff
     }
     
-    private calculateTopOffset(): number
+    private top(): string
     {
-        let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
-        let borderTopWidth = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginTop.width + borderTopWidth )
+        let topWidthPadding = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
+        let topWidthBorder = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
+        let topWidthMargin = this.htmlTag.marginTop.isActive() ? this.htmlTag.marginTop.width : 0
+        let width =  this.htmlTag.getWidthValue()
+        let newOff = `0px - ${this.px.getValue(topWidthBorder)} - ${this.px.getValue(topWidthMargin)}`
         return newOff
     }
     
-    private calculateBottomOffset(): number
+    private bottom(): string
     {
+        let marginBottomWidth = this.htmlTag.marginBottom.isActive() ? this.htmlTag.marginBottom.width : 0
         let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
         let borderBottomWidth = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginBottom.width + borderBottomWidth)
+        let newOff = `0px - ${this.px.getValue(marginBottomWidth)} - ${this.px.getValue(borderBottomWidth)}`
         return newOff
     }
 

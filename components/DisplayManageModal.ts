@@ -6,7 +6,7 @@ import AbstractModal from './AbstractModal'
 import Display from '../src/Css/Display/Display';
 import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
 import DisplayProperty from './computedPropertyManagers/impl/ComputedProperty/Display/DisplayProperty'
-import { JustifyContent, AlignItems, FlexDirection, FlexGrow, FlexOrder, FlexShrink, FlexWrap, Float } from '~/src/Css';
+import { JustifyContent, AlignItems, FlexDirection, FlexGrow, FlexOrder, FlexShrink, FlexWrap, Float, LeftCss, RightCss, TopCss, BottomCss } from '~/src/Css';
 import FlexBasis from '../src/Css/Display/FlexBasis';
 import Clear from '../src/Css/Display/Clear';
 import ClearProperty from './computedPropertyManagers/impl/ComputedProperty/Display/ClearProperty'
@@ -19,6 +19,12 @@ import FlexDirectionProperty from './computedPropertyManagers/impl/ComputedPrope
 import FlexBasisProperty from './computedPropertyManagers/impl/ComputedProperty/Display/FlexBasisProperty'
 import AlignItemsProperty from './computedPropertyManagers/impl/ComputedProperty/Display/AlignItemsProperty'
 import JustifyContentProperty from './computedPropertyManagers/impl/ComputedProperty/Display/JustifyContentProperty'
+import PositionCss from '../src/Css/Display/PositionCss';
+import PositionProperty from './computedPropertyManagers/impl/ComputedProperty/Display/PositionProperty'
+import LeftProperty from './computedPropertyManagers/impl/ComputedProperty/Display/LeftProperty'
+import RightProperty from './computedPropertyManagers/impl/ComputedProperty/Display/RightProperty'
+import TopProperty from './computedPropertyManagers/impl/ComputedProperty/Display/TopProperty'
+import BottomProperty from './computedPropertyManagers/impl/ComputedProperty/Display/BottomProperty'
 
 
 export default abstract class DisplayManageModal extends AbstractModal
@@ -35,6 +41,12 @@ export default abstract class DisplayManageModal extends AbstractModal
     floatManager: BaseComputedPropertyManager<Float>
     clearManager: BaseComputedPropertyManager<Clear>
 
+    positionManager: BaseComputedPropertyManager<PositionCss>
+    leftManager: BaseComputedPropertyManager<LeftCss>
+    rightManager: BaseComputedPropertyManager<RightCss>
+    topManager: BaseComputedPropertyManager<TopCss>
+    bottomManager: BaseComputedPropertyManager<BottomCss>
+
     constructor()
     {
         super()
@@ -49,6 +61,12 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.flexWrapManager = new FlexWrapProperty()
         this.floatManager = new FloatProperty()
         this.clearManager = new ClearProperty()
+
+        this.positionManager = new PositionProperty()
+        this.leftManager = new LeftProperty()
+        this.rightManager = new RightProperty()
+        this.topManager = new TopProperty()
+        this.bottomManager = new BottomProperty()
 
     }
 
@@ -70,6 +88,12 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.floatManager.setHtmlEl(val)
         this.clearManager.setHtmlEl(val)
 
+        this.positionManager.setHtmlEl(val)
+        this.leftManager.setHtmlEl(val)
+        this.rightManager.setHtmlEl(val)
+        this.topManager.setHtmlEl(val)
+        this.bottomManager.setHtmlEl(val)
+
         // this.paddingManager.setFetcher(this.paddingRealFetcher)
         // this.marginManager.setFetcher(this.marginRealFetcher)
         // this.borderManager.setFetcher(this.borderRealFetcher)
@@ -85,6 +109,12 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.flexWrapManager.init()
         this.floatManager.init()
         this.clearManager.init()
+
+        this.positionManager.init()
+        this.leftManager.init()
+        this.rightManager.init()
+        this.topManager.init()
+        this.bottomManager.init()
      
     }
 }

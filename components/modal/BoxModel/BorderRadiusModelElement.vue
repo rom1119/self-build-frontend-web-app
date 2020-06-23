@@ -139,29 +139,29 @@ import BaseBorderRadiusCss from '~/src/Css/Border/BaseBorderRadiusCss';
        activate()
        {
            this.property.setActive(true)
-           if (this.globalEl) {
-               this.borderManager.activePropCss(this.property)
-                this.borderManager.updateDirections()
+        //    if (this.globalEl) {
+        //        this.borderManager.activePropCss(this.property)
+        //         this.borderManager.updateDirections()
 
 
-           } else {
-               this.borderManager.activePropCss(this.property)
+        //    } else {
+        //        this.borderManager.activePropCss(this.property)
 
-           }
+        //    }
        }
        
        deactivate()
        {
-           this.property.setActive(false)
-           if (this.globalEl) {
-               this.borderManager.deactiveGlobalPropCss(this.property)
-                this.borderManager.updateDirections()
+        //    this.property.setActive(false)
+        //    if (this.globalEl) {
+        //        this.borderManager.deactiveGlobalPropCss(this.property)
+        //         this.borderManager.updateDirections()
 
 
-           } else {
-               this.borderManager.deactivePropCss(this.property)
+        //    } else {
+        //        this.borderManager.deactivePropCss(this.property)
 
-           }
+        //    }
        }
         
         @Watch('pagination.page', {deep: false, immediate: false})

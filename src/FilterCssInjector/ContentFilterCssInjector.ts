@@ -15,7 +15,7 @@ import PaddingBottomCss from "../Css/BoxModel/Padding/PaddingBottomCss";
 import PaddingTopCss from '../Css/BoxModel/Padding/PaddingTopCss';
 import PaddingRightCss from '../Css/BoxModel/Padding/PaddingRightCss';
 import PaddingLeftCss from "../Css/BoxModel/Padding/PaddingLeftCss";
-import OffsetCalculator from "../Calculator/OffsetCalculator";
+import OffsetCalcCssBuilder from "../Calculator/OffsetCalcCssBuilder";
 import PaddingOffsetCalculator from "../Calculator/Offset/PaddingOffsetCalculator";
 import MinWidth from '../Css/Size/MinWidth';
 import MaxWidth from '../Css/Size/MaxWidth';
@@ -63,9 +63,9 @@ export default class ContentFilterCssInjector extends FilterCssInjector
             return
         }
         
-        console.log('WIDTH+++++++WIDTH');
-        console.log(cssProp.getClearValue());
-        console.log(cssProp.getUnit());
+        // console.log('WIDTH+++++++WIDTH');
+        // console.log(cssProp.getClearValue());
+        // console.log(cssProp.getUnit());
         
         if (cssProp instanceof Width) {
             this.htmlTag.setWithUnit(cssProp.getUnit())

@@ -42,7 +42,7 @@ import BorderRadiusBottomRight from './Border/Radius/BorderRadiusBottomRight';
 // display
 
 import Display from './Display/Display';
-import Position from './Display/Position';
+import PositionCss from './Display/PositionCss';
 import Float from './Display/Float';
 import Clear from './Display/Clear';
 import TopCss from './Display/Direction/TopCss';
@@ -68,6 +68,9 @@ import FontWeight from './Text/FontWeight';
 import FontStyle from './Text/FontStyle';
 import TextAlign from './Text/TextAlign';
 import FontColor from './Text/FontColor';
+import FontFamily from './Text/FontFamily';
+import FontStretch from './Text/FontStretch';
+import LineHeight from './Text/LineHeight';
 
 
 // size
@@ -152,7 +155,7 @@ export {
     BorderRadiusBottomRight,
 
     Display,
-    Position,
+    PositionCss,
     Float,
     Clear,
     TopCss,
@@ -177,5 +180,8 @@ export {
     FontWeight,
     TextAlign,
     FontColor,
+    FontFamily,
+    FontStretch,
+    LineHeight,
     
 }

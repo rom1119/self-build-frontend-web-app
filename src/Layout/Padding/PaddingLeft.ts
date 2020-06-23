@@ -28,9 +28,9 @@ export default class PaddingLeft extends PaddingModel
     {
         super.initCssAccessor()
         let width = new Width(this.width, this.widthUnit)
-        let height = new Height(100, new Percent())
-        let left = new LeftCss(this.offset, new Pixel())
-        let top = new TopCss(0, new Named())
+        let height = new Height(this.lengthCalc, new Named())
+        let left = new LeftCss(this.offsetCalc, new Named())
+        let top = new TopCss(this.lengthOffsetCalc, new Named())
         
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
@@ -63,9 +63,9 @@ export default class PaddingLeft extends PaddingModel
     {
         let css = super.cssList
         let width = new Width(this.width, this.widthUnit)
-        let height = new Height(100, new Percent())
-        let left = new LeftCss(this.offset, new Pixel())
-        let top = new TopCss(0, new Named())
+        let height = new Height(this.lengthCalc, new Named())
+        let left = new LeftCss(this.offsetCalc, new Named())
+        let top = new TopCss(this.lengthOffsetCalc, new Named())
 
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)

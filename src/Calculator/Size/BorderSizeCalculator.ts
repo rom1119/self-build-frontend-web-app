@@ -1,4 +1,3 @@
-import OffsetCalculator from '../OffsetCalculator';
 import HtmlTag from '~/src/Layout/HtmlTag';
 import BorderModel from '../../Layout/Border/BorderModel';
 import BorderLeft from '~/src/Layout/Border/BorderLeft';
@@ -66,7 +65,7 @@ export default class BorderSizeCalculator implements SizeCalculator<BorderModel>
         let leftWidthPadding = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
         let rightWidthPadding = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
         let width =  '100%'
-        let newOff = `${px.getValue(leftWidthBorder)} + ${px.getValue(rightWidthBorder)} + ${width}`
+        let newOff = ` ${width}`
         return newOff
     }
     
@@ -79,7 +78,7 @@ export default class BorderSizeCalculator implements SizeCalculator<BorderModel>
         let leftWidthPadding = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
         let rightWidthPadding = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
         let width =  '100%' 
-        let newOff = `${px.getValue(leftWidthBorder)} + ${px.getValue(rightWidthBorder)} + ${width}`
+        let newOff = ` ${width}`
         
         return newOff
     }

@@ -43,8 +43,8 @@ export default class BorderTop extends BorderModel
         let borderWidth = new BorderTopWidth(this.width, this.widthUnit)
         let borderStyle = new BorderTopStyle(this.style, new Named())
 
-        let left = new LeftCss(this.lengthOffset, new Pixel())
-        let top = new TopCss(this.offset, new Pixel())
+        let left = new LeftCss(this.lengthOffsetCalc, new Named())
+        let top = new TopCss(this.offsetCalc, new Named())
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(borderWidth)
@@ -85,8 +85,8 @@ export default class BorderTop extends BorderModel
         let borderWidth = new BorderTopWidth(this.width, this.widthUnit)
         let borderStyle = new BorderTopStyle(this.style, new Named())
 
-        let left = new LeftCss(this.lengthOffset, new Pixel())
-        let top = new TopCss(this.offset, new Pixel())
+        let left = new LeftCss(this.lengthOffsetCalc, new Named())
+        let top = new TopCss(this.offsetCalc, new Named())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
         this._cssPropertyAccesor.setNewPropertyValue(BorderTopWidth.PROP_NAME, borderWidth)

@@ -31,8 +31,8 @@ export default class MarginLeft extends MarginModel
         super.initCssAccessor()
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.lengthCalc, new Named())
-        let left = new LeftCss(this.offset, new Pixel())
-        let top = new TopCss(this.lengthOffset, new Pixel())
+        let left = new LeftCss(this.offsetCalc, new Named())
+        let top = new TopCss(this.lengthOffsetCalc, new Named())
 
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
@@ -46,12 +46,6 @@ export default class MarginLeft extends MarginModel
 
     set width(newVal: number) {
         this._width = newVal
-        this.sizeCalculator = new MarginSizeCalculator(this.htmlTag)
-        this.offsetSizeCalculator = new MarginOffsetSizeCalculator(this.htmlTag)
-        this.getHtmlTag().marginTop.lengthCalc = this.sizeCalculator.build(this.getHtmlTag().marginTop)
-        this.getHtmlTag().marginTop.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.getHtmlTag().marginTop)
-        this.getHtmlTag().marginBottom.lengthCalc = this.sizeCalculator.build(this.getHtmlTag().marginBottom)
-        this.getHtmlTag().marginBottom.lengthOffset = this.offsetSizeCalculator.calculateOffsetSize(this.getHtmlTag().marginBottom)
     }
 
     public updatePixelPropertyForTag()
@@ -78,8 +72,8 @@ export default class MarginLeft extends MarginModel
         let css = super.cssList
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.lengthCalc, new Named())
-        let left = new LeftCss(this.offset, new Pixel())
-        let top = new TopCss(this.lengthOffset, new Pixel())
+        let left = new LeftCss(this.offsetCalc, new Named())
+        let top = new TopCss(this.lengthOffsetCalc, new Named())
         this._cssPropertyAccesor.setNewPropertyValue(Width.PROP_NAME, width)
         this._cssPropertyAccesor.setNewPropertyValue(Height.PROP_NAME, height)
         this._cssPropertyAccesor.setNewPropertyValue(LeftCss.PROP_NAME, left)

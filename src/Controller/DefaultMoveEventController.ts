@@ -3,7 +3,7 @@ import Size2DDetector from '../SizeDetector/Size2DDetector';
 import MoveEventController from '../MoveEventController';
 import Move2DDetector from '../MoveDetector/Move2DDetector';
 import MouseMoveEventSource from './MouseMoveEventSource';
-export default class DefaultMoveEventController extends MoveEventController
+export default class DefaultMoveEventController extends MoveEventController<MouseMoveEventSource>
 {
     protected currentElement: HTMLElement
     protected mouseDetector: Move2DDetector

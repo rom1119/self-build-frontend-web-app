@@ -140,6 +140,11 @@ export default class HtmlElementShortClosingTagContextMenu extends Vue {
 
 <style  scoped>
    * {
-       text-shadow: none;;
+       text-shadow: none;
+       font-size: 1em;
+       line-height: initial;
+       font-weight: initial;
+       font-stretch: initial;
+       font-style: initial;
    }
 </style>

@@ -1,67 +1,74 @@
-import OffsetCalculator from '../OffsetCalculator';
 import HtmlTag from '~/src/Layout/HtmlTag';
 import PaddingModel from '../../Layout/Padding/PaddingModel';
 import PaddingLeft from '~/src/Layout/Padding/PaddingLeft';
 import PaddingRight from '~/src/Layout/Padding/PaddingRight';
 import PaddingTop from '~/src/Layout/Padding/PaddingTop';
 import PaddingBottom from '~/src/Layout/Padding/PaddingBottom';
+import { Pixel } from '~/src/Unit';
+import OffsetCalcCssBuilder from '../OffsetCalcCssBuilder';
 
-export default class PaddingOffsetCalculator implements OffsetCalculator<PaddingModel>
+export default class PaddingOffsetCalculator implements OffsetCalcCssBuilder<PaddingModel>
 {
     protected htmlTag: HtmlTag
+    protected px: Pixel
 
     constructor(htmlTag: HtmlTag)
     {
         this.htmlTag = htmlTag
+        this.px = new Pixel();
 
     }
 
-    calculateOffset(el: PaddingModel): number {
+    build(el: PaddingModel): string {
         if (el instanceof PaddingLeft) {
-            return this.calculateLeftOffset()
+            return `calc(${this.left()})`
         } else if (el instanceof PaddingRight) {
-            return this.calculateRightOffset()
+            return `calc(${this.right()})`
         } else if (el instanceof PaddingTop) {
-            return this.calculateTopOffset()
+            return `calc(${this.top()})`
             
         } else if (el instanceof PaddingBottom) {
-            return this.calculateBottomOffset()
+            return `calc(${this.bottom()})`
             
         }
         throw Error('Not implemented for ' + el)
     }
 
 
-    private calculateLeftOffset(): number
+    private left(): string
     {
-        let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
-        let borderLeftWidth = this.htmlTag.borderLeft.isActive() ? this.htmlTag.borderLeft.width : 0
-        let newOff = -Math.abs( paddingLeftWidth)
-        return 0
+        let leftWidthPadding = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
+        let rightWidthPadding = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
+        let width =  this.htmlTag.getWidthValue()
+        let newOff = `0`
+        return newOff
     }
     
-    private calculateRightOffset(): number
+    private right(): string
     {
-        let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
-        let borderRightWidth = this.htmlTag.borderRight.isActive() ? this.htmlTag.borderRight.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginRight.width + paddingRightWidth + borderRightWidth)
-        return 0
+        // let topWidthBorder = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
+        // let bottomWidthBorder = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
+        let leftWidthPadding = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
+        let rightWidthPadding = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
+        let width =  this.htmlTag.getWidthValue()
+        let newOff = `0px`
+        return newOff
     }
     
-    private calculateTopOffset(): number
+    private top(): string
     {
         let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
         let borderTopWidth = this.htmlTag.borderTop.isActive() ? this.htmlTag.borderTop.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginTop.width )
-        return 0
+        let newOff = `0px`
+        return newOff
     }
     
-    private calculateBottomOffset(): number
+    private bottom(): string
     {
         let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
         let borderBottomWidth = this.htmlTag.borderBottom.isActive() ? this.htmlTag.borderBottom.width : 0
-        let newOff = -Math.abs(this.htmlTag.marginBottom.width + paddingBottomWidth + borderBottomWidth)
-        return 0
+        let newOff = `0px`
+        return newOff
     }
 
     

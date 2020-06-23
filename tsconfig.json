@@ -36,7 +36,7 @@
         "types/**/*",
         "plugins/*",
         "**/*.ts",
-        "**/*.vue"
+        "**/*.vue", "src/Calculator/OffsetCalcCssBuilderts"
     ],
     "exclude": [
         "node_modules"

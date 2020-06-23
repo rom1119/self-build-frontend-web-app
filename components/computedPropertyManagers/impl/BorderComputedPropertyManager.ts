@@ -52,6 +52,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     globalRadiusProperty: BaseBorderRadiusCss = new BorderRadiusGlobal(this.DEFAULT_BORDER_RADIUS, this.DEFAULT_BORDER_RADIUS_UNIT)
 
     protected realFetcher: BorderFetcherRealCssProp
+    
     protected borderRecalculator: HtmlTagRecalculator
     protected marginRecalculator: HtmlTagRecalculator
 
@@ -243,7 +244,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
+        this.value.removeCssProperty(prop)
         this.value.borderFilter.deactivateProp(prop)
 
         this.value.recalculateRealComputedProperties()

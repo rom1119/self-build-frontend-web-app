@@ -53,12 +53,20 @@ import AttributesAccessor from "../Attribute/AttributesAccessor";
 import DefaultAttributesAccessor from '../Attribute/impl/DefaultAttributesAccessor';
 import Input from './tag/Form/Input';
 import BoxShadowCss from '../Css/Shadow/BoxShadowCss';
+import PositionCss from '../Css/Display/PositionCss';
+import LayoutFinder from "../LayoutFinder";
+import NearTagWithPositionalFinder from '../PositionCss/NearTagWithPositionalFinder';
+import RealPositionCalculator from "../PositionCss/RealPositionCalculator";
+import LeftCss from '../Css/Display/Direction/LeftCss';
+import ActivableTagToPosition from "../ActivableTagToPosition";
+import { RightCss, TopCss, BottomCss } from "../Css";
 
-export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage
+export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage, ActivableTagToPosition
 {
     
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
+    protected _parent : HtmlTag
 
     borderFactory: BorderModelFactory = new BorderModelFactory()
     paddingFactory: PaddingModelFactory = new PaddingModelFactory()
@@ -74,13 +82,14 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     paddingTop: PaddingModel
     paddingLeft: PaddingModel
     paddingRight: PaddingModel
-    
     protected _margins: MarginModel[] = []
     marginBottom: MarginModel
     marginTop: MarginModel
     marginLeft: MarginModel
     marginRight: MarginModel
+
     protected _toManage = false
+    protected _toPosition = false
     
     protected _width = HtmlTag.INITIAL_WIDTH
     protected _height = HtmlTag.INITIAL_HEIGHT
@@ -112,8 +121,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     api: ApiService
     transformStyleList: VueFixStyleListTransform
 
+    protected _realPositionCalculator: RealPositionCalculator
+
     protected _isClosingTag = true
     protected _isInput = false
+    protected _hasPosition = false
     
     constructor()
     {
@@ -121,14 +133,61 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this.initPaddings()
         this.initBorders()
         this.initMargins()
-        this._tmpCssPropertyAccesor = new ContentElPropertyAccessor(this)
+        this._tmpCssPropertyAccesor = new HtmlTagPropertyAccessor(this)
         this.initCssAccessor()
         this.transformStyleList = new VueFixStyleListTransform(this)
         this._attributeAccesor = new DefaultAttributesAccessor(this)
+        this._realPositionCalculator = new RealPositionCalculator(this)
         // console.log(this.paddingRealFetcher);
 
     }
 
+    notifyPositionalTag()
+    {
+        // console.log('asd');
+        // console.log(this.children.length);
+        for (const child of this.children) {
+            console.log(child);
+            if (child instanceof HtmlTag) {
+                // if (!child.hasPosition) {
+                // console.log('hasPosition');
+                child.notifyPositionalTag()
+                // }
+            }
+        }
+
+        
+
+        this._realPositionCalculator.updateNearPositionalTag()
+    }
+
+    get realPositionCalculator()
+    {
+        return this._realPositionCalculator
+    }
+
+    get parent(): HtmlTag
+    {
+        return this._parent
+    }
+    
+    set parent(arg: HtmlTag)
+    {
+        this._parent = arg
+    }
+    
+    get hasPosition(): boolean
+    {
+        return this._hasPosition
+    }
+    
+    set hasPosition(arg)
+    {
+        this._hasPosition = arg
+        // if (this._hasPosition == true) {
+        // }
+    }
+    
     get isInput(): boolean
     {
         return this._isInput
@@ -183,6 +242,29 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     public getHeightValue()
     {
         return this.heightUnitCurrent.getValue(this.height)
+    }
+
+    public updateHasPosition(prop: BasePropertyCss)
+    {
+        if (!(prop instanceof PositionCss)) {
+            return
+        }
+        this.notifyPositionalTag();
+
+
+        if (!prop.isActive()) {
+            this.hasPosition = false
+        }
+
+        if (prop.getValue() === PositionCss.RELATIVE || prop.getValue() === PositionCss.ABSOLUTE || prop.getValue() === PositionCss.FIXED) {
+            this.hasPosition = true
+
+        } else {
+            
+            this.hasPosition = false
+        }
+
+
     }
 
     initBorders()
@@ -292,6 +374,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this.synchronizer.synchronize()
     }
 
+    get cssAccessor(): CssPropertyAccessor
+    {
+        return this._cssPropertyAccesor
+    }
+
     public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
     {
         super.updateCssPropertyWithoutModel(propName, val)
@@ -324,6 +411,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         if (val instanceof ContentSizeCss) {
             this.contentFilter.injectCssProperty(val)
         }
+  
 
         this.synchronizer.synchronize()
         
@@ -391,6 +479,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     {
         return this.cssAccessor.isPropertyLikeThis(cssProp, 'background')
     }
+    
+    private isLikePositionCss(cssProp: BasePropertyCss): boolean
+    {
+        return this.cssAccessor.isPropertyLikeThis(cssProp, PositionCss.PROP_NAME)
+    }
 
     private filterCss(css: BasePropertyCss): boolean
     {
@@ -444,6 +537,14 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             return false
         }
         
+        if (css instanceof PositionCss) {
+            return false
+        }
+        
+        if (css instanceof LeftCss || css instanceof RightCss || css instanceof TopCss || css instanceof BottomCss) {
+            return false
+        }
+        
         return true
     }
 
@@ -454,7 +555,8 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             if (!this.canAddToCssList(cssProp)) {
                 continue
             }
-            if (!this.isLikeBackgroundCss(cssProp)) {
+            if (this.isLikeBackgroundCss(cssProp)) {
+                continue
             }
             css[cssProp.getName()] = cssProp.getValue()
 
@@ -511,7 +613,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     {
         for (const prop of this.cssAccessor.getAll()) {
             
-            console.log('ALA MA');
+            // console.log('ALA MA');
             // console.log(newProp.getUnit());
             // console.log(newProp);
             // if (prop instanceof ContentSizeCss) {
@@ -581,7 +683,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
                 let val = this.getComputedCssVal(prop)
                 let clonedCss = _.cloneDeep(prop)
                 // clonedCss.setValue(parseInt(val).toString())
-                console.log(val);
+                // console.log(val);
                 clonedCss.setWidth(parseInt(val).toString(), new Pixel())
 
                 if (prop instanceof BaseBorderCss) {
@@ -653,6 +755,53 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
 
 
+    get cssPaddingBoxList(): any
+    {
+        let css = this.cssAccessor.all
+
+        let cssToBox = []
+
+        // for (const cssProp of this.cssAccessor.all) {
+        var boxShadow = this.cssAccessor.getProperty(BoxShadowCss.PROP_NAME)
+        if (boxShadow instanceof BoxShadowCss) {
+            cssToBox.push(boxShadow)
+        }
+
+        // }
+        // for (const cssProp of this.cssAccessor.all) {
+        //     // if (cssProp instanceof BasePaddingCss) {
+        //     //     this.paddingFilter.injectCssProperty(cssProp)
+        //     // }
+        //     // if (!this.filterCss(cssProp)) {
+        //     //     continue
+        //     // }
+        //     if (this.filterCss(cssProp)) {
+        //         cssToBox.push(cssProp)
+        //     }
+        //     // var propCss = cssProp
+        //     // if (cssProp instanceof Width ||
+        //     //     cssProp instanceof Height
+        //     //     // cssProp instanceof BaseMarginCss ||
+        //     //     // cssProp instanceof BasePaddingCss || 
+        //     //     // cssProp instanceof BaseBorderCss || 
+        //     //     // cssProp instanceof BoxSizing 
+        //     // ) 
+        //     // {
+                
+        //     // }
+        //     // if (cssProp instanceof Width) {
+        //     //     css[cssProp.getName()] = this.widthUnitCurrent.getValue(this._width)
+        //     // } else if (cssProp instanceof Height) {
+        //     //     css[cssProp.getName()] = this.heightUnitCurrent.getValue(this._height)
+        //     // } else {
+        //     //     css[cssProp.getName()] = cssProp.getValue()
+
+        //     // }
+        // }
+
+        return []
+    }
+
     get cssBoxList() : any
     {
         if (this.widthUnitCurrent instanceof Percent) {
@@ -710,6 +859,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // let boxWidth = marginLeftWidth + borderLeftWidth + paddingLeftWidth + marginRightWidth + borderRightWidth + paddingRightWidth + this._width
         // let boxHeight = marginTopWidth + borderTopWidth + paddingTopWidth + marginBottomWidth + borderBottomWidth + paddingBottomWidth + this._height
         
+
+
+
+
+        
         let boxHeight = this._height
         // if (this._backgroundColor) {
             
@@ -748,36 +902,21 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
         let cssToBox = []
 
-        // for (const cssProp of this.cssAccessor.all) {
-        //     // if (cssProp instanceof BasePaddingCss) {
-        //     //     this.paddingFilter.injectCssProperty(cssProp)
-        //     // }
-        //     // if (!this.filterCss(cssProp)) {
-        //     //     continue
-        //     // }
-        //     if (this.filterCss(cssProp)) {
-        //         cssToBox.push(cssProp)
-        //     }
-        //     // var propCss = cssProp
-        //     // if (cssProp instanceof Width ||
-        //     //     cssProp instanceof Height
-        //     //     // cssProp instanceof BaseMarginCss ||
-        //     //     // cssProp instanceof BasePaddingCss || 
-        //     //     // cssProp instanceof BaseBorderCss || 
-        //     //     // cssProp instanceof BoxSizing 
-        //     // ) 
-        //     // {
-                
-        //     // }
-        //     // if (cssProp instanceof Width) {
-        //     //     css[cssProp.getName()] = this.widthUnitCurrent.getValue(this._width)
-        //     // } else if (cssProp instanceof Height) {
-        //     //     css[cssProp.getName()] = this.heightUnitCurrent.getValue(this._height)
-        //     // } else {
-        //     //     css[cssProp.getName()] = cssProp.getValue()
+        for (const cssProp of this.cssAccessor.all) {
+            if (cssProp instanceof PositionCss) {
+                continue
+            }
+            cssToBox.push(cssProp)
 
-        //     // }
-        // }
+        }
+
+        var replacedCss = {}
+
+        replacedCss['left'] = this.realPositionCalculator.unit.getValue(this.realPositionCalculator.realLeft)
+        replacedCss['top'] = this.realPositionCalculator.unit.getValue(this.realPositionCalculator.realTop)
+        replacedCss['right'] = this.realPositionCalculator.unit.getValue(this.realPositionCalculator.realRight)
+      
+        this.transformStyleList.setReplacedCss(replacedCss)
 
         return this.transformStyleList.transform(this.cssAccessor.all)
         
@@ -832,6 +971,18 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     public isActiveTagToManage(): boolean {
         return this._toManage === true
     }
+    
+    public changeAsActiveToPosition() {
+        this._toPosition = true
+    }
+
+    public changeAsNotActiveToPosition() {
+        this._toPosition = false
+    }
+
+    public isActiveTagToPosition(): boolean {
+        return this._toPosition === true
+    }
 
     private toInitSizeUnits()
     {
@@ -859,8 +1010,17 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         let height = new Height(this._height, this.heightUnitCurrent)
         this.updateCssPropertyWithoutModel(width.getName(), width)
         this.updateCssPropertyWithoutModel(height.getName(), height)
-
-        // this.synchronizer.synchronize()
+        
+    }
+    
+    public initPos(x, y) 
+    {
+        // this.toInitSizeUnits()  
+        // console.log(w);
+        // console.log(h);
+        
+        this.realPositionCalculator.left = x
+        this.realPositionCalculator.top = y
 
         
     }
@@ -938,6 +1098,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     public setHtmlEl(htmlEl)
     {
         super.setHtmlEl(htmlEl)
+        this.notifyPositionalTag()
         this.recalculateRealComputedProperties()
     }
 
@@ -951,6 +1112,17 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         let val = this.getComputedCssVal(new Width(this._width, this.widthUnitCurrent))
         // let clonedCss = _.cloneDeep(newProp)
         return parseInt(val)
+    }
+
+    public appendChild(child)
+    {
+        super.appendChild(child)
+        if (child instanceof HtmlTag) {
+            // child.realPositionCalculator.updateNearPositionalTag()
+            this.notifyPositionalTag()
+
+        }
+
     }
 
 

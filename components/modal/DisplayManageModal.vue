@@ -25,6 +25,62 @@
                     </li>
                 </ul>
             </div>
+            <div class="content-item" @dblclick="hasPosition = !hasPosition" :class="{'active': hasPosition}">
+                <h4 class="content-item__header">
+                    Sposob pozycjonowania
+                </h4>
+                <ul class=" content-item__elem_container">
+                    <li class="content-item__elem" v-for="el in positions" :key="el">
+                        <label :for="'position-' + el">
+                            {{ el }}
+                            <input type="radio" v-model="position" :value="el" name="position" :id="'position-' + el">
+
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-item" >
+                <h4 class="content-item__header">
+                    Pozycja
+                </h4>
+                <ul class=" content-item__elem_container" >
+                    <li class="content-item__elem" v-context-menu="cmNameLeft" style="padding: 10px;" @dblclick="hasLeft = !hasLeft" :class="{'active': hasLeft}">
+                        <select-unit-context-menu :propertyUnit="leftUnit" @changePropUnit="($event) => {leftUnit = $event;}" :ref="cmNameLeft" />
+
+                        <label :for="'left-'">
+                            Left
+                            <input type="number" style="width: 40px;" class="input-text" v-model="left" name="left" :id="'left-'">
+                            {{ leftUnit.label }}
+                        </label>
+                    </li>
+                    <li class="content-item__elem" v-context-menu="cmNameRight" style="padding: 10px;" @dblclick="hasRight = !hasRight" :class="{'active': hasRight}">
+                        <select-unit-context-menu :propertyUnit="rightUnit" @changePropUnit="($event) => {rightUnit = $event;}" :ref="cmNameRight" />
+
+                        <label :for="'right-'">
+                            Right
+                            <input type="number" style="width: 40px;" class="input-text" v-model="right" name="right" :id="'right-'">
+                            {{ rightUnit.label }}
+                        </label>
+                    </li>
+                    <li class="content-item__elem" v-context-menu="cmNameTop" style="padding: 10px;" @dblclick="hasTop = !hasTop" :class="{'active': hasTop}">
+                        <select-unit-context-menu :propertyUnit="topUnit" @changePropUnit="($event) => {topUnit = $event;}" :ref="cmNameTop" />
+                        <label :for="'top-'">
+                            Top
+                            <input type="number" style="width: 40px;" class="input-text" v-model="top" name="top" :id="'top-'">
+                            {{ topUnit.label }}
+                        </label>
+                    </li>
+                    
+                    <li class="content-item__elem" v-context-menu="cmNameBottom" style="padding: 10px;" @dblclick="hasBottom = !hasBottom" :class="{'active': hasBottom}">
+                        <select-unit-context-menu :propertyUnit="bottomUnit" @changePropUnit="($event) => {bottomUnit = $event;}" :ref="cmNameBottom" />
+                        <label :for="'bottom-'">
+                            Bottom
+                            <input type="number" style="width: 40px;" class="input-text" v-model="bottom" name="bottom" :id="'bottom-'">
+                            {{ bottomUnit.label }}
+                        </label>
+                    </li>
+                </ul>
+            </div>
             <div class="content-item" @dblclick="hasJustifyContent = !hasJustifyContent" :class="{'active': hasJustifyContent}">
                 <h4 class="content-item__header">
                     Justify content
@@ -199,7 +255,7 @@ import MarginRightCss from '~/src/Css/BoxModel/Margin/MarginRightCss';
 import MarginTopCss from '~/src/Css/BoxModel/Margin/MarginTopCss';
 import CssAuto from '~/src/Css/CssAuto';
 import BaseBorderCss from '../../src/Css/Border/BaseBorderCss';
-import { Width, Display, JustifyContent, AlignItems, FlexDirection, FlexWrap, Float, Clear } from '~/src/Css';
+import { Width, Display, JustifyContent, AlignItems, FlexDirection, FlexWrap, Float, Clear, PositionCss } from '~/src/Css';
 import DisplayManageModal from '../DisplayManageModal';
 
     @Component
@@ -216,15 +272,47 @@ import DisplayManageModal from '../DisplayManageModal';
         flexWraps: string[] = FlexWrap.getAccessableProperty()
         floats: string[] = Float.getAccessableProperty()
         clears: string[] = Clear.getAccessableProperty()
+        positions: string[] = PositionCss.getAccessableProperty()
         // _paddingLeft: BasePaddingCss
 
-        
+        cmNameLeft = Math.floor(Math.random() * 1000000000).toString() + 'left'
+        cmNameRight = Math.floor(Math.random() * 1000000000).toString() + 'right'
+        cmNameTop = Math.floor(Math.random() * 1000000000).toString() + 'top'
+        cmNameBottom = Math.floor(Math.random() * 1000000000).toString() + 'bottom'
+
 
         idName = 'text-property-modal'
 
         created()
         {
 
+        }
+
+        // *****************************************  POSITION ****************************************************
+        
+        get position()
+        {
+            return  this.positionManager.getProperty().value
+        }
+        
+        set position(newVal: string)
+        {
+            this.positionManager.getProperty().setValue(newVal)
+            this.positionManager.updateCssProp(this.positionManager.getProperty())             
+        }
+
+        get hasPosition()
+        {
+            return  this.positionManager.getProperty().active
+        }
+        
+        set hasPosition(newVal: boolean)
+        {
+            if (!newVal) {
+                this.positionManager.deactivePropCss(this.positionManager.getProperty())
+            } else {
+                this.positionManager.activePropCss(this.positionManager.getProperty())
+            }
         }
 
         // *****************************************  DISPLAY ****************************************************
@@ -523,6 +611,160 @@ import DisplayManageModal from '../DisplayManageModal';
                 this.clearManager.activePropCss(this.clearManager.getProperty())
             }
         }
+
+        // *****************************************  LEFT ****************************************************
+        
+        get left()
+        {
+            return  this.leftManager.getProperty().value
+        }
+        
+        set left(newVal: string)
+        {
+            this.leftManager.getProperty().setValue(newVal)
+            this.leftManager.updateCssProp(this.leftManager.getProperty())             
+        }
+
+        get leftUnit()
+        {
+            return  this.leftManager.getProperty().getUnit()
+        }
+        
+        set leftUnit(newVal: UnitSize)
+        {
+            this.leftManager.getProperty().setUnit(newVal)
+            this.leftManager.updateCssProp(this.leftManager.getProperty())             
+        }
+
+        get hasLeft()
+        {
+            return  this.leftManager.getProperty().active
+        }
+        
+        set hasLeft(newVal: boolean)
+        {
+            if (!newVal) {
+                this.leftManager.deactivePropCss(this.leftManager.getProperty())
+            } else {
+                this.leftManager.activePropCss(this.leftManager.getProperty())
+            }
+        }
+        
+        // *****************************************  RIGHT ****************************************************
+        
+        get right()
+        {
+            return  this.rightManager.getProperty().value
+        }
+        
+        set right(newVal: string)
+        {
+            this.rightManager.getProperty().setValue(newVal)
+            this.rightManager.updateCssProp(this.rightManager.getProperty())             
+        }
+
+        get rightUnit()
+        {
+            return  this.rightManager.getProperty().getUnit()
+        }
+        
+        set rightUnit(newVal: UnitSize)
+        {
+            this.rightManager.getProperty().setUnit(newVal)
+            this.rightManager.updateCssProp(this.rightManager.getProperty())             
+        }
+
+        get hasRight()
+        {
+            return  this.rightManager.getProperty().active
+        }
+        
+        set hasRight(newVal: boolean)
+        {
+            if (!newVal) {
+                this.rightManager.deactivePropCss(this.rightManager.getProperty())
+            } else {
+                this.rightManager.activePropCss(this.rightManager.getProperty())
+            }
+        }
+        
+        // *****************************************  TOP ****************************************************
+        
+        get top()
+        {
+            return  this.topManager.getProperty().value
+        }
+        
+        set top(newVal: string)
+        {
+            this.topManager.getProperty().setValue(newVal)
+            this.topManager.updateCssProp(this.topManager.getProperty())             
+        }
+
+        get topUnit()
+        {
+            return  this.topManager.getProperty().getUnit()
+        }
+        
+        set topUnit(newVal: UnitSize)
+        {
+            this.topManager.getProperty().setUnit(newVal)
+            this.topManager.updateCssProp(this.topManager.getProperty())             
+        }
+
+        get hasTop()
+        {
+            return  this.topManager.getProperty().active
+        }
+        
+        set hasTop(newVal: boolean)
+        {
+            if (!newVal) {
+                this.topManager.deactivePropCss(this.topManager.getProperty())
+            } else {
+                this.topManager.activePropCss(this.topManager.getProperty())
+            }
+        }
+        
+        // *****************************************  BOTTOM ****************************************************
+        
+        get bottom()
+        {
+            return  this.bottomManager.getProperty().value
+        }
+        
+        set bottom(newVal: string)
+        {
+            this.bottomManager.getProperty().setValue(newVal)
+            this.bottomManager.updateCssProp(this.bottomManager.getProperty())             
+        }
+
+        get bottomUnit()
+        {
+            return  this.bottomManager.getProperty().getUnit()
+        }
+        
+        set bottomUnit(newVal: UnitSize)
+        {
+            this.bottomManager.getProperty().setUnit(newVal)
+            this.bottomManager.updateCssProp(this.bottomManager.getProperty())             
+        }
+
+        get hasBottom()
+        {
+            return  this.bottomManager.getProperty().active
+        }
+        
+        set hasBottom(newVal: boolean)
+        {
+            if (!newVal) {
+                this.bottomManager.deactivePropCss(this.bottomManager.getProperty())
+            } else {
+                this.bottomManager.activePropCss(this.bottomManager.getProperty())
+            }
+        }
+
+        
         
         // get widthUnit()
         // {
