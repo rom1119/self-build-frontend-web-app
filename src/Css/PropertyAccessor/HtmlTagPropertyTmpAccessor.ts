@@ -6,7 +6,7 @@ import HtmlTagSynchronizer from "~/src/Synchronizer/Impl/HtmlTagSynchronizer";
 import { PositionCss } from "..";
 import LeftCss from '../Display/Direction/LeftCss';
 
-export default class HtmlTagPropertyAccessor extends CssPropertyAccessor 
+export default class HtmlTagPropertyTmpAccessor extends CssPropertyAccessor 
 {
     protected value: HtmlTag
 
@@ -34,7 +34,6 @@ export default class HtmlTagPropertyAccessor extends CssPropertyAccessor
     public setNewPropertyValue(propName: string, newVal: BasePropertyCss): CssPropertyAccessor
     {
         super.setNewPropertyValue(propName, newVal)        
-        this.value.updateHasPosition(newVal)
 
         return this
     }
@@ -43,8 +42,6 @@ export default class HtmlTagPropertyAccessor extends CssPropertyAccessor
     {
 
         super.addNewProperty(newProp)
-        this.value.updateHasPosition(newProp)
-
 
 
         return this

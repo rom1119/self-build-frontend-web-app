@@ -23,6 +23,7 @@ export default class LeftProperty extends BaseComputedPropertyManager<LeftCss> {
     }
 
     activePropCss(prop: LeftCss) {
+        this.value.realPositionCalculator.leftUnit = prop.getUnit()
         this.value.realPositionCalculator.left = prop.getClearValue()
         super.activePropCss(prop)
 
@@ -32,7 +33,8 @@ export default class LeftProperty extends BaseComputedPropertyManager<LeftCss> {
     }
     
     deactivePropCss(prop: LeftCss) {
-        this.value.realPositionCalculator.left = 0
+        this.value.realPositionCalculator.leftUnit = prop.getUnit()
+        this.value.realPositionCalculator.left = prop.getClearValue()
         super.deactivePropCss(prop)
 
 
@@ -42,6 +44,7 @@ export default class LeftProperty extends BaseComputedPropertyManager<LeftCss> {
 
     updateCssProp(newProp: LeftCss) {
         if (newProp.isActive()) {            
+            this.value.realPositionCalculator.leftUnit = newProp.getUnit()
             this.value.realPositionCalculator.left = newProp.getClearValue()
         }
         var ret = super.updateCssProp(newProp)

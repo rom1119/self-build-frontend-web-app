@@ -90,6 +90,12 @@ export default class PaddingElSizeController extends SizeElController {
 			this.recalculateMargins(this.currentElement, this.currentElement.getHtmlTag());
 			this.recalculateBorders(this.currentElement, this.currentElement.getHtmlTag());
 			this.recalculatePaddings(this.currentElement, this.currentElement.getHtmlTag());
+
+			// this.currentElement.getHtmlTag().realPositionCalculator.updateRightProps()
+			// this.currentElement.getHtmlTag().realPositionCalculator.updateBottomProps()
+
+			this.currentElement.getHtmlTag().notifyPositionalTag()
+
 			// this.currentElement.getHtmlTag().recalculateRealComputedProperties()
 		}
 	}

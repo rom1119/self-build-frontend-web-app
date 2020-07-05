@@ -71,7 +71,7 @@ export default class ContentElSizeController extends SizeElController
         if (!this.currentElement) {
             return
         }
-        // console.log(e.clientX);
+        // console.log(ev.clientX);
         this.mouseDetector.x = ev.clientX
         this.mouseDetector.y = ev.clientY
         let newValWidth = this.mouseDetector.computedWidth
@@ -82,6 +82,10 @@ export default class ContentElSizeController extends SizeElController
             this.currentElement.initSize(newValWidth, newValHeight)
             this.recalculateMargins(this.currentElement)
             this.recalculateBorders(this.currentElement)
+
+            // this.currentElement.realPositionCalculator.updateProps()
+            this.currentElement.notifyPositionalTag()
+            
             // this.currentElement.recalculateRealComputedProperties()
         }
     }

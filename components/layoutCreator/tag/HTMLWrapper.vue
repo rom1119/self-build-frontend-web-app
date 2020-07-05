@@ -1,9 +1,10 @@
 <template>
-    <component :is="tagName" class="pos-rel" v-context-menu="value.uuid" @click.stop="onContentMouseClick(value, $event)" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.shortUUID" >
+    <component :is="tagName" :class="positionClass" v-context-menu="value.uuid" @click.stop="onContentMouseClick(value, $event)" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.shortUUID" >
         <html-element-closing-tag-context-menu v-if="value.isClosingTag" :value="value" :ref="value.uuid" />
         <html-element-short-closing-tag-context-menu v-else :value="value" :ref="value.uuid" />
         <div class="wrapper">
                 <div class="none">
+                    {{ value.updateFlag }}
                     <!-- <span :style="value.cssBoxList"  ></span> -->
                 </div>
 
@@ -178,6 +179,7 @@ import MarginModelFactory from '../../../src/Layout/Margin/MarginModelFactory';
 import HtmlTagRecalculator from "~/src/Recalculator/HtmlTagRecalculator";
 import BorderRecalculate from "~/src/Recalculator/HtmlTagImpl/BorderRecalculate";
 import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
+import { PositionCss } from "../../../src/Css";
 
 
 @Component
@@ -473,6 +475,18 @@ export default class HTMLWrapper extends Vue {
     {
         this.value.marginTop = arg
     }
+
+    get positionClass(): string {
+        var currentPositionName = this.value.positionPropName
+        switch(currentPositionName) {
+            case PositionCss.ABSOLUTE:
+                return 'absolute-important'
+            case PositionCss.FIXED:
+                return 'fixed-important'
+            default:
+                return 'relative-important'
+        }
+    }
     
     created() {
         // console.log(this.value.uuid);
@@ -530,9 +544,17 @@ export default class HTMLWrapper extends Vue {
         height: 100%;
     }
 
-    .pos-rel {
+    .relative-important {
         position: relative !important;
     }
+    .absolute-important {
+        position: absolute !important;
+    }
+    
+    .fixed-important {
+        position: fixed !important;
+    }
+
     .wrapper {
         display: flex;
         position: absolute;

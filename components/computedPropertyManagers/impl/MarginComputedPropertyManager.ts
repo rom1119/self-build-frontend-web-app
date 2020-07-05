@@ -242,6 +242,11 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         this.value.removeCssProperty(prop)
         this.value.marginFilter.deactivateProp(prop)
 
+        this.value.realPositionCalculator.reInitDefaultPosition()
+
+
+        this.value.realPositionCalculator.updateProps()
+        
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
         return null
@@ -258,6 +263,10 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.value.marginFilter.injectCssProperty(this.globalProperty)
         }
 
+        // this.value.realPositionCalculator.reInitDefaultPosition()
+        this.value.realPositionCalculator.updateProps()
+
+
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
         return null
@@ -270,28 +279,35 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         console.log('activr');
         
         this.value.marginFilter.activateProp(prop)
+
+        // this.value.realPositionCalculator.reInitDefaultPosition()
+        this.value.realPositionCalculator.updateProps()
+
+
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
 
         return prop
     }
     updateCssProp(newProp: BasePropertyCss) {
-        console.log('ALA MA');
-        console.log(newProp.getUnit());
-        console.log(newProp);
+        // console.log('ALA MA');
+        // console.log(newProp.getUnit());
+        // console.log(newProp);
         
         let val = this.value.getComputedCssVal(newProp)
         let clonedCss = _.cloneDeep(newProp)
         clonedCss.setValue(parseInt(val).toString())
         clonedCss.setUnit(new Pixel())
-        console.log(newProp);
-        console.log(val);
-        console.log(clonedCss);
-        console.log('ALA MA');
+        // console.log(newProp);
+        // console.log(val);
+        // console.log(clonedCss);
+        // console.log('ALA MA');
         this.value.marginFilter.injectCssProperty(clonedCss)
-        console.log(newProp);
+        // console.log(newProp);
         
         this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+
+        this.value.realPositionCalculator.updateProps()
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)

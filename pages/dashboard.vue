@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12">
+    <div class="col-10">
         <nuxt-child />
 
 

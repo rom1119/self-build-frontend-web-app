@@ -1,13 +1,13 @@
 <template>
-    <div id="app">
+    <div id="app" class="container-fluid">
         <header>
             <navbar/>
         </header>
         
-        <main class="in-row">
-            <sidebar></sidebar>
+        <main class="row">
+            <sidebar class="col-2"></sidebar>
             
-            <nuxt/>
+            <nuxt class="col-10"/>
 
         </main>
         

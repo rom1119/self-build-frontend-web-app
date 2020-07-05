@@ -80,6 +80,9 @@ export default class BorderElSizeController extends SizeElController {
 			this.currentElement.offsetCalc = this.offsetCalculator.build(this.currentElement);
 			this.recalculateMargins(this.currentElement, this.currentElement.getHtmlTag());
 			this.recalculateBorders(this.currentElement, this.currentElement.getHtmlTag());
+
+			this.currentElement.getHtmlTag().notifyPositionalTag()
+
 			// this.currentElement.getHtmlTag().recalculateRealComputedProperties()
 		}
 	}

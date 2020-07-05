@@ -22,7 +22,7 @@ export default class HtmlTagFactoryFromName {
             case 'h1':
                 return this.htmlTagFactory.createH1()
             case 'div':
-                return this.htmlTagFactory.createH1()
+                return this.htmlTagFactory.createDiv()
             case 'input-text':
                 return this.htmlTagFactory.createInputText()
             case 'button':

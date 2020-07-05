@@ -59,7 +59,12 @@ import NearTagWithPositionalFinder from '../PositionCss/NearTagWithPositionalFin
 import RealPositionCalculator from "../PositionCss/RealPositionCalculator";
 import LeftCss from '../Css/Display/Direction/LeftCss';
 import ActivableTagToPosition from "../ActivableTagToPosition";
-import { RightCss, TopCss, BottomCss } from "../Css";
+import { RightCss, TopCss, BottomCss, BorderRightCss, PaddingRightCss, MarginLeftCss, MarginRightCss, BorderLeftWidth, MarginBottomCss, MarginTopCss, PaddingBottomCss, BorderBottomWidth, BorderTopWidth, PaddingTopCss } from "../Css";
+import Vue from "vue";
+import BorderRight from './Border/BorderRight';
+import BorderLeftCss from '../Css/Border/Left/BorderLeftCss';
+import BorderRightWidth from '../Css/Border/Right/BorderRightWidth';
+import HtmlTagPropertyTmpAccessor from "../Css/PropertyAccessor/HtmlTagPropertyTmpAccessor";
 
 export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage, ActivableTagToPosition
 {
@@ -88,6 +93,8 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     marginLeft: MarginModel
     marginRight: MarginModel
 
+    protected _updateFlag = false
+
     protected _toManage = false
     protected _toPosition = false
     
@@ -103,7 +110,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     protected heightUnitCurrent: UnitSize = new Pixel()
 
     protected _tmpCssPropertyAccesor: CssPropertyAccessor
-    protected _cssPropertyAccesor: HtmlTagPropertyAccessor
+    protected _cssPropertyAccesor: HtmlTagPropertyTmpAccessor
 
 
     protected _attributeAccesor: AttributesAccessor
@@ -126,6 +133,17 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     protected _isClosingTag = true
     protected _isInput = false
     protected _hasPosition = false
+    protected _hasRelative = false
+    protected _positionPropName
+
+    protected _widthCalc: string = 'calc(100%)'
+    protected _heightCalc: string = 'calc(100%)'
+
+
+    protected _boundingClientRectLeftPixel: number
+    protected _boundingClientRectTopPixel: number
+    protected _boundingClientRectRightPixel: number
+    protected _boundingClientRectBottomPixel: number
     
     constructor()
     {
@@ -147,11 +165,19 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // console.log('asd');
         // console.log(this.children.length);
         for (const child of this.children) {
-            console.log(child);
+            // console.log(child);
             if (child instanceof HtmlTag) {
                 // if (!child.hasPosition) {
                 // console.log('hasPosition');
-                child.notifyPositionalTag()
+                Vue.nextTick(() => {
+                    // setTimeout(() => {
+    
+                    child.notifyPositionalTag()
+                    child.changeUpdateFlag()
+                    //     child.updateModelComponent()
+                    // }, 0)
+
+                })
                 // }
             }
         }
@@ -164,6 +190,22 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     get realPositionCalculator()
     {
         return this._realPositionCalculator
+    }
+
+    get updateFlag()
+    {
+        return this._updateFlag
+    }
+
+    set updateFlag(arg: boolean)
+    {
+        this._updateFlag = arg
+    }
+
+
+    changeUpdateFlag()
+    {
+        this.updateFlag = !this.updateFlag
     }
 
     get parent(): HtmlTag
@@ -181,11 +223,56 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         return this._hasPosition
     }
     
+    get hasRelative(): boolean
+    {
+        return this._hasRelative
+    }
+    
     set hasPosition(arg)
     {
         this._hasPosition = arg
-        // if (this._hasPosition == true) {
-        // }
+        if (this._hasPosition == true) {
+            var prop = this.cssAccessor.getProperty(PositionCss.PROP_NAME)
+            if (prop) {
+                this.positionPropName = this.cssAccessor.getProperty(PositionCss.PROP_NAME).getClearValue()
+
+            } else {
+                this.positionPropName = null
+
+            }
+        } else {
+            this.positionPropName = null
+        }
+    }
+    
+    get positionPropName(): string
+    {
+        return this._positionPropName
+    }
+    
+    set positionPropName(arg)
+    {
+        this._positionPropName = arg
+    }
+    
+    get widthCalc(): string
+    {
+        return this._widthCalc
+    }
+    
+    set widthCalc(arg)
+    {
+        this._widthCalc = arg
+    }
+    
+    get heightCalc(): string
+    {
+        return this._heightCalc
+    }
+    
+    set heightCalc(arg)
+    {
+        this._heightCalc = arg
     }
     
     get isInput(): boolean
@@ -253,14 +340,23 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
 
         if (!prop.isActive()) {
+            this._hasRelative = false
             this.hasPosition = false
+            return
         }
 
         if (prop.getValue() === PositionCss.RELATIVE || prop.getValue() === PositionCss.ABSOLUTE || prop.getValue() === PositionCss.FIXED) {
             this.hasPosition = true
+            if (prop.getValue() === PositionCss.RELATIVE) {
+                this._hasRelative = true
+                
+            } else {
+                this._hasRelative = false
+
+            }
 
         } else {
-            
+            this._hasRelative = false
             this.hasPosition = false
         }
 
@@ -323,7 +419,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     protected initCssAccessor()
     {
-        this._cssPropertyAccesor = new HtmlTagPropertyAccessor(this)
+        this._cssPropertyAccesor = new HtmlTagPropertyTmpAccessor(this)
 
         this.paddingFilter = new PaddingFilterCssInjector(this)
         this.marginFilter = new MarginFilterCssInjector(this)
@@ -356,7 +452,10 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     public addNewPropertyCss(css: BasePropertyCss)
     {
         this.cssAccessor.addNewProperty(css)
-        this.tmpCssAccessor.addNewProperty(css)
+        if (!this.tmpCssAccessor.hasCssProperty(css.getName())) {
+            this.tmpCssAccessor.addNewProperty(css)
+
+        }
     }
 
     public abstract getTagName(): string
@@ -390,6 +489,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
                 // return
             }
             this.tmpCssAccessor.setNewPropertyValue(propName, val)
+        }
+
+        if (val instanceof BasePaddingCss || val instanceof BasePaddingCss || val instanceof BaseBorderCss || val instanceof ContentSizeCss) {
+            // this.updateBoundingRight()
+            // this.realPositionCalculator.reInitDefaultPosition()
         }
         // console.log('UPDATE');
         
@@ -565,14 +669,16 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             }
         }    
         
-        if (css[Width.PROP_NAME]) {
-            let width = new Width(this._width, this.widthUnitCurrent)
-            css[Width.PROP_NAME] = width.getValue()
-        }
+        // if (css[Width.PROP_NAME]) {
+        //     let width = new Width(this._width, this.widthUnitCurrent)
+        //     var paddingLeft = 
+        // }
+        
+        css[Width.PROP_NAME] = this.widthCalc
+        css[Height.PROP_NAME] = this.heightCalc
         
         if (css[Height.PROP_NAME]) {
             let height = new Height(this._height, this.heightUnitCurrent)
-            css[Height.PROP_NAME] = height.getValue()
         }
 
         return css
@@ -902,21 +1008,25 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
         let cssToBox = []
 
-        for (const cssProp of this.cssAccessor.all) {
-            if (cssProp instanceof PositionCss) {
-                continue
-            }
-            cssToBox.push(cssProp)
+        // for (const cssProp of this.cssAccessor.all) {
+        //     if (cssProp instanceof PositionCss) {
+        //         continue
+        //     }
+        //     cssToBox.push(cssProp)
+
+        // }
+
+        if (this.hasPosition && !this._hasRelative) {
+            var replacedCss = {}
+    
+            replacedCss['left'] = 'calc(' + this.realPositionCalculator.realLeftCalc + ')'
+            replacedCss['top'] = 'calc(' + this.realPositionCalculator.realTopCalc + ')'
+            replacedCss['right'] = 'calc(' + this.realPositionCalculator.realRightCalc + ')'
+            replacedCss['bottom'] = 'calc(' + this.realPositionCalculator.realBottomCalc + ')'
+          
+            this.transformStyleList.setReplacedCss(replacedCss)
 
         }
-
-        var replacedCss = {}
-
-        replacedCss['left'] = this.realPositionCalculator.unit.getValue(this.realPositionCalculator.realLeft)
-        replacedCss['top'] = this.realPositionCalculator.unit.getValue(this.realPositionCalculator.realTop)
-        replacedCss['right'] = this.realPositionCalculator.unit.getValue(this.realPositionCalculator.realRight)
-      
-        this.transformStyleList.setReplacedCss(replacedCss)
 
         return this.transformStyleList.transform(this.cssAccessor.all)
         
@@ -1010,17 +1120,22 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         let height = new Height(this._height, this.heightUnitCurrent)
         this.updateCssPropertyWithoutModel(width.getName(), width)
         this.updateCssPropertyWithoutModel(height.getName(), height)
+
+        // this.updateBoundingRight()
+        // this.realPositionCalculator.updateRightProps()
+        // this.realPositionCalculator.updateBottomProps()
+
+        this.notifyPositionalTag()
         
     }
     
     public initPos(x, y) 
     {
-        // this.toInitSizeUnits()  
-        // console.log(w);
-        // console.log(h);
-        
-        this.realPositionCalculator.left = x
-        this.realPositionCalculator.top = y
+        this.realPositionCalculator.leftUnit = new Pixel()
+        this.realPositionCalculator.topUnit = new Pixel()
+        // this.realPositionCalculator.topUnit = new Pixel()
+        this.realPositionCalculator.realLeftCalc = x
+        this.realPositionCalculator.realTopCalc = y
 
         
     }
@@ -1100,18 +1215,83 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         super.setHtmlEl(htmlEl)
         this.notifyPositionalTag()
         this.recalculateRealComputedProperties()
+
+
+        this._boundingClientRectLeftPixel = this.getHtmlEl().getBoundingClientRect().left
+        this._boundingClientRectRightPixel = this.getHtmlEl().getBoundingClientRect().right
+        this._boundingClientRectTopPixel = this.getHtmlEl().getBoundingClientRect().top
+        this._boundingClientRectBottomPixel = this.getHtmlEl().getBoundingClientRect().bottom
     }
 
     getComputedHeight(): number {
-        let val = this.getComputedCssVal(new Height(this._height, this.heightUnitCurrent))
-        // let clonedCss = _.cloneDeep(newProp)
-        // clonedCss.setValue(val.toString())
-        return parseInt(val)
+        return this.getComputedVal(Height.PROP_NAME)
+
     }
     getComputedWidth(): number {
-        let val = this.getComputedCssVal(new Width(this._width, this.widthUnitCurrent))
-        // let clonedCss = _.cloneDeep(newProp)
-        return parseInt(val)
+        return this.getComputedVal(Width.PROP_NAME)
+    }
+    
+    getComputedMarginRight(): number {
+        return this.getComputedVal(MarginRightCss.PROP_NAME)
+    }
+    
+    getComputedMarginLeft(): number {
+        return this.getComputedVal(MarginLeftCss.PROP_NAME)
+    }
+    
+    getComputedPaddingRight(): number {
+        return this.getComputedVal(PaddingRightCss.PROP_NAME)
+    }
+    
+    getComputedPaddingLeft(): number {
+        return this.getComputedVal(PaddingLeftCss.PROP_NAME)
+    }
+    
+    getComputedBorderRightWidth(): number {
+        return this.getComputedVal(BorderRightWidth.PROP_NAME)
+    }
+    
+    getComputedBorderLeftWidth(): number {
+        return this.getComputedVal(BorderLeftWidth.PROP_NAME)
+    }
+    
+    getComputedMarginBottom(): number {
+        return this.getComputedVal(MarginBottomCss.PROP_NAME)
+    }
+    
+    getComputedMarginTop(): number {
+        return this.getComputedVal(MarginTopCss.PROP_NAME)
+    }
+    
+    getComputedPaddingBottom(): number {
+        return this.getComputedVal(PaddingBottomCss.PROP_NAME)
+    }
+    
+    getComputedPaddingTop(): number {
+        return this.getComputedVal(PaddingTopCss.PROP_NAME)
+    }
+    
+    getComputedBorderBottomWidth(): number {
+        return this.getComputedVal(BorderBottomWidth.PROP_NAME)
+    }
+    
+    getComputedBorderTopWidth(): number {
+        return this.getComputedVal(BorderTopWidth.PROP_NAME)
+    }
+
+    protected getComputedVal(propName: string)
+    {
+        if (!this.getHtmlEl()) {
+            return 0
+        }
+
+        var a = window.getComputedStyle(this.getHtmlEl())
+        var val = a.getPropertyValue(propName)
+        if (val) {
+            return parseInt(val)
+        }
+
+        return 0
     }
 
     public appendChild(child)
@@ -1125,5 +1305,158 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     }
 
+    get boundingClientRectLeftPixel(): number
+    {
+        return this._boundingClientRectLeftPixel
+    }
+    
+    set boundingClientRectLeftPixel(arg: number)
+    {
+        this._boundingClientRectLeftPixel = arg
+    }
+    
+    get boundingClientRectTopPixel(): number
+    {
+        return this._boundingClientRectTopPixel
+    }
+
+    set boundingClientRectTopPixel(arg: number)
+    {
+        this._boundingClientRectTopPixel = arg
+    }
+
+
+
+    get boundingClientRectRightPixel(): number
+    {
+        return this._boundingClientRectRightPixel
+    }
+    
+    set boundingClientRectRightPixel(arg: number)
+    {
+        this._boundingClientRectRightPixel = arg
+    }
+    
+    get boundingClientRectBottomPixel(): number
+    {
+        return this._boundingClientRectBottomPixel
+    }
+
+    set boundingClientRectBottomPixel(arg: number)
+    {
+        this._boundingClientRectBottomPixel = arg
+    }
+    
+    public updateBoundingRight() {
+        if (this.getHtmlEl()) {
+            this.boundingClientRectRightPixel = this.getHtmlEl().getBoundingClientRect().right
+
+        }
+
+    }
+    
+    public updateBoundingBottom() {
+        if (this.getHtmlEl()) {
+            this.boundingClientRectBottomPixel = this.getHtmlEl().getBoundingClientRect().bottom
+
+        }
+
+    }
+    
+    public updateBoundingLeft() {
+        if (this.getHtmlEl()) {
+            this.boundingClientRectLeftPixel = this.getHtmlEl().getBoundingClientRect().left
+
+        }
+
+    }
+    // public updateBoundingRight()
+    // {
+    //     // var borderLeft, paddingLeft, width, paddingRight, BorderRight
+    //     var result = ''
+
+    //     if (this.borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME)) {
+    //         result += this.borderRealFetcher.fetchUnitWidth(BorderLeftCss.PROP_NAME).getValue(this.borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME))
+    //     } else {
+    //         result += '0px'
+    //     }
+        
+    //     if (this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME).length) {
+    //         result += ' + ' +  this.paddingRealFetcher.fetchUnit(PaddingLeftCss.PROP_NAME).getValue(this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME))
+    //     } else {
+    //         result += ' + 0px'
+    //     }
+        
+    //     if (this.marginRealFetcher.fetchPropValue(MarginLeftCss.PROP_NAME).length) {
+    //         result += ' + ' +  this.marginRealFetcher.fetchUnit(MarginLeftCss.PROP_NAME).getValue(this.marginRealFetcher.fetchPropValue(MarginLeftCss.PROP_NAME))
+    //     } else {
+    //         result += ' + 0px'
+    //     }
+        
+    //     if (this.paddingRealFetcher.fetchPropValue(PaddingRightCss.PROP_NAME).length) {
+    //         result += ' +  ' +  this.paddingRealFetcher.fetchUnit(PaddingRightCss.PROP_NAME).getValue(this.paddingRealFetcher.fetchPropValue(PaddingRightCss.PROP_NAME))
+    //     } else {
+    //         result += ' + 0px'
+    //     }
+        
+    //     if (this.borderRealFetcher.fetchPropWidth(BorderRightCss.PROP_NAME)) {
+    //         result += ' + ' + this.borderRealFetcher.fetchUnitWidth(BorderRightCss.PROP_NAME).getValue(this.borderRealFetcher.fetchPropWidth(BorderRightCss.PROP_NAME))
+    //     } else {
+    //         result += ' + 0px'
+    //     }
+
+    //     if (this.marginRealFetcher.fetchPropValue(MarginRightCss.PROP_NAME).length) {
+    //         result += ' + ' +  this.marginRealFetcher.fetchUnit(MarginRightCss.PROP_NAME).getValue(this.marginRealFetcher.fetchPropValue(MarginRightCss.PROP_NAME))
+    //     } else {
+    //         result += ' + 0px'
+    //     }
+
+    //     var width = this.cssAccessor.getProperty(Width.PROP_NAME)
+
+    //     if (width) {
+    //         result += ' + ' + width.getValue()
+
+    //     } else {
+    //         result += ' + 0px'
+
+    //     }
+
+    //     this.clientBoundingRightCalc = result
+    // }
+
+    public afterUpdatePadding() {
+
+        var paddingLeft = this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME)
+        var paddingLeftUnit = this.paddingRealFetcher.fetchUnit(PaddingLeftCss.PROP_NAME)
+        var paddingLeftCalc = '0px'
+        if (paddingLeft) {
+            paddingLeftCalc = paddingLeftUnit.getValue(paddingLeft)
+        }
+        
+        var paddingRight = this.paddingRealFetcher.fetchPropValue(PaddingRightCss.PROP_NAME)
+        var paddingRightUnit = this.paddingRealFetcher.fetchUnit(PaddingRightCss.PROP_NAME)
+        var paddingRightCalc = '0px'
+        if (paddingRight) {
+            paddingRightCalc = paddingRightUnit.getValue(paddingRight)
+        }
+
+        this.widthCalc = `calc(100% - ${paddingLeftCalc} - ${paddingRightCalc})`
+        
+        var paddingTop = this.paddingRealFetcher.fetchPropValue(PaddingTopCss.PROP_NAME)
+        var paddingTopUnit = this.paddingRealFetcher.fetchUnit(PaddingTopCss.PROP_NAME)
+        var paddingTopCalc = '0px'
+        if (paddingTop) {
+            paddingTopCalc = paddingTopUnit.getValue(paddingTop)
+        }
+        
+        var paddingBottom = this.paddingRealFetcher.fetchPropValue(PaddingBottomCss.PROP_NAME)
+        var paddingBottomUnit = this.paddingRealFetcher.fetchUnit(PaddingBottomCss.PROP_NAME)
+        var paddingBottomCalc = '0px'
+        if (paddingBottom) {
+            paddingBottomCalc = paddingBottomUnit.getValue(paddingBottom)
+        }
+
+        this.heightCalc = `calc(100% - ${paddingTopCalc} - ${paddingBottomCalc})`
+    }
 
 }

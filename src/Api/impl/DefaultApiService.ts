@@ -60,6 +60,7 @@ export default class DefaultApiService implements ApiService
             (res) => {
                 let data: HtmlTagResponse = res.data
                 tag.uuid = data.id
+                tag.shortUUID = data.shortUuid
                 for (const cssRes of data.cssStyleList) {
                     for (const cssDomain of tag.cssAccessor.all) {
                         if (cssDomain.getName() === cssRes.name) {
@@ -90,6 +91,7 @@ export default class DefaultApiService implements ApiService
             (res) => {
                 let data: HtmlTagResponse = res.data
                 tag.uuid = data.id
+                tag.shortUUID = data.shortUuid
                 if (tag instanceof HtmlTag) {
                     for (const cssRes of data.cssStyleList) {
                         for (const cssDomain of tag.cssAccessor.all) {

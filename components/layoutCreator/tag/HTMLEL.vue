@@ -14,6 +14,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HtmlTag from '~/src/Layout/HtmlTag';
 import HTMLELEditable from "./HTMLELEditable.vue";
+import { PositionCss } from "~/src/Css";
 
 
 @Component
@@ -89,6 +90,18 @@ export default class HTMLEL extends Vue {
     onClick(ev) {
         this.$emit('contentMouseClick', ev)
     }
+
+    get positionClass(): string {
+        var currentPositionName = this.value.positionPropName
+        switch(currentPositionName) {
+            case PositionCss.ABSOLUTE:
+                return 'absolute-important'
+            case PositionCss.FIXED:
+                return 'fixed-important'
+            default:
+                return 'relative-important'
+        }
+    }
     
     onDoubleClick(e) 
     {
@@ -116,14 +129,26 @@ export default class HTMLEL extends Vue {
     }
     .wrapper-el {
         // float: left;
-        width: 100%;
-        height: 100%;
+        // width: 100%;
+        // height: 100%;
         background-color: transparent;
-        position: relative;
-        top: 0;
-        left: 0;
+        position: absolute;
+        // top: 0;
+        // left: 0;
         z-index: 9;
     }
+
+    .relative-important {
+        position: relative !important;
+    }
+    .absolute-important {
+        position: absolute !important;
+    }
+    
+    .fixed-important {
+        position: fixed !important;
+    }
+
     .inner-text-el {
     }
     #loadingDialog {

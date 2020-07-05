@@ -108,9 +108,6 @@ export default class DefaultModelToCss implements ModelToCss
             // model.setValueSecond(domainCast.getSecondValue())
             // model.setUnitNameSecond(domainCast.getSecondUnit().name)
         }
-        
-
-        // console.log(domain);
                     
         return domain
 

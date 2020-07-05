@@ -23,4 +23,37 @@ export default class BottomProperty extends BaseComputedPropertyManager<BottomCs
     getDefaultUnit(): Unit {
         return this.DEFAULT_UNIT
     }
+
+    activePropCss(prop: BottomCss) {
+        this.value.realPositionCalculator.bottomUnit = prop.getUnit()
+        this.value.realPositionCalculator.bottom = prop.getClearValue()
+        super.activePropCss(prop)
+
+
+        // this.recalculate(this.value)
+        return prop
+    }
+    
+    deactivePropCss(prop: BottomCss) {
+        this.value.realPositionCalculator.bottomUnit = prop.getUnit()
+        this.value.realPositionCalculator.bottom = 0
+
+        super.deactivePropCss(prop)
+
+
+        // this.recalculate(this.value)
+        return prop
+    }
+
+    updateCssProp(newProp: BottomCss) {
+        if (newProp.isActive()) {            
+            this.value.realPositionCalculator.bottomUnit = newProp.getUnit()
+            this.value.realPositionCalculator.bottom = newProp.getClearValue()
+
+        }
+        var ret = super.updateCssProp(newProp)
+        // this.value.updateHasPosition(newProp)
+
+        return ret
+    }
 }

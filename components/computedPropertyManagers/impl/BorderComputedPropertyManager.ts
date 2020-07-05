@@ -250,6 +250,8 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         this.value.recalculateRealComputedProperties()
         // this.value.updateCssPropertyWithoutModel(prop.getName(), prop)
 
+        this.value.notifyPositionalTag()
+
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
         return null
@@ -270,6 +272,8 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         this.value.synchronize()
         this.value.recalculateRealComputedProperties()
 
+        this.value.notifyPositionalTag()
+
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
         return null
@@ -286,6 +290,8 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         this.value.borderFilter.activateProp(prop)
         this.value.synchronize()
         this.value.recalculateRealComputedProperties()
+
+        this.value.notifyPositionalTag()
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
@@ -309,6 +315,9 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
 
         this.value.recalculateRealComputedProperties()
+
+        this.value.notifyPositionalTag()
+        // this.value.realPositionCalculator.updateProps()
 
 
         this.recalculateBorders(this.value)

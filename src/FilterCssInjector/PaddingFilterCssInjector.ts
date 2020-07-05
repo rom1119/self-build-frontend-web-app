@@ -73,6 +73,8 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 		} else if (cssProp instanceof PaddingCss) {
 			this.updateAllDirectionsVal(cssProp);
 		}
+
+		this.htmlTag.afterUpdatePadding()
 	}
 
 	private deactiveProp(model: PaddingModel) {
@@ -121,6 +123,9 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 			// this.htmlTag.paddingTop.deactivate()
 			// this.htmlTag.paddingBottom.deactivate()
 		}
+
+		this.htmlTag.afterUpdatePadding()
+
 	}
 	public activateProp(cssProp: BasePaddingCss) {
 		if (cssProp instanceof PaddingLeftCss) {
@@ -142,6 +147,9 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 			this.htmlTag.paddingTop.activate();
 			this.htmlTag.paddingBottom.activate();
 		}
+
+		this.htmlTag.afterUpdatePadding()
+
 	}
 
 	// private updateOffset(cssProp: BasePaddingCss) {

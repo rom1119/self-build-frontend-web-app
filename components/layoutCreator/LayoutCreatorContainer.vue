@@ -1,12 +1,12 @@
 <template>
-    <object id="layout-object" class="main-object" >
+    <object id="layout-object" class="main-object" style="width: 100%;" >
         <html>
             <head>
 
             </head>
             <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
             
-            <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh;">
+            <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh; overflow-x: visible;">
                     
                     <template v-for="htmlTag in htmlTags">
                         <html-component
@@ -79,6 +79,14 @@ export default class LayoutCreatorContainer extends Vue {
     mounted()
     {
         this.htmlTagRemover = new HtmlTagRemover(this.htmlTags)
+        // @ts-ignore
+        document.body.addEventListener('mousemove', (e) => {
+            if (parseInt(e.clientX) % 10 == 0) {
+                // console.log(e.clientX);
+
+            }
+            
+        })
         window.addEventListener('resize', (e) => {
             // console.log('width', (<Window>e.target).innerWidth);
             // console.log('height', e.target.innerHeight);

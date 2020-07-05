@@ -69,6 +69,9 @@ export class VueFixStyleListTransform
         return css
     }
     replaceValues(css: {}) {
+        if (!this.replacedCss) {
+            return css
+        }
         for (const cssProp in css) {
             
             if (this.replacedCss[cssProp]) {

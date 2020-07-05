@@ -24,6 +24,7 @@ export default class RightProperty extends BaseComputedPropertyManager<RightCss>
     }
 
     activePropCss(prop: RightCss) {
+        this.value.realPositionCalculator.rightUnit = prop.getUnit()
         this.value.realPositionCalculator.right = prop.getClearValue()
         super.activePropCss(prop)
 
@@ -33,7 +34,9 @@ export default class RightProperty extends BaseComputedPropertyManager<RightCss>
     }
     
     deactivePropCss(prop: RightCss) {
+        this.value.realPositionCalculator.rightUnit = prop.getUnit()
         this.value.realPositionCalculator.right = 0
+
         super.deactivePropCss(prop)
 
 
@@ -43,7 +46,9 @@ export default class RightProperty extends BaseComputedPropertyManager<RightCss>
 
     updateCssProp(newProp: RightCss) {
         if (newProp.isActive()) {            
+            this.value.realPositionCalculator.rightUnit = newProp.getUnit()
             this.value.realPositionCalculator.right = newProp.getClearValue()
+
         }
         var ret = super.updateCssProp(newProp)
         // this.value.updateHasPosition(newProp)

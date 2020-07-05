@@ -85,6 +85,10 @@ export default class MarginElSizeController extends SizeElController {
 			this.offsetCalculator = new MarginOffsetCalculator(this.currentElement.getHtmlTag());
 			this.currentElement.offsetCalc = this.offsetCalculator.build(this.currentElement);
 			this.recalculateMargins(this.currentElement, this.currentElement.getHtmlTag());
+
+			this.currentElement.getHtmlTag().notifyPositionalTag()
+			// this.currentElement.getHtmlTag().notifyPositionalTag()
+
 		}
 	}
 
