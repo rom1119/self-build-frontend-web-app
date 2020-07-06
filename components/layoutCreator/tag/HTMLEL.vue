@@ -2,7 +2,7 @@
 
     <component v-if="value.isInput" v-model="text" :id="value.shortUUID + '-content'"  class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)" />
     
-    <component v-else class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+    <component v-else :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
         <slot>
         </slot>
     </component>
@@ -97,7 +97,7 @@ export default class HTMLEL extends Vue {
             case PositionCss.ABSOLUTE:
                 return 'absolute-important'
             case PositionCss.FIXED:
-                return 'fixed-important'
+                return 'absolute-important'
             default:
                 return 'relative-important'
         }
@@ -132,7 +132,7 @@ export default class HTMLEL extends Vue {
         // width: 100%;
         // height: 100%;
         background-color: transparent;
-        position: absolute;
+        position: relative;
         // top: 0;
         // left: 0;
         z-index: 9;

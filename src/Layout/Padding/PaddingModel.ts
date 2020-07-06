@@ -26,7 +26,7 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
         r: 250,
         g: 250,
         b: 65,
-        a: 0.5
+        a: 0
     }
     protected _active: boolean = false;
 
@@ -142,11 +142,13 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
     }
 
     public changeAsActiveSize() {
-        this.htmlTag.focusPaddings()
+        // this.htmlTag.focusPaddings()
+        this.focusColor()
     }
     
     public changeAsDeactiveSize() {
-        this.htmlTag.blurPaddings()
+        // this.htmlTag.blurPaddings()
+        this.blurColor()
     }
 
     abstract updatePixelPropertyForTag()

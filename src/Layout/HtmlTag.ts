@@ -133,7 +133,8 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     protected _isClosingTag = true
     protected _isInput = false
     protected _hasPosition = false
-    protected _hasRelative = false
+    protected _hasAbsolute = false
+    protected _hasFixed = false
     protected _positionPropName
 
     protected _widthCalc: string = 'calc(100%)'
@@ -223,9 +224,13 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         return this._hasPosition
     }
     
-    get hasRelative(): boolean
+    get hasAbsolute(): boolean
     {
-        return this._hasRelative
+        return this._hasAbsolute
+    }
+    get hasFixed(): boolean
+    {
+        return this._hasFixed
     }
     
     set hasPosition(arg)
@@ -238,7 +243,6 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
             } else {
                 this.positionPropName = null
-
             }
         } else {
             this.positionPropName = null
@@ -340,23 +344,33 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
 
         if (!prop.isActive()) {
-            this._hasRelative = false
+            this._hasAbsolute = false
+            this._hasFixed = false
             this.hasPosition = false
             return
         }
 
         if (prop.getValue() === PositionCss.RELATIVE || prop.getValue() === PositionCss.ABSOLUTE || prop.getValue() === PositionCss.FIXED) {
             this.hasPosition = true
-            if (prop.getValue() === PositionCss.RELATIVE) {
-                this._hasRelative = true
+            if (prop.getValue() === PositionCss.ABSOLUTE) {
+                this._hasAbsolute = true
                 
             } else {
-                this._hasRelative = false
+                this._hasAbsolute = false
+
+            }
+            
+            if (prop.getValue() === PositionCss.FIXED) {
+                this._hasFixed = true
+                
+            } else {
+                this._hasFixed = false
 
             }
 
         } else {
-            this._hasRelative = false
+            this._hasFixed = false
+            this._hasAbsolute = false
             this.hasPosition = false
         }
 
@@ -673,9 +687,16 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         //     let width = new Width(this._width, this.widthUnitCurrent)
         //     var paddingLeft = 
         // }
+        if (this.hasAbsolute || this.hasFixed) {
+            css[Width.PROP_NAME] = this.widthCalc
+            css[Height.PROP_NAME] = this.heightCalc
+
+        } else {
+            css[Width.PROP_NAME] = '100%'
+            css[Height.PROP_NAME] = '100%'
+
+        }
         
-        css[Width.PROP_NAME] = this.widthCalc
-        css[Height.PROP_NAME] = this.heightCalc
         
         if (css[Height.PROP_NAME]) {
             let height = new Height(this._height, this.heightUnitCurrent)
@@ -1016,7 +1037,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
         // }
 
-        if (this.hasPosition && !this._hasRelative) {
+        if (this._hasAbsolute) {
             var replacedCss = {}
     
             replacedCss['left'] = 'calc(' + this.realPositionCalculator.realLeftCalc + ')'

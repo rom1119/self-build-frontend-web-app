@@ -133,10 +133,8 @@ export default class RealPositionCalculator
         
         Vue.nextTick(() => {
             var position = this.tag.cssAccessor.getProperty(PositionCss.PROP_NAME)
-            if (position) {
-                if (position.getValue() !== PositionCss.ABSOLUTE && position.getValue() !== PositionCss.FIXED) {
-                    return
-                }
+            if (!this.tag.hasAbsolute) {
+                return
             }
 
             if (this.tag.cssAccessor.hasCssProperty(TopCss.PROP_NAME)) {

@@ -70,8 +70,8 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
                 this.currentElement.cssAccessor.removePropWithName(RightCss.PROP_NAME)
                 this.currentElement.cssAccessor.removePropWithName(BottomCss.PROP_NAME)
                 
-                if (!this.currentElement.cssAccessor.hasCssProperty(PositionCss.PROP_NAME)) {
-                    this.currentElement.addNewPropertyCss(PositionCss.NEW_ABSOLUTE())
+                if (!this.currentElement.hasPosition) {
+                    this.currentElement.updateCssPropertyWithoutModel(PositionCss.PROP_NAME, PositionCss.NEW_ABSOLUTE())
                 }
                 this.currentElement.updateCssPropertyWithoutModel(LeftCss.PROP_NAME, new LeftCss(left, new Pixel()))
                 this.currentElement.updateCssPropertyWithoutModel(TopCss.PROP_NAME, new TopCss(top, new Pixel()))
