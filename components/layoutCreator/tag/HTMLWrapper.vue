@@ -13,7 +13,7 @@
                 </div>
                 
                 <div class="remove" v-show="value.isActiveTagToManage()" @click.stop="onEmitRemove(value, $event)">
-                    X
+                    X {{ value.hasAbsolute }} / {{ value.positionPropName }}
                 </div>
             
                 <margin-top 

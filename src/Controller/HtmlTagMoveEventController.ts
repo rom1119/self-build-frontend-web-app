@@ -58,6 +58,11 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
                 let computedStyles = window.getComputedStyle(this.currentElement.getHtmlEl())
                 var left = parseInt(computedStyles.getPropertyValue('left'))
                 var top = parseInt(computedStyles.getPropertyValue('top'))
+                
+                console.log('=====================');
+                console.log(left);
+                console.log(top);
+                
 
                 if (!left) {
                     left = parseInt(computedStyles.getPropertyValue('margin-left'))
@@ -73,8 +78,8 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
                 if (!this.currentElement.hasPosition) {
                     this.currentElement.updateCssPropertyWithoutModel(PositionCss.PROP_NAME, PositionCss.NEW_ABSOLUTE())
                 }
-                this.currentElement.updateCssPropertyWithoutModel(LeftCss.PROP_NAME, new LeftCss(left, new Pixel()))
-                this.currentElement.updateCssPropertyWithoutModel(TopCss.PROP_NAME, new TopCss(top, new Pixel()))
+                // this.currentElement.updateCssPropertyWithoutModel(LeftCss.PROP_NAME, new LeftCss(left, new Pixel()))
+                // this.currentElement.updateCssPropertyWithoutModel(TopCss.PROP_NAME, new TopCss(top, new Pixel()))
                 // this.mouseDetector.initSize(width, height)
                     // this.currentElement.changeAsActiveSize()
 
@@ -102,8 +107,9 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
         let newY = this.mouseDetector.computeY
         
         // if (newX > 0 && newY > 0) {
-            // console.log(newX);
-            // console.log(newY);
+            console.log('======!!!!!!!!!!!!===============');
+            console.log(newX);
+            console.log(newY);
             
             this.currentElement.initPos(newX, newY)
         // }

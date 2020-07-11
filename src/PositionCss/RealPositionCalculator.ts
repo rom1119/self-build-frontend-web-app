@@ -133,7 +133,7 @@ export default class RealPositionCalculator
         
         Vue.nextTick(() => {
             var position = this.tag.cssAccessor.getProperty(PositionCss.PROP_NAME)
-            if (!this.tag.hasAbsolute) {
+            if (!this.tag.hasAbsolute && !this.tag.hasFixed ) {
                 return
             }
 
@@ -191,11 +191,17 @@ export default class RealPositionCalculator
     }
     
     set left(arg) {
-        this._left = arg
-        
-        let left = new LeftCss(arg, this._leftUnit)
-        this.tag.updateCssPropertyWithoutModel(left.getName(), left)
-        this._realLeftCalc = this.recalculateRealValLeft(this.leftUnit.getValue(arg))
+        if (this.tag.hasAbsolute) {
+            this._left = arg
+            let left = new LeftCss(arg, this._leftUnit)
+            this.tag.updateCssPropertyWithoutModel(left.getName(), left)
+            this._realLeftCalc = this.recalculateRealValLeft(this.leftUnit.getValue(arg))
+        } else {
+            this._left = arg
+            let left = new LeftCss(arg, this._leftUnit)
+            this.tag.updateCssPropertyWithoutModel(left.getName(), left)
+            this._realLeftCalc = this.leftUnit.getValue(arg)
+        }
 
     }
     
@@ -248,10 +254,18 @@ export default class RealPositionCalculator
     }
     
     set realLeftCalc(arg) {
-        this._realLeftCalc = this._leftUnit.getValue(arg)
-        this._left = this.recalculateValLeft(arg)
-        let left = new LeftCss(this._left, this._leftUnit)
-        this.tag.updateCssPropertyWithoutModel(left.getName(), left)
+        if (this.tag.hasAbsolute) {
+            this._realLeftCalc = this._leftUnit.getValue(arg)
+            this._left = this.recalculateValLeft(arg)
+            let left = new LeftCss(this._left, this._leftUnit)
+            this.tag.updateCssPropertyWithoutModel(left.getName(), left)
+
+        } else {
+            this._realLeftCalc = this._leftUnit.getValue(arg)
+            this._left = parseInt(arg)
+            let left = new LeftCss(this._left, this._leftUnit)
+            this.tag.updateCssPropertyWithoutModel(left.getName(), left)
+        }
     }
     
     get realRightCalc() {
@@ -291,11 +305,19 @@ export default class RealPositionCalculator
     }
     
     set realTopCalc(arg) {
-        this._realTopCalc = this._topUnit.getValue(arg)
-        this._top = this.recalculateValTop(arg)
+        if (this.tag.hasAbsolute) {
+            this._realTopCalc = this._topUnit.getValue(arg)
+            this._top = this.recalculateValTop(arg)
 
-        let top = new TopCss(this._top, this._leftUnit)
-        this.tag.updateCssPropertyWithoutModel(top.getName(), top)
+            let top = new TopCss(this._top, this._topUnit)
+            this.tag.updateCssPropertyWithoutModel(top.getName(), top)
+        } else {
+            this._realTopCalc = this._topUnit.getValue(arg)
+            this._top = parseInt(arg)
+
+            let top = new TopCss(this._top, this._topUnit)
+            this.tag.updateCssPropertyWithoutModel(top.getName(), top)
+        }
 
     }
 
@@ -346,6 +368,8 @@ export default class RealPositionCalculator
         var marginLeft = this.tag.marginRealFetcher.fetchPropValue(MarginLeftCss.PROP_NAME)
         // throw Error('b')
         if (!this.nearPositionalTag) {
+            // var left = this.tag.getHtmlEl().getBoundingClientRect().left
+
             return this.relativeLeft - this.bodyTag.getBoundingClientRect().x + val - Number(marginLeft)
 
         }

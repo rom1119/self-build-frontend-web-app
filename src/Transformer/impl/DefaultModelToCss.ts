@@ -85,6 +85,7 @@ export default class DefaultModelToCss implements ModelToCss
             var domainCastThird: CssTripleValue = <CssTripleValue><unknown>domain
             let unitThird = this.unitCssFactoryFromName.create(model.getUnitNameThird())
             var val
+            console.trace(model)
             if (unitThird instanceof RGBA) {
                 val = JSON.parse(model.getValueThird())
             } else {

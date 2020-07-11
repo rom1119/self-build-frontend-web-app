@@ -110,7 +110,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     protected heightUnitCurrent: UnitSize = new Pixel()
 
     protected _tmpCssPropertyAccesor: CssPropertyAccessor
-    protected _cssPropertyAccesor: HtmlTagPropertyTmpAccessor
+    protected _cssPropertyAccesor: HtmlTagPropertyAccessor
 
 
     protected _attributeAccesor: AttributesAccessor
@@ -433,7 +433,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     protected initCssAccessor()
     {
-        this._cssPropertyAccesor = new HtmlTagPropertyTmpAccessor(this)
+        this._cssPropertyAccesor = new HtmlTagPropertyAccessor(this)
 
         this.paddingFilter = new PaddingFilterCssInjector(this)
         this.marginFilter = new MarginFilterCssInjector(this)
@@ -484,6 +484,18 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     public removeCssProperty(prop: BasePropertyCss)
     {
         super.removeCssProperty(prop)
+        this.synchronizer.synchronize()
+    }
+    
+    public removeCssPropertyByName(propName: string)
+    {
+        // super.removeCssProperty(prop)
+        this.cssAccessor.removePropWithName(propName);
+        var prop = this.tmpCssAccessor.getProperty(propName);
+        if (prop) {
+            prop.id = null
+            prop.setActive(false)
+        }
         this.synchronizer.synchronize()
     }
 
@@ -1037,7 +1049,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
         // }
 
-        if (this._hasAbsolute) {
+        if (this._hasAbsolute || this.hasFixed) {
             var replacedCss = {}
     
             replacedCss['left'] = 'calc(' + this.realPositionCalculator.realLeftCalc + ')'
@@ -1152,11 +1164,18 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     
     public initPos(x, y) 
     {
-        this.realPositionCalculator.leftUnit = new Pixel()
-        this.realPositionCalculator.topUnit = new Pixel()
-        // this.realPositionCalculator.topUnit = new Pixel()
-        this.realPositionCalculator.realLeftCalc = x
-        this.realPositionCalculator.realTopCalc = y
+        if (this.hasAbsolute || this.hasFixed) {
+            this.realPositionCalculator.leftUnit = new Pixel()
+            this.realPositionCalculator.topUnit = new Pixel()
+            this.realPositionCalculator.realLeftCalc = x
+            this.realPositionCalculator.realTopCalc = y
+
+        } else {
+            var left = new LeftCss(x, new Pixel())
+            var top = new TopCss(y, new Pixel())
+            this.updateCssPropertyWithoutModel(left.getName(), left)
+            this.updateCssPropertyWithoutModel(top.getName(), top)
+        }
 
         
     }

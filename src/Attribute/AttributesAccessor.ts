@@ -44,7 +44,7 @@ export default abstract class AttributesAccessor
         // console.log('lol2');
         // console.log(this.cssProps);
         if (!attr) {
-            throw new CssPropNotFound(`Property with name ${propName} not exist in this HTML ELEMENT ${this.value.toString()}`)
+            throw new CssPropNotFound(`Attribute with name ${propName} not exist in this HTML ELEMENT ${this.value.toString()}`)
         }
         // prop.clearValue()
         // this.cssProps.splice
@@ -65,7 +65,7 @@ export default abstract class AttributesAccessor
     public addValue(attrName: string, val: HtmlAttr): AttributesAccessor{
         let prop = this.getAttribute(attrName)
         if (!prop) {
-            throw new CssPropNotFound(`Property with name ${attrName} not exist in this HTML ELEMENT ${this.toString()}`)
+            throw new CssPropNotFound(`Attribute with name ${attrName} not exist in this HTML ELEMENT ${this.toString()}`)
         }
 
 
@@ -91,7 +91,7 @@ export default abstract class AttributesAccessor
     public clearPropertyValues(propName: string): AttributesAccessor{
         let prop = this.getAttribute(name)
         if (!prop) {
-            throw new CssPropNotFound(`Property with name ${propName} not exist in this HTML ELEMENT ${this.toString()}`)
+            throw new CssPropNotFound(`Attribute with name ${propName} not exist in this HTML ELEMENT ${this.toString()}`)
         }
         prop.clearValue()
 
