@@ -80,6 +80,7 @@ export default class HtmlElementShortClosingTagContextMenu extends Vue {
         el.parent = this.value
         el.projectId = this.value.projectId
         el.injectInitialCssStyles()
+        el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
         this.value.appendChild(el)
 

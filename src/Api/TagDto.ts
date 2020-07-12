@@ -1,6 +1,7 @@
 import HtmlTag from "../Layout/HtmlTag";
 import StyleCss from "./StyleCss";
 import AggregateRoot from "~/types/AggregateRoot";
+import Selector from './Selector';
 
 export default class TagDto extends AggregateRoot
 {
@@ -16,5 +17,6 @@ export default class TagDto extends AggregateRoot
     children: TagDto[]  = []
     parent: TagDto
     styles: StyleCss[]  = []
+    selectors: Selector[]  = []
 
 }

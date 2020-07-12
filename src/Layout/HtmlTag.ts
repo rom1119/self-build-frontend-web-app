@@ -65,6 +65,9 @@ import BorderRight from './Border/BorderRight';
 import BorderLeftCss from '../Css/Border/Left/BorderLeftCss';
 import BorderRightWidth from '../Css/Border/Right/BorderRightWidth';
 import HtmlTagPropertyTmpAccessor from "../Css/PropertyAccessor/HtmlTagPropertyTmpAccessor";
+import PseudoClassPropertyAccessor from "../Css/PropertyAccessor/pseudoSelector/PseudoClassPropertyAccessor";
+import PseudoElementPropertyAccessor from "../Css/PropertyAccessor/pseudoSelector/PseudoElementPropertyAccessor";
+import Hover from '../PseudoSelector/PseudoClass/Hover';
 
 export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage, ActivableTagToPosition
 {
@@ -112,6 +115,9 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     protected _tmpCssPropertyAccesor: CssPropertyAccessor
     protected _cssPropertyAccesor: HtmlTagPropertyAccessor
 
+    protected _pseudoClassAccessor: PseudoClassPropertyAccessor
+    protected _pseudoElementAccessor: PseudoElementPropertyAccessor
+
 
     protected _attributeAccesor: AttributesAccessor
 
@@ -154,6 +160,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this.initMargins()
         this._tmpCssPropertyAccesor = new HtmlTagPropertyAccessor(this)
         this.initCssAccessor()
+        this.initPseudoSelectors()
         this.transformStyleList = new VueFixStyleListTransform(this)
         this._attributeAccesor = new DefaultAttributesAccessor(this)
         this._realPositionCalculator = new RealPositionCalculator(this)
@@ -188,6 +195,16 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this._realPositionCalculator.updateNearPositionalTag()
     }
 
+    get pseudoClassAccessor(): PseudoClassPropertyAccessor
+    {
+        return this._pseudoClassAccessor
+    }
+    
+    get pseudoElementAccessor(): PseudoElementPropertyAccessor
+    {
+        return this._pseudoElementAccessor
+    }
+    
     get realPositionCalculator()
     {
         return this._realPositionCalculator
@@ -377,6 +394,12 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     }
 
+    protected initPseudoSelectors()
+    {
+        this._pseudoElementAccessor = new PseudoElementPropertyAccessor(this)
+        this._pseudoClassAccessor = new PseudoClassPropertyAccessor(this)
+    }
+
     initBorders()
     {
         let left = this.borderFactory.createLeft(this)
@@ -442,6 +465,18 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // console.log(`%c${this._width}`, 'font-size: 20px;')
         
 
+    }
+
+    public injectInitialSelectors()
+    {
+        let hover = new Hover(this)
+
+        // console.log('PPPP', border.getValue());
+        
+        let backgroundColor = new BackgroundColor('blue', new Named())
+        hover.setCss(backgroundColor)
+
+        this.pseudoClassAccessor.addNewSelector(hover)
     }
 
     public injectInitialCssStyles()
@@ -676,6 +711,25 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         }
         
         return true
+    }
+
+    get pseudoSelectorsList() : any
+    {
+        let pseudoSelectors = {}
+        for (const selectorClass of this.pseudoClassAccessor.all) {
+            
+            pseudoSelectors[selectorClass.getValue()] = selectorClass.cssPropertyAccessor.all
+            
+        }
+        
+        for (const element of this.pseudoElementAccessor.all) {
+            
+            pseudoSelectors[element.getValue()] = element.cssPropertyAccessor.all
+            
+        }    
+        
+
+        return pseudoSelectors
     }
 
     get cssList() : any

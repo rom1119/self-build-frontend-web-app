@@ -55,6 +55,7 @@ export default class CreateHtmlElementContextMenu extends Vue {
 
     initCreatedTag(el){
         el.injectInitialCssStyles()
+        el.injectInitialSelectors()
         this.value.push(el)
         el.setProjectId(this.$route.params.id)
         this.api.appendTagToProject(el)

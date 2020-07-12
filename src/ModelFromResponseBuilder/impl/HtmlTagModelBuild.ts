@@ -5,13 +5,18 @@ import StyleCssModelResponse from '~/types/StyleCssModel';
 import StyleCssModel from "~/types/StyleCssModel";
 import StyleCssModelBuild from "./StyleCssModelBuild";
 import StyleCssResponse from "~/types/response/StyleCssResponse";
+import SelectorModel from "~/types/SelectorModel";
+import SelectorResponse from "~/types/response/SelectorResponse";
+import SelectorModelBuild from "./SelectorModelBuild";
 
 export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagResponse, HtmlTagModel>{
     protected styleModelBuilder: ModelFromResponse<StyleCssResponse, StyleCssModel>
+    protected selectorModelBuilder: ModelFromResponse<SelectorResponse, SelectorModel>
 
     constructor()
     {
         this.styleModelBuilder = new StyleCssModelBuild()
+        this.selectorModelBuilder = new SelectorModelBuild()
     }
 
     build(from: HtmlTagResponse): HtmlTagModel {
@@ -45,6 +50,13 @@ export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagRespo
             for (const style of from.cssStyleList) {
                 let subModel = this.styleModelBuilder.build(style)
                 model.styles.push(subModel)
+            }
+        }
+        
+        if (from.pseudoSelectors) {
+            for (const style of from.pseudoSelectors) {
+                let subModel = this.selectorModelBuilder.build(style)
+                model.selectors.push(subModel)
             }
         }
         

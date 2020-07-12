@@ -7,46 +7,31 @@ import StyleCssModelBuild from "./StyleCssModelBuild";
 import StyleCssResponse from "~/types/response/StyleCssResponse";
 import ResponseFromModel from "../ResponseFromModel";
 import StyleCssModelBuildResponse from "./StyleCssModelBuildResponse";
-import SelectorModel from "~/types/SelectorModel";
 import SelectorResponse from "~/types/response/SelectorResponse";
-import SelectorModelBuildResponse from "./SelectorModelBuildResponse";
+import SelectorModel from "~/types/SelectorModel";
 
-export default class HtmlTagModelBuildResponse implements ResponseFromModel<HtmlTagModel, HtmlTagResponse>{
+export default class SelectorModelBuildResponse implements ResponseFromModel<SelectorModel, SelectorResponse>{
     protected styleModelBuilderResponse: ResponseFromModel<StyleCssModel, StyleCssResponse>
-    protected selectorModelBuilderResponse: ResponseFromModel<SelectorModel, SelectorResponse>
 
     constructor()
     {
         this.styleModelBuilderResponse = new StyleCssModelBuildResponse()
-        this.selectorModelBuilderResponse = new SelectorModelBuildResponse()
     }
 
-    build(from: HtmlTagModel): HtmlTagResponse {
-        let response = new HtmlTagResponse()
+    build(from: SelectorModel): SelectorResponse {
+        let response = new SelectorResponse()
         // response.id = from.id
-        if (from.isTextNode) {
-            response.text = from.text
-            response.isTextNode = from.isTextNode
+            response.name = from.name
 
-        } else {
-            response.tagName = from.tagName
-            response.closingTag = from.isClosingTag
-            response.attrs = from.attrs
+            response.value = from.value
+            response.version = from.version
             if (from.styles) {
                 for (const style of from.styles) {
                     let subModel = this.styleModelBuilderResponse.build(style)
                     response.cssStyleList.push(subModel)
                 }
             }
-            
-            if (from.selectors) {
-                for (const style of from.selectors) {
-                    let subModel = this.selectorModelBuilderResponse.build(style)
-                    response.pseudoSelectors.push(subModel)
-                }
-            }
 
-        }
         response.version = from.version
         response.project = {
             "id": from.projectId,

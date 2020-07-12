@@ -2,7 +2,18 @@
     <object id="layout-object" class="main-object" style="width: 100%;" >
         <html>
             <head>
-
+                <style>
+                    <template v-for="selectors in pseudoSelectorsTags">
+                        
+                        <template v-for="(key, cssList) in selectors">
+                            {{ key }} {
+                                <template v-for="css in cssList">
+                                    {{ css.getName() }}: {{ css.getValue() }};                                    
+                                </template>
+                            }
+                        </template> 
+                    </template>
+                </style>
             </head>
             <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
             
@@ -53,6 +64,8 @@ import HtmlTagMoveEventController from '../../src/Controller/HtmlTagMoveEventCon
 import MouseMoveTagEventSource from "~/src/Controller/MouseMoveTagEventSource";
 import MoveEventController from "~/src/MoveEventController";
 import AdvisorTagController from '../../src/Controller/AdvisorTagController';
+import Form from '../forms/Form';
+import { css } from 'js-beautify';
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -76,11 +89,22 @@ export default class LayoutCreatorContainer extends Vue {
 
     }
 
+    get pseudoSelectorsTags(): any[]
+    {   
+        let list = []
+        for (const tag of this.htmlTags) {
+            list.push(tag.pseudoSelectorsList)
+        }
+
+        return list
+        
+    }
+
     mounted()
     {
         this.htmlTagRemover = new HtmlTagRemover(this.htmlTags)
-        // @ts-ignore
         document.body.addEventListener('mousemove', (e) => {
+        // @ts-ignore
             if (parseInt(e.clientX) % 10 == 0) {
                 // console.log(e.clientX);
 

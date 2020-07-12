@@ -13,11 +13,16 @@ import HtmlTagRecalculator from '~/src/Recalculator/HtmlTagRecalculator';
 import BorderRecalculate from '~/src/Recalculator/HtmlTagImpl/BorderRecalculate';
 import MarginRecalculate from '~/src/Recalculator/HtmlTagImpl/MarginRecalculate';
 import HtmlAttr from '../../Attribute/HtmlAttr';
+import ModelToSelector from '../ModelToSelector';
+import DefaultModelToSelector from './DefaultModelToSelector';
+import PseudoClass from '../../PseudoSelector/PseudoClass';
+import PseudoElement from '~/src/PseudoSelector/PseudoElement';
 export default class DefaultModelToDomain implements ModelToDomain
 {
 
     private htmlTagFactory: HtmlTagFactoryFromName
     private styleTransformer: ModelToCss
+    private selectorTransformer: ModelToSelector
 
 
 
@@ -26,6 +31,7 @@ export default class DefaultModelToDomain implements ModelToDomain
     { 
         this.htmlTagFactory = new HtmlTagFactoryFromName()
         this.styleTransformer = new DefaultModelToCss()
+        this.selectorTransformer = new DefaultModelToSelector()
     }
 
     transform(model: TagDto): LayoutEl {
@@ -71,6 +77,23 @@ export default class DefaultModelToDomain implements ModelToDomain
                 for (const style of model.styles) {
                     let subModel = this.styleTransformer.transform(style)
                     domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
+                    // domain..push(subModel)
+                    domain.updateModelComponent()
+                }
+            }
+            
+            if (model.selectors) {
+                for (const style of model.selectors) {
+                    let subModel = this.selectorTransformer.transform(style, domain)
+                    // domain = <HtmlTag>domain
+                    if (subModel instanceof PseudoClass) {
+                        domain.pseudoClassAccessor.addNewSelector(subModel)
+                    } else if (subModel instanceof PseudoElement) {
+                        domain.pseudoElementAccessor.addNewSelector(subModel)
+
+                    } else {
+                        throw new Error('Can not add selector for another instance for object ' + subModel.getName())
+                    }
                     // domain..push(subModel)
                     domain.updateModelComponent()
                 }
