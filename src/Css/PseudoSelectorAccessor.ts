@@ -12,20 +12,40 @@ export default abstract class PseudoSelectorAccessor<T extends PseudoSelector>
 {
     protected tag: HtmlTag
     protected selectors: T[]
+    selectedSelector: PseudoSelector
+
 
     constructor(val: HtmlTag) {
         this.tag = val
         Vue.set(this, 'selectors', [])
     }
 
-    public removeAllByName(name: string) {
-        let propsIndex = this.getSelectorsByName(name)
+    public removeByName(name: string) {
+        let propsIndex = null
 
-        for (const i of propsIndex) {
-            
-            this.selectors.splice(i, 1);
-            
+        for (let i = 0; i < this.selectors.length; i++) {
+            var selector = this.selectors[i]
+            if (selector.getName() === name) {
+                propsIndex = i
+                break
+            } 
         }
+        
+        this.selectors.splice(propsIndex, 1);
+    }
+    
+    public removeById(id: number) {
+        let propsIndex = null
+
+        for (let i = 0; i < this.selectors.length; i++) {
+            var selector = this.selectors[i]
+            if (selector.id === id) {
+                propsIndex = i
+                break
+            } 
+        }
+        
+        this.selectors.splice(propsIndex, 1);
     }
 
     public isPropertyLikeThis(prop: T, propNameToCompare: string): boolean
@@ -66,11 +86,11 @@ export default abstract class PseudoSelectorAccessor<T extends PseudoSelector>
         if (!prop) {
             throw new CssPropNotFound(`Property with ID ${newVal.id} not exist in this HTML ELEMENT ${this.tag.toString()}`)
         }
-        if (!prop.cssPropertyAccessor.hasCssProperty(css.getName())) {
-            prop.cssPropertyAccessor.addNewProperty(css)
+        if (!prop.cssAccessor.hasCssProperty(css.getName())) {
+            prop.cssAccessor.addNewProperty(css)
         } else {            
 
-            prop.cssPropertyAccessor.setNewPropertyValue(css.getName(), css)
+            prop.cssAccessor.setNewPropertyValue(css.getName(), css)
         }
 
         return this
@@ -83,7 +103,7 @@ export default abstract class PseudoSelectorAccessor<T extends PseudoSelector>
         }
 
         // if (!prop.cssPropertyAccessor.hasCssProperty(css.getName())) {
-            prop.cssPropertyAccessor.addNewProperty(css)
+            prop.cssAccessor.addNewProperty(css)
         // } else {            
         //     let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
         //     if (currentBackground.getValue() === val.getValue()) {
@@ -97,6 +117,7 @@ export default abstract class PseudoSelectorAccessor<T extends PseudoSelector>
     
     public addNewSelector(newProp: T): PseudoSelectorAccessor<T>{
 
+        newProp.setApi(this.tag.api)
         Vue.set(this.selectors, this.selectors.length, newProp)
         // console.log(this.cssProps);
         
@@ -112,12 +133,12 @@ export default abstract class PseudoSelectorAccessor<T extends PseudoSelector>
             throw new PseudoSelectorNotFound(`Property with ID ${id} not exist in this HTML ELEMENT ${this.tag.toString()}`)
         }
 
-        prop.cssPropertyAccessor.replaceAll([])
+        prop.cssAccessor.replaceAll([])
 
         return this
     }
 
-    public getSelectorsByName(name: string): T[]
+    public getSelectorByName(name: string): T
     {
         
         let res = []
@@ -125,11 +146,11 @@ export default abstract class PseudoSelectorAccessor<T extends PseudoSelector>
         
         for (const el of this.getAll()) {
             if (el.getName() === name) {
-                res.push(el)
+                return el
             } 
         }
 
-        return res
+        return null
     }
     
     public getSelectorById(id: number): T
@@ -148,7 +169,7 @@ export default abstract class PseudoSelectorAccessor<T extends PseudoSelector>
 
     public hasCssProperty(name: string): boolean
     {
-        return this.getSelectorsByName(name).length > 0;
+        return this.getSelectorByName(name) != null;
     }
 
     public replaceAll(newCssList: T[])

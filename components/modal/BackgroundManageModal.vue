@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
-    <base-modal v-show="active">
+    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :tag="value">
     
         <template slot="header">
             <div class="close">
@@ -176,6 +176,11 @@ interface Color {
         async mounted()
         {
             
+        }
+
+        onChangePseudoSelector()
+        {
+            this.reinitManagers()
         }
 
         

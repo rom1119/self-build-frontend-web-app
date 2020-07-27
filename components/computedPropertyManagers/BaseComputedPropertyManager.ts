@@ -53,6 +53,11 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         if (!this.value) { 
             return null
         }
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            return <T>activeSelector.cssAccessor.getProperty(prop)
+
+        }
         return <T>this.value.cssAccessor.getProperty(prop)
     }
 
@@ -61,11 +66,23 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         if (!this.value) {
             return false
         }
-        if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
-            this.value.tmpCssAccessor.addNewProperty(newCssProp)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+                activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
+            } else {
+                activeSelector.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+                
+            }
+
         } else {
-            this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-            
+            if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+                this.value.tmpCssAccessor.addNewProperty(newCssProp)
+            } else {
+                this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+                
+            }
+
         }
         // this.value.updateModelComponent()
 
@@ -100,10 +117,17 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         throw new Error("Method not implemented.");
     }
     deactivePropCss(prop: T) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.cssAccessor.removePropWithName(prop.getName())
+            activeSelector.synchronize()
+
+        } else {
+            this.value.cssAccessor.removePropWithName(prop.getName())
+            
+        }
         prop.id = null
         prop.setActive(false)
-        console.log('deactivePropCss color');
 
         this.value.synchronize()
         return null
@@ -112,11 +136,18 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         prop.id = null
         prop.setActive(true)
 
-        if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
-            this.value.cssAccessor.addNewProperty(prop)
-
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
+                activeSelector.cssAccessor.addNewProperty(prop)
+                activeSelector.synchronize()
+            }
+        } else {
+            if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
+                this.value.cssAccessor.addNewProperty(prop)
+    
+            }
         }
-        console.log('activr color');
         
         this.value.synchronize()
 
@@ -137,8 +168,15 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         // console.log(val);
         // console.log(clonedCss);
         // console.log('ALA MA');
-        
-        this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            activeSelector.synchronize()
+
+        } else {
+            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            
+        }
 
         return newProp.getClearValue()
     }

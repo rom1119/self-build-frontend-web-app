@@ -43,14 +43,14 @@ export default class MinWidthProperty extends BaseComputedPropertyManager<MinWid
         // this.value.setWithUnit(this.getProperty().getUnit())
     }
 
-    activePropCss(prop: BasePropertyCss) {
+    activePropCss(prop: MinWidth) {
         super.activePropCss(prop)
 
         this.recalculate(this.value)
         return prop
     }
     
-    deactivePropCss(prop: BasePropertyCss) {
+    deactivePropCss(prop: MinWidth) {
         super.deactivePropCss(prop)
 
         this.recalculate(this.value)

@@ -3,6 +3,7 @@ import PseudoClassPropertyAccessor from "../Css/PropertyAccessor/pseudoSelector/
 
 export default abstract class PseudoClass extends PseudoSelector
 {
+  
 
 
 }

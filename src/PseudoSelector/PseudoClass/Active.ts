@@ -1,18 +1,16 @@
 import PseudoClass from "../PseudoClass";
 import HtmlTag from "~/src/Layout/HtmlTag";
 
-export default class Hover extends PseudoClass
+export default class Active extends PseudoClass
 {
-    public static NAME = 'hover'
-    protected _name = Hover.NAME
-
+    public static NAME = 'active'
+    protected _name = Active.NAME
     
     constructor(owner: HtmlTag) {
         super(owner)
     }
     
     public getName(): string {
-        return Hover.NAME
+        return Active.NAME
     }
-    
 }

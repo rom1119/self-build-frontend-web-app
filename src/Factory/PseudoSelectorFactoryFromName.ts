@@ -1,6 +1,6 @@
 
 import UnableCreateCssPropertyFromName from '../Errors/UnableCreateCssPropertyFromName';
-import * as libCss from "~/src/PseudoSelector";
+import * as libCss from "~/src/PseudoSelector/PseudoClass/index";
 import BasePropertyCss from '../Css/BasePropertyCss';
 import PseudoSelector from '../PseudoSelector/PseudoSelector';
 
@@ -16,11 +16,8 @@ export default class PseudoSelectorFactoryFromName {
     create(nameArg: string) : PseudoSelector {
         var cssProps = libCss;
         var name = nameArg.replace(/\.?([A-Z])/g, function (x,y){return "-" + y.toLowerCase()}).replace(/^-/, "")
-
-        // console.log(name);
         
         for (const cssPropClass in cssProps) {
-            // console.log(cssProps[cssPropClass].PROP_NAME);
 
             if (cssProps[cssPropClass].NAME === name) {
                 return new cssProps[cssPropClass]

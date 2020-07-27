@@ -44,8 +44,14 @@ export default class DefaultModelToDomain implements ModelToDomain
     buildRecursive(model: TagDto, parent: HtmlTag): LayoutEl
     {
         var domain
+
+   
         if (model.isTextNode) {
             domain = this.htmlTagFactory.createText()
+            domain.uuid  = model.id
+            domain.shortUUID  = model.shortUUID
+            domain.version  = model.version
+            domain.projectId  = model.projectId
             domain.text  = model.text
             // console.log('LLLLLLLLLLLLL');
             // console.log(model);
@@ -61,6 +67,10 @@ export default class DefaultModelToDomain implements ModelToDomain
                 tagname += '-' + model.attrs.type.value
             }
             domain = this.htmlTagFactory.create(tagname)
+            domain.uuid  = model.id
+            domain.shortUUID  = model.shortUUID
+            domain.version  = model.version
+            domain.projectId  = model.projectId
             domain.text  = model.text
             
             domain.isClosingTag  = model.isClosingTag
@@ -122,10 +132,7 @@ export default class DefaultModelToDomain implements ModelToDomain
 
         }
 
-        domain.uuid  = model.id
-        domain.shortUUID  = model.shortUUID
-        domain.version  = model.version
-        domain.projectId  = model.projectId
+
 
         return domain
     }

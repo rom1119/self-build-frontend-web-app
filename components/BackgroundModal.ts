@@ -76,6 +76,15 @@ export default abstract class BackgroundModal extends AbstractModal
         this.backgroundRepeatManager.init()   
         this.backgroundAttachmentManager.init()   
 
+        this.managers = []
+        this.managers.push(this.backgroundImageManager)
+        this.managers.push(this.backgroundColorManager)
+        this.managers.push(this.backgroundPositionManager)
+        this.managers.push(this.backgroundSizeManager)
+        this.managers.push(this.backgroundRepeatManager)
+        this.managers.push(this.backgroundAttachmentManager)
+
+
     }
 
     

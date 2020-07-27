@@ -2,23 +2,16 @@
     <object id="layout-object" class="main-object" style="width: 100%;" >
         <html>
             <head>
-                <style>
-                    <template v-for="selectors in pseudoSelectorsTags">
-                        
-                        <template v-for="(key, cssList) in selectors">
-                            {{ key }} {
-                                <template v-for="css in cssList">
-                                    {{ css.getName() }}: {{ css.getValue() }};                                    
-                                </template>
-                            }
-                        </template> 
-                    </template>
+                <style v-html="pseudoSelectorsTags">
+                    
                 </style>
             </head>
             <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
             
             <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh; overflow-x: visible;">
-                    
+                    <ul>
+                        {{ pseudoSelectorsTags }}
+                    </ul>
                     <template v-for="htmlTag in htmlTags">
                         <html-component
                          @tagRemove="onTagRemove"
@@ -72,7 +65,16 @@ export default class LayoutCreatorContainer extends Vue {
     contextMenuName = 'cm-create-html-element'
     htmlTags: HtmlTag[] = []
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
-
+    a = `<template v-for="selectors in pseudoSelectorsTags">
+                        
+            <template v-for="(key, cssList) in selectors">
+                {{ key }} {
+                    <template v-for="css in cssList">
+                            {{ css.getName() }}: {{ css.getValue() }};                                     -->
+                    </template>
+                }
+            </template> 
+        </template> `
 
     activeElController: ActiveElController = new DefaultActiveElController()
     activeToManageController: ActiveToController<ActivableTagToManage> = new DefaultActiveToManageController()
@@ -86,17 +88,31 @@ export default class LayoutCreatorContainer extends Vue {
     public addHtmlTag(tag: HtmlTag)
     {
         this.htmlTags.push(tag)
-
     }
 
-    get pseudoSelectorsTags(): any[]
+    get pseudoSelectorsTags(): string
     {   
         let list = []
         for (const tag of this.htmlTags) {
+            console.log(tag.pseudoSelectorsList);
             list.push(tag.pseudoSelectorsList)
         }
 
-        return list
+        var res = ''
+        for (const selectors of list) {
+            for (const key in selectors) {
+            var cssList = selectors[key]
+                res += key + ' {'
+                    for (const css of cssList) {
+
+                        res += css.getName() + ':' + css.getValue() + ' !important;'                                   
+                    }
+                res += '}'
+            }
+        }
+        
+
+        return res
         
     }
 

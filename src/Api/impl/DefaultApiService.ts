@@ -24,6 +24,12 @@ import TextNode from '../../Layout/TextNode';
 import HtmlNode from "~/src/Layout/HtmlNode";
 import CssResource from '../../Css/CssResource';
 import CssValue from "~/src/Css/CssValue";
+import PseudoSelector from "~/src/PseudoSelector/PseudoSelector";
+import Selector from "../Selector";
+import SelectorResponse from "~/types/response/SelectorResponse";
+import SelectorModelBuildResponse from "~/src/ModelFromResponseBuilder/impl/SelectorModelBuildResponse";
+import DefaultSelectorToModel from "~/src/Transformer/impl/DefaultSelectorToModel";
+import SelectorToModel from "~/src/Transformer/SelectorToModel";
 
 export default class DefaultApiService implements ApiService
 {
@@ -31,6 +37,9 @@ export default class DefaultApiService implements ApiService
 
     private domainToModelTransformer: DomainToModel
     private tagModelToResponse: ResponseFromModel<TagDto, HtmlTagResponse>
+    
+    private selectorDomainToModelTransformer: SelectorToModel
+    private selectorModelToResponse: ResponseFromModel<Selector, SelectorResponse>
     
     private modelToDomainTransformer: ModelToDomain
     private responseToTagModel: ModelFromResponse<HtmlTagResponse, TagDto>
@@ -43,6 +52,9 @@ export default class DefaultApiService implements ApiService
     {
         this.domainToModelTransformer = new DefaultDomainToModel()
         this.tagModelToResponse = new HtmlTagModelBuildResponse()
+        
+        this.selectorDomainToModelTransformer = new DefaultSelectorToModel()
+        this.selectorModelToResponse = new SelectorModelBuildResponse()
 
         this.cssFromName = new CssPropertyFactoryFromName()
 
@@ -109,11 +121,51 @@ export default class DefaultApiService implements ApiService
         )
 
     }
+
+    appendSelector(selector: PseudoSelector): Promise<any> {
+        let model = this.selectorDomainToModelTransformer.transform(selector)
+        let response = this.selectorModelToResponse.build(model)
+
+        return new Promise((resolve, reject) => {
+            Axios.post(DefaultApiService.HOST + `/api/html-tag/${selector.owner.uuid}/append-selector`, response).then(
+                (res) => {
+                    let data: SelectorResponse = res.data
+                    selector.id = data.id
+                    for (const cssRes of data.cssStyleList) {
+                        for (const cssDomain of selector.cssAccessor.all) {
+                            if (cssDomain.getName() === cssRes.name) {
+                                cssDomain.id = cssRes.id
+                            }
+                        }
+                    }
+
+                    resolve()
+    
+                    
+                },
+                () => {
+                    reject()
+
+                },
+            )
+
+        })
+
+    }
+
     putTag(tag: HtmlTag) : Promise<any> {
         let model = this.domainToModelTransformer.transform(tag)
         let response = this.tagModelToResponse.build(model)
 
         return Axios.put(DefaultApiService.HOST + `/api/html-tag/${tag.uuid}`, response)
+
+    }
+
+    putSelector(selector: PseudoSelector): Promise<any> {
+        let model = this.selectorDomainToModelTransformer.transform(selector)
+        let response = this.selectorModelToResponse.build(model)
+
+        return Axios.put(DefaultApiService.HOST + `/api/pseudo-selector/${selector.id}`, response)
 
     }
     
@@ -133,6 +185,10 @@ export default class DefaultApiService implements ApiService
 
     deleteTag(tag: HtmlNode) : Promise<any> {
         return Axios.delete(DefaultApiService.HOST + `/api/html-tag/${tag.uuid}`)
+    }
+    
+    deleteSelector(selector: PseudoSelector): Promise<any> {
+        return Axios.delete(DefaultApiService.HOST + `/api/pseudo-selector/${selector.id}`)
     }
 
     deleteCssValue(val: CssValue): Promise<any> {

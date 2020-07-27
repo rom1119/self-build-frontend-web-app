@@ -43,21 +43,21 @@ export default class MaxHeightProperty extends BaseComputedPropertyManager<MaxHe
         // this.value.setWithUnit(this.getProperty().getUnit())
     }
 
-    activePropCss(prop: BasePropertyCss) {
+    activePropCss(prop: MaxHeight) {
         super.activePropCss(prop)
 
         this.recalculate(this.value)
         return prop
     }
     
-    deactivePropCss(prop: BasePropertyCss) {
+    deactivePropCss(prop: MaxHeight) {
         super.deactivePropCss(prop)
 
         this.recalculate(this.value)
         return prop
     }
 
-    updateCssProp(newProp: BasePropertyCss) {
+    updateCssProp(newProp: MaxHeight) {
         if (!this.getProperty().isActive()) {
             return
         }

@@ -2,7 +2,12 @@
 
     <div class="my-modal" >
         <div class=" my-modal__header">
-            <div class="my-modal__move" @mousedown.stop="onMouseDown($event)" ></div>
+            <div class="my-modal__move" @mousedown.stop="onMouseDown($event)" >
+                <div class="left">
+                    <button @click.stop="selectorsShow = !selectorsShow">Selectors</button>
+                    <pseudo-selector-component v-if="selectorsShow && tag" @selectPseudoSelector="onSelectPseudoClass" @close="selectorsShow = false" :value="tag" />
+                </div>
+            </div>
             <slot name="header" />
         </div>
         <div class="my-modal__content">
@@ -32,13 +37,19 @@ import MouseMoveEventSource from '../src/Controller/MouseMoveEventSource';
         
         availableItemPerPage = [1,2,5,10,15,20]
         moveController: MoveEventController
+        selectorsShow = true
 
-
+        @Prop({default: null, required: false})
+        tag: HtmlTag
         idName = 'base-modal'
         mouseMoveHandler
         mouseUpHandler
 
 
+
+        onSelectPseudoClass() {
+            this.$emit('changePseudoSelector')
+        }
 
         onMouseDown(ev) {
             var source = new MouseMoveEventSource()
@@ -85,5 +96,10 @@ import MouseMoveEventSource from '../src/Controller/MouseMoveEventSource';
 </script>
 
 <style lang="scss">
-    
+    .left {
+        position: relative;
+        top: 0;
+        left: 0;
+        float: left;
+    }
 </style>

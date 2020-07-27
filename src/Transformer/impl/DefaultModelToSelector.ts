@@ -34,7 +34,6 @@ export default class DefaultModelToSelector implements ModelToSelector
         var domain = this.build(model, tag)
                     
         return domain
-
     }
 
     build(model: Selector, tag: HtmlTag): PseudoSelector
@@ -42,9 +41,12 @@ export default class DefaultModelToSelector implements ModelToSelector
         var domain = this.selectorFactoryFromName.create(model.name)
 
         domain.id = model.id
+        domain.projectId = model.projectId
         domain.setOwner(tag)
-        domain.setValue(model.value)
+        // domain.setValue(model.value)
         domain.setVersion(model.version)
+        domain.setApi(tag.api)
+
     
         if (model.styles) {
             for (const style of model.styles) {
@@ -52,7 +54,6 @@ export default class DefaultModelToSelector implements ModelToSelector
                 domain.setCss(subModel)
             }
         }
-
 
         return domain
     }

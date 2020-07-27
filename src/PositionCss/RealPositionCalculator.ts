@@ -110,8 +110,8 @@ export default class RealPositionCalculator
         // console.log(this.tag.getHtmlEl().getBoundingClientRect());
 
         // this.updateRightAndBottomProps()
-        console.log('relativeRight');
-        console.log(this.relativeRight);
+        // console.log('relativeRight');
+        // console.log(this.relativeRight);
         
     }
 
@@ -132,7 +132,8 @@ export default class RealPositionCalculator
     {
         
         Vue.nextTick(() => {
-            var position = this.tag.cssAccessor.getProperty(PositionCss.PROP_NAME)
+            var accessor = this.tag.getSelectedSelector()
+
             if (!this.tag.hasAbsolute && !this.tag.hasFixed ) {
                 return
             }
@@ -203,6 +204,8 @@ export default class RealPositionCalculator
             this._realLeftCalc = this.leftUnit.getValue(arg)
         }
 
+
+
     }
     
     get right() {
@@ -211,15 +214,15 @@ export default class RealPositionCalculator
     
     set right(arg) {
         this._right = arg
-        console.log('RIGHT');
-        console.log(arg);
+        // console.log('RIGHT');
+        // console.log(arg);
         var newVal = this.recalculateRealValRight(this.rightUnit.getValue(arg))
         let prop = new RightCss(arg, this.rightUnit)
         this.tag.updateCssPropertyWithoutModel(prop.getName(), prop)
         
         this._realRightCalc = newVal
-        console.log('_realRightCalc');
-        console.log(this._realRightCalc);
+        // console.log('_realRightCalc');
+        // console.log(this._realRightCalc);
 
     }
     
@@ -353,14 +356,16 @@ export default class RealPositionCalculator
             var paddingLeftParent = this.tag.parent.getComputedPaddingLeft()
             var borderLeftParent = this.tag.parent.getComputedBorderLeftWidth()
             var marginLeftParent = this.tag.parent.getComputedMarginLeft()
+            // @ts-ignore
             var leftParent = this.tag.parent.getHtmlEl().getBoundingClientRect().left
             // console.trace(`0px - ${leftParent}px + ${this.bodyTag.getBoundingClientRect().left}px - ${borderLeftParent}px - ${paddingLeftParent}px  +  ${val}`)
             // return `0px - ${this.bodyTag.getBoundingClientRect().right}px + ${borderRightParent}px  + ${paddingRightParent}px + ${marginRightParent}px  + ${borderLeftParent}px  + ${paddingLeftParent}px + ${marginLeftParent}px + ${widthParent}px +  ${val}`
+            // @ts-ignore
             return `0px - ${leftParent}px + ${this.bodyTag.getBoundingClientRect().left}px - ${borderLeftParent}px - ${paddingLeftParent}px  +  ${val}`
             // return `0px - ${this.bodyTag.getBoundingClientRect().right}px - ${this.marginLeftCalc} + ${marginLeft}px + ${this.tag.boundingClientRectLeftPixel}px + ${borderRight}px + ${borderLeft}px + ${paddingRight}px + ${paddingLeft}px + ${marginRight}px + ${width}px + ${val}`
         } 
         
-        return `0px`
+        return `${val}`
     }
     
     recalculateValLeft(val) {
@@ -369,11 +374,11 @@ export default class RealPositionCalculator
         // throw Error('b')
         if (!this.nearPositionalTag) {
             // var left = this.tag.getHtmlEl().getBoundingClientRect().left
-
+            // @ts-ignore
             return this.relativeLeft - this.bodyTag.getBoundingClientRect().x + val - Number(marginLeft)
 
         }
-
+        // @ts-ignore
         return this.tag.boundingClientRectLeftPixel - this.nearPositionalTag.boundingClientRectLeftPixel + val - Number(marginLeft) - Number(borderLeft)
     }
     
@@ -400,13 +405,14 @@ export default class RealPositionCalculator
             var paddingTopParent = this.tag.parent.getComputedPaddingTop()
             var borderTopParent = this.tag.parent.getComputedBorderTopWidth()
             var marginTopParent = this.tag.parent.getComputedMarginTop()
-
+            // @ts-ignore
             var topParent = this.tag.parent.getHtmlEl().getBoundingClientRect().top
             // return `0px - ${this.bodyTag.getBoundingClientRect().right}px + ${borderRightParent}px  + ${paddingRightParent}px + ${marginRightParent}px  + ${borderLeftParent}px  + ${paddingLeftParent}px + ${marginLeftParent}px + ${widthParent}px +  ${val}`
+            // @ts-ignore
             return `0px - ${topParent}px + ${this.bodyTag.getBoundingClientRect().top}px  - ${borderTopParent}px - ${paddingTopParent}px - ${marginTopParent}px +  ${val}`
         } 
         
-        return `0px`
+        return `${val}`
 
 
     }
@@ -416,9 +422,10 @@ export default class RealPositionCalculator
         var marginRight = this.tag.marginRealFetcher.fetchPropValue(MarginRightCss.PROP_NAME)
         // throw Error('b')
         if (!this.nearPositionalTag) {
+            // @ts-ignore
             return this.relativeRight - this.bodyTag.getBoundingClientRect().x + val - Number(marginRight)
         }
-
+        // @ts-ignore
         return this.relativeRight - this.nearPositionalTag.getHtmlEl().getBoundingClientRect().x + val - Number(marginRight) - Number(borderRight)
     }
     
@@ -427,9 +434,10 @@ export default class RealPositionCalculator
         var marginBottom = this.tag.getComputedMarginBottom()
         // throw Error('b')
         if (!this.nearPositionalTag) {
+            // @ts-ignore
             return this.relativeBottom - this.bodyTag.getBoundingClientRect().y + val - Number(marginBottom)
         }
-
+        // @ts-ignore
         return this.relativeBottom - this.nearPositionalTag.getHtmlEl().getBoundingClientRect().y + val - Number(marginBottom) - Number(borderBottom)
     }
     
@@ -458,13 +466,14 @@ export default class RealPositionCalculator
 
             var paddingRightParent = this.tag.parent.getComputedPaddingRight()
             var borderRightParent = this.tag.parent.getComputedBorderRightWidth()
-
+            // @ts-ignore
             var rightParent = this.tag.parent.getHtmlEl().getBoundingClientRect().right
             // return `0px - ${this.bodyTag.getBoundingClientRect().right}px + ${borderRightParent}px  + ${paddingRightParent}px + ${marginRightParent}px  + ${borderLeftParent}px  + ${paddingLeftParent}px + ${marginLeftParent}px + ${widthParent}px +  ${val}`
+            // @ts-ignore
             return `0px - ${this.bodyTag.getBoundingClientRect().right}px + ${rightParent}px - ${borderRightParent}px - ${paddingRightParent}px +  ${val}`
         } 
         
-        return `0px`
+        return `${val}`
     }
     
     recalculateRealValBottom(val) {
@@ -486,13 +495,14 @@ export default class RealPositionCalculator
         if (this.tag.parent) {
             var paddingBottomParent = this.tag.parent.getComputedPaddingBottom()
             var borderBottomParent = this.tag.parent.getComputedBorderBottomWidth()
-
+            // @ts-ignore
             var bottomParent = this.tag.parent.getHtmlEl().getBoundingClientRect().bottom
             // return `0px - ${this.bodyTag.getBoundingClientRect().right}px + ${borderBottomParent}px  + ${paddingBottomParent}px + ${marginBottomParent}px  + ${borderLeftParent}px  + ${paddingLeftParent}px + ${marginLeftParent}px + ${widthParent}px +  ${val}`
+            // @ts-ignore
             return `0px - ${this.bodyTag.getBoundingClientRect().bottom}px + ${bottomParent}px - ${borderBottomParent}px - ${paddingBottomParent}px +  ${val}`
         } 
         
-        return `0px`
+        return `${val}`
     }
     
     recalculateValTop(val) {
@@ -500,11 +510,12 @@ export default class RealPositionCalculator
         var marginTop = this.tag.marginRealFetcher.fetchPropValue(MarginTopCss.PROP_NAME)
         // throw Error('b')
         if (!this.nearPositionalTag) {
+            // @ts-ignore
             return this.relativeTop - this.bodyTag.getBoundingClientRect().y + val - Number(marginTop)
         }
 
         
-
+        // @ts-ignore
         return this.relativeTop - this.nearPositionalTag.getHtmlEl().getBoundingClientRect().y + val - Number(marginTop) - Number(borderTop)
     }
 

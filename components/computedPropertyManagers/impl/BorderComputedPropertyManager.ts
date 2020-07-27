@@ -106,6 +106,11 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         if (!this.value) {
             return null
         }
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            return activeSelector.cssAccessor.getProperty(prop)
+
+        }
         return this.value.cssAccessor.getProperty(prop)
     }
 
@@ -114,11 +119,24 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         if (!this.value) {
             return false
         }
-        if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
-            this.value.tmpCssAccessor.addNewProperty(newCssProp)
+
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+                activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
+            } else {
+                activeSelector.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+                
+            }
+
         } else {
-            this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-            
+            if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+                this.value.tmpCssAccessor.addNewProperty(newCssProp)
+            } else {
+                this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+                
+            }
+
         }
         // this.value.updateModelComponent()
 
@@ -244,8 +262,16 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        this.value.removeCssProperty(prop)
-        this.value.borderFilter.deactivateProp(prop)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.cssAccessor.removePropWithName(prop.getName())
+            activeSelector.synchronize()
+
+        } else {
+            this.value.removeCssProperty(prop)
+            this.value.borderFilter.deactivateProp(prop)
+            
+        }
 
         this.value.recalculateRealComputedProperties()
         // this.value.updateCssPropertyWithoutModel(prop.getName(), prop)
@@ -257,17 +283,25 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
-        prop.id = null
-        if (!this.globalProperty.active) {
-            this.value.borderFilter.deactivateProp(prop)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.cssAccessor.removePropWithName(prop.getName())
+            activeSelector.synchronize()
 
         } else {
+            this.value.cssAccessor.removePropWithName(prop.getName())
+            if (!this.globalProperty.active) {
+                this.value.borderFilter.deactivateProp(prop)
+                
+            } else {
+                
+                // prop.setValue(this.globalProperty.getClearValue())
+                // prop.setUnit(this.globalProperty.getUnit())
+                this.value.borderFilter.injectCssProperty(this.globalProperty)
+            }
             
-            // prop.setValue(this.globalProperty.getClearValue())
-            // prop.setUnit(this.globalProperty.getUnit())
-            this.value.borderFilter.injectCssProperty(this.globalProperty)
         }
+        prop.id = null
 
         this.value.synchronize()
         this.value.recalculateRealComputedProperties()
@@ -281,13 +315,22 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     activePropCss(prop: BasePropertyCss) {
         prop.id = null
 
-        if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
-            this.value.cssAccessor.addNewProperty(prop)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
+                activeSelector.cssAccessor.addNewProperty(prop)
+                activeSelector.synchronize()
+            }
+        } else {
+            if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
+                this.value.cssAccessor.addNewProperty(prop)
+    
+            }
+            this.value.borderFilter.activateProp(prop)
 
         }
         console.log('activr');
         
-        this.value.borderFilter.activateProp(prop)
         this.value.synchronize()
         this.value.recalculateRealComputedProperties()
 
@@ -309,10 +352,19 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         // console.log(val);
         // console.log(clonedCss);
         // console.log('ALA MA');
-        this.value.borderFilter.injectCssProperty(newProp)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            activeSelector.synchronize()
+
+        } else {
+            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            this.value.borderFilter.injectCssProperty(newProp)
+            
+        }
         console.log(newProp);
         
-        this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+        // this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
 
         this.value.recalculateRealComputedProperties()
 

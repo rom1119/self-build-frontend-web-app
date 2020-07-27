@@ -106,10 +106,10 @@ export default abstract class BoxModelModal extends AbstractModal
         this.borderRadiusBottomLeftManager.setHtmlEl(val)
         this.borderRadiusBottomRightManager.setHtmlEl(val)
 
-
         this.paddingManager.setHtmlEl(val)
         this.marginManager.setHtmlEl(val)
         this.borderManager.setHtmlEl(val)
+
         this.widthManager.setHtmlEl(val)
         this.minWidthManager.setHtmlEl(val)
         this.maxWidthManager.setHtmlEl(val)
@@ -120,6 +120,24 @@ export default abstract class BoxModelModal extends AbstractModal
         this.paddingManager.setFetcher(this.paddingRealFetcher)
         this.marginManager.setFetcher(this.marginRealFetcher)
         this.borderManager.setFetcher(this.borderRealFetcher)
+
+
+        this.managers = []
+
+        this.managers.push(this.borderRadiusGlobalManager)
+        this.managers.push(this.borderRadiusTopLeftManager)
+        this.managers.push(this.borderRadiusTopRightManager)
+        this.managers.push(this.borderRadiusBottomLeftManager)
+        this.managers.push(this.borderRadiusBottomRightManager)
+        this.managers.push(this.widthManager)
+        this.managers.push(this.minWidthManager)
+        this.managers.push(this.maxWidthManager)
+        this.managers.push(this.heightManager)
+        this.managers.push(this.minHeightManager)
+        this.managers.push(this.maxHeightManager)
+
+        this.managers.push(this.positionManager)
+        
 
         this.initPaddings()
         this.initMargins()

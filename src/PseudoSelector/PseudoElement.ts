@@ -1,8 +1,9 @@
 import PseudoSelector from "./PseudoSelector";
+import HtmlTag from "../Layout/HtmlTag";
 
 export default abstract class PseudoElement extends PseudoSelector
 {
-    constructor() {
-        super()
+    constructor(owner: HtmlTag) {
+        super(owner)
     }
 }

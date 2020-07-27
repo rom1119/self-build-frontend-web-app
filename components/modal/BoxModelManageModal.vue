@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
-    <base-modal v-show="active">
+    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :tag="value">
     
         <template slot="header">
             <div class="close">
@@ -527,6 +527,11 @@ import { Width } from '~/src/Css';
             this.allUnits.push(new VW())
             this.allUnits.push(new VH())
             
+        }
+
+        onChangePseudoSelector()
+        {
+            this.reinitManagers()
         }
 
         // *****************************************  BORDER-RADIUS ****************************************************

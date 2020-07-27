@@ -5,14 +5,17 @@ import BasePropertyCss from "../BasePropertyCss";
 import HtmlTagSynchronizer from "~/src/Synchronizer/Impl/HtmlTagSynchronizer";
 import { PositionCss } from "..";
 import LeftCss from '../Display/Direction/LeftCss';
+import PseudoSelector from "~/src/PseudoSelector/PseudoSelector";
 
 export default class PseudoSelectorCssAccessor extends CssPropertyAccessor 
 {
     protected value: HtmlTag
+    protected selector: PseudoSelector
 
-    constructor(tag: HtmlTag)
+    constructor(tag: HtmlTag, selector: PseudoSelector)
     {
         super(tag)
+        this.selector = selector
 
     }
 
@@ -33,8 +36,11 @@ export default class PseudoSelectorCssAccessor extends CssPropertyAccessor
 
     public setNewPropertyValue(propName: string, newVal: BasePropertyCss): CssPropertyAccessor
     {
-        super.setNewPropertyValue(propName, newVal)        
-        this.value.updateHasPosition(newVal)
+        super.setNewPropertyValue(propName, newVal)  
+        if (this.value) {
+            this.value.updateHasPosition(newVal)
+
+        }
 
         return this
     }
@@ -43,8 +49,11 @@ export default class PseudoSelectorCssAccessor extends CssPropertyAccessor
     {
 
         super.addNewProperty(newProp)
-        this.value.updateHasPosition(newProp)
+        if (this.value) {
 
+            this.value.updateHasPosition(newProp)
+
+        }
 
 
         return this

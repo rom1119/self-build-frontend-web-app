@@ -23,16 +23,16 @@ export default class DefaultSelectorToModel implements SelectorToModel
         let model = new Selector()
         model.id = domain.id
         
-        if (domain.cssPropertyAccessor.all.length) {
-            for (const style of domain.cssPropertyAccessor.all) {
+        if (domain.cssAccessor.all.length) {
+            for (const style of domain.cssAccessor.all) {
                 let subModel = this.styleTransformer.transform(style)
                 model.styles.push(subModel)
                 // domain..push(subModel)
             }
         }
 
-        model.value = domain.getValue()
-        model.name = domain.getValue()
+        model.value = domain.value
+        model.name = domain.getName()
         model.version = domain.getVersion()
 
         // let domain = this.htmlTagFactory.create(model.tagName)

@@ -1,11 +1,13 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
-    <base-modal v-show="active">
+    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :tag="value">
     
         <template slot="header">
             <div class="close">
                 <button @click="close($event)">X</button>
             </div>
+            
+
             <h4>
                 Pozycjonowanie elementu 
             </h4>
@@ -291,6 +293,16 @@ import DisplayManageModal from '../DisplayManageModal';
 
         }
 
+        close()
+        {
+            super.close()
+            // this.selectorsShow = false
+        }
+
+        onChangePseudoSelector()
+        {
+            this.reinitManagers()
+        }
 
         // *****************************************  POSITION ****************************************************
         
@@ -791,6 +803,7 @@ import DisplayManageModal from '../DisplayManageModal';
 </script>
 
 <style lang="scss" scoped> 
+    
     .active {
         background-color: rgba($color: #d81121, $alpha: .4);
     }

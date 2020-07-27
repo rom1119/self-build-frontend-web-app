@@ -31,7 +31,8 @@ export default class ContentElSizeController extends SizeElController
         let event = source.event
         console.log(el.toString());
         console.log(el.projectId);
-        console.log(el.cssAccessor.all);
+        console.log(el.pseudoClassAccessor);
+        console.log(el.pseudoClassAccessor.selectedSelector);
         // @ts-ignore
         var a = el.realPositionCalculator.getNearPositionalTag()
         if (a) {

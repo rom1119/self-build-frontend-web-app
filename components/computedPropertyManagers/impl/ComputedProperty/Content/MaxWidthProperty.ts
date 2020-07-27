@@ -43,14 +43,14 @@ export default class MaxWidthProperty extends BaseComputedPropertyManager<MaxWid
         // this.value.setWithUnit(this.getProperty().getUnit())
     }
 
-    activePropCss(prop: BasePropertyCss) {
+    activePropCss(prop: MaxWidth) {
         super.activePropCss(prop)
 
         this.recalculate(this.value)
         return prop
     }
     
-    deactivePropCss(prop: BasePropertyCss) {
+    deactivePropCss(prop: MaxWidth) {
         super.deactivePropCss(prop)
 
         this.recalculate(this.value)

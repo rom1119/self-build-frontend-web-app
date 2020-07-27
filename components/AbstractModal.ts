@@ -6,17 +6,27 @@ import MoveEventController from '~/src/MoveEventController'
 import DefaultMoveEventController from '../src/Controller/DefaultMoveEventController';
 import UnitSize from '~/src/Unit/UnitSize'
 import Unit from '../src/Unit/Unit';
+import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
 
 
 export default abstract class AbstractModal extends Vue
 {
     protected active = false
     protected value: HtmlTag
+    protected managers: BaseComputedPropertyManager<any>[] = []
     copiedCssList: BasePropertyCss[] = []
 
     constructor()
     {
         super()
+    }
+
+    public reinitManagers()
+    {
+        for (const manager of this.managers) {
+            manager.init()
+            
+        }
     }
 
     restore(e)

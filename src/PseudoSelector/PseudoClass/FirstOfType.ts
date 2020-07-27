@@ -1,18 +1,15 @@
 import PseudoClass from "../PseudoClass";
 import HtmlTag from "~/src/Layout/HtmlTag";
 
-export default class Hover extends PseudoClass
+export default class FirstOfType extends PseudoClass
 {
-    public static NAME = 'hover'
-    protected _name = Hover.NAME
-
+    public static NAME = 'first-of-type'
     
     constructor(owner: HtmlTag) {
         super(owner)
     }
     
     public getName(): string {
-        return Hover.NAME
+        return FirstOfType.NAME
     }
-    
 }

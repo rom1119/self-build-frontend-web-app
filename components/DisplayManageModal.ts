@@ -47,6 +47,8 @@ export default abstract class DisplayManageModal extends AbstractModal
     topManager: BaseComputedPropertyManager<TopCss>
     bottomManager: BaseComputedPropertyManager<BottomCss>
 
+    
+
     constructor()
     {
         super()
@@ -67,6 +69,8 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.rightManager = new RightProperty()
         this.topManager = new TopProperty()
         this.bottomManager = new BottomProperty()
+
+        
 
     }
 
@@ -93,6 +97,26 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.rightManager.setHtmlEl(val)
         this.topManager.setHtmlEl(val)
         this.bottomManager.setHtmlEl(val)
+
+        this.managers = []
+
+        this.managers.push(this.displayManager)
+        this.managers.push(this.justifyContentManager)
+        this.managers.push(this.alignItemsManager)
+        this.managers.push(this.flexBasisManager)
+        this.managers.push(this.flexDirectionManager)
+        this.managers.push(this.flexGrowManager)
+        this.managers.push(this.flexOrderManager)
+        this.managers.push(this.flexShrinkManager)
+        this.managers.push(this.flexWrapManager)
+        this.managers.push(this.floatManager)
+        this.managers.push(this.clearManager)
+
+        this.managers.push(this.positionManager)
+        this.managers.push(this.leftManager)
+        this.managers.push(this.rightManager)
+        this.managers.push(this.topManager)
+        this.managers.push(this.bottomManager)
 
         // this.paddingManager.setFetcher(this.paddingRealFetcher)
         // this.marginManager.setFetcher(this.marginRealFetcher)
