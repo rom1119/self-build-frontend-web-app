@@ -10,6 +10,8 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto" >
+                    <li id="layoutCreatorMode">
+                    </li>
                     <li class="btn btn-primary" @click="generattingCode" v-if="$route.name == 'dashboard-layout-creator-id'"  active-class="active">
                         <a class="nav-link">Generator kodu</a>
                     </li>
@@ -62,8 +64,8 @@ import HtmlSocketApi from '~/src/Api/impl/HtmlSocketApi'
         @Watch('sessionID', {deep: true})
         sessionIdWatch(a)
         {
-            console.log('@@&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@');
-            console.log(a);
+            // console.log('@@&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@');
+            // console.log(a);
             // return this.$store.getters['globals/sessionId']
         }
 

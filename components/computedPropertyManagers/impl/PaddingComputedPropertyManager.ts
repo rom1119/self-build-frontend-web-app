@@ -67,6 +67,11 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         if (!this.value) {
             return null
         }
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            return activeSelector.cssAccessor.getProperty(prop)
+
+        }
         return this.value.cssAccessor.getProperty(prop)
     }
 
@@ -75,11 +80,22 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         if (!this.value) {
             return false
         }
-        if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
-            this.value.tmpCssAccessor.addNewProperty(newCssProp)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+                activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
+            } else {
+                activeSelector.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+                
+            }
+
         } else {
-            this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-            
+            if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+                this.value.tmpCssAccessor.addNewProperty(newCssProp)
+            } else {
+                this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+                
+            }
         }
         // this.value.updateModelComponent()
 
@@ -239,11 +255,17 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        this.value.removeCssProperty(prop)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.cssAccessor.removePropWithName(prop.getName())
+            activeSelector.synchronize()
+
+        } else {
+            this.value.removeCssProperty(prop)
+        }
         this.value.paddingFilter.deactivateProp(prop)
 
         this.value.realPositionCalculator.updateProps()
-
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
@@ -252,8 +274,14 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
-        prop.id = null
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.cssAccessor.removePropWithName(prop.getName())
+            activeSelector.synchronize()
+
+        } else {
+            this.value.removeCssProperty(prop)
+        }
         if (!this.globalProperty.active) {
             this.value.paddingFilter.deactivateProp(prop)
 
@@ -279,9 +307,17 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
     activePropCss(prop: BasePropertyCss) {
         prop.id = null
 
-        if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
-            this.value.cssAccessor.addNewProperty(prop)
-
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
+                activeSelector.cssAccessor.addNewProperty(prop)
+                activeSelector.synchronize()
+            }
+        } else {
+            if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
+                this.value.cssAccessor.addNewProperty(prop)
+            }
+            
         }
         console.log('activr');
         
@@ -311,11 +347,19 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         // console.log(val);
         // console.log(clonedCss);
         // console.log('ALA MA');
+
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            activeSelector.synchronize()
+
+        } else {
+            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+        }
+
         this.value.paddingFilter.injectCssProperty(clonedCss)
         console.log(newProp);
         
-        this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
-
         this.value.realPositionCalculator.updateProps()
 
 

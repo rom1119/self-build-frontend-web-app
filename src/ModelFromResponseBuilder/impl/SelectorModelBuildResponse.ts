@@ -22,6 +22,7 @@ export default class SelectorModelBuildResponse implements ResponseFromModel<Sel
         let response = new SelectorResponse()
         // response.id = from.id
             response.name = from.name
+            response.delimiter = from.delimiter
 
             response.value = from.value
             response.version = from.version

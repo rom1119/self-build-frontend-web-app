@@ -22,6 +22,7 @@ import MaxWidth from '../Css/Size/MaxWidth';
 import MinHeight from '../Css/Size/MinHeight';
 import MaxHeight from '../Css/Size/MaxHeight';
 import ContentSizeCss from "../Css/Size/ContentSizeCss";
+import Pixel from '../Unit/Size/Pixel';
 
 export default class ContentFilterCssInjector extends FilterCssInjector
 {
@@ -149,4 +150,13 @@ export default class ContentFilterCssInjector extends FilterCssInjector
         // paddingModel.updateCssProperty(prop.getName(), prop)
     }
     
+    public resetAll() {
+		this.htmlTag.setWithUnit(new Pixel())
+        this.htmlTag.setWidth(0)
+        
+        this.htmlTag.setHeightUnit(new Pixel())
+        this.htmlTag.setHeight(0)
+		
+
+	}
 }

@@ -28,6 +28,7 @@ export default class SelectorModelBuild implements ModelFromResponse<SelectorRes
         model.id = from.id
         model.name = from.name
         model.value = from.value
+        model.delimiter = from.delimiter
         model.version = from.version
 
         model.version = from.version

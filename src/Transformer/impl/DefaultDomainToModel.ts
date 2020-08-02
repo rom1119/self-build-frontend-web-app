@@ -28,6 +28,8 @@ export default class DefaultDomainToModel implements DomainToModel
         if (domain instanceof HtmlTag) {
             var tagName = domain.getTagName()
             model.tagName = tagName
+            model.projectId = domain.projectId
+
             if (domain instanceof Input) {
                 model.text = domain.text
 

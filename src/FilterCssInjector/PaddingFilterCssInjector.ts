@@ -21,8 +21,10 @@ import SizeCalculator from '../Calculator/SizeCalcCssBuilder';
 import OffsetSizeCalcCssBuilder from '../Calculator/OffsetSizeCalcCssBuilder';
 import PaddingOffsetSizeCalculator from '../Calculator/OffsetSize/PaddingOffsetSizeCalculator';
 import PaddingSizeCalculator from '../Calculator/Size/PaddingSizeCalculator';
+import { Pixel } from '../Unit';
 
 export default class PaddingFilterCssInjector extends FilterCssInjector {
+	
 	protected htmlTag: HtmlTag;
 	protected offsetCalculator: OffsetCalcCssBuilder<PaddingModel>;
 	protected sizeCalculator: SizeCalculator<PaddingModel>;
@@ -273,5 +275,23 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 			this.htmlTag.paddingBottom.lengthOffsetCalc = this.offsetSizeCalculator.build(this.htmlTag.paddingBottom);
 			this.htmlTag.paddingBottom.activate();
 		}
+	}
+
+	public resetAll() {
+		this.htmlTag.paddingLeft.width = 0;
+		this.htmlTag.paddingLeft.widthUnit = new Pixel();
+		this.htmlTag.paddingLeft.deactivate()
+		
+		this.htmlTag.paddingRight.width = 0;
+		this.htmlTag.paddingRight.widthUnit = new Pixel();
+		this.htmlTag.paddingRight.deactivate()
+		
+		this.htmlTag.paddingTop.width = 0;
+		this.htmlTag.paddingTop.widthUnit = new Pixel();
+		this.htmlTag.paddingTop.deactivate()
+		
+		this.htmlTag.paddingBottom.width = 0;
+		this.htmlTag.paddingBottom.widthUnit = new Pixel();
+		this.htmlTag.paddingBottom.deactivate()
 	}
 }

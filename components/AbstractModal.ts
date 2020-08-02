@@ -13,7 +13,7 @@ export default abstract class AbstractModal extends Vue
 {
     protected active = false
     protected value: HtmlTag
-    protected managers: BaseComputedPropertyManager<any>[] = []
+    protected managers= []
     copiedCssList: BasePropertyCss[] = []
 
     constructor()
@@ -24,9 +24,15 @@ export default abstract class AbstractModal extends Vue
     public reinitManagers()
     {
         for (const manager of this.managers) {
-            manager.init()
-            
+            manager.init()  
         }
+
+        this.value.resetFilterTagElements()
+        Vue.nextTick(() => {
+            this.value.recalculateRealComputedProperties()
+            this.value.recalculateRealComputedProperties()
+
+        })
     }
 
     restore(e)

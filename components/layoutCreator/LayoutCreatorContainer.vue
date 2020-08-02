@@ -2,9 +2,14 @@
     <object id="layout-object" class="main-object" style="width: 100%;" >
         <html>
             <head>
-                <style v-html="pseudoSelectorsTags">
-                    
-                </style>
+                <template v-if="$layoutCreatorMode">
+            
+                    <style v-if="$layoutCreatorMode.mode.canRun(pseudoSelectorAction)" v-html="pseudoSelectorsTags">
+                        
+                    </style>
+                        
+                
+                </template>
             </head>
             <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
             
@@ -12,6 +17,12 @@
                     <ul>
                         {{ pseudoSelectorsTags }}
                     </ul>
+                    <p>
+                        {{ canRunPseudoSelector }}
+                    </p>
+                    <p v-if="$layoutCreatorMode">
+                        {{ $layoutCreatorMode.mode.getName() }}
+                    </p>
                     <template v-for="htmlTag in htmlTags">
                         <html-component
                          @tagRemove="onTagRemove"
@@ -59,6 +70,13 @@ import MoveEventController from "~/src/MoveEventController";
 import AdvisorTagController from '../../src/Controller/AdvisorTagController';
 import Form from '../forms/Form';
 import { css } from 'js-beautify';
+import MouseDownAction from '../../src/Mode/action/MouseDownAction';
+import PseudoSelectorViewAction from "../../src/Mode/action/PseudoSelectorViewAction";
+import { Icon } from 'leaflet';
+import MouseOverAction from '../../src/Mode/action/MouseOverAction';
+import MouseUpAction from "~/src/Mode/action/MouseUpAction";
+import MouseOutAction from '../../src/Mode/action/MouseOutAction';
+import MouseMoveAction from '../../src/Mode/action/MouseMoveAction';
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -85,10 +103,15 @@ export default class LayoutCreatorContainer extends Vue {
     hasAccualControllerWorks = false
     currentMouseOverTag: HtmlTag
 
+    mode 
+    pseudoSelectorAction = new PseudoSelectorViewAction() 
+
     public addHtmlTag(tag: HtmlTag)
     {
         this.htmlTags.push(tag)
     }
+
+
 
     get pseudoSelectorsTags(): string
     {   
@@ -105,7 +128,7 @@ export default class LayoutCreatorContainer extends Vue {
                 res += key + ' {'
                     for (const css of cssList) {
 
-                        res += css.getName() + ':' + css.getValue() + ' !important;'                                   
+                        res += css.getName() + ':' + css.getValue() + ' ;'                                   
                     }
                 res += '}'
             }
@@ -138,9 +161,34 @@ export default class LayoutCreatorContainer extends Vue {
         window.document.body.addEventListener('keydown', this.onKeyDown)
         window.document.body.addEventListener('keyup', this.onKeyUp)
 
+        this.mode = this.$layoutCreatorMode.mode
+
+        console.log(this.$layoutCreatorMode);
+
+
+    }
+
+    @Watch('$layoutCreatorMode.modeName', {deep: true, immediate: false})
+    onModeChange(arg)
+    {
+                console.log(this.mode);
+
+        this.mode = arg
+    }
+
+    get canRunPseudoSelector()
+    {
+
+        if (!this.mode) {
+            return false
+        }
+        return this.mode.canRun(new PseudoSelectorViewAction())
     }
 
     onMouseOver(val) {
+        if (!this.$layoutCreatorMode.canRun(new MouseOverAction())) {
+            return
+        }
         // console.log('over');
         // console.log(val);
         // console.log(val);
@@ -170,6 +218,9 @@ export default class LayoutCreatorContainer extends Vue {
         // console.log('out');
         // console.log(val);
         // console.log('out');
+        if (!this.$layoutCreatorMode.canRun(new MouseOutAction())) {
+            return
+        }
         this.currentMouseOverTag = null
         if(this.adivisorController.hasCtrlKey) {
             if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
@@ -223,6 +274,9 @@ export default class LayoutCreatorContainer extends Vue {
         //     el = el.
 
         // }
+        if (!this.$layoutCreatorMode.canRun(new MouseDownAction())) {
+            return
+        }
         
         let controller = this.getAdviseController('mouseDown', source.target)
         // console.log('down');
@@ -234,6 +288,9 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseUp(e)
     {        
+        if (!this.$layoutCreatorMode.canRun(new MouseUpAction())) {
+            return
+        }
         let controller = this.getAdviseController('mouseUp')
         
         if (controller) {
@@ -247,6 +304,9 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseMove(e)
     {
+        if (!this.$layoutCreatorMode.canRun(new MouseMoveAction())) {
+            return
+        }
         let controller = this.getAdviseController('mouseover')
         if (controller) {
             controller.mouseMoveHandler(e)
@@ -256,6 +316,7 @@ export default class LayoutCreatorContainer extends Vue {
     }
 
     onKeyDown(e){
+
         console.log("e.shiftKey");
         console.log(e.shiftKey);
         if(e.shiftKey) {

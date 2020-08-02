@@ -9,6 +9,10 @@ import ContentSizeCss from '../Css/Size/ContentSizeCss';
 import ApiService from '../Api/ApiService';
 import HtmlTagSynchronizer from '../Synchronizer/Impl/HtmlTagSynchronizer';
 import PseudoSelectorSynchronizer from '../Synchronizer/Impl/PseudoSelectorSynchronizer';
+import { FontSize, Width, Height, PositionCss } from '../Css';
+import { Pixel } from '../Unit';
+import UnitSize from '../Unit/UnitSize';
+import RealPositionCalculator from '../PositionCss/RealPositionCalculator';
 export default abstract class PseudoSelector
 {
     id
@@ -18,7 +22,26 @@ export default abstract class PseudoSelector
     protected _version
     protected _name
     protected _value
+    protected _delimiter = ''
     protected _owner: HtmlTag
+
+    // protected _realPositionCalculator: RealPositionCalculator
+
+    protected _width = PseudoSelector.INITIAL_WIDTH
+    protected _height = PseudoSelector.INITIAL_HEIGHT
+    public static INITIAL_WIDTH = 100
+    public static INITIAL_HEIGHT = 100
+
+    protected widthUnitCurrent: UnitSize = new Pixel()
+    protected heightUnitCurrent: UnitSize = new Pixel()
+
+    protected _hasPosition = false
+    protected _hasAbsolute = false
+    protected _hasFixed = false
+    protected _positionPropName
+
+    protected _widthCalc: string = 'calc(100%)'
+    protected _heightCalc: string = 'calc(100%)'
 
     protected _cssPropertyAccesor: PseudoSelectorCssAccessor
     protected _tmpCssPropertyAccesor: PseudoSelectorCssAccessor
@@ -31,7 +54,7 @@ export default abstract class PseudoSelector
         this._cssPropertyAccesor = new PseudoSelectorCssAccessor(owner, this)
         this._tmpCssPropertyAccesor = new PseudoSelectorCssAccessor(owner, this)
         if (owner) {
-            this._value = '#' + owner.shortUUID + ':' + this._name
+            this._value = '#' + owner.shortUUID + ':' + this.getName()
             
         } else {
             this._value = this._name
@@ -56,6 +79,16 @@ export default abstract class PseudoSelector
     set active(arg: boolean)
     {
         this._active = arg
+    }
+    
+    get delimiter(): string
+    {
+        return this._delimiter
+    }
+    
+    set delimiter(arg: string)
+    {
+        this._delimiter = arg
     }
     
     get value(): string
@@ -94,7 +127,7 @@ export default abstract class PseudoSelector
     public setOwner(tag: HtmlTag)
     {
         this._owner = tag
-        this._value = '#' + tag.shortUUID + ':' + this._name
+        this._value = '#' + tag.shortUUID + ':' + this.getName()
 
     }
 
@@ -183,4 +216,166 @@ export default abstract class PseudoSelector
         this.synchronizer.synchronize()
         
     }
+
+    get cssList() : any
+    {
+        let css = {}
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            if (!this.owner.canAddToCssList(cssProp)) {
+                continue
+            }
+            if (this.owner.isLikeBackgroundCss(cssProp)) {
+                continue
+            }
+            css[cssProp.getName()] = cssProp.getValue()
+
+            
+        }    
+        
+        if (this.hasAbsolute || this.hasFixed) {
+            css[Width.PROP_NAME] = this.widthCalc
+            css[Height.PROP_NAME] = this.heightCalc
+
+        } else {
+            css[Width.PROP_NAME] = '100%'
+            css[Height.PROP_NAME] = '100%'
+
+        }
+        
+        
+        if (css[Height.PROP_NAME]) {
+            let height = new Height(this._height, this.heightUnitCurrent)
+        }
+
+        return css
+
+    }
+
+    get cssBoxList() : any
+    {
+
+        // var activeSelector = this.getSelectedSelector()
+        
+        // if (activeSelector) {
+        //     return activeSelector.cssBoxList
+        // } 
+        // if (this.widthUnitCurrent instanceof Percent) {
+            // let css = this.cssList
+                
+            // return css
+            // return {
+            //     width: `${this._width}${this.sizeUnitCurrent.value}`,
+            //     height: `${this._height}${this.sizeUnitCurrent.value}`,
+            // }
+        // }    
+
+        // let borderLeftWidth = this.borderLeft.width
+        // let borderRightWidth = this.borderRight.width
+        // let borderTopWidth = this.borderTop.width
+        // let borderBottomWidth = this.borderBottom.width
+
+        // var paddingLeftWidth, paddingRightWidth, paddingTopWidth, paddingBottomWidth
+        // if (this.paddingLeft.isActive() &&  this.getHtmlEl()) {
+            
+        // }
+    
+        
+        // paddingLeftWidth = this.paddingLeft.isActive() ? this.paddingLeft.width : 0
+        // paddingRightWidth = this.paddingRight.isActive() ? this.paddingRight.width : 0
+        // paddingTopWidth = this.paddingTop.isActive() ? this.paddingTop.width : 0
+        // paddingBottomWidth = this.paddingBottom.isActive() ? this.paddingBottom.width : 0
+        
+        // let marginLeftWidth = this.marginLeft.width
+        // let marginRightWidth = this.marginRight.width
+        // let marginTopWidth = this.marginTop.width
+        // let marginBottomWidth = this.marginBottom.width
+        
+        // let boxHeight = this._height
+
+        let css = this.cssAccessor.all
+
+        let cssToBox = []
+
+        if (this._hasAbsolute || this.hasFixed) {
+            var replacedCss = {}
+    
+            replacedCss['left'] = 'calc(' + this.realPositionCalculator.realLeftCalc + ')'
+            replacedCss['top'] = 'calc(' + this.realPositionCalculator.realTopCalc + ')'
+            replacedCss['right'] = 'calc(' + this.realPositionCalculator.realRightCalc + ')'
+            replacedCss['bottom'] = 'calc(' + this.realPositionCalculator.realBottomCalc + ')'
+          
+            this.owner.transformStyleList.setReplacedCss(replacedCss)
+
+        }
+
+        return this.owner.transformStyleList.transform(this.cssAccessor.all)
+        
+        // return css
+    }
+
+    get realPositionCalculator()
+    {
+        return this.owner.realPositionCalculator
+    }
+
+    get hasPosition(): boolean
+    {
+        return this._hasPosition
+    }
+    
+    get hasAbsolute(): boolean
+    {
+        return this._hasAbsolute
+    }
+    get hasFixed(): boolean
+    {
+        return this._hasFixed
+    }
+    
+    set hasPosition(arg)
+    {
+        this._hasPosition = arg
+        if (this._hasPosition == true) {
+            var prop = this.cssAccessor.getProperty(PositionCss.PROP_NAME)
+            if (prop) {
+                this.positionPropName = this.cssAccessor.getProperty(PositionCss.PROP_NAME).getClearValue()
+
+            } else {
+                this.positionPropName = null
+            }
+        } else {
+            this.positionPropName = null
+        }
+    }
+    
+    get positionPropName(): string
+    {
+        return this._positionPropName
+    }
+    
+    set positionPropName(arg)
+    {
+        this._positionPropName = arg
+    }
+    
+    get widthCalc(): string
+    {
+        return this._widthCalc
+    }
+    
+    set widthCalc(arg)
+    {
+        this._widthCalc = arg
+    }
+    
+    get heightCalc(): string
+    {
+        return this._heightCalc
+    }
+    
+    set heightCalc(arg)
+    {
+        this._heightCalc = arg
+    }
+    
 }

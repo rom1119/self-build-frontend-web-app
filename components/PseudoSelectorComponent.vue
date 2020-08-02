@@ -27,12 +27,12 @@
             </div>
         </section>
         <footer class="footer">
-            <button class="to-left" @click="restore($event)">
+            <!-- <button class="to-left" @click="restore($event)">
                 Przywróć
             </button>
             <button class="to-right">
                 Zapisz
-            </button>
+            </button> -->
         </footer>
     </div>
 
@@ -112,6 +112,8 @@ import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
                 }
 
                 arg.activateSelector()
+
+                
             } else {
                 arg.deactivateSelector()
 

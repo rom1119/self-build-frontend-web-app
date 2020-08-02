@@ -647,7 +647,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         // this._backgroundColor = this.initialBackgroundColor
     }
     
-    private isLikeBackgroundCss(cssProp: BasePropertyCss): boolean
+    public isLikeBackgroundCss(cssProp: BasePropertyCss): boolean
     {
         return this.cssAccessor.isPropertyLikeThis(cssProp, 'background')
     }
@@ -735,8 +735,8 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             
         }  
         
-        console.log('COMP-SELECTORS');
-        console.log(pseudoSelectors);
+        // console.log('COMP-SELECTORS');
+        // console.log(pseudoSelectors);
         
         
 
@@ -745,6 +745,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     get cssList() : any
     {
+        var activeSelector = this.getSelectedSelector()
+        
+        if (activeSelector) {
+            return activeSelector.cssList
+        } 
         let css = {}
         for (const cssProp of this._cssPropertyAccesor.all) {
             if (!this.canAddToCssList(cssProp)) {
@@ -780,11 +785,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         }
 
         return css
-        // return {
-        //     width: `${this._width}${this.sizeUnitCurrent.value}`,
-        //     height: `${this._height}${this.sizeUnitCurrent.value}`,
-        //     'background-color': `${this._backgroundColor}${this._colorUnit.value}`,
-        // }
+
     }
 
     public updateAllModelsComponents()
@@ -813,30 +814,23 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     //     }
     // }
 
+    resetFilterTagElements()
+    {
+        this.contentFilter.resetAll()
+        this.paddingFilter.resetAll()
+        this.borderFilter.resetAll()
+        this.marginFilter.resetAll()
+
+    }
+
     recalculateRealComputedProperties()
     {
-        for (const prop of this.cssAccessor.getAll()) {
-            
-            // console.log('ALA MA');
-            // console.log(newProp.getUnit());
-            // console.log(newProp);
-            // if (prop instanceof ContentSizeCss) {
-
-            //     let val = this.getComputedCssVal(prop)
-            //     console.log('+=======+++');
-            //     console.log(val);
-                
-            //     let clonedCss = _.cloneDeep(prop)
-            //     clonedCss.setValue(parseInt(val).toString())
-            //     clonedCss.setUnit(new Pixel())
-            //     // console.log(newProp);
-            //     // console.log(val);
-            //     // // console.log(clonedCss);
-            //     // console.log('ALA MA');
-            //     this.contentFilter.injectCssProperty(clonedCss)
-            //     continue
-            // }
-
+        var cssAll = this.cssAccessor.all
+        if (this.getCurrentCssAccessor()) {
+            cssAll = this.getCurrentCssAccessor().all
+        }
+        for (const prop of cssAll) {
+    
             if (prop instanceof Width || prop instanceof Height ) {
                 // console.log("CONTR_FILTR");
                 // console.log(prop);
@@ -975,6 +969,12 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     get cssBoxList() : any
     {
+
+        var activeSelector = this.getSelectedSelector()
+        
+        if (activeSelector) {
+            return activeSelector.cssBoxList
+        } 
         if (this.widthUnitCurrent instanceof Percent) {
             // let css = this.cssList
                 
@@ -1027,31 +1027,6 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         return this.transformStyleList.transform(this.cssAccessor.all)
         
         // return css
-    }
-    
-    get cssContentBoxList(): any
-    {
-        if (this.widthUnitCurrent instanceof Percent) {
-            let css = this.cssList
-                
-            return css
-            // return {
-            //     width: `${this._width}${this.sizeUnitCurrent.value}`,
-            //     height: `${this._height}${this.sizeUnitCurrent.value}`,
-            // }
-        }    
-    
-        if (this._backgroundColor) {
-
-        }
-
-        // let backgroundColor = new BackgroundColor(this._backgroundColor, this._initialColorUnit)
-
-        let allCssList = this.cssAccessor
-        
-        let css = {}
-
-        return css
     }
 
     
@@ -1472,6 +1447,18 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         }
 
         return null
+    }
+
+    getCurrentCssAccessor()
+    {
+        var activeSelector = this.getSelectedSelector()
+        
+        if (activeSelector) {
+            return activeSelector.cssAccessor
+        } 
+
+        return this.cssAccessor
+
     }
 
 }

@@ -60,6 +60,13 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         if (!this.value) {
             return null
         }
+
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            return activeSelector.cssAccessor.getProperty(prop)
+
+        }
+
         return this.value.cssAccessor.getProperty(prop)
     }
 
@@ -68,11 +75,22 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         if (!this.value) {
             return false
         }
-        if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
-            this.value.tmpCssAccessor.addNewProperty(newCssProp)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+                activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
+            } else {
+                activeSelector.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+                
+            }
+
         } else {
-            this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-            
+            if (!this.value.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
+                this.value.tmpCssAccessor.addNewProperty(newCssProp)
+            } else {
+                this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
+                
+            }
         }
         // this.value.updateModelComponent()
 
@@ -239,7 +257,15 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        this.value.removeCssProperty(prop)
+
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.cssAccessor.removePropWithName(prop.getName())
+            activeSelector.synchronize()
+
+        } else {
+            this.value.removeCssProperty(prop)
+        }
         this.value.marginFilter.deactivateProp(prop)
 
         this.value.realPositionCalculator.reInitDefaultPosition()
@@ -252,12 +278,20 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
-        this.value.removeCssProperty(prop)
-        if (!this.globalProperty.active) {
-            this.value.marginFilter.deactivateProp(prop)
+
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.cssAccessor.removePropWithName(prop.getName())
+            activeSelector.synchronize()
 
         } else {
+            this.value.removeCssProperty(prop)
+        }
+
+        if (!this.globalProperty.active) {
+            this.value.marginFilter.deactivateProp(prop)
             
+        } else {
             prop.setValue(this.globalProperty.getClearValue())
             prop.setUnit(this.globalProperty.getUnit())
             this.value.marginFilter.injectCssProperty(this.globalProperty)
@@ -265,6 +299,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
 
         // this.value.realPositionCalculator.reInitDefaultPosition()
         this.value.realPositionCalculator.updateProps()
+        this.value.synchronize()
 
 
         this.recalculateBorders(this.value)
@@ -272,9 +307,19 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         return null
     }
     activePropCss(prop: BasePropertyCss) {
-        if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
-            this.value.updateCssPropertyWithoutModel(prop.getName(), prop)
+        prop.id = null
 
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
+                activeSelector.cssAccessor.addNewProperty(prop)
+                activeSelector.synchronize()
+            }
+        } else {
+            if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
+                this.value.cssAccessor.addNewProperty(prop)
+            }
+            
         }
         console.log('activr');
         
@@ -302,11 +347,17 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         // console.log(val);
         // console.log(clonedCss);
         // console.log('ALA MA');
-        this.value.marginFilter.injectCssProperty(clonedCss)
         // console.log(newProp);
-        
-        this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+        var activeSelector = this.value.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            activeSelector.synchronize()
 
+        } else {
+            this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+        }
+        
+        this.value.marginFilter.injectCssProperty(clonedCss)
         this.value.realPositionCalculator.updateProps()
 
         this.recalculateBorders(this.value)

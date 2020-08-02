@@ -138,13 +138,13 @@ export default class RealPositionCalculator
                 return
             }
 
-            if (this.tag.cssAccessor.hasCssProperty(TopCss.PROP_NAME)) {
-                this.topUnit = this.tag.cssAccessor.getProperty(TopCss.PROP_NAME).getUnit()
-                this.top = this.tag.cssAccessor.getProperty(TopCss.PROP_NAME).getClearValue()
+            if (this.tag.getCurrentCssAccessor().hasCssProperty(TopCss.PROP_NAME)) {
+                this.topUnit = this.tag.getCurrentCssAccessor().getProperty(TopCss.PROP_NAME).getUnit()
+                this.top = this.tag.getCurrentCssAccessor().getProperty(TopCss.PROP_NAME).getClearValue()
             }
-            if (this.tag.cssAccessor.hasCssProperty(LeftCss.PROP_NAME)) {
-                this.leftUnit = this.tag.cssAccessor.getProperty(LeftCss.PROP_NAME).getUnit()
-                this.left = this.tag.cssAccessor.getProperty(LeftCss.PROP_NAME).getClearValue()
+            if (this.tag.getCurrentCssAccessor().hasCssProperty(LeftCss.PROP_NAME)) {
+                this.leftUnit = this.tag.getCurrentCssAccessor().getProperty(LeftCss.PROP_NAME).getUnit()
+                this.left = this.tag.getCurrentCssAccessor().getProperty(LeftCss.PROP_NAME).getClearValue()
             }
             
             // console.log(this.tag.getHtmlEl());
@@ -168,17 +168,17 @@ export default class RealPositionCalculator
 
     public updateRightProps()
     {
-        if (this.tag.cssAccessor.hasCssProperty(RightCss.PROP_NAME)) {
-            this.rightUnit = this.tag.cssAccessor.getProperty(RightCss.PROP_NAME).getUnit()
-            this.right = this.tag.cssAccessor.getProperty(RightCss.PROP_NAME).getClearValue()
+        if (this.tag.getCurrentCssAccessor().hasCssProperty(RightCss.PROP_NAME)) {
+            this.rightUnit = this.tag.getCurrentCssAccessor().getProperty(RightCss.PROP_NAME).getUnit()
+            this.right = this.tag.getCurrentCssAccessor().getProperty(RightCss.PROP_NAME).getClearValue()
         }  
     }
     
     public updateBottomProps()
     {
-        if (this.tag.cssAccessor.hasCssProperty(BottomCss.PROP_NAME)) {
-            this.bottomUnit = this.tag.cssAccessor.getProperty(BottomCss.PROP_NAME).getUnit()
-            this.bottom = this.tag.cssAccessor.getProperty(BottomCss.PROP_NAME).getClearValue()
+        if (this.tag.getCurrentCssAccessor().hasCssProperty(BottomCss.PROP_NAME)) {
+            this.bottomUnit = this.tag.getCurrentCssAccessor().getProperty(BottomCss.PROP_NAME).getUnit()
+            this.bottom = this.tag.getCurrentCssAccessor().getProperty(BottomCss.PROP_NAME).getClearValue()
         }  
     }
     

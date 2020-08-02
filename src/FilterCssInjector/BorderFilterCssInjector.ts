@@ -22,6 +22,7 @@ import SizeCalculator from '../Calculator/SizeCalcCssBuilder';
 import OffsetSizeCalcCssBuilder from '../Calculator/OffsetSizeCalcCssBuilder';
 import BorderOffsetSizeCalculator from '../Calculator/OffsetSize/BorderOffsetSizeCalculator';
 import OffsetCalcCssBuilder from '../Calculator/OffsetCalcCssBuilder';
+import { Pixel } from '../Unit';
 
 export default class BorderFilterCssInjector extends FilterCssInjector {
 	protected htmlTag: HtmlTag;
@@ -137,54 +138,6 @@ export default class BorderFilterCssInjector extends FilterCssInjector {
 		}
 	}
 
-	// private updateOffset(cssProp: BaseBorderCss) {
-	//     if (cssProp instanceof BorderLeftCss) {
-	//         this.updateLeftOffset()
-	//     } else if (cssProp instanceof BorderRightCss) {
-	//         this.updateRightOffset()
-	//     } else if (cssProp instanceof BorderTopCss) {
-	//         this.updateTopOffset()
-
-	//     } else if (cssProp instanceof BorderBottomCss) {
-	//         this.updateBottomOffset()
-
-	//     } else if (cssProp instanceof BorderGlobalCss) {
-	//         this.updateLeftOffset()
-	//         this.updateRightOffset()
-	//         this.updateTopOffset()
-	//         this.updateBottomOffset()
-
-	//     }
-	// }
-
-	// private updateLeftOffset()
-	// {
-	//     let paddingLeftWidth = this.htmlTag.paddingLeft.isActive() ? this.htmlTag.paddingLeft.width : 0
-	//     let newOff = -Math.abs(this.htmlTag.marginLeft.width + paddingLeftWidth + paddingLeftWidth)
-	//     this.htmlTag.paddingLeft.offset =newOff
-	// }
-
-	// private updateRightOffset()
-	// {
-	//     let paddingRightWidth = this.htmlTag.paddingRight.isActive() ? this.htmlTag.paddingRight.width : 0
-	//     let newOff = -Math.abs(this.htmlTag.marginRight.width + paddingRightWidth + paddingRightWidth)
-	//     this.htmlTag.marginRight.offset =newOff
-	// }
-
-	// private updateTopOffset()
-	// {
-	//     let paddingTopWidth = this.htmlTag.paddingTop.isActive() ? this.htmlTag.paddingTop.width : 0
-	//     let newOff = -Math.abs(this.htmlTag.marginTop.width + paddingTopWidth + paddingTopWidth)
-	//     this.htmlTag.marginTop.offset =newOff
-	// }
-
-	// private updateBottomOffset()
-	// {
-	//     let paddingBottomWidth = this.htmlTag.paddingBottom.isActive() ? this.htmlTag.paddingBottom.width : 0
-	//     let newOff = -Math.abs(this.htmlTag.marginBottom.width + paddingBottomWidth + paddingBottomWidth)
-	//     this.htmlTag.marginBottom.offset =newOff
-	// }
-
 	updateVal(cssProp: BaseBorderCss, model: BorderModel) {
 		var prop: BasePropertyCss;
 		if (model instanceof BorderLeft || model instanceof BorderRight) {
@@ -288,5 +241,23 @@ export default class BorderFilterCssInjector extends FilterCssInjector {
 			this.htmlTag.borderBottom.color = cssProp.getColor();
 			this.htmlTag.borderBottom.activate();
 		}
+	}
+
+	public resetAll() {
+		this.htmlTag.borderLeft.width = 0;
+		this.htmlTag.borderLeft.widthUnit = new Pixel();
+		this.htmlTag.borderLeft.deactivate()
+		
+		this.htmlTag.borderRight.width = 0;
+		this.htmlTag.borderRight.widthUnit = new Pixel();
+		this.htmlTag.borderRight.deactivate()
+		
+		this.htmlTag.borderTop.width = 0;
+		this.htmlTag.borderTop.widthUnit = new Pixel();
+		this.htmlTag.borderTop.deactivate()
+		
+		this.htmlTag.borderBottom.width = 0;
+		this.htmlTag.borderBottom.widthUnit = new Pixel();
+		this.htmlTag.borderBottom.deactivate()
 	}
 }

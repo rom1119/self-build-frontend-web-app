@@ -32,6 +32,7 @@ export default class DefaultSelectorToModel implements SelectorToModel
         }
 
         model.value = domain.value
+        model.delimiter = domain.delimiter
         model.name = domain.getName()
         model.version = domain.getVersion()
 

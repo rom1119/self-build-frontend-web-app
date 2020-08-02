@@ -9,12 +9,26 @@
             <h4>
                 Zarządzaj box modelem
             </h4>
+            <div v-if="value" class="border-radius-container"
+                    @dblclick.stop="hasBoxSizing === true ? hasBoxSizing = false : hasBoxSizing = true"
+                    :class="{'green-bg': hasBoxSizing}"
+                    v-context-menu="value.uuid.concat('-box-sizing')"
+                >
+                    <span >
+                            Box sizing: {{ boxSizingManager.getProperty().getValue() }}
+                        </span>
+                        <div class="width-prop-container-right">
+                            <select-box-sizing-menu :property="boxSizing" @changeProp="boxSizing = $event" :ref="value.uuid.concat('-box-sizing')" />
+
+                        </div>
+                </div>
         </template>
         <template slot="content">
             <div class="content-item" style="margin-top: 50px;">
                 
                 <!-- BOX MODEL FOR FEATURE -->
                 <div v-if="value" class=" box-model content-item__elem_container rel w-400 h-400">
+                    
                     <div class="border-radius-container">
 
                         <div :class="{'border-radius__active': hasBorderRadiusGlobal}" class="content-box-model-link_right border-radius border-radius__global">
@@ -534,6 +548,33 @@ import { Width } from '~/src/Css';
             this.reinitManagers()
         }
 
+        // *****************************************  BOX-SIZING ****************************************************
+        
+        get boxSizing()
+        {
+            return  this.boxSizingManager.getProperty().value
+        }
+        
+        set boxSizing(newVal: string)
+        {
+            this.boxSizingManager.getProperty().setValue(newVal)
+            this.boxSizingManager.updateCssProp(this.boxSizingManager.getProperty())             
+        }  
+
+        get hasBoxSizing()
+        {
+            return  this.boxSizingManager.getProperty().active
+        }
+        
+        set hasBoxSizing(newVal: boolean)
+        {
+            if (!newVal) {
+                this.boxSizingManager.deactivePropCss(this.boxSizingManager.getProperty())
+            } else {
+                this.boxSizingManager.activePropCss(this.boxSizingManager.getProperty())
+            }
+        }
+        
         // *****************************************  BORDER-RADIUS ****************************************************
         
         get borderRadiusGlobal()

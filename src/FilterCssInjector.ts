@@ -5,6 +5,7 @@ export default abstract class FilterCssInjector
 {
   public abstract createDefaultProp(PROP_NAME: string): BasePropertyCss 
   public abstract deactivateProp(prop: BasePropertyCss)
+  public abstract resetAll()
   public abstract activateProp(prop: BasePropertyCss)
     /**
      * injectCssProperty

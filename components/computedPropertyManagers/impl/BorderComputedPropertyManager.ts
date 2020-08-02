@@ -269,9 +269,9 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
 
         } else {
             this.value.removeCssProperty(prop)
-            this.value.borderFilter.deactivateProp(prop)
             
         }
+        this.value.borderFilter.deactivateProp(prop)
 
         this.value.recalculateRealComputedProperties()
         // this.value.updateCssPropertyWithoutModel(prop.getName(), prop)
@@ -289,17 +289,14 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
             activeSelector.synchronize()
 
         } else {
-            this.value.cssAccessor.removePropWithName(prop.getName())
-            if (!this.globalProperty.active) {
-                this.value.borderFilter.deactivateProp(prop)
-                
-            } else {
-                
-                // prop.setValue(this.globalProperty.getClearValue())
-                // prop.setUnit(this.globalProperty.getUnit())
-                this.value.borderFilter.injectCssProperty(this.globalProperty)
-            }
+            this.value.cssAccessor.removePropWithName(prop.getName())  
+        }
+
+        if (!this.globalProperty.active) {
+            this.value.borderFilter.deactivateProp(prop)
             
+        } else {
+            this.value.borderFilter.injectCssProperty(this.globalProperty)
         }
         prop.id = null
 
@@ -324,11 +321,10 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         } else {
             if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
                 this.value.cssAccessor.addNewProperty(prop)
-    
             }
-            this.value.borderFilter.activateProp(prop)
-
+            
         }
+        this.value.borderFilter.activateProp(prop)
         console.log('activr');
         
         this.value.synchronize()
@@ -359,9 +355,8 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
 
         } else {
             this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
-            this.value.borderFilter.injectCssProperty(newProp)
-            
         }
+        this.value.borderFilter.injectCssProperty(newProp)
         console.log(newProp);
         
         // this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)

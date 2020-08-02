@@ -8,6 +8,7 @@ export default class Selector extends AggregateRoot
     projectId = ''
     name = ''
     value = ''
+    delimiter = ''
     version = 1
     styles: StyleCss[]  = []
 

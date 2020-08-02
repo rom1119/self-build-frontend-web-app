@@ -21,6 +21,7 @@ import MarginSizeCalculator from '../Calculator/Size/MarginSizeCalculator';
 import OffsetSizeCalcCssBuilder from '../Calculator/OffsetSizeCalcCssBuilder';
 import MarginOffsetSizeCalculator from '../Calculator/OffsetSize/MarginOffsetSizeCalculator';
 import OffsetCalcCssBuilder from '../Calculator/OffsetCalcCssBuilder';
+import { Pixel } from '../Unit';
 
 export default class MarginFilterCssInjector extends FilterCssInjector {
 	protected htmlTag: HtmlTag;
@@ -199,5 +200,23 @@ export default class MarginFilterCssInjector extends FilterCssInjector {
 			this.htmlTag.marginBottom.lengthOffsetCalc = this.offsetSizeCalculator.build(this.htmlTag.marginBottom);
 			this.htmlTag.marginBottom.activate();
 		}
+	}
+
+	public resetAll() {
+		this.htmlTag.marginLeft.width = 0;
+		this.htmlTag.marginLeft.widthUnit = new Pixel();
+		this.htmlTag.marginLeft.deactivate()
+		
+		this.htmlTag.marginRight.width = 0;
+		this.htmlTag.marginRight.widthUnit = new Pixel();
+		this.htmlTag.marginRight.deactivate()
+		
+		this.htmlTag.marginTop.width = 0;
+		this.htmlTag.marginTop.widthUnit = new Pixel();
+		this.htmlTag.marginTop.deactivate()
+		
+		this.htmlTag.marginBottom.width = 0;
+		this.htmlTag.marginBottom.widthUnit = new Pixel();
+		this.htmlTag.marginBottom.deactivate()
 	}
 }

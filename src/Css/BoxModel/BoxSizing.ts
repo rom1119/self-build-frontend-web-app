@@ -1,5 +1,6 @@
 import CssSimple from "../CssSimple";
 import CssPropertyLimitable from "../CssPropertyLimitable";
+import Named from '../../Unit/Named';
 
 export default class BoxSizing extends CssSimple implements CssPropertyLimitable
 {
@@ -19,6 +20,21 @@ export default class BoxSizing extends CssSimple implements CssPropertyLimitable
     }
     getAccessableProperty(): any[] {
         return BoxSizing.getAccessableProperty()
+    }
+
+    public static NEW_CONTENT_BOX()
+    {
+        return new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
+    }
+    
+    public static NEW_PADDING_BOX()
+    {
+        return new BoxSizing(BoxSizing.PADDING_BOX, new Named())
+    }
+    
+    public static NEW_BORDER_BOX()
+    {
+        return new BoxSizing(BoxSizing.BORDER_BOX, new Named())
     }
 
 

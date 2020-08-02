@@ -42,6 +42,7 @@ export default class DefaultModelToSelector implements ModelToSelector
 
         domain.id = model.id
         domain.projectId = model.projectId
+        domain.delimiter = model.delimiter
         domain.setOwner(tag)
         // domain.setValue(model.value)
         domain.setVersion(model.version)

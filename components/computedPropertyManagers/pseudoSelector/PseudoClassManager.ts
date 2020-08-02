@@ -111,6 +111,8 @@ export default class PseudoClassManager
         this.pseudoClass.selectedByOwner = true
         console.log(this.pseudoClass);
         this.value.pseudoClassAccessor.selectedSelector = this.pseudoClass
+
+        this.value.recalculateRealComputedProperties()
           
     }
 
@@ -121,6 +123,9 @@ export default class PseudoClassManager
         this.pseudoClass.selectedByOwner = false
         console.log(this.pseudoClass);
         this.value.pseudoClassAccessor.selectedSelector = null
+
+        this.value.recalculateRealComputedProperties()
+
           
     }
 
@@ -161,6 +166,11 @@ export default class PseudoClassManager
             () => {
                 this.value.pseudoClassAccessor.removeById(prop.id)
 
+                if (this.value.pseudoClassAccessor.selectedSelector) {
+                    if (this.value.pseudoClassAccessor.selectedSelector.id == prop.id) {
+                        this.value.pseudoClassAccessor.selectedSelector = null
+                    }
+                }
                 prop.id = null
                 prop.active = false
                 this.value.synchronize()
