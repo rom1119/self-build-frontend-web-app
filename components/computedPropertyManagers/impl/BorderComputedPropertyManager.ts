@@ -331,6 +331,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         this.value.recalculateRealComputedProperties()
 
         this.value.notifyPositionalTag()
+        
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)

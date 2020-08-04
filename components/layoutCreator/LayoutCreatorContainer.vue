@@ -17,12 +17,7 @@
                     <ul>
                         {{ pseudoSelectorsTags }}
                     </ul>
-                    <p>
-                        {{ canRunPseudoSelector }}
-                    </p>
-                    <p v-if="$layoutCreatorMode">
-                        {{ $layoutCreatorMode.mode.getName() }}
-                    </p>
+
                     <template v-for="htmlTag in htmlTags">
                         <html-component
                          @tagRemove="onTagRemove"
@@ -77,6 +72,9 @@ import MouseOverAction from '../../src/Mode/action/MouseOverAction';
 import MouseUpAction from "~/src/Mode/action/MouseUpAction";
 import MouseOutAction from '../../src/Mode/action/MouseOutAction';
 import MouseMoveAction from '../../src/Mode/action/MouseMoveAction';
+import KeyDownAction from "~/src/Mode/action/KeyDownAction";
+import KeyUpAction from "~/src/Mode/action/KeyUpAction";
+import MouseClickAction from "~/src/Mode/action/MouseClickAction";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -111,6 +109,17 @@ export default class LayoutCreatorContainer extends Vue {
         this.htmlTags.push(tag)
     }
 
+    private recursiveBuildPseudoSelectors(list, tag: HtmlTag) {
+        
+        for (const el of tag.children) {
+            if (el instanceof HtmlTag) {
+                list.push(el.pseudoSelectorsList)
+                this.recursiveBuildPseudoSelectors(list, el)
+            }
+        }
+
+        return list
+    }
 
 
     get pseudoSelectorsTags(): string
@@ -119,6 +128,7 @@ export default class LayoutCreatorContainer extends Vue {
         for (const tag of this.htmlTags) {
             console.log(tag.pseudoSelectorsList);
             list.push(tag.pseudoSelectorsList)
+            this.recursiveBuildPseudoSelectors(list, tag)
         }
 
         var res = ''
@@ -128,7 +138,7 @@ export default class LayoutCreatorContainer extends Vue {
                 res += key + ' {'
                     for (const css of cssList) {
 
-                        res += css.getName() + ':' + css.getValue() + ' ;'                                   
+                        res += css.getName() + ':' + css.getValue() + ' !important ;'                                   
                     }
                 res += '}'
             }
@@ -161,19 +171,7 @@ export default class LayoutCreatorContainer extends Vue {
         window.document.body.addEventListener('keydown', this.onKeyDown)
         window.document.body.addEventListener('keyup', this.onKeyUp)
 
-        this.mode = this.$layoutCreatorMode.mode
 
-        console.log(this.$layoutCreatorMode);
-
-
-    }
-
-    @Watch('$layoutCreatorMode.modeName', {deep: true, immediate: false})
-    onModeChange(arg)
-    {
-                console.log(this.mode);
-
-        this.mode = arg
     }
 
     get canRunPseudoSelector()
@@ -186,7 +184,7 @@ export default class LayoutCreatorContainer extends Vue {
     }
 
     onMouseOver(val) {
-        if (!this.$layoutCreatorMode.canRun(new MouseOverAction())) {
+        if (!this.$layoutCreatorMode.mode.canRun(new MouseOverAction())) {
             return
         }
         // console.log('over');
@@ -218,7 +216,7 @@ export default class LayoutCreatorContainer extends Vue {
         // console.log('out');
         // console.log(val);
         // console.log('out');
-        if (!this.$layoutCreatorMode.canRun(new MouseOutAction())) {
+        if (!this.$layoutCreatorMode.mode.canRun(new MouseOutAction())) {
             return
         }
         this.currentMouseOverTag = null
@@ -238,6 +236,9 @@ export default class LayoutCreatorContainer extends Vue {
 
     onContentMouseClick(source)
     {
+        if (!this.$layoutCreatorMode.mode.canRun(new MouseClickAction())) {
+            return
+        }
         // console.log('click');
         // console.log(source.target);
         if (!this.hasAccualControllerWorks) {
@@ -274,7 +275,7 @@ export default class LayoutCreatorContainer extends Vue {
         //     el = el.
 
         // }
-        if (!this.$layoutCreatorMode.canRun(new MouseDownAction())) {
+        if (!this.$layoutCreatorMode.mode.canRun(new MouseDownAction())) {
             return
         }
         
@@ -288,7 +289,7 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseUp(e)
     {        
-        if (!this.$layoutCreatorMode.canRun(new MouseUpAction())) {
+        if (!this.$layoutCreatorMode.mode.canRun(new MouseUpAction())) {
             return
         }
         let controller = this.getAdviseController('mouseUp')
@@ -304,7 +305,7 @@ export default class LayoutCreatorContainer extends Vue {
 
     onMouseMove(e)
     {
-        if (!this.$layoutCreatorMode.canRun(new MouseMoveAction())) {
+        if (!this.$layoutCreatorMode.mode.canRun(new MouseMoveAction())) {
             return
         }
         let controller = this.getAdviseController('mouseover')
@@ -316,7 +317,9 @@ export default class LayoutCreatorContainer extends Vue {
     }
 
     onKeyDown(e){
-
+        if (!this.$layoutCreatorMode.mode.canRun(new KeyDownAction())) {
+            return
+        }
         console.log("e.shiftKey");
         console.log(e.shiftKey);
         if(e.shiftKey) {
@@ -329,6 +332,9 @@ export default class LayoutCreatorContainer extends Vue {
     }
     
     onKeyUp(e){
+        if (!this.$layoutCreatorMode.mode.canRun(new KeyUpAction())) {
+            return
+        }
         console.log("e.ctrlKey");
         console.log(e.shiftKey);
         if(this.adivisorController.hasCtrlKey) {

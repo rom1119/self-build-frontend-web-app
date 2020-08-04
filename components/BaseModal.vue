@@ -37,7 +37,7 @@ import MouseMoveEventSource from '../src/Controller/MouseMoveEventSource';
         
         availableItemPerPage = [1,2,5,10,15,20]
         moveController: MoveEventController
-        selectorsShow = true
+        selectorsShow = false
 
         @Prop({default: null, required: false})
         tag: HtmlTag

@@ -272,6 +272,8 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
 
 
         this.value.realPositionCalculator.updateProps()
+        this.value.notifyPositionalTag()
+
         
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
@@ -299,6 +301,8 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
 
         // this.value.realPositionCalculator.reInitDefaultPosition()
         this.value.realPositionCalculator.updateProps()
+        this.value.notifyPositionalTag()
+
         this.value.synchronize()
 
 
@@ -327,6 +331,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
 
         // this.value.realPositionCalculator.reInitDefaultPosition()
         this.value.realPositionCalculator.updateProps()
+        this.value.notifyPositionalTag()
 
 
         this.recalculateBorders(this.value)
@@ -359,6 +364,8 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         
         this.value.marginFilter.injectCssProperty(clonedCss)
         this.value.realPositionCalculator.updateProps()
+        this.value.notifyPositionalTag()
+
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)

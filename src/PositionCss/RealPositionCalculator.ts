@@ -326,6 +326,7 @@ export default class RealPositionCalculator
 
     recalculateRealValLeft(val) : string {
         var borderLeft = this.tag.borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME)
+        var borderLeftUnit = this.tag.borderRealFetcher.fetchUnitWidth(BorderLeftCss.PROP_NAME)
         var marginLeft = this.tag.marginRealFetcher.fetchPropValue(MarginLeftCss.PROP_NAME)
         // console.log('this.x');
         // console.log(this.x);
@@ -365,7 +366,7 @@ export default class RealPositionCalculator
             // return `0px - ${this.bodyTag.getBoundingClientRect().right}px - ${this.marginLeftCalc} + ${marginLeft}px + ${this.tag.boundingClientRectLeftPixel}px + ${borderRight}px + ${borderLeft}px + ${paddingRight}px + ${paddingLeft}px + ${marginRight}px + ${width}px + ${val}`
         } 
         
-        return `${val}`
+        return `${val} + ${borderLeftUnit.getValue(borderLeft)}`
     }
     
     recalculateValLeft(val) {
@@ -375,7 +376,7 @@ export default class RealPositionCalculator
         if (!this.nearPositionalTag) {
             // var left = this.tag.getHtmlEl().getBoundingClientRect().left
             // @ts-ignore
-            return this.relativeLeft - this.bodyTag.getBoundingClientRect().x + val - Number(marginLeft)
+            return this.relativeLeft - this.bodyTag.getBoundingClientRect().x + val - Number(marginLeft) - Number(borderLeft)
 
         }
         // @ts-ignore
@@ -383,7 +384,8 @@ export default class RealPositionCalculator
     }
     
     recalculateRealValTop(val) {
-        
+        var borderTop = this.tag.borderRealFetcher.fetchPropWidth(BorderTopCss.PROP_NAME)
+        var borderTopUnit = this.tag.borderRealFetcher.fetchUnitWidth(BorderTopCss.PROP_NAME)
         if (this.nearPositionalTag) {
 
             var widthNearPaddingTop: string  = this.nearPositionalTag.paddingRealFetcher.fetchPropValue(PaddingTopCss.PROP_NAME)
@@ -442,6 +444,8 @@ export default class RealPositionCalculator
     }
     
     recalculateRealValRight(val) {
+        var borderRight = this.tag.borderRealFetcher.fetchPropWidth(BorderRightCss.PROP_NAME)
+        var borderRightUnit = this.tag.borderRealFetcher.fetchUnitWidth(BorderRightCss.PROP_NAME)
         if (this.nearPositionalTag) {
             if (this.nearPositionalTag.getHtmlEl()) {
 
@@ -472,12 +476,14 @@ export default class RealPositionCalculator
             // @ts-ignore
             return `0px - ${this.bodyTag.getBoundingClientRect().right}px + ${rightParent}px - ${borderRightParent}px - ${paddingRightParent}px +  ${val}`
         } 
+        console.log(`${val} + ${borderRightUnit.getValue(borderRight)}`);
         
-        return `${val}`
+        return `${val} + ${borderRightUnit.getValue(borderRight)}`
     }
     
     recalculateRealValBottom(val) {
-
+        var borderBottom = this.tag.borderRealFetcher.fetchPropWidth(BorderBottomCss.PROP_NAME)
+        var borderBottomUnit = this.tag.borderRealFetcher.fetchUnitWidth(BorderBottomCss.PROP_NAME)
         if (this.nearPositionalTag) {
             if (this.nearPositionalTag.getHtmlEl()) {
                 var widthNearPaddingBottom: string  = this.nearPositionalTag.paddingRealFetcher.fetchPropValue(PaddingBottomCss.PROP_NAME)
@@ -502,7 +508,7 @@ export default class RealPositionCalculator
             return `0px - ${this.bodyTag.getBoundingClientRect().bottom}px + ${bottomParent}px - ${borderBottomParent}px - ${paddingBottomParent}px +  ${val}`
         } 
         
-        return `${val}`
+        return `${val} + ${borderBottomUnit.getValue(borderBottom)}`
     }
     
     recalculateValTop(val) {

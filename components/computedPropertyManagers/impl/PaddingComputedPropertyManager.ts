@@ -266,6 +266,8 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         this.value.paddingFilter.deactivateProp(prop)
 
         this.value.realPositionCalculator.updateProps()
+        this.value.notifyPositionalTag()
+
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
@@ -296,6 +298,8 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         this.value.updateModelComponent()
 
         this.value.realPositionCalculator.updateProps()
+        this.value.notifyPositionalTag()
+
 
         // this.value.recalculateRealComputedProperties()
         this.recalculateBorders(this.value)
@@ -322,11 +326,13 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         console.log('activr');
         
         this.value.paddingFilter.activateProp(prop)
+        
         this.value.synchronize()
 
         this.value.recalculateRealComputedProperties()
 
         this.value.realPositionCalculator.updateProps()
+        this.value.notifyPositionalTag()
 
 
         this.recalculateBorders(this.value)
@@ -361,6 +367,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         console.log(newProp);
         
         this.value.realPositionCalculator.updateProps()
+        this.value.notifyPositionalTag()
 
 
         this.recalculateBorders(this.value)
