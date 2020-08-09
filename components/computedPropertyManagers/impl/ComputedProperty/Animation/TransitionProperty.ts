@@ -1,6 +1,6 @@
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
-import { BackgroundImage, BackgroundPosition, Width, Height } from "~/src/Css";
+import { BackgroundImage, BackgroundPosition, Width, Height, BoxShadowCss } from "~/src/Css";
 import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
 import { Named, RGBA } from "~/src/Unit";
 import Unit from "~/src/Unit/Unit";
@@ -8,14 +8,16 @@ import Display from '../../../../../src/Css/Display/Display';
 import TextShadowCss, { TextShadowStruct } from '../../../../../src/Css/Shadow/TextShadowCss';
 import RGB from "~/src/Unit/Color/RGB";
 import _ from 'lodash'
+import { BoxShadowStruct } from "~/src/Css/Shadow/BoxShadowCss";
+import TransitionCss, { TransitionStruct } from "~/src/Css/Animation/TransitionCss";
 
 
-export default class TextShadowProperty extends BaseComputedPropertyManager<TextShadowCss> {
+export default class TransitionProperty extends BaseComputedPropertyManager<TransitionCss> {
 
     protected value: HtmlTag
     DEFAULT_VAL = Display.BLOCK
     DEFAULT_UNIT = new Named()
-    property: TextShadowCss = new TextShadowCss(TextShadowCss.DEFAULT_OFFSET_X, TextShadowCss.DEFAULT_OFFSET_Y, TextShadowCss.DEFAULT_COLOR)
+    property: TransitionCss = new TransitionCss()
 
     getDefaultVal(): any {
         return this.DEFAULT_VAL
@@ -24,30 +26,16 @@ export default class TextShadowProperty extends BaseComputedPropertyManager<Text
         return this.DEFAULT_UNIT
     }
 
-    createInitValue(): TextShadowStruct
+    createInitValue(): TransitionStruct
     {
-        let el = new TextShadowStruct()
+        let el = new TransitionStruct()
         el.id = null
-        el.offsetX = TextShadowCss.DEFAULT_OFFSET_X
-        el.offsetY = TextShadowCss.DEFAULT_OFFSET_Y
-        el.blur = TextShadowCss.DEFAULT_BLUR
-        
-        var unitOffX = TextShadowCss.DEFAULT_OFFSET_X_UNIT
-        var unitOffY = TextShadowCss.DEFAULT_OFFSET_Y_UNIT
-        var unitBlur = TextShadowCss.DEFAULT_BLUR_UNIT
-        var unitColor = TextShadowCss.DEFAULT_COLOR_UNIT
-
-        var val
-        if (unitColor instanceof RGBA || unitColor instanceof RGB) {
-            el.color = JSON.parse(TextShadowCss.DEFAULT_COLOR)
-        } else {
-            el.color = TextShadowCss.DEFAULT_COLOR
-        }
-        
-        el.offsetXUnit = unitOffX
-        el.offsetYUnit = unitOffY
-        el.blurUnit = unitBlur
-        el.colorUnit = unitColor
+        el.all = TransitionCss.DEFAULT_ALL
+        el.propertyName = TransitionCss.DEFAULT_PROPERTY_NAME
+        el.delay = TransitionCss.DEFAULT_DELAY
+        el.duration = TransitionCss.DEFAULT_DURATION
+        el.timingFunction = TransitionCss.DEFAULT_TIMING_FUNCTION
+    
 
         return el
     }
@@ -83,7 +71,7 @@ export default class TextShadowProperty extends BaseComputedPropertyManager<Text
         
     }
 
-    deactivePropCss(prop: TextShadowCss) {
+    deactivePropCss(prop: TransitionCss) {
         this.value.cssAccessor.removePropWithName(prop.getName())
         prop.id = null
         prop.setActive(false)

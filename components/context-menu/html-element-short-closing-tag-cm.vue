@@ -23,6 +23,8 @@
         <context-menu-item :action="showShadowCssModal">Shadow</context-menu-item>
         <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
         <context-menu-item :action="showDisplayModal">Display</context-menu-item>
+        <context-menu-item :action="showAnimationModal">Animation</context-menu-item>
+
 
     </context-menu>
 </template>
@@ -126,6 +128,12 @@ export default class HtmlElementShortClosingTagContextMenu extends Vue {
     {
         this.$displayManageModal.show(this.value)
     }
+    
+    showAnimationModal()
+    {
+        this.$animationManageModal.show(this.value)
+    }
+
 
     createPElement(target, cm, a) {
         console.log(

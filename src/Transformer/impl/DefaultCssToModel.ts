@@ -21,6 +21,7 @@ import StyleCssValue from '../../Api/StyleCssValue';
 import { TextShadowStruct } from '~/src/Css/Shadow/TextShadowCss';
 import TextShadowCss from '../../Css/Shadow/TextShadowCss';
 import BoxShadowCss, { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
+import TransitionCss, { TransitionStruct } from '~/src/Css/Animation/TransitionCss';
 export default class DefaultCssToModel implements CssToModel
 {
 
@@ -66,6 +67,7 @@ export default class DefaultCssToModel implements CssToModel
         if (typeof domain.getValues === 'function') {
             
             this.transformShadows(domain, model)
+            this.transformTransition(domain, model)
             model.setAsMultiple()
             // model.setValueSecond(domainCast.getSecondValue())
             // model.setUnitNameSecond(domainCast.getSecondUnit().name)
@@ -128,6 +130,9 @@ export default class DefaultCssToModel implements CssToModel
                 
                 values.push(el)
             }
+
+            model.setValue(null)
+            model.setValues(values)
             
         } else if (domain instanceof BoxShadowCss) {
             domainCastMultiplyValBoxShadow = <CssMultipleValue<BoxShadowStruct>><unknown>domain
@@ -160,12 +165,55 @@ export default class DefaultCssToModel implements CssToModel
                 
                 values.push(el)
             }
-        } else {
-            throw Error('Not implemented method transform CssValue for object ' + domain)
+            model.setValue(null)
+            model.setValues(values)
         }
 
-        model.setValue(null)
-        model.setValues(values)
+    }
+
+    private transformTransition(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<TransitionStruct>
+        if (domain instanceof TransitionCss) {
+            domainCastMultiplyVal = <CssMultipleValue<TransitionStruct>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-MODEL');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            
+            for (const valCss of domainCastMultiplyVal.getValues()) {
+                valCss
+                let el = new StyleCssValue(valCss.propertyName, valCss.propertyNameUnit.name)
+                el.id = valCss.id
+                if (valCss.all) {
+                    el.setValue('all')
+
+                } else {
+                    el.setValue(valCss.getPropertyName())
+
+                }
+                el.setValueSecond(valCss.duration)
+                el.setValueThird(valCss.timingFunction.getValue())
+                el.setValueFourth(valCss.delay)
+                // var color = valCss.color
+                // if (typeof color === 'object') {
+                //     var valueJsonStr = JSON.stringify(color)
+                //     el.setValueFourth(valueJsonStr)
+                // } else {
+                //     el.setValueFourth(color)
+                // }
+                
+                el.setUnitName(valCss.propertyNameUnit.name)
+                el.setUnitNameSecond(valCss.durationUnit.name)
+                el.setUnitNameThird(valCss.timingFunctionUnit.name)
+                el.setUnitNameFourth(valCss.delayUnit.name)
+                
+                values.push(el)
+            }
+            model.setValue(null)
+            model.setValues(values)
+            
+        }
+
     }
    
 }

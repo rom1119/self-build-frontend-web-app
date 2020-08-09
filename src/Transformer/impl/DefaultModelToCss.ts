@@ -19,17 +19,21 @@ import CssMultipleValue from '~/src/Css/CssMultipleValue';
 import RGB from '~/src/Unit/Color/RGB';
 import BoxShadowCss, { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
 import StyleCssModel from '~/types/StyleCssModel';
+import TransitionCss, { TransitionStruct } from '~/src/Css/Animation/TransitionCss';
+import TimingFunctionFactoryFromName from '~/src/Factory/TimingFunctionFactoryFromName';
 export default class DefaultModelToCss implements ModelToCss
 {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
+    private timingFunctionFactoryFromName: TimingFunctionFactoryFromName
     // private styleTransformer: ModelToCss
 
     constructor()
     {
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
+        this.timingFunctionFactoryFromName = new TimingFunctionFactoryFromName()
         // this.styleTransformer = new HtmlTagFactoryFromName()
     }
  
@@ -101,8 +105,10 @@ export default class DefaultModelToCss implements ModelToCss
         // @ts-ignore
         if (typeof domain.getValues === 'function') {
             
-
-            domain =  <BasePropertyCss><unknown>this.transformShadows(domain, model)
+            var newDomin
+            newDomin = <BasePropertyCss><unknown>this.transformShadows(domain, model)
+            newDomin = <BasePropertyCss><unknown>this.transformTransition(domain, model)
+            domain = newDomin
             
             // model.setAsMultiple()
             // model.setValues(values)
@@ -196,9 +202,52 @@ export default class DefaultModelToCss implements ModelToCss
 
             return domainCastMultiplyValBoxShadow
         } else {
-            throw Error('Not implemented method transform CssValue for object ' + domain)
+            // throw Error('Not implemented method transform CssValue for object ' + domain)
         }
 
     }
    
+    private transformTransition(domain: BasePropertyCss, model: StyleCssModel) {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<TransitionStruct>
+        if (domain instanceof TransitionCss) {
+            domainCastMultiplyVal = <CssMultipleValue<TransitionStruct>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-CSS');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            
+            for (const valCss of model.getValues()) {
+                valCss
+                let el = new TransitionStruct()
+                el.id = valCss.id
+                if (valCss.getValue().toLowerCase() == 'all') {
+                    el.all = true
+                    
+                } else {
+                    el.propertyName = valCss.getValue()
+                    
+                }
+
+                el.duration = Number(valCss.getValueSecond())
+                el.timingFunction = this.timingFunctionFactoryFromName.create(valCss.getValueThird())
+                el.delay = Number(valCss.getValueFourth())
+                    
+                // var unitOffX = this.unitCssFactoryFromName.create(valCss.getUnitName())
+                // var unitOffY = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                // var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
+                // var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+              
+                // el.offsetXUnit = unitOffX
+                // el.offsetYUnit = unitOffY
+                // el.blurUnit = unitBlur
+                // el.colorUnit = unitColor
+                // console.log(el);
+                    
+
+                domainCastMultiplyVal.addValue(el)
+            }
+
+            return domainCastMultiplyVal
+            
+        }
+    }
 }

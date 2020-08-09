@@ -70,7 +70,7 @@ export default class BoxShadowProperty extends BaseComputedPropertyManager<BoxSh
             let copy = _.cloneDeep(this.getProperty())
 
             let el = this.createInitValue()
-            
+            copy.clearValue()
             copy.addValue(el)
             
             this.setProperty(copy)

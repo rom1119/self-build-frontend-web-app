@@ -404,6 +404,10 @@ export default class RealPositionCalculator
 
         if (this.tag.parent) {
 
+            if (!this.tag.parent.getHtmlEl()) {
+                return '0px'
+            }
+
             var paddingTopParent = this.tag.parent.getComputedPaddingTop()
             var borderTopParent = this.tag.parent.getComputedBorderTopWidth()
             var marginTopParent = this.tag.parent.getComputedMarginTop()
@@ -467,7 +471,9 @@ export default class RealPositionCalculator
         this.reInitDefaultPosition()
         
         if (this.tag.parent) {
-
+            if (!this.tag.parent.getHtmlEl()) {
+                return '0px'
+            }
             var paddingRightParent = this.tag.parent.getComputedPaddingRight()
             var borderRightParent = this.tag.parent.getComputedBorderRightWidth()
             // @ts-ignore

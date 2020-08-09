@@ -94,9 +94,10 @@ import PaddingLeftCss from './BoxModel/Padding/PaddingLeftCss';
 import PaddingRightCss from './BoxModel/Padding/PaddingRightCss';
 import PaddingCss from './BoxModel/Padding/PaddingCss';
 
-
 import TextShadowCss from './Shadow/TextShadowCss';
 import BoxShadowCss from './Shadow/BoxShadowCss';
+
+import TransitionCss from './Animation/TransitionCss';
 
 
 export {
@@ -183,5 +184,7 @@ export {
     FontFamily,
     FontStretch,
     LineHeight,
+
+    TransitionCss,
     
 }

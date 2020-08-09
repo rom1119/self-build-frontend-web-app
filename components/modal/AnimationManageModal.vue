@@ -7,7 +7,7 @@
                 <button @click="close($event)">X</button>
             </div>
             <h4>
-                Cienie elementu 
+                Animacje elementu 
             </h4>
         </template>
         <template slot="content">
@@ -16,25 +16,25 @@
 
             <div class="content-item" style="display: flex;" >
                 
-                    <div class="content-item-half" @dblclick="hasTextShadow = !hasTextShadow" :class="{'active': hasTextShadow}" >
+                    <div class="content-item-half" @dblclick="hasTransition = !hasTransition" :class="{'active': hasTransition}" >
                         <h4 class="content-item__header">
-                            Text shadow
-                            <span class="add-btn" @click="addDefaultTextShadowVal">
+                            Transition
+                            <span class="add-btn" @click="addDefaultTransitionVal">
                                 +
                             </span>
                         </h4>
-                        <text-shadow-value-component 
-                            v-for="(val, index) in textShadowManager.getProperty().getValues()"
-                            @change="onChangeTextShadow(val)" 
-                            @remove="onRemoveTextShadow(val)" 
+                        <transition-value-component 
+                            v-for="(val, index) in transitionManager.getProperty().getValues()"
+                            @change="onChangeTransition(val)" 
+                            @remove="onRemoveTransition(val)" 
                             :key="val.id" 
-                            :tag="textShadowManager.getHtmlTag()" 
+                            :tag="transitionManager.getHtmlTag()" 
                             :index="index" 
                             :value="val" 
                          />
 
                     </div>
-                    <div class="content-item-half" @dblclick="hasBoxShadow = !hasBoxShadow" :class="{'active': hasBoxShadow}" >
+                    <!-- <div class="content-item-half" @dblclick="hasBoxShadow = !hasBoxShadow" :class="{'active': hasBoxShadow}" >
                         <h4 class="content-item__header">
                             Box shadow
                             <span class="add-btn" @click="addDefaultBoxShadowVal">
@@ -51,7 +51,7 @@
                             :value="val" 
                          />
 
-                    </div>
+                    </div> -->
                     
                     <!-- <li class="content-item__elem" @dblclick="hasFlexGrow = !hasFlexGrow" :class="{'active': hasFlexGrow}">
                         <label :for="'flexGrow-'">
@@ -133,9 +133,10 @@ import DisplayManageModal from '../DisplayManageModal';
 import ShadowManageModal from '../ShadowManageModal';
 import TextShadowCss from '../../src/Css/Shadow/TextShadowCss';
 import TextShadowProperty from '../computedPropertyManagers/impl/ComputedProperty/Shadow/TextShadowProperty';
+import AnimationManageModal from '../AnimationManageModal';
 
     @Component
-    export default class ShadowModalComponent extends ShadowManageModal {
+    export default class AnimationModalComponent extends AnimationManageModal {
       
         timeout
         // value: HtmlTag
@@ -150,93 +151,54 @@ import TextShadowProperty from '../computedPropertyManagers/impl/ComputedPropert
             
         }
 
-        onChangeTextShadow(prop) {
-            console.log('update');
-            // console.log(val);
-            this.textShadowManager.updateCssProp(this.textShadowManager.getProperty())             
 
-        }
 
-        onRemoveTextShadow(val)
+        onRemoveTransition(val)
         {
-            var length = this.textShadowManager.getProperty().getValues().length
+            var length = this.transitionManager.getProperty().getValues().length
             for (var i = 0; i < length; i++) {
-                var el = this.textShadowManager.getProperty().getValues()[i]
+                var el = this.transitionManager.getProperty().getValues()[i]
                 if (el.id == val.id) {
-                    this.textShadowManager.getProperty().getValues().splice(i, 1)
+                    this.transitionManager.getProperty().getValues().splice(i, 1)
                     break
                 }
             }
         }
         
-        onChangeBoxShadow(prop) {
+        onChangeTransition(prop) {
             console.log('update');
             // console.log(val);
-            this.boxShadowManager.updateCssProp(this.boxShadowManager.getProperty())             
+            this.transitionManager.updateCssProp(this.transitionManager.getProperty())             
 
         }
 
-        onRemoveBoxShadow(val)
-        {
-            var length = this.boxShadowManager.getProperty().getValues().length
-            for (var i = 0; i < length; i++) {
-                var el = this.boxShadowManager.getProperty().getValues()[i]
-                if (el.id == val.id) {
-                    this.boxShadowManager.getProperty().getValues().splice(i, 1)
-                    break
-                }
-            }
-        }
+       
         
-        // *****************************************  TEXT-SHADOW ****************************************************        
+        // *****************************************  TRANSITION ****************************************************        
     
 
-        get hasTextShadow()
+        get hasTransition()
         {
-            return  this.textShadowManager.getProperty().active
+            return  this.transitionManager.getProperty().active
         }
         
-        set hasTextShadow(newVal: boolean)
+        set hasTransition(newVal: boolean)
         {
             if (!newVal) {
-                this.textShadowManager.deactivePropCss(this.textShadowManager.getProperty())
+                this.transitionManager.deactivePropCss(this.transitionManager.getProperty())
             } else {
-                this.textShadowManager.activePropCss(this.textShadowManager.getProperty())
+                this.transitionManager.activePropCss(this.transitionManager.getProperty())
             }
         }
 
-        addDefaultTextShadowVal()
+        addDefaultTransitionVal()
         {
             // @ts-ignore
-            let initVal = this.textShadowManager.createInitValue()
-            this.textShadowManager.getProperty().addValue(initVal)
-            this.onChangeTextShadow(initVal)
+            let initVal = this.transitionManager.createInitValue()
+            this.transitionManager.getProperty().addValue(initVal)
+            this.onChangeTransition(initVal)
         }
 
-        // *****************************************  BOX-SHADOW ****************************************************
-
-        get hasBoxShadow()
-        {
-            return  this.boxShadowManager.getProperty().active
-        }
-        
-        set hasBoxShadow(newVal: boolean)
-        {
-            if (!newVal) {
-                this.boxShadowManager.deactivePropCss(this.boxShadowManager.getProperty())
-            } else {
-                this.boxShadowManager.activePropCss(this.boxShadowManager.getProperty())
-            }
-        }
-
-        addDefaultBoxShadowVal()
-        {
-            // @ts-ignore
-            let initVal = this.boxShadowManager.createInitValue()
-            this.boxShadowManager.getProperty().addValue(initVal)
-            this.onChangeBoxShadow(initVal)
-        }
-        
         
         // get widthUnit()
         // {
