@@ -10,6 +10,7 @@ export default abstract class LayoutMode
 
     public abstract canRun(action: ModeAction)
     public abstract getName()
+    public abstract getLabel()
 
 
 }

@@ -46,4 +46,8 @@ export default class EditMode extends LayoutMode
         return EditMode.NAME
     }
 
+    public getLabel() {
+        return 'Tryb edycji'
+    }
+
 }

@@ -48,4 +48,8 @@ export default class ViewMode extends LayoutMode
         return ViewMode.NAME
     }
 
+    public getLabel() {
+        return 'Tryb widoku'
+    }
+
 }

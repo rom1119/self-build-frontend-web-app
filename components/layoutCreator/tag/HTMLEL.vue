@@ -1,8 +1,8 @@
 <template>
 
-    <component v-if="value.isInput" v-model="text" :id="value.shortUUID + '-content'"  class="wrapper-el" :is="value.getTagName()" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)" />
+    <component v-if="value.isInput" v-model="text" :id="value.shortUUID + '-content'"  class="wrapper-el" :is="value.getTagName()" :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)" />
     
-    <component v-else :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" :style="value.cssList" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+    <component v-else :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
         <slot>
         </slot>
     </component>

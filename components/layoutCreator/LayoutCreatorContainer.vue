@@ -75,6 +75,7 @@ import MouseMoveAction from '../../src/Mode/action/MouseMoveAction';
 import KeyDownAction from "~/src/Mode/action/KeyDownAction";
 import KeyUpAction from "~/src/Mode/action/KeyUpAction";
 import MouseClickAction from "~/src/Mode/action/MouseClickAction";
+import ViewMode from "~/src/Mode/impl/ViewMode";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -107,6 +108,19 @@ export default class LayoutCreatorContainer extends Vue {
     public addHtmlTag(tag: HtmlTag)
     {
         this.htmlTags.push(tag)
+    }
+
+    private recursiveClearSelectedSelector(list) {
+        
+        for (const el of list) {
+            if (el instanceof HtmlTag) {
+                el.clearSelectedSelectors()
+                el.onChangeSelector()
+
+                this.recursiveClearSelectedSelector(el.children)
+            }
+        }
+
     }
 
     private recursiveBuildPseudoSelectors(list, tag: HtmlTag) {
@@ -170,6 +184,13 @@ export default class LayoutCreatorContainer extends Vue {
 
         window.document.body.addEventListener('keydown', this.onKeyDown)
         window.document.body.addEventListener('keyup', this.onKeyUp)
+
+        this.$layoutCreatorMode.$on('change', (e) => {
+            if (e instanceof ViewMode) {
+                this.recursiveClearSelectedSelector(this.htmlTags)
+            }
+            
+        })
 
 
     }
@@ -343,6 +364,8 @@ export default class LayoutCreatorContainer extends Vue {
 
         }
     }
+
+
     
     private getAdviseController(eventName, el?)
     {

@@ -69,8 +69,10 @@ import PseudoClassPropertyAccessor from "../Css/PropertyAccessor/pseudoSelector/
 import PseudoElementPropertyAccessor from "../Css/PropertyAccessor/pseudoSelector/PseudoElementPropertyAccessor";
 import Hover from '../PseudoSelector/PseudoClass/Hover';
 import PseudoSelector from '../PseudoSelector/PseudoSelector';
+import CssListAndOveride from "./CssListAndOverride";
+import TransitionCss from '../Css/Animation/TransitionCss';
 
-export default abstract class HtmlTag extends HtmlNode implements CssList, SizeActivable, ActivableTagToManage, ActivableTagToPosition
+export default abstract class HtmlTag extends HtmlNode implements CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition
 {
     
     
@@ -197,6 +199,24 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this._realPositionCalculator.updateNearPositionalTag()
     }
 
+    public reInitDefaultPosition()
+    {
+        var activeSelector = this.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.realPositionCalculator.reInitDefaultPosition()
+        }
+        this.realPositionCalculator.reInitDefaultPosition()
+    }
+    
+    public updatePositionProps()
+    {
+        var activeSelector = this.getSelectedSelector()
+        if (activeSelector) {
+            activeSelector.realPositionCalculator.updateProps()
+        }
+        this.realPositionCalculator.updateProps()
+    }
+
     get pseudoClassAccessor(): PseudoClassPropertyAccessor
     {
         return this._pseudoClassAccessor
@@ -254,22 +274,33 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
     
     set hasPosition(arg)
     {
-        this._hasPosition = arg
-        if (this._hasPosition == true) {
-            var prop = this.cssAccessor.getProperty(PositionCss.PROP_NAME)
-            if (prop) {
-                this.positionPropName = this.cssAccessor.getProperty(PositionCss.PROP_NAME).getClearValue()
+        var activeSelector = this.getSelectedSelector()
+        
+        if (activeSelector) {
+            activeSelector.hasPosition = arg
+        } 
+        this._hasPosition = arg  
+    }
 
-            } else {
-                this.positionPropName = null
-            }
+    public updatePositionName(prop?: PositionCss)
+    {    
+        var activeSelector = this.getSelectedSelector()
+        
+        if (activeSelector) {
+            activeSelector.updatePositionName(prop)
+        } 
+        if (prop) {
+            this.positionPropName = prop.getClearValue()
+
         } else {
             this.positionPropName = null
         }
+       
     }
     
     get positionPropName(): string
     {
+
         return this._positionPropName
     }
     
@@ -356,10 +387,16 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
     public updateHasPosition(prop: BasePropertyCss)
     {
+        var activeSelector = this.getSelectedSelector()
+        
+        if (activeSelector) {
+            activeSelector.updateHasPosition(prop)
+        } 
         if (!(prop instanceof PositionCss)) {
             return
         }
         this.notifyPositionalTag();
+        this.updatePositionName(prop)
 
         if (!prop.isActive()) {
             this._hasAbsolute = false
@@ -713,6 +750,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
             return false
         }
         
+        
         if (css instanceof LeftCss || css instanceof RightCss || css instanceof TopCss || css instanceof BottomCss) {
             return false
         }
@@ -743,50 +781,7 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         return pseudoSelectors
     }
 
-    get cssList() : any
-    {
-        var activeSelector = this.getSelectedSelector()
-        
-        if (activeSelector) {
-            return activeSelector.cssList
-        } 
-        let css = {}
-        for (const cssProp of this._cssPropertyAccesor.all) {
-            if (!this.canAddToCssList(cssProp)) {
-                continue
-            }
-            if (this.isLikeBackgroundCss(cssProp)) {
-                continue
-            }
-            css[cssProp.getName()] = cssProp.getValue()
-
-            if (cssProp instanceof FontSize) {
-                this._innerText = 'Font-size: ' + cssProp.getValue()
-            }
-        }    
-        
-        // if (css[Width.PROP_NAME]) {
-        //     let width = new Width(this._width, this.widthUnitCurrent)
-        //     var paddingLeft = 
-        // }
-        if (this.hasAbsolute || this.hasFixed) {
-            css[Width.PROP_NAME] = this.widthCalc
-            css[Height.PROP_NAME] = this.heightCalc
-
-        } else {
-            css[Width.PROP_NAME] = '100%'
-            css[Height.PROP_NAME] = '100%'
-
-        }
-        
-        
-        if (css[Height.PROP_NAME]) {
-            let height = new Height(this._height, this.heightUnitCurrent)
-        }
-
-        return css
-
-    }
+    
 
     public updateAllModelsComponents()
     {
@@ -951,30 +946,59 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         return val
     }
 
-
-
-    get cssPaddingBoxList(): any
+    get cssList() : any
     {
-        let css = this.cssAccessor.all
+        let css = {}
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            if (!this.canAddToCssList(cssProp)) {
+                continue
+            }
+            if (this.isLikeBackgroundCss(cssProp)) {
+                continue
+            }
+            css[cssProp.getName()] = cssProp.getValue()
 
-        let cssToBox = []
+            if (cssProp instanceof FontSize) {
+                this._innerText = 'Font-size: ' + cssProp.getValue()
+            }
+        }    
 
-        // for (const cssProp of this.cssAccessor.all) {
-        var boxShadow = this.cssAccessor.getProperty(BoxShadowCss.PROP_NAME)
-        if (boxShadow instanceof BoxShadowCss) {
-            cssToBox.push(boxShadow)
+        if (this.hasAbsolute || this.hasFixed) {
+            css[Width.PROP_NAME] = this.widthCalc
+            css[Height.PROP_NAME] = this.heightCalc
+
+        } else {
+            css[Width.PROP_NAME] = '100%'
+            css[Height.PROP_NAME] = '100%'
+
         }
-        return []
+        
+        if (css[Height.PROP_NAME]) {
+            let height = new Height(this._height, this.heightUnitCurrent)
+        }
+
+        // console.log('APPPPPPPPPPPPP');
+        // console.log(css);
+        
+
+        return css
+
+    }
+
+    get cssListOverride() : any
+    {
+        var activeSelector = this.getSelectedSelector()
+        
+        if (activeSelector) {
+            return activeSelector.cssList
+        } 
+
+        return {}
+
     }
 
     get cssBoxList() : any
     {
-
-        var activeSelector = this.getSelectedSelector()
-        
-        if (activeSelector) {
-            return activeSelector.cssBoxList
-        } 
         if (this.widthUnitCurrent instanceof Percent) {
             // let css = this.cssList
                 
@@ -1022,11 +1046,25 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
           
             this.transformStyleList.setReplacedCss(replacedCss)
 
-        }
-
-        return this.transformStyleList.transform(this.cssAccessor.all)
+        }        
+        var a = this.transformStyleList.transform(this.cssAccessor.all)
+        // console.log('APPPPPPPPPPPPP');
+        // console.log(a);
+        return a
         
         // return css
+    }
+
+    get cssBoxListOverride() : any
+    {
+
+        var activeSelector = this.getSelectedSelector()
+        
+        if (activeSelector) {
+            return activeSelector.cssBoxList
+        } 
+        
+        return {}
     }
 
     
@@ -1437,6 +1475,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
         this.heightCalc = `calc(100% - ${paddingTopCalc} - ${paddingBottomCalc})`
     }
 
+    clearSelectedSelectors() {
+        this.pseudoClassAccessor.selectedSelector = null
+        this.pseudoElementAccessor.selectedSelector = null
+        
+    }
     getSelectedSelector() : PseudoSelector {
         if (this.pseudoClassAccessor.selectedSelector) {
             return this.pseudoClassAccessor.selectedSelector
@@ -1459,6 +1502,29 @@ export default abstract class HtmlTag extends HtmlNode implements CssList, SizeA
 
         return this.cssAccessor
 
+    }
+
+    public onChangeSelector()
+    {
+        this.resetFilterTagElements()
+        Vue.nextTick(() => {
+            this.recalculateRealComputedProperties()
+            this.recalculateRealComputedProperties()
+            this.reInitDefaultPosition()
+
+            this.updatePositionProps()
+            var activeSelector = this.getSelectedSelector()
+            var positionCss
+            if (activeSelector) {
+                positionCss = activeSelector.cssAccessor.getProperty(PositionCss.PROP_NAME)
+            } else {
+                positionCss = this.cssAccessor.getProperty(PositionCss.PROP_NAME)
+
+            }
+            // console.log(positionCss);
+            
+            this.updateHasPosition(positionCss)
+        })
     }
 
 }

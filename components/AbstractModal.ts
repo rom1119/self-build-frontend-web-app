@@ -7,6 +7,7 @@ import DefaultMoveEventController from '../src/Controller/DefaultMoveEventContro
 import UnitSize from '~/src/Unit/UnitSize'
 import Unit from '../src/Unit/Unit';
 import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
+import PositionCss from '../src/Css/Display/PositionCss';
 
 
 export default abstract class AbstractModal extends Vue
@@ -27,12 +28,7 @@ export default abstract class AbstractModal extends Vue
             manager.init()  
         }
 
-        this.value.resetFilterTagElements()
-        Vue.nextTick(() => {
-            this.value.recalculateRealComputedProperties()
-            this.value.recalculateRealComputedProperties()
-
-        })
+        this.value.onChangeSelector()
     }
 
     restore(e)

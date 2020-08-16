@@ -296,7 +296,7 @@ export default abstract class PseudoSelector
 
         let cssToBox = []
 
-        if (this._hasAbsolute || this.hasFixed) {
+        if (this.owner.hasAbsolute || this.owner.hasFixed) {
             var replacedCss = {}
     
             replacedCss['left'] = 'calc(' + this.realPositionCalculator.realLeftCalc + ')'
@@ -335,17 +335,6 @@ export default abstract class PseudoSelector
     set hasPosition(arg)
     {
         this._hasPosition = arg
-        if (this._hasPosition == true) {
-            var prop = this.cssAccessor.getProperty(PositionCss.PROP_NAME)
-            if (prop) {
-                this.positionPropName = this.cssAccessor.getProperty(PositionCss.PROP_NAME).getClearValue()
-
-            } else {
-                this.positionPropName = null
-            }
-        } else {
-            this.positionPropName = null
-        }
     }
     
     get positionPropName(): string
@@ -376,6 +365,59 @@ export default abstract class PseudoSelector
     set heightCalc(arg)
     {
         this._heightCalc = arg
+    }
+
+    public updateHasPosition(prop: BasePropertyCss)
+    {
+
+        if (!(prop instanceof PositionCss)) {
+            return
+        }
+        this.owner.notifyPositionalTag();
+
+        if (!prop.isActive()) {
+            this._hasAbsolute = false
+            this._hasFixed = false
+            this.hasPosition = false
+            return
+        }
+
+        if (prop.getValue() === PositionCss.RELATIVE || prop.getValue() === PositionCss.ABSOLUTE || prop.getValue() === PositionCss.FIXED) {
+            this.hasPosition = true
+            if (prop.getValue() === PositionCss.ABSOLUTE) {
+                this._hasAbsolute = true
+                
+            } else {
+                this._hasAbsolute = false
+
+            }
+            
+            if (prop.getValue() === PositionCss.FIXED) {
+                this._hasFixed = true
+                
+            } else {
+                this._hasFixed = false
+
+            }
+
+        } else {
+            this._hasFixed = false
+            this._hasAbsolute = false
+            this.hasPosition = false
+        }
+
+
+    }
+
+    public updatePositionName(prop?: PositionCss)
+    {    
+        if (prop) {
+            this.positionPropName = prop.getClearValue()
+
+        } else {
+            this.positionPropName = null
+        }
+       
     }
     
 }

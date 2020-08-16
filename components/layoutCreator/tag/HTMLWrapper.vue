@@ -1,5 +1,5 @@
 <template>
-    <component :is="tagName" :class="positionClass" v-context-menu="value.uuid" @click.stop="onContentMouseClick(value, $event)" :style="value.cssBoxList"  :key="value.updateComponentKey" :id="value.shortUUID" >
+    <component :is="tagName" :class="positionClass" v-context-menu="value.uuid" @click.stop="onContentMouseClick(value, $event)" :style="[value.cssBoxList, value.cssBoxListOverride]"  :key="value.updateComponentKey" :id="value.shortUUID" >
         <html-element-closing-tag-context-menu v-if="value.isClosingTag" :value="value" :ref="value.uuid" />
         <html-element-short-closing-tag-context-menu v-else :value="value" :ref="value.uuid" />
         <div class="wrapper">

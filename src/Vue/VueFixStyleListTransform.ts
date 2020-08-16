@@ -4,6 +4,7 @@ import { Width, Height, PaddingRightCss, PaddingBottomCss, PaddingTopCss, Border
 import PaddingCss from '../Css/BoxModel/Padding/PaddingCss';
 import PaddingLeftCss from '../Css/BoxModel/Padding/PaddingLeftCss';
 import BorderRadiusGlobal from '../Css/Border/Radius/BorderRadiusGlobal';
+import TransitionCss from '../Css/Animation/TransitionCss';
 export class VueFixStyleListTransform 
 {
     
@@ -17,6 +18,13 @@ export class VueFixStyleListTransform
     }
 
     setReplacedCss(replacedCss: any) {
+        this.replacedCss = replacedCss
+    }
+    
+    addReplacedCss(replacedCss: any) {
+        for (const cssProp in replacedCss) {
+
+        }
         this.replacedCss = replacedCss
     }
 
@@ -43,6 +51,10 @@ export class VueFixStyleListTransform
                 css[cssProp.getName()] = cssVal
 
             }
+
+            // if (cssProp instanceof TransitionCss) {
+
+            // }
 
             // console.log(cssProp.getName());
             

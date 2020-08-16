@@ -4,6 +4,7 @@ import * as libCss from "~/src/Css/Animation/timingFunction";
 import Unit from '../Unit/Unit';
 import UnableCreateTimingFunctionFromName from '../Errors/UnableCreateTimingFunctionFromName';
 import TimingFunction from '../Css/Animation/timingFunction/TimingFunction';
+import CubicBezier from '../Css/Animation/timingFunction/impl/CubicBezier';
 
 export default class TimingFunctionFactoryFromName {
 
@@ -17,6 +18,11 @@ export default class TimingFunctionFactoryFromName {
     create(nameArg: string) : TimingFunction {
         var cssProps = libCss;
         var name = nameArg
+        
+        console.error(nameArg);
+        if (nameArg.indexOf('cubic-bezier') > -1) {
+            return CubicBezier.CREATE_FROM_VAL(nameArg)
+        }
 
         // console.log(name);
         

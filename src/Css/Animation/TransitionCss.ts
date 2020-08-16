@@ -146,13 +146,13 @@ export class TransitionStruct implements CssValue {
         }
 
         str += `${this.duration}s`
+        str += ` ${this.timingFunction.getValue()}`
         if (this.timingFunction.getValue()) {
-            str += ` ${this.timingFunction.getValue()}`
 
         }
         
+        str += ` ${this.delay}s`
         if (this.delay) {
-            str += ` ${this.delay}s`
 
         }
       
@@ -215,6 +215,9 @@ export default class TransitionCss extends BasePropertyCss implements CssMultipl
         return this.values
     }
     addValue(val: TransitionStruct) {
+        if (!val.propertyName) {
+            val.propertyName = TransitionCss.DEFAULT_PROPERTY_NAME
+        }
         Vue.set(this.values, this.values.length, val)
 
         // this.values.push(val)

@@ -1,72 +1,42 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <div>
 
-        <div class=" content-item__elem_container"
-            >
-        
-                <div class="content-item__elem"
-                    >
-                    <!-- <select-unit-context-menu :propertyUnit="value.offsetXUnit" @changePropUnit="() => {value.offsetXUnit = $event; change();}" :ref="cmNameTextShadowOffX" /> -->
-
-                    <label :for="'textShadowOffesetX-'">
-                        Property
-                        <select @dblclick.stop.prevent="" :disabled="isDisable" type="number" @input="change" style="width: 40px;" class="input-text" v-model="value.propertyName" name="propertyName" :id="'propertyName-'">
-                            <option :value="propName" v-for="propName in cssPropNames" :key="propName">
-                                {{ propName }}
-
-                            </option>
-                        </select>
-                        {{ value.propertyName }}
-                    </label>
-                </div>
-                <div class="content-item__elem"
-                        
-                    >
-                    <label :for="'textShadowBlur-'">
-                        Duration
-                        <input @dblclick.stop.prevent="" type="number" @input="change" style="width: 40px;" class="input-text" v-model="value.duration" name="duration" :id="'duration-'">
-                        {{ value.duration }}
-                    </label>
-                </div>
-                <div class="content-item__elem"
-                    v-context-menu="cmNameTimingFunction"
-                    >
-                    <select-timing-function-menu :property="value.timingFunction" @changeProp="($event) => {value.timingFunction = $event; checkCubicBezier($event); change();}" :ref="cmNameTimingFunction" />
-
-                    <label>
-                        Timing Function: 
-                        {{ value.timingFunction.getValue() }}
-                    </label>
+    <div
+        class="content-item__elem_container"
+        >
+            <div class="content-item__elem"
                     
-                </div>
+                 >
+                <label :for="'x1-'">
+                    X1
+                    <input @dblclick.stop.prevent="" step="0.01"  type="number" @input="change" style="width: 50px;" class="input-text" v-model="value.x1" name="x1" :id="'x1-'">
+                </label>
                 
-                <div class="content-item__elem"
-                    >
-
-                    <label :for="'textShadowSpread-'">
-                        Delay
-                        <input @dblclick.stop.prevent="" type="number" @input="change" style="width: 40px;" class="input-text" v-model="value.delay" name="delay" :id="'delay-'">
-                        {{ value.delay }}
-                    </label>
-                </div>
-
-                <div class="content-item__elem content"
-                    >
-
-                    <div class="color-picker-box" @dblclick.stop.prevent="">                    
-                        <span v-if="index > 0" class="remove-btn top-35" @click="removeVal">
-                            X
-                        </span>
-                        <span>
-                            ALL
-                            <input type="checkbox" @change="change" v-model="value.all">
-                        </span>
-
-                    </div>
-                </div>
-
-        </div>
-                        <cubic-bezier-component v-if="isCubicBezier" @change="change" :allClass="['top-padding','padding']" :value="value.timingFunction" :tag="tag" />
+            </div>
+            <div class="content-item__elem"
+                    
+                 >
+                 <label :for="'y1-'">
+                    Y1
+                    <input @dblclick.stop.prevent="" step="0.01"  type="number" @input="change" style="width: 50px;" class="input-text" v-model="value.y1" name="y1" :id="'y1-'">
+                </label>
+            </div>
+            <div class="content-item__elem"
+                    
+                 >
+                 <label :for="'x2-'">
+                    X2
+                    <input @dblclick.stop.prevent="" step="0.01"  type="number" @input="change" style="width: 50px;" class="input-text" v-model="value.x2" name="x2" :id="'x2-'">
+                </label>
+            </div>
+            <div class="content-item__elem"
+                    
+                 >
+                 <label :for="'y2-'">
+                    Y2
+                    <input @dblclick.stop.prevent="" step="0.01"  type="number" @input="change" style="width: 50px;" class="input-text" v-model="value.y2" name="y2" :id="'y2-'">
+                </label>
+            </div>
+       
 
     </div>
 </template>
@@ -89,7 +59,7 @@ import EaseIn from '../../../src/Css/Animation/timingFunction/impl/EaseIn';
 import EaseInOut from '../../../src/Css/Animation/timingFunction/impl/EaseInOut';
 import EaseOut from '../../../src/Css/Animation/timingFunction/impl/EaseOut';
 import * as libCss from "~/src/Css/";
-import CubicBezier from '~/src/Css/Animation/timingFunction/impl/CubicBezier';
+import CubicBezier from '../../../src/Css/Animation/timingFunction/impl/CubicBezier';
 
 
     @Component({
@@ -97,21 +67,22 @@ import CubicBezier from '~/src/Css/Animation/timingFunction/impl/CubicBezier';
             Chrome
         }
     })
-    export default class TransitionValueComponent extends Vue {
+    export default class CubicBezierComponent extends Vue {
         
         timeout
         @Prop({default:null, required:true})
         tag: HtmlTag
 
         @Prop({default:null, required:true})
-        value: TransitionStruct
-        
+        value: CubicBezier
+
         @Prop({default:null, required:true})
-        index: number
+        allClass: string[]
+        
+        // @Prop({default:null, required:true})
+        // index: number
 
         cssPropNames: string[] = []
-
-        isCubicBezier = false
    
         
         // @Prop({default:null, required:false})
@@ -144,9 +115,6 @@ import CubicBezier from '~/src/Css/Animation/timingFunction/impl/CubicBezier';
                 this.cssPropNames.push(cssProps[cssPropClass].PROP_NAME)
     
             }
-
-            this.checkCubicBezier(this.value.timingFunction)
-            
             // console.log(this.contextMenuName);
             // console.log(this.cmName);
 
@@ -162,19 +130,6 @@ import CubicBezier from '~/src/Css/Animation/timingFunction/impl/CubicBezier';
             
         }
 
-        checkCubicBezier(tFunction: TimingFunction)
-        {
-            if (tFunction instanceof CubicBezier) {                
-                this.isCubicBezier = true
-            } else {
-                this.isCubicBezier = false
-
-            }
-            
-        }
-
-
-
         toggleColorPicker()
         {
             // this.pickerActive = !this.pickerActive
@@ -187,17 +142,7 @@ import CubicBezier from '~/src/Css/Animation/timingFunction/impl/CubicBezier';
             this.toggleColorPicker()
         }
 
-        removeVal()
-        {
-            this.tag.api.deleteCssValue(this.value).then(
-                () => {
-                    this.$emit('remove')
-                },
-                () => {
-                    alert('server error')
-                }
-            )
-        }
+       
         
         saveColor()
         {
@@ -215,10 +160,10 @@ import CubicBezier from '~/src/Css/Animation/timingFunction/impl/CubicBezier';
 
 
 
-        get isDisable()
-        {
-            return this.value.all == true
-        }
+        // get isDisable()
+        // {
+        //     return this.value.all == true
+        // }
 
 
 

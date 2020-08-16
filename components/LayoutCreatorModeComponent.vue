@@ -5,7 +5,7 @@
 
         <section class="content">
             <h4>
-                Tryb   {{ mode.getName() }}
+                {{ mode.getLabel() }}
             </h4>
             <div>
                 <label>
@@ -45,7 +45,7 @@ import ModeAction from '../src/Mode/ModeAction';
     export default class LayoutCreatorModeComponent extends BaseLayoutModeComponent {
       
         timeout
-        public mode: LayoutMode = new  ViewMode()
+        public mode: LayoutMode = new EditMode()
 
         active = true
         
@@ -94,8 +94,9 @@ import ModeAction from '../src/Mode/ModeAction';
                 this.mode = new EditMode()
             } else if (arg === ViewMode.NAME) {
                 this.mode = new ViewMode()
-
             }
+
+            this.$emit('change', this.mode)
         }
         
         mounted()

@@ -34,6 +34,7 @@ import EaseIn from '~/src/Css/Animation/timingFunction/impl/EaseIn';
 import EaseOut from '~/src/Css/Animation/timingFunction/impl/EaseOut';
 import EaseInOut from '~/src/Css/Animation/timingFunction/impl/EaseInOut';
 import TimingFunction from '~/src/Css/Animation/timingFunction/TimingFunction';
+import { CubicBezier } from '~/src/Css/Animation/timingFunction';
 
 @Component
 export default class SelectTimingFunctionContextMenu extends Vue {
@@ -62,6 +63,7 @@ export default class SelectTimingFunctionContextMenu extends Vue {
         this.timingFunctions.push(new EaseIn())
         this.timingFunctions.push(new EaseOut())
         this.timingFunctions.push(new EaseInOut())
+        this.timingFunctions.push(new CubicBezier())
 
         
     }
