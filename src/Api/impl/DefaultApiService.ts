@@ -30,6 +30,7 @@ import SelectorResponse from "~/types/response/SelectorResponse";
 import SelectorModelBuildResponse from "~/src/ModelFromResponseBuilder/impl/SelectorModelBuildResponse";
 import DefaultSelectorToModel from "~/src/Transformer/impl/DefaultSelectorToModel";
 import SelectorToModel from "~/src/Transformer/SelectorToModel";
+import { BaseGradientStructVal } from "~/src/Css/Gradient/BaseGradientCss";
 
 export default class DefaultApiService implements ApiService
 {
@@ -59,7 +60,6 @@ export default class DefaultApiService implements ApiService
         this.cssFromName = new CssPropertyFactoryFromName()
 
     }
-    
 
     getTreeTags(tag: HtmlTag): ResponseTreeTag {
         throw new Error("Method not implemented.");
@@ -194,5 +194,6 @@ export default class DefaultApiService implements ApiService
     deleteCssValue(val: CssValue): Promise<any> {
         return Axios.delete(DefaultApiService.HOST + `/api/css-style/value/${val.getId()}`)
     }
+
  
 }

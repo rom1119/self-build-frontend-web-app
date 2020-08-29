@@ -25,6 +25,7 @@
         <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
         <context-menu-item :action="showDisplayModal">Display</context-menu-item>
         <context-menu-item :action="showAnimationModal">Animation</context-menu-item>
+        <context-menu-item :action="showGradientModal">Gradient</context-menu-item>
 
     </context-menu>
 </template>
@@ -132,6 +133,11 @@ export default class HtmlElementContextMenu extends Vue {
     showAnimationModal()
     {
         this.$animationManageModal.show(this.value)
+    }
+    
+    showGradientModal()
+    {
+        this.$gradientManageModal.show(this.value)
     }
 
     createPElement(target, cm, a) {

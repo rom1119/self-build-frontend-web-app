@@ -197,9 +197,9 @@ interface Color {
                         console.log(123456);
 
             // this.setPropertyToModel(new BackgroundImage(base64Img, color)) 
-            this.backgroundImageManager.getProperty().setResource(base64Img)
+            // this.backgroundImageManager.getProperty().setResource(base64Img)
             this.backgroundImageManager.getProperty().file = this.file
-            this.backgroundImageManager.getProperty().setValue(base64Img)
+            // this.backgroundImageManager.getProperty().setValue(base64Img)
             this.backgroundImageManager.updateCssProp(this.backgroundImageManager.getProperty())
         }
 

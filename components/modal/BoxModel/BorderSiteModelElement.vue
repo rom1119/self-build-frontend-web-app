@@ -17,7 +17,7 @@
             </br>
             <span @dblclick.stop.prevent="" class="property-value" v-if="property">{{ property.getWidthUnit().label }}  {{ property.getType() }} {{ property.getColor() }}</span>
             <div class="color-picker-box" @dblclick.stop.prevent="">
-                <div class="color-picker-btn" @click.stop="toggleColorPicker()">
+                <div class="color-picker-btn" :style="{'background-color': backgroundColor}"  @click.stop="toggleColorPicker()">
                 </div>
                 <div class="color-picker" v-show="pickerActive">
                     <Chrome v-model="borderColor" :color="borderColor" label="Color" />
@@ -88,6 +88,7 @@ import { RGBA } from '../../../src/Unit';
         }
 
         pickerActive = false
+        backgroundColor = 'white'
 
         mounted() 
         {
@@ -103,7 +104,8 @@ import { RGBA } from '../../../src/Unit';
                 this.color.b = this.property.clearColor.b
                 this.color.a = this.property.clearColor.a
             }
-            
+            this.backgroundColor = this.property.getColor()
+
         }
 
         onChange(val)
@@ -127,6 +129,8 @@ import { RGBA } from '../../../src/Unit';
             this.property.setColor(this.color, new RGBA())
             this.onChange(this.color)
             this.toggleColorPicker()
+            this.backgroundColor = this.property.getColor()
+
         }
 
         toggleColorPicker()

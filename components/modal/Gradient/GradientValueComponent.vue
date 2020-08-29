@@ -3,66 +3,24 @@
     <div class=" content-item__elem_container"
         >
 
-            <div class="content-item__elem"
-                    v-context-menu="cmNameTextShadowOffX"
-                 >
-                <select-unit-context-menu :propertyUnit="value.offsetXUnit" @changePropUnit="($event) => {value.offsetXUnit = $event; change();}" :ref="cmNameTextShadowOffX" />
-
-                <label :for="'textShadowOffesetX-'">
-                    Offset X
-                    <input @dblclick.stop.prevent="" type="number" @input="change" style="width: 40px;" class="input-text" v-model="value.offsetX" name="textShadowOffesetX" :id="'textShadowOffesetX-'">
-                    {{ value.offsetXUnit.label }}
-                </label>
-            </div>
-            <div class="content-item__elem"
-                    v-context-menu="cmNameTextShadowOffY"
-                 >
-                <select-unit-context-menu :propertyUnit="value.offsetYUnit" @changePropUnit="($event) => {value.offsetYUnit = $event; change();}" :ref="cmNameTextShadowOffY" />
-
-                <label :for="'textShadowOffesetY-'">
-                    Offset Y
-                    <input @dblclick.stop.prevent="" type="number" @input="change" style="width: 40px;" class="input-text" v-model="value.offsetY" name="textShadowOffesetY" :id="'textShadowOffesetY-'">
-                    {{ value.offsetYUnit.label }}
-                </label>
-            </div>
-            
-            <div class="content-item__elem"
-                    v-context-menu="cmNameTextShadowBlur"
-                 >
-                <select-unit-context-menu :propertyUnit="value.blurUnit" @changePropUnit="($event) => {value.blurUnit = $event; change();}" :ref="cmNameTextShadowBlur" />
-
-                <label :for="'textShadowBlur-'">
-                    Blur
-                    <input @dblclick.stop.prevent="" type="number" @input="change" style="width: 40px;" class="input-text" v-model="value.blur" name="textShadowBlur" :id="'textShadowBlur-'">
-                    {{ value.blurUnit.label }}
-                </label>
-            </div>
-            <div class="content-item__elem"
-                    v-context-menu="cmNameTextShadowSpread"
-                 >
-                <select-unit-context-menu :propertyUnit="value.spreadUnit" @changePropUnit="($event) => {value.spreadUnit = $event; change();}" :ref="cmNameTextShadowSpread" />
-
-                <label :for="'textShadowSpread-'">
-                    Spread
-                    <input @dblclick.stop.prevent="" type="number" @input="change" style="width: 40px;" class="input-text" v-model="value.spread" name="textShadowSpread" :id="'textShadowSpread-'">
-                    {{ value.spreadUnit.label }}
-                </label>
-            </div>
-            <div class="content-item__elem content"
+            <div class="content-item__elem content rel"
                  >
 
                  <div class="color-picker-box" @dblclick.stop.prevent="">
-                     <label @dblclick.stop.prevent="">Kolor</label>
-                    <div @dblclick.stop.prevent="" class="color-picker-btn" @click.stop="toggleColorPicker()">
-                    </div>
-                    <span v-if="index > 0" class="remove-btn" @click="removeVal">
+                     <label @dblclick.stop.prevent="" style="margin-bottom: 7px;">
+                         Kolor
+
+                        <div @dblclick.stop.prevent="" :style="{'background-color': backgroundColor}" class="color-picker-btn" @click.stop="toggleColorPicker()">
+                        </div>
+                     </label>
+                    <span v-if="index > 1"  class="remove-btn" style="left: 20px; position: relative; top: 0;" @click="removeVal">
                         X
                     </span>
-                    <span>
+                    <!-- <span>
                         INSET
                         <input type="checkbox" @change="change" v-model="value.inset">
-                    </span>
-                    <div class="color-picker" style="left 230px; top: 30px;" v-show="pickerActive">
+                    </span> -->
+                    <div class="color-picker" style="right: -260px !important; left: unset; top: 30px; "   v-show="pickerActive">
                         <Chrome v-model="color" :color="color" label="Color" />
                         <div class="color-picker-nav">
                             <button @click="cancelColor">Anuluj</button>
@@ -74,6 +32,22 @@
                 </div>
             </div>
 
+            <div class="content-item__elem"
+                    v-context-menu="cmSizeGradientVal"
+                 >
+                <select-unit-context-menu :propertyUnit="value.sizeUnit" @changePropUnit="() => {value.sizeUnit = $event; change();}" :ref="cmSizeGradientVal" />
+
+                <label :for="cmNameTextShadowColor" style="display: inline-flex;">
+                    Size
+                    <input @dblclick.stop.prevent="" type="number" @input="change" style="width: 50px;" class="input-text" v-model="value.size" name="textShadowBlur" :id="cmNameTextShadowColor">
+                    {{ value.sizeUnit.label }}
+                    <input type="range" v-model="value.size" @input="change" :max="maxSize" />
+                </label>
+                
+            </div>
+  
+            
+
     </div>
 </template>
 
@@ -84,9 +58,10 @@
     import {Pagination} from "~/types/Pagination";
 import { TextShadowStruct } from '~/src/Css/Shadow/TextShadowCss';
     import { Chrome }  from '~/node_modules/vue-color';
-import { RGBA } from '~/src/Unit';
+import { RGBA, Percent } from '~/src/Unit';
 import HtmlTag from '~/src/Layout/HtmlTag';
 import { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
+import { BaseGradientStructVal } from '~/src/Css/Gradient/BaseGradientCss';
 
 
     @Component({
@@ -94,14 +69,14 @@ import { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
             Chrome
         }
     })
-    export default class TextShadowValueComponent extends Vue {
+    export default class GradientValueComponent extends Vue {
         
         timeout
         @Prop({default:null, required:true})
         tag: HtmlTag
 
         @Prop({default:null, required:true})
-        value: BoxShadowStruct
+        value: BaseGradientStructVal
         
         @Prop({default:null, required:true})
         index: number
@@ -110,7 +85,7 @@ import { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
         // @Prop({default:null, required:false})
         // classList: string[]
 
-        cmNameTextShadowOffX = Math.floor(Math.random() * 1000000000).toString() + 'text_shadow_off_x'
+        cmSizeGradientVal = Math.floor(Math.random() * 1000000000).toString() + 'cmSizeGradientVal'
         cmNameTextShadowOffY = Math.floor(Math.random() * 1000000000).toString() + 'text-shadow-off-y'
         cmNameTextShadowBlur = Math.floor(Math.random() * 1000000000).toString() + 'text-shadow-blur'
         cmNameTextShadowSpread = Math.floor(Math.random() * 1000000000).toString() + 'text-shadow-spread'
@@ -123,7 +98,18 @@ import { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
             g: 0,
             b: 0,
             a: 1
-        }        
+        }  
+
+        backgroundColor = 'white'
+        
+        get maxSize()
+        {
+            if (this.value.sizeUnit instanceof Percent) {
+                return 100
+            }
+
+            return 99999
+        }
 
         mounted() 
         {
@@ -139,6 +125,8 @@ import { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
                 this.color.b = this.value.color.b
                 this.color.a = this.value.color.a
             }
+
+            this.backgroundColor = this.value.getColorValue()
             
         }
 
@@ -173,6 +161,7 @@ import { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
             this.value.colorUnit = new RGBA()
             this.change()
             this.toggleColorPicker()
+            this.backgroundColor = this.value.getColorValue()
         }
 
         change()
@@ -257,9 +246,9 @@ import { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
         background-color: greenyellow;
 
     }
-    // .rel {
-    //     position: relative;
-    // }
+    .rel {
+        position: relative;
+    }
 
     // .h-550 {
     //     height: 550px;

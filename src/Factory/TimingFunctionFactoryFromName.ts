@@ -19,7 +19,7 @@ export default class TimingFunctionFactoryFromName {
         var cssProps = libCss;
         var name = nameArg
         
-        console.error(nameArg);
+        // console.error(nameArg);
         if (nameArg.indexOf('cubic-bezier') > -1) {
             return CubicBezier.CREATE_FROM_VAL(nameArg)
         }

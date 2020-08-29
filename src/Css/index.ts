@@ -99,6 +99,11 @@ import BoxShadowCss from './Shadow/BoxShadowCss';
 
 import TransitionCss from './Animation/TransitionCss';
 
+import LinearGradientCss from './Gradient/impl/LinearGradientCss';
+import RepeatingLinearGradientCss from './Gradient/impl/RepeatingLinearGradientCss';
+import RadialGradientCss from './Gradient/impl/RadialGradientCss';
+import RepeatingRadialGradientCss from './Gradient/impl/RepeatingRadialGradientCss';
+
 
 export {
     BackgroundColor,
@@ -186,5 +191,10 @@ export {
     LineHeight,
 
     TransitionCss,
+
+    LinearGradientCss,
+    RepeatingLinearGradientCss,
+    RadialGradientCss,
+    RepeatingRadialGradientCss
     
 }

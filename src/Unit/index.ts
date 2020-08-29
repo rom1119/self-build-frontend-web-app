@@ -15,6 +15,8 @@ import VW from './Size/VW';
 // another
 import UnitUrl from './UnitUrl';
 import UnitSecond from './UnitSecond';
+import UnitDeg from './UnitDeg';
+import UnitTurn from './UnitTurn';
 
 
 
@@ -30,4 +32,6 @@ export {
     VW,
     UnitUrl,
     UnitSecond,
+    UnitDeg,
+    UnitTurn
 }

@@ -7,6 +7,8 @@ import LayoutEl from '../../LayoutEl';
 import HtmlNode from '../../Layout/HtmlNode';
 import TextNode from '../../Layout/TextNode';
 import PseudoSelector from '../../PseudoSelector/PseudoSelector';
+import BaseGradientCss from "~/src/Css/Gradient/BaseGradientCss";
+import { BackgroundImage } from "~/src/Css";
 
 export default class PseudoSelectorSynchronizer implements Synchronizer
 {
@@ -58,30 +60,8 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
                     console.log('success');
                     console.log(res);
 
-                    for (const cssRes of res.data.cssStyleList) {
-                        for (const cssDomain of this.selector.cssAccessor.all) {
-                            if (cssDomain.getName() !== cssRes.name) {
-                                continue
-                            }
-                            cssDomain.id = cssRes.id
-                            // @ts-ignore
-                            if (typeof cssDomain.getValues === 'function') {
-                                // @ts-ignore
-                                for (var i = 0; i < cssDomain.getValues().length; i++) {
-                                    // console.log(cssRes);
-                                    // console.log(cssDomain);
-                                    
-                                    // @ts-ignore
-                                    const cssValDomain = cssDomain.getValues()[i]
-                                    cssValDomain.id = cssRes.cssValues[i].id
-                                }
+                    this.updateCssIds(res.data.cssStyleList, this.selector.cssAccessor.all)
 
-                            }
-
-                        }
-
-                        
-                    }
     
                     this.setAsNowReadyToSynchronize()
                     this.apiSocket.sendMessage(this.selector.projectId)
@@ -132,5 +112,46 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
         }
 
         return  true
+    }
+
+    private updateCssIds(arrCss, domainArrCss)
+    {
+        for (const cssRes of arrCss) {
+            for (const cssDomain of domainArrCss) {
+                if (cssDomain.getName() !== cssRes.name) {
+                    continue
+                }
+                cssDomain.id = cssRes.id
+                // @ts-ignore
+                if (typeof cssDomain.getValues === 'function') {
+                    // @ts-ignore
+                    for (var i = 0; i < cssDomain.getValues().length; i++) {
+                        if (cssDomain instanceof BaseGradientCss) {
+                            // @ts-ignore
+                            if (cssDomain.getValues()[i].specialValGradient) {
+
+                                cssDomain.direction.id = cssRes.cssValues[i].id
+                                continue
+                            }
+                        }
+                        // console.log(cssRes);
+                        // console.log(cssDomain);
+                        
+                        // @ts-ignore
+                        const cssValDomain = cssDomain.getValues()[i]
+                        cssValDomain.id = cssRes.cssValues[i].id
+                    }
+
+                }
+
+                if (cssDomain instanceof BackgroundImage) {
+
+                    this.updateCssIds(cssRes.children, cssDomain.getGradients())
+                }
+            }
+
+
+            
+        }
     }
 }

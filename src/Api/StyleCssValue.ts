@@ -15,6 +15,7 @@ export default class StyleCssValue
     private _unitNameFifth
     private _resourcePath
     private _inset
+    private _specialValGradient
 
     constructor(val: any, unitName: string)
     {
@@ -44,6 +45,11 @@ export default class StyleCssValue
     public setInset(val)
     {
         this._inset = val
+    }
+    
+    public setSpecialValGradient(val)
+    {
+        this._specialValGradient = val
     }
     
     public setUnitName(val)
@@ -149,6 +155,11 @@ export default class StyleCssValue
     public getInset(): boolean
     {
         return this._inset
+    }
+    
+    public getSpecialValGradient(): boolean
+    {
+        return this._specialValGradient
 
     }
 

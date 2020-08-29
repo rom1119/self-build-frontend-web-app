@@ -17,14 +17,15 @@ export default class StyleCssModelBuild implements ModelFromResponse<StyleCssRes
         model.setResourcePath(from.resourcePath)
         model.setResourceUrl(from.resourceUrl)
 
-        var values = []
-
+        
         if (from.multipleValue) {
+            var values = []
             model.setAsMultiple()
             for (const cssValModel of from.cssValues) {
                 let cssValue = new StyleCssValue(cssValModel.value, cssValModel.unitName)
                 cssValue.id = cssValModel.id
                 cssValue.setInset(cssValModel.inset)
+                cssValue.setSpecialValGradient(cssValModel.specialValGradient)
                 cssValue.setValue(cssValModel.value)
                 cssValue.setValueSecond(cssValModel.valueSecond)
                 cssValue.setValueThird(cssValModel.valueThird)
@@ -41,6 +42,14 @@ export default class StyleCssModelBuild implements ModelFromResponse<StyleCssRes
             }
 
             model.setValues(values)
+        }
+
+        if (from.children) {
+            for (const childFrom of from.children) {
+                var child = this.build(childFrom)
+                model.getChildren().push(child)
+            }
+            
         }
 
         return model;

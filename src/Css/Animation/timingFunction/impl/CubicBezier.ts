@@ -24,8 +24,8 @@ export default class CubicBezier implements TimingFunction {
         o.x2 = Number(paramsArr[2].trim())
         o.y2 = Number(paramsArr[3].trim())
 
-        console.log(params);
-        console.log(paramsArr);
+        // console.log(params);
+        // console.log(paramsArr);
 
 
         return o

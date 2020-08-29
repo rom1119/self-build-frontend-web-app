@@ -86,6 +86,8 @@ export default class DefaultModelToDomain implements ModelToDomain
             if (model.styles) {
                 for (const style of model.styles) {
                     let subModel = this.styleTransformer.transform(style)
+                    // console.log(style);
+                    
                     domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
                     // domain..push(subModel)
                     domain.updateModelComponent()

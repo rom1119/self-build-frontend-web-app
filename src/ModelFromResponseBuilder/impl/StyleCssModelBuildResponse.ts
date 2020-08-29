@@ -20,13 +20,14 @@ export default class StyleCssModelBuildResponse implements ResponseFromModel<Sty
         response.unitNameThird = from.getUnitNameThird()
         response.resourceUrl = from.getResourceUrl()
 
-        var values = []
         if (from.isMultiple()) {
+            var values = []
             response.multipleValue = true
             for (const cssValModel of from.getValues()) {
                 let responseCssValue = new StyleCssValueResponse()
                 responseCssValue.id = cssValModel.id
                 responseCssValue.inset = cssValModel.getInset()
+                responseCssValue.specialValGradient = cssValModel.getSpecialValGradient()
                 responseCssValue.value = cssValModel.getValue()
                 responseCssValue.valueSecond = cssValModel.getValueSecond()
                 responseCssValue.valueThird = cssValModel.getValueThird()
@@ -44,8 +45,14 @@ export default class StyleCssModelBuildResponse implements ResponseFromModel<Sty
 
             response.cssValues = values
         }
-        // response.resourcePath = from.getResourcePath()
-        
+
+        response.children = []
+        for (const childFrom of from.getChildren()) {
+            var child = this.build(childFrom)
+            response.children.push(child)
+        }
+            
+               
         return response;
     }
 

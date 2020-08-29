@@ -15,6 +15,7 @@ export default class StyleCss
     private _resourceUrl
     private _multipleValue = false
     private _values: StyleCssValue[]
+    private _children: StyleCss[] = []
 
     constructor(key: string, val: any, unitName: string)
     {
@@ -134,6 +135,11 @@ export default class StyleCss
     {
         return this._resourceUrl
 
+    }
+
+    public getChildren(): StyleCss[]
+    {
+        return this._children
     }
 
 

@@ -22,6 +22,11 @@ import { TextShadowStruct } from '~/src/Css/Shadow/TextShadowCss';
 import TextShadowCss from '../../Css/Shadow/TextShadowCss';
 import BoxShadowCss, { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
 import TransitionCss, { TransitionStruct } from '~/src/Css/Animation/TransitionCss';
+import BackgroundImage from '../../Css/Background/BackgroundImage';
+import { BaseGradientStructVal } from '~/src/Css/Gradient/BaseGradientCss';
+import LinearGradientCss, { LinearGradientDirection, LinearGradientStructVal } from '../../Css/Gradient/impl/LinearGradientCss';
+import RadialGradientCss, { RadialGradientStructVal, RadialGradientDirection } from '~/src/Css/Gradient/impl/RadialGradientCss';
+import { Named } from '~/src/Unit';
 export default class DefaultCssToModel implements CssToModel
 {
 
@@ -43,6 +48,20 @@ export default class DefaultCssToModel implements CssToModel
         }
         let model = new StyleCssModel(domain.getName(), value, domain.getUnit().name)
         model.id = domain.id
+
+        if (domain instanceof BackgroundImage) {
+
+            if (domain.getGradients().length > 0) {
+                for (const gradient of domain.getGradients()) {
+                    var child = this.transform(gradient)
+                    model.getChildren().push(child)
+                }
+                model.setResourcePath(domain.getResource())
+
+                return model
+
+            }
+        }
 
         // @ts-ignore
         if (typeof domain.getResource === 'function') {
@@ -68,6 +87,7 @@ export default class DefaultCssToModel implements CssToModel
             
             this.transformShadows(domain, model)
             this.transformTransition(domain, model)
+            this.transformGradient(domain, model)
             model.setAsMultiple()
             // model.setValueSecond(domainCast.getSecondValue())
             // model.setUnitNameSecond(domainCast.getSecondUnit().name)
@@ -215,5 +235,99 @@ export default class DefaultCssToModel implements CssToModel
         }
 
     }
-   
+
+    private transformGradient(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<LinearGradientStructVal>
+        var domainCastMultiplyValRadial: CssMultipleValue<RadialGradientStructVal>
+
+        if (domain instanceof LinearGradientCss) {
+            domainCastMultiplyVal = <CssMultipleValue<LinearGradientStructVal>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-MODEL');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            let direc = <LinearGradientDirection>domain.direction
+            if (domain.direction.getFullValue()) {
+                var el = new StyleCssValue(direc.direction, direc.directionUnit.name)
+                el.id = direc.id
+                el.setValue(direc.direction)
+                el.setSpecialValGradient(true)
+                el.setUnitName(direc.directionUnit.name)
+                values.push(el)
+            }
+
+            
+            for (const valCss of domainCastMultiplyVal.getValues()) {
+                
+                var el = new StyleCssValue(valCss.color, valCss.colorUnit.name)
+                el.id = valCss.id
+                
+                el.setValue(valCss.color)
+                el.setValueSecond(valCss.size)
+                var color = valCss.color
+                if (typeof color === 'object') {
+                    var valueJsonStr = JSON.stringify(color)
+                    el.setValue(valueJsonStr)
+                } else {
+                    el.setValue(color)
+                }
+                
+                el.setUnitName(valCss.colorUnit.name)
+                el.setUnitNameSecond(valCss.sizeUnit.name)
+                
+                values.push(el)
+            }
+            model.setValue(null)
+            model.setValues(values)
+            
+        } else if (domain instanceof RadialGradientCss) {
+            domainCastMultiplyValRadial = <CssMultipleValue<RadialGradientStructVal>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-MODEL');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+            let direc = <RadialGradientDirection>domain.direction
+            if (domain.direction.getFullValue()) {
+                var el = new StyleCssValue(direc.shape, Named.PROP_NAME)
+                el.id = direc.id
+                el.setSpecialValGradient(true)
+                el.setValue(direc.shape)
+                el.setValueSecond(direc.size)
+                el.setValueThird(direc.xPos)
+                el.setValueFourth(direc.yPos)
+                
+                el.setUnitName(Named.PROP_NAME)
+                el.setUnitNameSecond(Named.PROP_NAME)
+                el.setUnitNameThird(direc.xPosUnit.name)
+                el.setUnitNameFourth(direc.yPosUnit.name)
+
+                values.push(el)
+
+            }
+            
+            for (const valCss of domainCastMultiplyValRadial.getValues()) {
+                
+                var el = new StyleCssValue(valCss.color, valCss.colorUnit.name)
+                el.id = valCss.id
+                
+                el.setValue(valCss.color)
+                el.setValueSecond(valCss.size)
+                var color = valCss.color
+                if (typeof color === 'object') {
+                    var valueJsonStr = JSON.stringify(color)
+                    el.setValue(valueJsonStr)
+                } else {
+                    el.setValue(color)
+                }
+                
+                el.setUnitName(valCss.colorUnit.name)
+                el.setUnitNameSecond(valCss.sizeUnit.name)
+                
+                values.push(el)
+            }
+            model.setValue(null)
+            model.setValues(values)
+            
+        }
+
+    }
+
 }

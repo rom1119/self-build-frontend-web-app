@@ -21,6 +21,13 @@ import BoxShadowCss, { BoxShadowStruct } from '~/src/Css/Shadow/BoxShadowCss';
 import StyleCssModel from '~/types/StyleCssModel';
 import TransitionCss, { TransitionStruct } from '~/src/Css/Animation/TransitionCss';
 import TimingFunctionFactoryFromName from '~/src/Factory/TimingFunctionFactoryFromName';
+import { BackgroundImage } from '~/src/Css';
+import BaseGradientCss from '../../Css/Gradient/BaseGradientCss';
+import { RadialGradientStructVal, RadialGradientDirection } from '~/src/Css/Gradient/impl/RadialGradientCss';
+import { LinearGradientStructVal, LinearGradientDirection } from '~/src/Css/Gradient/impl/LinearGradientCss';
+import LinearGradientCss from '../../Css/Gradient/impl/LinearGradientCss';
+import StyleCssValue from '~/src/Api/StyleCssValue';
+import RadialGradientCss from '../../Css/Gradient/impl/RadialGradientCss';
 export default class DefaultModelToCss implements ModelToCss
 {
 
@@ -40,7 +47,8 @@ export default class DefaultModelToCss implements ModelToCss
     transform(model: StyleCss): BasePropertyCss {
         var domain = this.cssFactoryFromName.create(model.getKey())
         var unit = this.unitCssFactoryFromName.create(model.getUnitName())
-
+        // console.log(domain);
+        
         var val
         if (unit instanceof RGBA) {
             val = JSON.parse(model.getValue())
@@ -50,6 +58,28 @@ export default class DefaultModelToCss implements ModelToCss
         domain.setValue(val)
         domain.setUnit(unit)
         domain.id = model.id
+
+        if (domain instanceof BackgroundImage) {
+
+            var domainCastBackground: BackgroundImage = <BackgroundImage><unknown>domain
+
+            if (model.getChildren().length > 0) {
+                for (const gradient of model.getChildren()) {
+                    var child = <BaseGradientCss>this.transform(gradient)
+                    domainCastBackground.getGradients().push(child)
+                }
+                domainCastBackground.setResource(domain.getResource())
+
+                domain = domainCastBackground
+
+            // let unitBorder = this.unitCssFactoryFromName.create(model.getUnitName())
+            // domainCastBorder.setWidth(Number(model.getValue()), unitBorder)
+            // // console.log(unitBorder);
+            
+            // domainCastBorder.setUnit(unitBorder)
+
+            }
+        }
 
         // @ts-ignore
         if (typeof domain.getWidth === 'function') {
@@ -105,10 +135,19 @@ export default class DefaultModelToCss implements ModelToCss
         // @ts-ignore
         if (typeof domain.getValues === 'function') {
             
-            var newDomin
-            newDomin = <BasePropertyCss><unknown>this.transformShadows(domain, model)
-            newDomin = <BasePropertyCss><unknown>this.transformTransition(domain, model)
-            domain = newDomin
+            var newDominShadow
+            var newDominTransition
+            var newDominGradient
+            newDominShadow = <BasePropertyCss><unknown>this.transformShadows(domain, model)
+            newDominTransition = <BasePropertyCss><unknown>this.transformTransition(domain, model)
+            newDominGradient = <BasePropertyCss><unknown>this.transformGradient(domain, model)
+            if (newDominShadow) {
+                domain = newDominShadow
+            } else if (newDominTransition) {
+                domain = newDominTransition
+            } else if (newDominGradient) {
+                domain = newDominGradient
+            }
             
             // model.setAsMultiple()
             // model.setValues(values)
@@ -205,6 +244,121 @@ export default class DefaultModelToCss implements ModelToCss
             // throw Error('Not implemented method transform CssValue for object ' + domain)
         }
 
+    }
+
+    private transformGradient(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: LinearGradientCss
+        var domainCastMultiplyValBoxShadow: RadialGradientCss
+        if (domain instanceof LinearGradientCss) {
+            domainCastMultiplyVal = <LinearGradientCss><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-CSS');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+
+            let direc = <LinearGradientDirection>domainCastMultiplyVal.direction
+            var directionVal = this.findDirectionModel(model.getValues())
+            if (directionVal) {
+                direc.id = directionVal.id
+                direc.direction = directionVal.getValue()
+                direc.directionUnit = this.unitCssFactoryFromName.create(directionVal.getUnitName())
+
+            }
+            
+            for (const valCss of model.getValues()) {
+                if (valCss.getSpecialValGradient() === true) {
+                    continue
+                }
+                let el = new LinearGradientStructVal()
+                    el.id = valCss.id
+                    el.size = parseInt(valCss.getValueSecond())
+                    
+                    var unitSize = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                    var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitName())
+
+                    var val
+                    if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                        el.color = JSON.parse(valCss.getValue())
+                    } else {
+                        el.color = valCss.getValue()
+                    }
+                    
+                    el.sizeUnit = unitSize
+                    el.colorUnit = unitColor
+                    // console.log(el);
+                    
+
+                    domainCastMultiplyVal.addValue(el)
+            }
+
+            return domainCastMultiplyVal
+            
+        } else if (domain instanceof RadialGradientCss) {
+            domainCastMultiplyValBoxShadow = <RadialGradientCss><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-CSS');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+
+            let direc = <RadialGradientDirection>domainCastMultiplyValBoxShadow.direction
+            var directionVal = this.findDirectionModel(model.getValues())
+            if (directionVal) {
+                direc.id = directionVal.id
+                direc.shape = directionVal.getValue()
+                direc.size = directionVal.getValueSecond()
+                direc.xPos = directionVal.getValueThird()
+                direc.yPos = directionVal.getValueFourth()
+                direc.shapeUnit = this.unitCssFactoryFromName.create(directionVal.getUnitName())
+                direc.sizeUnit = this.unitCssFactoryFromName.create(directionVal.getUnitNameSecond())
+                direc.xPosUnit = this.unitCssFactoryFromName.create(directionVal.getUnitNameThird())
+                direc.yPosUnit = this.unitCssFactoryFromName.create(directionVal.getUnitNameFourth())
+
+            }
+            
+            for (const valCss of model.getValues()) {
+                if (valCss.getSpecialValGradient()) {
+                    continue
+                }
+                let el = new RadialGradientStructVal()
+                    el.id = valCss.id
+                    el.size = parseInt(valCss.getValueSecond())
+                    
+                    var unitSize = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                    var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitName())
+
+                    var val
+                    if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                        el.color = JSON.parse(valCss.getValue())
+                    } else {
+                        el.color = valCss.getValue()
+                    }
+                    
+                    el.sizeUnit = unitSize
+                    el.colorUnit = unitColor
+                    // console.log(el);
+                    
+
+                    domainCastMultiplyValBoxShadow.addValue(el)
+            }
+
+            console.log('NEW_DOMAIN');
+            console.log(domainCastMultiplyValBoxShadow);
+            
+
+            return domainCastMultiplyValBoxShadow
+        } else {
+            // throw Error('Not implemented method transform CssValue for object ' + domain)
+        }
+
+    }
+
+    findDirectionModel(arg: StyleCssValue[]) : StyleCssValue {
+        
+        for (const model of arg) {
+            if (model.getSpecialValGradient() === true) {
+                return model
+            }
+        }
+
+        return null
     }
    
     private transformTransition(domain: BasePropertyCss, model: StyleCssModel) {

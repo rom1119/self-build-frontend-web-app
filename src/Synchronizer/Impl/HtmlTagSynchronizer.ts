@@ -6,6 +6,8 @@ import HtmlSocketApi from "~/src/Api/impl/HtmlSocketApi";
 import LayoutEl from '../../LayoutEl';
 import HtmlNode from '../../Layout/HtmlNode';
 import TextNode from '../../Layout/TextNode';
+import BackgroundImage from '../../Css/Background/BackgroundImage';
+import BaseGradientCss from '../../Css/Gradient/BaseGradientCss';
 
 export default class HtmlTagSynchronizer implements Synchronizer
 {
@@ -58,30 +60,7 @@ export default class HtmlTagSynchronizer implements Synchronizer
                     console.log(res);
 
                     if (this.tag instanceof HtmlTag) {
-                        for (const cssRes of res.data.cssStyleList) {
-                            for (const cssDomain of this.tag.cssAccessor.all) {
-                                if (cssDomain.getName() !== cssRes.name) {
-                                    continue
-                                }
-                                cssDomain.id = cssRes.id
-                                // @ts-ignore
-                                if (typeof cssDomain.getValues === 'function') {
-                                    // @ts-ignore
-                                    for (var i = 0; i < cssDomain.getValues().length; i++) {
-                                        // console.log(cssRes);
-                                        // console.log(cssDomain);
-                                        
-                                        // @ts-ignore
-                                        const cssValDomain = cssDomain.getValues()[i]
-                                        cssValDomain.id = cssRes.cssValues[i].id
-                                    }
-
-                                }
-
-                            }
-
-                            
-                        }
+                        this.updateCssIds(res.data.cssStyleList, this.tag.cssAccessor.all, false)
     
                     }
                     this.setAsNowReadyToSynchronize()
@@ -129,12 +108,59 @@ export default class HtmlTagSynchronizer implements Synchronizer
 
     }
 
+    
     private canSynchronize()
     {
         if (this.isNowSynchronized) {
             return false
         }
-
+        
         return  true
+    }
+
+    private updateCssIds(arrCss, domainArrCss, isChildren)
+    {
+
+        for (var m = 0; m < arrCss.length; m++) {
+            var cssRes = arrCss[m]
+            var cssDomain = domainArrCss[m]
+            if (cssDomain.getName() !== cssRes.name) {
+                continue
+            }
+            if (isChildren) {
+
+            }
+            cssDomain.id = cssRes.id
+            // @ts-ignore
+            if (typeof cssDomain.getValues === 'function') {
+                // @ts-ignore
+                for (var i = 0; i < cssRes.cssValues.length; i++) {
+                    if (cssDomain instanceof BaseGradientCss) {
+                        // @ts-ignore
+                        if (cssRes.cssValues[i].specialValGradient) {
+
+                            cssDomain.direction.id = cssRes.cssValues[i].id
+                            continue
+                        }
+                    }
+                    // console.log(cssRes);
+                    // console.log(cssDomain);
+                    
+                    // @ts-ignore
+                    const cssValDomain = cssDomain.getValues()[i - 1]
+                    cssValDomain.id = cssRes.cssValues[i].id
+                }
+
+            }
+
+            if (cssDomain instanceof BackgroundImage) {
+
+                this.updateCssIds(cssRes.children, cssDomain.getGradients(), true)
+            }
+            
+
+
+            
+        }
     }
 }

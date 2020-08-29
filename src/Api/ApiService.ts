@@ -12,7 +12,7 @@ export default interface ApiService
     appendSelector(selector: PseudoSelector): Promise<any>
 
     putSelector(selector: PseudoSelector): Promise<any>;
-    putCssStyle(arg0: CssResource);
+    putCssStyle(arg0: CssResource): Promise<any>;
     getTreeTags(tag: HtmlTag) : ResponseTreeTag
     appendTagToProject(tag: HtmlNode)
     appendChild(tag: HtmlNode)

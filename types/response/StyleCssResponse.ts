@@ -4,6 +4,7 @@ import StyleCssValueResponse from "./StyleCssValueResponse";
 export default class StyleCssResponse extends ResponseObject{
      id
      name
+     children: StyleCssResponse[]
      value
      cssValues: StyleCssValueResponse[]
      unitName

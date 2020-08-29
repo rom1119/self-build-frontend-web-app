@@ -12,6 +12,7 @@ import BorderManageModal from '~/components/modal/BorderManageModal.vue'
 import BoxModelManageModal from '~/components/modal/BoxModelManageModal.vue'
 import DisplayManageModal from '~/components/modal/DisplayManageModal.vue'
 import ShadowManageModal from '~/components/modal/ShadowManageModal.vue'
+import GradientManageModal from '~/components/modal/GradientManageModal.vue'
 import AnimationManageModal from '~/components/modal/AnimationManageModal.vue'
 import LayoutCreatorMode from '~/components/LayoutCreatorMode.vue'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
@@ -31,6 +32,7 @@ declare module 'vue/types/vue' {
         $boxModelManageModal: BoxModelManageModal,
         $displayManageModal: DisplayManageModal,
         $shadowManageModal: ShadowManageModal,
+        $gradientManageModal: GradientManageModal,
         $animationManageModal: AnimationManageModal,
         $layoutCreatorMode: LayoutCreatorMode,
         $axios: NuxtAxiosInstance,

@@ -64,6 +64,7 @@ module.exports = {
         {src: '@/plugins/modals/boxModelManageModal', ssr: false},
         {src: '@/plugins/modals/displayManageModal', ssr: false},
         {src: '@/plugins/modals/shadowManageModal', ssr: false},
+        {src: '@/plugins/modals/gradientManageModal', ssr: false},
         {src: '@/plugins/modals/animationManageModal', ssr: false},
         {src: '@/plugins/layoutModeComponent', ssr: false},
         {src: '@/plugins/axiosFileDownload', ssr: false},
