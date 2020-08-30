@@ -56,11 +56,12 @@ export default class DefaultCssToModel implements CssToModel
                     var child = this.transform(gradient)
                     model.getChildren().push(child)
                 }
-                model.setResourcePath(domain.getResource())
-
+                
                 return model
-
+                
             }
+            model.setResourcePath(domain.getResource())
+            model.setResourceUrl(domain.getResourceUrl())
         }
 
         // @ts-ignore

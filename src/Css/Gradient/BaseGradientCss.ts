@@ -180,8 +180,11 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
 
         // }
         var val = '' + this.getName() + '('
-        if (this.direction.getFullValue().trim().length > 0) {
-            val += this.direction.getFullValue() + ', '
+        if (this.direction) {
+            if (this.direction.getFullValue().trim().length > 0) {
+                val += this.direction.getFullValue() + ', '
+            }
+
         }
         
         this.values.forEach((element, key) => {

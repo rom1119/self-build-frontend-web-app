@@ -175,12 +175,18 @@ export default class DefaultApiService implements ApiService
         return Axios.put(DefaultApiService.HOST + `/api/html-tag/text/${tag.uuid}`, response)
     }
     
-    putCssStyle(css: CssResource): Promise<any> {
+    putCssStyleResource(css: CssResource): Promise<any> {
         // let model = this.domainToModelTransformer.transform(css)
         // let response = this.tagModelToResponse.build(model)
         let formData = new FormData()
         formData.append('file', css.getResourceFile())
         return Axios.post(DefaultApiService.HOST + `/api/css-style/${css.getId()}/resource`, formData)
+    }
+    
+    deleteCssStyleResource(css: CssResource): Promise<any> {
+        // let model = this.domainToModelTransformer.transform(css)
+        // let response = this.tagModelToResponse.build(model)
+        return Axios.delete(DefaultApiService.HOST + `/api/css-style/${css.getId()}/resource`)
     }
 
     deleteTag(tag: HtmlNode) : Promise<any> {

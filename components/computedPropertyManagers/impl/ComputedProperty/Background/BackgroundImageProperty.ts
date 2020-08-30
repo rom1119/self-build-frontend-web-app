@@ -79,7 +79,7 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
             // const imageBlob = this.dataURItoBlob(propCast.getResource());
             // var file: File = new File([imageBlob], 'example_img.jpeg', { type: 'image/jpeg' })
             // propCast.file = file
-            this.value.api.putCssStyle(<CssResource><unknown>prop).then((res) => {
+            this.value.api.putCssStyleResource(<CssResource><unknown>prop).then((res) => {
                 propCast.setResource(res.data.resourcePath)
             })
         } 
@@ -91,8 +91,21 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
 
     updateCssProp(newProp: BackgroundImage) {
         super.updateCssProp(newProp)
-        this.value.api.putCssStyle(<CssResource> <unknown>newProp).then((res) => {
-            newProp.setResource(res.data.resourcePath)
+        if (newProp.getResourceFile()) {
+            this.value.api.putCssStyleResource(<CssResource> <unknown>newProp).then((res) => {
+                newProp.setResource(res.data.resourcePath)
+            })
+
+        }
+        
+
+        return newProp.getClearValue()
+    }
+
+    deleteResource(newProp: BackgroundImage) {
+        this.value.api.deleteCssStyleResource(<CssResource> <unknown>newProp).then((res) => {
+            newProp.setResource(null)
+            newProp.file = null
         })
         
 

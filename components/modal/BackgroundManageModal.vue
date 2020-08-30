@@ -33,7 +33,21 @@
                     <div class=" content-item">
                         
                         <input type="file" id="imgFile" @change="previewThumbnail($event);" accept="image/*" class="input-file">  
-                        <img :src="backgroundImage" alt="" width="200" height="200">
+                        <div>
+                            <button v-if="backgroundImageManager.getProperty().resource" @click.stop="deleteResource" type="button">
+                                Usuń zasób
+                            </button>
+                            <img v-if="backgroundImage" :src="backgroundImage" alt="" width="200" height="200">
+                            <img v-else :src="backgroundImageManager.getProperty().resourceUrl" alt="" width="200" height="200">
+
+                        </div>
+                    </div>
+                    <div class=" content-item" v-if="!backgroundImageManager.getProperty().resource">
+                        <label for="">
+                            Link do zewnętrznego zasobu
+                            
+                            <input type="text" style="width: 100%;" @change="updateBackgroundImage" v-model="backgroundImageManager.getProperty().resourceUrl" />
+                        </label>
                     </div>
                 </div> 
             </div>  
@@ -132,6 +146,7 @@ import BackgroundModal from '../BackgroundModal';
 import UnitColor from '../../src/Unit/UnitColor';
 import FileInput from '../forms/FileInput.vue';
 import { BackgroundRepeat, BackgroundAttachment } from '~/src/Css';
+import BackgroundImageProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundImageProperty';
 
 // let Chrome = ColourPicker.Chrome
 
@@ -188,6 +203,7 @@ interface Color {
         get backgroundImage(): string
         {
             return this.backgroundImageManager.getProperty().resource
+
         }
         
         set backgroundImage(newVal: string)
@@ -202,6 +218,19 @@ interface Color {
             // this.backgroundImageManager.getProperty().setValue(base64Img)
             this.backgroundImageManager.updateCssProp(this.backgroundImageManager.getProperty())
         }
+
+        deleteResource()
+        {
+            
+            (<BackgroundImageProperty><unknown>(this.backgroundImageManager)).deleteResource(this.backgroundImageManager.getProperty())
+
+        }
+
+        updateBackgroundImage()
+        {
+            this.backgroundImageManager.updateCssProp(this.backgroundImageManager.getProperty())
+        }
+
 
         get hasBackgroundImage(): boolean
         {

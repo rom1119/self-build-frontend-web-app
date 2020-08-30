@@ -68,17 +68,20 @@ export default class DefaultModelToCss implements ModelToCss
                     var child = <BaseGradientCss>this.transform(gradient)
                     domainCastBackground.getGradients().push(child)
                 }
-                domainCastBackground.setResource(domain.getResource())
-
-                domain = domainCastBackground
-
-            // let unitBorder = this.unitCssFactoryFromName.create(model.getUnitName())
-            // domainCastBorder.setWidth(Number(model.getValue()), unitBorder)
-            // // console.log(unitBorder);
-            
-            // domainCastBorder.setUnit(unitBorder)
-
+                
+                
+                // let unitBorder = this.unitCssFactoryFromName.create(model.getUnitName())
+                // domainCastBorder.setWidth(Number(model.getValue()), unitBorder)
+                // // console.log(unitBorder);
+                
+                // domainCastBorder.setUnit(unitBorder)
+                
             }
+            domain = domainCastBackground
+            //@ts-ignore
+            domainCastBackground.setResource(model.getResourcePath())
+            //@ts-ignore
+            domainCastBackground.setResourceUrl(model.getResourceUrl())
         }
 
         // @ts-ignore

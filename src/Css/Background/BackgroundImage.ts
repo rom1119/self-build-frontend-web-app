@@ -9,6 +9,7 @@ export default class BackgroundImage extends CssSimple implements CssResource, G
 {
     file: File
     resource: string
+    resourceUrl: string
     gradients: BaseGradientCss[] = []
 
     constructor()
@@ -43,13 +44,21 @@ export default class BackgroundImage extends CssSimple implements CssResource, G
             if (this.resource) {
                 res += ", " + this.unit.getValue(this.resource)
             }
+            
+            if (this.resourceUrl) {
+                res += ", " + this.unit.getValue(this.resourceUrl)
+            }
             console.log('BACK_IMAG' , res);
             
             return res
         }
 
-        if (this.unit) {
+        if (this.resource) {
             return this.unit.getValue(this.resource)
+        }
+        
+        if (this.resourceUrl) {
+            return this.unit.getValue(this.resourceUrl)
         }
         return ''
     }
@@ -70,6 +79,13 @@ export default class BackgroundImage extends CssSimple implements CssResource, G
     }
     setResource(val: string) {
         this.resource = val
+    }
+    
+    getResourceUrl(): string {
+        return this.resourceUrl
+    }
+    setResourceUrl(val: string) {
+        this.resourceUrl = val
     }
     public static PROP_NAME = 'background-image'
     public getName(): string {

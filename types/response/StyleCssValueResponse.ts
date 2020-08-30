@@ -15,5 +15,6 @@ export default class StyleCssValueResponse extends ResponseObject{
      inset
      specialValGradient
      resourcePath
+     resourceUrl
 
 }

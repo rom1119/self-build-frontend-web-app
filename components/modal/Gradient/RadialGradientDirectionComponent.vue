@@ -31,15 +31,15 @@
         <div class="content-item__elem"
                 v-context-menu="cmXpos"
                 >
-            <select-unit-context-menu :propertyUnit="value.xPosUnit" @changePropUnit="($event) => {value.xPosUnit = $event; change();}" :ref="cmXpos" />
+            <select-radial-gradient-direction-unit-menu :propertyUnit="value.xPosUnit" @changePropUnit="($event) => {value.xPosUnit = $event; change();}" :ref="cmXpos" />
 
             <label :for="'posX'">
                 X position
                 {{ value.getXPosValue() }}
-                <select v-if="isNamedPosXUnit" name="posX" @change="change" v-model="value.posX" id="posX">
+                <select v-if="isNamedPosXUnit" name="posX" @change="change" v-model="value.xPos" id="posX">
                     <option v-for="posX in xPosList" :value="posX" :key="posX"> {{ posX }} </option>
                 </select>
-                <input v-else type="number" @input="change" v-model="value.posX" />
+                <input v-else type="number" style="width: 50px;" @input="change" v-model="value.xPos" />
             </label>
             
         </div>
@@ -47,15 +47,15 @@
         <div class="content-item__elem"
                 v-context-menu="cmYpos"
                 >
-            <select-unit-context-menu :propertyUnit="value.yPosUnit" @changePropUnit="($event) => {value.yPosUnit = $event; change();}" :ref="cmYpos" />
+            <select-radial-gradient-direction-unit-menu :propertyUnit="value.yPosUnit" @changePropUnit="($event) => {value.yPosUnit = $event; change();}" :ref="cmYpos" />
 
             <label :for="'posY'">
                 Y position
-                {{ value.getXPosValue() }}
-                <select v-if="isNamedPosYUnit" @change="change" name="posX" v-model="value.posY" id="posX">
+                {{ value.getYPosValue() }}
+                <select v-if="isNamedPosYUnit" @change="change" name="posX" v-model="value.yPos" id="yPos">
                     <option v-for="posY in yPosList" :value="posY" :key="posY"> {{ posY }} </option>
                 </select>
-                <input v-else type="number" @input="change" v-model="value.posY" />
+                <input v-else type="number" style="width: 50px;" @input="change" v-model="value.yPos" />
             </label>
             
         </div>
