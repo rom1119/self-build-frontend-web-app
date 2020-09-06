@@ -71,11 +71,12 @@ import Hover from '../PseudoSelector/PseudoClass/Hover';
 import PseudoSelector from '../PseudoSelector/PseudoSelector';
 import CssListAndOveride from "./CssListAndOverride";
 import TransitionCss from '../Css/Animation/TransitionCss';
+import SelectorOwner from "../SelectorOwner";
 
-export default abstract class HtmlTag extends HtmlNode implements CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition
+export default abstract class HtmlTag extends HtmlNode implements
+    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner
 {
-    
-    
+
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
     protected _parent : HtmlTag
@@ -170,6 +171,11 @@ export default abstract class HtmlTag extends HtmlNode implements CssListAndOver
         this._realPositionCalculator = new RealPositionCalculator(this)
         // console.log(this.paddingRealFetcher);
 
+    }
+
+    get selectorLiteral()
+    {
+        return '#' + this.shortUUID
     }
 
     notifyPositionalTag()
@@ -775,8 +781,6 @@ export default abstract class HtmlTag extends HtmlNode implements CssListAndOver
         
         // console.log('COMP-SELECTORS');
         // console.log(pseudoSelectors);
-        
-        
 
         return pseudoSelectors
     }

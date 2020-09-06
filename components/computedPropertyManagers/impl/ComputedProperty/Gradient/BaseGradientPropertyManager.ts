@@ -39,7 +39,8 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
         prop.id = null
         prop.setActive(false)
 
-        this.value.synchronize()
+        this.value.updateCssPropertyWithoutModel(backgroundImage.getName(), backgroundImage)
+        this.value.updateModelComponent()
         return null
     }
     activePropCss(prop: T) {

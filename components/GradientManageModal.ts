@@ -58,6 +58,9 @@ export default abstract class GradientManageModal extends AbstractModal
 
     show(val: HtmlTag){
         super.show(val)
+        this.hasGradientActive = false
+        this.currentGradientData = ''
+        this.isLinear = false   
         // this.paddingRealFetcher = this.value.paddingRealFetcher
         // this.marginRealFetcher = this.value.marginRealFetcher
         // this.borderRealFetcher = this.value.borderRealFetcher

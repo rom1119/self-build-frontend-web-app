@@ -28,6 +28,7 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
     })
     export default class LayoutCreatorPage extends Vue {
         storeFetchEndpoint = 'frontendProject/findOne'
+        storeFetchKeyFramesEndpoint = 'frontendProject/findKeyFramesByProject'
         modelToDomainTransformer: ModelToDomain
 
         $refs: {
