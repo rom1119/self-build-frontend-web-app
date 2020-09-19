@@ -4,10 +4,10 @@
             <navbar/>
         </header>
         
-        <main class="row">
-            <sidebar class="col-2"></sidebar>
+        <main>
+            <!-- <sidebar ></sidebar> -->
             
-            <nuxt class="col-10"/>
+            <nuxt />
 
         </main>
         

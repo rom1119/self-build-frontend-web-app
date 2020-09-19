@@ -141,13 +141,17 @@ export default class HtmlTagSynchronizer implements Synchronizer
 
                             cssDomain.direction.id = cssRes.cssValues[i].id
                             continue
+                        } else {
+                            const cssValDomain = cssDomain.getValues()[i - 1]
+                            cssValDomain.id = cssRes.cssValues[i].id
                         }
                     }
-                    // console.log(cssRes);
+                    // console.log(i);
                     // console.log(cssDomain);
+                    // console.log(cssRes);
                     
                     // @ts-ignore
-                    const cssValDomain = cssDomain.getValues()[i - 1]
+                    const cssValDomain = cssDomain.getValues()[i]
                     cssValDomain.id = cssRes.cssValues[i].id
                 }
 

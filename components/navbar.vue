@@ -12,12 +12,17 @@
                 <ul class="navbar-nav ml-auto" >
                     <li id="layoutCreatorMode">
                     </li>
+                    <nuxt-link tag="li" class="nav-item btn btn-primary" to="/dashboard/layouts" active-class="active" exact>
+                        <a class="nav-link">Projekty</a>
+                    </nuxt-link>
                     <li class="btn btn-primary" @click="generattingCode" v-if="$route.name == 'dashboard-layout-creator-id'"  active-class="active">
                         <a class="nav-link">Generator kodu</a>
                     </li>
                     <nuxt-link tag="li" class="nav-item" v-show="$auth.loggedIn" to="/dashboard" active-class="active" exact>
                         <a class="nav-link">Dashboard</a>
                     </nuxt-link>
+                    
+                    
                     <nuxt-link tag="li" class="nav-item" v-show="$auth.loggedIn" to="/home" active-class="active" exact>
                         <a class="nav-link">Home</a>
                     </nuxt-link>

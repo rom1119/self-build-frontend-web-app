@@ -6,8 +6,11 @@ import Selector from "./Selector";
 export default class MediaQuery
 {
     id
-    private _name
+    projectId
+    name
+    version
 
+    values: StyleCssValue[]  = []
     tags: TagDto[]  = []
     selectors: Selector[]  = []
 

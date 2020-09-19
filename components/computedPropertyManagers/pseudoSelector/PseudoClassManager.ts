@@ -138,11 +138,12 @@ export default class PseudoClassManager
 
         }
         console.log('activr');
+        prop.setApi(this.value.api)
         
         this.value.api.appendSelector(prop).then(
             () => {
                 this.value.pseudoClassAccessor.addNewSelector(prop)
-        
+
 
                 this.value.synchronize()
                 this.value.recalculateRealComputedProperties()

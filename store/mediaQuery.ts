@@ -1,39 +1,38 @@
 import {MutationTree, ActionTree, GetterTree} from 'vuex'
 import Vue from 'vue'
 import createUriFromObj from './functions'
-import ProjectFrontendModel from "~/types/ProjectFrontendModel";
 import ModelFromResponse from "~/src/ModelFromResponseBuilder/ModelFromResponse";
 import _ from 'lodash'
-import ProjectFrontendModelBuild from '~/src/ModelFromResponseBuilder/impl/ProjectFrontendModelBuild';
-import ProjectFrontendResponse from '~/types/response/ProjectFrontendResponse';
-import KeyFrameModel from '~/types/KeyframeModel';
-import KeyFrameResponse from '~/types/response/KeyFrameResponse';
-import KeyFrameModelBuild from '~/src/ModelFromResponseBuilder/impl/KeyframeModelBuild';
+// import MediaQueryModelBuild from '~/src/ModelFromResponseBuilder/impl/MediaQueryModelBuild';
+// import MediaQueryResponse from '~/types/response/MediaQueryResponse';
+import MediaQueryModel from '~/types/MediaQueryModel';
+import MediaQueryResponse from '~/types/response/MediaQueryResponse';
+import MediaQueryModelBuild from '~/src/ModelFromResponseBuilder/impl/MediaQueryModelBuild';
 
-let builder: ModelFromResponse<KeyFrameResponse, KeyFrameModel> = new KeyFrameModelBuild()
+let builder: ModelFromResponse<MediaQueryResponse, MediaQueryModel> = new MediaQueryModelBuild()
 
-interface KeyFrameState {
-  items: ProjectFrontendModel[]
+interface MediaQueryState {
+  items: MediaQueryModel[]
     current: {}
 }
 
-const state = (): KeyFrameState => {
+const state = (): MediaQueryState => {
   return {
       items: [],
       current: {}
   }
 }
 
-const actions: ActionTree<KeyFrameState, KeyFrameState> = {
+const actions: ActionTree<MediaQueryState, MediaQueryState> = {
 
   async findAllByProject({ commit, state}, {projectId = null}) {
     // @ts-ignore
     let response
-    response = await this.$axios.$get(`/api/key-frame/project/${projectId}}`)
+    response = await this.$axios.$get(`/api/media-query/project/${projectId}}`)
 
     commit('deleteAll')
 
-    let returnArray: KeyFrameModel[] = []
+    let returnArray: MediaQueryModel[] = []
     for (let answer of response.items) {
       let model = builder.build(answer)
 
@@ -53,11 +52,11 @@ const actions: ActionTree<KeyFrameState, KeyFrameState> = {
 
     return model
   },
-  async create({ commit, state}, token: ProjectFrontendModel) {
+  async create({ commit, state}, token: MediaQueryModel) {
       // @ts-ignore
       let model = builder.build(token)
         // console.log(model)
-    let returnArray: ProjectFrontendModel[] = []
+    let returnArray: MediaQueryModel[] = []
 
       commit('deleteAll')
       commit('insert', model)
@@ -66,8 +65,8 @@ const actions: ActionTree<KeyFrameState, KeyFrameState> = {
 
 }
 
-const mutations: MutationTree<KeyFrameState> = {
-    insert(state: KeyFrameState, answer: ProjectFrontendModel) {
+const mutations: MutationTree<MediaQueryState> = {
+    insert(state: MediaQueryState, answer: MediaQueryModel) {
         // if (answer.id && state.items[answer.id]) {
         //     Object.assign(state.items[answer.id], answer)
         // } else {
@@ -75,22 +74,22 @@ const mutations: MutationTree<KeyFrameState> = {
         // }
             Vue.set(state.items, state.items.length, answer)
     },
-    delete(state: KeyFrameState, userApplication: ProjectFrontendModel) {
+    delete(state: MediaQueryState, userApplication: MediaQueryModel) {
 
         // Vue.delete(state.items, userApplication.hashCode)
     },
-    deleteAll(state: KeyFrameState) {
+    deleteAll(state: MediaQueryState) {
         Vue.set(state, 'items', [])
     }
 }
 
 
-const getters: GetterTree<KeyFrameState, KeyFrameState> = {
-  all(state: KeyFrameState) {
+const getters: GetterTree<MediaQueryState, MediaQueryState> = {
+  all(state: MediaQueryState) {
     return Object.values(state.items)
   },
 
-  getOne(state: KeyFrameState) {
+  getOne(state: MediaQueryState) {
       // console.log(state.items)
       if (state.items.length) {
           return state.items[0]

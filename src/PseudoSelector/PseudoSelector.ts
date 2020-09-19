@@ -52,7 +52,11 @@ export default abstract class PseudoSelector extends BaseSelector
     }
 
     
-   
+    public setApi(api: ApiService)
+    {
+        this.api = api
+        this.synchronizer = new PseudoSelectorSynchronizer(this, api)
+    }
 
     public setOwner(tag: HtmlTag)
     {

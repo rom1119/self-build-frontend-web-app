@@ -135,7 +135,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
     borderRealFetcher: BorderFetcherRealCssProp = new BorderRealCssFetcher(this)
 
-    protected synchronizer: HtmlTagSynchronizer
+    synchronizer: HtmlTagSynchronizer
     api: ApiService
     transformStyleList: VueFixStyleListTransform
 
@@ -815,10 +815,10 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     resetFilterTagElements()
     {
-        this.contentFilter.resetAll()
+        // this.contentFilter.resetAll()
         this.paddingFilter.resetAll()
         this.borderFilter.resetAll()
-        this.marginFilter.resetAll()
+        this.marginFilter.resetAll() 
 
     }
 
@@ -1054,6 +1054,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         var a = this.transformStyleList.transform(this.cssAccessor.all)
         // console.log('APPPPPPPPPPPPP');
         // console.log(a);
+
+        // console.log('LIST-box');
+        // console.log(a);
+        
         return a
         
         // return css
@@ -1065,6 +1069,8 @@ export default abstract class HtmlTag extends HtmlNode implements
         var activeSelector = this.getSelectedSelector()
         
         if (activeSelector) {
+            // console.log('LIST-box-Override');
+            // console.log(activeSelector.cssBoxList);
             return activeSelector.cssBoxList
         } 
         

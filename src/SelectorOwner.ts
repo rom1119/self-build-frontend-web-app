@@ -17,9 +17,12 @@ import BorderFilterCssInjector from "./FilterCssInjector/BorderFilterCssInjector
 import FilterCssInjector from "./FilterCssInjector"
 import RealPositionCalculator from "./PositionCss/RealPositionCalculator";
 import { VueFixStyleListTransform } from "./Vue/VueFixStyleListTransform";
+import Synchronizer from './Synchronizer/Synchronizer';
 
 export default interface SelectorOwner
 {
+    uuid: string
+
     hasAbsolute: boolean
     hasFixed: boolean
     
@@ -31,6 +34,7 @@ export default interface SelectorOwner
     realPositionCalculator: RealPositionCalculator
     transformStyleList: VueFixStyleListTransform
     api: ApiService
+    synchronizer: Synchronizer
 
     canAddToCssList(prop: BasePropertyCss): boolean
     isLikeBackgroundCss(prop: BasePropertyCss): boolean

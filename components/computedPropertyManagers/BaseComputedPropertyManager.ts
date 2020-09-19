@@ -140,6 +140,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         if (activeSelector) {
             if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
                 activeSelector.cssAccessor.addNewProperty(prop)
+                activeSelector.updateCssPropertyWithoutModel(prop.getName(), prop)
                 activeSelector.synchronize()
             }
         } else {

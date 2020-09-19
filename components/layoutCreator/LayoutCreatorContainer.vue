@@ -1,37 +1,43 @@
 <template>
-    <object id="layout-object" class="main-object" style="width: 100%;" >
-        <html>
-            <head>
-                <template v-if="$layoutCreatorMode">
-            
-                    <style v-if="$layoutCreatorMode.mode.canRun(pseudoSelectorAction)" v-html="pseudoSelectorsTags">
-                        
-                    </style>
-                        
-                
-                </template>
-            </head>
-            <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
-            
-            <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh; overflow-x: visible;">
-                    <ul>
-                        {{ pseudoSelectorsTags }}
-                    </ul>
+    <div>
+        <div class="media-query-controls">
+            <media-query-component />
+        </div>
 
-                    <template v-for="htmlTag in htmlTags">
-                        <html-component
-                         @tagRemove="onTagRemove"
-                         @anyElementMouseOver="onMouseOver"
-                         @anyElementMouseOut="onMouseOut" 
-                         @anyElementMouseDown="onMouseDown" 
-                         @contentMouseClick="onContentMouseClick" 
-                         :value="htmlTag" 
-                         :key="htmlTag.uuid">
-                        </html-component>
+        <object id="layout-object" class="main-object" style="width: 100%;" >
+            <html>
+                <head>
+                    <template v-if="$layoutCreatorMode">
+                
+                        <style v-if="$layoutCreatorMode.mode.canRun(pseudoSelectorAction)" v-html="pseudoSelectorsTags">
+                            
+                        </style>
+                            
+                    
                     </template>
-            </body>
-        </html>
-    </object>
+                </head>
+                <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
+                
+                <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh; overflow-x: visible;">
+                        <!-- <ul>
+                            {{ pseudoSelectorsTags }}
+                        </ul> -->
+
+                        <template v-for="htmlTag in htmlTags">
+                            <html-component
+                            @tagRemove="onTagRemove"
+                            @anyElementMouseOver="onMouseOver"
+                            @anyElementMouseOut="onMouseOut" 
+                            @anyElementMouseDown="onMouseDown" 
+                            @contentMouseClick="onContentMouseClick" 
+                            :value="htmlTag" 
+                            :key="htmlTag.uuid">
+                            </html-component>
+                        </template>
+                </body>
+            </html>
+        </object>
+    </div>
 </template>
 
 <script lang="ts">

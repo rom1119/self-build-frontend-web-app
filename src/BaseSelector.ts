@@ -12,6 +12,7 @@ import BaseBorderCss from "./Css/Border/BaseBorderCss"
 import ContentSizeCss from "./Css/Size/ContentSizeCss"
 import BaseMarginCss from "./Css/BoxModel/BaseMarginCss"
 import SelectorOwner from "./SelectorOwner"
+import HtmlTagSynchronizer from "./Synchronizer/Impl/HtmlTagSynchronizer"
 
 export default abstract class BaseSelector
 {
@@ -117,6 +118,8 @@ export default abstract class BaseSelector
 
     }
 
+
+
     public setApi(api: ApiService)
     {
         this.api = api
@@ -126,6 +129,8 @@ export default abstract class BaseSelector
     {
         if (this.synchronizer) {
             this.synchronizer.synchronize()
+        } else {
+            this.owner.synchronizer.synchronize()
         }
     }
 
@@ -142,12 +147,16 @@ export default abstract class BaseSelector
 
     public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
     {
+        // console.log('UUUUUUU');
+        // console.log(val.getValue());
         if (!this.cssAccessor.hasCssProperty(val.getName())) {
             this.cssAccessor.addNewProperty(val)
         } else {            
             let currentBackground = this.cssAccessor.getProperty(val.getName())
+            // console.log(currentBackground.getValue());
+            
             if (currentBackground.getValue() === val.getValue()) {
-                return
+                // return
             }
             this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         }
@@ -188,7 +197,7 @@ export default abstract class BaseSelector
         }
   
 
-        this.synchronizer.synchronize()
+        this.synchronize()
         
     }
 

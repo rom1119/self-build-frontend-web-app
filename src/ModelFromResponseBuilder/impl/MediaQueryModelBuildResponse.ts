@@ -32,7 +32,34 @@ export default class MediaQueryModelBuildResponse implements ResponseFromModel<M
         let response = new MediaQueryResponse()
         response.id = from.id
         response.name = from.getName()
- 
+        response.version = from.version
+        response.project = {
+            "id": from.projectId,
+            "version": 1
+        }
+
+        var values = []
+        for (const cssValModel of from.values) {
+            let responseCssValue = new StyleCssValueResponse()
+            responseCssValue.id = cssValModel.id
+            // responseCssValue.inset = cssValModel.getInset()
+            // responseCssValue.specialValGradient = cssValModel.getSpecialValGradient()
+            responseCssValue.value = cssValModel.getValue()
+            responseCssValue.valueSecond = cssValModel.getValueSecond()
+            responseCssValue.valueThird = cssValModel.getValueThird()
+            responseCssValue.valueFourth = cssValModel.getValueFourth()
+            responseCssValue.valueFifth = cssValModel.getValueFifth()
+            responseCssValue.unitName = cssValModel.getUnitName()
+            responseCssValue.unitNameSecond = cssValModel.getUnitNameSecond()
+            responseCssValue.unitNameThird = cssValModel.getUnitNameThird()
+            responseCssValue.unitNameFourth = cssValModel.getUnitNameFourth()
+            responseCssValue.unitNameFifth = cssValModel.getUnitNameFifth()
+            responseCssValue.resourcePath = cssValModel.getResourcePath()
+
+            values.push(responseCssValue)
+        }
+
+        response.values = values
 
         var selectors = []
         for (const cssValModel of from.selectors) {

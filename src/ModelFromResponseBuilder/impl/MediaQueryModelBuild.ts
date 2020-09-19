@@ -29,8 +29,37 @@ export default class MediaQueryModelBuild implements ModelFromResponse<MediaQuer
     build(from: MediaQueryResponse): MediaQueryModel {
         let model = new MediaQueryModel()
         model.id = from.id
+        model.name = from.name
+        model.version = from.version
 
 
+        if (from.project) {
+            model.projectId = from.project.id
+
+        }
+
+        var values = []
+        for (const cssValModel of from.values) {
+            let cssValue = new StyleCssValue(cssValModel.value, cssValModel.unitName)
+            cssValue.id = cssValModel.id
+            // cssValue.setInset(cssValModel.inset)
+            // cssValue.setSpecialValGradient(cssValModel.specialValGradient)
+            cssValue.setValue(cssValModel.value)
+            cssValue.setValueSecond(cssValModel.valueSecond)
+            cssValue.setValueThird(cssValModel.valueThird)
+            cssValue.setValueFourth(cssValModel.valueFourth)
+            cssValue.setValueFifth(cssValModel.valueFifth)
+            cssValue.setUnitName(cssValModel.unitName)
+            cssValue.setUnitNameSecond(cssValModel.unitNameSecond)
+            cssValue.setUnitNameThird(cssValModel.unitNameThird)
+            cssValue.setUnitNameFourth(cssValModel.unitNameFourth)
+            cssValue.setUnitNameFifth(cssValModel.unitNameFifth)
+            cssValue.setResourcePath(cssValModel.resourcePath)
+
+            values.push(cssValue)
+        }
+
+        model.values = values
         
         var sels = []
         for (const cssValModel of from.selectors) {
