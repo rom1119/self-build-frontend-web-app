@@ -25,14 +25,22 @@ export default class HtmlNode extends LayoutEl
     public setProjectId(id: string)
     {
         this.projectId = id
-        
+        for (const child of this.children) {
+            if (child instanceof HtmlNode) {
+
+                child.setProjectId(id)
+            }
+        }
     }
 
     public appendChild(node: HtmlNode)
     {
         this.children.push(node)
-        this.api.appendChild(node)
-        this.synchronizer.synchronize()
+        if (this.api) {
+            this.api.appendChild(node)
+        }
+        
+        this.synchronize()
 
     }
 
@@ -52,5 +60,10 @@ export default class HtmlNode extends LayoutEl
     {
         this._isEdited = true
     }
+
+    // public getSynchronizer()
+    // {
+    //     return this.synchronizer
+    // }
 
 }

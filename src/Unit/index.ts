@@ -2,6 +2,7 @@
 // color
 import Hexadecimal from './Color/Hexadecimal';
 import RGBA from './Color/RGBA';
+import RGB from './Color/RGB';
 import Named from './Named';
 
 // size
@@ -23,6 +24,7 @@ import UnitTurn from './UnitTurn';
 export {
     Hexadecimal,
     RGBA,
+    RGB,
     Named,
     EM,
     REM,

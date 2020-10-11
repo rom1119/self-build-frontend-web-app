@@ -8,6 +8,7 @@
                 <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
                  <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
                 <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
+                <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
     </context-menu>
 </template>
 
@@ -52,6 +53,11 @@ export default class CreateHtmlElementContextMenu extends Vue {
         var el = this.htmlFactory.createButton()
         this.initCreatedTag(el)
     }
+    
+    createExampleTable(target, cm, a) {
+        var el = this.htmlFactory.createNormalTable()
+        this.initCreatedTag(el)
+    }
 
     initCreatedTag(el){
         el.injectInitialCssStyles()
@@ -59,7 +65,7 @@ export default class CreateHtmlElementContextMenu extends Vue {
         this.value.push(el)
         el.setProjectId(this.$route.params.id)
         this.api.appendTagToProject(el)
-        el.synchronize()
+        // el.synchronize()
 
         this.$emit('createdTag', el)
     }

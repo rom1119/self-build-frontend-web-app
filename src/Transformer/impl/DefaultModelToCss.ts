@@ -50,7 +50,7 @@ export default class DefaultModelToCss implements ModelToCss
         // console.log(domain);
         
         var val
-        if (unit instanceof RGBA) {
+        if (unit instanceof RGBA || unit instanceof RGB) {
             val = JSON.parse(model.getValue())
         } else {
             val = model.getValue()
@@ -123,7 +123,7 @@ export default class DefaultModelToCss implements ModelToCss
             let unitThird = this.unitCssFactoryFromName.create(model.getUnitNameThird())
             var val
             // console.trace(model)
-            if (unitThird instanceof RGBA) {
+            if (unitThird instanceof RGBA || unitThird instanceof RGB) {
                 val = JSON.parse(model.getValueThird())
             } else {
                 val = model.getValueThird()

@@ -8,6 +8,7 @@ import HtmlNode from '../../Layout/HtmlNode';
 import TextNode from '../../Layout/TextNode';
 import BackgroundImage from '../../Css/Background/BackgroundImage';
 import BaseGradientCss from '../../Css/Gradient/BaseGradientCss';
+import CssStyleUpdater from "~/src/Api/idsUpdate/CssStyleUpdater";
 
 export default class HtmlTagSynchronizer implements Synchronizer
 {
@@ -17,10 +18,12 @@ export default class HtmlTagSynchronizer implements Synchronizer
     protected tag: HtmlNode
     protected api: ApiService
     protected apiSocket: SocketApi
+    protected cssUpdater: CssStyleUpdater
 
     constructor(tag: HtmlNode, api: ApiService)
     {
         this.apiSocket = new HtmlSocketApi()
+        this.cssUpdater = new CssStyleUpdater()
         this.apiSocket.connect()
         // this.apiSocket.onGetMessage()
         this.tag = tag
@@ -60,7 +63,7 @@ export default class HtmlTagSynchronizer implements Synchronizer
                     console.log(res);
 
                     if (this.tag instanceof HtmlTag) {
-                        this.updateCssIds(res.data.cssStyleList, this.tag.cssAccessor.all, false)
+                        this.updateCssIds(res.data.cssStyleList, this.tag.cssAccessor.all)
     
                     }
                     this.setAsNowReadyToSynchronize()
@@ -118,52 +121,13 @@ export default class HtmlTagSynchronizer implements Synchronizer
         return  true
     }
 
-    private updateCssIds(arrCss, domainArrCss, isChildren)
+    private updateCssIds(arrCss, domainArrCss)
     {
 
         for (var m = 0; m < arrCss.length; m++) {
             var cssRes = arrCss[m]
             var cssDomain = domainArrCss[m]
-            if (cssDomain.getName() !== cssRes.name) {
-                continue
-            }
-            if (isChildren) {
-
-            }
-            cssDomain.id = cssRes.id
-            // @ts-ignore
-            if (typeof cssDomain.getValues === 'function') {
-                // @ts-ignore
-                for (var i = 0; i < cssRes.cssValues.length; i++) {
-                    if (cssDomain instanceof BaseGradientCss) {
-                        // @ts-ignore
-                        if (cssRes.cssValues[i].specialValGradient) {
-
-                            cssDomain.direction.id = cssRes.cssValues[i].id
-                            continue
-                        } else {
-                            const cssValDomain = cssDomain.getValues()[i - 1]
-                            cssValDomain.id = cssRes.cssValues[i].id
-                        }
-                    }
-                    // console.log(i);
-                    // console.log(cssDomain);
-                    // console.log(cssRes);
-                    
-                    // @ts-ignore
-                    const cssValDomain = cssDomain.getValues()[i]
-                    cssValDomain.id = cssRes.cssValues[i].id
-                }
-
-            }
-
-            if (cssDomain instanceof BackgroundImage) {
-
-                this.updateCssIds(cssRes.children, cssDomain.getGradients(), true)
-            }
-            
-
-
+            this.cssUpdater.update(cssDomain, cssRes)
             
         }
     }

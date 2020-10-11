@@ -20,13 +20,13 @@ export default class DefaultDomainToModel implements DomainToModel
         this.styleTransformer = new DefaultCssToModel()
         this.selectorTransformer = new DefaultSelectorToModel()
     }
-    transform(domain: LayoutEl): TagDto {
+    transform(domain: LayoutEl, deep?: boolean): TagDto {
         let model = new TagDto()
         model.id = domain.uuid
         model.shortUUID = domain.shortUUID
 
         if (domain instanceof HtmlTag) {
-            var tagName = domain.getTagName()
+            var tagName = domain.getDomainTagName()
             model.tagName = tagName
             model.projectId = domain.projectId
 
@@ -65,6 +65,13 @@ export default class DefaultDomainToModel implements DomainToModel
                         value: attr.value
                     }
                     // domain..push(subModel)
+                }
+            }
+
+            if (deep) {
+                for (const child of domain.children) {
+                    var c = this.transform(child, true)
+                    model.children.push(c)
                 }
             }
 

@@ -4,5 +4,5 @@ import BaseModel from "~/types/BaseModel";
 
 export default interface ResponseFromModel<T extends BaseModel , N extends ResponseObject> {
 
-    build(from: T): N
+    build(from: T, deep?: boolean): N
 }

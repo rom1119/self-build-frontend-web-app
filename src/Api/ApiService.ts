@@ -16,7 +16,8 @@ export default interface ApiService
     deleteCssStyleResource(arg0: CssResource): Promise<any>;
     getTreeTags(tag: HtmlTag) : ResponseTreeTag
     appendTagToProject(tag: HtmlNode)
-    appendChild(tag: HtmlNode)
+    appendChild(tag: HtmlNode): Promise<any>
+    appendChildDeep(tag: HtmlNode): Promise<any>
     putTag(tag: HtmlTag): Promise<any>
     putText(tag: TextNode): Promise<any>
     deleteTag(tag: HtmlNode): Promise<any>

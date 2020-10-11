@@ -59,6 +59,9 @@ export default class DefaultModelToDomain implements ModelToDomain
                 parent.children.push(domain)
                 domain.parent = parent
                 domain.projectId = parent.projectId
+                // if (parent instanceof ) {
+
+                // }
                 // domain.parent = parent
             }
         } else {

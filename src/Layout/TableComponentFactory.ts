@@ -13,7 +13,7 @@ import TableTFoot from './tag/Table/TableTFoot';
 import TableTh from './tag/Table/TableTh';
 import TableTr from './tag/Table/TableTr';
 import NormalTableTag from './tag/Table/impl/NormalTableTag';
-export default class HtmlTagFactory {
+export default class TableComponentFactory {
 
     api: ApiService
 
@@ -27,55 +27,7 @@ export default class HtmlTagFactory {
 
     }
 
-    createH1() {
-        let el = new H1()
-        el.setApi(this.api)
-
-        return el
-    }
-    
-    createDiv() {
-        let el = new Div()
-        el.setApi(this.api)
-
-        return el
-    }
-    
-    createInputText() {
-        let el = new InputText()
-        el.setApi(this.api)
-
-        return el
-    }
-    
-    createButton() {
-        let el = new Button()
-        el.setApi(this.api)
-
-        return el
-    }
-    
-    createText() {
-        let el = new TextNode()
-        el.setApi(this.api)
-
-        return el
-    }
-    
-    createNormalTable() {
-        let el = new NormalTableTag()
-        el.setApi(this.api)
-
-        return el
-    }
-    
-    createTable() {
-        let el = new TableTag()
-        el.setApi(this.api)
-
-        return el
-    }
-    
+   
     createTableTHead() {
         let el = new TableTHead()
         el.setApi(this.api)
@@ -97,11 +49,17 @@ export default class HtmlTagFactory {
         return el
     }
     
-    createTableTr() {
-        let el = new TableTr()
-        el.setApi(this.api)
+    createExampleTBodyTr() {
 
-        return el
+        var trbody  = new TableTr()
+        var cell = new TableTd('content col 1')
+        var cellsec = new TableTd('content col 2')
+        trbody.appendChild(cell)
+        trbody.appendChild(cellsec)
+        
+        trbody.setApi(this.api)
+
+        return trbody
     }
     
     createTableTh() {

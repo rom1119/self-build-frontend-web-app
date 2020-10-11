@@ -10,6 +10,8 @@
                 <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
                 <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
                 <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
+                <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
+
          
   
         </context-menu>
@@ -79,16 +81,24 @@ export default class HtmlElementContextMenu extends Vue {
         this.initCreatedTag(el)
     }
 
+    createExampleTable(target, cm, a) {
+        var el = this.htmlFactory.createNormalTable()
+        this.initCreatedTag(el)
+    }
+
     initCreatedTag(el){
         el.parent = this.value
         el.projectId = this.value.projectId
+        
         el.injectInitialCssStyles()
         el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
-        this.value.appendChild(el)
+        this.value.appendChildDeep(el)
 
         this.$emit('createdTag', el)
     }
+
+    
 
     createText()
     {
@@ -97,7 +107,7 @@ export default class HtmlElementContextMenu extends Vue {
         text.projectId = this.value.projectId
         text.setProjectId(this.$route.params.id)
 
-        this.value.appendChild(text)
+        this.value.appendChildDeep(text)
     }
     
     showTextCssModal()

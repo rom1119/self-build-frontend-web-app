@@ -80,7 +80,7 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
         mounted()
         {
             console.log('created');
-            var projID = this.$route.params['p']
+            var projID = this.$route.params.id
             
             this.accessor.getApi().getAllForProject(projID).then(
                 () => {

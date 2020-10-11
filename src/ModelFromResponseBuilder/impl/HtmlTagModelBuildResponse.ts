@@ -21,15 +21,17 @@ export default class HtmlTagModelBuildResponse implements ResponseFromModel<Html
         this.selectorModelBuilderResponse = new SelectorModelBuildResponse()
     }
 
-    build(from: HtmlTagModel): HtmlTagResponse {
+    build(from: HtmlTagModel, deep?: boolean): HtmlTagResponse {
         let response = new HtmlTagResponse()
         // response.id = from.id
         if (from.isTextNode) {
             response.text = from.text
             response.isTextNode = from.isTextNode
-
+            response.className = 'com.SelfBuildApp.ddd.Project.domain.TextNode'
         } else {
             response.tagName = from.tagName
+            response.className = 'com.SelfBuildApp.ddd.Project.domain.HtmlTag'
+
             response.closingTag = from.isClosingTag
             response.attrs = from.attrs
             if (from.styles) {
@@ -43,6 +45,14 @@ export default class HtmlTagModelBuildResponse implements ResponseFromModel<Html
                 for (const style of from.selectors) {
                     let subModel = this.selectorModelBuilderResponse.build(style)
                     response.pseudoSelectors.push(subModel)
+                }
+            }
+
+            if (deep) {
+                for (const child of from.children) {
+                    var c = this.build(child, true)
+
+                    response.children.push(c)
                 }
             }
 

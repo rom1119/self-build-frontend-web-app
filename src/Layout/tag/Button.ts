@@ -4,9 +4,15 @@ import { Named } from '~/src/Unit';
 export default class Button extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  BUTTON`
+    public static TAG_NAME = 'button'
+
 
     public getTagName(): string {
-        return 'button'
+        return Button.TAG_NAME
+    }
+
+    public getDomainTagName(): string {
+        return this.getTagName()
     }
     
     public injectInitialCssStyles()

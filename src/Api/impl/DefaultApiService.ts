@@ -31,6 +31,7 @@ import SelectorModelBuildResponse from "~/src/ModelFromResponseBuilder/impl/Sele
 import DefaultSelectorToModel from "~/src/Transformer/impl/DefaultSelectorToModel";
 import SelectorToModel from "~/src/Transformer/SelectorToModel";
 import { BaseGradientStructVal } from "~/src/Css/Gradient/BaseGradientCss";
+import NodeUpdater from "../idsUpdate/NodeUpdater";
 
 export default class DefaultApiService implements ApiService
 {
@@ -45,9 +46,8 @@ export default class DefaultApiService implements ApiService
     private modelToDomainTransformer: ModelToDomain
     private responseToTagModel: ModelFromResponse<HtmlTagResponse, TagDto>
 
-
     private cssFromName: CssPropertyFactoryFromName
-
+    private idUpdater: NodeUpdater
 
     constructor()
     {
@@ -59,6 +59,8 @@ export default class DefaultApiService implements ApiService
 
         this.cssFromName = new CssPropertyFactoryFromName()
 
+        this.idUpdater = new NodeUpdater()
+
     }
 
     getTreeTags(tag: HtmlTag): ResponseTreeTag {
@@ -66,30 +68,26 @@ export default class DefaultApiService implements ApiService
     }
     
     appendTagToProject(tag: HtmlNode) {
-        let model = this.domainToModelTransformer.transform(tag)
-        let response = this.tagModelToResponse.build(model)
+        let model = this.domainToModelTransformer.transform(tag, true)
+        let response = this.tagModelToResponse.build(model, true)
+        console.log('tag');
+        console.log(tag);
+        console.log('model');
+        console.log(model);
+        console.log('response');
+        console.log(response);
+        
         Axios.post(DefaultApiService.HOST + `/api/html-project/${tag.projectId}/append-tag`, response).then(
             (res) => {
-                let data: HtmlTagResponse = res.data
-                tag.uuid = data.id
-                tag.shortUUID = data.shortUuid
-                for (const cssRes of data.cssStyleList) {
-                    for (const cssDomain of tag.cssAccessor.all) {
-                        if (cssDomain.getName() === cssRes.name) {
-                            cssDomain.id = cssRes.id
-                        }
-                    }
-                }
-
+                this.idUpdater.update(tag, res.data)
             },
             () => {
             
             },
         )
-
     }
     
-    appendChild(tag: HtmlTag) {
+    appendChild(tag: HtmlTag): Promise<any> {
         let model = this.domainToModelTransformer.transform(tag)
         let response = this.tagModelToResponse.build(model)
         var apiSuffix
@@ -99,27 +97,42 @@ export default class DefaultApiService implements ApiService
             apiSuffix = 'append-tag'
             
         }
-        Axios.post(DefaultApiService.HOST + `/api/html-tag/${tag.parent.uuid}/${apiSuffix}`, response).then(
-            (res) => {
-                let data: HtmlTagResponse = res.data
-                tag.uuid = data.id
-                tag.shortUUID = data.shortUuid
-                if (tag instanceof HtmlTag) {
-                    for (const cssRes of data.cssStyleList) {
-                        for (const cssDomain of tag.cssAccessor.all) {
-                            if (cssDomain.getName() === cssRes.name) {
-                                cssDomain.id = cssRes.id
-                            }
-                        }
-                    }
+        return new Promise((resolve, reject) => {
 
-                }
-            },
-            () => {
+            Axios.post(DefaultApiService.HOST + `/api/html-tag/${tag.parent.uuid}/${apiSuffix}`, response).then(
+                (res) => {
+                    this.idUpdater.update(tag, res.data)
+                    resolve()
+                },
+                () => {
+                    reject()
+                },
+            )
+        })
+    }
+
+    appendChildDeep(tag: HtmlTag): Promise<any> {
+        let model = this.domainToModelTransformer.transform(tag, true)
+        let response = this.tagModelToResponse.build(model, true)
+        var apiSuffix
+        if (tag instanceof TextNode) {
+            apiSuffix = 'append-text'
+        } else if (tag instanceof HtmlTag) {
+            apiSuffix = 'append-tag'
             
-            },
-        )
+        }
+        return new Promise((resolve, reject) => {
 
+            Axios.post(DefaultApiService.HOST + `/api/html-tag/${tag.parent.uuid}/${apiSuffix}`, response).then(
+                (res) => {
+                    this.idUpdater.update(tag, res.data)
+                    resolve()
+                },
+                () => {
+                    reject()
+                },
+            )
+        })
     }
 
     appendSelector(selector: PseudoSelector): Promise<any> {
@@ -200,6 +213,7 @@ export default class DefaultApiService implements ApiService
     deleteCssValue(val: CssValue): Promise<any> {
         return Axios.delete(DefaultApiService.HOST + `/api/css-style/value/${val.getId()}`)
     }
+
 
  
 }

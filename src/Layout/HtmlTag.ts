@@ -80,6 +80,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
     protected _parent : HtmlTag
+    hasMiddleTag : boolean = false
 
     borderFactory: BorderModelFactory = new BorderModelFactory()
     paddingFactory: PaddingModelFactory = new PaddingModelFactory()
@@ -111,7 +112,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     public static INITIAL_WIDTH = 100
     public static INITIAL_HEIGHT = 100
     public static INITIAL_SIZE_UNIT: UnitSize = new Pixel()
-    protected initialBackgroundColor = 'red'
+    protected initialBackgroundColor = 'green'
     protected _backgroundColor = this.initialBackgroundColor;
     protected _initialColorUnit: UnitColor = new Named();
     protected widthUnitCurrent: UnitSize = new Pixel()
@@ -537,7 +538,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         let display = new Display(Display.BLOCK, new Named())
-        let cssList = [border, padding, margin, width, height, boxSizing, backgroundColor, display]
+        let cssList = [ padding, width, height, boxSizing, backgroundColor, display]
 
         this.addPropsToAccessor(cssList)
     }
@@ -552,6 +553,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
     public abstract getTagName(): string
+    public abstract getDomainTagName(): string
 
     public addPropsToAccessor(cssList: BasePropertyCss[] )
     {
@@ -1063,6 +1065,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         // return css
     }
 
+    get middleTagCss() {
+        return []
+    }
+
     get cssBoxListOverride() : any
     {
 
@@ -1113,7 +1119,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this._toPosition === true
     }
 
-    private toInitSizeUnits()
+    protected toInitSizeUnits()
     {
         this.widthUnitCurrent = new Pixel()
         this.heightUnitCurrent = new Pixel()
@@ -1139,10 +1145,6 @@ export default abstract class HtmlTag extends HtmlNode implements
         let height = new Height(this._height, this.heightUnitCurrent)
         this.updateCssPropertyWithoutModel(width.getName(), width)
         this.updateCssPropertyWithoutModel(height.getName(), height)
-
-        // this.updateBoundingRight()
-        // this.realPositionCalculator.updateRightProps()
-        // this.realPositionCalculator.updateBottomProps()
 
         this.notifyPositionalTag()
         
@@ -1320,14 +1322,36 @@ export default abstract class HtmlTag extends HtmlNode implements
         return 0
     }
 
-    public appendChild(child)
+    public appendChild(child: HtmlNode)
     {
+        child.parent = this
+        child.setApi(this.api)
         super.appendChild(child)
         if (child instanceof HtmlTag) {
+            child.injectInitialCssStyles()
+            child.injectInitialSelectors()
             // child.realPositionCalculator.updateNearPositionalTag()
             this.notifyPositionalTag()
 
         }
+
+    }
+
+    async appendChildDeep(child: HtmlNode)
+    {
+        child.parent = this
+        child.projectId = this.projectId
+        child.setApi(this.api)
+        this.children.push(child)
+
+        if (child instanceof HtmlTag) {
+            // child.realPositionCalculator.updateNearPositionalTag()
+            this.notifyPositionalTag()
+        }
+
+        await this.api.appendChildDeep(child)
+        this.synchronizer.synchronize()
+
 
     }
 

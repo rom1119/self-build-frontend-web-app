@@ -1,6 +1,5 @@
 import HtmlTagBlock from '../HtmlTagBlock';
-import InputTag from './InputTag';
-export default class InputText extends InputTag {
+export default abstract class  InputTag extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  INPUT-TEXT`
     public static TAG_NAME = 'input'
@@ -13,6 +12,13 @@ export default class InputText extends InputTag {
         this._isClosingTag = false
     }
 
+    public getTagName(): string {
+        return InputTag.TAG_NAME
+    }
+    
+    public getDomainTagName(): string {
+        return this.getTagName()
+    }
     
 
 }

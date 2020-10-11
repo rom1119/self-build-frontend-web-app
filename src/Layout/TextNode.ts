@@ -9,8 +9,8 @@ export default class TextNode extends HtmlNode
     protected _text: string = "Example text"
     protected _isEdited = false
 
-    protected synchronizer: HtmlTagSynchronizer
-    api: ApiService
+    // protected synchronizer: HtmlTagSynchronizer
+    // api: ApiService
 
     public setApi(api: ApiService)
     {
@@ -26,7 +26,7 @@ export default class TextNode extends HtmlNode
     set text(arg: string)
     {
         this._text = arg
-        this.synchronizer.synchronize()
+        this.synchronize()
 
     }
 

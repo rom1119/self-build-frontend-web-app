@@ -10,8 +10,8 @@ export default class HtmlTagResponse extends ResponseObject{
      version
      project: any
      tagName
-     children
+     children = []
      cssStyleList = []
      pseudoSelectors = []
-
+     className
 }
