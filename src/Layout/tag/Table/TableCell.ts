@@ -9,6 +9,9 @@ import Display from '../../../Css/Display/Display';
 import VerticalAlign from '~/src/Css/Display/VerticalAlign';
 import TableTag from './TableTag';
 import TableTr from './TableTr';
+import TableTHead from './TableTHead';
+import TableTBody from './TableTBody';
+import TableTFoot from './TableTFoot';
 export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
@@ -27,6 +30,15 @@ export default abstract class TableCell extends HtmlTagBlock {
         }
 
     }
+
+    public turnOnFlexGrow() {
+        this.hasFlexGrow = true
+    }
+    
+    public turnOffFlexGrow() {
+        this.hasFlexGrow = false
+    }
+
     get parent(): TableTr
     {
         return this._parent
@@ -38,11 +50,13 @@ export default abstract class TableCell extends HtmlTagBlock {
     }
 
     public initSize(w, h) {
+        
+        this.parent.setHeightRow(this, h)
+        
         this.getTable().setWidthColumn(this.shortUUID, w)
-        this.getTable().setHeightColumn(this.shortUUID, h)
     }
 
-    public getTable() {
+    public getTable(): TableTag {
         return this.parent.getTable()
     }
 

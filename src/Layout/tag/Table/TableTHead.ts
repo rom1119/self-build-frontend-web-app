@@ -47,12 +47,10 @@ export default class TableTHead extends TableContainer {
         border.setColor('blue', new Named())
 
         let width = new Width(100, new Percent())
-        let height = new Height(50, new Pixel())
+        // let height = new Height(50, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
-        let backgroundColor = new BackgroundColor({r: 200, g:70, b: 70
-
-        }, new RGB())
-        let cssList = [ width, height, boxSizing, backgroundColor, border]
+        let backgroundColor = new BackgroundColor({r: 200, g:70, b: 70}, new RGB())
+        let cssList = [ width,  boxSizing, backgroundColor, border]
 
         this.addPropsToAccessor(cssList)
     }

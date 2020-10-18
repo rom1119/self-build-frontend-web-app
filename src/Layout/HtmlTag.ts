@@ -1352,7 +1352,6 @@ export default abstract class HtmlTag extends HtmlNode implements
         await this.api.appendChildDeep(child)
         this.synchronizer.synchronize()
 
-
     }
 
     get boundingClientRectLeftPixel(): number

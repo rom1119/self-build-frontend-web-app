@@ -33,7 +33,35 @@ export default class TableTag extends TableContainer {
         super.setWidthColumn(index.toString(), width)
     }
 
-    
+    public getBodyTag() {
+        for (const el of this.children) {
+            if (el instanceof TableTBody) {
+                return el
+            }
+        }
+
+        return false
+    }
+
+    async appendChildDeep(child: TableContainer)
+    {
+        var body = this.getBodyTag()
+        if (body) {
+            body.appendChildDeep(child)
+            return
+            // child.realPositionCalculator.updateNearPositionalTag()
+        }
+        child.parent = this
+        child.projectId = this.projectId
+        child.setApi(this.api)
+        this.children.push(child)
+
+        this.notifyPositionalTag()
+
+        await this.api.appendChildDeep(child)
+        this.synchronizer.synchronize()
+
+    }
 
     
 
@@ -68,9 +96,28 @@ export default class TableTag extends TableContainer {
 
     }
 
-    public setHeightColumn(shortUUID: string, height) {
+    public setHeightRowBody(shortUUID: string, height) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
-        console.log('setHeightColumn', index);
+        console.log('setHeightRowBody', index);
+        this.setHeightForColOnlyBody(this, index, height)
+        
+    }
+    
+    public setHeightRowHead(shortUUID: string, height) {
+        var index = this.recursiveFindTableRowIndex(shortUUID)
+        console.log('setHeightRowHead', index);
+        this.setHeightForColOnlyHead(this, index, height)
+        
+    }
+    public setHeightRowFoot(shortUUID: string, height) {
+        var index = this.recursiveFindTableRowIndex(shortUUID)
+        console.log('setHeightRowFoot', index);
+        this.setHeightForColOnlyFoot(this, index, height)
+        
+    }
+    public setHeightRow(shortUUID: string, height) {
+        var index = this.recursiveFindTableRowIndex(shortUUID)
+        console.log('setHeightRow', index);
         this.setHeightForCol(this, index, height)
         
     }
@@ -78,22 +125,72 @@ export default class TableTag extends TableContainer {
     protected setHeightForCol(parent, index, height) {
         for (var i = 0; i < parent.children.length; i++) {
             var child = parent.children[i]
-            
-
             if (child instanceof TableTr) {
                 if (i === parseInt(index)) {
                     child.initHeight(height)
+                    child.turnOffFlexGrow()
+                } else {
+                    child.turnOnFlexGrow()
                 }
             } else if (child instanceof TableContainer ) {
-                this.setHeightForCol(child ,index, height)
+                this.setHeightForColOnlyBody(child ,index, height)
             }
-
 
         }
     }
+    
+    protected setHeightForColOnlyBody(parent, index, height) {
+        for (var i = 0; i < parent.children.length; i++) {
+            var child = parent.children[i]
+            if (child instanceof TableTr) {
+                if (i === parseInt(index)) {
+                    child.initHeight(height)
+                    child.turnOffFlexGrow()
+                } else {
+                    child.turnOnFlexGrow()
+                }
+            } else if (child instanceof TableTBody ) {
+                this.setHeightForCol(child ,index, height)
+            }
 
+        }
+    }
     
+    protected setHeightForColOnlyHead(parent, index, height) {
+        for (var i = 0; i < parent.children.length; i++) {
+            var child = parent.children[i]
+            if (child instanceof TableTr) {
+                if (i === parseInt(index)) {
+                    child.initHeight(height)
+                    // child.parent.initHeight(height)
+                    child.turnOffFlexGrow()
+                } else {
+                    child.turnOnFlexGrow()
+                }
+            } else if (child instanceof TableTHead ) {
+                this.setHeightForCol(child ,index, height)
+            }
+
+        }
+    }
     
+    protected setHeightForColOnlyFoot(parent, index, height) {
+        for (var i = 0; i < parent.children.length; i++) {
+            var child = parent.children[i]
+            if (child instanceof TableTr) {
+                if (i === parseInt(index)) {
+                    child.initHeight(height)
+                    child.turnOffFlexGrow()
+                } else {
+                    child.turnOnFlexGrow()
+                }
+            } else if (child instanceof TableTFoot ) {
+                this.setHeightForCol(child ,index, height)
+            }
+
+        }
+    }
+     
     public injectInitialCssStyles()
     {
 

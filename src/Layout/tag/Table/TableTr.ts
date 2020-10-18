@@ -8,12 +8,15 @@ import TableCell from './TableCell';
 import Display from '../../../Css/Display/Display';
 import TableContainer from './TableContainer';
 import TableTag from './TableTag';
+import TableTBody from './TableTBody';
+import TableTFoot from './TableTFoot';
+import TableTHead from './TableTHead';
 
 export default class TableTr extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTr`
     protected _children: TableCell[] = []
-    protected hasFlexGrow = false
+    protected hasFlexGrow = true
 
     public static TAG_NAME = 'tr'
 
@@ -30,6 +33,22 @@ export default class TableTr extends TableContainer {
 
     public getTagName(): string {
         return 'div'
+    }
+    
+    public setHeightRow(child: TableCell, h) {
+        if (this.parent instanceof TableTag) {
+            this.getTable().setHeightRow(child.shortUUID, h)
+        } else {
+            if (this.parent instanceof TableTBody) {
+                this.getTable().setHeightRowBody(child.shortUUID, h)
+            } else if (this.parent instanceof TableTHead) {
+                this.getTable().setHeightRowHead(child.shortUUID, h)
+
+            } else if (this.parent instanceof TableTFoot) {
+                this.getTable().setHeightRowFoot(child.shortUUID, h)
+
+            }
+        }
     }
     
     public getTable(): TableTag {
@@ -52,6 +71,15 @@ export default class TableTr extends TableContainer {
     set children(arg: TableCell[])
     {
         this._children = arg
+    }
+
+
+    public turnOnFlexGrow() {
+        this.hasFlexGrow = true
+    }
+    
+    public turnOffFlexGrow() {
+        this.hasFlexGrow = false
     }
 
     public initHeight(h)

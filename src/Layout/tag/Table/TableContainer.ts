@@ -22,6 +22,9 @@ export default abstract class TableContainer extends HtmlTagBlock {
             } else if (child instanceof TableCell) {
                 if (i === parseInt(index)) {
                     child.initWidth(width)
+                    child.turnOffFlexGrow()
+                } else {
+                    child.turnOnFlexGrow()
                 }
             }
 

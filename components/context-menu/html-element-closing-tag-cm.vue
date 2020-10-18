@@ -6,11 +6,23 @@
             shift="both"
             :ref="createElementNameCM">
 
-                <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
-                <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
-                <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
-                <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
-                <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
+
+                <template v-if="isTableTag">
+                    <context-menu-item  :action="createTrElement">Dodaj TR</context-menu-item>
+                
+                        
+                    
+                </template>
+                <template v-else>
+                    <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
+                    <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
+                    <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
+                    <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
+                    <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
+                
+                        
+                    
+                </template>
 
          
   
@@ -40,6 +52,8 @@ import ApiService from '~/src/Api/ApiService';
 import DefaultApiService from '~/src/Api/impl/DefaultApiService';
 import TextNode from '~/src/Layout/TextNode';
 import LayoutEl from '../../src/LayoutEl';
+import TableComponentFactory from '~/src/Layout/TableComponentFactory';
+import TableTag from '~/src/Layout/tag/Table/TableTag';
 
 @Component
 export default class HtmlElementContextMenu extends Vue {
@@ -48,16 +62,23 @@ export default class HtmlElementContextMenu extends Vue {
     value: HtmlTag
 
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
+    tableComponentFactory: TableComponentFactory
 
     createElementNameCM = 'create-html-element-cm-'
     api: ApiService
-
+    isTableTag = false
 
     mounted() {
         // console.log(this.value.uuid);
         this.createElementNameCM = this.createElementNameCM.concat(this.value.uuid)
         this.api = new DefaultApiService();
-        
+        this.tableComponentFactory = new TableComponentFactory(this.api);
+        this.isTableTag = this.value instanceof TableTag
+    }
+    
+    createTrElement(target, cm, a) {
+        var el = this.tableComponentFactory.createExampleTBodyTr()
+        this.initCreatedTag(el)
     }
     
     createH1Element(target, cm, a) {

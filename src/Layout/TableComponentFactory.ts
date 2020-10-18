@@ -17,10 +17,9 @@ export default class TableComponentFactory {
 
     api: ApiService
 
-
-    constructor()
+    constructor(api: ApiService)
     {
-        this.api = new DefaultApiService();
+        this.api = api;
     }
 
     createrSynchronizer(){
@@ -52,11 +51,11 @@ export default class TableComponentFactory {
     createExampleTBodyTr() {
 
         var trbody  = new TableTr()
-        var cell = new TableTd('content col 1')
-        var cellsec = new TableTd('content col 2')
+        var cell = new TableTd('content example')
+        var cellsec = new TableTd('content example')
         trbody.appendChild(cell)
         trbody.appendChild(cellsec)
-        
+
         trbody.setApi(this.api)
 
         return trbody
