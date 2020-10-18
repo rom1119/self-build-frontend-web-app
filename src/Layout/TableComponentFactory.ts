@@ -48,7 +48,7 @@ export default class TableComponentFactory {
         return el
     }
     
-    createExampleTBodyTr() {
+    createExampleTr() {
 
         var trbody  = new TableTr()
         var cell = new TableTd('content example')
@@ -59,6 +59,14 @@ export default class TableComponentFactory {
         trbody.setApi(this.api)
 
         return trbody
+    }
+    
+    createExampleTd() {
+
+        var cell = new TableTd('content example')
+        cell.setApi(this.api)
+
+        return cell
     }
     
     createTableTh() {

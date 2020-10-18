@@ -8,7 +8,8 @@
 
 
                 <template v-if="isTableTag">
-                    <context-menu-item  :action="createTrElement">Dodaj TR</context-menu-item>
+                    <context-menu-item  :action="createTrElement">Dodaj Wiersz</context-menu-item>
+                    <context-menu-item  :action="createTdElement">Dodaj Kolumnę</context-menu-item>
                 
                         
                     
@@ -77,8 +78,30 @@ export default class HtmlElementContextMenu extends Vue {
     }
     
     createTrElement(target, cm, a) {
-        var el = this.tableComponentFactory.createExampleTBodyTr()
-        this.initCreatedTag(el)
+        var el = this.tableComponentFactory.createExampleTr()
+        var tab: TableTag = <TableTag>this.value
+        el.parent = tab
+        el.projectId = tab.projectId
+        
+        el.injectInitialCssStyles()
+        el.injectInitialSelectors()
+        el.setProjectId(this.$route.params.id)
+        tab.appendRowDeep(el)
+
+        this.$emit('createdTag', el)
+    }
+    
+    createTdElement(target, cm, a) {
+        var el = this.tableComponentFactory.createExampleTd()
+        var tab: TableTag = <TableTag>this.value
+        el.projectId = tab.projectId
+        
+        el.injectInitialCssStyles()
+        el.injectInitialSelectors()
+        el.setProjectId(this.$route.params.id)
+        tab.appendColumn(el)
+
+        this.$emit('createdTag', el)
     }
     
     createH1Element(target, cm, a) {

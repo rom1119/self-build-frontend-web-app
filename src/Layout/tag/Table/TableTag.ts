@@ -10,6 +10,8 @@ import TableCell from './TableCell';
 import FlexDirection from '../../../Css/Display/FlexDirection';
 import TableContainer from './TableContainer';
 import TableTr from './TableTr';
+import TableTh from './TableTh';
+import TableTd from './TableTd';
 export default class TableTag extends TableContainer {
     
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -42,8 +44,18 @@ export default class TableTag extends TableContainer {
 
         return false
     }
+    
+    public hasTrChild() {
+        for (const el of this.children) {
+            if (el instanceof TableTr) {
+                return true
+            }
+        }
 
-    async appendChildDeep(child: TableContainer)
+        return false
+    }
+
+    async appendRowDeep(child: TableContainer)
     {
         var body = this.getBodyTag()
         if (body) {
@@ -60,6 +72,67 @@ export default class TableTag extends TableContainer {
 
         await this.api.appendChildDeep(child)
         this.synchronizer.synchronize()
+
+    }
+
+    protected copyCell(cell: TableCell, td): TableCell {
+        var newCell: TableCell 
+        if (!td) {
+            var textNode = cell.getTextNode()
+            if (textNode) {
+                newCell = new TableTh(textNode.text)
+            } else {
+                newCell = new TableTh()
+
+            }
+        } else if (td) {
+            var textNode = cell.getTextNode()
+            if (textNode) {
+                newCell = new TableTd(textNode.text)
+            } else {
+                newCell = new TableTh()
+
+            }
+        } else {
+            throw Error('Can not copy cell from ' + cell.getDomainTagName())
+        }
+        return newCell
+    }
+    
+    async appendColumn(childNew: TableCell)
+    {
+        var body = this.getBodyTag()
+        if (this.hasTrChild()) {
+            for (const child of this.children) {
+                var tr: TableTr = <TableTr>child
+
+                var newCopy = this.copyCell(childNew, true)
+                newCopy.parent = tr
+
+                tr.appendChildDeep(newCopy)
+            }
+            return
+            // child.realPositionCalculator.updateNearPositionalTag()
+        } else {
+
+            for (const cont of this.children) {
+                
+                for (const child of cont.children) {
+                    var tr: TableTr = <TableTr>child
+                    var newCopy: TableCell
+                    if (cont instanceof TableTHead) {
+                        newCopy = this.copyCell(childNew, false)
+
+                    } else {
+                        newCopy = this.copyCell(childNew, true)
+
+                    }
+                    newCopy.parent = tr
+    
+                    tr.appendChildDeep(newCopy)
+                }
+            }
+        }
 
     }
 
