@@ -22,6 +22,27 @@ export default abstract class LayoutEl {
         // this.initCssAccessor()
     }
 
+    // protected cloneDeep(oldEl: LayoutEl, newEl: LayoutEl) {
+    //     this.clone(oldEl, newEl)
+    //     newEl.children = []
+    //     for (const child of oldEl.children) {
+    //         var cloneChild = child.cloneDeep(child)
+    //         newEl.children.push(cloneChild)
+    //     }
+    // }
+
+    // protected clone(oldEl: LayoutEl, newEl: LayoutEl) {
+    //     newEl.cssAccessor.removeAll()
+    //     for (const css of oldEl.cssAccessor.all) {
+    //         var cloneCss = css.deepCopy(css)
+    //         newEl.cssAccessor.addNewProperty(cloneCss)
+    //     }
+    // }
+
+    // protected copyEl() {
+
+    // }
+
     get shortUUID(): string
     {
         return this._shortUUID

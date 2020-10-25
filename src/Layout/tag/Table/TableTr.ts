@@ -104,7 +104,7 @@ export default class TableTr extends TableContainer {
         let width = new Width(100, new Percent())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         let backgroundColor = new BackgroundColor({r: 70, g:70, b: 200}, new RGB())
-        let cssList = [ width, boxSizing, backgroundColor]
+        let cssList = [ width, boxSizing]
         
         this.addPropsToAccessor(cssList)
     }

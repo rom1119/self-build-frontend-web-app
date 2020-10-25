@@ -1326,6 +1326,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     {
         child.parent = this
         child.setApi(this.api)
+        child.setProjectId(this.projectId)
         super.appendChild(child)
         if (child instanceof HtmlTag) {
             child.injectInitialCssStyles()
@@ -1340,7 +1341,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     async appendChildDeep(child: HtmlNode)
     {
         child.parent = this
-        child.projectId = this.projectId
+        child.setProjectId(this.projectId)
         child.setApi(this.api)
         this.children.push(child)
 

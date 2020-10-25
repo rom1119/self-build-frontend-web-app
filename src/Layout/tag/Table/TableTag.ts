@@ -12,6 +12,8 @@ import TableContainer from './TableContainer';
 import TableTr from './TableTr';
 import TableTh from './TableTh';
 import TableTd from './TableTd';
+import { html } from 'js-beautify';
+import HtmlTag from '../../HtmlTag';
 export default class TableTag extends TableContainer {
     
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -74,6 +76,8 @@ export default class TableTag extends TableContainer {
         this.synchronizer.synchronize()
 
     }
+
+    
 
     protected copyCell(cell: TableCell, td): TableCell {
         var newCell: TableCell 
@@ -144,7 +148,7 @@ export default class TableTag extends TableContainer {
             if (child instanceof TableTr) {
                 for (var cell of child.children) {
                     if (cell.shortUUID === shortUUID) {
-                        console.log('child.shortUUID11 === shortUUID', shortUUID);
+                        // console.log('child.shortUUID11 === shortUUID', shortUUID);
                         return ii
                     }
                 }
@@ -155,7 +159,7 @@ export default class TableTag extends TableContainer {
                     var res
                     for (var celll of tr.children) {
                         if (celll.shortUUID === shortUUID) {
-                            console.log('child.shortUUID22 === shortUUID', shortUUID);
+                            // console.log('child.shortUUID22 === shortUUID', shortUUID);
                             return i
                         }
                     }
@@ -171,26 +175,26 @@ export default class TableTag extends TableContainer {
 
     public setHeightRowBody(shortUUID: string, height) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
-        console.log('setHeightRowBody', index);
+        // console.log('setHeightRowBody', index);
         this.setHeightForColOnlyBody(this, index, height)
         
     }
     
     public setHeightRowHead(shortUUID: string, height) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
-        console.log('setHeightRowHead', index);
+        // console.log('setHeightRowHead', index);
         this.setHeightForColOnlyHead(this, index, height)
         
     }
     public setHeightRowFoot(shortUUID: string, height) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
-        console.log('setHeightRowFoot', index);
+        // console.log('setHeightRowFoot', index);
         this.setHeightForColOnlyFoot(this, index, height)
         
     }
     public setHeightRow(shortUUID: string, height) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
-        console.log('setHeightRow', index);
+        // console.log('setHeightRow', index);
         this.setHeightForCol(this, index, height)
         
     }

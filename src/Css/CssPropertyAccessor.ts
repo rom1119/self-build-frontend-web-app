@@ -49,6 +49,11 @@ export default abstract class CssPropertyAccessor
         return this.cssProps
     }
     
+    public removeAll()
+    {
+        Vue.set(this, 'cssProps', [])
+    }
+    
     get all(): BasePropertyCss[]
     {
         return this.cssProps

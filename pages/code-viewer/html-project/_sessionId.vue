@@ -207,7 +207,7 @@ import {html} from 'js-beautify';
         // color: white;
     }.html {
         // background-color: white;
-        height: 100vh;
+        height: 100%;
         // color: black;
     }
     .code-tabs {

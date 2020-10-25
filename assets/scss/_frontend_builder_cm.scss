@@ -1,6 +1,9 @@
 .context-menu {
     list-style-type: none;
     background-color: white;
+    z-index: 999;
+    color: black !important;
+
 }
 .context-menu-item {
     padding: 5px 10px;

@@ -47,7 +47,7 @@ export default class HtmlTagSynchronizer implements Synchronizer
     {
         setTimeout(() => { 
             this.isNowSynchronized = false
-            console.log('qwerty');
+            // console.log('qwerty');
             
         }, 1000)
     }
@@ -59,8 +59,8 @@ export default class HtmlTagSynchronizer implements Synchronizer
             // this.setAsNowReadyToSynchronize()
             this.updatePromise().then(
                 (res) => {
-                    console.log('success');
-                    console.log(res);
+                    // console.log('success');
+                    // console.log(res);
 
                     if (this.tag instanceof HtmlTag) {
                         this.updateCssIds(res.data.cssStyleList, this.tag.cssAccessor.all)

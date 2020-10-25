@@ -45,7 +45,7 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
     {
         setTimeout(() => { 
             this.isNowSynchronized = false
-            console.log('qwerty');
+            // console.log('qwerty');
             
         }, 1000)
     }
@@ -57,8 +57,8 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
             // this.setAsNowReadyToSynchronize()
             this.updatePromise().then(
                 (res) => {
-                    console.log('success');
-                    console.log(res);
+                    // console.log('success');
+                    // console.log(res);
 
                     this.updateCssIds(res.data.cssStyleList, this.selector.cssAccessor.all)
 

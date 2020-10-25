@@ -42,14 +42,14 @@ export default class TableTBody extends TableContainer {
     
     public injectInitialCssStyles()
     {
-        let border = new BorderGlobalCss('5', new Pixel())
-        border.setType('dotted')
-        border.setColor('orange', new Named())
+        // let border = new BorderGlobalCss('5', new Pixel())
+        // border.setType('dotted')
+        // border.setColor('orange', new Named())
         
         let width = new Width(100, new Percent())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         let backgroundColor = new BackgroundColor({r: 70, g:200, b: 70}, new RGB())
-        let cssList = [ width, boxSizing, backgroundColor, border]
+        let cssList = [ width, boxSizing]
 
         this.addPropsToAccessor(cssList)
     }
