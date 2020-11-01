@@ -1,5 +1,3 @@
-import { BoxSizing, Height, Width, BackgroundColor, MinHeight, Display, FlexWrap, MaxWidth } from '~/src/Css';
-import { Named } from '~/src/Unit';
 import HtmlTagBlock from '../../HtmlTagBlock';
 import Pixel from '../../../Unit/Size/Pixel';
 import RGB from '../../../Unit/Color/RGB';
@@ -9,6 +7,12 @@ import TableTFoot from './TableTFoot';
 import TableCell from './TableCell';
 import TableTag from './TableTag';
 import TableTr from '~/src/Layout/tag/Table/TableTr';
+import Height from '~/src/Css/Size/Height';
+import MaxWidth from '~/src/Css/Size/MaxWidth';
+import BoxSizing from '~/src/Css/BoxModel/BoxSizing';
+import BackgroundColor from '~/src/Css/Background/BackgroundColor';
+import Display from '~/src/Css/Display/Display';
+import Named from '~/src/Unit/Named';
 export default abstract class TableContainer extends HtmlTagBlock {
 
     public abstract getTable(): TableTag

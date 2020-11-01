@@ -72,10 +72,15 @@ import PseudoSelector from '../PseudoSelector/PseudoSelector';
 import CssListAndOveride from "./CssListAndOverride";
 import TransitionCss from '../Css/Animation/TransitionCss';
 import SelectorOwner from "../SelectorOwner";
+import DecisionsCssFacade from "../DecisionManager/DecisionsCssFacade";
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner
 {
+    public isElementOfTable() {
+        return false
+    }
+
 
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
@@ -152,6 +157,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _widthCalc: string = 'calc(100%)'
     protected _heightCalc: string = 'calc(100%)'
 
+    decisionCssFacade: DecisionsCssFacade = new DecisionsCssFacade(this)
 
     protected _boundingClientRectLeftPixel: number
     protected _boundingClientRectTopPixel: number
@@ -164,6 +170,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.initPaddings()
         this.initBorders()
         this.initMargins()
+        // this.decisionCssFacade = new DecisionsCssFacade(this)
         this._tmpCssPropertyAccesor = new HtmlTagPropertyAccessor(this)
         this.initCssAccessor()
         this.initPseudoSelectors()
@@ -671,13 +678,14 @@ export default abstract class HtmlTag extends HtmlNode implements
     get backgroundColor() {
         return this._backgroundColor;
     }
-     set backgroundColor(value) {
+
+    set backgroundColor(value) {
         this._backgroundColor = value;
     }
 
     public toString(): string
     {
-        return `${this.getTagName()}, UUID=${this.uuid} `
+        return `( ${this.getDomainTagName()} )`
     }
 
     public changeAsActiveSize()
@@ -957,6 +965,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         let css = {}
         for (const cssProp of this._cssPropertyAccesor.all) {
             if (!this.canAddToCssList(cssProp)) {
+                continue
+            }
+
+            if (!cssProp.injectable) {
                 continue
             }
             if (this.isLikeBackgroundCss(cssProp)) {

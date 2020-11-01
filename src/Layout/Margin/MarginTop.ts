@@ -9,7 +9,7 @@ import MarginModel from "./MarginModel";
 import MarginTopCss from "~/src/Css/BoxModel/Margin/MarginTopCss";
 import Named from "~/src/Unit/Named";
 import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
-import { LeftCss, TopCss } from "~/src/Css";
+import { Display, LeftCss, TopCss } from "~/src/Css";
 
 export default class MarginTop extends MarginModel
 {
@@ -29,6 +29,11 @@ export default class MarginTop extends MarginModel
     protected initCssAccessor()
     {
         super.initCssAccessor()
+
+        if (!this.htmlTag.decisionCssFacade.canManageCss(new MarginTopCss(null, null))) {
+            return 
+
+        }
         let width = new Width(this.lengthCalc, new Named())
         let height = new Height(this.width, this.widthUnit)
         let left = new LeftCss(this.lengthOffsetCalc, new Named())
@@ -70,6 +75,14 @@ export default class MarginTop extends MarginModel
     get cssList() : any
     {
         let css = super.cssList
+
+        if (!this.htmlTag.decisionCssFacade.canManageCss(new MarginTopCss(null, null))) {
+            var d = new Display(Display.NONE, new Named())
+            css[d.getName()] = d.getValue()
+            return css
+
+        }
+
         let width = new Width(this.lengthCalc, new Named())
         let height = new Height(this.width, this.widthUnit)
         let left = new LeftCss(this.lengthOffsetCalc, new Named())

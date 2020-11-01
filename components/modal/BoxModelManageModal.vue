@@ -6,8 +6,8 @@
             <div class="close">
                 <button @click="close($event)">X</button>
             </div>
-            <h4>
-                Zarządzaj box modelem
+            <h4 v-if="value">
+                Zarządzaj box modelem Tag {{ value.toString() }}
             </h4>
             <div v-if="value" class="border-radius-container"
                     @dblclick.stop="hasBoxSizing === true ? hasBoxSizing = false : hasBoxSizing = true"
@@ -121,6 +121,7 @@
                     <div class="margin-box-model">
                         
                         <site-box-model-element
+                            v-if="value.decisionCssFacade.canManageCss(marginManager.topProperty)"
                             @changeHasProp="hasMarginTop = $event"
                             @changeProp="marginTop = $event"
                             @changePropUnit="marginUnitTop = $event"
@@ -131,6 +132,7 @@
                             :contextMenuName="value.uuid.concat('-margin-top-box')"
                         />
                         <site-box-model-element
+                            v-if="value.decisionCssFacade.canManageCss(marginManager.bottomProperty)"
                             @changeHasProp="hasMarginBottom = $event"
                             @changeProp="marginBottom = $event"
                             @changePropUnit="marginUnitBottom = $event"
@@ -142,6 +144,7 @@
                         />
                         
                         <site-box-model-element 
+                            v-if="value.decisionCssFacade.canManageCss(marginManager.leftProperty)"
                             :propAuto="marginLeftAuto"
                             :setPropAuto="true"
                             @clickAuto="setPropMarginAuto(marginManager.leftProperty)"
@@ -156,6 +159,7 @@
                         />
                         
                         <site-box-model-element 
+                            v-if="value.decisionCssFacade.canManageCss(marginManager.rightProperty)"
                             :propAuto="marginRightAuto"
                             :setPropAuto="true"
                             @clickAuto="setPropMarginAuto(marginManager.rightProperty)"
@@ -171,6 +175,7 @@
                         
                         
                         <site-box-model-element 
+                            v-if="value.decisionCssFacade.canManageCss(marginManager.globalProperty)"
                             :globalEl="true"
                             @changeHasProp="hasMarginGlobal = $event"
                             @changeProp="marginGlobal = $event"
@@ -287,7 +292,7 @@
                                         
                                     
     
-                                <div class="content-box-model">
+                                <div class="content-box-model" v-if="value.decisionCssFacade.canManageContentBoxCss()">
                                     <div class="content-box-model-link">
                                         Width 
                                         <span v-show="hasWidth">
@@ -541,6 +546,14 @@ import { Width } from '~/src/Css';
             this.allUnits.push(new VW())
             this.allUnits.push(new VH())
             
+        }
+
+
+        get marginCanBeManage() {
+            if (!this.value) {
+                return false
+            }
+            return MarginTopCss.canBeManageBy(this.value)
         }
 
         onChangePseudoSelector()

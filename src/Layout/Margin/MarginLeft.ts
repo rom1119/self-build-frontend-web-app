@@ -11,7 +11,9 @@ import Named from '../../Unit/Named';
 import BaseMarginCss from '../../Css/BoxModel/BaseMarginCss';
 import MarginSizeCalculator from "~/src/Calculator/Size/MarginSizeCalculator";
 import MarginOffsetSizeCalculator from "~/src/Calculator/OffsetSize/MarginOffsetSizeCalculator";
-import { LeftCss, TopCss } from "~/src/Css";
+import Display from '../../Css/Display/Display';
+import LeftCss from "~/src/Css/Display/Direction/LeftCss";
+import TopCss from "~/src/Css/Display/Direction/TopCss";
 
 export default class MarginLeft extends MarginModel
 {
@@ -29,6 +31,11 @@ export default class MarginLeft extends MarginModel
     protected initCssAccessor()
     {
         super.initCssAccessor()
+        if (!this.htmlTag.decisionCssFacade.canManageCss(new MarginLeftCss(null, null))) {
+
+            return 
+
+        }
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.lengthCalc, new Named())
         let left = new LeftCss(this.offsetCalc, new Named())
@@ -70,6 +77,13 @@ export default class MarginLeft extends MarginModel
     get cssList() : any
     {
         let css = super.cssList
+
+        if (!this.htmlTag.decisionCssFacade.canManageCss(new MarginLeftCss(null, null))) {
+            var d = new Display(Display.NONE, new Named())
+            css[d.getName()] = d.getValue()
+
+            return css
+        }
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.lengthCalc, new Named())
         let left = new LeftCss(this.offsetCalc, new Named())
@@ -82,6 +96,7 @@ export default class MarginLeft extends MarginModel
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
         } 
+        
         
         return css
     }

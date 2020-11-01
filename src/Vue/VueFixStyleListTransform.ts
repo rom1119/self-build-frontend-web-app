@@ -37,7 +37,10 @@ export class VueFixStyleListTransform
 
 
         for (const cssProp of allStyles) {
-                        
+                 
+            if (!cssProp.injectable) {
+                continue
+            }
             var cssName = cssProp.getName()
             var cssVal = cssProp.getValue()
             if (cssName.indexOf('-') > -1) {

@@ -30,7 +30,9 @@ export default abstract class TableCell extends HtmlTagBlock {
         }
 
     }
-
+    public isElementOfTable() {
+        return true
+    }
     public getTextNode() {
         for (const child of this.children) {
             if (child instanceof TextNode) {

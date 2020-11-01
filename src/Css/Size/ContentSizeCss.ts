@@ -3,6 +3,8 @@ import CssPropertyLimitable from "../CssPropertyLimitable";
 
 export default abstract class ContentSizeCss extends CssSimple implements CssPropertyLimitable
 {
+    public static PROP_NAME = 'width'
+    public static PROP_SEC_NAME = 'height'
 
     public static INITIAL = 'initial'
     public static INHERIT = 'inherit'

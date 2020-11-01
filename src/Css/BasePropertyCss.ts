@@ -1,4 +1,5 @@
 import CssWithoutValue from '../Errors/CssWithoutValue';
+import HtmlTag from '../Layout/HtmlTag';
 import Unit from '../Unit/Unit';
 export default abstract class BasePropertyCss
 {
@@ -6,11 +7,16 @@ export default abstract class BasePropertyCss
     protected values: any[]
     protected unit: Unit
     public active = true
+    public injectable = true
 
     constructor(unit: Unit)
     {
         this.unit = unit
         this.values = []
+    }
+
+    public static canBeManageBy(htmlTag: HtmlTag) {
+        return true
     }
 
     public deepCopy(obj) {

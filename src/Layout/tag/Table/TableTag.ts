@@ -14,6 +14,12 @@ import TableTh from './TableTh';
 import TableTd from './TableTd';
 import { html } from 'js-beautify';
 import HtmlTag from '../../HtmlTag';
+import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
+import BaseMarginCss from '~/src/Css/BoxModel/BaseMarginCss';
+import BasePaddingCss from '~/src/Css/BoxModel/BasePaddingCss';
+import _ from 'lodash';
+import BorderSpacing from '../../../Css/Table/BorderSpacing';
+import UnitSize from '../../../Unit/UnitSize';
 export default class TableTag extends TableContainer {
     
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -281,6 +287,109 @@ export default class TableTag extends TableContainer {
 
         this.addPropsToAccessor(cssList)
     }
+
+    recalculateRealComputedProperties()
+    {
+        var cssAll = this.cssAccessor.all
+        if (this.getCurrentCssAccessor()) {
+            cssAll = this.getCurrentCssAccessor().all
+        }
+        for (const prop of cssAll) {
+    
+            if (prop instanceof Width || prop instanceof Height ) {
+                // console.log("CONTR_FILTR");
+                // console.log(prop);
+                
+                // let val = this.getComputedCssVal(prop)
+                // let clonedCss = _.cloneDeep(prop)
+                // console.log(val);
+                // clonedCss.setValue(parseInt(val))
+                // clonedCss.setUnit(new Pixel())
+                // console.log(prop);
+                // console.log(val);
+                // console.log(clonedCss);
+                // console.log('ALA MA');
+                this.contentFilter.injectCssProperty(prop)
+                continue
+            }
+            
+            if (prop instanceof BasePaddingCss) {
+
+                let val = this.getComputedCssVal(prop)
+                let clonedCss = _.cloneDeep(prop)
+                clonedCss.setValue(parseInt(val).toString())
+                clonedCss.setUnit(new Pixel())
+                // console.log(newProp);
+                // console.log(val);
+                // // console.log(clonedCss);
+                // console.log('ALA MA');
+                this.paddingFilter.injectCssProperty(clonedCss)
+                continue
+            }
+            
+            if (prop instanceof BaseMarginCss) {
+
+                // let val = this.getComputedCssVal(prop)
+                // let clonedCss = _.cloneDeep(prop)
+                // clonedCss.setValue(parseInt(val).toString())
+                // clonedCss.setUnit(new Pixel())
+                // // console.log(newProp);
+                // // console.log(val);
+                // // // console.log(clonedCss);
+                // // console.log('ALA MA');
+                this.marginFilter.injectCssProperty(prop)
+                continue
+            }
+            
+            if (prop instanceof BaseBorderCss) {
+                // return
+                let val = this.getComputedCssVal(prop)
+                let clonedCss = _.cloneDeep(prop)
+                // clonedCss.setValue(parseInt(val).toString())
+                // console.log(val);
+                clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+
+                if (prop instanceof BaseBorderCss) {
+
+                    
+                    if (prop.getColorUnit()) {
+                        clonedCss.setUnit(new Pixel())
+                        clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+                        clonedCss.setType(prop.getType())
+                        clonedCss.setColor(prop.getColor(), prop.getColorUnit())
+
+                    } else {
+                        clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+
+                        clonedCss.setValue(val)
+                    }
+                } else {
+                    clonedCss.setValue(val)
+                }
+                // console.log(newProp);
+                // console.log(val);
+                // console.log(clonedCss);
+                // console.log('ALA MA');
+                this.borderFilter.injectCssProperty(clonedCss)
+                continue
+            }
+
+            if (prop instanceof BorderSpacing) {
+                this.recalculateBorderSpacingX(prop.xValUnit, prop.xVal)
+                this.recalculateBorderSpacingY(prop.yValUnit, prop.yVal)
+            }
+        }
+    }
+
+    recalculateBorderSpacingX(yValUnit: UnitSize, yVal: number)
+    {
+
+    }
+    
+    recalculateBorderSpacingY(yValUnit: UnitSize, yVal: number)
+    {
+        
+    }
     
     get cssList() : any
     {
@@ -321,7 +430,6 @@ export default class TableTag extends TableContainer {
         return {}
 
     }
-
 
     get cssBoxList() : any
     {

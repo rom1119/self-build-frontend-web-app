@@ -34,6 +34,10 @@ export default class TableTr extends TableContainer {
     public getTagName(): string {
         return 'div'
     }
+
+    public isElementOfTable() {
+        return true
+    }
     
     public setHeightRow(child: TableCell, h) {
         if (this.parent instanceof TableTag) {

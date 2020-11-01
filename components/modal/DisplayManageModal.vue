@@ -209,6 +209,32 @@
                     </li>
                 </ul>
             </div>
+            <div class="content-item" >
+                <h4 class="content-item__header">
+                    Table CSS
+                </h4>
+                <ul class=" content-item__elem_container" @dblclick="hasBorderSpacing = !hasBorderSpacing" :class="{'active': hasFlexOrder}">
+                    <li class="content-item__elem" v-context-menu="cmBorderSpacingX" >
+                        <select-unit-context-menu :propertyUnit="borderSpacingXUnit" @changePropUnit="($event) => {borderSpacingXUnit = $event;}" :ref="cmBorderSpacingX" />
+
+                        <label :for="'borderSpacingX-'">
+                            Border spacing X
+                            <input type="number" style="width: 40px;" class="input-text" v-model="borderSpacingX" name="borderSpacingX" :id="'borderSpacingX-'">
+
+                        </label>
+                    </li>
+                    <li class="content-item__elem" v-context-menu="cmBorderSpacingY">
+                        <select-unit-context-menu :propertyUnit="borderSpacingYUnit" @changePropUnit="($event) => {borderSpacingYUnit = $event;}" :ref="cmBorderSpacingY" />
+
+                        <label :for="'borderSpacingY-'">
+                            Border spacing Y
+                            <input type="number" style="width: 40px;" class="input-text" v-model="borderSpacingY" name="borderSpacingY" :id="'borderSpacingY-'">
+
+                        </label>
+                    </li>
+                
+                </ul>
+            </div>
         </template>
         <template slot="footer">
             <button class="to-left" @click="restore($event)">
@@ -262,6 +288,7 @@ import CssAuto from '~/src/Css/CssAuto';
 import BaseBorderCss from '../../src/Css/Border/BaseBorderCss';
 import { Width, Display, JustifyContent, AlignItems, FlexDirection, FlexWrap, Float, Clear, PositionCss } from '~/src/Css';
 import DisplayManageModal from '../DisplayManageModal';
+import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProperty/Table/BorderSpacingProperty';
 
     @Component
     export default class DisplayManageModalComponent extends DisplayManageModal {
@@ -284,6 +311,9 @@ import DisplayManageModal from '../DisplayManageModal';
         cmNameRight = Math.floor(Math.random() * 1000000000).toString() + 'right'
         cmNameTop = Math.floor(Math.random() * 1000000000).toString() + 'top'
         cmNameBottom = Math.floor(Math.random() * 1000000000).toString() + 'bottom'
+
+        cmBorderSpacingX = Math.floor(Math.random() * 1000000000).toString() + 'BorderSpacingX'
+        cmBorderSpacingY = Math.floor(Math.random() * 1000000000).toString() + 'BorderSpacingY'
 
 
         idName = 'text-property-modal'
@@ -777,6 +807,66 @@ import DisplayManageModal from '../DisplayManageModal';
                 this.bottomManager.deactivePropCss(this.bottomManager.getProperty())
             } else {
                 this.bottomManager.activePropCss(this.bottomManager.getProperty())
+            }
+        }
+
+        // *****************************************  FLEX-GROW ****************************************************
+        
+        get borderSpacingX()
+        {
+            return  this.borderSpacingManager.getProperty().xVal.toString()
+        }
+        
+        set borderSpacingX(newVal: string)
+        {
+            this.borderSpacingManager.getProperty().xVal = Number(newVal)
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())             
+        }
+
+        get borderSpacingXUnit()
+        {
+            return  this.borderSpacingManager.getProperty().xValUnit
+        }
+        
+        set borderSpacingXUnit(newVal: UnitSize)
+        {
+            this.borderSpacingManager.getProperty().xValUnit = newVal
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())             
+        }
+        
+        get borderSpacingY()
+        {
+            return  this.borderSpacingManager.getProperty().yVal.toString()
+        }
+        
+        set borderSpacingY(newVal: string)
+        {
+            this.borderSpacingManager.getProperty().yVal = Number(newVal)
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())             
+        }
+
+        get borderSpacingYUnit()
+        {
+            return  this.borderSpacingManager.getProperty().yValUnit
+        }
+        
+        set borderSpacingYUnit(newVal: UnitSize)
+        {
+            this.borderSpacingManager.getProperty().yValUnit = newVal
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())             
+        }
+
+        get hasBorderSpacing()
+        {
+            return  this.borderSpacingManager.getProperty().active
+        }
+        
+        set hasBorderSpacing(newVal: boolean)
+        {
+            if (!newVal) {
+                this.borderSpacingManager.deactivePropCss(this.borderSpacingManager.getProperty())
+            } else {
+                this.borderSpacingManager.activePropCss(this.borderSpacingManager.getProperty())
             }
         }
 

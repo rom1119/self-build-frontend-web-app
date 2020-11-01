@@ -208,6 +208,9 @@ export default abstract class BaseSelector
             if (!this.owner.canAddToCssList(cssProp)) {
                 continue
             }
+            if (!cssProp.injectable) {
+                continue
+            }
             if (this.owner.isLikeBackgroundCss(cssProp)) {
                 continue
             }

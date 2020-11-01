@@ -1,5 +1,3 @@
-import { BoxSizing, Height, Width, BackgroundColor, MinHeight, Display, MaxWidth, BorderGlobalCss } from '~/src/Css';
-import { Named } from '~/src/Unit';
 import HtmlTagBlock from '../../HtmlTagBlock';
 import Pixel from '../../../Unit/Size/Pixel';
 import RGB from '../../../Unit/Color/RGB';
@@ -8,6 +6,11 @@ import TableContainer from './TableContainer';
 import TableTag from './TableTag';
 import FlexGrow from '../../../Css/Display/FlexGrow';
 import FlexDirection from '../../../Css/Display/FlexDirection';
+import Width from '~/src/Css/Size/Width';
+import BoxSizing from '~/src/Css/BoxModel/BoxSizing';
+import BackgroundColor from '~/src/Css/Background/BackgroundColor';
+import Display from '~/src/Css/Display/Display';
+import Named from '~/src/Unit/Named';
 export default class TableTBody extends TableContainer {
     
     protected _innerText: string = `${this.uuid}  TableTBody`

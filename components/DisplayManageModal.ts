@@ -25,6 +25,8 @@ import LeftProperty from './computedPropertyManagers/impl/ComputedProperty/Displ
 import RightProperty from './computedPropertyManagers/impl/ComputedProperty/Display/RightProperty'
 import TopProperty from './computedPropertyManagers/impl/ComputedProperty/Display/TopProperty'
 import BottomProperty from './computedPropertyManagers/impl/ComputedProperty/Display/BottomProperty'
+import BorderSpacing from '../src/Css/Table/BorderSpacing';
+import BorderSpacingProperty from './computedPropertyManagers/impl/ComputedProperty/Table/BorderSpacingProperty'
 
 
 export default abstract class DisplayManageModal extends AbstractModal
@@ -47,7 +49,7 @@ export default abstract class DisplayManageModal extends AbstractModal
     topManager: BaseComputedPropertyManager<TopCss>
     bottomManager: BaseComputedPropertyManager<BottomCss>
 
-    
+    borderSpacingManager: BaseComputedPropertyManager<BorderSpacing>
 
     constructor()
     {
@@ -69,6 +71,8 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.rightManager = new RightProperty()
         this.topManager = new TopProperty()
         this.bottomManager = new BottomProperty()
+
+        this.borderSpacingManager = new BorderSpacingProperty()
 
         
 
@@ -97,6 +101,7 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.rightManager.setHtmlEl(val)
         this.topManager.setHtmlEl(val)
         this.bottomManager.setHtmlEl(val)
+        this.borderSpacingManager.setHtmlEl(val)
 
         this.managers = []
 
@@ -117,6 +122,8 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.managers.push(this.rightManager)
         this.managers.push(this.topManager)
         this.managers.push(this.bottomManager)
+
+        this.managers.push(this.borderSpacingManager)
 
         // this.paddingManager.setFetcher(this.paddingRealFetcher)
         // this.marginManager.setFetcher(this.marginRealFetcher)
@@ -139,6 +146,8 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.rightManager.init()
         this.topManager.init()
         this.bottomManager.init()
+
+        this.borderSpacingManager.init()
      
     }
 }
