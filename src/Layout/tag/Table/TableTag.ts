@@ -1,4 +1,4 @@
-import { BoxSizing, Height, Width, BackgroundColor, MinHeight, Display, FlexWrap, MaxWidth } from '~/src/Css';
+import { BoxSizing, Height, Width, BackgroundColor, MinHeight, Display, FlexWrap, MaxWidth, MarginLeftCss, MarginRightCss, MarginTopCss } from '~/src/Css';
 import { Named } from '~/src/Unit';
 import HtmlTagBlock from '../../HtmlTagBlock';
 import Pixel from '../../../Unit/Size/Pixel';
@@ -20,6 +20,7 @@ import BasePaddingCss from '~/src/Css/BoxModel/BasePaddingCss';
 import _ from 'lodash';
 import BorderSpacing from '../../../Css/Table/BorderSpacing';
 import UnitSize from '../../../Unit/UnitSize';
+import MarginBottomCss from '../../../Css/BoxModel/Margin/MarginBottomCss';
 export default class TableTag extends TableContainer {
     
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -179,6 +180,28 @@ export default class TableTag extends TableContainer {
 
     }
 
+    protected findLastRow(): TableTr {
+        var ii = 0
+        var lastTr = null
+        for (const child of this.children) {
+            if (child instanceof TableTr) {
+                return <TableTr>this.children[this.children.length - 1]
+                
+            } else if (child instanceof TableTBody || child instanceof TableTHead || child instanceof TableTFoot) {
+                for (var i = 0; i < child.children.length; i++) {
+                    var tr = child.children[i]
+        
+                }
+                lastTr = <TableTr>child.children[child.children.length - 1]
+
+            }
+            
+        }
+        
+        return lastTr
+
+    }
+
     public setHeightRowBody(shortUUID: string, height) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
         // console.log('setHeightRowBody', index);
@@ -297,18 +320,7 @@ export default class TableTag extends TableContainer {
         for (const prop of cssAll) {
     
             if (prop instanceof Width || prop instanceof Height ) {
-                // console.log("CONTR_FILTR");
-                // console.log(prop);
-                
-                // let val = this.getComputedCssVal(prop)
-                // let clonedCss = _.cloneDeep(prop)
-                // console.log(val);
-                // clonedCss.setValue(parseInt(val))
-                // clonedCss.setUnit(new Pixel())
-                // console.log(prop);
-                // console.log(val);
-                // console.log(clonedCss);
-                // console.log('ALA MA');
+
                 this.contentFilter.injectCssProperty(prop)
                 continue
             }
@@ -319,24 +331,11 @@ export default class TableTag extends TableContainer {
                 let clonedCss = _.cloneDeep(prop)
                 clonedCss.setValue(parseInt(val).toString())
                 clonedCss.setUnit(new Pixel())
-                // console.log(newProp);
-                // console.log(val);
-                // // console.log(clonedCss);
-                // console.log('ALA MA');
                 this.paddingFilter.injectCssProperty(clonedCss)
                 continue
             }
             
             if (prop instanceof BaseMarginCss) {
-
-                // let val = this.getComputedCssVal(prop)
-                // let clonedCss = _.cloneDeep(prop)
-                // clonedCss.setValue(parseInt(val).toString())
-                // clonedCss.setUnit(new Pixel())
-                // // console.log(newProp);
-                // // console.log(val);
-                // // // console.log(clonedCss);
-                // // console.log('ALA MA');
                 this.marginFilter.injectCssProperty(prop)
                 continue
             }
@@ -366,10 +365,7 @@ export default class TableTag extends TableContainer {
                 } else {
                     clonedCss.setValue(val)
                 }
-                // console.log(newProp);
-                // console.log(val);
-                // console.log(clonedCss);
-                // console.log('ALA MA');
+
                 this.borderFilter.injectCssProperty(clonedCss)
                 continue
             }
@@ -380,15 +376,60 @@ export default class TableTag extends TableContainer {
             }
         }
     }
+    protected setMarginAllRows( children , valUnit: UnitSize, val: number) {
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i]
 
-    recalculateBorderSpacingX(yValUnit: UnitSize, yVal: number)
+            if (child instanceof TableTr) {
+                var marginTop = new MarginTopCss(val, valUnit)
+                marginTop.toSaveInApi = false
+                child.updateCssPropertyWithoutModel(marginTop.getName(), marginTop)
+                
+
+            } else {
+                this.setMarginAllRows(child.children, valUnit, val)
+            }
+        }
+    }
+
+    protected setMarginXAllCells(children, valUnit: UnitSize, val: number) {
+
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i]
+
+            if (child instanceof TableContainer) {
+                this.setMarginXAllCells(child.children, valUnit, val)
+
+            } else if (child instanceof TableCell) {
+                var marginLeft = new MarginLeftCss(val, valUnit)
+                marginLeft.toSaveInApi = false
+                child.updateCssPropertyWithoutModel(marginLeft.getName(), marginLeft)
+
+                var isLastColumn = i === children.length - 1
+                if (isLastColumn) {
+                    var marginRight = new MarginRightCss(val, valUnit)
+                    marginRight.toSaveInApi = false
+                    child.updateCssPropertyWithoutModel(marginRight.getName(), marginRight)
+                }
+            }
+        }
+    }
+
+    recalculateBorderSpacingX(valUnit: UnitSize, val: number)
     {
-
+        this.setMarginXAllCells(this.children, valUnit, val)
     }
     
-    recalculateBorderSpacingY(yValUnit: UnitSize, yVal: number)
+    recalculateBorderSpacingY(valUnit: UnitSize, val: number)
     {
-        
+       
+        this.setMarginAllRows(this.children, valUnit, val)
+        var lastColumn = this.findLastRow()
+        if (lastColumn) {
+            var marginBottom = new MarginBottomCss(val, valUnit)
+            marginBottom.toSaveInApi = false
+            lastColumn.updateCssPropertyWithoutModel(marginBottom.getName(), marginBottom)
+        }
     }
     
     get cssList() : any

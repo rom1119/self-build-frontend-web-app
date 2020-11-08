@@ -25,8 +25,11 @@ export default class DefaultSelectorToModel implements SelectorToModel
         
         if (domain.cssAccessor.all.length) {
             for (const style of domain.cssAccessor.all) {
-                let subModel = this.styleTransformer.transform(style)
-                model.styles.push(subModel)
+                if (style.toSaveInApi) {
+
+                    let subModel = this.styleTransformer.transform(style)
+                    model.styles.push(subModel)
+                }
                 // domain..push(subModel)
             }
         }

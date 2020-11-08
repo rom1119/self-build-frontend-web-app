@@ -38,13 +38,17 @@ export default class DefaultDomainToModel implements DomainToModel
             model.isClosingTag = domain.isClosingTag
             if (domain.cssAccessor.all.length) {
                 for (const style of domain.cssAccessor.all) {
-                    let subModel = this.styleTransformer.transform(style)
-                    model.styles.push(subModel)
+                    if (style.toSaveInApi) {
+                        let subModel = this.styleTransformer.transform(style)
+                        model.styles.push(subModel)
+
+                    }
                     // domain..push(subModel)
                 }
             }
             if (domain.pseudoClassAccessor.all.length) {
                 for (const style of domain.pseudoClassAccessor.all) {
+
                     let subModel = this.selectorTransformer.transform(style)
                     model.selectors.push(subModel)
                     // domain..push(subModel)

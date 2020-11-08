@@ -8,6 +8,7 @@ export default abstract class BasePropertyCss
     protected unit: Unit
     public active = true
     public injectable = true
+    public toSaveInApi = true
 
     constructor(unit: Unit)
     {

@@ -213,7 +213,7 @@
                 <h4 class="content-item__header">
                     Table CSS
                 </h4>
-                <ul class=" content-item__elem_container" @dblclick="hasBorderSpacing = !hasBorderSpacing" :class="{'active': hasFlexOrder}">
+                <ul class=" content-item__elem_container" @dblclick="hasBorderSpacing = !hasBorderSpacing" :class="{'active': hasBorderSpacing}">
                     <li class="content-item__elem" v-context-menu="cmBorderSpacingX" >
                         <select-unit-context-menu :propertyUnit="borderSpacingXUnit" @changePropUnit="($event) => {borderSpacingXUnit = $event;}" :ref="cmBorderSpacingX" />
 
@@ -810,7 +810,7 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
             }
         }
 
-        // *****************************************  FLEX-GROW ****************************************************
+        // *****************************************  BORDER_SPACING ****************************************************
         
         get borderSpacingX()
         {
@@ -820,7 +820,8 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
         set borderSpacingX(newVal: string)
         {
             this.borderSpacingManager.getProperty().xVal = Number(newVal)
-            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())             
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())    
+            this.borderSpacingY = newVal      
         }
 
         get borderSpacingXUnit()
@@ -831,7 +832,9 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
         set borderSpacingXUnit(newVal: UnitSize)
         {
             this.borderSpacingManager.getProperty().xValUnit = newVal
-            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())             
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())   
+            this.borderSpacingYUnit = newVal      
+          
         }
         
         get borderSpacingY()

@@ -12,6 +12,7 @@ import TableTr from './TableTr';
 import TableTHead from './TableTHead';
 import TableTBody from './TableTBody';
 import TableTFoot from './TableTFoot';
+import BorderCollapse from '../../../Css/Table/BorderCollapse';
 export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
@@ -126,10 +127,12 @@ export default abstract class TableCell extends HtmlTagBlock {
         var height = new Height(100, new Percent())
         var width = new Width(100, new Percent())
         var display = new Display(Display.TABLE, new Named())
+        var borderCollapse = new BorderCollapse(BorderCollapse.COLLAPSE, new Named())
 
         css[height.getName()] = height.getValue()
         css[width.getName()] = width.getValue()
         css[display.getName()] = display.getValue()
+        css[borderCollapse.getName()] = borderCollapse.getValue()
 
         return css
     }

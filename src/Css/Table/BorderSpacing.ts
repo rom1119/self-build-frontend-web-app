@@ -1,33 +1,73 @@
 import CssSimple from "../CssSimple";
 import CssPropertyLimitable from "../CssPropertyLimitable";
 import UnitSize from '../../Unit/UnitSize';
+import CssDoubleValue from "../CssDoubleValue";
+import Unit from "~/src/Unit/Unit";
 
-export default class BorderSpacing extends CssSimple 
+export default class BorderSpacing extends CssSimple implements CssDoubleValue
 {
     public injectable = true
 
-    xVal: number
+    xVal: number = 5
     xValUnit: UnitSize
-    yVal: number
+    yVal: number = 5
     yValUnit: UnitSize
 
     public static PROP_NAME = 'border-spacing'
     public getName(): string {
         return BorderSpacing.PROP_NAME
     }
+
+    constructor(val: any, unit: UnitSize)
+    {
+        super(val, unit)
+        this.xVal = val
+        this.yVal = val
+
+        this.xValUnit = unit
+        this.yValUnit = unit
+    }
+    getSecondValue(): string {
+        return this.yVal.toString()
+    }
+    setSecondValue(val: string) {
+        this.yVal = Number(val)
+    }
+    getSecondUnit(): Unit {
+        return this.yValUnit
+    }
+    setSecondUnit(unit: Unit) {
+        this.yValUnit = unit
+    }
    
     getValue(): string
     {
-        
-        if (!this.unit) {
-            throw new Error(`CSS property ${this.getName()} not have set Unit` )
-        }
 
-        if (this.yVal) {
-            return this.unit.getValue(this.values[0])
+        return this.xValUnit.getValue(this.xVal)
+    }
+    
+    getClearValue(): string
+    {
 
-        }
-        return this.unit.getValue(this.values[0])
+        return this.xVal.toString()
+    }
+    
+    setValue(val)
+    {
+        super.setValue(val)
+        this.xVal = val
+    }
+    
+    setUnit(unit)
+    {
+
+        this.xValUnit = unit
+    }
+    
+    getUnit()
+    {
+
+        return this.xValUnit
     }
 
 }

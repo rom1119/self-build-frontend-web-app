@@ -14,12 +14,15 @@ import Percent from '../../../../../src/Unit/Size/Percent';
 import BorderSpacing from "~/src/Css/Table/BorderSpacing";
 import TableCell from '../../../../../src/Layout/tag/Table/TableCell';
 import UnitSize from '../../../../../src/Unit/UnitSize';
+import Pixel from '../../../../../src/Unit/Size/Pixel';
+import { relativeTimeThreshold } from "moment";
+import TableTag from '../../../../../src/Layout/tag/Table/TableTag';
 
 export default class BorderSpacingProperty extends BaseComputedPropertyManager<BorderSpacing> {
 
-    protected value: HtmlTag
-    DEFAULT_VAL = 100
-    DEFAULT_UNIT = new Percent()
+    protected value: TableTag
+    DEFAULT_VAL = 5
+    DEFAULT_UNIT = new Pixel()
     property: BorderSpacing = new BorderSpacing(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
     protected borderRecalculator: HtmlTagRecalculator
@@ -46,19 +49,25 @@ export default class BorderSpacingProperty extends BaseComputedPropertyManager<B
         // this.value.setWithUnit(this.getProperty().getUnit())
     }
 
+
     activePropCss(prop: BorderSpacing) {
         super.activePropCss(prop)
-
+        this.value.recalculateRealComputedProperties()
         return prop
     }
     
     deactivePropCss(prop: BorderSpacing) {
         super.deactivePropCss(prop)
+        this.value.recalculateRealComputedProperties()
 
         return prop
     }
 
     updateCssProp(newProp: BorderSpacing) {
+        console.log('updateCssProp', newProp.xVal);
+        this.value.cssAccessor.setNewPropertyValue(newProp.getName(), newProp)
+        
+        this.value.recalculateRealComputedProperties()
         super.updateCssProp(newProp)
 
         return newProp.getClearValue()

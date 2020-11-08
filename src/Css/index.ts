@@ -32,6 +32,9 @@ import BorderGlobalCss from './Border/Global/BorderGlobalCss';
 import BorderGlobalStyle from './Border/Global/BorderGlobalStyle';
 import BorderGlobalWidth from './Border/Global/BorderGlobalWidth';
 
+import BorderSpacing from './Table/BorderSpacing';
+import BorderCollapse from './Table/BorderCollapse';
+
 // Border radius
 
 import BorderRadiusGlobal from './Border/Radius/BorderRadiusGlobal';
@@ -195,6 +198,9 @@ export {
     LinearGradientCss,
     RepeatingLinearGradientCss,
     RadialGradientCss,
-    RepeatingRadialGradientCss
+    RepeatingRadialGradientCss,
+
+    BorderSpacing,
+    BorderCollapse,
     
 }
