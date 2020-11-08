@@ -5,13 +5,24 @@
             {{ project.name }}
         </h1>
         <div class="code-tabs">
+            
             <pre class="left-code code-section" >
-                <code class="html" v-html="htmlContent">
-                </code>
+                <div>
+                    <button @click.stop="copyHtml">COPY HTML</button>
+                    <label>
+                        AAAAA
+                        <input type="text" col="111">
+                    </label>
+                </div>
+<code id="html-code" class="html" v-html="htmlContent">
+</code>
             </pre>
             <pre class="right-code code-section" >
-                <code class="css" v-html="cssContent">
-                </code>
+                <div>
+                    <button @click.stop="copyCss">COPY CSS</button>
+                </div>
+<code id="css-code" class="css" v-html="cssContent">
+</code>
             </pre>
         </div>
         
@@ -59,10 +70,10 @@ import {html} from 'js-beautify';
         mounted() {
             this.socketApi.connect()
             this.socketApi.onGetMessage((e) => {
-                console.log('messageAAAAAA++++++');
-                console.log('message', e.data);
-                console.log( e);
-                console.log('messageAAAAAA=====');
+                // console.log('messageAAAAAA++++++');
+                // console.log('message', e.data);
+                // console.log( e);
+                // console.log('messageAAAAAA=====');
 
                 if (e.data.indexOf('content-length') > -1) {
 
@@ -81,11 +92,11 @@ import {html} from 'js-beautify';
         {
             var html = socketMsgString.split("\n")
 
-            console.log(html);
+            // console.log(html);
             html = html[html.length - 1]
             html = html
             html = html.substr(0, html.length - 1)
-            console.log(html);
+            // console.log(html);
             // console.log(html.substr(125));
             
             var jsonContent = JSON.parse(html.trim().toString())
@@ -98,11 +109,11 @@ import {html} from 'js-beautify';
         {
             var html = socketMsgString.split("\n")
 
-            console.log(html);
+            // console.log(html);
             html = html[html.length - 1]
             html = html
             html = html.substr(0, html.length - 1)
-            console.log(html);
+            // console.log(html);
             // console.log(html.substr(125));
             
             var jsonContent = JSON.parse(html.trim().toString())
@@ -155,6 +166,32 @@ import {html} from 'js-beautify';
             // other actions...
         }
 
+        copyHtml() {
+            this.CopyToClipboard('html-code')
+        }
+        
+        copyCss() {
+            this.CopyToClipboard('css-code')
+        }
+
+        CopyToClipboard(containerid) {
+            // @ts-ignore
+            if (document.selection) {
+                // @ts-ignore
+                var range = document.body.createTextRange();
+                range.moveToElementText(document.getElementById(containerid));
+                range.select().createTextRange();
+                document.execCommand("copy");
+            } else if (window.getSelection) {
+                // var range = document.createRange();
+                var a = document.getElementById(containerid)
+                window.getSelection().selectAllChildren(a);
+
+                document.execCommand("copy");
+                alert("Text has been copied, now paste in the text-area")
+            }
+        }
+
         // @Watch('currentProvince')
         async onCurrentProvince() {
             this.$loadingDialog.show()
@@ -202,7 +239,7 @@ import {html} from 'js-beautify';
 <style lang="scss" scoped>
     .black {
         // background-color: black;
-        // width: 100vw;
+        width: 100vw;
         // height: 100vh;
         // color: white;
     }.html {
@@ -212,12 +249,12 @@ import {html} from 'js-beautify';
     }
     .code-tabs {
         overflow: hidden;
+        display: flex;
     }
     .code-section {
-        // width: 45%;
-        overflow: hidden;
-        display: inline-flex;
-
+        width: 50%;
+        overflow-x: auto;
+        margin: 10px;
     }
     .context-menu-overlay {
         position: fixed; /* position overlays relative to the viewport */
