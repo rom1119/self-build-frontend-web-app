@@ -1,7 +1,9 @@
 <template>
     <context-menu
+    @click.stop=""
         shift="both"
-        ref="wrapped-context-menu">
+        ref="wrapped-context-menu"
+        @opened="cmIsOpened">
         <context-menu
             shift="both"
             :ref="createElementNameCM">
@@ -34,13 +36,15 @@
         <context-menu-item :action="createText">Dodaj tekst</context-menu-item>
 
     
-        <context-menu-item :action="showTextCssModal">Font</context-menu-item>
-        <context-menu-item :action="showBackgroundCssModal">Background</context-menu-item>
-        <context-menu-item :action="showShadowCssModal">Shadow</context-menu-item>
-        <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
-        <context-menu-item :action="showDisplayModal">Display</context-menu-item>
-        <context-menu-item :action="showAnimationModal">Animation</context-menu-item>
-        <context-menu-item :action="showGradientModal">Gradient</context-menu-item>
+        <template v-if="isHtmlTag">
+            <context-menu-item :action="showTextCssModal">Font</context-menu-item>
+            <context-menu-item @click.stop="" :action="showBackgroundCssModal">Background</context-menu-item>
+            <context-menu-item :action="showShadowCssModal">Shadow</context-menu-item>
+            <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
+            <context-menu-item :action="showDisplayModal">Display</context-menu-item>
+            <context-menu-item :action="showAnimationModal">Animation</context-menu-item>
+            <context-menu-item :action="showGradientModal">Gradient</context-menu-item>
+        </template>
 
     </context-menu>
 </template>
@@ -59,8 +63,8 @@ import TableTag from '~/src/Layout/tag/Table/TableTag';
 @Component
 export default class HtmlElementContextMenu extends Vue {
 
-    @Prop({required: true, default: null})
     value: HtmlTag
+    tags: HtmlTag[]
 
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
     tableComponentFactory: TableComponentFactory
@@ -68,13 +72,47 @@ export default class HtmlElementContextMenu extends Vue {
     createElementNameCM = 'create-html-element-cm-'
     api: ApiService
     isTableTag = false
+    isHtmlTag = false
 
     mounted() {
         // console.log(this.value.uuid);
-        this.createElementNameCM = this.createElementNameCM.concat(this.value.uuid)
+        this.createElementNameCM = this.createElementNameCM
         this.api = new DefaultApiService();
         this.tableComponentFactory = new TableComponentFactory(this.api);
+     
+     console.log('CM MOUNTED');
+     
+    }
+
+
+    cmIsOpened(cm, aa) {
+            // console.log("The context menu is opened!", cm);
+            // console.log("The context menu is opened!", aa);
+            this.$emit('opened', cm)
+        }
+
+    public initOpen(tag: HtmlTag, list: HtmlTag[]) {
+        this.setValue(tag)
+        this.setListTags(list)
         this.isTableTag = this.value instanceof TableTag
+        this.isHtmlTag = this.value instanceof HtmlTag
+        setTimeout(() => {
+
+            document.querySelector('.context-menu').addEventListener('click', (e) => {
+                e.stopPropagation()
+                return false
+    
+            })
+        }, 200)
+        
+    }
+
+    public setValue(val) {
+        this.value = val
+    }
+    
+    public setListTags(val) {
+        this.tags = val
     }
     
     createTrElement(target, cm, a) {
@@ -131,13 +169,23 @@ export default class HtmlElementContextMenu extends Vue {
     }
 
     initCreatedTag(el){
-        el.parent = this.value
-        el.projectId = this.value.projectId
+        if (this.value) {
+            el.parent = this.value
+            el.projectId = this.value.projectId
+
+        }
         
         el.injectInitialCssStyles()
         el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
-        this.value.appendChildDeep(el)
+
+        if (this.value) {
+            this.value.appendChildDeep(el)
+
+        } else {
+            this.tags.push(el)
+            this.api.appendTagToProject(el)
+        }
 
         this.$emit('createdTag', el)
     }

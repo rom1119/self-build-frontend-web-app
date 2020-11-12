@@ -1,8 +1,9 @@
 <template>
-    <div>
+    <div v-context-menu="'asd'">
         <div class="media-query-controls">
             <media-query-component />
         </div>
+        <html-element-closing-tag-context-menu     @click.stop=""  @opened="cmIsOpened" ref="asd" />
 
         <object id="layout-object" class="main-object" style="width: 100%;" >
             <html>
@@ -16,9 +17,9 @@
                     
                     </template>
                 </head>
-                <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" />
+                <!-- <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" /> -->
                 
-                <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)" v-context-menu="contextMenuName" style="min-height: 100vh; overflow-x: visible;">
+                <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)"  style="min-height: 100vh; overflow-x: visible;">
                         <!-- <ul>
                             {{ pseudoSelectorsTags }}
                         </ul> -->
@@ -115,6 +116,10 @@ export default class LayoutCreatorContainer extends Vue {
     {
         this.htmlTags.push(tag)
     }
+    cmIsOpened(cm) {
+    // @ts-ignore
+        this.$refs['asd'].initOpen(this.currentMouseOverTag, this.htmlTags)
+    }
 
     private recursiveClearSelectedSelector(list) {
         
@@ -169,6 +174,8 @@ export default class LayoutCreatorContainer extends Vue {
         
     }
 
+
+
     mounted()
     {
         this.htmlTagRemover = new HtmlTagRemover(this.htmlTags)
@@ -198,6 +205,8 @@ export default class LayoutCreatorContainer extends Vue {
             
         })
 
+        
+
 
     }
 
@@ -219,6 +228,7 @@ export default class LayoutCreatorContainer extends Vue {
         // console.log(val);
         if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
             this.currentMouseOverTag = val.getHtmlTag()
+
         } else if (val instanceof HtmlTag) {
             this.currentMouseOverTag = val
         }
