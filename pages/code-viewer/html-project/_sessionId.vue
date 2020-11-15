@@ -9,10 +9,6 @@
             <pre class="left-code code-section" >
                 <div>
                     <button @click.stop="copyHtml">COPY HTML</button>
-                    <label>
-                        AAAAA
-                        <input type="text" col="111">
-                    </label>
                 </div>
 <code id="html-code" class="html" v-html="htmlContent">
 </code>
@@ -188,7 +184,7 @@ import {html} from 'js-beautify';
                 window.getSelection().selectAllChildren(a);
 
                 document.execCommand("copy");
-                alert("Text has been copied, now paste in the text-area")
+                // alert("Text has been copied, now paste in the text-area")
             }
         }
 

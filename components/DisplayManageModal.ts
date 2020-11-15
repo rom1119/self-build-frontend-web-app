@@ -27,6 +27,8 @@ import TopProperty from './computedPropertyManagers/impl/ComputedProperty/Displa
 import BottomProperty from './computedPropertyManagers/impl/ComputedProperty/Display/BottomProperty'
 import BorderSpacing from '../src/Css/Table/BorderSpacing';
 import BorderSpacingProperty from './computedPropertyManagers/impl/ComputedProperty/Table/BorderSpacingProperty'
+import BorderCollapse from '../src/Css/Table/BorderCollapse';
+import BorderCollapseProperty from './computedPropertyManagers/impl/ComputedProperty/Table/BorderCollapseProperty'
 
 
 export default abstract class DisplayManageModal extends AbstractModal
@@ -50,6 +52,7 @@ export default abstract class DisplayManageModal extends AbstractModal
     bottomManager: BaseComputedPropertyManager<BottomCss>
 
     borderSpacingManager: BaseComputedPropertyManager<BorderSpacing>
+    borderCollapseManager: BaseComputedPropertyManager<BorderCollapse>
 
     constructor()
     {
@@ -73,8 +76,8 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.bottomManager = new BottomProperty()
 
         this.borderSpacingManager = new BorderSpacingProperty()
-
-        
+        this.borderCollapseManager = new BorderCollapseProperty()
+ 
 
     }
 
@@ -101,7 +104,9 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.rightManager.setHtmlEl(val)
         this.topManager.setHtmlEl(val)
         this.bottomManager.setHtmlEl(val)
+
         this.borderSpacingManager.setHtmlEl(val)
+        this.borderCollapseManager.setHtmlEl(val)
 
         this.managers = []
 
@@ -124,6 +129,7 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.managers.push(this.bottomManager)
 
         this.managers.push(this.borderSpacingManager)
+        this.managers.push(this.borderCollapseManager)
 
         // this.paddingManager.setFetcher(this.paddingRealFetcher)
         // this.marginManager.setFetcher(this.marginRealFetcher)
@@ -148,6 +154,7 @@ export default abstract class DisplayManageModal extends AbstractModal
         this.bottomManager.init()
 
         this.borderSpacingManager.init()
+        this.borderCollapseManager.init()
      
     }
 }

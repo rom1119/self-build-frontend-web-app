@@ -1,4 +1,4 @@
-import { BoxSizing, Height, Width, BackgroundColor, MinHeight, Display, FlexWrap, MaxWidth, MarginLeftCss, MarginRightCss, MarginTopCss } from '~/src/Css';
+import { BoxSizing, Height, Width, BackgroundColor, MinHeight, Display, FlexWrap, MaxWidth, MarginLeftCss, MarginRightCss, MarginTopCss, PaddingBottomCss, PaddingCss, PaddingLeftCss, PaddingRightCss, PaddingTopCss } from '~/src/Css';
 import { Named } from '~/src/Unit';
 import HtmlTagBlock from '../../HtmlTagBlock';
 import Pixel from '../../../Unit/Size/Pixel';
@@ -21,6 +21,7 @@ import _ from 'lodash';
 import BorderSpacing from '../../../Css/Table/BorderSpacing';
 import UnitSize from '../../../Unit/UnitSize';
 import MarginBottomCss from '../../../Css/BoxModel/Margin/MarginBottomCss';
+import BorderCollapse from '../../../Css/Table/BorderCollapse';
 export default class TableTag extends TableContainer {
     
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -314,6 +315,8 @@ export default class TableTag extends TableContainer {
     recalculateRealComputedProperties()
     {
         var cssAll = this.cssAccessor.all
+        var borderSpacing
+        var borderCollapse
         if (this.getCurrentCssAccessor()) {
             cssAll = this.getCurrentCssAccessor().all
         }
@@ -370,12 +373,59 @@ export default class TableTag extends TableContainer {
                 continue
             }
 
+            if (prop instanceof BorderCollapse) {
+                borderCollapse = prop
+            }
+            
             if (prop instanceof BorderSpacing) {
-                this.recalculateBorderSpacingX(prop.xValUnit, prop.xVal)
-                this.recalculateBorderSpacingY(prop.yValUnit, prop.yVal)
+                
+                borderSpacing = prop
+            }
+            
+        }
+
+        this.updateSeparate(borderCollapse, borderSpacing)
+    }
+
+    isCollapsePropertyVal(prop?: BorderCollapse): boolean {
+        if (!prop) {
+            return false
+        }
+        return prop.getClearValue() === BorderCollapse.COLLAPSE
+    }
+    
+    isSeparatePropertyVal(prop?: BorderCollapse): boolean {
+        if (!prop) {
+            return true
+        }
+        return [BorderCollapse.SEPARATE, BorderCollapse.INITIAL].includes(prop.getValue())
+    }
+
+
+    removePaddigsIfCollapse(prop: BorderCollapse) {
+        if (this.isCollapsePropertyVal(prop)) {
+            this.removeCssProperty(new PaddingCss(null, null))
+            this.removeCssProperty(new PaddingLeftCss(null, null))
+            this.removeCssProperty(new PaddingRightCss(null, null))
+            this.removeCssProperty(new PaddingTopCss(null, null))
+            this.removeCssProperty(new PaddingBottomCss(null, null))
+        }
+    }
+    
+    updateSeparate(prop?: BorderCollapse, spacing?: BorderSpacing) {
+        
+        if (this.isCollapsePropertyVal(prop)) {
+            this.recalculateBorderSpacingX(new Pixel(), 0)
+            this.recalculateBorderSpacingY(new Pixel(), 0)
+        } else if (this.isSeparatePropertyVal(prop)) {
+            if (spacing) {
+                this.recalculateBorderSpacingX(spacing.xValUnit, spacing.xVal)
+                this.recalculateBorderSpacingY(spacing.yValUnit, spacing.yVal)
+
             }
         }
     }
+
     protected setMarginAllRows( children , valUnit: UnitSize, val: number) {
         for (var i = 0; i < children.length; i++) {
             var child = children[i]

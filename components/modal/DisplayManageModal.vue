@@ -235,6 +235,20 @@
                 
                 </ul>
             </div>
+            <div class="content-item" @dblclick="hasBorderCollapse = !hasBorderCollapse" :class="{'active': hasBorderCollapse}">
+                <h4 class="content-item__header">
+                    Border Collapse
+                </h4>
+                <ul class=" content-item__elem_container">
+                    <li class="content-item__elem" v-for="el in borderCollapseList" :key="el">
+                        <label :for="'borderCollapse-' + el">
+                            {{ el }}
+                            <input type="radio" v-model="borderCollapse" :value="el" name="borderCollapse" :id="'borderCollapse-' + el">
+
+                        </label>
+                    </li>
+                </ul>
+            </div>
         </template>
         <template slot="footer">
             <button class="to-left" @click="restore($event)">
@@ -286,7 +300,7 @@ import MarginRightCss from '~/src/Css/BoxModel/Margin/MarginRightCss';
 import MarginTopCss from '~/src/Css/BoxModel/Margin/MarginTopCss';
 import CssAuto from '~/src/Css/CssAuto';
 import BaseBorderCss from '../../src/Css/Border/BaseBorderCss';
-import { Width, Display, JustifyContent, AlignItems, FlexDirection, FlexWrap, Float, Clear, PositionCss } from '~/src/Css';
+import { Width, Display, JustifyContent, AlignItems, FlexDirection, FlexWrap, Float, Clear, PositionCss, BorderCollapse } from '~/src/Css';
 import DisplayManageModal from '../DisplayManageModal';
 import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProperty/Table/BorderSpacingProperty';
 
@@ -304,6 +318,7 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
         flexWraps: string[] = FlexWrap.getAccessableProperty()
         floats: string[] = Float.getAccessableProperty()
         clears: string[] = Clear.getAccessableProperty()
+        borderCollapseList: string[] = BorderCollapse.getAccessableProperty()
         positions: string[] = PositionCss.getAccessableProperty()
         // _paddingLeft: BasePaddingCss
 
@@ -870,6 +885,33 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.borderSpacingManager.deactivePropCss(this.borderSpacingManager.getProperty())
             } else {
                 this.borderSpacingManager.activePropCss(this.borderSpacingManager.getProperty())
+            }
+        }
+
+        // *****************************************  BORDER COLLAPSE ****************************************************
+        
+        get borderCollapse()
+        {
+            return  this.borderCollapseManager.getProperty().value
+        }
+        
+        set borderCollapse(newVal: string)
+        {
+            this.borderCollapseManager.getProperty().setValue(newVal)
+            this.borderCollapseManager.updateCssProp(this.borderCollapseManager.getProperty())             
+        }
+
+        get hasBorderCollapse()
+        {
+            return  this.borderCollapseManager.getProperty().active
+        }
+        
+        set hasBorderCollapse(newVal: boolean)
+        {
+            if (!newVal) {
+                this.borderCollapseManager.deactivePropCss(this.borderCollapseManager.getProperty())
+            } else {
+                this.borderCollapseManager.activePropCss(this.borderCollapseManager.getProperty())
             }
         }
 

@@ -1,7 +1,7 @@
 import ComputedPropertyManager from "../../../ComputedPropertyManager";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
-import { BackgroundImage, BackgroundPosition, Width } from "~/src/Css";
+import { BackgroundImage, BackgroundPosition, PaddingBottomCss, PaddingLeftCss, PaddingRightCss, PaddingTopCss, Width } from "~/src/Css";
 import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
 import { Named } from "~/src/Unit";
 import Unit from "~/src/Unit/Unit";
@@ -18,12 +18,13 @@ import Pixel from '../../../../../src/Unit/Size/Pixel';
 import { relativeTimeThreshold } from "moment";
 import TableTag from '../../../../../src/Layout/tag/Table/TableTag';
 import BorderCollapse from '../../../../../src/Css/Table/BorderCollapse';
+import PaddingCss from '../../../../../src/Css/BoxModel/Padding/PaddingCss';
 
 export default class BorderCollapseProperty extends BaseComputedPropertyManager<BorderCollapse> {
 
     protected value: TableTag
-    DEFAULT_VAL = 5
-    DEFAULT_UNIT = new Pixel()
+    DEFAULT_VAL = BorderCollapse.SEPARATE
+    DEFAULT_UNIT = new Named()
     property: BorderCollapse = new BorderCollapse(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
     protected borderRecalculator: HtmlTagRecalculator
@@ -50,8 +51,10 @@ export default class BorderCollapseProperty extends BaseComputedPropertyManager<
         // this.value.setWithUnit(this.getProperty().getUnit())
     }
 
+    
 
     activePropCss(prop: BorderCollapse) {
+        this.value.removePaddigsIfCollapse(prop)
         super.activePropCss(prop)
         this.value.recalculateRealComputedProperties()
         return prop
@@ -65,10 +68,12 @@ export default class BorderCollapseProperty extends BaseComputedPropertyManager<
     }
 
     updateCssProp(newProp: BorderCollapse) {
+        this.value.removePaddigsIfCollapse(newProp)
+
         this.value.cssAccessor.setNewPropertyValue(newProp.getName(), newProp)
         
-        this.value.recalculateRealComputedProperties()
         super.updateCssProp(newProp)
+        this.value.recalculateRealComputedProperties()
 
         return newProp.getClearValue()
     }

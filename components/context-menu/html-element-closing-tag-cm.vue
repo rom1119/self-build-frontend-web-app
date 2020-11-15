@@ -103,6 +103,24 @@ export default class HtmlElementContextMenu extends Vue {
                 return false
     
             })
+            
+            document.querySelector('.context-menu-wrapper').addEventListener('click', (e) => {
+                e.stopPropagation()
+                return false
+    
+            })
+
+            var items = document.querySelectorAll('.context-menu-item')
+
+            for(var i = 0; i < items.length; i++) {
+                var el = items[i]
+
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    return false
+
+                })
+            }
         }, 200)
         
     }
