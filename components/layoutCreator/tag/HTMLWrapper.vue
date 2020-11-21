@@ -159,7 +159,9 @@
                     </template>
                 <!-- </div>  -->
             </html-el>
-        
+        <div class="resize-content" :style="resizeContentCss" v-show="value.isActiveTagToManage()" @mousedown.stop="onContentMouseDown(value, $event)">
+                    
+        </div>
     </component>
 </template>
 
@@ -192,6 +194,15 @@ export default class HTMLWrapper extends Vue {
 
     contextMenuName = 'cm-create-html-element123'
 
+
+    get resizeContentCss(){
+        var w = this.value.borderRight.width
+        var unit = this.value.borderRight.widthUnit
+
+        return { 
+            'right': 'calc(0px - 40px - ' + unit.getValue(w) + ')'
+        }
+    }
 
     get tagName(){
         if (this.value.isClosingTag) {
@@ -487,12 +498,11 @@ export default class HTMLWrapper extends Vue {
                 return 'relative-important'
         }
     }
-    
+
     created() {
         // console.log(this.value.uuid);
 
-        this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
-        
+        this.contextMenuName = this.contextMenuName.concat(this.value.uuid) 
       
     }
 
@@ -592,6 +602,19 @@ export default class HTMLWrapper extends Vue {
     }
     .remove:hover {
         background-color: rgb(67, 184, 184);
+    }
+
+    .resize-content {
+        z-index: 999;
+        position: absolute;
+        cursor: n-resize;
+        bottom: 0;
+        right: 0;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background-color: rgb(24, 245, 53);
+
     }
     
     .wrapper-el-editable {

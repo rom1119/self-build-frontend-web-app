@@ -1,9 +1,9 @@
 <template>
-    <div v-context-menu="'asd'">
+    <div v-context-menu="'layout-builder-cm'">
         <div class="media-query-controls">
             <media-query-component />
         </div>
-        <html-element-closing-tag-context-menu     @click.stop=""  @opened="cmIsOpened" ref="asd" />
+        <html-element-closing-tag-context-menu     @click.stop=""  @opened="cmIsOpened" ref="layout-builder-cm" />
 
         <object id="layout-object" class="main-object" style="width: 100%;" >
             <html>
@@ -118,7 +118,7 @@ export default class LayoutCreatorContainer extends Vue {
     }
     cmIsOpened(cm) {
     // @ts-ignore
-        this.$refs['asd'].initOpen(this.currentMouseOverTag, this.htmlTags)
+        this.$refs['layout-builder-cm'].initOpen(this.currentMouseOverTag, this.htmlTags)
     }
 
     private recursiveClearSelectedSelector(list) {
@@ -317,10 +317,11 @@ export default class LayoutCreatorContainer extends Vue {
         }
         
         let controller = this.getAdviseController('mouseDown', source.target)
-        // console.log('down');
-        // console.log(source.target);
-        // console.log(controller);
-        // console.log('down');
+        console.log('down');
+        console.log(source.target);
+        console.log(source);
+        console.log(controller);
+        console.log('down');
         controller.mouseDownHandler(source)
     }
 
