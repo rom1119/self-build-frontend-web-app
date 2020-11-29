@@ -9,6 +9,7 @@ import CubicBezierComponent from './Animation/CubicBezierComponent.vue'
 import GradientValueComponent from './Gradient/GradientValueComponent.vue'
 import LinearGradientDirectionComponent from './Gradient/LinearGradientDirectionComponent.vue'
 import RadialGradientDirectionComponent from './Gradient/RadialGradientDirectionComponent.vue'
+import DefaultAttrComponent from './HtmlAttr/DefaultAttrComponent.vue'
 import MediaQueryValueComponent from './MediaQueryValueComponent.vue'
 
 Vue.component('site-box-model-element', SiteBoxModelElement)
@@ -21,3 +22,4 @@ Vue.component('gradient-value-component', GradientValueComponent)
 Vue.component('linear-gradient-direction-component', LinearGradientDirectionComponent)
 Vue.component('radial-gradient-direction-component', RadialGradientDirectionComponent)
 Vue.component('media-query-value-component', MediaQueryValueComponent)
+Vue.component('default-html-attr-component', DefaultAttrComponent)

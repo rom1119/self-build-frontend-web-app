@@ -30,9 +30,13 @@ export default class CssStyleUpdater implements IDSUpdater<BasePropertyCss, Styl
                         cssValDomain.id = cssRes.cssValues[i].id
                     }
                 }
-                // @ts-ignore
-                const cssValDomain = cssDomain.getValues()[i]
-                cssValDomain.id = cssRes.cssValues[i].id
+                // console.log('cssDomain', cssDomain);
+                // console.log('i', i);
+                
+                // // @ts-ignore
+                // const cssValDomain = cssDomain.getValues()[i]
+                // console.log('cssValDomain', cssValDomain);
+                // cssValDomain.id = cssRes.cssValues[i].id
             }
 
         }

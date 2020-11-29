@@ -12,9 +12,9 @@
                     
                 </div>
                 
-                <div class="remove" v-show="value.isActiveTagToManage()" @click.stop="onEmitRemove(value, $event)">
+                <!-- <div class="remove" v-show="value.isActiveTagToManage()" @click.stop="onEmitRemove(value, $event)">
                     X
-                </div>
+                </div> -->
             
                 <margin-top 
                     :value="marginTop"
@@ -114,8 +114,6 @@
 
                
         </div>
-
-        
             <html-el 
                 @contentMouseOver="onContentMouseOver" 
                 @contentMouseOut="onContentMouseOut" 
@@ -159,8 +157,8 @@
                     </template>
                 <!-- </div>  -->
             </html-el>
-        <div class="resize-content" :style="resizeContentCss" v-show="value.isActiveTagToManage()" @mousedown.stop="onContentMouseDown(value, $event)">
-                    
+        <div class="resize-content" :style="resizeContentCss"  @mousedown.stop="onContentMouseDown(value, $event)">
+                    {{ value.hasFlexGrow }}
         </div>
     </component>
 </template>
@@ -200,7 +198,7 @@ export default class HTMLWrapper extends Vue {
         var unit = this.value.borderRight.widthUnit
 
         return { 
-            'right': 'calc(0px - 40px - ' + unit.getValue(w) + ')'
+            'right': 'calc(0px - 30px - ' + unit.getValue(w) + ')'
         }
     }
 
@@ -606,13 +604,14 @@ export default class HTMLWrapper extends Vue {
 
     .resize-content {
         z-index: 999;
+        font-size: 10px;
         position: absolute;
         cursor: n-resize;
         bottom: 0;
         right: 0;
         display: block;
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 20px;
         background-color: rgb(24, 245, 53);
 
     }

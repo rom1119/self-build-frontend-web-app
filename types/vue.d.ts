@@ -12,6 +12,7 @@ import BorderManageModal from '~/components/modal/BorderManageModal.vue'
 import BoxModelManageModal from '~/components/modal/BoxModelManageModal.vue'
 import DisplayManageModal from '~/components/modal/DisplayManageModal.vue'
 import ShadowManageModal from '~/components/modal/ShadowManageModal.vue'
+import HtmlAttrManageModal from '~/components/modal/HtmlAttrManageModal.vue'
 import GradientManageModal from '~/components/modal/GradientManageModal.vue'
 import AnimationManageModal from '~/components/modal/AnimationManageModal.vue'
 import LayoutCreatorMode from '~/components/LayoutCreatorMode.vue'
@@ -32,6 +33,7 @@ declare module 'vue/types/vue' {
         $boxModelManageModal: BoxModelManageModal,
         $displayManageModal: DisplayManageModal,
         $shadowManageModal: ShadowManageModal,
+        $htmlAttrManageModal: HtmlAttrManageModal,
         $gradientManageModal: GradientManageModal,
         $animationManageModal: AnimationManageModal,
         $layoutCreatorMode: LayoutCreatorMode,

@@ -17,21 +17,20 @@ import ModelToSelector from '../ModelToSelector';
 import DefaultModelToSelector from './DefaultModelToSelector';
 import PseudoClass from '../../PseudoSelector/PseudoClass';
 import PseudoElement from '~/src/PseudoSelector/PseudoElement';
+import HtmlAttrFactory from '~/src/Attribute/HtmlAttrFactory';
 export default class DefaultModelToDomain implements ModelToDomain
 {
-
     private htmlTagFactory: HtmlTagFactoryFromName
     private styleTransformer: ModelToCss
     private selectorTransformer: ModelToSelector
-
-
-
+    private attrFactory: HtmlAttrFactory
 
     constructor()
     { 
         this.htmlTagFactory = new HtmlTagFactoryFromName()
         this.styleTransformer = new DefaultModelToCss()
         this.selectorTransformer = new DefaultModelToSelector()
+        this.attrFactory = new HtmlAttrFactory()
     }
 
     transform(model: TagDto): LayoutEl {
@@ -118,10 +117,14 @@ export default class DefaultModelToDomain implements ModelToDomain
                 for (const attr in model.attrs) {
                     var key = model.attrs[attr].key
                     var val = model.attrs[attr].value
-                    console.log(attr);
-                    console.log();
-                    console.log(model.attrs[attr].value);
-                    domain.attributeAccessor.addNewAttribute(new HtmlAttr(key, val))
+                    // console.log(attr);
+                    // console.log();
+                    // console.log(model.attrs[attr].value);
+                    var attrNew = this.attrFactory.create(key)
+                    attrNew.setValue(val)
+                    
+                    
+                    domain.attributeAccessor.addNewAttribute(attrNew)
                     // domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
                     // domain..push(subModel)
                 }

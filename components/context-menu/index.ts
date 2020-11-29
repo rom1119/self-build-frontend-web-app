@@ -12,7 +12,7 @@ import SelectRadialGradientDirectionUnitContextMenu from './select-radial-gradie
 
 Vue.component('html-element-closing-tag-context-menu', HtmlElementCm)
 Vue.component('html-element-short-closing-tag-context-menu', HtmlElementShortClosingTagContextMenu)
-Vue.component('create-html-element-context-menu', CreateHtmlElementCm)
+// Vue.component('create-html-element-context-menu', CreateHtmlElementCm)
 Vue.component('border-html-context-menu', BorderHtmlCm)
 Vue.component('select-unit-context-menu', SelectUnitCm)
 Vue.component('select-box-sizing-menu', SelectBoxSizingCm)

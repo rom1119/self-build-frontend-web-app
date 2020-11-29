@@ -16,7 +16,7 @@ import BorderCollapse from '../../../Css/Table/BorderCollapse';
 export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
-    protected hasFlexGrow = true
+    protected hasFlexGrow = false
     hasMiddleTag: boolean = true
     protected _parent: TableTr
 
@@ -79,7 +79,7 @@ export default abstract class TableCell extends HtmlTagBlock {
     }
 
     public turnOnFlexGrow() {
-        this.hasFlexGrow = true
+        // this.hasFlexGrow = true
     }
     
     public turnOffFlexGrow() {

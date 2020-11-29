@@ -3,7 +3,7 @@
         <div class="media-query-controls">
             <media-query-component />
         </div>
-        <html-element-closing-tag-context-menu     @click.stop=""  @opened="cmIsOpened" ref="layout-builder-cm" />
+        <html-element-closing-tag-context-menu   @click.stop=""  @opened="cmIsOpened" ref="layout-builder-cm" />
 
         <object id="layout-object" class="main-object" style="width: 100%;" >
             <html>
@@ -13,7 +13,6 @@
                         <style v-if="$layoutCreatorMode.mode.canRun(pseudoSelectorAction)" v-html="pseudoSelectorsTags">
                             
                         </style>
-                            
                     
                     </template>
                 </head>

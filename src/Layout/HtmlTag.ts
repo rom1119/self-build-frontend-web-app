@@ -109,7 +109,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     protected _updateFlag = false
 
-    protected _toManage = false
+    protected _toManage = true
     protected _toPosition = false
     
     protected _width = HtmlTag.INITIAL_WIDTH
@@ -829,6 +829,15 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.paddingFilter.resetAll()
         this.borderFilter.resetAll()
         this.marginFilter.resetAll() 
+
+    }
+
+    recalculateRealComputedHtmlAttrs() {
+        var list = this.attributeAccessor.all
+    
+        for (const prop of list) {
+        
+        }
 
     }
 

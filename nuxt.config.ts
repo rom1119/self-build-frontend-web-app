@@ -66,6 +66,7 @@ module.exports = {
         {src: '@/plugins/modals/shadowManageModal', ssr: false},
         {src: '@/plugins/modals/gradientManageModal', ssr: false},
         {src: '@/plugins/modals/animationManageModal', ssr: false},
+        {src: '@/plugins/modals/htmlAttrManageModal', ssr: false},
         {src: '@/plugins/layoutModeComponent', ssr: false},
         {src: '@/plugins/axiosFileDownload', ssr: false},
         {src: '@/plugins/VueUploadComponent', ssr: false},

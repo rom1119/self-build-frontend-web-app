@@ -48,7 +48,7 @@ export default class BackgroundImage extends CssSimple implements CssResource, G
             if (this.resourceUrl) {
                 res += ", " + this.unit.getValue(this.resourceUrl)
             }
-            console.log('BACK_IMAG' , res);
+            // console.log('BACK_IMAG' , res);
             
             return res
         }

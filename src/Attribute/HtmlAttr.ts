@@ -4,6 +4,8 @@ export default class HtmlAttr
     protected _key: string
     protected _value: string
 
+    active = false
+
     constructor(key, value)
     {
         this._key = key

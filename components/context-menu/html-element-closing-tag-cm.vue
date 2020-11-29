@@ -44,6 +44,7 @@
             <context-menu-item :action="showDisplayModal">Display</context-menu-item>
             <context-menu-item :action="showAnimationModal">Animation</context-menu-item>
             <context-menu-item :action="showGradientModal">Gradient</context-menu-item>
+            <context-menu-item :action="showHtmlAttrModal">Atrybuty</context-menu-item>
         </template>
 
     </context-menu>
@@ -238,6 +239,11 @@ export default class HtmlElementContextMenu extends Vue {
     showShadowCssModal()
     {
         this.$shadowManageModal.show(this.value)
+    }
+    
+    showHtmlAttrModal()
+    {
+        this.$htmlAttrManageModal.show(this.value)
     }
     
     showBoxModelModal()
