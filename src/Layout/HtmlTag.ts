@@ -137,6 +137,8 @@ export default abstract class HtmlTag extends HtmlNode implements
     borderFilter: FilterCssInjector
     contentFilter: FilterCssInjector
 
+    colspanTableEditor: TableEditor
+
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
     borderRealFetcher: BorderFetcherRealCssProp = new BorderRealCssFetcher(this)
@@ -833,11 +835,11 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
     recalculateRealComputedHtmlAttrs() {
-        var list = this.attributeAccessor.all
+        // var list = this.attributeAccessor.all
     
-        for (const prop of list) {
+        // for (const prop of list) {
         
-        }
+        // }
 
     }
 

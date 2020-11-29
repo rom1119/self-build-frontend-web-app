@@ -22,6 +22,7 @@ import BorderSpacing from '../../../Css/Table/BorderSpacing';
 import UnitSize from '../../../Unit/UnitSize';
 import MarginBottomCss from '../../../Css/BoxModel/Margin/MarginBottomCss';
 import BorderCollapse from '../../../Css/Table/BorderCollapse';
+import ColspanAttr from '../../../Attribute/html/ColspanAttr';
 export default class TableTag extends TableContainer {
     
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -310,6 +311,20 @@ export default class TableTag extends TableContainer {
         let cssList = [ width, minHeight, boxSizing, backgroundColor]
 
         this.addPropsToAccessor(cssList)
+    }
+
+    recalculateRealComputedHtmlAttrs() {
+        var list = this.attributeAccessor.all
+    
+        for (const prop of list) {
+        
+            if (prop instanceof ColspanAttr ) {
+
+                this.colspanTableEditor.editTable(prop)
+                continue
+            }
+        }
+
     }
 
     recalculateRealComputedProperties()
