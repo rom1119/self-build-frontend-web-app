@@ -17,6 +17,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
     public abstract getTable(): TableTag
     public setWidthColumn(index: string, width) {
+        
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
 
@@ -28,7 +29,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
                     child.initWidth(width)
                     child.turnOffFlexGrow()
                 } else {
-                    child.turnOnFlexGrow()
+                    // child.turnOnFlexGrow()
                 }
             }
 

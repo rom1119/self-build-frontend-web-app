@@ -5,8 +5,8 @@ import TableEditor from "../TableEditor";
 
 export default class RowspanEditor implements TableEditor{
 
-     
-     editTable(tableTag: TableTag, cell: TableCell) {
+
+     editTable(tableTag: TableTag) {
           throw new Error("Method not implemented.");
      }
 

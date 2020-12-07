@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import LayoutCreatorContainer from './LayoutCreatorContainer.vue'
 import HTMLWrapper from './tag/HTMLWrapper.vue'
+import HTMLTableWrapper from './tag/HTMLTableWrapper.vue'
 import HTMLEL from './tag/HTMLEL.vue'
 import HTMLTextNode from './tag/HTMLTextNode.vue'
 import HTMLELEditable from './tag/HTMLELEditable.vue'
@@ -24,11 +25,17 @@ import MarginLeft from './tag/margin/Left.vue'
 import MarginTop from './tag/margin/Top.vue'
 import MarginBottom from './tag/margin/Bottom.vue'
 
+
+
 Vue.component('layout-creator-container', LayoutCreatorContainer)
 Vue.component('html-component', HTMLWrapper)
+Vue.component('html-table-component', HTMLTableWrapper)
 Vue.component('html-el', HTMLEL)
 Vue.component('html-text-node', HTMLTextNode)
 Vue.component('html-el-editable', HTMLELEditable)
+
+// Vue.component('table-column-component', TableColumnComponent)
+// Vue.component('table-row-component', TableRowComponent)
 
 // Borders
 // Vue.component('border-main-component', BorderMainComponent)

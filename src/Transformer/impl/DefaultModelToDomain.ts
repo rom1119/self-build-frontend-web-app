@@ -26,7 +26,7 @@ export default class DefaultModelToDomain implements ModelToDomain
     private attrFactory: HtmlAttrFactory
 
     constructor()
-    { 
+    {
         this.htmlTagFactory = new HtmlTagFactoryFromName()
         this.styleTransformer = new DefaultModelToCss()
         this.selectorTransformer = new DefaultModelToSelector()
@@ -35,7 +35,7 @@ export default class DefaultModelToDomain implements ModelToDomain
 
     transform(model: TagDto): LayoutEl {
         var domain = this.buildRecursive(model, null)
-                    
+
         return domain
 
     }
@@ -44,7 +44,7 @@ export default class DefaultModelToDomain implements ModelToDomain
     {
         var domain
 
-   
+
         if (model.isTextNode) {
             domain = this.htmlTagFactory.createText()
             domain.uuid  = model.id
@@ -55,7 +55,7 @@ export default class DefaultModelToDomain implements ModelToDomain
             // console.log('LLLLLLLLLLLLL');
             // console.log(model);
             if (parent) {
-                parent.children.push(domain)
+                parent.addChild(domain)
                 domain.parent = parent
                 domain.projectId = parent.projectId
                 // if (parent instanceof ) {
@@ -74,28 +74,28 @@ export default class DefaultModelToDomain implements ModelToDomain
             domain.version  = model.version
             domain.projectId  = model.projectId
             domain.text  = model.text
-            
+
             domain.isClosingTag  = model.isClosingTag
             // console.log('LLLLLLLLLLLLL');
             // console.log(model);
             if (parent) {
-                parent.children.push(domain)
+                parent.addChild(domain)
                 domain.parent = parent
                 domain.projectId = parent.projectId
                 // domain.parent = parent
             }
-    
+
             if (model.styles) {
                 for (const style of model.styles) {
                     let subModel = this.styleTransformer.transform(style)
                     // console.log(style);
-                    
+
                     domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
                     // domain..push(subModel)
                     domain.updateModelComponent()
                 }
             }
-            
+
             if (model.selectors) {
                 for (const style of model.selectors) {
                     let subModel = this.selectorTransformer.transform(style, domain)
@@ -112,7 +112,7 @@ export default class DefaultModelToDomain implements ModelToDomain
                     domain.updateModelComponent()
                 }
             }
-            
+
             if (model.attrs) {
                 for (const attr in model.attrs) {
                     var key = model.attrs[attr].key
@@ -122,8 +122,8 @@ export default class DefaultModelToDomain implements ModelToDomain
                     // console.log(model.attrs[attr].value);
                     var attrNew = this.attrFactory.create(key)
                     attrNew.setValue(val)
-                    
-                    
+
+
                     domain.attributeAccessor.addNewAttribute(attrNew)
                     // domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
                     // domain..push(subModel)
@@ -131,7 +131,7 @@ export default class DefaultModelToDomain implements ModelToDomain
             }
 
             // this.recalculate(domain)
-            
+
             if (model.children) {
                 for (const el of model.children) {
                     this.buildRecursive(el, domain)
@@ -150,5 +150,5 @@ export default class DefaultModelToDomain implements ModelToDomain
     //     this.borderRecalculator.recalculate(tag)
     //     this.marginRecalculator.recalculate(tag)
     // }
-   
+
 }

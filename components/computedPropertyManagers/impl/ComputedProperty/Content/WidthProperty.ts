@@ -11,6 +11,7 @@ import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate"
 import _ from 'lodash'
 import Vue from "vue";
 import Percent from '../../../../../src/Unit/Size/Percent';
+import TableCell from '../../../../../src/Layout/tag/Table/TableCell';
 
 export default class WidthProperty extends BaseComputedPropertyManager<Width> {
 
@@ -46,27 +47,42 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
     activePropCss(prop: Width) {
         super.activePropCss(prop)
 
-        this.recalculate(this.value)
+        Vue.nextTick(() => {
+            this.recalculate(this.value)
+        })
         return prop
     }
     
     deactivePropCss(prop: Width) {
         super.deactivePropCss(prop)
 
-        this.recalculate(this.value)
+        Vue.nextTick(() => {
+            this.recalculate(this.value)
+        })
         return prop
     }
 
-    updateCssProp(newProp: Width) {
-        super.updateCssProp(newProp)
-        this.recalculate(this.value)
+    updateCssProp(prop: Width) {
+        super.updateCssProp(prop)
+        Vue.nextTick(() => {
+            this.recalculate(this.value)
 
-        return newProp.getClearValue()
+        })
+
+        return prop.getClearValue()
     }
 
     private recalculate(tag: HtmlTag)
     {
         this.borderRecalculator.recalculate(tag)
         this.marginRecalculator.recalculate(tag)
+
+        if (tag instanceof TableCell) {
+            var tableRealWidth = tag.getComputedVal(Width.PROP_NAME)
+            // console.log('WIDTH-REAL', tableRealWidth);
+            
+            tag.setWidthColumn(tableRealWidth)
+
+        }
     }
 }

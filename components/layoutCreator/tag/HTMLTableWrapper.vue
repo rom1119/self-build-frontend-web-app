@@ -2,6 +2,12 @@
     <component :is="tagName" :class="positionClass"  @click.stop="onContentMouseClick(value, $event)" :style="[value.cssBoxList, value.cssBoxListOverride]"  :key="value.updateComponentKey" :id="value.shortUUID" >
         <!-- <html-element-closing-tag-context-menu v-if="value.isClosingTag" :value="value" :ref="value.uuid" />
         <html-element-short-closing-tag-context-menu v-else :value="value" :ref="value.uuid" /> -->
+        <div v-show="value.isActiveTagToPosition()" class="wrapper absolute">
+<!--            <p v-for="(col, key) in value.columns" :key="key" :index="key" :value="col" >{{ col.updateComponentKey }}</p>-->
+            <table-column-component v-for="(col, key) in value.columns" :key="key" :index="key" :value="col" />
+
+<!--            <table-row-component v-for="(row, key) in value.rows" :key="key" :index="key" :value="row" />-->
+        </div>
         <div class="wrapper">
                 <div class="none">
                     {{ value.updateFlag }}
@@ -129,29 +135,8 @@
                 >
                 <!-- <div class="wrapper-children"> -->
                     <template v-for="child in children">
-                        <html-table-component
-                            v-if="child.isTableTag"
-                            @contentMouseOver="onContentMouseOver"
-                            @contentMouseOut="onContentMouseOut"
-                            @contentMouseClick="onContentMouseClickChild($event)"
-                            @borderMouseClick="onBorderMouseClickChild($event)"
-                            @tagRemove="onEmitRemoveChild($event)"
-                            @borderMouseOver="onBorderMouseOver"
-                            @borderMouseOut="onBorderMouseOut"
-                            @paddingMouseOver="onPaddingMouseOver"
-                            @paddingMouseOut="onPaddingMouseOut"
-                            @marginMouseOver="onMarginMouseOver"
-                            @marginMouseOut="onMarginMouseOut"
-                            @contentMouseDown="onContentMouseDownChild($event)"
-                            @borderMouseDown="onBorderMouseDownChild($event)"
-                            @paddingMouseDown="onPaddingMouseDownChild($event)"
-                            @marginMouseDown="onMarginMouseDownChild($event)"
-
-                            :value="child"
-                            :key="child.uuid"  >
-                        </html-table-component>
                         <html-component
-                            v-else-if="!child.isTextNode"
+                            v-if="!child.isTextNode"
                             @contentMouseOver="onContentMouseOver"
                             @contentMouseOut="onContentMouseOut"
                             @contentMouseClick="onContentMouseClickChild($event)"
@@ -182,9 +167,10 @@
                     </template>
                 <!-- </div>  -->
             </html-el>
-<!--        <div class="resize-content" :style="resizeContentCss"  @mousedown.stop="onContentMouseDown(value, $event)">-->
-<!--                    {{ value.hasFlexGrow }}-->
-<!--        </div>-->
+        <div class="resize-content" :style="resizeContentCss"  @mousedown.stop="onContentMouseDown(value, $event)">
+                    cols: {{ value.columns.length }}
+                    rows: {{ value.rows.length }}
+        </div>
     </component>
 </template>
 
@@ -205,12 +191,19 @@ import HtmlTagRecalculator from "~/src/Recalculator/HtmlTagRecalculator";
 import BorderRecalculate from "~/src/Recalculator/HtmlTagImpl/BorderRecalculate";
 import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
 import { PositionCss } from "../../../src/Css";
+import TableTag from "~/src/Layout/tag/Table/TableTag";
+import TableColumnComponent from '~/components/layoutCreator/tag/table/TableColumnComponent.vue'
+import TableRowComponent from '~/components/layoutCreator/tag/table/TableRowComponent.vue'
 
-
-@Component
-export default class HTMLWrapper extends Vue {
+@Component({
+    components: {
+        TableColumnComponent,
+        TableRowComponent
+    }
+})
+export default class HTMLTableWrapper extends Vue {
     @Prop()
-    value: HtmlTag
+    value: TableTag
 
     protected borderRecalculator: HtmlTagRecalculator
     protected marginRecalculator: HtmlTagRecalculator
@@ -312,6 +305,7 @@ export default class HTMLWrapper extends Vue {
         }
         this.$emit('tagRemove', ev)
     }
+
     onBorderMouseClick(val, event)
     {
         let ev = {
@@ -326,6 +320,7 @@ export default class HTMLWrapper extends Vue {
         this.$emit('borderMouseClick', val)
         this.$emit('anyElementMouseClick', val)
     }
+
     onContentMouseClick(val, event)
     {
         let ev = {
@@ -335,6 +330,8 @@ export default class HTMLWrapper extends Vue {
         this.$emit('contentMouseClick', ev)
         this.$emit('anyElementMouseClick', ev)
     }
+
+
     onContentMouseClickChild(val)
     {
         this.$emit('contentMouseClick', val)

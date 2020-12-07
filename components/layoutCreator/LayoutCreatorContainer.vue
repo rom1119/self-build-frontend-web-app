@@ -9,29 +9,43 @@
             <html>
                 <head>
                     <template v-if="$layoutCreatorMode">
-                
+
                         <style v-if="$layoutCreatorMode.mode.canRun(pseudoSelectorAction)" v-html="pseudoSelectorsTags">
-                            
+
                         </style>
-                    
+
                     </template>
                 </head>
                 <!-- <create-html-element-context-menu :value="htmlTags"  :ref="contextMenuName" /> -->
-                
+
                 <body @mouseup="onMouseUp($event)"  @mousemove="onMouseMove($event)"  style="min-height: 100vh; overflow-x: visible;">
                         <!-- <ul>
                             {{ pseudoSelectorsTags }}
                         </ul> -->
 
                         <template v-for="htmlTag in htmlTags">
+                            <html-table-component
+                                v-if="htmlTag.isTableTag"
+                                @tagRemove="onTagRemove"
+                                @anyElementMouseOver="onMouseOver"
+                                @anyElementMouseOut="onMouseOut"
+                                @anyElementMouseDown="onMouseDown"
+                                @contentMouseClick="onContentMouseClick"
+                                @anyElementMouseClick="onAnyElementMouseClick"
+                                :value="htmlTag"
+                                :key="htmlTag.uuid">
+                            </html-table-component>
+
                             <html-component
-                            @tagRemove="onTagRemove"
-                            @anyElementMouseOver="onMouseOver"
-                            @anyElementMouseOut="onMouseOut" 
-                            @anyElementMouseDown="onMouseDown" 
-                            @contentMouseClick="onContentMouseClick" 
-                            :value="htmlTag" 
-                            :key="htmlTag.uuid">
+                                v-else
+                                @tagRemove="onTagRemove"
+                                @anyElementMouseOver="onMouseOver"
+                                @anyElementMouseOut="onMouseOut"
+                                @anyElementMouseDown="onMouseDown"
+                                @contentMouseClick="onContentMouseClick"
+                                @anyElementMouseClick="onAnyElementMouseClick"
+                                :value="htmlTag"
+                                :key="htmlTag.uuid">
                             </html-component>
                         </template>
                 </body>
@@ -89,14 +103,14 @@ export default class LayoutCreatorContainer extends Vue {
     htmlTags: HtmlTag[] = []
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
     a = `<template v-for="selectors in pseudoSelectorsTags">
-                        
+
             <template v-for="(key, cssList) in selectors">
                 {{ key }} {
                     <template v-for="css in cssList">
                             {{ css.getName() }}: {{ css.getValue() }};                                     -->
                     </template>
                 }
-            </template> 
+            </template>
         </template> `
 
     activeElController: ActiveElController = new DefaultActiveElController()
@@ -108,8 +122,8 @@ export default class LayoutCreatorContainer extends Vue {
     hasAccualControllerWorks = false
     currentMouseOverTag: HtmlTag
 
-    mode 
-    pseudoSelectorAction = new PseudoSelectorViewAction() 
+    mode
+    pseudoSelectorAction = new PseudoSelectorViewAction()
 
     public addHtmlTag(tag: HtmlTag)
     {
@@ -121,7 +135,7 @@ export default class LayoutCreatorContainer extends Vue {
     }
 
     private recursiveClearSelectedSelector(list) {
-        
+
         for (const el of list) {
             if (el instanceof HtmlTag) {
                 el.clearSelectedSelectors()
@@ -134,7 +148,7 @@ export default class LayoutCreatorContainer extends Vue {
     }
 
     private recursiveBuildPseudoSelectors(list, tag: HtmlTag) {
-        
+
         for (const el of tag.children) {
             if (el instanceof HtmlTag) {
                 list.push(el.pseudoSelectorsList)
@@ -147,7 +161,7 @@ export default class LayoutCreatorContainer extends Vue {
 
 
     get pseudoSelectorsTags(): string
-    {   
+    {
         let list = []
         for (const tag of this.htmlTags) {
             console.log(tag.pseudoSelectorsList);
@@ -162,15 +176,15 @@ export default class LayoutCreatorContainer extends Vue {
                 res += key + ' {'
                     for (const css of cssList) {
 
-                        res += css.getName() + ':' + css.getValue() + ' !important ;'                                   
+                        res += css.getName() + ':' + css.getValue() + ' !important ;'
                     }
                 res += '}'
             }
         }
-        
+
 
         return res
-        
+
     }
 
 
@@ -184,7 +198,7 @@ export default class LayoutCreatorContainer extends Vue {
                 // console.log(e.clientX);
 
             }
-            
+
         })
         window.addEventListener('resize', (e) => {
             // console.log('width', (<Window>e.target).innerWidth);
@@ -201,10 +215,10 @@ export default class LayoutCreatorContainer extends Vue {
             if (e instanceof ViewMode) {
                 this.recursiveClearSelectedSelector(this.htmlTags)
             }
-            
+
         })
 
-        
+
 
 
     }
@@ -231,10 +245,10 @@ export default class LayoutCreatorContainer extends Vue {
         } else if (val instanceof HtmlTag) {
             this.currentMouseOverTag = val
         }
-        
+
         if(this.adivisorController.hasCtrlKey) {
             if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
-                
+
                 this.activeToPositionController.updateActiveTag(val.getHtmlTag())
             } else if (val instanceof HtmlTag) {
                 this.activeToPositionController.updateActiveTag(val)
@@ -245,7 +259,7 @@ export default class LayoutCreatorContainer extends Vue {
             this.activeElController.updateActiveEl(val)
 
         }
-        
+
     }
 
     onMouseOut(val) {
@@ -258,7 +272,7 @@ export default class LayoutCreatorContainer extends Vue {
         this.currentMouseOverTag = null
         if(this.adivisorController.hasCtrlKey) {
             if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
-                
+
                 this.activeToPositionController.deactiveTag()
             } else if (val instanceof HtmlTag) {
                 this.activeToPositionController.deactiveTag()
@@ -270,19 +284,39 @@ export default class LayoutCreatorContainer extends Vue {
         }
     }
 
-    onContentMouseClick(source)
+    onAnyElementMouseClick(source)
     {
         if (!this.$layoutCreatorMode.mode.canRun(new MouseClickAction())) {
             return
         }
-        // console.log('click');
-        // console.log(source.target);
+        var val = source.target
+        console.log('onAnyElementMouseClick');
+        console.log(source.target);
         if (!this.hasAccualControllerWorks) {
-            this.activeToManageController.updateActiveTag(source.target)
+            if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
+
+                this.activeToManageController.updateActiveTag(val.getHtmlTag())
+            } else {
+                this.activeToManageController.updateActiveTag(val)
+
+            }
 
         }
     }
-    
+
+    onContentMouseClick(source)
+    {
+        // if (!this.$layoutCreatorMode.mode.canRun(new MouseClickAction())) {
+        //     return
+        // }
+        // console.log('onContentMouseClick');
+        // console.log(source.target);
+        // if (!this.hasAccualControllerWorks) {
+        //     this.activeToManageController.updateActiveTag(source.target)
+        //
+        // }
+    }
+
     onTagRemove(source)
     {
         // console.log('tagRemove');
@@ -290,7 +324,7 @@ export default class LayoutCreatorContainer extends Vue {
         let tag: HtmlNode = source.target
         tag.api.deleteTag(tag).then(
             (res) => {
-                
+
                 tag.synchronize()
                 let a = this.htmlTagRemover.removeBy(source.target.uuid)
             },
@@ -305,7 +339,7 @@ export default class LayoutCreatorContainer extends Vue {
     {
         // var el = source.target
         // if (el instanceof PaddingModel || el instanceof BorderModel || el instanceof MarginModel) {
-            
+
         //     el = el.getHtmlTag()
         // } else if (el instanceof HtmlTag) {
         //     el = el.
@@ -314,23 +348,23 @@ export default class LayoutCreatorContainer extends Vue {
         if (!this.$layoutCreatorMode.mode.canRun(new MouseDownAction())) {
             return
         }
-        
+
         let controller = this.getAdviseController('mouseDown', source.target)
-        console.log('down');
-        console.log(source.target);
-        console.log(source);
-        console.log(controller);
-        console.log('down');
+        // console.log('down');
+        // console.log(source.target);
+        // console.log(source);
+        // console.log(controller);
+        // console.log('down');
         controller.mouseDownHandler(source)
     }
 
     onMouseUp(e)
-    {        
+    {
         if (!this.$layoutCreatorMode.mode.canRun(new MouseUpAction())) {
             return
         }
         let controller = this.getAdviseController('mouseUp')
-        
+
         if (controller) {
             setTimeout(() => {
                 controller.mouseUpHandler(e)
@@ -365,9 +399,9 @@ export default class LayoutCreatorContainer extends Vue {
                 this.activeToPositionController.updateActiveTag(this.currentMouseOverTag)
             }
         }
-        
+
     }
-    
+
     onKeyUp(e){
         if (!this.$layoutCreatorMode.mode.canRun(new KeyUpAction())) {
             return
@@ -382,7 +416,7 @@ export default class LayoutCreatorContainer extends Vue {
     }
 
 
-    
+
     private getAdviseController(eventName, el?)
     {
         return this.adivisorController.advise(eventName, el)

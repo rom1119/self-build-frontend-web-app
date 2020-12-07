@@ -99,12 +99,18 @@ export default abstract class TableCell extends HtmlTagBlock {
     public initSize(w, h) {
         
         this.parent.setHeightRow(this, h)
+
+        this.setWidthColumn(w)
         
-        this.getTable().setWidthColumn(this.shortUUID, w)
     }
 
     public getTable(): TableTag {
         return this.parent.getTable()
+    }
+
+    public setWidthColumn(w) {
+        this.getTable().setWidthColumn(this.shortUUID, w)
+
     }
 
     public initWidth(w)

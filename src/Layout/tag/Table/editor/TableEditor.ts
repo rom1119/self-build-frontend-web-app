@@ -5,5 +5,5 @@ import TableTag from '../TableTag';
 export default interface TableEditor{
 
 
-     editTable(tableTag: TableTag, cell: TableCell)
+     editTable(tableTag: TableTag)
 }
