@@ -16,7 +16,7 @@ export default class TableTr extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTr`
     protected _children: TableCell[] = []
-    protected hasFlexGrow = true
+    protected hasFlexGrow = false
 
     public static TAG_NAME = 'tr'
 
@@ -25,7 +25,7 @@ export default class TableTr extends TableContainer {
     {
         return this._parent
     }
-    
+
     set parent(arg: TableContainer)
     {
         this._parent = arg
@@ -38,7 +38,7 @@ export default class TableTr extends TableContainer {
     public isElementOfTable() {
         return true
     }
-    
+
     public setHeightRow(child: TableCell, h) {
         if (this.parent instanceof TableTag) {
             this.getTable().setHeightRow(child.shortUUID, h)
@@ -54,7 +54,7 @@ export default class TableTr extends TableContainer {
             }
         }
     }
-    
+
     public getTable(): TableTag {
         if (this.parent instanceof TableTag) {
             return this.parent
@@ -79,19 +79,19 @@ export default class TableTr extends TableContainer {
 
 
     public turnOnFlexGrow() {
-        this.hasFlexGrow = true
+        this.hasFlexGrow = false
     }
-    
+
     public turnOffFlexGrow() {
         this.hasFlexGrow = false
     }
 
     public initHeight(h)
     {
-        // this.toInitSizeUnits()  
+        // this.toInitSizeUnits()
         // console.log(w);
         // console.log(h);
-        
+
         this._height = h
 
         let height = new Height(this._height, this.heightUnitCurrent)
@@ -101,18 +101,18 @@ export default class TableTr extends TableContainer {
 
     }
 
-    
+
     public injectInitialCssStyles()
     {
-        
+
         let width = new Width(100, new Percent())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         let backgroundColor = new BackgroundColor({r: 70, g:70, b: 200}, new RGB())
         let cssList = [ width, boxSizing]
-        
+
         this.addPropsToAccessor(cssList)
     }
-    
+
     get cssList(): any
     {
         var css = super.cssList
@@ -132,21 +132,21 @@ export default class TableTr extends TableContainer {
     get cssListOverride() : any
     {
         var activeSelector = this.getSelectedSelector()
-        
+
         if (activeSelector) {
             var css = activeSelector.cssList
-            
+
             var flex = new Display(Display.FLEX, new Named())
             css[flex.getName()] = flex.getValue()
 
             if (this.hasFlexGrow) {
                 var flexGrow = new FlexGrow(1, new Named())
                 css[flexGrow.getName()] = flexGrow.getValue()
-    
+
             }
 
             return css
-        } 
+        }
 
         return {}
 
@@ -165,7 +165,7 @@ export default class TableTr extends TableContainer {
         }
 
         return css
-        
+
         // return css
     }
 
@@ -173,7 +173,7 @@ export default class TableTr extends TableContainer {
     {
 
         var activeSelector = this.getSelectedSelector()
-        
+
         if (activeSelector) {
             var css = activeSelector.cssBoxList
 
@@ -183,14 +183,14 @@ export default class TableTr extends TableContainer {
             if (this.hasFlexGrow) {
                 var flexGrow = new FlexGrow(1, new Named())
                 css[flexGrow.getName()] = flexGrow.getValue()
-    
+
             }
 
             return css
-        } 
-        
+        }
+
         return {}
     }
-    
+
 
 }

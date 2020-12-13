@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import LayoutCreatorContainer from './LayoutCreatorContainer.vue'
 import HTMLWrapper from './tag/HTMLWrapper.vue'
+import BaseHTMLWrapper from './tag/BaseHTMLWrapper.vue'
 import HTMLTableWrapper from './tag/HTMLTableWrapper.vue'
 import HTMLEL from './tag/HTMLEL.vue'
 import HTMLTextNode from './tag/HTMLTextNode.vue'
@@ -29,6 +30,7 @@ import MarginBottom from './tag/margin/Bottom.vue'
 
 Vue.component('layout-creator-container', LayoutCreatorContainer)
 Vue.component('html-component', HTMLWrapper)
+Vue.component('base-html-component', BaseHTMLWrapper)
 Vue.component('html-table-component', HTMLTableWrapper)
 Vue.component('html-el', HTMLEL)
 Vue.component('html-text-node', HTMLTextNode)

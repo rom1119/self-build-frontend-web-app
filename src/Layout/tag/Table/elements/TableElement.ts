@@ -16,6 +16,10 @@ import TableElPropertyAccessor from "~/src/Css/PropertyAccessor/TableElPropertyA
 import CssList from "~/src/Layout/CssList";
 import SizeActivable from "~/src/SizeActivable";
 import HtmlTag from "~/src/Layout/HtmlTag";
+import ContentSizeCss from "~/src/Css/Size/ContentSizeCss";
+import BaseBorderCss from "~/src/Css/Border/BaseBorderCss";
+import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
+import BasePaddingCss from "~/src/Css/BoxModel/BasePaddingCss";
 
 
 export default abstract class TableElement extends HtmlTag implements CssList, SizeActivable{
@@ -28,12 +32,23 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
     {
         super()
         this.owner = owner
+        // this.initCssAccessor()
 
+
+
+    }
+    protected initCssAccessor()
+    {
+        // super.initCssAccessor()
         this._tmpCssPropertyAccesor = new TableElPropertyAccessor(this)
         this._cssPropertyAccesor = new TableElPropertyAccessor(this)
 
-    }
+        this.paddingFilter = new PaddingFilterCssInjector(this)
+        this.marginFilter = new MarginFilterCssInjector(this)
+        this.borderFilter = new BorderFilterCssInjector(this)
+        this.contentFilter = new ContentFilterCssInjector(this)
 
+    }
 
 
     public getSelectedSelector()
@@ -46,16 +61,12 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
         return this.owner.synchronize()
     }
 
-    public updateCssPropertyWithoutModel(propName: string, p: BasePropertyCss)
-    {
-        return this.owner.updateCssPropertyWithoutModel(propName, p)
-    }
-
-    get cssList() : any
-    {
-
-        return {}
-    }
+    //
+    // get cssList() : any
+    // {
+    //
+    //     return {}
+    // }
 
 
 
@@ -63,6 +74,15 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
     }
 
     changeAsDeactiveSize() {
+    }
+
+    public setHtmlEl(htmlEl)
+    {
+        this._htmlEl = htmlEl
+
+        this.notifyPositionalTag()
+        this.recalculateRealComputedProperties()
+
     }
 
 }

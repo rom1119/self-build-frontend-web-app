@@ -71,8 +71,8 @@ export default class TableTag extends TableContainer {
     public addChild(child: HtmlNode)
     {
         super.addChild(child)
-        console.log('add child')
-        console.log(child)
+        // console.log('add child')
+        // console.log(child)
         this.updateColumns()
 
     }
@@ -174,6 +174,8 @@ export default class TableTag extends TableContainer {
         var index = this.recursiveFindTableColumnIndex(shortUUID)
 
         super.setWidthColumn(index.toString(), width)
+        console.log(this._columns[index])
+        this._columns[index].initSize(width)
     }
 
     public getBodyTag() {
@@ -331,11 +333,11 @@ export default class TableTag extends TableContainer {
 
     public setHeightRowBody(shortUUID: string, height) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
-        console.log('setHeightRowBody', index);
+        // console.log('setHeightRowBody', index);
         var tableRealHeight = this.getComputedVal(Height.PROP_NAME)
         var tableRealWidth = this.getComputedVal(Width.PROP_NAME)
-        console.log(tableRealHeight);
-        console.log(tableRealWidth);
+        // console.log(tableRealHeight);
+        // console.log(tableRealWidth);
 
         this.setHeightForColOnlyBody(this, index, height)
 

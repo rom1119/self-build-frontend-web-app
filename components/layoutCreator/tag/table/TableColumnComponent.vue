@@ -1,14 +1,16 @@
 <template>
 
-    <div class="stretch stretch__flex cursor-resize-to-left"
+    <div class="stretch tab-column border stretch__flex cursor-resize-to-left"
         @mousedown.stop="onMouseDown($event)"
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut"
-
+        @click.stop="onMouseClick"
+         :style="value.cssList"
+         :key="value.updateComponentKey"
     >
         <div class="stretch"
            >
-            Col {{ index }}
+            Col {{ index + 1 }}
             </br>
             <span v-show="hasWidth">
                 Width {{ value.getWidthValue() }}
@@ -24,6 +26,7 @@ import BaseComputedPropertyManager from "~/components/computedPropertyManagers/B
 import Width from "~/src/Css/Size/Width";
 import WidthProperty from "~/components/computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty";
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
+import HtmlTag from "~/src/Layout/HtmlTag";
 
 @Component
 export default class TableColumnComponent extends Vue {
@@ -59,18 +62,41 @@ export default class TableColumnComponent extends Vue {
         return  this.widthManager.getProperty().active
     }
 
-    onMouseOver(borderComponent) {
-        borderComponent.$emit('tableColumnMouseOver', this.value)
+    onMouseClick() {
+        console.log('CLICK')
 
     }
 
-    onMouseOut(borderComponent) {
-        borderComponent.$emit('tableColumnMouseOut', this.value)
+    onMouseOver() {
+        this.$emit('borderMouseOver', this.value)
+
     }
 
-    public onMouseDown(borderComponent, ev: MouseEvent)
+    onMouseOut() {
+        this.$emit('borderMouseOut', this.value)
+    }
+
+    public onMouseDown(ev: MouseEvent)
     {
-        borderComponent.$emit('tableColumnMouseDown', ev)
+        this.$emit('borderMouseDown', ev)
+    }
+
+    mounted()
+    {
+        this.value.setHtmlEl(this.$el)
+
+        // this.value.updateModelComponent()
+        // this.value.updateModelComponent()
+
+
+        console.log('COLUMN MOUNTED');
+
+        if (this.value instanceof HtmlTag)  {
+            this.value.realPositionCalculator.reInitDefaultPosition()
+
+            this.value.recalculateRealComputedProperties()
+
+        }
     }
 
 
@@ -78,9 +104,21 @@ export default class TableColumnComponent extends Vue {
         this.widthManager = new WidthProperty()
         this.widthManager.setHtmlEl(this.value)
 
-
+        // this.widthManager.init()
         // this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
         // console.log(this.value.styleList)
     }
 }
 </script>
+
+<style>
+    .tab-column {
+        z-index: 999;
+        display: inline-block;
+        font-size: 12px !important;
+    }
+
+    .border {
+        border: 1px solid gray;
+    }
+</style>

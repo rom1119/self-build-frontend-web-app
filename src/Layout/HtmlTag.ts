@@ -589,7 +589,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             prop.id = null
             prop.setActive(false)
         }
-        this.synchronizer.synchronize()
+        this.synchronize()
     }
 
     get cssAccessor(): CssPropertyAccessor
@@ -642,7 +642,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
 
 
-        this.synchronizer.synchronize()
+        this.synchronize()
 
     }
 
