@@ -30,9 +30,9 @@ export default class ContentElSizeController extends SizeElController
         let el: HtmlTag = source.target
         let event = source.event
         console.log(el.toString());
-        console.log(el.projectId);
+        // console.log(el.projectId);
         console.log(el.cssAccessor.all);
-        console.log(el.pseudoClassAccessor.all);
+        // console.log(el.pseudoClassAccessor.all);
 
         if (!el.decisionCssFacade.canManageContentBoxCss()) {
             return
@@ -50,13 +50,13 @@ export default class ContentElSizeController extends SizeElController
         }
         // console.log(el.getComputedWidthPixele());
         // console.log(el.paddingRightWidth);
-        
+
         clearTimeout(this.timeout)
             this.timeout = setTimeout(async () => {
                 if (this.mouseDown && el) {
                     this.currentElement = el
                     this.mouseDetector.initPosition(event.clientX, event.clientY)
-                    
+
                     this.mouseDetector.initSize(el.getComputedWidth(), el.getComputedHeight())
                     // this.currentElement.changeAsActiveSize()
 
@@ -64,7 +64,7 @@ export default class ContentElSizeController extends SizeElController
 
             }, 400)
     }
-    
+
     public mouseUpHandler(ev: MouseEvent) {
         this.mouseDown = false
         if (!this.currentElement) {
@@ -92,7 +92,7 @@ export default class ContentElSizeController extends SizeElController
 
             // this.currentElement.realPositionCalculator.updateProps()
             this.currentElement.notifyPositionalTag()
-            
+
             // this.currentElement.recalculateRealComputedProperties()
         }
     }
@@ -102,7 +102,7 @@ export default class ContentElSizeController extends SizeElController
         this.marginRecalculator.recalculate(htmlTag)
         // let sizeCalc = new MarginSizeCalculator(htmlTag)
         // let offsetSizeCalc = new MarginOffsetSizeCalculator(htmlTag)
-        
+
         // htmlTag.marginTop.lengthCalc = sizeCalc.build(htmlTag.marginTop)
         // htmlTag.marginTop.lengthOffsetCalc = offsetSizeCalc.build(htmlTag.marginTop)
         // htmlTag.marginBottom.lengthCalc = sizeCalc.build(htmlTag.marginBottom)
@@ -111,14 +111,14 @@ export default class ContentElSizeController extends SizeElController
         // htmlTag.marginLeft.lengthOffsetCalc = offsetSizeCalc.build(htmlTag.marginLeft)
         // htmlTag.marginRight.lengthCalc = sizeCalc.build(htmlTag.marginRight)
         // htmlTag.marginRight.lengthOffsetCalc = offsetSizeCalc.build(htmlTag.marginRight)
-            
+
     }
 
     private recalculateBorders(htmlTag: HtmlTag)
     {
         let sizeCalc = new BorderSizeCalculator(htmlTag)
         let offsetSizeCalc = new BorderOffsetSizeCalculator(htmlTag)
-        
+
         htmlTag.borderTop.lengthCalc = sizeCalc.build(htmlTag.borderTop)
         htmlTag.borderTop.lengthOffsetCalc = offsetSizeCalc.build(htmlTag.borderTop)
         htmlTag.borderBottom.lengthCalc = sizeCalc.build(htmlTag.borderBottom)
@@ -127,9 +127,9 @@ export default class ContentElSizeController extends SizeElController
         htmlTag.borderLeft.lengthOffsetCalc = offsetSizeCalc.build(htmlTag.borderLeft)
         htmlTag.borderRight.lengthCalc = sizeCalc.build(htmlTag.borderRight)
         htmlTag.borderRight.lengthOffsetCalc = offsetSizeCalc.build(htmlTag.borderRight)
-            
+
     }
 
-    
+
 
 }

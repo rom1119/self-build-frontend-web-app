@@ -15,11 +15,16 @@ import TableTFoot from './TableTFoot';
 import BorderCollapse from '../../../Css/Table/BorderCollapse';
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
+import FlexShrink from "~/src/Css/Display/FlexShrink";
+import FlexBasis from "~/src/Css/Display/FlexBasis";
+import BasePropertyCss from "~/src/Css/BasePropertyCss";
 export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
     protected hasFlexGrow = false
     hasMiddleTag: boolean = true
+    isTableCellTag : boolean = true
+
     protected _parent: TableTr
     protected _columnElement: TableColumnEl
     protected _rowElement: TableRowEl
@@ -41,6 +46,11 @@ export default abstract class TableCell extends HtmlTagBlock {
     }
 
     set columnElement(arg: TableColumnEl){
+        var w = this.cssAccessor.getProperty(Width.PROP_NAME)
+        if (w) {
+            arg.updateCssPropertyWithoutModel(w.getName(), w)
+
+        }
         this._columnElement = arg
     }
 
@@ -100,7 +110,7 @@ export default abstract class TableCell extends HtmlTagBlock {
     }
 
     public turnOnFlexGrow() {
-        // this.hasFlexGrow = true
+        this.hasFlexGrow = true
     }
 
     public turnOffFlexGrow() {
@@ -131,6 +141,11 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     public setWidthColumn(w) {
         this.getTable().setWidthColumn(this.shortUUID, w)
+
+    }
+
+    public setColumnCss(prop: BasePropertyCss) {
+        this.getTable().setCssForColumnColumn(this.shortUUID, prop)
 
     }
 
@@ -184,8 +199,8 @@ export default abstract class TableCell extends HtmlTagBlock {
 
 
         if (this.hasFlexGrow) {
-            var flexGrow = new FlexGrow(1, new Named())
-            css[flexGrow.getName()] = flexGrow.getValue()
+            // var flexGrow = new FlexGrow(1, new Named())
+            // css[flexGrow.getName()] = flexGrow.getValue()
 
         }
 
@@ -218,8 +233,8 @@ export default abstract class TableCell extends HtmlTagBlock {
             cssSelector[vertical.getName()] = vertical.getValue()
 
             if (this.hasFlexGrow) {
-                var flexGrow = new FlexGrow(1, new Named())
-                cssSelector[flexGrow.getName()] = flexGrow.getValue()
+                // var flexGrow = new FlexGrow(1, new Named())
+                // cssSelector[flexGrow.getName()] = flexGrow.getValue()
             }
             return cssSelector
         }
@@ -238,15 +253,25 @@ export default abstract class TableCell extends HtmlTagBlock {
         var maxHeight = new MaxHeight(100, new Percent())
         css[maxHeight.getName()] = maxHeight.getValue()
 
+        var height = new Height(100, new Percent())
+        css[height.getName()] = height.getValue()
+
+
         var borderBox = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         css[borderBox.getName()] = borderBox.getValue()
 
-        // var display = new Display(Display.FLEX, new Named())
-        // css[display.getName()] = display.getValue()
+        var display = new Display(Display.INLINE_BLOCK, new Named())
+        css[display.getName()] = display.getValue()
 
         if (this.hasFlexGrow) {
-            var flexGrow = new FlexGrow(1, new Named())
-            css[flexGrow.getName()] = flexGrow.getValue()
+            // var flexGrow = new FlexGrow(1, new Named())
+            // css[flexGrow.getName()] = flexGrow.getValue()
+            //
+            // var flexShring = new FlexShrink(0, new Named())
+            // css[flexShring.getName()] = flexShring.getValue()
+            //
+            // var flexBasis = new FlexBasis(20, new Percent())
+            // css[flexBasis.getName()] = flexBasis.getValue()
 
         }
 
@@ -272,12 +297,21 @@ export default abstract class TableCell extends HtmlTagBlock {
             var borderBox = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
             cssSelector[borderBox.getName()] = borderBox.getValue()
 
+            var height = new Height(100, new Percent())
+            cssSelector[height.getName()] = height.getValue()
+
             // var display = new Display(Display.INLINE_BLOCK, new Named())
             // cssSelector[display.getName()] = display.getValue()
 
             if (this.hasFlexGrow) {
-                var flexGrow = new FlexGrow(1, new Named())
-                cssSelector[flexGrow.getName()] = flexGrow.getValue()
+                // var flexGrow = new FlexGrow(1, new Named())
+                // cssSelector[flexGrow.getName()] = flexGrow.getValue()
+                //
+                // var flexShring = new FlexShrink(0, new Named())
+                // cssSelector[flexShring.getName()] = flexShring.getValue()
+                //
+                // var flexBasis = new FlexBasis(20, new Percent())
+                // cssSelector[flexBasis.getName()] = flexBasis.getValue()
             }
             return cssSelector
         }

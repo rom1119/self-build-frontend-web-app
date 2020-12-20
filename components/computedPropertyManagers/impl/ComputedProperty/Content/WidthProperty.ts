@@ -48,16 +48,16 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
         super.activePropCss(prop)
 
         Vue.nextTick(() => {
-            this.recalculate(this.value)
+            this.recalculate(this.value, prop)
         })
         return prop
     }
-    
+
     deactivePropCss(prop: Width) {
         super.deactivePropCss(prop)
 
         Vue.nextTick(() => {
-            this.recalculate(this.value)
+            this.recalculate(this.value, prop)
         })
         return prop
     }
@@ -65,23 +65,24 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
     updateCssProp(prop: Width) {
         super.updateCssProp(prop)
         Vue.nextTick(() => {
-            this.recalculate(this.value)
+            this.recalculate(this.value, prop)
 
         })
 
         return prop.getClearValue()
     }
 
-    private recalculate(tag: HtmlTag)
+    private recalculate(tag: HtmlTag, prop)
     {
         this.borderRecalculator.recalculate(tag)
         this.marginRecalculator.recalculate(tag)
 
         if (tag instanceof TableCell) {
-            var tableRealWidth = tag.getComputedVal(Width.PROP_NAME)
+            // var tableRealWidth =
+            tag.setColumnCss(prop)
             // console.log('WIDTH-REAL', tableRealWidth);
-            
-            tag.setWidthColumn(tableRealWidth)
+
+            // tag.setWidthColumn(tableRealWidth)
 
         }
     }

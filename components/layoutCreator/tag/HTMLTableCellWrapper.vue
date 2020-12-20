@@ -19,12 +19,18 @@
         @marginMouseDown="onMarginMouseDownChild($event)"
     >
         <template slot="top-content">
-            <div v-if="value.columnElement" v-show="value.getTable().isActiveTagToManage()" class="wrapper__not-flex ">
+<!--            <div  class="wrapper__not-flex ">-->
                 <!--            <p v-for="(col, key) in value.columns" :key="key" :index="key" :value="col" >{{ col.updateComponentKey }}</p>-->
-                <table-column-component :index="key" :value="value.columnElement" />
+                <table-column-component
+                    @contentMouseOver="onContentMouseOver"
+                    @contentMouseOut="onContentMouseOut"
+                    @contentMouseClick="onContentMouseClickChild($event)"
+                    v-if="value.columnElement"
+                    v-show="value.getTable().isActiveTagToManage()"
+                    :value="value.columnElement" />
 
                 <!--            <table-row-component v-for="(row, key) in value.rows" :key="key" :index="key" :value="row" />-->
-            </div>
+<!--            </div>-->
 
         </template>
     </base-html-component>
@@ -50,6 +56,7 @@ import { PositionCss } from "../../../src/Css";
 import TableTag from "~/src/Layout/tag/Table/TableTag";
 import TableColumnComponent from '~/components/layoutCreator/tag/table/TableColumnComponent.vue'
 import TableRowComponent from '~/components/layoutCreator/tag/table/TableRowComponent.vue'
+import BaseHTMLWrapper from "~/components/layoutCreator/tag/BaseHTMLWrapper.vue";
 
 @Component({
     components: {
@@ -57,7 +64,7 @@ import TableRowComponent from '~/components/layoutCreator/tag/table/TableRowComp
         TableRowComponent
     }
 })
-export default class HTMLTableCellWrapper extends Vue {
+export default class HTMLTableCellWrapper extends BaseHTMLWrapper {
 
 
 

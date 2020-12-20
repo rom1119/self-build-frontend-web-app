@@ -24,8 +24,8 @@
                         </ul> -->
 
                         <template v-for="htmlTag in htmlTags">
-                            <html-table-component
-                                v-if="htmlTag.isTableTag"
+                            <component
+                                :is="getComponentNameByTag(htmlTag)"
                                 @tagRemove="onTagRemove"
                                 @anyElementMouseOver="onMouseOver"
                                 @anyElementMouseOut="onMouseOut"
@@ -34,19 +34,8 @@
                                 @anyElementMouseClick="onAnyElementMouseClick"
                                 :value="htmlTag"
                                 :key="htmlTag.uuid">
-                            </html-table-component>
+                            </component>
 
-                            <html-component
-                                v-else
-                                @tagRemove="onTagRemove"
-                                @anyElementMouseOver="onMouseOver"
-                                @anyElementMouseOut="onMouseOut"
-                                @anyElementMouseDown="onMouseDown"
-                                @contentMouseClick="onContentMouseClick"
-                                @anyElementMouseClick="onAnyElementMouseClick"
-                                :value="htmlTag"
-                                :key="htmlTag.uuid">
-                            </html-component>
                         </template>
                 </body>
             </html>
@@ -185,6 +174,30 @@ export default class LayoutCreatorContainer extends Vue {
 
         return res
 
+    }
+
+    getComponentNameByTag(tag: HtmlNode) {
+
+        // console.log(tag)
+        // @ts-ignore
+        if (tag.isTableTag) {
+            // console.log('html-table-component')
+            return 'html-table-component'
+            // @ts-ignore
+        } else if (tag.isTableCellTag) {
+            // console.log('html-table-cell-component')
+            return 'html-table-cell-component'
+
+            // @ts-ignore
+        } else if (!(tag instanceof TextNode)) {
+
+            // console.log('html-component')
+            return 'html-component'
+        } else {
+            // console.log('html-text-node')
+            return 'html-text-node'
+
+        }
     }
 
 

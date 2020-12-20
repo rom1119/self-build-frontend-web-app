@@ -20,18 +20,20 @@ import ContentSizeCss from "~/src/Css/Size/ContentSizeCss";
 import BaseBorderCss from "~/src/Css/Border/BaseBorderCss";
 import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
 import BasePaddingCss from "~/src/Css/BoxModel/BasePaddingCss";
+import HtmlNode from "~/src/Layout/HtmlNode";
 
 
 export default abstract class TableElement extends HtmlTag implements CssList, SizeActivable{
 
     protected owner: TableTag
     children: TableCell[]
+    index
 
-
-    constructor(owner: TableTag)
+    constructor(owner: TableTag, index)
     {
         super()
         this.owner = owner
+        this.index = index
         // this.initCssAccessor()
 
 
@@ -50,6 +52,11 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
 
     }
 
+    public addChild(child: TableCell)
+    {
+        this.children.push(child)
+
+    }
 
     public getSelectedSelector()
     {
@@ -69,7 +76,6 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
     // }
 
 
-
     changeAsActiveSize() {
     }
 
@@ -81,7 +87,7 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
         this._htmlEl = htmlEl
 
         this.notifyPositionalTag()
-        this.recalculateRealComputedProperties()
+        // this.recalculateRealComputedProperties()
 
     }
 

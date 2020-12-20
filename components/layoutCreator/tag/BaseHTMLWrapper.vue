@@ -132,8 +132,8 @@
         >
             <!-- <div class="wrapper-children"> -->
             <template v-for="child in children">
-                <html-table-component
-                    v-if="child.isTableTag"
+                <component
+                    :is="getComponentNameByTag(child)"
                     @contentMouseOver="onContentMouseOver"
                     @contentMouseOut="onContentMouseOut"
                     @contentMouseClick="onContentMouseClickChild($event)"
@@ -152,35 +152,15 @@
 
                     :value="child"
                     :key="child.uuid"  >
-                </html-table-component>
-                <html-component
-                    v-else-if="!child.isTextNode"
-                    @contentMouseOver="onContentMouseOver"
-                    @contentMouseOut="onContentMouseOut"
-                    @contentMouseClick="onContentMouseClickChild($event)"
-                    @borderMouseClick="onBorderMouseClickChild($event)"
-                    @tagRemove="onEmitRemoveChild($event)"
-                    @borderMouseOver="onBorderMouseOver"
-                    @borderMouseOut="onBorderMouseOut"
-                    @paddingMouseOver="onPaddingMouseOver"
-                    @paddingMouseOut="onPaddingMouseOut"
-                    @marginMouseOver="onMarginMouseOver"
-                    @marginMouseOut="onMarginMouseOut"
-                    @contentMouseDown="onContentMouseDownChild($event)"
-                    @borderMouseDown="onBorderMouseDownChild($event)"
-                    @paddingMouseDown="onPaddingMouseDownChild($event)"
-                    @marginMouseDown="onMarginMouseDownChild($event)"
+                </component>
 
-                    :value="child"
-                    :key="child.uuid"  >
-                </html-component>
-                <html-text-node
-                    v-else
-                    @tagRemove="onEmitRemove(child, $event)"
-                    :value="child"
-                    :key="child.uuid"
-                >
-                </html-text-node>
+<!--                <html-text-node-->
+<!--                    v-else-->
+<!--                    @tagRemove="onEmitRemove(child, $event)"-->
+<!--                    :value="child"-->
+<!--                    :key="child.uuid"-->
+<!--                >-->
+<!--                </html-text-node>-->
             </template>
             <!-- </div>  -->
         </html-el>
@@ -208,6 +188,8 @@ import HtmlTagRecalculator from "~/src/Recalculator/HtmlTagRecalculator";
 import BorderRecalculate from "~/src/Recalculator/HtmlTagImpl/BorderRecalculate";
 import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
 import { PositionCss } from "../../../src/Css";
+import TextNode from "~/src/Layout/TextNode";
+import HtmlNode from "~/src/Layout/HtmlNode";
 
 
 @Component
@@ -220,6 +202,29 @@ export default class BaseHTMLWrapper extends Vue {
 
     contextMenuName = 'cm-create-html-element123'
 
+    getComponentNameByTag(tag: HtmlNode) {
+
+            // console.log(tag)
+        // @ts-ignore
+        if (tag.isTableTag) {
+            // console.log('html-table-component')
+            return 'html-table-component'
+        // @ts-ignore
+        } else if (tag.isTableCellTag) {
+            // console.log('html-table-cell-component')
+            return 'html-table-cell-component'
+
+        // @ts-ignore
+        } else if (!(tag instanceof TextNode)) {
+
+            // console.log('html-component')
+            return 'html-component'
+        } else {
+            // console.log('html-text-node')
+            return 'html-text-node'
+
+        }
+    }
 
     get resizeContentCss(){
         var w = this.value.borderRight.width
@@ -559,7 +564,7 @@ export default class BaseHTMLWrapper extends Vue {
         // this.value.updateModelComponent()
 
 
-        console.log('11@@@@@@@@@@@@@11');
+        // console.log('11@@@@@@@@@@@@@11');
 
         if (this.value instanceof HtmlTag)  {
             this.value.realPositionCalculator.reInitDefaultPosition()

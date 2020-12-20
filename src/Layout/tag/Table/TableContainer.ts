@@ -17,7 +17,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
     public abstract getTable(): TableTag
     public setWidthColumn(index: string, width) {
-        
+
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
 
@@ -26,10 +26,10 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
             } else if (child instanceof TableCell) {
                 if (i === parseInt(index)) {
-                    child.initWidth(width)
+                    // child.initWidth(width)
                     child.turnOffFlexGrow()
                 } else {
-                    // child.turnOnFlexGrow()
+                    child.turnOnFlexGrow()
                 }
             }
 
@@ -38,14 +38,14 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
     }
 
-    
+
     protected recursiveFindTableColumnIndex(shortUUID) : number {
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
             var res
             if (child instanceof TableCell) {
                 // console.log('chi', child);
-                
+
                 if (child.shortUUID === shortUUID) {
                     // console.log('child.shortUUID === shortUUID', shortUUID);
                     res = i
@@ -63,11 +63,11 @@ export default abstract class TableContainer extends HtmlTagBlock {
         }
 
     }
-    
-    
+
+
     public initHeight(h)
     {
-        this.toInitSizeUnits()  
+        this.toInitSizeUnits()
         // console.log(w);
         // console.log(h);
         this._height = h
@@ -82,16 +82,16 @@ export default abstract class TableContainer extends HtmlTagBlock {
     protected recursiveFindTableColumn(index) {
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
-            
+
             if (child instanceof TableCell) {
                 if (i === index) {
-                    
+
                 }
             }
 
         }
     }
-    
+
     public injectInitialCssStyles()
     {
 
@@ -105,14 +105,14 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
         this.addPropsToAccessor(cssList)
     }
-    
+
     get cssList() : any
     {
         var css = super.cssList
         var flex = new Display(Display.FLEX, new Named())
         css[flex.getName()] = flex.getValue()
-        
-    
+
+
 
         return css
 
@@ -121,16 +121,16 @@ export default abstract class TableContainer extends HtmlTagBlock {
     get cssListOverride() : any
     {
         var activeSelector = this.getSelectedSelector()
-        
+
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
-            
+
             var flex = new Display(Display.FLEX, new Named())
             cssSelector[flex.getName()] = flex.getValue()
-            
+
 
             return cssSelector
-        } 
+        }
 
         return {}
 
@@ -144,7 +144,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
         css[flex.getName()] = flex.getValue()
 
         return css
-        
+
         // return css
     }
 
@@ -152,7 +152,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
     {
 
         var activeSelector = this.getSelectedSelector()
-        
+
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList
 
@@ -160,8 +160,8 @@ export default abstract class TableContainer extends HtmlTagBlock {
             cssSelector[flex.getName()] = flex.getValue()
 
             return cssSelector
-        } 
-        
+        }
+
         return {}
     }
 

@@ -10,7 +10,7 @@
     >
         <div class="stretch"
            >
-            Col {{ index + 1 }}
+            Col {{ value.children.length }}
             </br>
             <span v-show="hasWidth">
                 Width {{ value.getWidthValue() }}
@@ -44,9 +44,6 @@ export default class TableColumnComponent extends Vue {
 
     widthManager: BaseComputedPropertyManager<Width>
 
-    @Prop()
-    index
-
     contextMenuName = 'cm-border'
     // abstract getSize() : number
 
@@ -64,21 +61,22 @@ export default class TableColumnComponent extends Vue {
 
     onMouseClick() {
         console.log('CLICK')
+        console.log(this.value)
 
     }
 
     onMouseOver() {
-        this.$emit('borderMouseOver', this.value)
+        this.$emit('contentMouseOver', this.value)
 
     }
 
     onMouseOut() {
-        this.$emit('borderMouseOut', this.value)
+        this.$emit('contentMouseOut', this.value)
     }
 
     public onMouseDown(ev: MouseEvent)
     {
-        this.$emit('borderMouseDown', ev)
+        this.$emit('contentMouseDown', ev)
     }
 
     mounted()
@@ -94,15 +92,18 @@ export default class TableColumnComponent extends Vue {
         if (this.value instanceof HtmlTag)  {
             this.value.realPositionCalculator.reInitDefaultPosition()
 
-            this.value.recalculateRealComputedProperties()
+            // this.value.recalculateRealComputedProperties()
 
         }
+        this.widthManager.init()
+
     }
 
 
     created() {
         this.widthManager = new WidthProperty()
         this.widthManager.setHtmlEl(this.value)
+        console.log('COLUMN CREATED');
 
         // this.widthManager.init()
         // this.contextMenuName = this.contextMenuName.concat(this.value.uuid)

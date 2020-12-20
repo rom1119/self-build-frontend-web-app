@@ -28,6 +28,9 @@ import TableEditor from "~/src/Layout/tag/Table/editor/TableEditor";
 import ColspanEditor from "~/src/Layout/tag/Table/editor/impl/ColspanEditor";
 import HtmlNode from "~/src/Layout/HtmlNode";
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
+import TableElement from "~/src/Layout/tag/Table/elements/TableElement";
+import {Vue} from "~/node_modules/vue-property-decorator";
+import BasePropertyCss from "~/src/Css/BasePropertyCss";
 export default class TableTag extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -57,6 +60,10 @@ export default class TableTag extends TableContainer {
         return this._columns
     }
 
+    set columns(arg){
+        this._columns = arg
+    }
+
     public getTagName(): string {
         return 'div'
     }
@@ -81,10 +88,11 @@ export default class TableTag extends TableContainer {
 
         var newRows = []
         if (this.hasTrChild()) {
+            var i = 0
             for (const child of this.children) {
                 var tr: TableTr = <TableTr>child
 
-                var row = new TableRowEl(this)
+                var row = new TableRowEl(this, i)
                 row.tr = tr
                 for (const td of tr.children) {
 
@@ -93,14 +101,16 @@ export default class TableTag extends TableContainer {
                 }
 
                 newRows.push(row)
+                i++
             }
         } else {
 
             for (const cont of this.children) {
 
+                var i = 0
                 for (const child of cont.children) {
                     var tr: TableTr = <TableTr>child
-                    var row = new TableRowEl(this)
+                    var row = new TableRowEl(this, i)
                     row.tr = tr
                     for (const td of tr.children) {
 
@@ -109,6 +119,7 @@ export default class TableTag extends TableContainer {
                     }
 
                     newRows.push(row)
+                    i++
                 }
             }
         }
@@ -118,7 +129,7 @@ export default class TableTag extends TableContainer {
 
     }
 
-    protected updateColumns(){
+    public updateColumns(){
 
         var newCols = []
         if (this.hasTrChild()) {
@@ -127,11 +138,11 @@ export default class TableTag extends TableContainer {
 
                 for (var i = 0; i < tr.children.length; i++) {
                     var td = tr.children[i]
-                    var col
+                    var col: TableColumnEl
                     if (!newCols[i]) {
-                        col = new TableColumnEl(this)
+                        col = new TableColumnEl(this, i)
                         newCols.push(col)
-
+                        td.columnElement = col
                     } else {
                         col = newCols[i]
                     }
@@ -147,16 +158,16 @@ export default class TableTag extends TableContainer {
                 for (const tr of cont.children) {
 
                     for (var i = 0; i < tr.children.length; i++) {
-                        var tda = tr.children[i]
-                        var col
+                        var tda: TableCell = <TableCell>tr.children[i]
+                        var cola: TableColumnEl
                         if (!newCols[i]) {
-                            col = new TableColumnEl(this)
-                            newCols.push(col)
-
+                            cola = new TableColumnEl(this, i)
+                            newCols.push(cola)
+                            tda.columnElement = cola
                         } else {
-                            col = newCols[i]
+                            cola = newCols[i]
                         }
-                        col.addChild(tda)
+                        cola.addChild(tda)
 
                     }
 
@@ -164,18 +175,47 @@ export default class TableTag extends TableContainer {
             }
         }
 
-        this._columns = []
-        this._columns = newCols
+        // this._columns = []
+        // this._columns = newCols
+        Vue.set(this, 'columns', newCols)
+
+
+        Vue.nextTick(() => {
+            for(var el of this.columns){
+                el.updateModelComponent()
+                el.recalculateRealComputedProperties()
+            }
+        })
 
     }
 
-    public setWidthColumn(shortUUID: string, width) {
+    public changeAsActiveToManage() {
+        this._toManage = true
+
+        setTimeout(() => {
+            for(var el of this.columns) {
+                this.updateModelComponent()
+                // this.recalculateRealComputedProperties()
+            }
+        }, 0)
+    }
+
+    public setWidthColumn(shortUUID: string, width: Width) {
 
         var index = this.recursiveFindTableColumnIndex(shortUUID)
 
         super.setWidthColumn(index.toString(), width)
-        console.log(this._columns[index])
-        this._columns[index].initSize(width)
+        // console.log(this._columns[index])
+        this.columns[index].setWidthColumn(width)
+    }
+
+    public setCssForColumnColumn(shortUUID: string, prop: BasePropertyCss) {
+
+        var index = this.recursiveFindTableColumnIndex(shortUUID)
+
+        // super.setWidthColumn(index.toString(), width)
+        // console.log(this._columns[index])
+        this.columns[index].updateCssPropertyWithoutModel(prop.getName(), prop)
     }
 
     public getBodyTag() {

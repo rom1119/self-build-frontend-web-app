@@ -11,6 +11,7 @@ import TableTag from './TableTag';
 import TableTBody from './TableTBody';
 import TableTFoot from './TableTFoot';
 import TableTHead from './TableTHead';
+import HtmlNode from "~/src/Layout/HtmlNode";
 
 export default class TableTr extends TableContainer {
 
@@ -37,6 +38,15 @@ export default class TableTr extends TableContainer {
 
     public isElementOfTable() {
         return true
+    }
+
+    public addChild(child: HtmlNode)
+    {
+        super.addChild(child)
+        // console.log('add child')
+        // console.log(child)
+        this.getTable().updateColumns()
+
     }
 
     public setHeightRow(child: TableCell, h) {
@@ -116,7 +126,7 @@ export default class TableTr extends TableContainer {
     get cssList(): any
     {
         var css = super.cssList
-        var flex = new Display(Display.FLEX, new Named())
+        var flex = new Display(Display.BLOCK, new Named())
         css[flex.getName()] = flex.getValue()
 
         if (this.hasFlexGrow) {
@@ -135,7 +145,7 @@ export default class TableTr extends TableContainer {
 
         if (activeSelector) {
             var css = activeSelector.cssList
-
+            //
             var flex = new Display(Display.FLEX, new Named())
             css[flex.getName()] = flex.getValue()
 
@@ -155,7 +165,7 @@ export default class TableTr extends TableContainer {
     get cssBoxList() : any
     {
         var css = super.cssBoxList
-        var flex = new Display(Display.FLEX, new Named())
+        var flex = new Display(Display.BLOCK, new Named())
         css[flex.getName()] = flex.getValue()
 
         if (this.hasFlexGrow) {

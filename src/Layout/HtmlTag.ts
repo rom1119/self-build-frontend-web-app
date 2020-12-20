@@ -90,6 +90,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _parent : HtmlTag
     hasMiddleTag : boolean = false
     isTableTag : boolean = false
+    isTableCellTag : boolean = false
 
     borderFactory: BorderModelFactory = new BorderModelFactory()
     paddingFactory: PaddingModelFactory = new PaddingModelFactory()

@@ -4,6 +4,7 @@ import LayoutCreatorContainer from './LayoutCreatorContainer.vue'
 import HTMLWrapper from './tag/HTMLWrapper.vue'
 import BaseHTMLWrapper from './tag/BaseHTMLWrapper.vue'
 import HTMLTableWrapper from './tag/HTMLTableWrapper.vue'
+import HTMLTableCellWrapper from './tag/HTMLTableCellWrapper.vue'
 import HTMLEL from './tag/HTMLEL.vue'
 import HTMLTextNode from './tag/HTMLTextNode.vue'
 import HTMLELEditable from './tag/HTMLELEditable.vue'
@@ -32,6 +33,7 @@ Vue.component('layout-creator-container', LayoutCreatorContainer)
 Vue.component('html-component', HTMLWrapper)
 Vue.component('base-html-component', BaseHTMLWrapper)
 Vue.component('html-table-component', HTMLTableWrapper)
+Vue.component('html-table-cell-component', HTMLTableCellWrapper)
 Vue.component('html-el', HTMLEL)
 Vue.component('html-text-node', HTMLTextNode)
 Vue.component('html-el-editable', HTMLELEditable)

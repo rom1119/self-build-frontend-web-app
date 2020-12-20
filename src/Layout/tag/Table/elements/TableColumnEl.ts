@@ -26,6 +26,9 @@ import LeftCss from "~/src/Css/Display/Direction/LeftCss";
 import {BottomCss, RightCss, TopCss} from "~/src/Css";
 import MarginLeftCss from "~/src/Css/BoxModel/Margin/MarginLeftCss";
 import Named from "~/src/Unit/Named";
+import TableContainer from "~/src/Layout/tag/Table/TableContainer";
+import BorderTopCss from "~/src/Css/Border/Top/BorderTopCss";
+import BorderLeftCss from "~/src/Css/Border/Left/BorderLeftCss";
 
 
 export default class TableColumnEl extends TableElement{
@@ -63,19 +66,56 @@ export default class TableColumnEl extends TableElement{
 
     }
 
+    public setWidthColumn( width) {
+
+        for (var i = 0; i < this.children.length; i++) {
+            var child = this.children[i]
+            child.initWidth(width)
+
+        }
+        // console.log('setWidthColumn col EL', this.children.length)
+
+        this.initSize(width)
+
+    }
+
+    public updateCssPropertyWithoutModel(name:string, css: BasePropertyCss) {
+
+        super.updateCssPropertyWithoutModel(name, css)
+        for (var i = 0; i < this.children.length; i++) {
+            var child = this.children[i]
+            child.updateCssPropertyWithoutModel(name, css)
+
+        }
+
+    }
+
+
+    public recalculateRealComputedProperties(){
+        super.recalculateRealComputedProperties()
+
+        for (var i = 0; i < this.children.length; i++) {
+            var child = this.children[i]
+            child.recalculateRealComputedProperties()
+
+        }
+    }
+
+
     protected initCssAccessor()
     {
         super.initCssAccessor()
 
         // let width = new Width(this.width, this.widthUnit)
         // let height = new Height(this.lengthCalc, new Named())
-        let left = new LeftCss('calc(22px)', new Named())
+        let left = new LeftCss('calc(0px)', new Named())
         // let top = new TopCss(this.lengthOffsetCalc, new Named())
+        let top = new TopCss('calc(-60px)', new Named())
 
         // this._cssPropertyAccesor.addNewProperty(width)
         // this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(left)
-        // this._cssPropertyAccesor.addNewProperty(top)
+        this._cssPropertyAccesor.addNewProperty(top)
     }
 
     canAddToCssList(css: BasePropertyCss): boolean
@@ -85,6 +125,10 @@ export default class TableColumnEl extends TableElement{
         }
 
         if (css instanceof LeftCss) {
+            return true
+        }
+
+        if (css instanceof TopCss) {
             return true
         }
 
@@ -107,8 +151,35 @@ export default class TableColumnEl extends TableElement{
             // }
         }
 
-        var rel = new PositionCss(PositionCss.RELATIVE, new Named())
+        var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
         css[PositionCss.PROP_NAME] = rel.getValue()
+        var realWidth = this.children[0].getComputedVal(Width.PROP_NAME)
+        var realTopBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderTopCss.PROP_NAME)
+        var realTopBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderTopCss.PROP_NAME)
+
+        var realLeftBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME)
+        var realLeftBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderLeftCss.PROP_NAME)
+
+        var thisHeight = this.getComputedHeight()
+        // var offsetY = realTopBorderWidth + thisHeight
+        css[Width.PROP_NAME] = realWidth.toString() + 'px'
+
+        if (realLeftBorderWidthUnit) {
+            css[LeftCss.PROP_NAME] =  `calc(0px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`
+
+        }
+        if (realTopBorderWidthUnit) {
+
+            css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
+        } else {
+
+            css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px)`
+        }
+        //     console.log('APPPPPPPPPPPPP', realTopBorderWidthUnit.getValue(realTopBorderWidth));
+        // console.log('APPPPPPPPPPPPP', thisHeight);
+        // console.log('APPPPPPPPPPPPP', css);
+
+
         // if (this.hasAbsolute || this.hasFixed) {
         //     css[Width.PROP_NAME] = this.widthCalc
         //     css[Height.PROP_NAME] = this.heightCalc

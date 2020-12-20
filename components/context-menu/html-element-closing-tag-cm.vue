@@ -12,9 +12,9 @@
                 <template v-if="isTableTag">
                     <context-menu-item  :action="createTrElement">Dodaj Wiersz</context-menu-item>
                     <context-menu-item  :action="createTdElement">Dodaj Kolumnę</context-menu-item>
-                
-                        
-                    
+
+
+
                 </template>
                 <template v-else>
                     <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
@@ -22,20 +22,20 @@
                     <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
                     <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
                     <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
-                
-                        
-                    
+
+
+
                 </template>
 
-         
-  
+
+
         </context-menu>
         <!-- <create-html-element-context-menu :value="value"  :ref="createElementNameCM" /> -->
-        
+
         <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
         <context-menu-item :action="createText">Dodaj tekst</context-menu-item>
 
-    
+
         <template v-if="isHtmlTag">
             <context-menu-item :action="showTextCssModal">Font</context-menu-item>
             <context-menu-item @click.stop="" :action="showBackgroundCssModal">Background</context-menu-item>
@@ -80,9 +80,9 @@ export default class HtmlElementContextMenu extends Vue {
         this.createElementNameCM = this.createElementNameCM
         this.api = new DefaultApiService();
         this.tableComponentFactory = new TableComponentFactory(this.api);
-     
+
      console.log('CM MOUNTED');
-     
+
     }
 
 
@@ -97,18 +97,23 @@ export default class HtmlElementContextMenu extends Vue {
         this.setListTags(list)
         this.isTableTag = this.value instanceof TableTag
         this.isHtmlTag = this.value instanceof HtmlTag
+        console.log("initOpen");
+        console.log(this.isTableTag);
+        console.log(this.isHtmlTag);
+        console.log(this.value);
+
         setTimeout(() => {
 
             document.querySelector('.context-menu').addEventListener('click', (e) => {
                 e.stopPropagation()
                 return false
-    
+
             })
-            
+
             document.querySelector('.context-menu-wrapper').addEventListener('click', (e) => {
                 e.stopPropagation()
                 return false
-    
+
             })
 
             var items = document.querySelectorAll('.context-menu-item')
@@ -123,23 +128,23 @@ export default class HtmlElementContextMenu extends Vue {
                 })
             }
         }, 200)
-        
+
     }
 
     public setValue(val) {
         this.value = val
     }
-    
+
     public setListTags(val) {
         this.tags = val
     }
-    
+
     createTrElement(target, cm, a) {
         var el = this.tableComponentFactory.createExampleTr()
         var tab: TableTag = <TableTag>this.value
         el.parent = tab
         el.projectId = tab.projectId
-        
+
         el.injectInitialCssStyles()
         el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
@@ -147,12 +152,12 @@ export default class HtmlElementContextMenu extends Vue {
 
         this.$emit('createdTag', el)
     }
-    
+
     createTdElement(target, cm, a) {
         var el = this.tableComponentFactory.createExampleTd()
         var tab: TableTag = <TableTag>this.value
         el.projectId = tab.projectId
-        
+
         el.injectInitialCssStyles()
         el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
@@ -160,23 +165,23 @@ export default class HtmlElementContextMenu extends Vue {
 
         this.$emit('createdTag', el)
     }
-    
+
     createH1Element(target, cm, a) {
         var el = this.htmlFactory.createH1()
         this.initCreatedTag(el)
     }
-    
+
     createDivElement(target, cm, a) {
 
         var el = this.htmlFactory.createDiv()
         this.initCreatedTag(el)
     }
-    
+
     createInputTextElement(target, cm, a) {
         var el = this.htmlFactory.createInputText()
         this.initCreatedTag(el)
     }
-    
+
     createButtonElement(target, cm, a) {
         var el = this.htmlFactory.createButton()
         this.initCreatedTag(el)
@@ -193,7 +198,7 @@ export default class HtmlElementContextMenu extends Vue {
             el.projectId = this.value.projectId
 
         }
-        
+
         el.injectInitialCssStyles()
         el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
@@ -209,7 +214,7 @@ export default class HtmlElementContextMenu extends Vue {
         this.$emit('createdTag', el)
     }
 
-    
+
 
     createText()
     {
@@ -220,47 +225,47 @@ export default class HtmlElementContextMenu extends Vue {
 
         this.value.appendChildDeep(text)
     }
-    
+
     showTextCssModal()
     {
         this.$textManageModal.show(this.value)
     }
-    
+
     showBackgroundCssModal()
     {
         this.$backgroundManageModal.show(this.value)
     }
-    
+
     showBorderCssModal()
     {
         this.$borderManageModal.show(this.value)
     }
-    
+
     showShadowCssModal()
     {
         this.$shadowManageModal.show(this.value)
     }
-    
+
     showHtmlAttrModal()
     {
         this.$htmlAttrManageModal.show(this.value)
     }
-    
+
     showBoxModelModal()
     {
         this.$boxModelManageModal.show(this.value)
     }
-    
+
     showDisplayModal()
     {
         this.$displayManageModal.show(this.value)
     }
-    
+
     showAnimationModal()
     {
         this.$animationManageModal.show(this.value)
     }
-    
+
     showGradientModal()
     {
         this.$gradientManageModal.show(this.value)
@@ -274,7 +279,7 @@ export default class HtmlElementContextMenu extends Vue {
         // other actions...
     }
 
-    
+
 }
 </script>
 
