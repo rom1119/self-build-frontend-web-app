@@ -46,23 +46,29 @@ export default class TableTr extends TableContainer {
         // console.log('add child')
         // console.log(child)
         this.getTable().updateColumns()
+        this.getTable().updateRows()
 
     }
 
     public setHeightRow(child: TableCell, h) {
-        if (this.parent instanceof TableTag) {
-            this.getTable().setHeightRow(child.shortUUID, h)
-        } else {
-            if (this.parent instanceof TableTBody) {
-                this.getTable().setHeightRowBody(child.shortUUID, h)
-            } else if (this.parent instanceof TableTHead) {
-                this.getTable().setHeightRowHead(child.shortUUID, h)
+        // if (this.parent instanceof TableTag) {
+        //     this.getTable().setHeightRow(child.shortUUID, h)
+        // } else {
+        //     if (this.parent instanceof TableTBody) {
+        //         this.getTable().setHeightRowBody(child.shortUUID, h)
+        //     } else if (this.parent instanceof TableTHead) {
+        //         this.getTable().setHeightRowHead(child.shortUUID, h)
+        //
+        //     } else if (this.parent instanceof TableTFoot) {
+        //         this.getTable().setHeightRowFoot(child.shortUUID, h)
+        //
+        //     }
+        // }
 
-            } else if (this.parent instanceof TableTFoot) {
-                this.getTable().setHeightRowFoot(child.shortUUID, h)
+        var index = this.getTable().recursiveFindTableRowIndex(child.shortUUID)
 
-            }
-        }
+        this.getTable().rows[index].setHeightRow(h)
+
     }
 
     public getTable(): TableTag {

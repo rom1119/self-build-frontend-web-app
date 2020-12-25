@@ -6,12 +6,14 @@ import HtmlTagSynchronizer from "~/src/Synchronizer/Impl/HtmlTagSynchronizer";
 import { PositionCss } from "..";
 import LeftCss from '../Display/Direction/LeftCss';
 import TableElementEl from "~/src/Layout/tag/Table/elements/TableElement";
+import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
+import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 
-export default class TableElPropertyAccessor extends CssPropertyAccessor
+export default class TableColumnPropertyAccessor extends CssPropertyAccessor
 {
-    protected value: TableElementEl
+    protected value: TableColumnEl
 
-    constructor(tag: TableElementEl)
+    constructor(tag: TableColumnEl)
     {
         super(tag)
 
@@ -26,6 +28,11 @@ export default class TableElPropertyAccessor extends CssPropertyAccessor
             this.cssProps.splice(index, 1);
         }
 
+        for (var i = 0; i < this.value.children.length; i++) {
+            var child = this.value.children[i]
+            child.removeCssPropertyByName(name)
+
+        }
 
     }
 

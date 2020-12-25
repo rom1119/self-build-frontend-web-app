@@ -59,6 +59,11 @@ export default abstract class TableCell extends HtmlTagBlock {
     }
 
     set rowElement(arg: TableRowEl){
+        var w = this.parent.cssAccessor.getProperty(Height.PROP_NAME)
+        if (w) {
+            arg.updateCssPropertyWithoutModel(w.getName(), w)
+
+        }
         this._rowElement = arg
     }
 

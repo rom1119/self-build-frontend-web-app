@@ -65,6 +65,8 @@ export default abstract class TableContainer extends HtmlTagBlock {
     }
 
 
+
+
     public initHeight(h)
     {
         this.toInitSizeUnits()

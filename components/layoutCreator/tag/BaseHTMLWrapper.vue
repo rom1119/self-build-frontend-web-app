@@ -551,7 +551,7 @@ export default class BaseHTMLWrapper extends Vue {
 
     }
 
-    mounted()
+    public mounted()
     {
         this.borderRecalculator = new BorderRecalculate()
         this.marginRecalculator = new MarginRecalculate()

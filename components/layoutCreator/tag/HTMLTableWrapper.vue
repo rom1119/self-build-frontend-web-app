@@ -57,8 +57,44 @@ import BaseHTMLWrapper from "~/components/layoutCreator/tag/BaseHTMLWrapper.vue"
     }
 })
 export default class HTMLTableWrapper extends BaseHTMLWrapper {
+    @Prop()
+    value: TableTag
 
 
+
+    public mounted()
+    {
+        // @ts-ignore
+        this.borderRecalculator = new BorderRecalculate()
+        // @ts-ignore
+        this.marginRecalculator = new MarginRecalculate()
+        // var htmlEl = window.document.getElementById(this.value.uuid)
+        // this.value.htmlEl = htmlEl
+        // return
+        this.value.setHtmlEl(this.$el)
+
+        // this.value.updateModelComponent()
+        // this.value.updateModelComponent()
+
+
+        // console.log('11@@@@@@@@@@@@@11');
+
+        if (this.value instanceof HtmlTag)  {
+            this.value.realPositionCalculator.reInitDefaultPosition()
+
+            this.value.recalculateRealComputedProperties()
+
+        }
+
+        // @ts-ignore
+        this.borderRecalculator.recalculate(this.value)
+        // @ts-ignore
+        this.marginRecalculator.recalculate(this.value)
+        this.value.updateRows()
+        this.value.updateColumns()
+        // this.value.updateModelComponent()
+
+    }
 
 }
 </script>

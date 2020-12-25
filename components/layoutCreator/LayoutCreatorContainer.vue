@@ -85,6 +85,7 @@ import KeyDownAction from "~/src/Mode/action/KeyDownAction";
 import KeyUpAction from "~/src/Mode/action/KeyUpAction";
 import MouseClickAction from "~/src/Mode/action/MouseClickAction";
 import ViewMode from "~/src/Mode/impl/ViewMode";
+import TableElement from "~/src/Layout/tag/Table/elements/TableElement";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -257,7 +258,11 @@ export default class LayoutCreatorContainer extends Vue {
 
         } else if (val instanceof HtmlTag) {
             this.currentMouseOverTag = val
+        } else if (val instanceof TableElement) {
+            this.currentMouseOverTag = val
         }
+
+
 
         if(this.adivisorController.hasCtrlKey) {
             if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
@@ -305,6 +310,8 @@ export default class LayoutCreatorContainer extends Vue {
         var val = source.target
         console.log('onAnyElementMouseClick');
         console.log(source.target);
+        // console.log(source.target.columns);
+        // console.log(source.target.rows);
         if (!this.hasAccualControllerWorks) {
             if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
 

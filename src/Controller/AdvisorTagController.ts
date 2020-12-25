@@ -10,11 +10,17 @@ import BorderModel from "../Layout/Border/BorderModel"
 import HtmlTag from "../Layout/HtmlTag"
 import PaddingModel from "../Layout/Padding/PaddingModel"
 import MarginModel from "../Layout/Margin/MarginModel"
+import TableColumnSizeController from "~/src/Controller/TableColumnSizeController";
+import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
+import TableRowSizeController from "~/src/Controller/TableRowSizeController";
+import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
 
 export default class AdvisorTagController
 {
 
     contentElSizeController: SizeElController = new ContentElSizeController()
+    tableColumnSizeController: SizeElController = new TableColumnSizeController()
+    tableRowSizeController: SizeElController = new TableRowSizeController()
     borderElSizeController: SizeElController = new BorderElSizeController()
     paddingElSizeController: SizeElController = new PaddingElSizeController()
     marginElSizeController: SizeElController = new MarginElSizeController()
@@ -31,17 +37,21 @@ export default class AdvisorTagController
     {
         return this._hasCtrlKey
     }
-    
+
     set hasCtrlKey(args: boolean)
     {
         (<HtmlTagMoveEventController>this.tagMoveController).ctrlKeyDown = args
         this._hasCtrlKey = args
     }
 
-    
+
     advise(eventName, el?) {
         if (this.contentElSizeController.hasActiveEl()) {
             return this.contentElSizeController
+        } else if (this.tableColumnSizeController.hasActiveEl()) {
+            return this.tableColumnSizeController
+        } else if (this.tableRowSizeController.hasActiveEl()) {
+            return this.tableRowSizeController
         } else if (this.borderElSizeController.hasActiveEl()) {
             return this.borderElSizeController
         } else if (this.paddingElSizeController.hasActiveEl()) {
@@ -63,17 +73,25 @@ export default class AdvisorTagController
         if (el instanceof BorderModel) {
             return this.borderElSizeController
         }
-        
-        if (el instanceof HtmlTag) {
-            return this.contentElSizeController
-        }
-        
+
         if (el instanceof PaddingModel) {
             return this.paddingElSizeController
         }
-        
+
         if (el instanceof MarginModel) {
             return this.marginElSizeController
+        }
+
+        if (el instanceof TableColumnEl) {
+            return this.tableColumnSizeController
+        }
+
+        if (el instanceof TableRowEl) {
+            return this.tableRowSizeController
+        }
+
+        if (el instanceof HtmlTag) {
+            return this.contentElSizeController
         }
 
         if (el == null) {

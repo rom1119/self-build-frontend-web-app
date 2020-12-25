@@ -117,7 +117,8 @@ export default class HtmlElementContextMenu extends Vue {
             })
 
             var items = document.querySelectorAll('.context-menu-item')
-
+            console.log('initOpen')
+            console.log(items)
             for(var i = 0; i < items.length; i++) {
                 var el = items[i]
 

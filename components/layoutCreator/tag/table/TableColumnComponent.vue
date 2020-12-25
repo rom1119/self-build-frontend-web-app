@@ -7,6 +7,9 @@
         @click.stop="onMouseClick"
          :style="value.cssList"
          :key="value.updateComponentKey"
+         oncopy="return false"
+         oncut="return false"
+         onselectstart="return false"
     >
         <div class="stretch"
            >
@@ -60,8 +63,8 @@ export default class TableColumnComponent extends Vue {
     }
 
     onMouseClick() {
-        console.log('CLICK')
-        console.log(this.value)
+        // console.log('CLICK')
+        // console.log(this.value)
 
     }
 
@@ -87,7 +90,7 @@ export default class TableColumnComponent extends Vue {
         // this.value.updateModelComponent()
 
 
-        console.log('COLUMN MOUNTED');
+        // console.log('COLUMN MOUNTED');
 
         if (this.value instanceof HtmlTag)  {
             this.value.realPositionCalculator.reInitDefaultPosition()
@@ -103,7 +106,7 @@ export default class TableColumnComponent extends Vue {
     created() {
         this.widthManager = new WidthProperty()
         this.widthManager.setHtmlEl(this.value)
-        console.log('COLUMN CREATED');
+        // console.log('COLUMN CREATED');
 
         // this.widthManager.init()
         // this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
@@ -115,8 +118,10 @@ export default class TableColumnComponent extends Vue {
 <style>
     .tab-column {
         z-index: 999;
+        color: white;
         display: inline-block;
         font-size: 12px !important;
+        background: rgba(0,7,121,0.49);
     }
 
     .border {

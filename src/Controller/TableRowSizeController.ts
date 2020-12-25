@@ -7,9 +7,11 @@ import MarginSizeCalculator from '../Calculator/Size/MarginSizeCalculator';
 import MarginOffsetSizeCalculator from '../Calculator/OffsetSize/MarginOffsetSizeCalculator';
 import MarginRecalculate from '../Recalculator/HtmlTagImpl/MarginRecalculate';
 import HtmlTagRecalculator from '../Recalculator/HtmlTagRecalculator';
-export default class ContentElSizeController extends SizeElController
+import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
+import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
+export default class TableRowSizeController extends SizeElController
 {
-    protected currentElement: HtmlTag
+    protected currentElement: TableRowEl
     protected mouseDetector: Size2DDetector
 
     protected marginRecalculator: HtmlTagRecalculator
@@ -27,7 +29,7 @@ export default class ContentElSizeController extends SizeElController
 
     public mouseDownHandler(source: any) {
         this.mouseDown = true
-        let el: HtmlTag = source.target
+        let el: TableRowEl = source.target
         let event = source.event
         console.log(el.toString());
         // console.log(el.projectId);
@@ -41,14 +43,14 @@ export default class ContentElSizeController extends SizeElController
         // console.log(el.pseudoClassAccessor);
         // console.log(el.pseudoClassAccessor.selectedSelector);
         // @ts-ignore
-        var a = el.realPositionCalculator.getNearPositionalTag()
-        if (a) {
-            console.log(a.getHtmlEl());
-
-        } else {
-            console.log(undefined);
-
-        }
+        // var a = el.realPositionCalculator.getNearPositionalTag()
+        // if (a) {
+        //     console.log(a.getHtmlEl());
+        //
+        // } else {
+        //     console.log(undefined);
+        //
+        // }
         // console.log(el.getComputedWidthPixele());
         // console.log(el.paddingRightWidth);
 
@@ -82,17 +84,16 @@ export default class ContentElSizeController extends SizeElController
         // console.log(ev.clientX);
         this.mouseDetector.x = ev.clientX
         this.mouseDetector.y = ev.clientY
-        let newValWidth = this.mouseDetector.computedWidth
         let newValHeight = this.mouseDetector.computedHeight
 
-        if (newValWidth > 0 && newValHeight > 0) {
+        if (newValHeight > 0) {
 
-            this.currentElement.initSize(newValWidth, newValHeight)
-            this.recalculateMargins(this.currentElement)
-            this.recalculateBorders(this.currentElement)
+            this.currentElement.setHeightRow(newValHeight)
+            // this.recalculateMargins(this.currentElement)
+            // this.recalculateBorders(this.currentElement)
 
             // this.currentElement.realPositionCalculator.updateProps()
-            this.currentElement.notifyPositionalTag()
+            // this.currentElement.notifyPositionalTag()
 
             // this.currentElement.recalculateRealComputedProperties()
         }

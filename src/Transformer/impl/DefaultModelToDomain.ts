@@ -79,9 +79,9 @@ export default class DefaultModelToDomain implements ModelToDomain
             // console.log('LLLLLLLLLLLLL');
             // console.log(model);
             if (parent) {
-                parent.addChild(domain)
                 domain.parent = parent
                 domain.projectId = parent.projectId
+                parent.addChild(domain)
                 // domain.parent = parent
             }
 

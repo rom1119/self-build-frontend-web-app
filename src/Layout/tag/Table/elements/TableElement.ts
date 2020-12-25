@@ -12,7 +12,6 @@ import BorderFilterCssInjector from "~/src/FilterCssInjector/BorderFilterCssInje
 import ContentFilterCssInjector from "~/src/FilterCssInjector/ContentFilterCssInjector";
 import TableTag from "~/src/Layout/tag/Table/TableTag";
 import LayoutEl from "~/src/LayoutEl";
-import TableElPropertyAccessor from "~/src/Css/PropertyAccessor/TableElPropertyAccessor";
 import CssList from "~/src/Layout/CssList";
 import SizeActivable from "~/src/SizeActivable";
 import HtmlTag from "~/src/Layout/HtmlTag";
@@ -42,8 +41,8 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
     protected initCssAccessor()
     {
         // super.initCssAccessor()
-        this._tmpCssPropertyAccesor = new TableElPropertyAccessor(this)
-        this._cssPropertyAccesor = new TableElPropertyAccessor(this)
+        // this._tmpCssPropertyAccesor = new TableRowPropertyAccessor(this)
+        // this._cssPropertyAccesor = new TableRowPropertyAccessor(this)
 
         this.paddingFilter = new PaddingFilterCssInjector(this)
         this.marginFilter = new MarginFilterCssInjector(this)

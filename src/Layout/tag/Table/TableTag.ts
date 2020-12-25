@@ -81,41 +81,57 @@ export default class TableTag extends TableContainer {
         // console.log('add child')
         // console.log(child)
         this.updateColumns()
+        this.updateRows()
 
     }
 
-    protected updateRows(){
+    public updateRows(){
 
+        // console.log('updateRows')
         var newRows = []
         if (this.hasTrChild()) {
+            // console.log('hasTrChild')
+
             var i = 0
             for (const child of this.children) {
                 var tr: TableTr = <TableTr>child
 
                 var row = new TableRowEl(this, i)
                 row.tr = tr
+                var ii = 0
                 for (const td of tr.children) {
 
+                    if (ii == 0) {
+                        td.rowElement = row
+                    }
                     row.addChild(td)
-
+                    ii++
                 }
 
                 newRows.push(row)
                 i++
             }
         } else {
+            // console.log('NO hasTrChild')
 
             for (const cont of this.children) {
+                // console.log('cont', cont)
 
                 var i = 0
                 for (const child of cont.children) {
+
                     var tr: TableTr = <TableTr>child
+                    // console.log('tr', tr)
                     var row = new TableRowEl(this, i)
                     row.tr = tr
+                    var ii = 0
+
                     for (const td of tr.children) {
-
+                        if (ii == 0) {
+                            td.rowElement = row
+                        }
                         row.addChild(td)
-
+                        ii++
                     }
 
                     newRows.push(row)
@@ -313,12 +329,13 @@ export default class TableTag extends TableContainer {
         }
 
         this.updateColumns()
+        this.updateRows()
 
     }
 
 
 
-    protected recursiveFindTableRowIndex(shortUUID): number {
+    public recursiveFindTableRowIndex(shortUUID): number {
         var ii = 0
         for (const child of this.children) {
             if (child instanceof TableTr) {
@@ -336,9 +353,10 @@ export default class TableTag extends TableContainer {
                     for (var celll of tr.children) {
                         if (celll.shortUUID === shortUUID) {
                             // console.log('child.shortUUID22 === shortUUID', shortUUID);
-                            return i
+                            return ii
                         }
                     }
+                    ii++
 
                 }
 
