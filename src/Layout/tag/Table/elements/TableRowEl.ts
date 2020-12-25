@@ -44,7 +44,7 @@ export default class TableRowEl extends TableElementEl{
         //     // child.initHeight(h)
         //
         // }
-            this.tr.initHeight(h)
+        this.tr.initHeight(h)
         // console.log('setWidthColumn col EL', this.children.length)
 
         this.initHeight(h)

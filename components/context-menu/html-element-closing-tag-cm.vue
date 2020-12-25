@@ -97,14 +97,19 @@ export default class HtmlElementContextMenu extends Vue {
         this.setListTags(list)
         this.isTableTag = this.value instanceof TableTag
         this.isHtmlTag = this.value instanceof HtmlTag
-        console.log("initOpen");
-        console.log(this.isTableTag);
-        console.log(this.isHtmlTag);
-        console.log(this.value);
+        // console.log("initOpen");
+        // console.log(this.isTableTag);
+        // console.log(this.isHtmlTag);
+        // console.log(this.value);
 
         setTimeout(() => {
 
             document.querySelector('.context-menu').addEventListener('click', (e) => {
+                e.stopPropagation()
+                return false
+
+            })
+            document.querySelector('.context-menu-overlay').addEventListener('click', (e) => {
                 e.stopPropagation()
                 return false
 
@@ -128,7 +133,7 @@ export default class HtmlElementContextMenu extends Vue {
 
                 })
             }
-        }, 200)
+        }, 20)
 
     }
 

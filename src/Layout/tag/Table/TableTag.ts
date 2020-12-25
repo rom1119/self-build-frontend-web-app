@@ -220,7 +220,7 @@ export default class TableTag extends TableContainer {
 
         var index = this.recursiveFindTableColumnIndex(shortUUID)
 
-        super.setWidthColumn(index.toString(), width)
+        // super.setWidthColumn(index.toString(), width)
         // console.log(this._columns[index])
         this.columns[index].setWidthColumn(width)
     }

@@ -75,7 +75,6 @@ export default class TableColumnEl extends TableElement{
 
         }
         // console.log('setWidthColumn col EL', this.children.length)
-
         this.initSize(width)
 
     }

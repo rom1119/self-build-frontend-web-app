@@ -250,8 +250,8 @@ export default class LayoutCreatorContainer extends Vue {
         if (!this.$layoutCreatorMode.mode.canRun(new MouseOverAction())) {
             return
         }
-        // console.log('over');
-        // console.log(val);
+        console.log('over');
+        console.log(val);
         // console.log(val);
         if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
             this.currentMouseOverTag = val.getHtmlTag()
@@ -355,8 +355,20 @@ export default class LayoutCreatorContainer extends Vue {
         // console.log(a);
     }
 
+    isLeftButtonMouseClick(evt) {
+        evt = evt || window.event;
+        if ("buttons" in evt) {
+            return evt.buttons == 1;
+        }
+        var button = evt.which || evt.button;
+        return button == 1;
+    }
+
     onMouseDown(source)
     {
+        if (!this.isLeftButtonMouseClick(source.event)) {
+            return;
+        }
         // var el = source.target
         // if (el instanceof PaddingModel || el instanceof BorderModel || el instanceof MarginModel) {
 
@@ -370,11 +382,11 @@ export default class LayoutCreatorContainer extends Vue {
         }
 
         let controller = this.getAdviseController('mouseDown', source.target)
-        // console.log('down');
-        // console.log(source.target);
-        // console.log(source);
-        // console.log(controller);
-        // console.log('down');
+        console.log('down');
+        console.log(source.target);
+        console.log(source);
+        console.log(controller);
+        console.log('down');
         controller.mouseDownHandler(source)
     }
 
