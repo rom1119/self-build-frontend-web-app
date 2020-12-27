@@ -36,6 +36,7 @@ export default class TableTag extends TableContainer {
     protected _innerText: string = `${this.uuid}  TableTag`
     public static TAG_NAME = 'table'
 
+    children: TableContainer[]
     isTableTag : boolean = true
 
 
@@ -73,6 +74,21 @@ export default class TableTag extends TableContainer {
     }
     public getDomainTagName(): string {
         return TableTag.TAG_NAME
+    }
+
+    public calcContentHeight()
+    {
+        var height = 0
+        for (var i = 0; i < this.children.length; i++) {
+            var child = this.children[i]
+            child.updateBoundingTop()
+            child.updateBoundingBottom()
+            var h = child.boundingClientRectBottomPixel - child.boundingClientRectTopPixel
+            height += h
+            // console.log('child height', h)
+        }
+
+        return height
     }
 
     public addChild(child: HtmlNode)
@@ -198,29 +214,57 @@ export default class TableTag extends TableContainer {
 
         Vue.nextTick(() => {
             for(var el of this.columns){
-                el.updateModelComponent()
-                el.recalculateRealComputedProperties()
+                // el.updateModelComponent()
+                // el.recalculateRealComputedProperties()
             }
         })
 
     }
 
+    public getComputedVal(propName: string)
+    {
+        if (!this.getHtmlEl()) {
+            // console.log('EL NOT')
+            return 0
+        }
+
+        var a = window.getComputedStyle(this.getHtmlEl())
+        var val = a.getPropertyValue(propName)
+        // console.log('EL aaaa', this.getHtmlEl())
+        // console.log('EL a', a)
+        // console.log('EL val', val)
+        // console.log('EL val', parseInt(val))
+        if (val) {
+            return parseInt(val)
+        }
+
+        return 0
+    }
+
     public changeAsActiveToManage() {
+                // this.updateModelComponent()
         this._toManage = true
 
-        setTimeout(() => {
-            for(var el of this.columns) {
-                this.updateModelComponent()
-                // this.recalculateRealComputedProperties()
-            }
-        }, 0)
+        for(var el of this.rows) {
+            el.updateModelComponent()
+        }
+        for(var col of this.columns) {
+            col.updateModelComponent()
+        }
+    }
+
+    public setHeightSizeRow(child: TableCell, h)
+    {
+
+        var index = this.recursiveFindTableRowIndexGlobal(child.shortUUID)
+
+        this.rows[index].setHeightRow(h)
     }
 
     public setWidthColumn(shortUUID: string, width: Width) {
 
         var index = this.recursiveFindTableColumnIndex(shortUUID)
 
-        // super.setWidthColumn(index.toString(), width)
         // console.log(this._columns[index])
         this.columns[index].setWidthColumn(width)
     }
@@ -303,7 +347,6 @@ export default class TableTag extends TableContainer {
 
                 var newCopy = this.copyCell(childNew, true)
                 newCopy.parent = tr
-
                 tr.appendChildDeep(newCopy)
             }
             // child.realPositionCalculator.updateNearPositionalTag()
@@ -319,7 +362,6 @@ export default class TableTag extends TableContainer {
 
                     } else {
                         newCopy = this.copyCell(childNew, true)
-
                     }
                     newCopy.parent = tr
 
@@ -330,12 +372,35 @@ export default class TableTag extends TableContainer {
 
         this.updateColumns()
         this.updateRows()
-
     }
 
-
-
     public recursiveFindTableRowIndex(shortUUID): number {
+        var ii = 0
+        for (const child of this.children) {
+            if (child instanceof TableTr) {
+                for (var cell of child.children) {
+                    if (cell.shortUUID === shortUUID) {
+                        // console.log('child.shortUUID11 === shortUUID', shortUUID);
+                        return ii
+                    }
+                }
+                ii++
+            } else if (child instanceof TableTBody || child instanceof TableTHead || child instanceof TableTFoot) {
+                for (var i = 0; i < child.children.length; i++) {
+                    var tr = child.children[i]
+                    var res
+                    for (var celll of tr.children) {
+                        if (celll.shortUUID === shortUUID) {
+                            // console.log('child.shortUUID22 === shortUUID', shortUUID);
+                            return i
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public recursiveFindTableRowIndexGlobal(shortUUID): number {
         var ii = 0
         for (const child of this.children) {
             if (child instanceof TableTr) {
@@ -357,14 +422,9 @@ export default class TableTag extends TableContainer {
                         }
                     }
                     ii++
-
                 }
-
             }
-
         }
-
-
     }
 
     protected findLastRow(): TableTr {
@@ -389,7 +449,9 @@ export default class TableTag extends TableContainer {
 
     }
 
-    public setHeightRowBody(shortUUID: string, height) {
+
+
+    public updateHeightStylesRowBody(shortUUID: string) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
         // console.log('setHeightRowBody', index);
         var tableRealHeight = this.getComputedVal(Height.PROP_NAME)
@@ -397,93 +459,117 @@ export default class TableTag extends TableContainer {
         // console.log(tableRealHeight);
         // console.log(tableRealWidth);
 
-        this.setHeightForColOnlyBody(this, index, height)
+        this.updateHeightStylesForRowOnlyBody(this, index)
 
     }
 
-    public setHeightRowHead(shortUUID: string, height) {
+    public updateHeightStylesRowHead(shortUUID: string) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
         // console.log('setHeightRowHead', index);
-        this.setHeightForColOnlyHead(this, index, height)
+        this.updateHeightStylesForRowOnlyHead(this, index)
 
     }
-    public setHeightRowFoot(shortUUID: string, height) {
+    public updateHeightStylesRowFoot(shortUUID: string) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
         // console.log('setHeightRowFoot', index);
-        this.setHeightForColOnlyFoot(this, index, height)
+        this.updateHeightStylesForRowOnlyFoot(this, index)
 
     }
-    public setHeightRow(shortUUID: string, height) {
+    public updateHeightStylesRow(shortUUID: string) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
         // console.log('setHeightRow', index);
-        this.setHeightForCol(this, index, height)
+        this.updateHeightStylesForRow(this, index)
 
     }
 
-    protected setHeightForCol(parent, index, height) {
+    protected updateHeightStylesForRow(parent, index) {
         for (var i = 0; i < parent.children.length; i++) {
             var child = parent.children[i]
+
             if (child instanceof TableTr) {
+                if (parent.children.length == 1) {
+                    child.turnOffFlexGrow()
+                    parent.turnOffFlexGrow()
+                    break
+                }
                 if (i === parseInt(index)) {
-                    child.initHeight(height)
+                    // child.initHeight(height)
+                    // console.error(child)
+                    // console.error(i)
+                    // throw new Error('aaaaaa')
+
                     child.turnOffFlexGrow()
                 } else {
-                    // child.turnOnFlexGrow()
+                    child.turnOnFlexGrow()
+                    parent.turnOnFlexGrow()
                 }
             } else if (child instanceof TableContainer ) {
-                this.setHeightForColOnlyBody(child ,index, height)
+                this.updateHeightStylesForRowOnlyBody(child ,index)
             }
 
         }
     }
 
-    protected setHeightForColOnlyBody(parent, index, height) {
+    protected updateHeightStylesForRowOnlyBody(parent, index) {
         for (var i = 0; i < parent.children.length; i++) {
             var child = parent.children[i]
             if (child instanceof TableTr) {
+                if (parent.children.length == 1) {
+                    // throw new Error('aaaaaa')
+                    child.turnOffFlexGrow()
+                    parent.turnOffFlexGrow()
+                    break
+                }
                 if (i === parseInt(index)) {
-                    child.initHeight(height)
+                    console.error(child)
+
+                    // child.initHeight(height)
                     child.turnOffFlexGrow()
                 } else {
-                    // child.turnOnFlexGrow()
+                    child.turnOnFlexGrow()
+                    parent.turnOnFlexGrow()
                 }
             } else if (child instanceof TableTBody ) {
-                this.setHeightForCol(child ,index, height)
+                this.updateHeightStylesForRow(child ,index)
             }
 
         }
     }
 
-    protected setHeightForColOnlyHead(parent, index, height) {
+    protected updateHeightStylesForRowOnlyHead(parent, index) {
         for (var i = 0; i < parent.children.length; i++) {
             var child = parent.children[i]
             if (child instanceof TableTr) {
+                if (parent.children.length == 1) {
+                    child.turnOnFlexGrow()
+                    break
+                }
                 if (i === parseInt(index)) {
-                    child.initHeight(height)
+                    // child.initHeight(height)
                     // child.parent.initHeight(height)
                     child.turnOffFlexGrow()
                 } else {
                     child.turnOnFlexGrow()
                 }
             } else if (child instanceof TableTHead ) {
-                this.setHeightForCol(child ,index, height)
+                this.updateHeightStylesForRow(child ,index)
             }
 
         }
     }
 
-    protected setHeightForColOnlyFoot(parent, index, height) {
+    protected updateHeightStylesForRowOnlyFoot(parent, index) {
         for (var i = 0; i < parent.children.length; i++) {
             var child = parent.children[i]
             if (child instanceof TableTr) {
                 if (i === parseInt(index)) {
-                    child.initHeight(height)
+                    // child.initHeight(height)
                     child.turnOffFlexGrow()
                 } else {
                     child.turnOnFlexGrow()
                 }
             } else if (child instanceof TableTFoot ) {
-                this.setHeightForCol(child ,index, height)
+                this.updateHeightStylesForRow(child ,index)
             }
 
         }
@@ -697,8 +783,8 @@ export default class TableTag extends TableContainer {
         var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
         css[flexDirection.getName()] = flexDirection.getValue()
 
-        var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
-        css[flexWrap.getName()] = flexWrap.getValue()
+        // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
+        // css[flexWrap.getName()] = flexWrap.getValue()
 
         return css
 
@@ -717,8 +803,8 @@ export default class TableTag extends TableContainer {
             var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
             cssSelector[flexDirection.getName()] = flexDirection.getValue()
 
-            var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
-            cssSelector[flexWrap.getName()] = flexWrap.getValue()
+            // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
+            // cssSelector[flexWrap.getName()] = flexWrap.getValue()
 
             return cssSelector
         }
@@ -736,8 +822,8 @@ export default class TableTag extends TableContainer {
         var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
         css[flexDirection.getName()] = flexDirection.getValue()
 
-        var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
-        css[flexWrap.getName()] = flexWrap.getValue()
+        // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
+        // css[flexWrap.getName()] = flexWrap.getValue()
         return css
 
         // return css
@@ -757,8 +843,8 @@ export default class TableTag extends TableContainer {
             var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
             cssSelector[flexDirection.getName()] = flexDirection.getValue()
 
-            var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
-            cssSelector[flexWrap.getName()] = flexWrap.getValue()
+            // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
+            // cssSelector[flexWrap.getName()] = flexWrap.getValue()
 
             return cssSelector
         }

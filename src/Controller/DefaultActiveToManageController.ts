@@ -9,7 +9,7 @@ export default class DefaultActiveToManageController implements ActiveToControll
     protected accualActiveEl: ActivableTagToManage
 
 
-    public updateActiveTag(elToActive: ActivableTagToManage) 
+    public updateActiveTag(elToActive: ActivableTagToManage)
     {
         if (this.accualActiveEl) {
             // @ts-ignore

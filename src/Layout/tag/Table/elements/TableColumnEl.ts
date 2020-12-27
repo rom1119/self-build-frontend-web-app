@@ -30,6 +30,7 @@ import TableContainer from "~/src/Layout/tag/Table/TableContainer";
 import BorderTopCss from "~/src/Css/Border/Top/BorderTopCss";
 import BorderLeftCss from "~/src/Css/Border/Left/BorderLeftCss";
 import TableColumnPropertyAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyAccessor";
+import BorderRightCss from "~/src/Css/Border/Right/BorderRightCss";
 
 
 export default class TableColumnEl extends TableElement{
@@ -68,12 +69,15 @@ export default class TableColumnEl extends TableElement{
     }
 
     public setWidthColumn( width) {
-
+        //
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
             child.initWidth(width)
 
         }
+        // this.owner.setWidthColumn(this.children[0].shortUUID, width)
+        this.owner.updateWidthStylesForColumn(this.index.toString(), width)
+
         // console.log('setWidthColumn col EL', this.children.length)
         this.initSize(width)
 
@@ -151,19 +155,37 @@ export default class TableColumnEl extends TableElement{
             //     this._innerText = 'Font-size: ' + cssProp.getValue()
             // }
         }
+        var tes = this._updateComponent
 
         var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
         css[PositionCss.PROP_NAME] = rel.getValue()
-        var realWidth = this.children[0].getComputedVal(Width.PROP_NAME)
+        // var realWidth = this.children[0].getComputedVal(Width.PROP_NAME)
         var realTopBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderTopCss.PROP_NAME)
         var realTopBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderTopCss.PROP_NAME)
 
         var realLeftBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME)
         var realLeftBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderLeftCss.PROP_NAME)
 
+        var realRightBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderRightCss.PROP_NAME)
+        var realRightBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderRightCss.PROP_NAME)
+
         var thisHeight = this.getComputedHeight()
         // var offsetY = realTopBorderWidth + thisHeight
-        css[Width.PROP_NAME] = realWidth.toString() + 'px'
+
+        if (realLeftBorderWidthUnit && realRightBorderWidthUnit) {
+            css[Width.PROP_NAME] = `calc(100% + ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)} + ${realRightBorderWidthUnit.getValue(realRightBorderWidth)})`
+
+        } else if (realLeftBorderWidthUnit) {
+            css[Width.PROP_NAME] = `calc(100% + ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)} )`
+
+        } else if (realRightBorderWidthUnit) {
+            css[Width.PROP_NAME] = `calc(100% + ${realRightBorderWidthUnit.getValue(realRightBorderWidth)} )`
+
+        } else {
+            css[Width.PROP_NAME] = '100%'
+
+        }
+
 
         if (realLeftBorderWidthUnit) {
             css[LeftCss.PROP_NAME] =  `calc(0px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`
@@ -171,14 +193,15 @@ export default class TableColumnEl extends TableElement{
         }
         if (realTopBorderWidthUnit) {
 
+            // console.log('APPPPPPPPPPPPP realTopBorderWidth', realTopBorderWidthUnit.getValue(realTopBorderWidth));
             css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
         } else {
 
             css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px)`
         }
-        //     console.log('APPPPPPPPPPPPP', realTopBorderWidthUnit.getValue(realTopBorderWidth));
-        // console.log('APPPPPPPPPPPPP', thisHeight);
+        // console.log('APPPPPPPPPPPPP thisHeight', thisHeight);
         // console.log('APPPPPPPPPPPPP', css);
+        // console.log('APPPPPPPPPPPPP index', this.index);
 
 
         // if (this.hasAbsolute || this.hasFixed) {

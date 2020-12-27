@@ -1,4 +1,14 @@
-import { BoxSizing, Height, Width, BackgroundColor, MinHeight, Display, MaxWidth, BorderGlobalCss } from '~/src/Css';
+import {
+    BoxSizing,
+    Height,
+    Width,
+    BackgroundColor,
+    MinHeight,
+    Display,
+    MaxWidth,
+    BorderGlobalCss,
+    FlexGrow
+} from '~/src/Css';
 import { Named } from '~/src/Unit';
 import HtmlTagBlock from '../../HtmlTagBlock';
 import Pixel from '../../../Unit/Size/Pixel';
@@ -16,7 +26,7 @@ export default class TableTHead extends TableContainer {
     {
         return this._parent
     }
-    
+
     set parent(arg: TableContainer)
     {
         this._parent = arg
@@ -39,7 +49,7 @@ export default class TableTHead extends TableContainer {
     }
 
 
-    
+
     public injectInitialCssStyles()
     {
         let border = new BorderGlobalCss('5', new Pixel())
@@ -54,7 +64,7 @@ export default class TableTHead extends TableContainer {
 
         this.addPropsToAccessor(cssList)
     }
-    
+
 
     get cssList() : any
     {
@@ -69,14 +79,14 @@ export default class TableTHead extends TableContainer {
     get cssListOverride() : any
     {
         var activeSelector = this.getSelectedSelector()
-        
+
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
-            
+
             var flex = new Display(Display.FLEX, new Named())
             cssSelector[flex.getName()] = flex.getValue()
             return cssSelector
-        } 
+        }
 
         return {}
 
@@ -89,8 +99,15 @@ export default class TableTHead extends TableContainer {
         var flex = new Display(Display.FLEX, new Named())
         css[flex.getName()] = flex.getValue()
 
+
+        if (this.hasFlexGrow) {
+            var flexGrow = new FlexGrow(2, new Named())
+            css[flexGrow.getName()] = flexGrow.getValue()
+
+        }
+
         return css
-        
+
         // return css
     }
 
@@ -98,15 +115,22 @@ export default class TableTHead extends TableContainer {
     {
 
         var activeSelector = this.getSelectedSelector()
-        
+
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList
+
+
+            if (this.hasFlexGrow) {
+                var flexGrow = new FlexGrow(2, new Named())
+                cssSelector[flexGrow.getName()] = flexGrow.getValue()
+
+            }
 
             var flex = new Display(Display.FLEX, new Named())
             cssSelector[flex.getName()] = flex.getValue()
             return cssSelector
-        } 
-        
+        }
+
         return {}
     }
 

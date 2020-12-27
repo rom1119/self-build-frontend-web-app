@@ -5,6 +5,9 @@
         <html-element-short-closing-tag-context-menu v-else :value="value" :ref="value.uuid" /> -->
         <slot name="top-content" />
 
+        <div :id="value.shortUUID + '-hidden-box'" class="hidden-box">
+
+        </div>
         <div class="wrapper">
             <div class="none">
                 {{ value.updateFlag }}
@@ -374,6 +377,8 @@ export default class BaseHTMLWrapper extends Vue {
         }
         this.$emit('paddingMouseDown', ev)
         this.$emit('anyElementMouseDown', ev)
+        console.log(this)
+
 
     }
     onPaddingMouseDownChild(val)
@@ -559,6 +564,7 @@ export default class BaseHTMLWrapper extends Vue {
         // this.value.htmlEl = htmlEl
         // return
         this.value.setHtmlEl(this.$el)
+        this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
 
         // this.value.updateModelComponent()
         // this.value.updateModelComponent()
@@ -665,8 +671,15 @@ export default class BaseHTMLWrapper extends Vue {
 
     .wrapper-el-editable {
         flex-grow: 1;
-        flex-grow: 1;
         // float: left;
+    }
+    .hidden-box {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
     }
     #loadingDialog {
         .v-dialog {

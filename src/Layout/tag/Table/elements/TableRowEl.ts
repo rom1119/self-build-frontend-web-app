@@ -13,6 +13,7 @@ import Height from "~/src/Css/Size/Height";
 import Pixel from "~/src/Unit/Size/Pixel";
 import TableColumnPropertyAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyAccessor";
 import TableRowPropertyAccessor from "~/src/Css/PropertyAccessor/TableRowPropertyAccessor";
+import BorderBottomCss from "~/src/Css/Border/Bottom/BorderBottomCss";
 
 
 export default class TableRowEl extends TableElementEl{
@@ -35,6 +36,64 @@ export default class TableRowEl extends TableElementEl{
 
     }
 
+    // protected contentTableDiffRealHeight(): number
+    // {
+    //     // console.log('table height', this.owner.calcRealContentHeight() )
+    //     // console.log('calcContentHeight', this.owner.calcContentHeight() )
+    //     var diff = this.owner.calcRealContentHeight() - this.owner.calcContentHeight()
+    //
+    //     return diff
+    // }
+    //
+    //
+    // public setHeightRow( h: Height) {
+    //
+    //     // for (var i = 0; i < this.children.length; i++) {
+    //     //     var child = this.children[i]
+    //     //     // child.initHeight(h)
+    //     //
+    //     // }
+    //     // console.log('table height', this.owner.calcRealContentHeight() )
+    //     // console.log('calcContentHeight', this.owner.calcContentHeight() )
+    //     var diff = this.contentTableDiffRealHeight()
+    //     var currTrHeight = this.tr.getComputedHeight()
+    //     var tableRealHeight = parseInt(this.owner.getComputedCssValFromHidden(h))
+    //
+    //     var diffHeight = tableRealHeight - currTrHeight
+    //
+    //     console.log('diff', diff )
+    //     console.log('diffHeight', diffHeight )
+    //     console.log('RES', (diff - diffHeight) <= 0 )
+    //     console.log(h.getValue())
+    //     console.log(tableRealHeight)
+    //     if ((diff - diffHeight) <= 0) {
+    //         return
+    //     }
+    //     console.log(h.getValue())
+    //     this.updateCssPropertyWithoutModel(h.getName(), h)
+    //     this.initHeight(tableRealHeight)
+    //     console.log('boxlist 22', this.tr.getHeightValue())
+    //
+    //
+    //     this.tr.updateStylesForHeight(this.children[0])
+    //
+    //
+    //
+    //     // setTimeout(() => {
+    //     //
+    //     // }, 200)
+    //
+    //
+    // }
+
+    protected contentTableDiffRealHeight(): number
+    {
+        // console.log('table height', this.owner.calcRealContentHeight() )
+        // console.log('calcContentHeight', this.owner.calcContentHeight() )
+        var diff = this.owner.calcRealContentHeight() - this.owner.calcContentHeight()
+
+        return diff
+    }
 
 
     public setHeightRow( h) {
@@ -44,10 +103,31 @@ export default class TableRowEl extends TableElementEl{
         //     // child.initHeight(h)
         //
         // }
+        // console.log('table height', this.owner.calcRealContentHeight() )
+        // console.log('calcContentHeight', this.owner.calcContentHeight() )
+        var diff = this.contentTableDiffRealHeight()
+        var currTrHeight = this.tr.getComputedHeight()
+        var diffHeight = h - currTrHeight
+
+        // console.log('diff', diff )
+        // console.log('diffHeight', diffHeight )
+        // console.log('RES', (diff - diffHeight) <= 0 )
+        if ((diff - diffHeight + 3) <= 0) {
+            return
+        }
         this.tr.initHeight(h)
         // console.log('setWidthColumn col EL', this.children.length)
 
         this.initHeight(h)
+
+        this.tr.updateStylesForHeight(this.children[0])
+
+
+
+        // setTimeout(() => {
+        //
+        // }, 200)
+
 
     }
 
@@ -155,12 +235,29 @@ export default class TableRowEl extends TableElementEl{
         var realTopBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderTopCss.PROP_NAME)
         var realTopBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderTopCss.PROP_NAME)
 
+        var realBottomBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderBottomCss.PROP_NAME)
+        var realBottomBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderBottomCss.PROP_NAME)
+
         var realLeftBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME)
         var realLeftBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderLeftCss.PROP_NAME)
 
         var thisWidth = this.getComputedWidth()
         // var offsetY = realTopBorderWidth + thisHeight
-        css[Height.PROP_NAME] = realHeight.toString() + 'px'
+        // css[Height.PROP_NAME] = realHeight.toString() + 'px'
+
+        if (realTopBorderWidthUnit && realBottomBorderWidthUnit) {
+            css[Height.PROP_NAME] = `calc(100% + ${realTopBorderWidthUnit.getValue(realTopBorderWidth)} + ${realBottomBorderWidthUnit.getValue(realBottomBorderWidth)})`
+
+        } else if (realTopBorderWidthUnit) {
+            css[Height.PROP_NAME] = `calc(100% + ${realTopBorderWidthUnit.getValue(realTopBorderWidth)} )`
+
+        } else if (realBottomBorderWidthUnit) {
+            css[Height.PROP_NAME] = `calc(100% + ${realBottomBorderWidthUnit.getValue(realBottomBorderWidth)} )`
+
+        } else {
+            css[Height.PROP_NAME] = '100%'
+
+        }
 
         if (realLeftBorderWidthUnit) {
             css[LeftCss.PROP_NAME] =  `calc(0px - ${thisWidth.toString()}px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`

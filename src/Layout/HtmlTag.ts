@@ -74,6 +74,7 @@ import TransitionCss from '../Css/Animation/TransitionCss';
 import SelectorOwner from "../SelectorOwner";
 import DecisionsCssFacade from "../DecisionManager/DecisionsCssFacade";
 import TableEditor from "./tag/Table/editor/TableEditor";
+import {Switch} from "~/node_modules/element-ui";
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner
@@ -170,9 +171,12 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _boundingClientRectRightPixel: number
     protected _boundingClientRectBottomPixel: number
 
+    protected defaultBoxSizing: BoxSizing
+
     constructor()
     {
         super()
+        this.defaultBoxSizing = BoxSizing.NEW_BORDER_BOX()
         this.initPaddings()
         this.initBorders()
         this.initMargins()
@@ -185,6 +189,33 @@ export default abstract class HtmlTag extends HtmlNode implements
         this._realPositionCalculator = new RealPositionCalculator(this)
         // console.log(this.paddingRealFetcher);
 
+    }
+
+    public calcRealContentHeight(){
+        var realHeightPx = 0
+        var boxSizing = this.cssAccessor.getProperty(BoxSizing.PROP_NAME)
+        if (!boxSizing) {
+            boxSizing = this.defaultBoxSizing
+        }
+
+        var compHeight = this.getComputedHeight()
+
+        switch(boxSizing.getValue()) {
+            case BoxSizing.BORDER_BOX:
+                var topBorder = this.getComputedBorderTopWidth()
+                var bottomBorder = this.getComputedBorderTopWidth()
+                var topPadding = this.getComputedPaddingTop()
+                var bottomPadding = this.getComputedPaddingTop()
+                return  compHeight - topPadding - bottomPadding - topBorder - bottomBorder
+            case BoxSizing.PADDING_BOX:
+                var topPadding = this.getComputedPaddingTop()
+                var bottomPadding = this.getComputedPaddingTop()
+                return  compHeight - topPadding - bottomPadding
+            case BoxSizing.CONTENT_BOX:
+                return  compHeight
+            default :
+                throw Error('NOt set Box sizing for calcualate calcRealContentHeight')
+        }
     }
 
     get selectorLiteral()
@@ -935,6 +966,29 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
     }
 
+    public getComputedCssValFromHidden(prop: BasePropertyCss): string{
+        // @ts-ignore
+        if (typeof prop.isAuto === 'function') {
+            // @ts-ignore
+            if (prop.isAuto()) {
+                this.getHtmlElHidden().style[prop.getName()] = 'auto'
+                // this.getHtmlEl().style['margin-left'] = 'auto'
+                // throw Error('AJAJAJA')
+            } else {
+                this.getHtmlElHidden().style[prop.getName()] = prop.getValue()
+
+            }
+
+        } else {
+            this.getHtmlElHidden().style[prop.getName()] = prop.getValue()
+
+        }
+        var a = window.getComputedStyle(this.getHtmlElHidden())
+        var val = a.getPropertyValue(prop.getName())
+        // this.getHtmlEl().removeAttribute('style')
+
+        return val
+    }
     public getComputedCssVal(prop: BasePropertyCss): string
     {
 
@@ -1120,6 +1174,10 @@ export default abstract class HtmlTag extends HtmlNode implements
     set innerText(text: string)
     {
         this._innerText = text
+    }
+
+    get toManage(){
+        return this._toManage
     }
 
     public changeAsActiveToManage() {
@@ -1337,11 +1395,14 @@ export default abstract class HtmlTag extends HtmlNode implements
     public getComputedVal(propName: string)
     {
         if (!this.getHtmlEl()) {
+            // console.log('EL NOT')
             return 0
         }
 
         var a = window.getComputedStyle(this.getHtmlEl())
         var val = a.getPropertyValue(propName)
+        // console.log('EL val', val)
+        // console.log('EL val', parseInt(val))
         if (val) {
             return parseInt(val)
         }
@@ -1438,12 +1499,18 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
+    public updateBoundingTop() {
+        if (this.getHtmlEl()) {
+            this.boundingClientRectTopPixel = this.getHtmlEl().getBoundingClientRect().top
+
+        }
+    }
+
     public updateBoundingBottom() {
         if (this.getHtmlEl()) {
             this.boundingClientRectBottomPixel = this.getHtmlEl().getBoundingClientRect().bottom
 
         }
-
     }
 
     public updateBoundingLeft() {

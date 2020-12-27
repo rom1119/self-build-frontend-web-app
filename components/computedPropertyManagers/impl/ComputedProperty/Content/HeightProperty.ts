@@ -6,6 +6,9 @@ import BaseComputedPropertyManager from "~/components/computedPropertyManagers/B
 import { Named } from "~/src/Unit";
 import Unit from "~/src/Unit/Unit";
 import Pixel from '../../../../../src/Unit/Size/Pixel';
+import TableCell from "~/src/Layout/tag/Table/TableCell";
+import Vue from "vue";
+import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
 
 export default class HeightProperty extends BaseComputedPropertyManager<Height> {
 
@@ -19,5 +22,32 @@ export default class HeightProperty extends BaseComputedPropertyManager<Height> 
     }
     getDefaultUnit(): Unit {
         return this.DEFAULT_UNIT
+    }
+
+    updateCssProp(prop: Height) {
+            super.updateCssProp(prop)
+        if (this.value instanceof TableRowEl) {
+                this.value.setHeightRow(prop)
+            // setTimeout(() => {
+            //     // this.recalculate(this.value, prop)
+            //
+            //
+            // }, 10)
+        }
+
+        return prop.getClearValue()
+    }
+
+    private recalculate(tag: HtmlTag, prop)
+    {
+        // this.borderRecalculator.recalculate(tag)
+        // this.marginRecalculator.recalculate(tag)
+
+
+            // console.log('WIDTH-REAL', tableRealWidth);
+
+            // tag.setWidthColumn(tableRealWidth)
+
+
     }
 }

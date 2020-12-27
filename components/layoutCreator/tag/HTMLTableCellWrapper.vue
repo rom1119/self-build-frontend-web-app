@@ -27,17 +27,20 @@
                     @contentMouseClick="onContentMouseClickChild($event)"
                     @contentMouseDown="onContentMouseDown(value.columnElement, $event)"
                     v-if="value.columnElement"
-                    v-show="value.getTable().isActiveTagToManage()"
-                    :value="value.columnElement" />
+                    v-show="value.getTable().toManage"
+                    :value="value.columnElement"
+                    :key="value.columnElement.updateComponentKey"
+                />
 
             <table-row-component
                     @contentMouseOver="onContentMouseOver"
                     @contentMouseOut="onContentMouseOut"
                     @contentMouseClick="onContentMouseClickChild($event)"
                     @contentMouseDown="onContentMouseDown(value.rowElement, $event)"
+                    :key="value.rowElement.updateComponentKey"
 
                     v-if="value.rowElement"
-                    v-show="value.getTable().isActiveTagToManage()"
+                    v-show="value.getTable().toManage"
                     :value="value.rowElement" />
 
                 <!--            <table-row-component v-for="(row, key) in value.rows" :key="key" :index="key" :value="row" />-->

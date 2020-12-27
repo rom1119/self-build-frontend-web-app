@@ -15,14 +15,25 @@ import Display from '~/src/Css/Display/Display';
 import Named from '~/src/Unit/Named';
 export default abstract class TableContainer extends HtmlTagBlock {
 
+    protected hasFlexGrow = false
+    public turnOnFlexGrow() {
+        this.hasFlexGrow = true
+    }
+
+    public turnOffFlexGrow() {
+        this.hasFlexGrow = false
+    }
+
     public abstract getTable(): TableTag
-    public setWidthColumn(index: string, width) {
+
+
+    public updateWidthStylesForColumn(index: string, width) {
 
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
 
             if (child instanceof TableContainer) {
-                child.setWidthColumn(index, width)
+                child.updateWidthStylesForColumn(index, width)
 
             } else if (child instanceof TableCell) {
                 if (i === parseInt(index)) {

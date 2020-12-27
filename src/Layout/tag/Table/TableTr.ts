@@ -17,7 +17,7 @@ export default class TableTr extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTr`
     protected _children: TableCell[] = []
-    protected hasFlexGrow = false
+    protected hasFlexGrow = true
 
     public static TAG_NAME = 'tr'
 
@@ -50,25 +50,27 @@ export default class TableTr extends TableContainer {
 
     }
 
+    public updateStylesForHeight(child: TableCell)
+    {
+        if (this.parent instanceof TableTag) {
+            this.getTable().updateHeightStylesRow(child.shortUUID)
+        } else {
+            if (this.parent instanceof TableTBody) {
+                this.getTable().updateHeightStylesRowBody(child.shortUUID)
+            } else if (this.parent instanceof TableTHead) {
+                this.getTable().updateHeightStylesRowHead(child.shortUUID)
+
+            } else if (this.parent instanceof TableTFoot) {
+                this.getTable().updateHeightStylesRowFoot(child.shortUUID)
+
+            }
+        }
+    }
+
     public setHeightRow(child: TableCell, h) {
-        // if (this.parent instanceof TableTag) {
-        //     this.getTable().setHeightRow(child.shortUUID, h)
-        // } else {
-        //     if (this.parent instanceof TableTBody) {
-        //         this.getTable().setHeightRowBody(child.shortUUID, h)
-        //     } else if (this.parent instanceof TableTHead) {
-        //         this.getTable().setHeightRowHead(child.shortUUID, h)
-        //
-        //     } else if (this.parent instanceof TableTFoot) {
-        //         this.getTable().setHeightRowFoot(child.shortUUID, h)
-        //
-        //     }
-        // }
 
-        var index = this.getTable().recursiveFindTableRowIndex(child.shortUUID)
-
-        this.getTable().rows[index].setHeightRow(h)
-
+        // this.updateStylesForHeight(child, h)
+        this.getTable().setHeightSizeRow(child, h)
     }
 
     public getTable(): TableTag {
@@ -95,7 +97,7 @@ export default class TableTr extends TableContainer {
 
 
     public turnOnFlexGrow() {
-        this.hasFlexGrow = false
+        this.hasFlexGrow = true
     }
 
     public turnOffFlexGrow() {
@@ -111,7 +113,7 @@ export default class TableTr extends TableContainer {
         this._height = h
 
         let height = new Height(this._height, this.heightUnitCurrent)
-        this.updateCssPropertyWithoutModel(height.getName(), height)
+        // this.updateCssPropertyWithoutModel(height.getName(), height)
 
         this.notifyPositionalTag()
 
@@ -132,8 +134,8 @@ export default class TableTr extends TableContainer {
     get cssList(): any
     {
         var css = super.cssList
-        var flex = new Display(Display.BLOCK, new Named())
-        css[flex.getName()] = flex.getValue()
+        // var flex = new Display(Display.BLOCK, new Named())
+        // css[flex.getName()] = flex.getValue()
 
         if (this.hasFlexGrow) {
             var flexGrow = new FlexGrow(1, new Named())

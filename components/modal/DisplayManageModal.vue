@@ -1,15 +1,15 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
     <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :tag="value">
-    
+
         <template slot="header">
             <div class="close">
                 <button @click="close($event)">X</button>
             </div>
-            
+
 
             <h4>
-                Pozycjonowanie elementu 
+                Pozycjonowanie elementu
             </h4>
         </template>
         <template slot="content">
@@ -42,7 +42,7 @@
                 </ul>
             </div>
             <template v-if="value">
-                
+
                 <div class="content-item" v-show="value.hasPosition" >
                     <h4 class="content-item__header">
                         Pozycja
@@ -74,7 +74,7 @@
                                 {{ topUnit.label }}
                             </label>
                         </li>
-                        
+
                         <li class="content-item__elem" v-context-menu="cmNameBottom" style="padding: 10px;" @dblclick="hasBottom = !hasBottom" :class="{'active': hasBottom}">
                             <select-unit-context-menu :propertyUnit="bottomUnit" @changePropUnit="($event) => {bottomUnit = $event;}" :ref="cmNameBottom" />
                             <label :for="'bottom-'">
@@ -114,8 +114,8 @@
                     </li>
                 </ul>
             </div>
-         
-            
+
+
             <div class="content-item" @dblclick="hasFlexDirection = !hasFlexDirection" :class="{'active': hasFlexDirection}">
                 <h4 class="content-item__header">
                     Flex directions
@@ -130,7 +130,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="content-item" @dblclick="hasFlexWrap = !hasFlexWrap" :class="{'active': hasFlexWrap}">
                 <h4 class="content-item__header">
                     Flex wrap
@@ -167,11 +167,11 @@
                     <li class="content-item__elem" @dblclick="hasFlexBasis = !hasFlexBasis" :class="{'active': hasFlexBasis}">
                         <label :for="'flexBasis-'">
                             Flex Basis
-                            <input type="number" style="width: 40px;" class="input-text" v-model="flexBasis" name="flexBasis" :id="'flexBasis-'">
+                            <input type="text" style="width: 40px;" class="input-text" v-model="flexBasis" name="flexBasis" :id="'flexBasis-'">
 
                         </label>
                     </li>
-                    
+
                     <li class="content-item__elem" @dblclick="hasFlexShrink = !hasFlexShrink" :class="{'active': hasFlexShrink}">
                         <label :for="'flexShrink-'">
                             Flex Shrink
@@ -232,7 +232,7 @@
 
                         </label>
                     </li>
-                
+
                 </ul>
             </div>
             <div class="content-item" @dblclick="hasBorderCollapse = !hasBorderCollapse" :class="{'active': hasBorderCollapse}">
@@ -306,11 +306,11 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
 
     @Component
     export default class DisplayManageModalComponent extends DisplayManageModal {
-      
+
         timeout
         // value: HtmlTag
 
-        
+
         displays: string[] = Display.getAccessableProperty()
         justifyContents: string[] = JustifyContent.getAccessableProperty()
         alignItemsList: string[] = AlignItems.getAccessableProperty()
@@ -350,23 +350,23 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
         }
 
         // *****************************************  POSITION ****************************************************
-        
+
         get position()
         {
             return  this.positionManager.getProperty().value
         }
-        
+
         set position(newVal: string)
         {
             this.positionManager.getProperty().setValue(newVal)
-            this.positionManager.updateCssProp(this.positionManager.getProperty())             
+            this.positionManager.updateCssProp(this.positionManager.getProperty())
         }
 
         get hasPosition()
         {
             return  this.positionManager.getProperty().active
         }
-        
+
         set hasPosition(newVal: boolean)
         {
             if (!newVal) {
@@ -377,23 +377,23 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
         }
 
         // *****************************************  DISPLAY ****************************************************
-        
+
         get display()
         {
             return  this.displayManager.getProperty().value
         }
-        
+
         set display(newVal: string)
         {
             this.displayManager.getProperty().setValue(newVal)
-            this.displayManager.updateCssProp(this.displayManager.getProperty())             
+            this.displayManager.updateCssProp(this.displayManager.getProperty())
         }
 
         get hasDisplay()
         {
             return  this.displayManager.getProperty().active
         }
-        
+
         set hasDisplay(newVal: boolean)
         {
             if (!newVal) {
@@ -402,25 +402,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.displayManager.activePropCss(this.displayManager.getProperty())
             }
         }
-        
+
         // *****************************************  JUSTIFY-CONTENT ****************************************************
-        
+
         get justifyContent()
         {
             return  this.justifyContentManager.getProperty().value
         }
-        
+
         set justifyContent(newVal: string)
         {
             this.justifyContentManager.getProperty().setValue(newVal)
-            this.justifyContentManager.updateCssProp(this.justifyContentManager.getProperty())             
+            this.justifyContentManager.updateCssProp(this.justifyContentManager.getProperty())
         }
 
         get hasJustifyContent()
         {
             return  this.justifyContentManager.getProperty().active
         }
-        
+
         set hasJustifyContent(newVal: boolean)
         {
             if (!newVal) {
@@ -429,25 +429,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.justifyContentManager.activePropCss(this.justifyContentManager.getProperty())
             }
         }
-        
+
         // *****************************************  ALIGN-ITEMS ****************************************************
-        
+
         get alignItems()
         {
             return  this.alignItemsManager.getProperty().value
         }
-        
+
         set alignItems(newVal: string)
         {
             this.alignItemsManager.getProperty().setValue(newVal)
-            this.alignItemsManager.updateCssProp(this.alignItemsManager.getProperty())             
+            this.alignItemsManager.updateCssProp(this.alignItemsManager.getProperty())
         }
 
         get hasAlignItems()
         {
             return  this.alignItemsManager.getProperty().active
         }
-        
+
         set hasAlignItems(newVal: boolean)
         {
             if (!newVal) {
@@ -456,25 +456,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.alignItemsManager.activePropCss(this.alignItemsManager.getProperty())
             }
         }
-        
+
         // *****************************************  FlEX-DIRECTION ****************************************************
-        
+
         get flexDirection()
         {
             return  this.flexDirectionManager.getProperty().value
         }
-        
+
         set flexDirection(newVal: string)
         {
             this.flexDirectionManager.getProperty().setValue(newVal)
-            this.flexDirectionManager.updateCssProp(this.flexDirectionManager.getProperty())             
+            this.flexDirectionManager.updateCssProp(this.flexDirectionManager.getProperty())
         }
 
         get hasFlexDirection()
         {
             return  this.flexDirectionManager.getProperty().active
         }
-        
+
         set hasFlexDirection(newVal: boolean)
         {
             if (!newVal) {
@@ -483,25 +483,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.flexDirectionManager.activePropCss(this.flexDirectionManager.getProperty())
             }
         }
-        
+
         // *****************************************  FLEX-WRAP ****************************************************
-        
+
         get flexWrap()
         {
             return  this.flexWrapManager.getProperty().value
         }
-        
+
         set flexWrap(newVal: string)
         {
             this.flexWrapManager.getProperty().setValue(newVal)
-            this.flexWrapManager.updateCssProp(this.flexWrapManager.getProperty())             
+            this.flexWrapManager.updateCssProp(this.flexWrapManager.getProperty())
         }
 
         get hasFlexWrap()
         {
             return  this.flexWrapManager.getProperty().active
         }
-        
+
         set hasFlexWrap(newVal: boolean)
         {
             if (!newVal) {
@@ -510,25 +510,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.flexWrapManager.activePropCss(this.flexWrapManager.getProperty())
             }
         }
-        
+
         // *****************************************  FLEX-ORDER ****************************************************
-        
+
         get flexOrder()
         {
             return  this.flexOrderManager.getProperty().value
         }
-        
+
         set flexOrder(newVal: string)
         {
             this.flexOrderManager.getProperty().setValue(newVal)
-            this.flexOrderManager.updateCssProp(this.flexOrderManager.getProperty())             
+            this.flexOrderManager.updateCssProp(this.flexOrderManager.getProperty())
         }
 
         get hasFlexOrder()
         {
             return  this.flexOrderManager.getProperty().active
         }
-        
+
         set hasFlexOrder(newVal: boolean)
         {
             if (!newVal) {
@@ -537,25 +537,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.flexOrderManager.activePropCss(this.flexOrderManager.getProperty())
             }
         }
-        
+
         // *****************************************  FLEX-GROW ****************************************************
-        
+
         get flexGrow()
         {
             return  this.flexGrowManager.getProperty().value
         }
-        
+
         set flexGrow(newVal: string)
         {
             this.flexGrowManager.getProperty().setValue(newVal)
-            this.flexGrowManager.updateCssProp(this.flexGrowManager.getProperty())             
+            this.flexGrowManager.updateCssProp(this.flexGrowManager.getProperty())
         }
 
         get hasFlexGrow()
         {
             return  this.flexGrowManager.getProperty().active
         }
-        
+
         set hasFlexGrow(newVal: boolean)
         {
             if (!newVal) {
@@ -564,25 +564,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.flexGrowManager.activePropCss(this.flexGrowManager.getProperty())
             }
         }
-        
+
         // *****************************************  FLEX-BASIS ****************************************************
-        
+
         get flexBasis()
         {
             return  this.flexBasisManager.getProperty().value
         }
-        
+
         set flexBasis(newVal: string)
         {
             this.flexBasisManager.getProperty().setValue(newVal)
-            this.flexBasisManager.updateCssProp(this.flexBasisManager.getProperty())             
+            this.flexBasisManager.updateCssProp(this.flexBasisManager.getProperty())
         }
 
         get hasFlexBasis()
         {
             return  this.flexBasisManager.getProperty().active
         }
-        
+
         set hasFlexBasis(newVal: boolean)
         {
             if (!newVal) {
@@ -591,25 +591,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.flexBasisManager.activePropCss(this.flexBasisManager.getProperty())
             }
         }
-        
+
         // *****************************************  FLEX-SHRINK ****************************************************
-        
+
         get flexShrink()
         {
             return  this.flexShrinkManager.getProperty().value
         }
-        
+
         set flexShrink(newVal: string)
         {
             this.flexShrinkManager.getProperty().setValue(newVal)
-            this.flexShrinkManager.updateCssProp(this.flexShrinkManager.getProperty())             
+            this.flexShrinkManager.updateCssProp(this.flexShrinkManager.getProperty())
         }
 
         get hasFlexShrink()
         {
             return  this.flexShrinkManager.getProperty().active
         }
-        
+
         set hasFlexShrink(newVal: boolean)
         {
             if (!newVal) {
@@ -618,25 +618,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.flexShrinkManager.activePropCss(this.flexShrinkManager.getProperty())
             }
         }
-        
+
         // *****************************************  FLOAT ****************************************************
-        
+
         get float()
         {
             return  this.floatManager.getProperty().value
         }
-        
+
         set float(newVal: string)
         {
             this.floatManager.getProperty().setValue(newVal)
-            this.floatManager.updateCssProp(this.floatManager.getProperty())             
+            this.floatManager.updateCssProp(this.floatManager.getProperty())
         }
 
         get hasFloat()
         {
             return  this.floatManager.getProperty().active
         }
-        
+
         set hasFloat(newVal: boolean)
         {
             if (!newVal) {
@@ -645,25 +645,25 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.floatManager.activePropCss(this.floatManager.getProperty())
             }
         }
-        
+
         // *****************************************  CLEAR ****************************************************
-        
+
         get clear()
         {
             return  this.clearManager.getProperty().value
         }
-        
+
         set clear(newVal: string)
         {
             this.clearManager.getProperty().setValue(newVal)
-            this.clearManager.updateCssProp(this.clearManager.getProperty())             
+            this.clearManager.updateCssProp(this.clearManager.getProperty())
         }
 
         get hasClear()
         {
             return  this.clearManager.getProperty().active
         }
-        
+
         set hasClear(newVal: boolean)
         {
             if (!newVal) {
@@ -674,34 +674,34 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
         }
 
         // *****************************************  LEFT ****************************************************
-        
+
         get left()
         {
             return  this.leftManager.getProperty().value
         }
-        
+
         set left(newVal: string)
         {
             this.leftManager.getProperty().setValue(newVal)
-            this.leftManager.updateCssProp(this.leftManager.getProperty())             
+            this.leftManager.updateCssProp(this.leftManager.getProperty())
         }
 
         get leftUnit()
         {
             return  this.leftManager.getProperty().getUnit()
         }
-        
+
         set leftUnit(newVal: UnitSize)
         {
             this.leftManager.getProperty().setUnit(newVal)
-            this.leftManager.updateCssProp(this.leftManager.getProperty())             
+            this.leftManager.updateCssProp(this.leftManager.getProperty())
         }
 
         get hasLeft()
         {
             return  this.leftManager.getProperty().active
         }
-        
+
         set hasLeft(newVal: boolean)
         {
             if (!newVal) {
@@ -710,36 +710,36 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.leftManager.activePropCss(this.leftManager.getProperty())
             }
         }
-        
+
         // *****************************************  RIGHT ****************************************************
-        
+
         get right()
         {
             return  this.rightManager.getProperty().value
         }
-        
+
         set right(newVal: string)
         {
             this.rightManager.getProperty().setValue(newVal)
-            this.rightManager.updateCssProp(this.rightManager.getProperty())             
+            this.rightManager.updateCssProp(this.rightManager.getProperty())
         }
 
         get rightUnit()
         {
             return  this.rightManager.getProperty().getUnit()
         }
-        
+
         set rightUnit(newVal: UnitSize)
         {
             this.rightManager.getProperty().setUnit(newVal)
-            this.rightManager.updateCssProp(this.rightManager.getProperty())             
+            this.rightManager.updateCssProp(this.rightManager.getProperty())
         }
 
         get hasRight()
         {
             return  this.rightManager.getProperty().active
         }
-        
+
         set hasRight(newVal: boolean)
         {
             if (!newVal) {
@@ -748,36 +748,36 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.rightManager.activePropCss(this.rightManager.getProperty())
             }
         }
-        
+
         // *****************************************  TOP ****************************************************
-        
+
         get top()
         {
             return  this.topManager.getProperty().value
         }
-        
+
         set top(newVal: string)
         {
             this.topManager.getProperty().setValue(newVal)
-            this.topManager.updateCssProp(this.topManager.getProperty())             
+            this.topManager.updateCssProp(this.topManager.getProperty())
         }
 
         get topUnit()
         {
             return  this.topManager.getProperty().getUnit()
         }
-        
+
         set topUnit(newVal: UnitSize)
         {
             this.topManager.getProperty().setUnit(newVal)
-            this.topManager.updateCssProp(this.topManager.getProperty())             
+            this.topManager.updateCssProp(this.topManager.getProperty())
         }
 
         get hasTop()
         {
             return  this.topManager.getProperty().active
         }
-        
+
         set hasTop(newVal: boolean)
         {
             if (!newVal) {
@@ -786,36 +786,36 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
                 this.topManager.activePropCss(this.topManager.getProperty())
             }
         }
-        
+
         // *****************************************  BOTTOM ****************************************************
-        
+
         get bottom()
         {
             return  this.bottomManager.getProperty().value
         }
-        
+
         set bottom(newVal: string)
         {
             this.bottomManager.getProperty().setValue(newVal)
-            this.bottomManager.updateCssProp(this.bottomManager.getProperty())             
+            this.bottomManager.updateCssProp(this.bottomManager.getProperty())
         }
 
         get bottomUnit()
         {
             return  this.bottomManager.getProperty().getUnit()
         }
-        
+
         set bottomUnit(newVal: UnitSize)
         {
             this.bottomManager.getProperty().setUnit(newVal)
-            this.bottomManager.updateCssProp(this.bottomManager.getProperty())             
+            this.bottomManager.updateCssProp(this.bottomManager.getProperty())
         }
 
         get hasBottom()
         {
             return  this.bottomManager.getProperty().active
         }
-        
+
         set hasBottom(newVal: boolean)
         {
             if (!newVal) {
@@ -826,59 +826,59 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
         }
 
         // *****************************************  BORDER_SPACING ****************************************************
-        
+
         get borderSpacingX()
         {
             return  this.borderSpacingManager.getProperty().xVal.toString()
         }
-        
+
         set borderSpacingX(newVal: string)
         {
             this.borderSpacingManager.getProperty().xVal = Number(newVal)
-            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())    
-            this.borderSpacingY = newVal      
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())
+            this.borderSpacingY = newVal
         }
 
         get borderSpacingXUnit()
         {
             return  this.borderSpacingManager.getProperty().xValUnit
         }
-        
+
         set borderSpacingXUnit(newVal: UnitSize)
         {
             this.borderSpacingManager.getProperty().xValUnit = newVal
-            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())   
-            this.borderSpacingYUnit = newVal      
-          
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())
+            this.borderSpacingYUnit = newVal
+
         }
-        
+
         get borderSpacingY()
         {
             return  this.borderSpacingManager.getProperty().yVal.toString()
         }
-        
+
         set borderSpacingY(newVal: string)
         {
             this.borderSpacingManager.getProperty().yVal = Number(newVal)
-            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())             
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())
         }
 
         get borderSpacingYUnit()
         {
             return  this.borderSpacingManager.getProperty().yValUnit
         }
-        
+
         set borderSpacingYUnit(newVal: UnitSize)
         {
             this.borderSpacingManager.getProperty().yValUnit = newVal
-            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())             
+            this.borderSpacingManager.updateCssProp(this.borderSpacingManager.getProperty())
         }
 
         get hasBorderSpacing()
         {
             return  this.borderSpacingManager.getProperty().active
         }
-        
+
         set hasBorderSpacing(newVal: boolean)
         {
             if (!newVal) {
@@ -889,23 +889,23 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
         }
 
         // *****************************************  BORDER COLLAPSE ****************************************************
-        
+
         get borderCollapse()
         {
             return  this.borderCollapseManager.getProperty().value
         }
-        
+
         set borderCollapse(newVal: string)
         {
             this.borderCollapseManager.getProperty().setValue(newVal)
-            this.borderCollapseManager.updateCssProp(this.borderCollapseManager.getProperty())             
+            this.borderCollapseManager.updateCssProp(this.borderCollapseManager.getProperty())
         }
 
         get hasBorderCollapse()
         {
             return  this.borderCollapseManager.getProperty().active
         }
-        
+
         set hasBorderCollapse(newVal: boolean)
         {
             if (!newVal) {
@@ -915,30 +915,30 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
             }
         }
 
-        
-        
+
+
         // get widthUnit()
         // {
         //     return  this.widthManager.getProperty().getUnit()
         // }
-        
+
         // set widthUnit(newVal: UnitSize)
         // {
         //     this.widthManager.getProperty().setUnit(newVal)
-        //     this.widthManager.updateCssProp(this.widthManager.getProperty())             
-        // }        
+        //     this.widthManager.updateCssProp(this.widthManager.getProperty())
+        // }
 
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)
         {
-           
+
         }
 
     }
 </script>
 
-<style lang="scss" scoped> 
-    
+<style lang="scss" scoped>
+
     .active {
         background-color: rgba($color: #d81121, $alpha: .4);
     }
@@ -956,11 +956,11 @@ import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProp
     .w-400 {
         width: 400px;
     }
-    
+
     .w-50-pr {
         width: 50%;
     }
-    
+
     .h-400 {
         height: 400px;
     }

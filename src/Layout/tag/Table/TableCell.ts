@@ -21,7 +21,7 @@ import BasePropertyCss from "~/src/Css/BasePropertyCss";
 export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
-    protected hasFlexGrow = false
+    protected hasFlexGrow = true
     hasMiddleTag: boolean = true
     isTableCellTag : boolean = true
 
@@ -268,15 +268,16 @@ export default abstract class TableCell extends HtmlTagBlock {
         var display = new Display(Display.INLINE_BLOCK, new Named())
         css[display.getName()] = display.getValue()
 
-        if (this.hasFlexGrow) {
-            // var flexGrow = new FlexGrow(1, new Named())
-            // css[flexGrow.getName()] = flexGrow.getValue()
-            //
-            // var flexShring = new FlexShrink(0, new Named())
-            // css[flexShring.getName()] = flexShring.getValue()
-            //
-            // var flexBasis = new FlexBasis(20, new Percent())
+
+            // var flexBasis = new FlexBasis(10, new Percent())
             // css[flexBasis.getName()] = flexBasis.getValue()
+        if (this.hasFlexGrow) {
+
+            var flexGrow = new FlexGrow(2, new Named())
+            css[flexGrow.getName()] = flexGrow.getValue()
+
+            var flexShring = new FlexShrink(2, new Named())
+            css[flexShring.getName()] = flexShring.getValue()
 
         }
 

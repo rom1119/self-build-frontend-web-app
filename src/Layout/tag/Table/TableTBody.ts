@@ -12,7 +12,7 @@ import BackgroundColor from '~/src/Css/Background/BackgroundColor';
 import Display from '~/src/Css/Display/Display';
 import Named from '~/src/Unit/Named';
 export default class TableTBody extends TableContainer {
-    
+
     protected _innerText: string = `${this.uuid}  TableTBody`
     public static TAG_NAME = 'tbody'
     protected _parent: TableContainer
@@ -20,7 +20,7 @@ export default class TableTBody extends TableContainer {
     {
         return this._parent
     }
-    
+
     set parent(arg: TableContainer)
     {
         this._parent = arg
@@ -42,13 +42,13 @@ export default class TableTBody extends TableContainer {
 
 
 
-    
+
     public injectInitialCssStyles()
     {
         // let border = new BorderGlobalCss('5', new Pixel())
         // border.setType('dotted')
         // border.setColor('orange', new Named())
-        
+
         let width = new Width(100, new Percent())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         let backgroundColor = new BackgroundColor({r: 70, g:200, b: 70}, new RGB())
@@ -61,7 +61,7 @@ export default class TableTBody extends TableContainer {
     {
         var css = super.cssList
         var flex = new Display(Display.FLEX, new Named())
-        var flexGrow = new FlexGrow(1, new Named())
+        var flexGrow = new FlexGrow(2, new Named())
         var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
         css[flexDirection.getName()] = flexDirection.getValue()
         css[flexGrow.getName()] = flexGrow.getValue()
@@ -74,18 +74,18 @@ export default class TableTBody extends TableContainer {
     get cssListOverride() : any
     {
         var activeSelector = this.getSelectedSelector()
-        
+
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
-            
+
             var flex = new Display(Display.FLEX, new Named())
-            var flexGrow = new FlexGrow(1, new Named())
+            var flexGrow = new FlexGrow(2, new Named())
             var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
             cssSelector[flexDirection.getName()] = flexDirection.getValue()
             cssSelector[flexGrow.getName()] = flexGrow.getValue()
             cssSelector[flex.getName()] = flex.getValue()
             return cssSelector
-        } 
+        }
 
         return {}
 
@@ -96,14 +96,14 @@ export default class TableTBody extends TableContainer {
     {
         var css = super.cssBoxList
         var flex = new Display(Display.FLEX, new Named())
-        var flexGrow = new FlexGrow(1, new Named())
+        var flexGrow = new FlexGrow(2, new Named())
         var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
         css[flexDirection.getName()] = flexDirection.getValue()
         css[flexGrow.getName()] = flexGrow.getValue()
         css[flex.getName()] = flex.getValue()
 
         return css
-        
+
         // return css
     }
 
@@ -111,21 +111,21 @@ export default class TableTBody extends TableContainer {
     {
 
         var activeSelector = this.getSelectedSelector()
-        
+
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList
 
             var flex = new Display(Display.FLEX, new Named())
-            var flexGrow = new FlexGrow(1, new Named())
+            var flexGrow = new FlexGrow(2, new Named())
             var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
             cssSelector[flexDirection.getName()] = flexDirection.getValue()
             cssSelector[flexGrow.getName()] = flexGrow.getValue()
             cssSelector[flex.getName()] = flex.getValue()
             return cssSelector
-        } 
-        
+        }
+
         return {}
     }
-    
+
 
 }

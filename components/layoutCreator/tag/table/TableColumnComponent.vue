@@ -13,7 +13,7 @@
     >
         <div class="stretch"
            >
-            Col {{ value.children.length }}
+
             </br>
             <span v-show="hasWidth">
                 Width {{ value.getWidthValue() }}
@@ -122,6 +122,7 @@ export default class TableColumnComponent extends Vue {
         display: inline-block;
         font-size: 12px !important;
         background: rgba(0,7,121,0.49);
+        height: 35px;
     }
 
     .border {

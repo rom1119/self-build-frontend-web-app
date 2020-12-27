@@ -86,6 +86,8 @@ import KeyUpAction from "~/src/Mode/action/KeyUpAction";
 import MouseClickAction from "~/src/Mode/action/MouseClickAction";
 import ViewMode from "~/src/Mode/impl/ViewMode";
 import TableElement from "~/src/Layout/tag/Table/elements/TableElement";
+import TextNode from "~/src/Layout/TextNode";
+import Height from "~/src/Css/Size/Height";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -250,8 +252,8 @@ export default class LayoutCreatorContainer extends Vue {
         if (!this.$layoutCreatorMode.mode.canRun(new MouseOverAction())) {
             return
         }
-        console.log('over');
-        console.log(val);
+        // console.log('over');
+        // console.log(val);
         // console.log(val);
         if (val instanceof PaddingModel || val instanceof BorderModel || val instanceof MarginModel) {
             this.currentMouseOverTag = val.getHtmlTag()
@@ -308,8 +310,8 @@ export default class LayoutCreatorContainer extends Vue {
             return
         }
         var val = source.target
-        console.log('onAnyElementMouseClick');
-        console.log(source.target);
+        // console.log('onAnyElementMouseClick');
+        // console.log(source.target);
         // console.log(source.target.columns);
         // console.log(source.target.rows);
         if (!this.hasAccualControllerWorks) {
@@ -369,7 +371,7 @@ export default class LayoutCreatorContainer extends Vue {
         if (!this.isLeftButtonMouseClick(source.event)) {
             return;
         }
-        // var el = source.target
+        var el = source.target
         // if (el instanceof PaddingModel || el instanceof BorderModel || el instanceof MarginModel) {
 
         //     el = el.getHtmlTag()
@@ -380,13 +382,17 @@ export default class LayoutCreatorContainer extends Vue {
         if (!this.$layoutCreatorMode.mode.canRun(new MouseDownAction())) {
             return
         }
+        if (el.getHtmlTag) {
+            var a = el.getHtmlTag().getComputedVal(Height.PROP_NAME)
+            console.log(a)
 
+        }
         let controller = this.getAdviseController('mouseDown', source.target)
-        console.log('down');
-        console.log(source.target);
-        console.log(source);
-        console.log(controller);
-        console.log('down');
+        // console.log('down');
+        // console.log(source.target);
+        // console.log(source);
+        // console.log(controller);
+        // console.log('down');
         controller.mouseDownHandler(source)
     }
 
@@ -423,8 +429,8 @@ export default class LayoutCreatorContainer extends Vue {
         if (!this.$layoutCreatorMode.mode.canRun(new KeyDownAction())) {
             return
         }
-        console.log("e.shiftKey");
-        console.log(e.shiftKey);
+        // console.log("e.shiftKey");
+        // console.log(e.shiftKey);
         if(e.shiftKey) {
             this.adivisorController.hasCtrlKey = true
             if (this.currentMouseOverTag) {

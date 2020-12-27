@@ -6,14 +6,14 @@
          @mouseout.stop="onMouseOut"
          @click.stop="onMouseClick"
          :style="value.cssList"
-         :key="value.updateComponentKey"
+
          oncopy="return false"
          oncut="return false"
          onselectstart="return false"
     >
         <div class="stretch"
         >
-            Row {{ value.children.length }}
+
             </br>
             <span v-show="hasHeight">
                 Height

@@ -9,6 +9,8 @@ import MarginRecalculate from '../Recalculator/HtmlTagImpl/MarginRecalculate';
 import HtmlTagRecalculator from '../Recalculator/HtmlTagRecalculator';
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
+import Height from "~/src/Css/Size/Height";
+import Pixel from "~/src/Unit/Size/Pixel";
 export default class TableRowSizeController extends SizeElController
 {
     protected currentElement: TableRowEl
@@ -31,9 +33,9 @@ export default class TableRowSizeController extends SizeElController
         this.mouseDown = true
         let el: TableRowEl = source.target
         let event = source.event
-        console.log(el.toString());
+        // console.log(el.toString());
         // console.log(el.projectId);
-        console.log(el.cssAccessor.all);
+        // console.log(el.cssAccessor.all);
 
         // console.log(el.pseudoClassAccessor.all);
 
@@ -89,6 +91,7 @@ export default class TableRowSizeController extends SizeElController
         if (newValHeight > 0) {
 
             this.currentElement.setHeightRow(newValHeight)
+            // this.currentElement.setHeightRow(new Height(newValHeight, new Pixel()))
             // this.recalculateMargins(this.currentElement)
             // this.recalculateBorders(this.currentElement)
 
