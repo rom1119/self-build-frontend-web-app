@@ -145,16 +145,27 @@ export default class HtmlElementContextMenu extends Vue {
         this.tags = val
     }
 
+    protected initTag(tag: HtmlTag){
+
+        tag.injectInitialCssStyles()
+        tag.injectInitialSelectors()
+        tag.setProjectId(this.$route.params.id)
+    }
+
     createTrElement(target, cm, a) {
         var el = this.tableComponentFactory.createExampleTr()
         var tab: TableTag = <TableTag>this.value
         el.parent = tab
-        el.projectId = tab.projectId
+        this.initTag(el)
 
-        el.injectInitialCssStyles()
-        el.injectInitialSelectors()
-        el.setProjectId(this.$route.params.id)
-        tab.appendRowDeep(el)
+
+        var td = this.tableComponentFactory.createExampleTd()
+        td.parent = el
+        this.initTag(td)
+
+
+
+        tab.appendRowDeep(el, td)
 
         this.$emit('createdTag', el)
     }

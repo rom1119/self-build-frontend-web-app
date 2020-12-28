@@ -39,10 +39,10 @@ export default class DefaultApiService implements ApiService
 
     private domainToModelTransformer: DomainToModel
     private tagModelToResponse: ResponseFromModel<TagDto, HtmlTagResponse>
-    
+
     private selectorDomainToModelTransformer: SelectorToModel
     private selectorModelToResponse: ResponseFromModel<Selector, SelectorResponse>
-    
+
     private modelToDomainTransformer: ModelToDomain
     private responseToTagModel: ModelFromResponse<HtmlTagResponse, TagDto>
 
@@ -53,7 +53,7 @@ export default class DefaultApiService implements ApiService
     {
         this.domainToModelTransformer = new DefaultDomainToModel()
         this.tagModelToResponse = new HtmlTagModelBuildResponse()
-        
+
         this.selectorDomainToModelTransformer = new DefaultSelectorToModel()
         this.selectorModelToResponse = new SelectorModelBuildResponse()
 
@@ -66,7 +66,7 @@ export default class DefaultApiService implements ApiService
     getTreeTags(tag: HtmlTag): ResponseTreeTag {
         throw new Error("Method not implemented.");
     }
-    
+
     appendTagToProject(tag: HtmlNode) {
         let model = this.domainToModelTransformer.transform(tag, true)
         let response = this.tagModelToResponse.build(model, true)
@@ -76,17 +76,17 @@ export default class DefaultApiService implements ApiService
         console.log(model);
         console.log('response');
         console.log(response);
-        
+
         Axios.post(DefaultApiService.HOST + `/api/html-project/${tag.projectId}/append-tag`, response).then(
             (res) => {
                 this.idUpdater.update(tag, res.data)
             },
             () => {
-            
+
             },
         )
     }
-    
+
     appendChild(tag: HtmlTag): Promise<any> {
         let model = this.domainToModelTransformer.transform(tag)
         let response = this.tagModelToResponse.build(model)
@@ -95,7 +95,7 @@ export default class DefaultApiService implements ApiService
             apiSuffix = 'append-text'
         } else if (tag instanceof HtmlTag) {
             apiSuffix = 'append-tag'
-            
+
         }
         return new Promise((resolve, reject) => {
 
@@ -119,7 +119,7 @@ export default class DefaultApiService implements ApiService
             apiSuffix = 'append-text'
         } else if (tag instanceof HtmlTag) {
             apiSuffix = 'append-tag'
-            
+
         }
         return new Promise((resolve, reject) => {
 
@@ -153,8 +153,8 @@ export default class DefaultApiService implements ApiService
                     }
 
                     resolve()
-    
-                    
+
+
                 },
                 () => {
                     reject()
@@ -181,13 +181,13 @@ export default class DefaultApiService implements ApiService
         return Axios.put(DefaultApiService.HOST + `/api/pseudo-selector/${selector.id}`, response)
 
     }
-    
+
     putText(tag: TextNode): Promise<any> {
         let model = this.domainToModelTransformer.transform(tag)
         let response = this.tagModelToResponse.build(model)
         return Axios.put(DefaultApiService.HOST + `/api/html-tag/text/${tag.uuid}`, response)
     }
-    
+
     putCssStyleResource(css: CssResource): Promise<any> {
         // let model = this.domainToModelTransformer.transform(css)
         // let response = this.tagModelToResponse.build(model)
@@ -195,7 +195,7 @@ export default class DefaultApiService implements ApiService
         formData.append('file', css.getResourceFile())
         return Axios.post(DefaultApiService.HOST + `/api/css-style/${css.getId()}/resource`, formData)
     }
-    
+
     deleteCssStyleResource(css: CssResource): Promise<any> {
         // let model = this.domainToModelTransformer.transform(css)
         // let response = this.tagModelToResponse.build(model)
@@ -203,9 +203,23 @@ export default class DefaultApiService implements ApiService
     }
 
     deleteTag(tag: HtmlNode) : Promise<any> {
-        return Axios.delete(DefaultApiService.HOST + `/api/html-tag/${tag.uuid}`)
+        return new Promise((resolve, reject) => {
+             Axios.delete(DefaultApiService.HOST + `/api/html-tag/${tag.uuid}`).then(
+                 (res) => {
+
+                     resolve(tag)
+
+
+                 },
+                 (rej) => {
+                     reject(rej)
+
+                 },
+             )
+
+        })
     }
-    
+
     deleteSelector(selector: PseudoSelector): Promise<any> {
         return Axios.delete(DefaultApiService.HOST + `/api/pseudo-selector/${selector.id}`)
     }
@@ -215,5 +229,5 @@ export default class DefaultApiService implements ApiService
     }
 
 
- 
+
 }

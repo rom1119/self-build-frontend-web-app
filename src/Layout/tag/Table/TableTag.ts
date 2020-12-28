@@ -292,23 +292,35 @@ export default class TableTag extends TableContainer {
         return this.children[0] instanceof TableTr
     }
 
-    async appendRowDeep(child: TableContainer)
+    async appendRowDeep(child: TableTr, td: TableCell)
     {
         var body = this.getBodyTag()
         if (body) {
             body.appendChildDeep(child)
-            return
             // child.realPositionCalculator.updateNearPositionalTag()
+        } else {
+            child.parent = this
+            child.projectId = this.projectId
+            child.setApi(this.api)
+            this.children.push(child)
+
+            this.notifyPositionalTag()
+
+            await this.api.appendChildDeep(child)
+            this.synchronizer.synchronize()
         }
-        child.parent = this
-        child.projectId = this.projectId
-        child.setApi(this.api)
-        this.children.push(child)
 
-        this.notifyPositionalTag()
 
-        await this.api.appendChildDeep(child)
-        this.synchronizer.synchronize()
+        for (const col of this.columns) {
+
+            var newCopy = this.copyCell(td, true)
+            newCopy.parent = child
+            child.appendChildDeep(newCopy)
+        }
+
+        this.updateColumns()
+        this.updateRows()
+
 
     }
 

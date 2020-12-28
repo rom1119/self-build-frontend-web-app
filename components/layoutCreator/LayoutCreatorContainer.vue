@@ -60,7 +60,7 @@ import MarginModel from "~/src/Layout/Margin/MarginModel";
 import DefaultActiveToManageController from '../../src/Controller/DefaultActiveToManageController';
 import ActiveToController from "~/src/ActiveToController";
 import Remover from '../../src/Remover';
-import HtmlTagRemover from '../../src/Remover/HtmlTagRemover';
+import HtmlNodeRemover from '../../src/Remover/HtmlNodeRemover';
 import ApiService from "../../src/Api/ApiService";
 import DefaultApiService from "~/src/Api/impl/DefaultApiService";
 import LayoutEl from "../../src/LayoutEl";
@@ -88,6 +88,8 @@ import ViewMode from "~/src/Mode/impl/ViewMode";
 import TableElement from "~/src/Layout/tag/Table/elements/TableElement";
 import TextNode from "~/src/Layout/TextNode";
 import Height from "~/src/Css/Size/Height";
+import RemoverAdvisor from "~/src/Remover/RemoverAdvisor";
+import DefaultRemoverAdvisor from "~/src/Remover/advisor/DefaultRemoverAdvisor";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -110,7 +112,7 @@ export default class LayoutCreatorContainer extends Vue {
     activeToPositionController: ActiveToController<ActivableTagToPosition> = new DefaultActiveToPositionController()
 
     adivisorController: AdvisorTagController = new AdvisorTagController()
-    htmlTagRemover: Remover<string>
+    tagRemoverAdvisor: RemoverAdvisor
     hasAccualControllerWorks = false
     currentMouseOverTag: HtmlTag
 
@@ -207,7 +209,8 @@ export default class LayoutCreatorContainer extends Vue {
 
     mounted()
     {
-        this.htmlTagRemover = new HtmlTagRemover(this.htmlTags)
+        var api = new DefaultApiService()
+        this.tagRemoverAdvisor = new DefaultRemoverAdvisor(this.htmlTags, api)
         document.body.addEventListener('mousemove', (e) => {
         // @ts-ignore
             if (parseInt(e.clientX) % 10 == 0) {
@@ -344,16 +347,8 @@ export default class LayoutCreatorContainer extends Vue {
         // console.log('tagRemove');
         // console.log(source);
         let tag: HtmlNode = source.target
-        tag.api.deleteTag(tag).then(
-            (res) => {
 
-                tag.synchronize()
-                let a = this.htmlTagRemover.removeBy(source.target.uuid)
-            },
-            () => {
-                alert("Błąd serwera")
-            },
-        )
+        this.tagRemoverAdvisor.advise(tag).remove(tag)
         // console.log(a);
     }
 

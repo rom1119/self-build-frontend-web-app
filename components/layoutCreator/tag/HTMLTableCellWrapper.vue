@@ -26,6 +26,7 @@
                     @contentMouseOut="onContentMouseOut"
                     @contentMouseClick="onContentMouseClickChild($event)"
                     @contentMouseDown="onContentMouseDown(value.columnElement, $event)"
+                    @tagRemove="onEmitRemove(value.columnElement)"
                     v-if="value.columnElement"
                     v-show="value.getTable().toManage"
                     :value="value.columnElement"
@@ -37,6 +38,8 @@
                     @contentMouseOut="onContentMouseOut"
                     @contentMouseClick="onContentMouseClickChild($event)"
                     @contentMouseDown="onContentMouseDown(value.rowElement, $event)"
+                    @tagRemove="onEmitRemove(value.rowElement)"
+
                     :key="value.rowElement.updateComponentKey"
 
                     v-if="value.rowElement"

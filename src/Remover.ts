@@ -1,4 +1,4 @@
 export default interface Remover<T>
 {
-    removeBy(arg: T): boolean
+    remove(arg: T): Promise<any>
 }

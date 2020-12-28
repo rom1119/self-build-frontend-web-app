@@ -26,41 +26,41 @@ export default class TableComponentFactory {
 
     }
 
-   
+
     createTableTHead() {
         let el = new TableTHead()
         el.setApi(this.api)
 
         return el
     }
-    
+
     createTableTBody() {
         let el = new TableTBody()
         el.setApi(this.api)
 
         return el
     }
-    
+
     createTableTFoot() {
         let el = new TableTFoot()
         el.setApi(this.api)
 
         return el
     }
-    
+
     createExampleTr() {
 
         var trbody  = new TableTr()
-        var cell = new TableTd('content example')
-        var cellsec = new TableTd('content example')
-        trbody.appendChild(cell)
-        trbody.appendChild(cellsec)
+        // var cell = new TableTd('content example')
+        // var cellsec = new TableTd('content example')
+        // trbody.appendChild(cell)
+        // trbody.appendChild(cellsec)
 
         trbody.setApi(this.api)
 
         return trbody
     }
-    
+
     createExampleTd() {
 
         var cell = new TableTd('content example')
@@ -68,19 +68,19 @@ export default class TableComponentFactory {
 
         return cell
     }
-    
+
     createTableTh() {
         let el = new TableTh()
         el.setApi(this.api)
 
         return el
     }
-    
+
     createTableTd() {
         let el = new TableTd()
         el.setApi(this.api)
 
         return el
     }
-    
+
 }

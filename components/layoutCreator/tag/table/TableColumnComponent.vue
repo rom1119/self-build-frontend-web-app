@@ -13,7 +13,9 @@
     >
         <div class="stretch"
            >
-
+            <div class="remove" @click.stop="onEmitRemove($event)">
+                X
+            </div>
             </br>
             <span v-show="hasWidth">
                 Width {{ value.getWidthValue() }}
@@ -49,6 +51,10 @@ export default class TableColumnComponent extends Vue {
 
     contextMenuName = 'cm-border'
     // abstract getSize() : number
+    onEmitRemove(event)
+    {
+        this.$emit('tagRemove', event)
+    }
 
     get updateComponentKey() {
         if (!this.value) {
@@ -115,7 +121,7 @@ export default class TableColumnComponent extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
     .tab-column {
         z-index: 999;
         color: white;
@@ -127,5 +133,24 @@ export default class TableColumnComponent extends Vue {
 
     .border {
         border: 1px solid gray;
+    }
+
+    .remove {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 2px;
+        border-radius: 100%;
+        background-color: aqua;
+        z-index: 99999999;
+        border: 1px solid #998866;
+        text-shadow: none;
+        color: black;
+        font-size: 0.8em;
+
+    }
+    .remove:hover {
+        background-color: rgb(67, 184, 184);
     }
 </style>
