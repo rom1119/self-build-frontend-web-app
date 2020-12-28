@@ -23,7 +23,7 @@ export default class TableTrRemover extends HtmlNodeRemover
             tag.api.deleteTag(tag).then(
                 (res) => {
 
-                    tag.synchronize()
+                    // tag.synchronize()
                     let a = this.removeDeep(tag.uuid)
                     if (!tag.parent.children) {
                         if (!(tag.parent instanceof TableTag)) {

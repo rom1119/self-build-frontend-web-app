@@ -22,7 +22,7 @@ export default class HtmlNodeRemover implements Remover<HtmlNode>
             tag.api.deleteTag(tag).then(
                 (res) => {
 
-                    tag.synchronize()
+                    // tag.synchronize()
                     let a = this.removeDeep(tag.uuid)
                     resolve()
                 },

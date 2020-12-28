@@ -22,7 +22,7 @@ export default class TableCellRemover extends HtmlNodeRemover
             tag.api.deleteTag(tag).then(
                 (htmltag) => {
 
-                    htmltag.synchronize()
+                    // htmltag.synchronize()
                     let a = this.removeDeep(htmltag.uuid)
                     if (!htmltag.parent.children) {
                         this.trRemover.remove(htmltag.parent)
