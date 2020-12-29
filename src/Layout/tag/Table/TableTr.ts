@@ -113,7 +113,7 @@ export default class TableTr extends TableContainer {
         this._height = h
 
         let height = new Height(this._height, this.heightUnitCurrent)
-        // this.updateCssPropertyWithoutModel(height.getName(), height)
+        this.updateCssPropertyWithoutModel(height.getName(), height)
 
         this.notifyPositionalTag()
 

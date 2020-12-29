@@ -46,6 +46,11 @@ export default class TableColumnEl extends TableElement{
         return "";
     }
 
+    public removeFromTable()
+    {
+        this.owner.columns.splice(this.index, 1)
+    }
+
     get lengthOffsetCalc(): string
     {
         return this._lengthOffsetCalc

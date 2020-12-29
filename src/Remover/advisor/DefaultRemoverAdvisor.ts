@@ -8,6 +8,8 @@ import TableTrRemover from "~/src/Remover/impl/TableTrRemover";
 import TableTr from "~/src/Layout/tag/Table/TableTr";
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 import TableColumnRemover from "~/src/Remover/impl/TableColumnRemover";
+import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
+import TableRowRemover from "~/src/Remover/impl/TableRowRemover";
 
 export default class DefaultRemoverAdvisor implements RemoverAdvisor  {
 
@@ -36,6 +38,10 @@ export default class DefaultRemoverAdvisor implements RemoverAdvisor  {
 
         if (tag instanceof TableColumnEl) {
             return new TableColumnRemover(this.listToFind, this.api, cellRemove)
+        }
+
+        if (tag instanceof TableRowEl) {
+            return new TableRowRemover(this.listToFind, this.api)
         }
 
         return tagRemove

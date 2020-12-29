@@ -39,10 +39,8 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
 
     }
 
-    public removeFromTable()
-    {
-        this.owner.columns.splice(this.index, 1)
-    }
+    public abstract  removeFromTable()
+
     protected initCssAccessor()
     {
         // super.initCssAccessor()

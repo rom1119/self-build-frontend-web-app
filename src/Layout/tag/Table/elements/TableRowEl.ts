@@ -21,11 +21,17 @@ export default class TableRowEl extends TableElementEl{
     tr: TableTr
 
     getDomainTagName(): string {
+        this.removeCssProperty
         return "";
     }
 
     getTagName(): string {
         return "";
+    }
+
+    public removeFromTable()
+    {
+        this.owner.rows.splice(this.index, 1)
     }
 
     public initHeight(w)
@@ -34,6 +40,11 @@ export default class TableRowEl extends TableElementEl{
         this._height = w
         // this.synchronizer.synchronize()
 
+    }
+
+    public removeCssProperty(prop: BasePropertyCss)
+    {
+        this._cssPropertyAccesor.removePropWithName(prop.getName())
     }
 
     // protected contentTableDiffRealHeight(): number
