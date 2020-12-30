@@ -198,7 +198,7 @@ export default class TableRowEl extends TableElementEl{
         // let height = new Height(this.lengthCalc, new Named())
         let left = new LeftCss('calc(0px)', new Named())
         // let top = new TopCss(this.lengthOffsetCalc, new Named())
-        let top = new TopCss('calc(-60px)', new Named())
+        let top = new TopCss('calc(0px)', new Named())
 
         // this._cssPropertyAccesor.addNewProperty(width)
         // this._cssPropertyAccesor.addNewProperty(height)

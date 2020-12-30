@@ -101,7 +101,7 @@ export default abstract class LayoutEl {
         } else {
             let currentBackground = this.cssAccessor.getProperty(val.getName())
             if (currentBackground.getValue() === val.getValue()) {
-                return
+                // return
             }
             this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         }
