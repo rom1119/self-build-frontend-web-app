@@ -1,10 +1,11 @@
 import DecisionObject from "../DecisionObject";
 import BasePropertyCss from '../../Css/BasePropertyCss';
 import CssDecisionObject from "./CssDecisionObject";
-import MarginCss from "~/src/Css/BoxModel/Margin/MarginCss";
+import PaddingTopCss from "~/src/Css/BoxModel/Padding/PaddingTopCss";
+import PaddingRightCss from "~/src/Css/BoxModel/Padding/PaddingRightCss";
 
-export default class MarginObject extends CssDecisionObject {
-    public static NAME = MarginCss.PROP_NAME
+export default class PaddingRightObject extends CssDecisionObject {
+    public static NAME = PaddingRightCss.PROP_NAME
 
     // equals(arg: DecisionObject) {
 

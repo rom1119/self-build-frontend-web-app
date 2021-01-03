@@ -11,6 +11,8 @@ import Height from '../../Css/Size/Height';
 import HtmlTag from "../HtmlTag";
 import PaddingRightCss from "~/src/Css/BoxModel/Padding/PaddingRightCss";
 import { RightCss, TopCss, LeftCss } from "~/src/Css";
+import PaddingLeftCss from "~/src/Css/BoxModel/Padding/PaddingLeftCss";
+import Display from "~/src/Css/Display/Display";
 
 
 export default class PaddingRight extends PaddingModel {
@@ -26,6 +28,9 @@ export default class PaddingRight extends PaddingModel {
     protected initCssAccessor()
     {
         super.initCssAccessor()
+        if (!this.htmlTag.decisionCssFacade.canManageCss(new PaddingRightCss(null, null))) {
+            return
+        }
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.lengthCalc, new Named())
         let right = new RightCss(this.offsetCalc, new Named())
@@ -35,16 +40,16 @@ export default class PaddingRight extends PaddingModel {
         this._cssPropertyAccesor.addNewProperty(right)
         this._cssPropertyAccesor.addNewProperty(top)
     }
-    
+
     get width(): number {
         return this._width
     }
-    
+
     set width(newVal: number) {
         this._width = newVal
     }
 
-    get left(): string 
+    get left(): string
     {
         return 'none'
     }
@@ -65,6 +70,12 @@ export default class PaddingRight extends PaddingModel {
     get cssList() : any
     {
         let css = super.cssList
+        if (!this.htmlTag.decisionCssFacade.canManageCss(new PaddingRightCss(null, null))) {
+            var d = new Display(Display.NONE, new Named())
+            css[d.getName()] = d.getValue()
+
+            return css
+        }
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.lengthCalc, new Named())
         let right = new RightCss(this.offsetCalc, new Named())
@@ -76,8 +87,8 @@ export default class PaddingRight extends PaddingModel {
 
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
-        } 
-        
+        }
+
         return css
     }
 }

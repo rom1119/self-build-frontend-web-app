@@ -11,6 +11,9 @@ import { Height } from "~/src/Css";
 import HeightObject from "../decisionObjects/HeightObject";
 import WidthObject from "../decisionObjects/WidthObject";
 
+import * as libCss from "~/src/DecisionManager/cssIndex";
+
+
 export default class CssDecisionObjectFactory {
 
     protected cssFactory: CssPropertyFactoryFromName
@@ -22,12 +25,17 @@ export default class CssDecisionObjectFactory {
     create(name: string): CssDecisionObject
     {
         var prop = this.cssFactory.create(name)
-        if (name.toLowerCase().indexOf(BaseMarginCss.PROP_NAME) > -1) {
-            return new MarginObject(prop) 
-        } else if (name.toLowerCase().indexOf(Width.PROP_NAME) > -1) {
-            return new WidthObject(prop) 
-        } else if (name.toLowerCase().indexOf(Height.PROP_NAME) > -1) {
-            return new HeightObject(prop) 
+        var cssProps = libCss;
+        var name = name.replace(/\.?([A-Z])/g, function (x,y){return "-" + y.toLowerCase()}).replace(/^-/, "")
+
+        // console.log(name);
+
+        for (const cssPropClass in cssProps) {
+            // console.log(cssProps[cssPropClass].PROP_NAME);
+
+            if (cssProps[cssPropClass].NAME === name) {
+                return new cssProps[cssPropClass]
+            }
         }
 
         return new DefaultCSSObject(prop)

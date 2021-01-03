@@ -202,8 +202,8 @@ export default class TableRowEl extends TableElementEl{
 
         // this._cssPropertyAccesor.addNewProperty(width)
         // this._cssPropertyAccesor.addNewProperty(height)
-        this._cssPropertyAccesor.addNewProperty(left)
-        this._cssPropertyAccesor.addNewProperty(top)
+        this._cssPropertyAccesor.all.push(left)
+        this._cssPropertyAccesor.all.push(top)
     }
 
 

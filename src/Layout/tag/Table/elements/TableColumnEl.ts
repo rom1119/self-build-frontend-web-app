@@ -31,6 +31,7 @@ import BorderTopCss from "~/src/Css/Border/Top/BorderTopCss";
 import BorderLeftCss from "~/src/Css/Border/Left/BorderLeftCss";
 import TableColumnPropertyAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyAccessor";
 import BorderRightCss from "~/src/Css/Border/Right/BorderRightCss";
+import TableColumnPropertyTmpAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyTmpAccessor";
 
 
 export default class TableColumnEl extends TableElement{
@@ -114,7 +115,7 @@ export default class TableColumnEl extends TableElement{
     protected initCssAccessor()
     {
         super.initCssAccessor()
-        this._tmpCssPropertyAccesor = new TableColumnPropertyAccessor(this)
+        this._tmpCssPropertyAccesor = new TableColumnPropertyTmpAccessor(this)
         this._cssPropertyAccesor = new TableColumnPropertyAccessor(this)
         // let width = new Width(this.width, this.widthUnit)
         // let height = new Height(this.lengthCalc, new Named())

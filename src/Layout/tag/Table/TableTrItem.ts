@@ -14,15 +14,14 @@ import TableTHead from './TableTHead';
 import HtmlNode from "~/src/Layout/HtmlNode";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import CssList from "~/src/Layout/CssList";
-import TableTrItem from "~/src/Layout/tag/Table/TableTrItem";
 
-export default class TableTrContainer extends HtmlTag implements CssList {
+export default class TableTrItem extends HtmlTag implements CssList {
 
-    protected _innerText: string = `${this.uuid}  TableTrContainer`
-    protected _children: TableTrItem[] = []
+    protected _innerText: string = `${this.uuid}  TableTrItem`
+    protected _children: TableCell[] = []
     protected hasFlexGrow = true
 
-    public static TAG_NAME = 'tr-container'
+    public static TAG_NAME = 'tr-item'
 
     protected _parent: TableContainer
     get parent(): TableContainer
@@ -88,12 +87,12 @@ export default class TableTrContainer extends HtmlTag implements CssList {
         return 'table-tr-container'
     }
 
-    get children(): TableTrItem[]
+    get children(): TableCell[]
     {
         return this._children
     }
 
-    set children(arg: TableTrItem[])
+    set children(arg: TableCell[])
     {
         this._children = arg
     }

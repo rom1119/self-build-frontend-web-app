@@ -8,9 +8,11 @@ import CssDecisionObject from '../decisionObjects/CssDecisionObject';
 import MarginObject from '../decisionObjects/MarginObject';
 import WidthObject from '../decisionObjects/WidthObject';
 import HeightObject from '../decisionObjects/HeightObject';
+import PaddingLeftObject from "~/src/DecisionManager/decisionObjects/PaddingLeftObject";
+import PaddingRightObject from "~/src/DecisionManager/decisionObjects/PaddingRightObject";
 
 export default class CssPropDecisionMaker implements DecisionManager<CssDecisionObject> {
-    
+
     protected tag: HtmlTag
 
     constructor(tag: HtmlTag) {
@@ -24,12 +26,24 @@ export default class CssPropDecisionMaker implements DecisionManager<CssDecision
             if (arg instanceof WidthObject) {
                 return false
             }
-            
+
             if (arg instanceof HeightObject) {
                 return false
             }
         }
-        if (tagName == 'td' || tagName == 'th' || tagName == 'tr' || tagName == 'thead' || tagName == 'tbody' ||tagName == 'tfoot' ) {
+
+        if (tagName == 'tr' || tagName == 'thead' || tagName == 'tbody' ||tagName == 'tfoot') {
+
+            if (arg instanceof PaddingLeftObject) {
+                return false
+            }
+
+            if (arg instanceof PaddingRightObject) {
+                return false
+            }
+        }
+
+        if (tagName == 'tr' || tagName == 'td' || tagName == 'th' || tagName == 'tr' || tagName == 'thead' || tagName == 'tbody' ||tagName == 'tfoot' ) {
             if (arg instanceof MarginObject) {
                 return false
             }
@@ -37,7 +51,7 @@ export default class CssPropDecisionMaker implements DecisionManager<CssDecision
         }
 
         return true
-        
+
     }
 
 }

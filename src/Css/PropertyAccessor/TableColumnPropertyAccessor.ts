@@ -8,6 +8,7 @@ import LeftCss from '../Display/Direction/LeftCss';
 import TableElementEl from "~/src/Layout/tag/Table/elements/TableElement";
 import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
+import LayoutEl from "~/src/LayoutEl";
 
 export default class TableColumnPropertyAccessor extends CssPropertyAccessor
 {
@@ -41,6 +42,12 @@ export default class TableColumnPropertyAccessor extends CssPropertyAccessor
     {
         super.setNewPropertyValue(propName, newVal)
 
+        for (var i = 0; i < this.value.children.length; i++) {
+            var cp = newVal.deepCopy(newVal)
+            var child = this.value.children[i]
+            child.cssAccessor.setNewPropertyValue(propName, cp)
+
+        }
         return this
     }
 
@@ -48,8 +55,15 @@ export default class TableColumnPropertyAccessor extends CssPropertyAccessor
     {
 
         super.addNewProperty(newProp)
+        for (var i = 0; i < this.value.children.length; i++) {
+            var cp = newProp.deepCopy(newProp)
+            var child = this.value.children[i]
+            if (child.cssAccessor.hasCssProperty(cp.getName())) {
+                continue
+            }
+            child.cssAccessor.addNewProperty(cp)
 
-
+        }
 
         return this
     }

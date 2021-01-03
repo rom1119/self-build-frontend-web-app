@@ -7,12 +7,13 @@ import { PositionCss } from "..";
 import LeftCss from '../Display/Direction/LeftCss';
 import TableElementEl from "~/src/Layout/tag/Table/elements/TableElement";
 import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
+import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 
-export default class TableRowPropertyAccessor extends CssPropertyAccessor
+export default class TableColumnPropertyTmpAccessor extends CssPropertyAccessor
 {
-    protected value: TableRowEl
+    protected value: TableColumnEl
 
-    constructor(tag: TableRowEl)
+    constructor(tag: TableColumnEl)
     {
         super(tag)
 
@@ -27,13 +28,11 @@ export default class TableRowPropertyAccessor extends CssPropertyAccessor
             this.cssProps.splice(index, 1);
         }
 
-        this.value.tr.removeCssPropertyByName(name)
         for (var i = 0; i < this.value.children.length; i++) {
             var child = this.value.children[i]
             child.removeCssPropertyByName(name)
 
         }
-
 
     }
 
@@ -42,16 +41,12 @@ export default class TableRowPropertyAccessor extends CssPropertyAccessor
     {
         super.setNewPropertyValue(propName, newVal)
 
-        var cpTr = newVal.deepCopy(newVal)
-        // this.value.tr.cssAccessor.setNewPropertyValue(propName, cpTr)
-        //
-        // for (var i = 0; i < this.value.children.length; i++) {
-        //     var cp = newVal.deepCopy(newVal)
-        //     var child = this.value.children[i]
-        //     child.cssAccessor.setNewPropertyValue(propName, cp)
-        //
-        // }
+        for (var i = 0; i < this.value.children.length; i++) {
+            var cp = newVal.deepCopy(newVal)
+            var child = this.value.children[i]
+            child.cssAccessor.setNewPropertyValue(propName, cp)
 
+        }
         return this
     }
 
@@ -59,18 +54,15 @@ export default class TableRowPropertyAccessor extends CssPropertyAccessor
     {
 
         super.addNewProperty(newProp)
-        var cpTr = newProp.deepCopy(newProp)
+        for (var i = 0; i < this.value.children.length; i++) {
+            var cp = newProp.deepCopy(newProp)
+            var child = this.value.children[i]
+            if (child.cssAccessor.hasCssProperty(cp.getName())) {
+                continue
+            }
+            child.cssAccessor.addNewProperty(cp)
 
-        // this.value.tr.cssAccessor.addNewProperty(cpTr)
-        // for (var i = 0; i < this.value.children.length; i++) {
-        //     var cp = newProp.deepCopy(newProp)
-        //     var child = this.value.children[i]
-        //     if (child.cssAccessor.hasCssProperty(cp.getName())) {
-        //         continue
-        //     }
-        //     child.cssAccessor.addNewProperty(cp)
-        //
-        // }
+        }
 
 
         return this

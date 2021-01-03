@@ -67,7 +67,15 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
 
     public synchronize()
     {
-        return this.owner.synchronize()
+        this.owner.synchronize()
+
+        for (var i = 0; i < this.children.length; i++) {
+            var child = this.children[i]
+            child.synchronize()
+
+        }
+
+        return true
     }
 
     //

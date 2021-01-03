@@ -8,6 +8,8 @@ import Height from "~/src/Css/Size/Height";
 import PaddingLeftCss from '../../Css/BoxModel/Padding/PaddingLeftCss';
 import Named from "~/src/Unit/Named";
 import { LeftCss, TopCss } from "~/src/Css";
+import MarginLeftCss from "~/src/Css/BoxModel/Margin/MarginLeftCss";
+import Display from "~/src/Css/Display/Display";
 
 export default class PaddingLeft extends PaddingModel
 {
@@ -27,17 +29,20 @@ export default class PaddingLeft extends PaddingModel
     protected initCssAccessor()
     {
         super.initCssAccessor()
+        if (!this.htmlTag.decisionCssFacade.canManageCss(new PaddingLeftCss(null, null))) {
+            return
+        }
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.lengthCalc, new Named())
         let left = new LeftCss(this.offsetCalc, new Named())
         let top = new TopCss(this.lengthOffsetCalc, new Named())
-        
+
         this._cssPropertyAccesor.addNewProperty(width)
         this._cssPropertyAccesor.addNewProperty(height)
         this._cssPropertyAccesor.addNewProperty(left)
         this._cssPropertyAccesor.addNewProperty(top)
-    } 
-    
+    }
+
     get width(): number {
         return this._width
     }
@@ -62,6 +67,12 @@ export default class PaddingLeft extends PaddingModel
     get cssList() : any
     {
         let css = super.cssList
+        if (!this.htmlTag.decisionCssFacade.canManageCss(new PaddingLeftCss(null, null))) {
+            var d = new Display(Display.NONE, new Named())
+            css[d.getName()] = d.getValue()
+
+            return css
+        }
         let width = new Width(this.width, this.widthUnit)
         let height = new Height(this.lengthCalc, new Named())
         let left = new LeftCss(this.offsetCalc, new Named())
@@ -74,8 +85,8 @@ export default class PaddingLeft extends PaddingModel
 
         for (const cssProp of this._cssPropertyAccesor.all) {
             css[cssProp.getName()] = cssProp.getValue()
-        } 
-        
+        }
+
         return css
     }
 
