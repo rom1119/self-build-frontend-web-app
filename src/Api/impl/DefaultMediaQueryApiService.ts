@@ -40,10 +40,10 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
 
     // private domainToModelTransformer: DomainToModel
     // private tagModelToResponse: ResponseFromModel<TagDto, HtmlTagResponse>
-    
+
     private mediaQueryDomainToModelTransformer: MediaQueryToModel
     private mediaQueryModelToResponse: ResponseFromModel<MediaQuery, MediaQueryResponse>
-    
+
 
 
     private cssFromName: CssPropertyFactoryFromName
@@ -51,7 +51,7 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
 
     constructor()
     {
-        
+
         this.mediaQueryDomainToModelTransformer = new DefaultMediaQueryToModel()
         this.mediaQueryModelToResponse = new MediaQueryModelBuildResponse()
 
@@ -60,7 +60,7 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
     }
 
 
-  
+
 
     appendMedia(arg: MediaQueryCss, projectId: string): Promise<any> {
         let model = this.mediaQueryDomainToModelTransformer.transform(arg)
@@ -82,8 +82,8 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
                     // }
 
                     resolve()
-    
-                    
+
+
                 },
                 () => {
                     reject()
@@ -103,17 +103,11 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
 
     }
 
-    getAllForProject(projectId: string): Promise<any> {
-        // let model = this.selectorDomainToModelTransformer.transform(selector)
-        // let response = this.selectorModelToResponse.build(model)
 
-        return Axios.get(DefaultMediaQueryApiService.HOST + `/api/media-query/project/${projectId}`)
 
-    }
-    
     deleteMedia(arg: MediaQueryCss): Promise<any> {
         return Axios.delete(DefaultMediaQueryApiService.HOST + `/api/css-style/value/${arg.id}`)
     }
 
- 
+
 }

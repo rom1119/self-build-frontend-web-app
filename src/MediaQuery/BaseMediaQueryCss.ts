@@ -13,20 +13,20 @@ import Unit from '../Unit/Unit';
 import CssWithoutValue from '../Errors/CssWithoutValue';
 import MediaOrientation from './MediaOrientation';
 import MediaQueryApiService from '../Api/MediaQueryApiService';
-import MediaQuerySynchronizer from '../Synchronizer/Impl/MediaQuerySelectorSynchronizer';
+import MediaQuerySynchronizer from '../Synchronizer/Impl/MediaQuerySynchronizer';
 
 
 export class MediaQueryStructVal implements CssValue {
     id
-    
-    public static DEFAULT_MEDIA_SIZE = '500'
+
+    public static DEFAULT_MEDIA_SIZE = 500
     public static DEFAULT_MEDIA_SIZE_UNIT = new Pixel()
-    
+
     public static DEFAULT_MEDIA_FEATURE = MediaFeature.NEW_MAX_WIDTH
     public static DEFAULT_MEDIA_TYPE = MediaType.NEW_SCREEN
     public static DEFAULT_MEDIA_QUERY_OPERATOR = MediaQueryOperator.NEW_ONLY
-    
-    
+
+
     protected _orientation: MediaOrientation
 
     protected _featureVal: number
@@ -36,7 +36,7 @@ export class MediaQueryStructVal implements CssValue {
     protected _mediaType: MediaType
     protected _mediaQueryOperator: MediaQueryOperator
 
-    
+
     getId(): number {
         return this.id
     }
@@ -44,17 +44,17 @@ export class MediaQueryStructVal implements CssValue {
     {
         Vue.set(this, '_orientation', val)
     }
-    
+
     get orientation()
     {
         return this._orientation
     }
-    
+
     set mediaFeature(val)
     {
         Vue.set(this, '_mediaFeature', val)
     }
-    
+
     get mediaFeature()
     {
         return this._mediaFeature
@@ -64,7 +64,7 @@ export class MediaQueryStructVal implements CssValue {
     {
         Vue.set(this, '_mediaType', val)
     }
-    
+
     get mediaType()
     {
         return this._mediaType
@@ -76,29 +76,29 @@ export class MediaQueryStructVal implements CssValue {
         Vue.set(this, '_mediaQueryOperator', val)
 
     }
-    
+
     get mediaQueryOperator()
     {
         return this._mediaQueryOperator
     }
-    
+
     set featureVal(val)
     {
         Vue.set(this, '_featureVal', val)
 
     }
-    
+
     get featureVal()
     {
         return this._featureVal
     }
-    
+
     set featureValUnit(val)
     {
         Vue.set(this, '_featureValUnit', val)
 
     }
-    
+
     get featureValUnit()
     {
         return this._featureValUnit
@@ -112,7 +112,7 @@ export class MediaQueryStructVal implements CssValue {
 
         return ''
     }
-    
+
     getMediaFeatureValue(): string {
         if (this._mediaFeature) {
             return this._mediaFeature.getValue()
@@ -121,15 +121,15 @@ export class MediaQueryStructVal implements CssValue {
 
         return ''
     }
-    
+
     getMediaTypeValue(): string {
         return this._mediaType.getValue()
     }
-    
+
     getMediaQueryOperatorValue(): string {
         return this._mediaQueryOperator.getValue()
     }
-    
+
     getOrientationValue(): string {
         return this._orientation.getValue()
     }
@@ -145,7 +145,7 @@ export class MediaQueryStructVal implements CssValue {
         if (this.getMediaTypeValue()) {
             res += ` ${this.getMediaTypeValue()}`
         }
-        
+
         if (this.getMediaQueryOperatorValue()) {
             res += ` ${this.getMediaQueryOperatorValue()}`
         }
@@ -154,15 +154,15 @@ export class MediaQueryStructVal implements CssValue {
         res += `${this.getMediaFeatureValue()}`
         res += `: ${this.getFeatureValue()}`
         res += `: `
-            
+
 
         if (this.getOrientationValue()) {
             res += `and`
             res += ` (`
             res += `orientation: ${this.getOrientationValue()}`
-    
+
             res += ` (`
-            
+
         }
 
 
@@ -171,23 +171,23 @@ export class MediaQueryStructVal implements CssValue {
         }
         return res
     }
-    
+
 }
 
 
-export default class BaseMediaQueryCss implements CssMultipleValue<MediaQueryStructVal>
+export default abstract class BaseMediaQueryCss implements CssMultipleValue<MediaQueryStructVal>
 {
 
     id
     projectId
-    name
+    name = 'sm'
     version
-    values: MediaQueryStructVal[]
-    selectors: PseudoSelector[]
-    tags: HtmlTag[]
+    values: MediaQueryStructVal[] = []
+    selectors: PseudoSelector[] = []
+    tags: HtmlTag[] = []
 
     api: MediaQueryApiService
-    synchronizer: MediaQuerySynchronizer 
+    synchronizer: MediaQuerySynchronizer
 
     public setApi(api: MediaQueryApiService)
     {
@@ -198,19 +198,19 @@ export default class BaseMediaQueryCss implements CssMultipleValue<MediaQueryStr
     get selectorsList() : any
     {
         let pseudoSelectors = {}
-        
+
         for (const element of this.selectors) {
-            
+
             pseudoSelectors[element.value] = element.cssAccessor.all
-            
+
         }
-        
+
         for (const tag of this.tags) {
-            
+
             pseudoSelectors[tag.selectorLiteral] = tag.cssAccessor.all
-            
-        }  
-        
+
+        }
+
         // console.log('COMP-SELECTORS');
         // console.log(pseudoSelectors);
 
@@ -231,5 +231,12 @@ export default class BaseMediaQueryCss implements CssMultipleValue<MediaQueryStr
     }
     removeValue(val: MediaQueryStructVal) {
         throw new Error("Method not implemented.");
+    }
+
+    public synchronize()
+    {
+        if (this.synchronizer) {
+            this.synchronizer.synchronize()
+        }
     }
 }

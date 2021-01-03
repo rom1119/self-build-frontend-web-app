@@ -36,7 +36,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
     private cssFactoryFromName: CssPropertyFactoryFromName
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
     // private styleTransformer: ModelToCss
- 
+
     constructor()
     {
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
@@ -55,16 +55,28 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
         model.version = domain.version
         model.name = domain.name
 
-      
+
         var values = []
         for (const valCss of domain.getValues()) {
-            valCss
-            let el = new StyleCssValue(valCss.mediaQueryOperator.getValue(), Named.PROP_NAME)
+            // valCss
+            let el = new StyleCssValue(valCss.mediaType.getValue(), Named.PROP_NAME)
             el.id = valCss.id
-            el.setValue(valCss.mediaQueryOperator.getValue())
-            el.setValueSecond(valCss.mediaType.getValue())
-            el.setValueThird(valCss.mediaFeature.getValue())
-            el.setValueFourth(valCss.featureVal)
+            if (valCss.mediaQueryOperator) {
+                el.setValue(valCss.mediaQueryOperator.getValue())
+
+            }
+            if (valCss.mediaType) {
+                el.setValueSecond(valCss.mediaType.getValue())
+
+            }
+            if (valCss.mediaFeature) {
+                el.setValueThird(valCss.mediaFeature.getValue())
+
+            }
+            if (valCss.featureVal) {
+                el.setValueFourth(valCss.featureVal)
+
+            }
             // var color = valCss.color
             // if (typeof color === 'object') {
             //     var valueJsonStr = JSON.stringify(color)
@@ -72,12 +84,15 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
             // } else {
             //     el.setValueFourth(color)
             // }
-            
+
             el.setUnitName(new Named())
             el.setUnitNameSecond(new Named() )
             el.setUnitNameThird(new Named())
-            el.setUnitNameFourth(valCss.featureValUnit.name)
-            
+            if (valCss.featureValUnit) {
+                el.setUnitNameFourth(valCss.featureValUnit.name)
+
+            }
+
             values.push(el)
         }
 
@@ -90,7 +105,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
         // domain.id = model.id
 
         // console.log(domain);
-                    
+
         return model
 
     }
@@ -104,7 +119,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
             domainCastMultiplyVal = <CssMultipleValue<TextShadowStruct>><unknown>domain
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
-            
+
             for (const valCss of domainCastMultiplyVal.getValues()) {
                 valCss
                 let el = new StyleCssValue(valCss.offsetX, valCss.offsetXUnit.name)
@@ -119,23 +134,23 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 } else {
                     el.setValueFourth(color)
                 }
-                
+
                 el.setUnitName(valCss.offsetXUnit.name)
                 el.setUnitNameSecond(valCss.offsetYUnit.name)
                 el.setUnitNameThird(valCss.blurUnit.name)
                 el.setUnitNameFourth(valCss.colorUnit.name)
-                
+
                 values.push(el)
             }
 
             model.setValue(null)
             model.setValues(values)
-            
+
         } else if (domain instanceof BoxShadowCss) {
             domainCastMultiplyValBoxShadow = <CssMultipleValue<BoxShadowStruct>><unknown>domain
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
-            
+
             for (const valCss of domainCastMultiplyValBoxShadow.getValues()) {
                 valCss
                 let el = new StyleCssValue(valCss.offsetX, valCss.offsetXUnit.name)
@@ -152,14 +167,14 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 } else {
                     el.setValueFifth(color)
                 }
-                
+
                 el.setUnitName(valCss.offsetXUnit.name)
                 el.setUnitNameSecond(valCss.offsetYUnit.name)
                 el.setUnitNameThird(valCss.blurUnit.name)
                 el.setUnitNameFourth(valCss.spreadUnit.name)
                 el.setUnitNameFifth(valCss.colorUnit.name)
 
-                
+
                 values.push(el)
             }
             model.setValue(null)
@@ -176,7 +191,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
             domainCastMultiplyVal = <CssMultipleValue<TransitionStruct>><unknown>domain
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
-            
+
             for (const valCss of domainCastMultiplyVal.getValues()) {
                 valCss
                 let el = new StyleCssValue(valCss.propertyName, valCss.propertyNameUnit.name)
@@ -198,17 +213,17 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 // } else {
                 //     el.setValueFourth(color)
                 // }
-                
+
                 el.setUnitName(valCss.propertyNameUnit.name)
                 el.setUnitNameSecond(valCss.durationUnit.name)
                 el.setUnitNameThird(valCss.timingFunctionUnit.name)
                 el.setUnitNameFourth(valCss.delayUnit.name)
-                
+
                 values.push(el)
             }
             model.setValue(null)
             model.setValues(values)
-            
+
         }
 
     }
@@ -233,12 +248,12 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 values.push(el)
             }
 
-            
+
             for (const valCss of domainCastMultiplyVal.getValues()) {
-                
+
                 var el = new StyleCssValue(valCss.color, valCss.colorUnit.name)
                 el.id = valCss.id
-                
+
                 el.setValue(valCss.color)
                 el.setValueSecond(valCss.size)
                 var color = valCss.color
@@ -248,15 +263,15 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 } else {
                     el.setValue(color)
                 }
-                
+
                 el.setUnitName(valCss.colorUnit.name)
                 el.setUnitNameSecond(valCss.sizeUnit.name)
-                
+
                 values.push(el)
             }
             model.setValue(null)
             model.setValues(values)
-            
+
         } else if (domain instanceof RadialGradientCss) {
             domainCastMultiplyValRadial = <CssMultipleValue<RadialGradientStructVal>><unknown>domain
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
@@ -270,7 +285,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 el.setValueSecond(direc.size)
                 el.setValueThird(direc.xPos)
                 el.setValueFourth(direc.yPos)
-                
+
                 el.setUnitName(Named.PROP_NAME)
                 el.setUnitNameSecond(Named.PROP_NAME)
                 el.setUnitNameThird(direc.xPosUnit.name)
@@ -279,12 +294,12 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 values.push(el)
 
             }
-            
+
             for (const valCss of domainCastMultiplyValRadial.getValues()) {
-                
+
                 var el = new StyleCssValue(valCss.color, valCss.colorUnit.name)
                 el.id = valCss.id
-                
+
                 el.setValue(valCss.color)
                 el.setValueSecond(valCss.size)
                 var color = valCss.color
@@ -294,15 +309,15 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 } else {
                     el.setValue(color)
                 }
-                
+
                 el.setUnitName(valCss.colorUnit.name)
                 el.setUnitNameSecond(valCss.sizeUnit.name)
-                
+
                 values.push(el)
             }
             model.setValue(null)
             model.setValues(values)
-            
+
         }
 
     }

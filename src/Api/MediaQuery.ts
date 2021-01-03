@@ -16,24 +16,17 @@ export default class MediaQuery
 
     constructor()
     {
-        
+
     }
 
-    getName(): string
-    {
-        return this._name
-    }
 
-    
+
     getTags(): TagDto[]
     {
         return this.tags
 
     }
 
-    public setName(val)
-    {
-        this._name = val
-    }
+
 
 }

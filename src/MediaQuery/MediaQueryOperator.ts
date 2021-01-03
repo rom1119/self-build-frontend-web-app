@@ -1,5 +1,5 @@
 export default class MediaQueryOperator {
-    public static PROP: {
+    public static PROP = {
         and: 'and',
         not: 'not',
         only: 'only',
@@ -19,12 +19,12 @@ export default class MediaQueryOperator {
     {
         return new MediaQueryOperator(MediaQueryOperator.PROP.and)
     }
-    
+
     public static NEW_NOT(): MediaQueryOperator
     {
         return new MediaQueryOperator(MediaQueryOperator.PROP.not)
     }
-    
+
     public static NEW_ONLY(): MediaQueryOperator
     {
         return new MediaQueryOperator(MediaQueryOperator.PROP.only)

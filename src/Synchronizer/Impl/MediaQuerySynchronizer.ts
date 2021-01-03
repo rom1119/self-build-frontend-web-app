@@ -15,7 +15,7 @@ import MediaQueryApiService from "~/src/Api/MediaQueryApiService";
 export default class MediaQuerySynchronizer implements Synchronizer
 {
 
-    protected isNowSynchronized 
+    protected isNowSynchronized
     protected isQueued = false
     protected model: MediaQueryCss
     protected api: MediaQueryApiService
@@ -29,7 +29,7 @@ export default class MediaQuerySynchronizer implements Synchronizer
         this.model = selector
         this.api = api
         this.isNowSynchronized = false
-        
+
     }
 
     synchronize()
@@ -39,22 +39,27 @@ export default class MediaQuerySynchronizer implements Synchronizer
             return
         }
         this.isNowSynchronized = true
+
+        if (!this.model.id) {
+            return this.saveApi()
+        }
+
         return this.updateApi()
 
     }
 
     private setAsNowReadyToSynchronize()
     {
-        setTimeout(() => { 
+        setTimeout(() => {
             this.isNowSynchronized = false
             // console.log('qwerty');
-            
+
         }, 1000)
     }
 
     private updateApi()
     {
-        setTimeout(() => { 
+        setTimeout(() => {
 
             // this.setAsNowReadyToSynchronize()
             this.updatePromise().then(
@@ -66,17 +71,61 @@ export default class MediaQuerySynchronizer implements Synchronizer
                     if (typeof this.model.values === 'function') {
                         // @ts-ignore
                         for (var i = 0; i < this.model.getValues().length; i++) {
-                            
+
                             // console.log(cssRes);
                             // console.log(cssDomain);
-                            
+
                             // @ts-ignore
                             const cssValDomain = cssDomain.getValues()[i]
                             cssValDomain.id = resValues[i].id
                         }
-    
+
                     }
-    
+
+                    this.setAsNowReadyToSynchronize()
+                    this.apiSocket.sendMessage(this.model.projectId)
+
+                    this.trySynchronize()
+                },
+                (arg) => {
+                    this.setAsNowReadyToSynchronize()
+                    // console.log('error');
+                    // console.log(arg);
+                    this.trySynchronize()
+                    this.apiSocket.sendMessage(this.model.projectId)
+
+
+                }
+            )
+
+        }, 1000)
+    }
+
+    private saveApi()
+    {
+        setTimeout(() => {
+
+            // this.setAsNowReadyToSynchronize()
+            this.savePromise().then(
+                (res) => {
+                    console.log('success');
+                    console.log(res);
+                    var resValues = res.data.cssValues
+                    // this.updateCssIds(res.data.cssStyleList, this.model.cssAccessor.all)
+                    if (typeof this.model.values === 'function') {
+                        // @ts-ignore
+                        for (var i = 0; i < this.model.getValues().length; i++) {
+
+                            // console.log(cssRes);
+                            // console.log(cssDomain);
+
+                            // @ts-ignore
+                            const cssValDomain = cssDomain.getValues()[i]
+                            cssValDomain.id = resValues[i].id
+                        }
+
+                    }
+
                     this.setAsNowReadyToSynchronize()
                     this.apiSocket.sendMessage(this.model.projectId)
 
@@ -101,9 +150,12 @@ export default class MediaQuerySynchronizer implements Synchronizer
 
         return this.api.putMedia(this.model)
 
+    }
 
+    private savePromise() : Promise<any>
+    {
 
-        throw Error(`Not implementede update object ${this.model}`)
+        return this.api.appendMedia(this.model, this.model.projectId)
     }
 
     private trySynchronize()
@@ -150,7 +202,7 @@ export default class MediaQuerySynchronizer implements Synchronizer
                         }
                         // console.log(cssRes);
                         // console.log(cssDomain);
-                        
+
                         // @ts-ignore
                         const cssValDomain = cssDomain.getValues()[i]
                         cssValDomain.id = cssRes.cssValues[i].id
@@ -165,7 +217,7 @@ export default class MediaQuerySynchronizer implements Synchronizer
             }
 
 
-            
+
         }
     }
 }

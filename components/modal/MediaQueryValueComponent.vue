@@ -34,19 +34,19 @@
 
             <div class="content-item__elem"
                  >
-                <select v-if="isNamedUnit" name="operator" @change="change" v-model="value.operator" >
+                <select  name="operator" @change="change" v-model="value.operator" >
                     <option v-for="operator in operators" :value="operator" :key="operator"> {{ operator }} </option>
                 </select>
             </div>
             <div class="content-item__elem"
                  >
-                <select v-if="isNamedUnit" name="type" @change="change" v-model="value.type">
+                <select name="type" @change="change" v-model="value.type">
                     <option v-for="type in types" :value="type" :key="type"> {{ operatypetor }} </option>
                 </select>
             </div>
             <div class="content-item__elem"
                  >
-                <select v-if="isNamedUnit" name="feature" @change="change" v-model="value.feature">
+                <select name="feature" @change="change" v-model="value.feature">
                     <option v-for="feature in features" :value="feature" :key="feature"> {{ feature }} </option>
                 </select>
             </div>
@@ -61,7 +61,7 @@
                     {{ value.featureValUnit.label }}
                     <input type="range" v-model="value.size" @input="change" :max="maxSize" />
                 </label>
-                    
+
             </div>
 
             <div class="content-item__elem"
@@ -71,9 +71,9 @@
                     <option v-for="orientation in orientations" :value="orientation" :key="orientation"> {{ orientation }} </option>
                 </select>
             </div>
-            
-  
-            
+
+
+
 
     </div>
 </template>
@@ -93,6 +93,7 @@ import MediaQueryOperator from '~/src/MediaQuery/MediaQueryOperator';
 import MediaType from '~/src/MediaQuery/MediaType';
 import MediaFeature from '~/src/MediaQuery/MediaFeature';
 import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
+    import {MediaQueryStructVal} from "~/src/MediaQuery/BaseMediaQueryCss";
 
 
     @Component({
@@ -101,21 +102,21 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
         }
     })
     export default class MediaQueryValueComponent extends Vue {
-        
+
         timeout
-        @Prop({default:null, required:true})
-        tag: HtmlTag
+        // @Prop({default:null, required:true})
+        // tag: HtmlTag
 
         @Prop({default:null, required:true})
-        value: BaseGradientStructVal
-        
+        value: MediaQueryStructVal
+
         @Prop({default:null, required:true})
         index: number
-   
-        operators = MediaQueryOperator.PROP
-        types = MediaType.PROP
-        features = MediaFeature.PROP
-        orientations = MediaOrientation.PROP
+
+        operators
+        types
+        features
+        orientations
         // @Prop({default:null, required:false})
         // classList: string[]
 
@@ -132,10 +133,10 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
             g: 0,
             b: 0,
             a: 1
-        }  
+        }
 
         backgroundColor = 'white'
-        
+
         get maxSize()
         {
             if (this.value.sizeUnit instanceof Percent) {
@@ -145,23 +146,31 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
             return 99999
         }
 
-        mounted() 
+        created(){
+            this.features = MediaFeature.PROP
+            this.types = MediaType.PROP
+            this.operators = MediaQueryOperator.PROP
+            this.orientations = MediaOrientation.PROP
+        }
+
+        mounted()
         {
+
             // console.log(this.contextMenuName);
             // console.log(this.cmName);
 
             if (this.value.colorUnit instanceof RGBA) {
                 console.log('00000000000000000');
                 console.log(this.value.color);
-                
+
                 this.color.r = this.value.color.r
                 this.color.g = this.value.color.g
                 this.color.b = this.value.color.b
                 this.color.a = this.value.color.a
             }
 
-            this.backgroundColor = this.value.getColorValue()
-            
+            // this.backgroundColor = this.value.getColorValue()
+
         }
 
         toggleColorPicker()
@@ -172,7 +181,7 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
         cancelColor()
         {
             console.log(this.color);
-            
+
             this.toggleColorPicker()
         }
 
@@ -187,7 +196,7 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
                 }
             )
         }
-        
+
         saveColor()
         {
             console.log(this.color);
@@ -203,7 +212,7 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
             this.$emit('change')
         }
 
-        
+
 
 
 
@@ -243,7 +252,7 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
         // {
         //     this.$emit('changeProp', val)
         // }
-        
+
         // get customPropUnit()
         // {
         //     return this.propertyUnit
@@ -256,17 +265,17 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
 
         //     }
         // }
-        
+
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)
         {
-           
+
         }
 
     }
 </script>
 
-<style lang="scss" scoped> 
+<style lang="scss" scoped>
     .disabled {
         opacity: 0.6;
     }
@@ -290,7 +299,7 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
     // .w-400 {
     //     width: 400px;
     // }
-    
+
     // .h-400 {
     //     height: 400px;
     // }

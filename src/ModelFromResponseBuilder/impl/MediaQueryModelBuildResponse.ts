@@ -31,7 +31,7 @@ export default class MediaQueryModelBuildResponse implements ResponseFromModel<M
     build(from: MediaQueryModel ): MediaQueryResponse {
         let response = new MediaQueryResponse()
         response.id = from.id
-        response.name = from.getName()
+        response.name = from.name
         response.version = from.version
         response.project = {
             "id": from.projectId,
@@ -62,22 +62,22 @@ export default class MediaQueryModelBuildResponse implements ResponseFromModel<M
         response.values = values
 
         var selectors = []
-        for (const cssValModel of from.selectors) {
-            let responseCssValue = this.selectorModelBuilderResponse.build(cssValModel)
-            selectors.push(responseCssValue)
-        }
+        // for (const cssValModel of from.selectors) {
+        //     let responseCssValue = this.selectorModelBuilderResponse.build(cssValModel)
+        //     selectors.push(responseCssValue)
+        // }
 
-        response.selectors = selectors
-        
+        // response.selectors = selectors
+
         var tags = []
-        for (const tagM of from.tags) {
-            let t = this.tagModelBuilderResponse.build(tagM)
-            tags.push(t)
-        }
+        // for (const tagM of from.tags) {
+        //     let t = this.tagModelBuilderResponse.build(tagM)
+        //     tags.push(t)
+        // }
 
-        response.tags = tags
-            
-               
+        // response.tags = tags
+
+
         return response;
     }
 

@@ -25,15 +25,15 @@ const state = (): MediaQueryState => {
 
 const actions: ActionTree<MediaQueryState, MediaQueryState> = {
 
-  async findAllByProject({ commit, state}, {projectId = null}) {
+  async findAllByProject({ commit, state}, projectId = null) {
     // @ts-ignore
     let response
-    response = await this.$axios.$get(`/api/media-query/project/${projectId}}`)
+    response = await this.$axios.$get(`/api/media-query/project/${projectId}`)
 
     commit('deleteAll')
 
     let returnArray: MediaQueryModel[] = []
-    for (let answer of response.items) {
+    for (let answer of response) {
       let model = builder.build(answer)
 
       // console.log(model);
@@ -41,9 +41,9 @@ const actions: ActionTree<MediaQueryState, MediaQueryState> = {
       returnArray.push(model)
     }
     // console.log(returnArray);
-    
+
     return { ...response, data: returnArray }
-  }, 
+  },
   async findOne({ commit, state }, id) {
     // @ts-ignore
     let response = await this.$axios.$get(`/api/html-project/${id}`)

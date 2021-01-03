@@ -13,5 +13,5 @@ export default interface ModelToMediaQuery
     /**
      * transform
      */
-    transform(model: MediaQuery, tag: HtmlTag) : MediaQueryCss 
+    transform(model: MediaQuery) : MediaQueryCss
 }

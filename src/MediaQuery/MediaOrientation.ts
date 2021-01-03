@@ -1,5 +1,5 @@
 export default class MediaOrientation {
-    public static PROP: {
+    public static PROP = {
         landscape: 'landscape',
         portrait: 'portrait',
     }
@@ -18,10 +18,10 @@ export default class MediaOrientation {
     {
         return new MediaOrientation(MediaOrientation.PROP.landscape)
     }
-    
+
     public static NEW_PORTRAIT(): MediaOrientation
     {
         return new MediaOrientation(MediaOrientation.PROP.portrait)
     }
-    
+
 }

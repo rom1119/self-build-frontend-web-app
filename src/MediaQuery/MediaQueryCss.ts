@@ -12,7 +12,7 @@ import Pixel from '../Unit/Size/Pixel';
 import Unit from '../Unit/Unit';
 import CssWithoutValue from '../Errors/CssWithoutValue';
 import MediaOrientation from './MediaOrientation';
-import BaseMediaQueryCss from './BaseMediaQueryCss';
+import BaseMediaQueryCss, {MediaQueryStructVal} from './BaseMediaQueryCss';
 
 
 
@@ -20,5 +20,11 @@ import BaseMediaQueryCss from './BaseMediaQueryCss';
 export default class MediaQueryCss extends BaseMediaQueryCss
 {
 
-   
+
+    constructor() {
+        super();
+        var defaultVal = new MediaQueryStructVal()
+        defaultVal.mediaType = MediaQueryStructVal.DEFAULT_MEDIA_TYPE()
+        this.values.push(defaultVal)
+    }
 }

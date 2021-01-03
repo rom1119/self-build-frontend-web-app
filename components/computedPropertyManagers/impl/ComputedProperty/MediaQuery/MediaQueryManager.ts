@@ -9,14 +9,15 @@ import TextShadowCss, { TextShadowStruct } from '../../../../../src/Css/Shadow/T
 import RGB from "~/src/Unit/Color/RGB";
 import _ from 'lodash'
 import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
+import BaseMediaQueryCss, {MediaQueryStructVal} from "~/src/MediaQuery/BaseMediaQueryCss";
+import MediaQueryFactory from "~/src/MediaQuery/MediaQueryFactory";
 
 
 export default class MediaQueryManager  {
 
-    protected value: HtmlTag
     DEFAULT_VAL = Display.BLOCK
     DEFAULT_UNIT = new Named()
-    property: MediaQueryCss = new MediaQueryCss()
+    property: BaseMediaQueryCss = new MediaQueryCss()
 
     getDefaultVal(): any {
         return this.DEFAULT_VAL
@@ -25,67 +26,76 @@ export default class MediaQueryManager  {
         return this.DEFAULT_UNIT
     }
 
-    createInitValue(): TextShadowStruct
+
+    constructor(arg: BaseMediaQueryCss) {
+        this.property = arg
+    }
+
+    createInitValue(): MediaQueryStructVal
     {
-        let el = new TextShadowStruct()
+        let el = new MediaQueryStructVal()
         el.id = null
-        el.offsetX = TextShadowCss.DEFAULT_OFFSET_X
-        el.offsetY = TextShadowCss.DEFAULT_OFFSET_Y
-        el.blur = TextShadowCss.DEFAULT_BLUR
-        
-        var unitOffX = TextShadowCss.DEFAULT_OFFSET_X_UNIT
-        var unitOffY = TextShadowCss.DEFAULT_OFFSET_Y_UNIT
-        var unitBlur = TextShadowCss.DEFAULT_BLUR_UNIT
-        var unitColor = TextShadowCss.DEFAULT_COLOR_UNIT
+        el.mediaFeature = MediaQueryStructVal.DEFAULT_MEDIA_FEATURE()
+        el.mediaType = MediaQueryStructVal.DEFAULT_MEDIA_TYPE()
+        el.mediaQueryOperator = MediaQueryStructVal.DEFAULT_MEDIA_QUERY_OPERATOR()
+
+        var defaultmediasizeunit = MediaQueryStructVal.DEFAULT_MEDIA_SIZE_UNIT
+
 
         var val
-        if (unitColor instanceof RGBA || unitColor instanceof RGB) {
-            el.color = JSON.parse(TextShadowCss.DEFAULT_COLOR)
+        if (defaultmediasizeunit instanceof RGBA || defaultmediasizeunit instanceof RGB) {
+            el.featureVal = JSON.parse(TextShadowCss.DEFAULT_COLOR)
         } else {
-            el.color = TextShadowCss.DEFAULT_COLOR
+            el.featureVal = MediaQueryStructVal.DEFAULT_MEDIA_SIZE
         }
-        
-        el.offsetXUnit = unitOffX
-        el.offsetYUnit = unitOffY
-        el.blurUnit = unitBlur
-        el.colorUnit = unitColor
+
+        el.featureValUnit = defaultmediasizeunit
+
 
         return el
     }
 
     init() {
-        var prop = this.getPropertyCssFromModel(this.getProperty().getName())
-        let clearval = this.getProperty().getClearValue()
-        let unit = this.getProperty().getUnit()
-        
-        if (prop) {
-            this.setProperty(prop)
-            this.getProperty().setActive(true)
-        } else {
+        // var prop = this.getPropertyCssFromModel(this.getProperty().getName())
+        // let clearval = this.getProperty().getClearValue()
+        // let unit = this.getProperty().getUnit()
+        //
+        // if (prop) {
+        //     this.setProperty(prop)
+        //     this.getProperty().setActive(true)
+        // } else {
+        //
+        //     this.getProperty().setActive(false)
+        //     let copy = _.cloneDeep(this.getProperty())
+        //
+        //     let el = this.createInitValue()
+        //     copy.clearValue()
+        //
+        //     copy.addValue(el)
+        //
+        //     this.setProperty(copy)
+        //     this.setTmpPropertyToModel(copy)
+        //     // if (clearval) {
+        //     //     this.getProperty().setValue(clearval)
+        //     // } else {
+        //     //     this.getProperty().setValue(this.getDefaultVal())
+        //     //     this.getProperty().setUnit(this.getDefaultUnit())
+        //     // }
+        // }
 
-            this.getProperty().setActive(false)
-            let copy = _.cloneDeep(this.getProperty())
+    }
 
-            let el = this.createInitValue()
-            copy.clearValue()
+    save(){
+        this.property.synchronize()
+    }
 
-            copy.addValue(el)
-            
-            this.setProperty(copy)
-            this.setTmpPropertyToModel(copy)
-            // if (clearval) {
-            //     this.getProperty().setValue(clearval)
-            // } else {
-            //     this.getProperty().setValue(this.getDefaultVal())
-            //     this.getProperty().setUnit(this.getDefaultUnit())   
-            // }
-        }
+    update() {
+        this.property.synchronize()
 
-        
     }
 
     deactivePropCss(prop: TextShadowCss) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
+        // this.value.cssAccessor.removePropWithName(prop.getName())
         prop.id = null
         prop.setActive(false)
 
@@ -95,7 +105,7 @@ export default class MediaQueryManager  {
 
         console.log('deactivePropCss color');
 
-        this.value.synchronize()
+        this.property.synchronize()
         return null
     }
 }
