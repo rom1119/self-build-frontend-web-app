@@ -25,6 +25,8 @@ export default class MediaQueryCss extends BaseMediaQueryCss
         super();
         var defaultVal = new MediaQueryStructVal()
         defaultVal.mediaType = MediaQueryStructVal.DEFAULT_MEDIA_TYPE()
+        defaultVal.featureVal = MediaQueryStructVal.DEFAULT_MEDIA_SIZE
+        defaultVal.featureValUnit = MediaQueryStructVal.DEFAULT_MEDIA_SIZE_UNIT
         this.values.push(defaultVal)
     }
 }

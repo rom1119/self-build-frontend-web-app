@@ -31,6 +31,8 @@ export default class MediaQueryModelBuild implements ModelFromResponse<MediaQuer
         model.id = from.id
         model.name = from.name
         model.version = from.version
+        model.color = from.color
+        model.colorUnitName = from.colorUnitName
 
 
         if (from.project) {
@@ -39,9 +41,9 @@ export default class MediaQueryModelBuild implements ModelFromResponse<MediaQuer
         }
 
         var values = []
-        if (from.values) {
+        if (from.cssValues) {
 
-            for (const cssValModel of from.values) {
+            for (const cssValModel of from.cssValues) {
                 let cssValue = new StyleCssValue(cssValModel.value, cssValModel.unitName)
                 cssValue.id = cssValModel.id
                 // cssValue.setInset(cssValModel.inset)
@@ -63,6 +65,9 @@ export default class MediaQueryModelBuild implements ModelFromResponse<MediaQuer
         }
 
         model.values = values
+
+        console.log('model build', model)
+        console.log('model build from', from)
 
         var sels = []
 

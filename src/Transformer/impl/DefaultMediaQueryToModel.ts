@@ -55,6 +55,13 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
         model.version = domain.version
         model.name = domain.name
 
+        if (typeof domain.color === 'object') {
+            var valueJsonStr = JSON.stringify(domain.color)
+            model.color = valueJsonStr
+        } else {
+            model.color =  domain.color
+        }
+        model.colorUnitName = domain.colorUnit.name
 
         var values = []
         for (const valCss of domain.getValues()) {
@@ -77,6 +84,10 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
                 el.setValueFourth(valCss.featureVal)
 
             }
+            if (valCss.orientation) {
+                el.setValueFifth(valCss.orientation.getValue())
+
+            }
             // var color = valCss.color
             // if (typeof color === 'object') {
             //     var valueJsonStr = JSON.stringify(color)
@@ -85,12 +96,12 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
             //     el.setValueFourth(color)
             // }
 
-            el.setUnitName(new Named())
-            el.setUnitNameSecond(new Named() )
-            el.setUnitNameThird(new Named())
+            el.setUnitName(Named.PROP_NAME)
+            el.setUnitNameSecond(Named.PROP_NAME )
+            el.setUnitNameThird(Named.PROP_NAME)
+            el.setUnitNameFifth(Named.PROP_NAME)
             if (valCss.featureValUnit) {
                 el.setUnitNameFourth(valCss.featureValUnit.name)
-
             }
 
             values.push(el)

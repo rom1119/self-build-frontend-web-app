@@ -9,6 +9,8 @@ export default class MediaQuery
     projectId
     name
     version
+    color
+    colorUnitName
 
     values: StyleCssValue[]  = []
     tags: TagDto[]  = []

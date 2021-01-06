@@ -14,6 +14,8 @@ import CssWithoutValue from '../Errors/CssWithoutValue';
 import MediaOrientation from './MediaOrientation';
 import MediaQueryApiService from '../Api/MediaQueryApiService';
 import MediaQuerySynchronizer from '../Synchronizer/Impl/MediaQuerySynchronizer';
+import Named from "~/src/Unit/Named";
+import UnitColor from "~/src/Unit/UnitColor";
 
 
 export class MediaQueryStructVal implements CssValue {
@@ -181,6 +183,8 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
     id
     projectId
     name = 'sm'
+    color: any = 'red'
+    colorUnit: UnitColor = new Named()
     version
     values: MediaQueryStructVal[] = []
     selectors: PseudoSelector[] = []
@@ -193,6 +197,15 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
     {
         this.api = api
         this.synchronizer = new MediaQuerySynchronizer(this, api)
+    }
+
+    public getColorValue()
+    {
+        if (!this.colorUnit) {
+            return 'red'
+        }
+
+        return this.colorUnit.getValue(this.color)
     }
 
     get selectorsList() : any

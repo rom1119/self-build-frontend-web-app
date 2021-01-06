@@ -19,6 +19,17 @@ export default class MediaQueryManager  {
     DEFAULT_UNIT = new Named()
     property: BaseMediaQueryCss = new MediaQueryCss()
 
+    backgroundColor = 'white'
+
+    pickerActive = false
+
+    color: any = {
+        r: 255,
+        g: 0,
+        b: 0,
+        a: 1
+    }
+
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }
@@ -29,6 +40,46 @@ export default class MediaQueryManager  {
 
     constructor(arg: BaseMediaQueryCss) {
         this.property = arg
+
+        if (this.property.colorUnit instanceof RGBA) {
+            console.log('00000000000000000');
+            console.log(this.property.color);
+
+            this.color.r = this.property.color.r
+            this.color.g = this.property.color.g
+            this.color.b = this.property.color.b
+            this.color.a = this.property.color.a
+        }
+
+        this.backgroundColor = this.color
+    }
+
+    get cssBackgroundColor()
+    {
+        var col: any = this.backgroundColor
+        return `rgba(${col.r}, ${col.g}, ${col.b}, ${col.a})`
+    }
+
+    toggleColorPicker()
+    {
+        this.pickerActive = !this.pickerActive
+    }
+
+    cancelColor()
+    {
+        console.log(this.color);
+
+        this.toggleColorPicker()
+    }
+
+    saveColor()
+    {
+        console.log(this.color);
+        this.property.color = this.color.rgba
+        this.property.colorUnit = new RGBA()
+        this.update()
+        this.toggleColorPicker()
+        this.backgroundColor = this.color.rgba
     }
 
     createInitValue(): MediaQueryStructVal
@@ -108,4 +159,6 @@ export default class MediaQueryManager  {
         this.property.synchronize()
         return null
     }
+
+
 }

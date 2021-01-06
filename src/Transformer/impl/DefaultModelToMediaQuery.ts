@@ -36,6 +36,7 @@ import MediaType from '../../MediaQuery/MediaType';
 import MediaOrientation from '~/src/MediaQuery/MediaOrientation';
 import ModelToMediaQuery from '../ModelToMediaQuery';
 import MediaQueryFactory from "~/src/MediaQuery/MediaQueryFactory";
+import {MediaQueryStructVal} from "~/src/MediaQuery/BaseMediaQueryCss";
 export default class DefaultModelToMediaQuery implements ModelToMediaQuery
 {
 
@@ -71,29 +72,46 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
         domain.projectId = model.projectId
         domain.name = model.name
         domain.version = model.version
+        domain.values = []
+
+        if (model.colorUnitName) {
+            var unitColor = this.unitCssFactoryFromName.create(model.colorUnitName)
+
+            var val
+            if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                val = JSON.parse(model.color)
+            } else {
+                val = model.color
+            }
+
+            domain.color = val
+
+            domain.colorUnit = unitColor
+
+        }
 
         for (const valCss of model.values) {
             // valCss
-        // let el = new MediaQueryStructVal()
-        //     el.id = valCss.id
-        //     el.mediaQueryOperator = new MediaQueryOperator(valCss.getValue())
-        //     el.mediaType = new MediaType(valCss.getValueSecond())
-        //     if (valCss.getValueThird()) {
-        //         el.mediaFeature = new MediaFeature(valCss.getValueThird())
-        //         el.featureVal = Number(valCss.getValueFourth())
-        //
-        //     }
-        //     if (valCss.getValueFifth()) {
-        //         el.orientation = new MediaOrientation(valCss.getValueFifth())
-        //
-        //     }
-        //
-        //     var unit = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
-        //
-        //
-        //     el.featureValUnit = unit
-        //
-        //     domain.addValue(el)
+        let el = new MediaQueryStructVal()
+            el.id = valCss.id
+            el.mediaQueryOperator = new MediaQueryOperator(valCss.getValue())
+            el.mediaType = new MediaType(valCss.getValueSecond())
+            if (valCss.getValueThird()) {
+                el.mediaFeature = new MediaFeature(valCss.getValueThird())
+                el.featureVal = Number(valCss.getValueFourth())
+
+            }
+            if (valCss.getValueFifth()) {
+                el.orientation = new MediaOrientation(valCss.getValueFifth())
+
+            }
+
+            var unit = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+
+
+            el.featureValUnit = unit
+
+            domain.addValue(el)
         }
             // newDominTransition = <BasePropertyCss><unknown>this.transformTransition(domain, model)
             // newDominGradient = <BasePropertyCss><unknown>this.transformGradient(domain, model)

@@ -1,21 +1,51 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
     <div class=" gray">
-
-
         <section class="content">
-            <div class="media-query" v-for="manager in managers" :key="manager.property.id"
+            <div class="media-query" @click="onClick(manager)" v-for="(manager, key) in managers" :key="manager.property.id"
             @dblclick.stop="addRemovePseudoClass(manager)"
 
-            :class="{ 'current': manager.property.selectedByOwner}">
+            :class="{ 'current': isSelected}">
                 <span>{{ manager.property.name }}</span>
-                <media-query-value-component
+                <span class="remove-btn" @click="remove(manager, key)">
+                    X
+                </span>
+                <div class="content-item__elem content rel"
+                >
+
+                    <div class="color-picker-box" @dblclick.stop.prevent="">
+                        <label @dblclick.stop.prevent="" style="margin-bottom: 20px;">
+                            <div @dblclick.stop.prevent=""
+                                 :style="{'background-color': manager.cssBackgroundColor }"
+                                 class="color-picker-btn" @click.stop="manager.toggleColorPicker()">
+                            </div>
+                        </label>
+
+                        <!-- <span>
+                            INSET
+                            <input type="checkbox" @change="change" v-model="value.inset">
+                        </span> -->
+                        <div class="color-picker" style="right: -260px !important; left: unset; top: 30px; "   v-show="manager.pickerActive">
+                            <Chrome v-model="manager.color" :color="manager.color" label="Color" />
+                            <div class="color-picker-nav">
+                                <button @click="manager.cancelColor()">Anuluj</button>
+                                <button @click="manager.saveColor()">Zapisz</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="media-query-values">
+                    <media-query-value-component
                     v-for="val in manager.property.values"
                     @change="onChange(manager)"
                     :value="val"
                     :index="val.id"
                     :key="val.id"
-                />
+                    />
+
+                </div>
                 <div class="btn-check">
                     <button @click.stop="toggleManager(manager)" >
                         V
@@ -59,9 +89,14 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
     import MediaQueryFactory from "~/src/MediaQuery/MediaQueryFactory";
     import ModelToMediaQuery from "~/src/Transformer/ModelToMediaQuery";
     import DefaultModelToMediaQuery from "~/src/Transformer/impl/DefaultModelToMediaQuery";
+    import { Chrome }  from '~/node_modules/vue-color';
 
 
-    @Component
+    @Component({
+        components: {
+            Chrome
+        }
+    })
     export default class MediaQueryComponent extends BaseMediaQueryComponent {
 
         timeout
@@ -82,6 +117,8 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
 
         api
         modelToDomain: ModelToMediaQuery
+
+
 
         async mounted()
         {
@@ -113,6 +150,14 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
             // console.log(this.value);
         }
 
+        isSelected(manager: MediaQueryManager)
+        {
+            if (!this.accessor.selectedMediaQuery) {
+                return false
+            }
+            return this.accessor.selectedMediaQuery.id == manager.property.id
+        }
+
         onChange(manager: MediaQueryManager)
         {
             console.log('change');
@@ -131,32 +176,52 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
             this.addManager(manager)
         }
 
-        isSelected(manager: PseudoClassManager)
-        {
-            if (!this.value.pseudoClassAccessor.selectedSelector) {
-                return false
-            }
-            return this.value.pseudoClassAccessor.selectedSelector.id === manager.pseudoClass.id
-        }
-
         // isAdded(manager: PseudoClassManager)
         // {
         //     return this.value.pseudoClassAccessor.getSelectorByName(manager.pseudoClass.getName()) != null
         // }
 
-        addRemoveMediaQuery(arg: PseudoClassManager){
-            var selectorById = this.value.pseudoClassAccessor.getSelectorById(arg.pseudoClass.id)
-            if (selectorById) {
-                arg.removeSelector()
+        toggleManager(arg: MediaQueryManager){
+            // if (!this.isAdded(arg)) {
+            //     return
+            // }
+            if (!arg.pseudoClass.selectedByOwner) {
+                if (this.value.pseudoClassAccessor.selectedSelector) {
+                    this.value.pseudoClassAccessor.selectedSelector.selectedByOwner = false
+                    this.value.pseudoClassAccessor.selectedSelector = null
+                }
+
+                arg.activate()
+
+
             } else {
-                arg.addSelector()
+                arg.deactivate()
 
             }
+
+            this.$emit('selectPseudoSelector', this.value.pseudoClassAccessor.selectedSelector)
         }
 
 
 
+        remove(arg: MediaQueryManager, index)
+        {
+            arg.property.api.deleteMedia(arg.property).then(
+                () => {
+                    this.managers.splice(index, 1)
+                },
+                () => {
+                    alert('server error')
+                }
+            )
+        }
 
+
+
+        onClick(arg) {
+            console.log(arg.property)
+            console.log(arg)
+        }
 
         // *****************************************  LEFT ****************************************************
 
@@ -227,6 +292,20 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
 
     }
 
+    .remove-btn {
+        position: absolute;
+        font-weight: bold;
+        left: 0;
+        top: 0;
+        width: 25px;
+        color: red;
+        padding: 1px 5px;
+        font-size: 1em;
+        cursor: pointer;
+        border: 2px solid red;
+        border-radius: 20px;
+    }
+
     .gray {
         background-color: gray;
 
@@ -265,10 +344,20 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
 
     .media-query {
         color: white;
-        height: 50px;
+        /*height: 50px;*/
         text-align: center;
         background-color: blue;
         display: inline-block;
+        position: relative;
+        padding: 5px;
+        width: 300px;
+
+        &:hover {
+            .media-query-values {
+                display: block;
+
+            }
+        }
     }
 
     .selector {
@@ -283,6 +372,10 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
         position: absolute;
         top: 0;
         right: 0;
+    }
+
+    .media-query-values {
+        display: none;
     }
 
     .selector-name {

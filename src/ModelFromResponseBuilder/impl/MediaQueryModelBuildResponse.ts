@@ -33,6 +33,8 @@ export default class MediaQueryModelBuildResponse implements ResponseFromModel<M
         response.id = from.id
         response.name = from.name
         response.version = from.version
+        response.color = from.color
+        response.colorUnitName = from.colorUnitName
         response.project = {
             "id": from.projectId,
             "version": 1
@@ -59,7 +61,7 @@ export default class MediaQueryModelBuildResponse implements ResponseFromModel<M
             values.push(responseCssValue)
         }
 
-        response.values = values
+        response.cssValues = values
 
         var selectors = []
         // for (const cssValModel of from.selectors) {

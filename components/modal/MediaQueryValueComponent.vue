@@ -3,50 +3,23 @@
     <div class=" content-item__elem_container"
         >
 
-            <div class="content-item__elem content rel"
-                 >
 
-                 <div class="color-picker-box" @dblclick.stop.prevent="">
-                     <label @dblclick.stop.prevent="" style="margin-bottom: 7px;">
-                         Kolor
-
-                        <div @dblclick.stop.prevent="" :style="{'background-color': backgroundColor}" class="color-picker-btn" @click.stop="toggleColorPicker()">
-                        </div>
-                     </label>
-                    <span v-if="index > 1"  class="remove-btn" style="left: 20px; position: relative; top: 0;" @click="removeVal">
-                        X
-                    </span>
-                    <!-- <span>
-                        INSET
-                        <input type="checkbox" @change="change" v-model="value.inset">
-                    </span> -->
-                    <div class="color-picker" style="right: -260px !important; left: unset; top: 30px; "   v-show="pickerActive">
-                        <Chrome v-model="color" :color="color" label="Color" />
-                        <div class="color-picker-nav">
-                            <button @click="cancelColor">Anuluj</button>
-                            <button @click="saveColor">Zapisz</button>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
 
             <div class="content-item__elem"
                  >
-                <select  name="operator" @change="change" v-model="value.operator" >
+                <select name="type" @change="change" v-model="mediaType">
+                    <option v-for="type in types" :value="type" :key="type"> {{ type }} </option>
+                </select>
+            </div>
+            <div class="content-item__elem"
+                 >
+                <select  name="operator" @change="change" v-model="mediaQueryOperator" >
                     <option v-for="operator in operators" :value="operator" :key="operator"> {{ operator }} </option>
                 </select>
             </div>
             <div class="content-item__elem"
                  >
-                <select name="type" @change="change" v-model="value.type">
-                    <option v-for="type in types" :value="type" :key="type"> {{ operatypetor }} </option>
-                </select>
-            </div>
-            <div class="content-item__elem"
-                 >
-                <select name="feature" @change="change" v-model="value.feature">
+                <select name="feature" @change="change" v-model="mediaFeature">
                     <option v-for="feature in features" :value="feature" :key="feature"> {{ feature }} </option>
                 </select>
             </div>
@@ -56,23 +29,31 @@
                 <select-unit-context-menu :propertyUnit="value.featureValUnit" @changePropUnit="() => {value.featureValUnit = $event; change();}" :ref="cmSizeGradientVal" />
 
                 <label :for="cmNameTextShadowColor" style="display: inline-flex;">
-                    FeattureVal
+                    Feature Val
                     <input @dblclick.stop.prevent="" type="number" @input="change" style="width: 50px;" class="input-text" v-model="value.featureVal" name="textShadowBlur" :id="cmNameTextShadowColor">
-                    {{ value.featureValUnit.label }}
-                    <input type="range" v-model="value.size" @input="change" :max="maxSize" />
+<!--                    <input type="range" v-model="value.size" @input="change" :max="maxSize" />-->
+                    <span v-if="value.featureValUnit">
+                        {{ value.featureValUnit.label }}
+
+                    </span>
                 </label>
 
             </div>
 
             <div class="content-item__elem"
                  >
-                <select v-if="isNamedUnit" name="feature" @change="change" v-model="value.orientation">
+                <select  name="feature" @change="change" v-model="mediaOrientation">
                     <option value="">  </option>
                     <option v-for="orientation in orientations" :value="orientation" :key="orientation"> {{ orientation }} </option>
                 </select>
             </div>
 
-
+            <div class="content-item__elem"
+            >
+                <span v-if="index > 1"  class="remove-btn" style="left: 20px; position: relative; top: 0;" @click="removeVal">
+                                X
+                            </span>
+            </div>
 
 
     </div>
@@ -126,16 +107,8 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
         cmNameTextShadowSpread = Math.floor(Math.random() * 1000000000).toString() + 'text-shadow-spread'
         cmNameTextShadowColor = Math.floor(Math.random() * 1000000000).toString() + 'text-shadow-color'
 
-        pickerActive = false
 
-        color: any = {
-            r: 255,
-            g: 0,
-            b: 0,
-            a: 1
-        }
 
-        backgroundColor = 'white'
 
         get maxSize()
         {
@@ -159,31 +132,57 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
             // console.log(this.contextMenuName);
             // console.log(this.cmName);
 
-            if (this.value.colorUnit instanceof RGBA) {
-                console.log('00000000000000000');
-                console.log(this.value.color);
 
-                this.color.r = this.value.color.r
-                this.color.g = this.value.color.g
-                this.color.b = this.value.color.b
-                this.color.a = this.value.color.a
-            }
 
             // this.backgroundColor = this.value.getColorValue()
 
         }
 
-        toggleColorPicker()
-        {
-            this.pickerActive = !this.pickerActive
+        get mediaOrientation(){
+            if (!this.value.orientation) {
+                return ''
+            }
+            return this.value.orientation.getValue()
         }
 
-        cancelColor()
-        {
-            console.log(this.color);
-
-            this.toggleColorPicker()
+        set mediaOrientation(arg){
+            this.value.orientation = new MediaOrientation(arg)
         }
+
+        get mediaFeature(){
+            if (!this.value.mediaFeature) {
+                return ''
+            }
+            return this.value.mediaFeature.getValue()
+        }
+
+        set mediaFeature(arg){
+            this.value.mediaFeature = new MediaFeature(arg)
+        }
+
+        get mediaType(){
+            if (!this.value.mediaType) {
+                return ''
+            }
+            return this.value.mediaType.getValue()
+        }
+
+        set mediaType(arg){
+            this.value.mediaType = new MediaType(arg)
+        }
+
+        get mediaQueryOperator(){
+            if (!this.value.mediaQueryOperator) {
+                return ''
+            }
+            return this.value.mediaQueryOperator.getValue()
+        }
+
+        set mediaQueryOperator(arg){
+            this.value.mediaQueryOperator = new MediaQueryOperator(arg)
+        }
+
+
 
         removeVal()
         {
@@ -197,15 +196,7 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
             )
         }
 
-        saveColor()
-        {
-            console.log(this.color);
-            this.value.color = this.color.rgba
-            this.value.colorUnit = new RGBA()
-            this.change()
-            this.toggleColorPicker()
-            this.backgroundColor = this.value.getColorValue()
-        }
+
 
         change()
         {
@@ -278,6 +269,13 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
 <style lang="scss" scoped>
     .disabled {
         opacity: 0.6;
+    }
+    .content-item__elem_container {
+        position: absolute;
+        display: flex;
+        width: 700px;
+        background-color: green;
+
     }
     .auto-prop {
         background-color: red;

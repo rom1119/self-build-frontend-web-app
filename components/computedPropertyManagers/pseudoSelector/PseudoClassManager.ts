@@ -30,7 +30,7 @@ import Hover from '../../../src/PseudoSelector/PseudoClass/Hover';
 import PseudoSelector from '../../../src/PseudoSelector/PseudoSelector';
 import PseudoClass from "~/src/PseudoSelector/PseudoClass";
 
-export default class PseudoClassManager 
+export default class PseudoClassManager
 {
     protected value: HtmlTag
 
@@ -38,8 +38,9 @@ export default class PseudoClassManager
     pseudoClass: PseudoClass
 
     constructor( arg: PseudoClass )
-    {   
+    {
         this.pseudoClass = arg
+        // @ts-ignore
         this.value = arg.owner
     }
 
@@ -47,14 +48,14 @@ export default class PseudoClassManager
     // {
     //     this.value = val
     // }
-    
+
     // public setSelector(val: PseudoClass)
     // {
     //     this.pseudoClass = val
     // }
 
 
-    
+
 
     protected getPropertyCssFromModel(prop: string): PseudoClass
     {
@@ -73,12 +74,12 @@ export default class PseudoClassManager
             this.value.tmpCssAccessor.addNewProperty(newCssProp)
         } else {
             this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-            
+
         }
         // this.value.updateModelComponent()
 
     }
-    
+
 
     private initProperty(propertyArg: PseudoClass): PseudoClass
     {
@@ -88,22 +89,22 @@ export default class PseudoClassManager
             propertyArg.setActive(true)
 
             return prop
-        } 
+        }
 
         propertyArg.setActive(false)
         let copy = _.cloneDeep(propertyArg)
         propertyArg = copy
         this.setTmpPropertyToModel(copy)
-        
+
         return propertyArg
-   
+
     }
     init() {
         this.pseudoClass  = this.initProperty(this.pseudoClass)
 
     }
-   
-    
+
+
     activateSelector() {
         var prop = this.pseudoClass
 
@@ -113,7 +114,7 @@ export default class PseudoClassManager
         this.value.pseudoClassAccessor.selectedSelector = this.pseudoClass
 
         this.value.recalculateRealComputedProperties()
-          
+
     }
 
     deactivateSelector() {
@@ -126,7 +127,7 @@ export default class PseudoClassManager
 
         this.value.recalculateRealComputedProperties()
 
-          
+
     }
 
     addSelector()
@@ -139,7 +140,7 @@ export default class PseudoClassManager
         }
         console.log('activr');
         prop.setApi(this.value.api)
-        
+
         this.value.api.appendSelector(prop).then(
             () => {
                 this.value.pseudoClassAccessor.addNewSelector(prop)
@@ -152,7 +153,7 @@ export default class PseudoClassManager
             },
             () => {
                 console.error('Problem API width append selector');
-                
+
             }
         )
 
@@ -181,11 +182,11 @@ export default class PseudoClassManager
             },
             () => {
                 console.error('Problem API width delete selector');
-                
+
             }
         )
 
-        
+
 
         return null
     }

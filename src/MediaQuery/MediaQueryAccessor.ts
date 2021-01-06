@@ -10,6 +10,7 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
     protected tag: SelectorOwner
     protected mediaQueries: T[]
     protected api: MediaQueryApiService
+    selectedMediaQuery: BaseMediaQueryCss
 
     constructor() {
         // this.tag = val
@@ -17,7 +18,7 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
         this.api = new DefaultMediaQueryApiService()
 
     }
-    
+
     public removeById(id: number) {
         let propsIndex = null
 
@@ -26,9 +27,9 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
             if (selector.id === id) {
                 propsIndex = i
                 break
-            } 
+            }
         }
-        
+
         this.mediaQueries.splice(propsIndex, 1);
     }
 
@@ -43,7 +44,7 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
     //     // console.log(str);
     //     // console.log(regex);
     //     // console.log(catName.match(regex));
-        
+
     //     if (lowerPropName.match(regex)) {
     //         return true
     //     }
@@ -59,13 +60,13 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
     {
         return this.mediaQueries
     }
-    
+
     get all(): T[]
     {
         return this.mediaQueries
     }
 
-    
+
     // public addCssToSelector(css: BasePropertyCss, val: T): SelectorAccessor<T>{
     //     let prop = this.getSelectorById(val.id)
     //     if (!prop) {
@@ -74,7 +75,7 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
 
     //     // if (!prop.cssPropertyAccessor.hasCssProperty(css.getName())) {
     //         prop.cssAccessor.addNewProperty(css)
-    //     // } else {            
+    //     // } else {
     //     //     let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
     //     //     if (currentBackground.getValue() === val.getValue()) {
     //     //         // return
@@ -84,19 +85,19 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
 
     //     return this
     // }
-    
+
     public addNewMediaQuery(newProp: T): MediaQueryAccessor<T>{
 
         newProp.setApi(this.api)
         Vue.set(this.mediaQueries, this.mediaQueries.length, newProp)
         // console.log(this.cssProps);
-        
+
         // prop.clearValue()
         // this.cssProps.push(newProp)
 
         return this
     }
-    
+
     // public clearPropertyCss(id: number): SelectorAccessor<T>{
     //     let prop = this.getSelectorById(id)
     //     if (!prop) {
@@ -108,16 +109,16 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
     //     return this
     // }
 
-    
+
     public getSelectorById(id: number): T
     {
-        
+
         // console.log(this.getAll());
-        
+
         for (const el of this.getAll()) {
             if (el.id === id) {
                 return el
-            } 
+            }
         }
 
         return null

@@ -106,7 +106,7 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
 
 
     deleteMedia(arg: MediaQueryCss): Promise<any> {
-        return Axios.delete(DefaultMediaQueryApiService.HOST + `/api/css-style/value/${arg.id}`)
+        return Axios.delete(DefaultMediaQueryApiService.HOST + `/api/media-query/${arg.id}`)
     }
 
 
