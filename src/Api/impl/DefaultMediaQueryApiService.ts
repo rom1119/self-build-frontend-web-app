@@ -59,9 +59,6 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
 
     }
 
-
-
-
     appendMedia(arg: MediaQueryCss, projectId: string): Promise<any> {
         let model = this.mediaQueryDomainToModelTransformer.transform(arg)
         let response = this.mediaQueryModelToResponse.build(model)
@@ -71,7 +68,7 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
                 (res) => {
                     let data: MediaQueryResponse = res.data
                     arg.id = data.id
-                    arg
+
 
                     // for (const cssRes of data.cssStyleList) {
                     //     for (const cssDomain of selector.cssAccessor.all) {

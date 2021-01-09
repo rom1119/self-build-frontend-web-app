@@ -3,16 +3,18 @@
     <div class=" gray">
         <section class="content">
             <div class="media-query" @click="onClick(manager)" v-for="(manager, key) in managers" :key="manager.property.id"
-            @dblclick.stop="addRemovePseudoClass(manager)"
+            @dblclick.stop="toggleManager(manager)"
 
-            :class="{ 'current': isSelected}">
-                <span>{{ manager.property.name }}</span>
+            :class="{ 'active': manager.property.isSelected}">
+
+                <input @dblclick.stop="manager.toggleEditName" v-if="manager.nameEditActive" type="text" v-model="manager.property.name" @input="onChange(manager)">
+                <span @dblclick.stop="manager.toggleEditName" v-else>{{ manager.property.name }}</span>
+
                 <span class="remove-btn" @click="remove(manager, key)">
                     X
                 </span>
-                <div class="content-item__elem content rel"
-                >
 
+                <div class="content-item__elem content rel">
                     <div class="color-picker-box" @dblclick.stop.prevent="">
                         <label @dblclick.stop.prevent="" style="margin-bottom: 20px;">
                             <div @dblclick.stop.prevent=""
@@ -46,11 +48,7 @@
                     />
 
                 </div>
-                <div class="btn-check">
-                    <button @click.stop="toggleManager(manager)" >
-                        V
-                    </button>
-                </div>
+
 
             </div>
             <div class="selector">
@@ -71,21 +69,13 @@
     import 'vue-cal/dist/vuecal.css'
     import moment from 'moment'
     import _ from 'lodash'
-    import {Pagination} from "~/types/Pagination";
-    import PseudoClass from '~/src/PseudoSelector/PseudoClass';
-    import HtmlTag from '~/src/Layout/HtmlTag';
-import PseudoClassManager from './computedPropertyManagers/pseudoSelector/PseudoClassManager';
-import PseudoSelector from '~/src/PseudoSelector/PseudoSelector';
-import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
-import MediaQueryCss from '~/src/MediaQuery/MediaQueryCss';
-import MediaQueryOperator from '~/src/MediaQuery/MediaQueryOperator';
-import MediaType from '~/src/MediaQuery/MediaType';
-import MediaFeature from '~/src/MediaQuery/MediaFeature';
-import MediaOrientation from '~/src/MediaQuery/MediaOrientation';
-import BaseMediaQueryComponent from './BaseMediaQueryComponent';
-import MediaQueryManager from './computedPropertyManagers/impl/ComputedProperty/MediaQuery/MediaQueryManager';
-import DefaultMediaQueryApiService from '~/src/Api/impl/DefaultMediaQueryApiService';
-import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
+
+    import MediaQueryCss from '~/src/MediaQuery/MediaQueryCss';
+
+    import BaseMediaQueryComponent from './BaseMediaQueryComponent';
+    import MediaQueryManager from './computedPropertyManagers/impl/ComputedProperty/MediaQuery/MediaQueryManager';
+    import DefaultMediaQueryApiService from '~/src/Api/impl/DefaultMediaQueryApiService';
+    import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
     import MediaQueryFactory from "~/src/MediaQuery/MediaQueryFactory";
     import ModelToMediaQuery from "~/src/Transformer/ModelToMediaQuery";
     import DefaultModelToMediaQuery from "~/src/Transformer/impl/DefaultModelToMediaQuery";
@@ -139,6 +129,8 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
                 manager.property.setApi(this.api)
                 manager.init()
 
+
+
                 this.addManager(manager)
                 // tag.setProjectId(this.$route.params.id)
                 // @ts-ignore
@@ -164,6 +156,12 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
 
             manager.update()
 
+            if (this.accessor.selectedMediaQuery ) {
+                if (this.accessor.selectedMediaQuery.id == manager.property.id) {
+                    this.$emit('changeThisMedia', manager.property)
+                }
+            }
+
         }
 
         addNew()
@@ -181,25 +179,40 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
         //     return this.value.pseudoClassAccessor.getSelectorByName(manager.pseudoClass.getName()) != null
         // }
 
+        offMedia(manager: MediaQueryManager){
+            this.accessor.selectedMediaQuery = null
+            this.$emit('selectMediaQuery', null)
+
+        }
+
+        onMedia(manager: MediaQueryManager){
+            this.accessor.selectedMediaQuery = manager.property
+
+            this.$emit('selectMediaQuery', null)
+
+        }
+
         toggleManager(arg: MediaQueryManager){
             // if (!this.isAdded(arg)) {
             //     return
             // }
-            if (!arg.pseudoClass.selectedByOwner) {
-                if (this.value.pseudoClassAccessor.selectedSelector) {
-                    this.value.pseudoClassAccessor.selectedSelector.selectedByOwner = false
-                    this.value.pseudoClassAccessor.selectedSelector = null
-                }
 
-                arg.activate()
+            if (!arg.property.isSelected) {
+                if (this.accessor.selectedMediaQuery) {
+                    this.accessor.selectedMediaQuery.deactivate()
+                    this.accessor.selectedMediaQuery = null
+                }
+                this.accessor.selectedMediaQuery = arg.property
+                arg.property.activate()
 
 
             } else {
-                arg.deactivate()
+                arg.property.deactivate()
+                this.accessor.selectedMediaQuery = null
 
             }
 
-            this.$emit('selectPseudoSelector', this.value.pseudoClassAccessor.selectedSelector)
+            this.$emit('selectMediaQuery', this.accessor.selectedMediaQuery)
         }
 
 
@@ -208,7 +221,7 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
         {
             arg.property.api.deleteMedia(arg.property).then(
                 () => {
-                    this.managers.splice(index, 1)
+                    this.removeManager(arg, index)
                 },
                 () => {
                     alert('server error')
@@ -218,7 +231,12 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
 
 
 
-        onClick(arg) {
+        onDblClick(arg: MediaQueryManager) {
+
+            arg.toggleEditName()
+        }
+
+        onClick(arg: MediaQueryManager) {
             console.log(arg.property)
             console.log(arg)
         }
@@ -285,7 +303,7 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
 
 <style lang="scss" scoped>
     .active {
-        background-color: rgba($color: #d81121, $alpha: .4);
+        border: 3px solid greenyellow;
     }
     .green-bg, .current {
         background-color: greenyellow;
@@ -375,7 +393,7 @@ import MediaQueryAccessor from '~/src/MediaQuery/MediaQueryAccessor';
     }
 
     .media-query-values {
-        display: none;
+        display: block;
     }
 
     .selector-name {

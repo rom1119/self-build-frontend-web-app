@@ -190,8 +190,19 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
     selectors: PseudoSelector[] = []
     tags: HtmlTag[] = []
 
+    isSelected = false
+
     api: MediaQueryApiService
     synchronizer: MediaQuerySynchronizer
+
+
+    activate() {
+        this.isSelected = true
+    }
+
+    deactivate() {
+        this.isSelected = false
+    }
 
     public setApi(api: MediaQueryApiService)
     {

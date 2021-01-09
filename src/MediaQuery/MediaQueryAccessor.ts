@@ -14,7 +14,7 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
 
     constructor() {
         // this.tag = val
-        Vue.set(this, 'queries', [])
+        Vue.set(this, 'mediaQueries', [])
         this.api = new DefaultMediaQueryApiService()
 
     }

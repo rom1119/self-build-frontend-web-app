@@ -1,11 +1,11 @@
 <template>
     <div v-context-menu="'layout-builder-cm'">
         <div class="media-query-controls">
-            <media-query-component />
+            <media-query-component @selectMediaQuery="onSelectMediaQuery" @changeThisMedia="onSelectMediaQuery" />
         </div>
         <html-element-closing-tag-context-menu   @click.stop=""  @opened="cmIsOpened" ref="layout-builder-cm" />
 
-        <object id="layout-object" class="main-object" style="width: 100%;" >
+        <object id="layout-object" class="main-object" :style="windowStyles" >
             <html>
                 <head>
                     <template v-if="$layoutCreatorMode">
@@ -90,6 +90,7 @@ import TextNode from "~/src/Layout/TextNode";
 import Height from "~/src/Css/Size/Height";
 import RemoverAdvisor from "~/src/Remover/RemoverAdvisor";
 import DefaultRemoverAdvisor from "~/src/Remover/advisor/DefaultRemoverAdvisor";
+import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -116,8 +117,38 @@ export default class LayoutCreatorContainer extends Vue {
     hasAccualControllerWorks = false
     currentMouseOverTag: HtmlTag
 
+    windowWidth = '100%'
+
     mode
     pseudoSelectorAction = new PseudoSelectorViewAction()
+
+    get windowStyles()
+    {
+        return {
+            width: this.windowWidth,
+            overflow: 'hidden',
+            borderRight: '2px solid black',
+        }
+    }
+
+    public onSelectMediaQuery(media: BaseMediaQueryCss)
+    {
+        // console.log('onSelectMediaQuery')
+        // console.log(media)
+        // console.log(media.values[0])
+        if (media) {
+            if (media.values.length > 0) {
+                var val = media.values[0]
+                if (val.getFeatureValue()) {
+                    this.windowWidth = val.getFeatureValue()
+                    return
+                }
+
+            }
+        }
+
+        this.windowWidth = '100%';
+    }
 
     public addHtmlTag(tag: HtmlTag)
     {

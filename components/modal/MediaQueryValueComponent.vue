@@ -3,8 +3,6 @@
     <div class=" content-item__elem_container"
         >
 
-
-
             <div class="content-item__elem"
                  >
                 <select name="type" @change="change" v-model="mediaType">
@@ -23,6 +21,7 @@
                     <option v-for="feature in features" :value="feature" :key="feature"> {{ feature }} </option>
                 </select>
             </div>
+
             <div class="content-item__elem"
                     v-context-menu="cmSizeGradientVal"
                  >
@@ -57,6 +56,8 @@
 
 
     </div>
+
+
 </template>
 
 <script lang="ts">
@@ -205,8 +206,6 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
 
 
 
-
-
         // get allClass()
         // {
         //     var res = this.classList
@@ -271,9 +270,9 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
         opacity: 0.6;
     }
     .content-item__elem_container {
-        position: absolute;
+        position: relative;
         display: flex;
-        width: 700px;
+        flex-wrap: wrap;
         background-color: green;
 
     }

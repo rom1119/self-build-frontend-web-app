@@ -22,6 +22,7 @@ export default class MediaQueryManager  {
     backgroundColor = 'white'
 
     pickerActive = false
+    nameEditActive = false
 
     color: any = {
         r: 255,
@@ -58,6 +59,11 @@ export default class MediaQueryManager  {
     {
         var col: any = this.backgroundColor
         return `rgba(${col.r}, ${col.g}, ${col.b}, ${col.a})`
+    }
+
+    toggleEditName()
+    {
+        this.nameEditActive = !this.nameEditActive
     }
 
     toggleColorPicker()
@@ -105,6 +111,8 @@ export default class MediaQueryManager  {
 
         return el
     }
+
+
 
     init() {
         // var prop = this.getPropertyCssFromModel(this.getProperty().getName())
