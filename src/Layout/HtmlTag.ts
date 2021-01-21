@@ -75,6 +75,11 @@ import SelectorOwner from "../SelectorOwner";
 import DecisionsCssFacade from "../DecisionManager/DecisionsCssFacade";
 import TableEditor from "./tag/Table/editor/TableEditor";
 import {Switch} from "~/node_modules/element-ui";
+import MediaQueryAccessor from "~/src/MediaQuery/MediaQueryAccessor";
+import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
+import MediaQueryListOwner from "~/src/Css/PropertyAccessor/mediaQuery/MediaQueryListOwner";
+import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
+import MediaQueryTag from "~/src/MediaQuery/headSection/MediaQueryTag";
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner
@@ -82,9 +87,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     public isElementOfTable() {
         return false
     }
-
-
-
+    cssListMediaOwner: MediaQueryListOwner<HtmlTag>
 
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
@@ -102,11 +105,13 @@ export default abstract class HtmlTag extends HtmlNode implements
     borderTop: BorderModel
     borderLeft: BorderModel
     borderRight: BorderModel
+
     protected _paddings: PaddingModel[] = []
     paddingBottom: PaddingModel
     paddingTop: PaddingModel
     paddingLeft: PaddingModel
     paddingRight: PaddingModel
+
     protected _margins: MarginModel[] = []
     marginBottom: MarginModel
     marginTop: MarginModel
@@ -187,8 +192,14 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.transformStyleList = new VueFixStyleListTransform(this)
         this._attributeAccesor = new DefaultAttributesAccessor(this)
         this._realPositionCalculator = new RealPositionCalculator(this)
+
         // console.log(this.paddingRealFetcher);
 
+    }
+
+
+    setMediaQueryAccessor(value: MediaQueryAccessor<MediaQueryCss>) {
+        this.cssListMediaOwner = new MediaQueryListOwner<HtmlTag>(this, value)
     }
 
     public calcRealContentHeight(){
@@ -252,7 +263,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     public reInitDefaultPosition()
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
         if (activeSelector) {
             activeSelector.realPositionCalculator.reInitDefaultPosition()
         }
@@ -261,7 +272,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     public updatePositionProps()
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
         if (activeSelector) {
             activeSelector.realPositionCalculator.updateProps()
         }
@@ -325,7 +336,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     set hasPosition(arg)
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             activeSelector.hasPosition = arg
@@ -335,7 +346,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     public updatePositionName(prop?: PositionCss)
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             activeSelector.updatePositionName(prop)
@@ -438,7 +449,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     public updateHasPosition(prop: BasePropertyCss)
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             activeSelector.updateHasPosition(prop)
@@ -606,20 +617,48 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
     }
 
+    get selectedMedia(): BaseMediaQueryCss
+    {
+        if (!this.cssListMediaOwner) {
+            return null
+        }
+        return  this.cssListMediaOwner.selectedMedia
+    }
+
     public removeCssProperty(prop: BasePropertyCss)
     {
-        super.removeCssProperty(prop)
+        if (this.selectedMedia) {
+            this.cssListMediaOwner.removeCssFromMedia(prop)
+        } else {
+            super.removeCssProperty(prop)
+
+        }
         this.synchronizer.synchronize()
+    }
+
+    public getPropertyCss(prop: string)
+    {
+        if (this.selectedMedia) {
+            // console.log('getPropertyCss', prop)
+            return this.cssListMediaOwner.getProperty(prop)
+        }
+
+        return this.cssAccessor.getProperty(prop)
     }
 
     public removeCssPropertyByName(propName: string)
     {
         // super.removeCssProperty(prop)
-        this.cssAccessor.removePropWithName(propName);
-        var prop = this.tmpCssAccessor.getProperty(propName);
-        if (prop) {
-            prop.id = null
-            prop.setActive(false)
+        if (this.selectedMedia) {
+            this.cssListMediaOwner.removePropWithName(propName)
+        } else {
+            this.cssAccessor.removePropWithName(propName);
+            var prop = this.tmpCssAccessor.getProperty(propName);
+            if (prop) {
+                prop.id = null
+                prop.setActive(false)
+            }
+
         }
         this.synchronize()
     }
@@ -629,30 +668,79 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this._cssPropertyAccesor
     }
 
+    public updateTmpCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
+    {
+
+        var activeSelector = this.selectedSelector
+
+        if (activeSelector) {
+            activeSelector.updateTmpCssPropertyWithoutModel(propName, val)
+            return
+        }
+
+        if (this.selectedMedia) {
+            this.cssListMediaOwner.setNewValCssForMediaTmp(val)
+        } else {
+            if (!this.tmpCssAccessor.hasCssProperty(val.getName())) {
+                this.tmpCssAccessor.addNewProperty(val)
+            } else {
+                let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
+                if (currentBackground.getValue() === val.getValue()) {
+                    // return
+                }
+                this.tmpCssAccessor.setNewPropertyValue(propName, val)
+            }
+
+        }
+    }
+
     public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(propName, val)
             return
         }
-        super.updateCssPropertyWithoutModel(propName, val)
-        if (!this.tmpCssAccessor.hasCssProperty(val.getName())) {
-            this.tmpCssAccessor.addNewProperty(val)
+
+        if (this.selectedMedia) {
+            this.cssListMediaOwner.setNewValCssForMedia(val)
         } else {
-            let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
-            if (currentBackground.getValue() === val.getValue()) {
-                // return
+            super.updateCssPropertyWithoutModel(propName, val)
+
+            if (!this.cssAccessor.hasCssProperty(val.getName())) {
+                this.cssAccessor.addNewProperty(val)
+            } else {
+                let currentBackground = this.cssAccessor.getProperty(val.getName())
+                if (currentBackground.getValue() === val.getValue()) {
+                    // return
+                }
+                this.cssAccessor.setNewPropertyValue(propName, val)
             }
-            this.tmpCssAccessor.setNewPropertyValue(propName, val)
+
         }
 
+
+        this.synchronizeCssStyle(val)
+
+
+    }
+
+    public synchronizeAllCssStyles()
+    {
+        var accesor = this.getCurrentCssAccessor()
+
+        for(var el of accesor.all) {
+            this.synchronizeCssStyle(el)
+        }
+    }
+
+    public synchronizeCssStyle(val: BasePropertyCss)
+    {
         if (val instanceof BasePaddingCss || val instanceof BasePaddingCss || val instanceof BaseBorderCss || val instanceof ContentSizeCss) {
             // this.updateBoundingRight()
             // this.realPositionCalculator.reInitDefaultPosition()
         }
-        // console.log('UPDATE');
 
         // if (!this.getHtmlEl()) {
         //     return
@@ -675,7 +763,6 @@ export default abstract class HtmlTag extends HtmlNode implements
 
 
         this.synchronize()
-
     }
 
     get tmpCssAccessor(): CssPropertyAccessor
@@ -832,6 +919,35 @@ export default abstract class HtmlTag extends HtmlNode implements
         return pseudoSelectors
     }
 
+    get mediaQueryWithElements() : MediaQueryTag[]
+    {
+        let pseudoSelectors = []
+        for (const k in this.cssListMediaOwner.mediaQueryCssList) {
+            var el = this.cssListMediaOwner.mediaQueryCssList[k]
+            var m = new MediaQueryTag(el.mediaQuery, this.selectorLiteral, el.all)
+            pseudoSelectors.push(m)
+
+        }
+
+        // for (const selectorClass of this.pseudoClassAccessor.all) {
+        //
+        //     pseudoSelectors[selectorClass.value] = selectorClass.cssAccessor.all
+        //
+        // }
+
+        //
+        // for (const element of this.pseudoElementAccessor.all) {
+        //
+        //     pseudoSelectors[element.value] = element.cssAccessor.all
+        //
+        // }
+
+        // console.log('COMP-SELECTORS');
+        // console.log(pseudoSelectors);
+
+        return pseudoSelectors
+    }
+
 
 
     public updateAllModelsComponents()
@@ -883,6 +999,8 @@ export default abstract class HtmlTag extends HtmlNode implements
         var cssAll = this.cssAccessor.all
         if (this.getCurrentCssAccessor()) {
             cssAll = this.getCurrentCssAccessor().all
+            // console.log('recalculateRealComputedProperties', this.getCurrentCssAccessor())
+            // console.log('med', this.selectedMedia)
         }
         for (const prop of cssAll) {
 
@@ -991,12 +1109,6 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
     public getComputedCssVal(prop: BasePropertyCss): string
     {
-
-        // console.log('COMPUTED');
-        // console.log(prop.getName());
-        // console.log(prop.getValue());
-        // console.log(this.getHtmlEl());
-        // console.log(this.getHtmlEl());
         // @ts-ignore
         if (typeof prop.isAuto === 'function') {
             // @ts-ignore
@@ -1032,7 +1144,62 @@ export default abstract class HtmlTag extends HtmlNode implements
     get cssList() : any
     {
         let css = {}
-        for (const cssProp of this._cssPropertyAccesor.all) {
+        var cssFormAccessor = cssFormAccessor = this._cssPropertyAccesor.all
+
+        for (const cssProp of cssFormAccessor) {
+            if (!this.canAddToCssList(cssProp)) {
+                continue
+            }
+
+            if (!cssProp.injectable) {
+                continue
+            }
+            if (this.isLikeBackgroundCss(cssProp)) {
+                continue
+            }
+            css[cssProp.getName()] = cssProp.getValue()
+
+            if (cssProp instanceof FontSize) {
+                this._innerText = 'Font-size: ' + cssProp.getValue()
+            }
+        }
+
+        if (this.hasAbsolute || this.hasFixed) {
+            css[Width.PROP_NAME] = this.widthCalc
+            css[Height.PROP_NAME] = this.heightCalc
+
+        } else {
+            css[Width.PROP_NAME] = '100%'
+            css[Height.PROP_NAME] = '100%'
+
+        }
+
+        if (css[Height.PROP_NAME]) {
+            let height = new Height(this._height, this.heightUnitCurrent)
+        }
+
+        // console.log('APPPPPPPPPPPPP');
+        // console.log(css);
+
+
+        return css
+
+    }
+
+    get cssListMediaQuery() : any
+    {
+        let css = {}
+        var cssFormAccessor = []
+
+        if (this.selectedMedia) {
+            // var css = {}
+            console.log(this.selectedMedia)
+            console.log(this.pseudoClassAccessor.selectedSelector)
+            console.log(this.cssListMediaOwner.currentCssList)
+            console.log(this.cssListMediaOwner.currentCssList.all)
+            cssFormAccessor = this.cssListMediaOwner.currentCssList.all
+        }
+        for (const cssProp of cssFormAccessor) {
             if (!this.canAddToCssList(cssProp)) {
                 continue
             }
@@ -1074,7 +1241,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     get cssListOverride() : any
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             return activeSelector.cssList
@@ -1084,8 +1251,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    get cssBoxList() : any
-    {
+    get cssBoxList() : any {
         if (this.widthUnitCurrent instanceof Percent) {
             // let css = this.cssList
 
@@ -1102,7 +1268,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         let borderBottomWidth = this.borderBottom.width
 
         var paddingLeftWidth, paddingRightWidth, paddingTopWidth, paddingBottomWidth
-        if (this.paddingLeft.isActive() &&  this.getHtmlEl()) {
+        if (this.paddingLeft.isActive() && this.getHtmlEl()) {
 
         }
 
@@ -1135,6 +1301,9 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         }
         var a = this.transformStyleList.transform(this.cssAccessor.all)
+
+
+        // a = this.transformStyleList.transform(this.cssAccessor.all)
         // console.log('APPPPPPPPPPPPP');
         // console.log(a);
 
@@ -1150,10 +1319,25 @@ export default abstract class HtmlTag extends HtmlNode implements
         return []
     }
 
+    get cssBoxListMediaQuery() : any
+    {
+        if (this.selectedMedia) {
+            // console.log('cssBoxListMediaQuery')
+            // console.log(this.cssListMediaOwner)
+            //             console.log(this.cssListMediaOwner.currentCssList.all)
+            // this.transformStyleList.setAllImportant(true)
+            var a = this.transformStyleList.transform(this.cssListMediaOwner.currentCssList.all)
+            // console.log('new css', a)
+            return  a
+        }
+
+        return {}
+    }
+
     get cssBoxListOverride() : any
     {
 
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             // console.log('LIST-box-Override');
@@ -1614,7 +1798,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.pseudoElementAccessor.selectedSelector = null
 
     }
-    getSelectedSelector() : PseudoSelector {
+    get selectedSelector() : PseudoSelector {
         if (this.pseudoClassAccessor.selectedSelector) {
             return this.pseudoClassAccessor.selectedSelector
         }
@@ -1628,14 +1812,25 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     getCurrentCssAccessor()
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             return activeSelector.cssAccessor
         }
 
+        if (this.selectedMedia) {
+            return this.cssListMediaOwner.currentCssList
+        }
+
         return this.cssAccessor
 
+    }
+
+    public onChangeMediaQuery()
+    {
+        // console.log('onChangeMediaQuery');
+
+        this.onChangeSelector()
     }
 
     public onChangeSelector()
@@ -1647,7 +1842,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             this.reInitDefaultPosition()
 
             this.updatePositionProps()
-            var activeSelector = this.getSelectedSelector()
+            var activeSelector = this.selectedSelector
             var positionCss
             if (activeSelector) {
                 positionCss = activeSelector.cssAccessor.getProperty(PositionCss.PROP_NAME)

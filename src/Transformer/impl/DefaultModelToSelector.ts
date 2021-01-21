@@ -17,6 +17,7 @@ import ModelToSelector from '../ModelToSelector';
 import Selector from '../../Api/Selector';
 import PseudoSelector from '../../PseudoSelector/PseudoSelector';
 import PseudoSelectorFactoryFromName from '../../Factory/PseudoSelectorFactoryFromName';
+import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 export default class DefaultModelToSelector implements ModelToSelector
 {
 
@@ -25,20 +26,21 @@ export default class DefaultModelToSelector implements ModelToSelector
     private styleTransformer: ModelToCss
 
     constructor()
-    { 
+    {
         this.styleTransformer = new DefaultModelToCss()
         this.selectorFactoryFromName = new PseudoSelectorFactoryFromName()
     }
 
     transform(model: Selector, tag: HtmlTag): PseudoSelector {
         var domain = this.build(model, tag)
-                    
+
         return domain
     }
 
     build(model: Selector, tag: HtmlTag): PseudoSelector
     {
         var domain = this.selectorFactoryFromName.create(model.name)
+        domain.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
         domain.id = model.id
         domain.projectId = model.projectId
@@ -48,15 +50,20 @@ export default class DefaultModelToSelector implements ModelToSelector
         domain.setVersion(model.version)
         domain.setApi(tag.api)
 
-    
+
         if (model.styles) {
             for (const style of model.styles) {
                 let subModel = this.styleTransformer.transform(style)
-                domain.setCss(subModel)
+                if (subModel.mediaQueryId) {
+                    domain.cssListMediaOwner.addCssForMedia(subModel, subModel.mediaQueryId)
+                } else {
+                    domain.setCss(subModel)
+
+                }
             }
         }
 
         return domain
     }
-   
+
 }

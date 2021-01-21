@@ -110,10 +110,10 @@ export default class PseudoClassManager
 
         // this.pseudoClass.id = null
         this.pseudoClass.selectedByOwner = true
-        console.log(this.pseudoClass);
+        // console.log(this.pseudoClass);
         this.value.pseudoClassAccessor.selectedSelector = this.pseudoClass
 
-        this.value.recalculateRealComputedProperties()
+        // this.value.recalculateRealComputedProperties()
 
     }
 
@@ -125,7 +125,7 @@ export default class PseudoClassManager
         console.log(this.pseudoClass);
         this.value.pseudoClassAccessor.selectedSelector = null
 
-        this.value.recalculateRealComputedProperties()
+        // this.value.recalculateRealComputedProperties()
 
 
     }

@@ -1,7 +1,7 @@
 <template>
     <div v-context-menu="'layout-builder-cm'">
         <div class="media-query-controls">
-            <media-query-component @selectMediaQuery="onSelectMediaQuery" @changeThisMedia="onSelectMediaQuery" />
+            <media-query-component ref="mediaQueryComponent"  @selectMediaQuery="onSelectMediaQuery" @changeThisMedia="onSelectMediaQuery" />
         </div>
         <html-element-closing-tag-context-menu   @click.stop=""  @opened="cmIsOpened" ref="layout-builder-cm" />
 
@@ -11,6 +11,10 @@
                     <template v-if="$layoutCreatorMode">
 
                         <style v-if="$layoutCreatorMode.mode.canRun(pseudoSelectorAction)" v-html="pseudoSelectorsTags">
+
+                        </style>
+
+                        <style v-if="$layoutCreatorMode.mode.canRun(pseudoSelectorAction)" v-html="mediaQueryElements">
 
                         </style>
 
@@ -91,12 +95,21 @@ import Height from "~/src/Css/Size/Height";
 import RemoverAdvisor from "~/src/Remover/RemoverAdvisor";
 import DefaultRemoverAdvisor from "~/src/Remover/advisor/DefaultRemoverAdvisor";
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
+import MediaQueryComponent from "~/components/MediaQueryComponent.vue";
+import MediaQueryForCssList from "~/src/MediaQuery/headSection/MediaQueryForCssList";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
     contextMenuName = 'cm-create-html-element'
     htmlTags: HtmlTag[] = []
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
+
+    public mediaQueryComponent: MediaQueryComponent
+
+    $refs: {
+        mediaQueryComponent: MediaQueryComponent
+    }
+
     a = `<template v-for="selectors in pseudoSelectorsTags">
 
             <template v-for="(key, cssList) in selectors">
@@ -121,6 +134,51 @@ export default class LayoutCreatorContainer extends Vue {
 
     mode
     pseudoSelectorAction = new PseudoSelectorViewAction()
+    mediaQueryList: MediaQueryForCssList
+
+    updateTagsOnChangeMediaQuery(list){
+        for (const el of list) {
+            if (el instanceof HtmlTag) {
+                // el.clearSelectedSelectors()
+                el.onChangeMediaQuery()
+
+                this.updateTagsOnChangeMediaQuery(el.children)
+            }
+        }
+    }
+
+    mounted()
+    {
+        this.mediaQueryComponent = this.$refs['mediaQueryComponent']
+        this.mediaQueryList = new MediaQueryForCssList()
+        var api = new DefaultApiService()
+        this.tagRemoverAdvisor = new DefaultRemoverAdvisor(this.htmlTags, api)
+        document.body.addEventListener('mousemove', (e) => {
+            // @ts-ignore
+            if (parseInt(e.clientX) % 10 == 0) {
+                // console.log(e.clientX);
+            }
+
+        })
+        window.addEventListener('resize', (e) => {
+            // console.log('width', (<Window>e.target).innerWidth);
+            // console.log('height', e.target.innerHeight);
+            for (const htmlTag of this.htmlTags) {
+                htmlTag.recalculateRealComputedProperties()
+            }
+        })
+
+        window.document.body.addEventListener('keydown', this.onKeyDown)
+        window.document.body.addEventListener('keyup', this.onKeyUp)
+
+        this.$layoutCreatorMode.$on('change', (e) => {
+            if (e instanceof ViewMode) {
+                this.recursiveClearSelectedSelector(this.htmlTags)
+            }
+
+        })
+
+    }
 
     get windowStyles()
     {
@@ -133,9 +191,11 @@ export default class LayoutCreatorContainer extends Vue {
 
     public onSelectMediaQuery(media: BaseMediaQueryCss)
     {
-        // console.log('onSelectMediaQuery')
+        console.log('onSelectMediaQuery')
         // console.log(media)
         // console.log(media.values[0])
+        this.updateTagsOnChangeMediaQuery(this.htmlTags)
+
         if (media) {
             if (media.values.length > 0) {
                 var val = media.values[0]
@@ -146,6 +206,9 @@ export default class LayoutCreatorContainer extends Vue {
 
             }
         }
+
+
+
 
         this.windowWidth = '100%';
     }
@@ -184,6 +247,18 @@ export default class LayoutCreatorContainer extends Vue {
         return list
     }
 
+    private recursiveBuildMediaQueries(list, tag: HtmlTag) {
+
+        for (const el of tag.children) {
+            if (el instanceof HtmlTag) {
+                list.push(el.mediaQueryWithElements)
+                this.recursiveBuildMediaQueries(list, el)
+            }
+        }
+
+        return list
+    }
+
 
     get pseudoSelectorsTags(): string
     {
@@ -212,6 +287,50 @@ export default class LayoutCreatorContainer extends Vue {
 
     }
 
+    get mediaQueryElements(): string
+    {
+        let list = []
+        this.mediaQueryList.reset()
+        for (const tag of this.htmlTags) {
+            console.log(tag.mediaQueryWithElements);
+            list.push(tag.mediaQueryWithElements)
+            this.recursiveBuildMediaQueries(list, tag)
+        }
+
+        var res = ''
+
+        // for (const mediaItemKey of this.mediaQueryList.items) {
+        //     var mediaItem = this.mediaQueryList.items
+            for (const el of list) {
+
+                for (const mediaTag of el) {
+                    this.mediaQueryList.addMediaQueryTag(mediaTag)
+                }
+            }
+        // }
+
+        for (const mediaItemKey in this.mediaQueryList.items) {
+            var mediaItem = this.mediaQueryList.items[mediaItemKey]
+            res += mediaItem.mediaQuery.getValue() + ' {'
+
+            for (const mediaTag of mediaItem.tags) {
+
+                var cssList = mediaTag.cssList
+                res += mediaTag.selector + ' {'
+                for (const css of cssList) {
+
+                    res += css.getName() + ':' + css.getValue() + ' !important ;'
+                }
+                res += '}'
+            }
+
+            res += '}'
+        }
+
+        return res
+
+    }
+
     getComponentNameByTag(tag: HtmlNode) {
 
         // console.log(tag)
@@ -234,43 +353,6 @@ export default class LayoutCreatorContainer extends Vue {
             return 'html-text-node'
 
         }
-    }
-
-
-
-    mounted()
-    {
-        var api = new DefaultApiService()
-        this.tagRemoverAdvisor = new DefaultRemoverAdvisor(this.htmlTags, api)
-        document.body.addEventListener('mousemove', (e) => {
-        // @ts-ignore
-            if (parseInt(e.clientX) % 10 == 0) {
-                // console.log(e.clientX);
-
-            }
-
-        })
-        window.addEventListener('resize', (e) => {
-            // console.log('width', (<Window>e.target).innerWidth);
-            // console.log('height', e.target.innerHeight);
-            for (const htmlTag of this.htmlTags) {
-                htmlTag.recalculateRealComputedProperties()
-            }
-        })
-
-        window.document.body.addEventListener('keydown', this.onKeyDown)
-        window.document.body.addEventListener('keyup', this.onKeyUp)
-
-        this.$layoutCreatorMode.$on('change', (e) => {
-            if (e instanceof ViewMode) {
-                this.recursiveClearSelectedSelector(this.htmlTags)
-            }
-
-        })
-
-
-
-
     }
 
     get canRunPseudoSelector()

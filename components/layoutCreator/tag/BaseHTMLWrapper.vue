@@ -1,6 +1,9 @@
 
 <template>
-    <component :is="tagName" :class="positionClass"  @click.stop="onContentMouseClick(value, $event)" :style="[value.cssBoxList, value.cssBoxListOverride]"  :key="value.updateComponentKey" :id="value.shortUUID" >
+    <component :is="tagName"
+               :class="positionClass"
+               @click.stop="onContentMouseClick(value, $event)"
+               :style="[value.cssBoxList, value.cssBoxListMediaQuery, value.cssBoxListOverride]"  :key="value.updateComponentKey" :id="value.shortUUID" >
         <!-- <html-element-closing-tag-context-menu v-if="value.isClosingTag" :value="value" :ref="value.uuid" />
         <html-element-short-closing-tag-context-menu v-else :value="value" :ref="value.uuid" /> -->
         <slot name="top-content" />
@@ -193,6 +196,7 @@ import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate"
 import { PositionCss } from "../../../src/Css";
 import TextNode from "~/src/Layout/TextNode";
 import HtmlNode from "~/src/Layout/HtmlNode";
+import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 
 
 @Component
@@ -563,6 +567,9 @@ export default class BaseHTMLWrapper extends Vue {
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
         // return
+        console.log('CREA - COMP - BASE')
+        console.log(BaseMediaQueryComponent.accessorStatic)
+
         this.value.setHtmlEl(this.$el)
         this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
 

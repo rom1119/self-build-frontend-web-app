@@ -13,7 +13,7 @@ import CssStyleUpdater from "~/src/Api/idsUpdate/CssStyleUpdater";
 export default class HtmlTagSynchronizer implements Synchronizer
 {
 
-    protected isNowSynchronized 
+    protected isNowSynchronized
     protected isQueued = false
     protected tag: HtmlNode
     protected api: ApiService
@@ -29,7 +29,7 @@ export default class HtmlTagSynchronizer implements Synchronizer
         this.tag = tag
         this.api = api
         this.isNowSynchronized = false
-        
+
     }
 
     synchronize()
@@ -45,16 +45,16 @@ export default class HtmlTagSynchronizer implements Synchronizer
 
     private setAsNowReadyToSynchronize()
     {
-        setTimeout(() => { 
+        setTimeout(() => {
             this.isNowSynchronized = false
             // console.log('qwerty');
-            
+
         }, 1000)
     }
 
     private updateApi()
     {
-        setTimeout(() => { 
+        setTimeout(() => {
 
             // this.setAsNowReadyToSynchronize()
             this.updatePromise().then(
@@ -63,8 +63,8 @@ export default class HtmlTagSynchronizer implements Synchronizer
                     // console.log(res);
 
                     if (this.tag instanceof HtmlTag) {
-                        this.updateCssIds(res.data.cssStyleList, this.tag.cssAccessor.all)
-    
+                        this.updateCssIds(res.data.cssStyleList, this.tag)
+
                     }
                     this.setAsNowReadyToSynchronize()
                     this.apiSocket.sendMessage(this.tag.projectId)
@@ -111,24 +111,33 @@ export default class HtmlTagSynchronizer implements Synchronizer
 
     }
 
-    
+
     private canSynchronize()
     {
         if (this.isNowSynchronized) {
             return false
         }
-        
+
         return  true
     }
 
-    private updateCssIds(arrCss, domainArrCss)
+    private updateCssIds(arrCss, tag: HtmlTag)
     {
 
+        var tagCssIndex = 0
+        var mediaQueryCssIndex = 0
         for (var m = 0; m < arrCss.length; m++) {
             var cssRes = arrCss[m]
-            var cssDomain = domainArrCss[m]
-            this.cssUpdater.update(cssDomain, cssRes)
-            
+            if (cssRes.mediaQuery) {
+                var cssDomain = tag.cssListMediaOwner.getPropertyForMedia(cssRes.name, cssRes.mediaQuery.id)
+                this.cssUpdater.update(cssDomain, cssRes)
+
+            } else {
+                var cssDomain = tag.cssAccessor.all[tagCssIndex]
+                this.cssUpdater.update(cssDomain, cssRes)
+                tagCssIndex++
+            }
+
         }
     }
 }

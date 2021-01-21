@@ -53,11 +53,13 @@ export default class MediaQueryModelBuild implements ModelFromResponse<MediaQuer
                 cssValue.setValueThird(cssValModel.valueThird)
                 cssValue.setValueFourth(cssValModel.valueFourth)
                 cssValue.setValueFifth(cssValModel.valueFifth)
+                cssValue.setValueSixth(cssValModel.valueSixth)
                 cssValue.setUnitName(cssValModel.unitName)
                 cssValue.setUnitNameSecond(cssValModel.unitNameSecond)
                 cssValue.setUnitNameThird(cssValModel.unitNameThird)
                 cssValue.setUnitNameFourth(cssValModel.unitNameFourth)
                 cssValue.setUnitNameFifth(cssValModel.unitNameFifth)
+                cssValue.setUnitNameSixth(cssValModel.unitNameSixth)
                 cssValue.setResourcePath(cssValModel.resourcePath)
 
                 values.push(cssValue)
@@ -66,8 +68,8 @@ export default class MediaQueryModelBuild implements ModelFromResponse<MediaQuer
 
         model.values = values
 
-        console.log('model build', model)
-        console.log('model build from', from)
+        // console.log('model build', model)
+        // console.log('model build from', from)
 
         var sels = []
 

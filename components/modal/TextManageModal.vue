@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 
-    <base-modal v-show="active">
-    
+    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :tag="value">
+
         <template slot="header">
             <div class="close">
                 <button @click="close($event)">X</button>
@@ -20,7 +20,7 @@
                         <!-- <label @dblclick.stop.prevent="">Kolor</label>
                         <div @dblclick.stop.prevent="" class="color-picker-btn" @click.stop="toggleColorPicker()">
                         </div> -->
-                       
+
                         <div>
                             <Chrome v-model="color" :color="color" style="margin: 0 auto;" label="Color" />
                             <div class="color-picker-nav">
@@ -33,7 +33,7 @@
                     </div>
 
                 </div>
-                
+
                 <div class="content-item-half" >
                     <div @dblclick="hasFontSize = !hasFontSize" :class="{'active': hasFontSize}">
                         <h4 class="content-item__header">
@@ -45,7 +45,7 @@
                             <select-unit-context-menu :propertyUnit="fontSizeUnit" @changePropUnit="($event) => {fontSizeUnit = $event;}" :ref="cmNameFontSize" />
 
                             <label :for="'fontSize-'">
-                                
+
                                 <input @dblclick.stop.prevent="" type="number" style="width: 40px;" class="input-text" v-model="fontSize" name="fontSize" :id="'fontSize-'">
                                 {{ fontSizeUnit.label }}
                             </label>
@@ -62,7 +62,7 @@
                             <select-unit-context-menu :propertyUnit="lineHeightUnit" @changePropUnit="($event) => {lineHeightUnit = $event;}" :ref="cmNameLineHeight" />
 
                             <label :for="'lineHeight-'">
-                                
+
                                 <input @dblclick.stop.prevent="" type="number" style="width: 40px;" class="input-text" v-model="lineHeight" name="lineHeight" :id="'lineHeight-'">
                                 {{ lineHeightUnit.label }}
                             </label>
@@ -179,7 +179,7 @@ import FontStretch from '../../src/Css/Text/FontStretch';
         }
     })
     export default class TextManageModal extends FontManageModal {
-        
+
         timeout
         // value: HtmlTag
         DEFAULT_FONT_SIZE = 20
@@ -204,9 +204,9 @@ import FontStretch from '../../src/Css/Text/FontStretch';
             g: 0,
             b: 0,
             a: 1
-        }        
+        }
 
-        mounted() 
+        mounted()
         {
             // console.log(this.contextMenuName);
             // console.log(this.cmName);
@@ -214,7 +214,7 @@ import FontStretch from '../../src/Css/Text/FontStretch';
             if (this.fontColorUnit instanceof RGBA) {
                 console.log('00000000000000000');
                 // console.log(this.value.color);
-                
+
                 // @ts-ignore
                 this.color.r = this.fontColor.r
                 // @ts-ignore
@@ -224,43 +224,48 @@ import FontStretch from '../../src/Css/Text/FontStretch';
                 // @ts-ignore
                 this.color.a = this.fontColor.a
             }
-            
+
         }
 
-        created() 
+        created()
         {
-   
+
+        }
+
+        onChangePseudoSelector()
+        {
+            this.reinitManagers()
         }
 
         // *****************************************  LINE-HEIGHT ****************************************************
-        
+
         get lineHeight()
         {
             return  this.lineHeightManager.getProperty().value
         }
-        
+
         set lineHeight(newVal: string)
         {
             this.lineHeightManager.getProperty().setValue(newVal)
-            this.lineHeightManager.updateCssProp(this.lineHeightManager.getProperty())             
+            this.lineHeightManager.updateCssProp(this.lineHeightManager.getProperty())
         }
 
         get lineHeightUnit()
         {
             return  this.lineHeightManager.getProperty().getUnit()
         }
-        
+
         set lineHeightUnit(newVal: UnitSize)
         {
             this.lineHeightManager.getProperty().setUnit(newVal)
-            this.lineHeightManager.updateCssProp(this.lineHeightManager.getProperty())             
+            this.lineHeightManager.updateCssProp(this.lineHeightManager.getProperty())
         }
 
         get hasLineHeight()
         {
             return  this.lineHeightManager.getProperty().active
         }
-        
+
         set hasLineHeight(newVal: boolean)
         {
             if (!newVal) {
@@ -269,36 +274,36 @@ import FontStretch from '../../src/Css/Text/FontStretch';
                 this.lineHeightManager.activePropCss(this.lineHeightManager.getProperty())
             }
         }
-        
+
         // *****************************************  FONT-SIZE ****************************************************
-        
+
         get fontSize()
         {
             return  this.fontSizeManager.getProperty().value
         }
-        
+
         set fontSize(newVal: string)
         {
             this.fontSizeManager.getProperty().setValue(newVal)
-            this.fontSizeManager.updateCssProp(this.fontSizeManager.getProperty())             
+            this.fontSizeManager.updateCssProp(this.fontSizeManager.getProperty())
         }
 
         get fontSizeUnit()
         {
             return  this.fontSizeManager.getProperty().getUnit()
         }
-        
+
         set fontSizeUnit(newVal: UnitSize)
         {
             this.fontSizeManager.getProperty().setUnit(newVal)
-            this.fontSizeManager.updateCssProp(this.fontSizeManager.getProperty())             
+            this.fontSizeManager.updateCssProp(this.fontSizeManager.getProperty())
         }
 
         get hasFontSize()
         {
             return  this.fontSizeManager.getProperty().active
         }
-        
+
         set hasFontSize(newVal: boolean)
         {
             if (!newVal) {
@@ -307,38 +312,38 @@ import FontStretch from '../../src/Css/Text/FontStretch';
                 this.fontSizeManager.activePropCss(this.fontSizeManager.getProperty())
             }
         }
-        
+
         // *****************************************  FONT-COLOR ****************************************************
-        
+
         get fontColor()
         {
             return  this.fontColorManager.getProperty().value
         }
-        
+
         set fontColor(newVal)
         {
             console.log('set');
-            
+
             this.fontColorManager.getProperty().setValue(newVal)
-            this.fontColorManager.updateCssProp(this.fontColorManager.getProperty())             
+            this.fontColorManager.updateCssProp(this.fontColorManager.getProperty())
         }
 
         get fontColorUnit()
         {
             return  this.fontColorManager.getProperty().getUnit()
         }
-        
+
         set fontColorUnit(newVal: UnitSize)
         {
             this.fontColorManager.getProperty().setUnit(newVal)
-            this.fontColorManager.updateCssProp(this.fontColorManager.getProperty())             
+            this.fontColorManager.updateCssProp(this.fontColorManager.getProperty())
         }
 
         get hasFontColor()
         {
             return  this.fontColorManager.getProperty().active
         }
-        
+
         set hasFontColor(newVal: boolean)
         {
             if (!newVal) {
@@ -349,23 +354,23 @@ import FontStretch from '../../src/Css/Text/FontStretch';
         }
 
         // *****************************************  TEXT-ALIGN ****************************************************
-        
+
         get textAlign()
         {
             return  this.textAlignManager.getProperty().value
         }
-        
+
         set textAlign(newVal)
-        {            
+        {
             this.textAlignManager.getProperty().setValue(newVal)
-            this.textAlignManager.updateCssProp(this.textAlignManager.getProperty())             
+            this.textAlignManager.updateCssProp(this.textAlignManager.getProperty())
         }
 
         get hasTextAlign()
         {
             return  this.textAlignManager.getProperty().active
         }
-        
+
         set hasTextAlign(newVal: boolean)
         {
             if (!newVal) {
@@ -374,25 +379,25 @@ import FontStretch from '../../src/Css/Text/FontStretch';
                 this.textAlignManager.activePropCss(this.textAlignManager.getProperty())
             }
         }
-        
+
         // *****************************************  FONT-STRETCH ****************************************************
-        
+
         get fontStretch()
         {
             return  this.fontStretchManager.getProperty().value
         }
-        
+
         set fontStretch(newVal)
-        {            
+        {
             this.fontStretchManager.getProperty().setValue(newVal)
-            this.fontStretchManager.updateCssProp(this.fontStretchManager.getProperty())             
+            this.fontStretchManager.updateCssProp(this.fontStretchManager.getProperty())
         }
 
         get hasFontStretch()
         {
             return  this.fontStretchManager.getProperty().active
         }
-        
+
         set hasFontStretch(newVal: boolean)
         {
             if (!newVal) {
@@ -401,25 +406,25 @@ import FontStretch from '../../src/Css/Text/FontStretch';
                 this.fontStretchManager.activePropCss(this.fontStretchManager.getProperty())
             }
         }
-        
+
         // *****************************************  FONT-WEIGHT ****************************************************
-        
+
         get fontWeight()
         {
             return  this.fontWeightManager.getProperty().value
         }
-        
+
         set fontWeight(newVal)
-        {            
+        {
             this.fontWeightManager.getProperty().setValue(newVal)
-            this.fontWeightManager.updateCssProp(this.fontWeightManager.getProperty())             
+            this.fontWeightManager.updateCssProp(this.fontWeightManager.getProperty())
         }
 
         get hasFontWeight()
         {
             return  this.fontWeightManager.getProperty().active
         }
-        
+
         set hasFontWeight(newVal: boolean)
         {
             if (!newVal) {
@@ -428,25 +433,25 @@ import FontStretch from '../../src/Css/Text/FontStretch';
                 this.fontWeightManager.activePropCss(this.fontWeightManager.getProperty())
             }
         }
-        
+
         // *****************************************  FONT-STYLE ****************************************************
-        
+
         get fontStyle()
         {
             return  this.fontStyleManager.getProperty().value
         }
-        
+
         set fontStyle(newVal)
-        {            
+        {
             this.fontStyleManager.getProperty().setValue(newVal)
-            this.fontStyleManager.updateCssProp(this.fontStyleManager.getProperty())             
+            this.fontStyleManager.updateCssProp(this.fontStyleManager.getProperty())
         }
 
         get hasFontStyle()
         {
             return  this.fontStyleManager.getProperty().active
         }
-        
+
         set hasFontStyle(newVal: boolean)
         {
             if (!newVal) {
@@ -455,25 +460,25 @@ import FontStretch from '../../src/Css/Text/FontStretch';
                 this.fontStyleManager.activePropCss(this.fontStyleManager.getProperty())
             }
         }
-        
+
         // *****************************************  FONT-FAMILY ****************************************************
-        
+
         get fontFamily()
         {
             return  this.fontFamilyManager.getProperty().value
         }
-        
+
         set fontFamily(newVal)
-        {            
+        {
             this.fontFamilyManager.getProperty().setValue(newVal)
-            this.fontFamilyManager.updateCssProp(this.fontFamilyManager.getProperty())             
+            this.fontFamilyManager.updateCssProp(this.fontFamilyManager.getProperty())
         }
 
         get hasFontFamily()
         {
             return  this.fontFamilyManager.getProperty().active
         }
-        
+
         set hasFontFamily(newVal: boolean)
         {
             if (!newVal) {
@@ -496,7 +501,7 @@ import FontStretch from '../../src/Css/Text/FontStretch';
         cancelColor()
         {
             // console.log(this.color);
-            
+
             this.toggleColorPicker()
         }
 
@@ -513,13 +518,13 @@ import FontStretch from '../../src/Css/Text/FontStretch';
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)
         {
-           
+
         }
 
     }
 </script>
 
-<style lang="scss" scoped> 
+<style lang="scss" scoped>
     .active {
         background-color: rgba($color: #d81121, $alpha: .4);
     }

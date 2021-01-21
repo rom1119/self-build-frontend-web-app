@@ -18,6 +18,7 @@ import DefaultModelToSelector from './DefaultModelToSelector';
 import PseudoClass from '../../PseudoSelector/PseudoClass';
 import PseudoElement from '~/src/PseudoSelector/PseudoElement';
 import HtmlAttrFactory from '~/src/Attribute/HtmlAttrFactory';
+import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 export default class DefaultModelToDomain implements ModelToDomain
 {
     private htmlTagFactory: HtmlTagFactoryFromName
@@ -69,6 +70,9 @@ export default class DefaultModelToDomain implements ModelToDomain
                 tagname += '-' + model.attrs.type.value
             }
             domain = this.htmlTagFactory.create(tagname)
+            console.log('build domain', BaseMediaQueryComponent.accessorStatic)
+            domain.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+
             domain.uuid  = model.id
             domain.shortUUID  = model.shortUUID
             domain.version  = model.version
@@ -90,10 +94,23 @@ export default class DefaultModelToDomain implements ModelToDomain
                     let subModel = this.styleTransformer.transform(style)
                     // console.log(style);
 
-                    domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
+                    if (subModel.mediaQueryId) {
+                        domain.cssListMediaOwner.addCssForMedia(subModel, subModel.mediaQueryId)
+                    } else {
+                        if (domain.cssAccessor.hasCssProperty(subModel.getName())) {
+                            domain.cssAccessor.setNewPropertyValue(subModel.getName(), subModel)
+
+                        } else {
+                            domain.cssAccessor.addNewProperty(subModel)
+
+                        }
+
+                    }
                     // domain..push(subModel)
                     domain.updateModelComponent()
                 }
+
+                domain.synchronizeAllCssStyles()
             }
 
             if (model.selectors) {

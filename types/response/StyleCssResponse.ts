@@ -4,6 +4,7 @@ import StyleCssValueResponse from "./StyleCssValueResponse";
 export default class StyleCssResponse extends ResponseObject{
      id
      name
+     mediaQuery: {[id: string]: number}
      children: StyleCssResponse[]
      value
      cssValues: StyleCssValueResponse[]

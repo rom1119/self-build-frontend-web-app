@@ -4,6 +4,7 @@ import Unit from '../Unit/Unit';
 export default abstract class BasePropertyCss
 {
     id
+    mediaQueryId
     protected values: any[]
     protected unit: Unit
     public active = true

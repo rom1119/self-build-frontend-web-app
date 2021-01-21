@@ -23,12 +23,14 @@ export default abstract class BaseMediaQueryComponent extends Vue
 {
     managers: MediaQueryManager[]
     accessor: MediaQueryAccessor<MediaQueryCss>
+    public static accessorStatic: MediaQueryAccessor<MediaQueryCss>
 
     constructor()
     {
         super()
         Vue.set(this, 'managers', [])
         this.accessor = new MediaQueryAccessor()
+        BaseMediaQueryComponent.accessorStatic = this.accessor
         // this.activeManager = new PseudoSelectoryManager<Active>()
         // this.focusManager = new PseudoSelectoryManager<Focus>()
         // this.visitedManager = new PseudoSelectoryManager<Visited>()

@@ -106,6 +106,11 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
 
             }
 
+            if (valCss.getValueSixth()) {
+                el.mediaQueryOperatorFirst = new MediaQueryOperator(valCss.getValueSixth())
+
+            }
+
             var unit = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
 
 

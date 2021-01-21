@@ -64,8 +64,8 @@ export default class MediaQuerySynchronizer implements Synchronizer
             // this.setAsNowReadyToSynchronize()
             this.updatePromise().then(
                 (res) => {
-                    console.log('success');
-                    console.log(res);
+                    // console.log('success');
+                    // console.log(res);
                     var resValues = res.data.cssValues
                     // this.updateCssIds(res.data.cssStyleList, this.model.cssAccessor.all)
                     if (typeof this.model.values === 'function') {
@@ -108,8 +108,8 @@ export default class MediaQuerySynchronizer implements Synchronizer
             // this.setAsNowReadyToSynchronize()
             this.savePromise().then(
                 (res) => {
-                    console.log('success');
-                    console.log(res);
+                    // console.log('success');
+                    // console.log(res);
                     var resValues = res.data.cssValues
                     // this.updateCssIds(res.data.cssStyleList, this.model.cssAccessor.all)
                     if (typeof this.model.values === 'function') {

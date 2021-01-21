@@ -1,14 +1,32 @@
 <template>
 
-    <component v-if="value.isInput" v-model="text" :id="value.shortUUID + '-content'"  class="wrapper-el" :is="value.getTagName()" :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)" />
-    
+    <component v-if="value.isInput"
+               v-model="text"
+               :id="value.shortUUID + '-content'"
+               class="wrapper-el"
+               :is="value.getTagName()"
+               :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride]"
+               @click.stop="onClick($event)"
+               @mousedown.stop="onMouseDown($event)"
+               @mouseover.stop="onMouseOver($event)"
+               @mouseout.stop="onMouseOut($event)"
+    />
+
     <div v-else-if="value.hasMiddleTag" :style="value.middleTagCss">
         <component :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
             <slot>
             </slot>
         </component>
     </div>
-    <component v-else :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+    <component v-else :class="positionClass"
+               class="wrapper-el"
+               :is="value.getTagName()"
+               :id="value.shortUUID + '-content'"
+               :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride]"
+               @click.stop="onClick($event)"
+               @mousedown.stop="onMouseDown($event)"
+               @mouseover.stop="onMouseOver($event)"
+               @mouseout.stop="onMouseOut($event)">
         <slot>
         </slot>
     </component>
@@ -39,7 +57,7 @@ export default class HTMLEL extends Vue {
 
     created() {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
-        
+
         // console.log(this.value.styleList)
     }
 
@@ -47,7 +65,7 @@ export default class HTMLEL extends Vue {
     {
         return this.value.text
     }
-    
+
     set text(arg)
     {
         this.value.text = arg
@@ -56,7 +74,7 @@ export default class HTMLEL extends Vue {
     mounted() {
         var attrsArr = this.value.attributeAccessor.all
         // console.log(this.$el);
-        
+
         for (const attr of attrsArr) {
             if (attr.key == 'value') {
                 continue
@@ -68,16 +86,16 @@ export default class HTMLEL extends Vue {
                 this.$el.setAttribute(attr.key, attr.value)
 
             }
-            
+
         }
         // console.log(this.$el);
     }
 
-    onMouseOver() {   
+    onMouseOver() {
         // console.log('over');
         // console.log(this.value);
         // console.log('over');
-             
+
         this.$emit('contentMouseOver', this.value)
 
     }
@@ -92,7 +110,7 @@ export default class HTMLEL extends Vue {
     onMouseDown(ev) {
         this.$emit('contentMouseDown', ev)
     }
-    
+
     onClick(ev) {
         this.$emit('contentMouseClick', ev)
     }
@@ -108,22 +126,22 @@ export default class HTMLEL extends Vue {
                 return 'relative-important'
         }
     }
-    
-    onDoubleClick(e) 
+
+    onDoubleClick(e)
     {
         // this.value.onDoubleClick(e)
         // // console.log(this);
         // // console.log(this.$refs);
         // // console.log(this.$refs.editableEl);
-        
+
         // this.$refs.editableEl.focus()
 
 
         // console.log(heightTable);
-            
+
 
     }
-    
+
 }
 </script>
 
@@ -150,7 +168,7 @@ export default class HTMLEL extends Vue {
     .absolute-important {
         position: absolute !important;
     }
-    
+
     .fixed-important {
         position: fixed !important;
     }

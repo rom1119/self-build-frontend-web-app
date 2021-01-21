@@ -9,12 +9,13 @@ import TextNode from '../../Layout/TextNode';
 import Input from '../../Layout/tag/Form/Input';
 import SelectorToModel from '../SelectorToModel';
 import DefaultSelectorToModel from './DefaultSelectorToModel';
+import CssListAndMediaQueryAccessor from "~/src/Css/PropertyAccessor/mediaQuery/CssListAndMediaQueryAccessor";
 export default class DefaultDomainToModel implements DomainToModel
 {
 
     private styleTransformer: CssToModel
     private selectorTransformer: SelectorToModel
-    
+
     constructor()
     {
         this.styleTransformer = new DefaultCssToModel()
@@ -46,6 +47,26 @@ export default class DefaultDomainToModel implements DomainToModel
                     // domain..push(subModel)
                 }
             }
+            // console.log('to model')
+            // console.log(domain.cssListMediaOwner.getMediaQueryCssList())
+            for(var mediaCssKey in domain.cssListMediaOwner.getMediaQueryCssList()) {
+            // console.log(mediaCssKey)
+                var item: CssListAndMediaQueryAccessor<HtmlTag> = domain.cssListMediaOwner.getMediaQueryCssList()[mediaCssKey]
+            // console.log(item.all)
+
+                for(var cssD of item.all) {
+                    if (cssD.toSaveInApi) {
+                        this.styleTransformer.setMediaQuery(item.mediaQuery)
+                        let subModel = this.styleTransformer.transform(cssD)
+                        model.styles.push(subModel)
+                        // console.log(subModel)
+                        // console.log(item.mediaQuery)
+
+                    }
+
+                }
+            }
+
             if (domain.pseudoClassAccessor.all.length) {
                 for (const style of domain.pseudoClassAccessor.all) {
 
@@ -54,7 +75,7 @@ export default class DefaultDomainToModel implements DomainToModel
                     // domain..push(subModel)
                 }
             }
-            
+
             if (domain.pseudoElementAccessor.all.length) {
                 for (const style of domain.pseudoElementAccessor.all) {
                     let subModel = this.selectorTransformer.transform(style)
@@ -85,7 +106,7 @@ export default class DefaultDomainToModel implements DomainToModel
             model.projectId = domain.projectId
         }
 
-        
+
         model.version = domain.version
 
         // let domain = this.htmlTagFactory.create(model.tagName)
@@ -97,5 +118,5 @@ export default class DefaultDomainToModel implements DomainToModel
         return model
 
     }
-   
+
 }

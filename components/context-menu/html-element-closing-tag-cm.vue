@@ -60,6 +60,7 @@ import TextNode from '~/src/Layout/TextNode';
 import LayoutEl from '../../src/LayoutEl';
 import TableComponentFactory from '~/src/Layout/TableComponentFactory';
 import TableTag from '~/src/Layout/tag/Table/TableTag';
+import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 
 @Component
 export default class HtmlElementContextMenu extends Vue {
@@ -122,8 +123,8 @@ export default class HtmlElementContextMenu extends Vue {
             })
 
             var items = document.querySelectorAll('.context-menu-item')
-            console.log('initOpen')
-            console.log(items)
+            // console.log('initOpen')
+            // console.log(items)
             for(var i = 0; i < items.length; i++) {
                 var el = items[i]
 
@@ -219,6 +220,8 @@ export default class HtmlElementContextMenu extends Vue {
         el.injectInitialCssStyles()
         el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
+        el.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+
 
         if (this.value) {
             this.value.appendChildDeep(el)

@@ -49,7 +49,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     {
         this.value = val
     }
-    
+
     public setFetcher(fetcher:  FetcherRealCssProp)
     {
         this.realFetcher = fetcher
@@ -61,7 +61,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             return null
         }
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             return activeSelector.cssAccessor.getProperty(prop)
 
@@ -75,13 +75,13 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         if (!this.value) {
             return false
         }
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
                 activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
             } else {
                 activeSelector.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-                
+
             }
 
         } else {
@@ -89,20 +89,20 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
                 this.value.tmpCssAccessor.addNewProperty(newCssProp)
             } else {
                 this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-                
+
             }
         }
         // this.value.updateModelComponent()
 
     }
-    
+
     init() {
 
         // =============================================
         var propLeft = this.getPropertyCssFromModel(this.leftProperty.getName())
         let valLeft = this.realFetcher.fetchPropValue(this.leftProperty.getName())
         let unitLeft = this.realFetcher.fetchUnit(this.leftProperty.getName())
-        
+
         if (propLeft) {
             this.leftProperty = <BaseMarginCss>propLeft
             this.leftProperty.setActive(true)
@@ -122,14 +122,14 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             } else {
                 this.leftProperty.setUnit(this.DEFAULT_PADDING_UNIT)
             }
-            
+
         }
         // =============================================
 
         var propRight = this.getPropertyCssFromModel(this.rightProperty.getName())
         let valRight = this.realFetcher.fetchPropValue(this.rightProperty.getName())
         let unitRight = this.realFetcher.fetchUnit(this.rightProperty.getName())
-        
+
         if (propRight) {
             this.rightProperty = <BaseMarginCss>propRight
             this.rightProperty.setActive(true)
@@ -142,7 +142,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
                 this.rightProperty.setValue(valRight)
             } else {
                 this.rightProperty.setValue(this.DEFAULT_PADDING.toString())
-            }  
+            }
             if (unitRight) {
                 this.rightProperty.setUnit(unitRight)
             } else {
@@ -155,7 +155,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         var propTop = this.getPropertyCssFromModel(this.topProperty.getName())
         let valTop = this.realFetcher.fetchPropValue(this.topProperty.getName())
         let unitTop = this.realFetcher.fetchUnit(this.topProperty.getName())
-        
+
         if (propTop) {
             this.topProperty = <BaseMarginCss>propTop
             this.topProperty.setActive(true)
@@ -180,7 +180,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         var propGlobal = this.getPropertyCssFromModel(this.bottomProperty.getName())
         let valBottom = this.realFetcher.fetchPropValue(this.bottomProperty.getName())
         let unitBottom = this.realFetcher.fetchUnit(this.bottomProperty.getName())
-        
+
         if (propGlobal) {
             this.bottomProperty = <BaseMarginCss>propGlobal
             this.bottomProperty.setActive(true)
@@ -206,7 +206,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         var propGlobal = this.getPropertyCssFromModel(this.globalProperty.getName())
         let valGlobal = this.realFetcher.fetchPropValue(this.globalProperty.getName())
         let unitGlobal = this.realFetcher.fetchUnit(this.globalProperty.getName())
-        
+
         if (propGlobal) {
             this.globalProperty = <BaseMarginCss>propGlobal
             this.globalProperty.setActive(true)
@@ -219,7 +219,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
                 this.globalProperty.setValue(valGlobal)
             } else {
                 this.globalProperty.setValue(this.DEFAULT_PADDING.toString())
-            }  
+            }
             if (unitGlobal) {
                 this.globalProperty.setUnit(unitGlobal)
             } else {
@@ -237,7 +237,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         this.bottomProperty.setActive(false)
         this.init()
     }
-    
+
     setDirectionsPropertiesFromVal(newVal: any, newUnit: Unit) {
         if (!this.value.cssAccessor.hasCssProperty(MarginLeftCss.PROP_NAME)) {
             this.leftProperty.setValue(newVal)
@@ -258,7 +258,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -274,14 +274,14 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         this.value.realPositionCalculator.updateProps()
         this.value.notifyPositionalTag()
 
-        
+
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -292,7 +292,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
 
         if (!this.globalProperty.active) {
             this.value.marginFilter.deactivateProp(prop)
-            
+
         } else {
             prop.setValue(this.globalProperty.getClearValue())
             prop.setUnit(this.globalProperty.getUnit())
@@ -313,7 +313,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     activePropCss(prop: BasePropertyCss) {
         prop.id = null
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
                 activeSelector.cssAccessor.addNewProperty(prop)
@@ -323,10 +323,10 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
                 this.value.cssAccessor.addNewProperty(prop)
             }
-            
+
         }
         console.log('activr');
-        
+
         this.value.marginFilter.activateProp(prop)
 
         // this.value.realPositionCalculator.reInitDefaultPosition()
@@ -343,7 +343,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         // console.log('ALA MA');
         // console.log(newProp.getUnit());
         // console.log(newProp);
-        
+
         let val = this.value.getComputedCssVal(newProp)
         let clonedCss = _.cloneDeep(newProp)
         clonedCss.setValue(parseInt(val).toString())
@@ -353,7 +353,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         // console.log(clonedCss);
         // console.log('ALA MA');
         // console.log(newProp);
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
             activeSelector.synchronize()
@@ -361,7 +361,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         } else {
             this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
         }
-        
+
         this.value.marginFilter.injectCssProperty(clonedCss)
         this.value.realPositionCalculator.updateProps()
         this.value.notifyPositionalTag()
@@ -376,7 +376,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     private recalculateMargins(htmlTag: HtmlTag)
     {
         this.marginRecalculator.recalculate(htmlTag)
-            
+
     }
 
     private recalculateBorders(htmlTag: HtmlTag)

@@ -27,6 +27,7 @@ import { BaseGradientStructVal } from '~/src/Css/Gradient/BaseGradientCss';
 import LinearGradientCss, { LinearGradientDirection, LinearGradientStructVal } from '../../Css/Gradient/impl/LinearGradientCss';
 import RadialGradientCss, { RadialGradientStructVal, RadialGradientDirection } from '~/src/Css/Gradient/impl/RadialGradientCss';
 import { Named } from '~/src/Unit';
+import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 export default class DefaultCssToModel implements CssToModel
 {
 
@@ -34,11 +35,18 @@ export default class DefaultCssToModel implements CssToModel
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
     // private styleTransformer: ModelToCss
 
+    private mediaQuery: BaseMediaQueryCss
+
     constructor()
     {
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         // this.styleTransformer = new HtmlTagFactoryFromName()
+    }
+
+
+    setMediaQuery(value: BaseMediaQueryCss) {
+        this.mediaQuery = value;
     }
 
     transform(domain: BasePropertyCss): StyleCss {
@@ -56,9 +64,9 @@ export default class DefaultCssToModel implements CssToModel
                     var child = this.transform(gradient)
                     model.getChildren().push(child)
                 }
-                
+
                 return model
-                
+
             }
             model.setResourcePath(domain.getResource())
             model.setResourceUrl(domain.getResourceUrl())
@@ -69,7 +77,7 @@ export default class DefaultCssToModel implements CssToModel
             var domainResource: CssResource = <CssResource><unknown>domain
             model.setResourcePath(domainResource.getResource())
         }
-        
+
         // @ts-ignore
         if (typeof domain.getWidth === 'function') {
             var domainCastBorder: BaseBorderCss = <BaseBorderCss><unknown>domain
@@ -82,10 +90,10 @@ export default class DefaultCssToModel implements CssToModel
             model.setValueSecond(domainCast.getSecondValue())
             model.setUnitNameSecond(domainCast.getSecondUnit().name)
         }
-        
+
         // @ts-ignore
         if (typeof domain.getValues === 'function') {
-            
+
             this.transformShadows(domain, model)
             this.transformTransition(domain, model)
             this.transformGradient(domain, model)
@@ -107,6 +115,10 @@ export default class DefaultCssToModel implements CssToModel
 
             model.setUnitNameThird(domainCastThird.getThirdUnit().name)
         }
+
+        if (this.mediaQuery) {
+            model.mediaQueryId = this.mediaQuery.id
+        }
         // this.cssFactoryFromName.create(model.getKey())
         // var unit = this.unitCssFactoryFromName.create(model.getUnitName())
         // domain.setValue(model.getValue())
@@ -114,7 +126,8 @@ export default class DefaultCssToModel implements CssToModel
         // domain.id = model.id
 
         // console.log(domain);
-                    
+        this.mediaQuery = null
+
         return model
 
     }
@@ -128,7 +141,7 @@ export default class DefaultCssToModel implements CssToModel
             domainCastMultiplyVal = <CssMultipleValue<TextShadowStruct>><unknown>domain
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
-            
+
             for (const valCss of domainCastMultiplyVal.getValues()) {
                 valCss
                 let el = new StyleCssValue(valCss.offsetX, valCss.offsetXUnit.name)
@@ -143,23 +156,23 @@ export default class DefaultCssToModel implements CssToModel
                 } else {
                     el.setValueFourth(color)
                 }
-                
+
                 el.setUnitName(valCss.offsetXUnit.name)
                 el.setUnitNameSecond(valCss.offsetYUnit.name)
                 el.setUnitNameThird(valCss.blurUnit.name)
                 el.setUnitNameFourth(valCss.colorUnit.name)
-                
+
                 values.push(el)
             }
 
             model.setValue(null)
             model.setValues(values)
-            
+
         } else if (domain instanceof BoxShadowCss) {
             domainCastMultiplyValBoxShadow = <CssMultipleValue<BoxShadowStruct>><unknown>domain
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
-            
+
             for (const valCss of domainCastMultiplyValBoxShadow.getValues()) {
                 valCss
                 let el = new StyleCssValue(valCss.offsetX, valCss.offsetXUnit.name)
@@ -176,14 +189,14 @@ export default class DefaultCssToModel implements CssToModel
                 } else {
                     el.setValueFifth(color)
                 }
-                
+
                 el.setUnitName(valCss.offsetXUnit.name)
                 el.setUnitNameSecond(valCss.offsetYUnit.name)
                 el.setUnitNameThird(valCss.blurUnit.name)
                 el.setUnitNameFourth(valCss.spreadUnit.name)
                 el.setUnitNameFifth(valCss.colorUnit.name)
 
-                
+
                 values.push(el)
             }
             model.setValue(null)
@@ -200,7 +213,7 @@ export default class DefaultCssToModel implements CssToModel
             domainCastMultiplyVal = <CssMultipleValue<TransitionStruct>><unknown>domain
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
-            
+
             for (const valCss of domainCastMultiplyVal.getValues()) {
                 valCss
                 let el = new StyleCssValue(valCss.propertyName, valCss.propertyNameUnit.name)
@@ -222,17 +235,17 @@ export default class DefaultCssToModel implements CssToModel
                 // } else {
                 //     el.setValueFourth(color)
                 // }
-                
+
                 el.setUnitName(valCss.propertyNameUnit.name)
                 el.setUnitNameSecond(valCss.durationUnit.name)
                 el.setUnitNameThird(valCss.timingFunctionUnit.name)
                 el.setUnitNameFourth(valCss.delayUnit.name)
-                
+
                 values.push(el)
             }
             model.setValue(null)
             model.setValues(values)
-            
+
         }
 
     }
@@ -257,12 +270,12 @@ export default class DefaultCssToModel implements CssToModel
                 values.push(el)
             }
 
-            
+
             for (const valCss of domainCastMultiplyVal.getValues()) {
-                
+
                 var el = new StyleCssValue(valCss.color, valCss.colorUnit.name)
                 el.id = valCss.id
-                
+
                 el.setValue(valCss.color)
                 el.setValueSecond(valCss.size)
                 var color = valCss.color
@@ -272,15 +285,15 @@ export default class DefaultCssToModel implements CssToModel
                 } else {
                     el.setValue(color)
                 }
-                
+
                 el.setUnitName(valCss.colorUnit.name)
                 el.setUnitNameSecond(valCss.sizeUnit.name)
-                
+
                 values.push(el)
             }
             model.setValue(null)
             model.setValues(values)
-            
+
         } else if (domain instanceof RadialGradientCss) {
             domainCastMultiplyValRadial = <CssMultipleValue<RadialGradientStructVal>><unknown>domain
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
@@ -294,7 +307,7 @@ export default class DefaultCssToModel implements CssToModel
                 el.setValueSecond(direc.size)
                 el.setValueThird(direc.xPos)
                 el.setValueFourth(direc.yPos)
-                
+
                 el.setUnitName(Named.PROP_NAME)
                 el.setUnitNameSecond(Named.PROP_NAME)
                 el.setUnitNameThird(direc.xPosUnit.name)
@@ -303,12 +316,12 @@ export default class DefaultCssToModel implements CssToModel
                 values.push(el)
 
             }
-            
+
             for (const valCss of domainCastMultiplyValRadial.getValues()) {
-                
+
                 var el = new StyleCssValue(valCss.color, valCss.colorUnit.name)
                 el.id = valCss.id
-                
+
                 el.setValue(valCss.color)
                 el.setValueSecond(valCss.size)
                 var color = valCss.color
@@ -318,15 +331,15 @@ export default class DefaultCssToModel implements CssToModel
                 } else {
                     el.setValue(color)
                 }
-                
+
                 el.setUnitName(valCss.colorUnit.name)
                 el.setUnitNameSecond(valCss.sizeUnit.name)
-                
+
                 values.push(el)
             }
             model.setValue(null)
             model.setValues(values)
-            
+
         }
 
     }

@@ -2,8 +2,7 @@
 
     <div class=" gray">
         <section class="content">
-            <div class="media-query" @click="onClick(manager)" v-for="(manager, key) in managers" :key="manager.property.id"
-            @dblclick.stop="toggleManager(manager)"
+            <div class="media-query" @click="toggleManager(manager)" v-for="(manager, key) in managers" :key="manager.property.id"
 
             :class="{ 'active': manager.property.isSelected}">
 
@@ -112,7 +111,8 @@
 
         async mounted()
         {
-            console.log('created');
+            console.log('created mediq QQQ');
+            console.log(this.accessor);
             var projID = this.$route.params.id
             this.projID = projID
             // console.log('created123', projID);
@@ -120,24 +120,9 @@
             this.mediaQueryFactory = new MediaQueryFactory(this.api)
             this.modelToDomain =new DefaultModelToMediaQuery(this.mediaQueryFactory)
 
-            var response = await this.$store.dispatch('mediaQuery/findAllByProject', projID)
-
-            for (const tagModel of response.data) {
-                let domain = this.modelToDomain.transform(tagModel)
-
-                var manager = new MediaQueryManager(domain)
-                manager.property.setApi(this.api)
-                manager.init()
+            // var response = await this.$store.dispatch('mediaQuery/findAllByProject', projID)
 
 
-
-                this.addManager(manager)
-                // tag.setProjectId(this.$route.params.id)
-                // @ts-ignore
-                // console.log(tag);
-                // tag.recalculateRealComputedProperties()
-
-            }
 
             // console.log(this.value);
         }
@@ -178,19 +163,19 @@
         // {
         //     return this.value.pseudoClassAccessor.getSelectorByName(manager.pseudoClass.getName()) != null
         // }
-
-        offMedia(manager: MediaQueryManager){
-            this.accessor.selectedMediaQuery = null
-            this.$emit('selectMediaQuery', null)
-
-        }
-
-        onMedia(manager: MediaQueryManager){
-            this.accessor.selectedMediaQuery = manager.property
-
-            this.$emit('selectMediaQuery', null)
-
-        }
+        //
+        // offMedia(manager: MediaQueryManager){
+        //     this.accessor.selectedMediaQuery = null
+        //     this.$emit('selectMediaQuery', null)
+        //
+        // }
+        //
+        // onMedia(manager: MediaQueryManager){
+        //     this.accessor.selectedMediaQuery = manager.property
+        //
+        //     this.$emit('selectMediaQuery', null)
+        //
+        // }
 
         toggleManager(arg: MediaQueryManager){
             // if (!this.isAdded(arg)) {

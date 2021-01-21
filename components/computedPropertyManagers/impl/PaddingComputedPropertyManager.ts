@@ -56,7 +56,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
     {
         this.value = val
     }
-    
+
     public setFetcher(fetcher:  FetcherRealCssProp)
     {
         this.realFetcher = fetcher
@@ -67,7 +67,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         if (!this.value) {
             return null
         }
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             return activeSelector.cssAccessor.getProperty(prop)
 
@@ -80,13 +80,13 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         if (!this.value) {
             return false
         }
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
                 activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
             } else {
                 activeSelector.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-                
+
             }
 
         } else {
@@ -94,18 +94,18 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
                 this.value.tmpCssAccessor.addNewProperty(newCssProp)
             } else {
                 this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-                
+
             }
         }
         // this.value.updateModelComponent()
 
     }
-    
+
     init() {
         var propLeft = this.getPropertyCssFromModel(this.leftProperty.getName())
         let valLeft = this.realFetcher.fetchPropValue(this.leftProperty.getName())
         let unitLeft = this.realFetcher.fetchUnit(this.leftProperty.getName())
-        
+
         if (propLeft) {
             this.leftProperty = <BasePaddingCss>propLeft
             this.leftProperty.setActive(true)
@@ -129,7 +129,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         var propRight = this.getPropertyCssFromModel(this.rightProperty.getName())
         let valRight = this.realFetcher.fetchPropValue(this.rightProperty.getName())
         let unitRight = this.realFetcher.fetchUnit(this.rightProperty.getName())
-        
+
         if (propRight) {
             this.rightProperty = <BasePaddingCss>propRight
             this.rightProperty.setActive(true)
@@ -150,11 +150,11 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             }
 
         }
-        
+
         var propTop = this.getPropertyCssFromModel(this.topProperty.getName())
         let valTop = this.realFetcher.fetchPropValue(this.topProperty.getName())
         let unitTop = this.realFetcher.fetchUnit(this.topProperty.getName())
-        
+
         if (propTop) {
             this.topProperty = <BasePaddingCss>propTop
             this.topProperty.setActive(true)
@@ -175,11 +175,11 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             }
 
         }
-        
+
         var propGlobal = this.getPropertyCssFromModel(this.bottomProperty.getName())
         let valBottom = this.realFetcher.fetchPropValue(this.bottomProperty.getName())
         let unitBottom = this.realFetcher.fetchUnit(this.bottomProperty.getName())
-        
+
         if (propGlobal) {
             this.bottomProperty = <BasePaddingCss>propGlobal
             this.bottomProperty.setActive(true)
@@ -201,11 +201,11 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
 
 
         }
-        
+
         var propGlobal = this.getPropertyCssFromModel(this.globalProperty.getName())
         let valGlobal = this.realFetcher.fetchPropValue(this.globalProperty.getName())
         let unitGlobal = this.realFetcher.fetchUnit(this.globalProperty.getName())
-        
+
         if (propGlobal) {
             this.globalProperty = <BasePaddingCss>propGlobal
             this.globalProperty.setActive(true)
@@ -235,7 +235,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         this.bottomProperty.setActive(false)
         this.init()
     }
-    
+
     setDirectionsPropertiesFromVal(newVal: any, newUnit: Unit) {
         if (!this.value.cssAccessor.hasCssProperty(PaddingLeftCss.PROP_NAME)) {
             this.leftProperty.setValue(newVal)
@@ -255,7 +255,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -276,7 +276,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -288,7 +288,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.value.paddingFilter.deactivateProp(prop)
 
         } else {
-            
+
             prop.setValue(this.globalProperty.getClearValue())
             prop.setUnit(this.globalProperty.getUnit())
             this.value.paddingFilter.injectCssProperty(this.globalProperty)
@@ -311,7 +311,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
     activePropCss(prop: BasePropertyCss) {
         prop.id = null
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
                 activeSelector.cssAccessor.addNewProperty(prop)
@@ -321,12 +321,12 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
                 this.value.cssAccessor.addNewProperty(prop)
             }
-            
+
         }
         console.log('activr');
-        
+
         this.value.paddingFilter.activateProp(prop)
-        
+
         this.value.synchronize()
 
         this.value.recalculateRealComputedProperties()
@@ -354,7 +354,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         // console.log(clonedCss);
         // console.log('ALA MA');
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
             activeSelector.synchronize()
@@ -365,7 +365,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
 
         this.value.paddingFilter.injectCssProperty(clonedCss)
         console.log(newProp);
-        
+
         this.value.realPositionCalculator.updateProps()
         this.value.notifyPositionalTag()
 
@@ -379,14 +379,14 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
 
     private recalculateMargins(htmlTag: HtmlTag)
     {
-        this.marginRecalculator.recalculate(htmlTag)     
+        this.marginRecalculator.recalculate(htmlTag)
     }
 
     private recalculateBorders(htmlTag: HtmlTag)
     {
         this.borderRecalculator.recalculate(htmlTag)
     }
-    
+
     private recalculatePaddings(htmlTag: HtmlTag)
     {
         this.paddingRecalculator.recalculate(htmlTag)

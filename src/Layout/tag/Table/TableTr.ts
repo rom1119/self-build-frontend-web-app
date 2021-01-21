@@ -149,7 +149,7 @@ export default class TableTr extends TableContainer {
 
     get cssListOverride() : any
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector()
 
         if (activeSelector) {
             var css = activeSelector.cssList
@@ -190,7 +190,7 @@ export default class TableTr extends TableContainer {
     get cssBoxListOverride() : any
     {
 
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector()
 
         if (activeSelector) {
             var css = activeSelector.cssBoxList

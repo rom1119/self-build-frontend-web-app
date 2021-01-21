@@ -20,6 +20,12 @@ export default class StyleCssModelBuildResponse implements ResponseFromModel<Sty
         response.unitNameThird = from.getUnitNameThird()
         response.resourceUrl = from.getResourceUrl()
 
+        if (from.mediaQueryId) {
+            response.mediaQuery = {
+                id: from.mediaQueryId
+            }
+        }
+
         if (from.isMultiple()) {
             var values = []
             response.multipleValue = true
@@ -33,11 +39,13 @@ export default class StyleCssModelBuildResponse implements ResponseFromModel<Sty
                 responseCssValue.valueThird = cssValModel.getValueThird()
                 responseCssValue.valueFourth = cssValModel.getValueFourth()
                 responseCssValue.valueFifth = cssValModel.getValueFifth()
+                responseCssValue.valueSixth = cssValModel.getValueSixth()
                 responseCssValue.unitName = cssValModel.getUnitName()
                 responseCssValue.unitNameSecond = cssValModel.getUnitNameSecond()
                 responseCssValue.unitNameThird = cssValModel.getUnitNameThird()
                 responseCssValue.unitNameFourth = cssValModel.getUnitNameFourth()
                 responseCssValue.unitNameFifth = cssValModel.getUnitNameFifth()
+                responseCssValue.unitNameSixth = cssValModel.getUnitNameSixth()
                 responseCssValue.resourcePath = cssValModel.getResourcePath()
 
                 values.push(responseCssValue)
@@ -51,8 +59,8 @@ export default class StyleCssModelBuildResponse implements ResponseFromModel<Sty
             var child = this.build(childFrom)
             response.children.push(child)
         }
-            
-               
+
+
         return response;
     }
 

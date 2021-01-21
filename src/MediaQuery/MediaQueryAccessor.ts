@@ -5,18 +5,30 @@ import BaseMediaQueryCss from './BaseMediaQueryCss';
 import Vue from 'vue';
 import DefaultMediaQueryApiService from '../Api/impl/DefaultMediaQueryApiService';
 import MediaQueryApiService from '../Api/MediaQueryApiService';
+import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
 export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
 {
     protected tag: SelectorOwner
     protected mediaQueries: T[]
     protected api: MediaQueryApiService
-    selectedMediaQuery: BaseMediaQueryCss
+    protected _selectedMediaQuery: BaseMediaQueryCss
 
     constructor() {
         // this.tag = val
         Vue.set(this, 'mediaQueries', [])
+        var a = new MediaQueryCss()
+        a.id = 9999999
+        Vue.set(this, 'selectedMediaQuery', null)
         this.api = new DefaultMediaQueryApiService()
 
+    }
+
+    get selectedMediaQuery() {
+        return this._selectedMediaQuery
+    }
+
+    set selectedMediaQuery(arg) {
+        this._selectedMediaQuery = arg
     }
 
     public removeById(id: number) {
@@ -110,7 +122,7 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
     // }
 
 
-    public getSelectorById(id: number): T
+    public getById(id: number): T
     {
 
         // console.log(this.getAll());

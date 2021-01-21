@@ -51,11 +51,13 @@ export default class MediaQueryModelBuildResponse implements ResponseFromModel<M
             responseCssValue.valueThird = cssValModel.getValueThird()
             responseCssValue.valueFourth = cssValModel.getValueFourth()
             responseCssValue.valueFifth = cssValModel.getValueFifth()
+            responseCssValue.valueSixth = cssValModel.getValueSixth()
             responseCssValue.unitName = cssValModel.getUnitName()
             responseCssValue.unitNameSecond = cssValModel.getUnitNameSecond()
             responseCssValue.unitNameThird = cssValModel.getUnitNameThird()
             responseCssValue.unitNameFourth = cssValModel.getUnitNameFourth()
             responseCssValue.unitNameFifth = cssValModel.getUnitNameFifth()
+            responseCssValue.unitNameSixth = cssValModel.getUnitNameSixth()
             responseCssValue.resourcePath = cssValModel.getResourcePath()
 
             values.push(responseCssValue)

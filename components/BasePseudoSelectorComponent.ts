@@ -28,7 +28,7 @@ export default abstract class BasePseudoSelectorComponent extends AbstractModal
     constructor()
     {
         super()
-        
+
         // this.activeManager = new PseudoSelectoryManager<Active>()
         // this.focusManager = new PseudoSelectoryManager<Focus>()
         // this.visitedManager = new PseudoSelectoryManager<Visited>()
@@ -45,7 +45,7 @@ export default abstract class BasePseudoSelectorComponent extends AbstractModal
         this.pseudoClassManagers.push(new PseudoClassManager(new Focus(val)))
         this.pseudoClassManagers.push(new PseudoClassManager(new FirstChild(val)))
         this.pseudoClassManagers.push(new PseudoClassManager(new FirstOfType(val)))
-            
+
 
         // this.hoverManager.setHtmlEl(val)
 
@@ -57,23 +57,20 @@ export default abstract class BasePseudoSelectorComponent extends AbstractModal
         // this.hoverManager.init()
         this.initPseudoClasses()
         console.log('POPOPOPO');
-        
-     
+
+
     }
 
     protected initPseudoClasses()
     {
-        
+
         for (const manager of this.pseudoClassManagers) {
             var selector = this.value.pseudoClassAccessor.getSelectorByName(manager.pseudoClass.getName())
             if (selector)  {
                 // console.log('DONE');
                 // console.log(manager.pseudoClass);
                 // console.log(selector);
-                manager.pseudoClass.setActive(true)
-                manager.pseudoClass.cssAccessor.replaceAll(selector.cssAccessor.all)
-                manager.pseudoClass.id = selector.id
-                manager.pseudoClass.setApi(selector.api)
+                manager.pseudoClass = selector
                 if (this.value.pseudoClassAccessor.selectedSelector) {
                     if (selector.id === this.value.pseudoClassAccessor.selectedSelector.id) {
                         manager.pseudoClass.selectedByOwner = true

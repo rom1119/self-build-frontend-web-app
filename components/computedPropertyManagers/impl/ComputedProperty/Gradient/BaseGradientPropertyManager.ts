@@ -5,13 +5,13 @@ import { BackgroundImage } from "~/src/Css";
 export default abstract class BaseGradientPropertyManager<T extends BaseGradientCss> extends BaseComputedPropertyManager<T>
 {
     deactivePropCss(prop: T) {
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         var backgroundImage: BackgroundImage
 
         if (activeSelector) {
             backgroundImage = <BackgroundImage><unknown>activeSelector.cssAccessor.getProperty(BackgroundImage.PROP_NAME)
-            
-            
+
+
             for (var i = 0; i < backgroundImage.getGradients().length; i++) {
                 var grad = backgroundImage.getGradients()[i]
                 if (prop.id != grad.id) {
@@ -23,8 +23,8 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
             activeSelector.synchronize()
 
         } else {
-            backgroundImage = <BackgroundImage><unknown>this.value.cssAccessor.getProperty(BackgroundImage.PROP_NAME)   
-            
+            backgroundImage = <BackgroundImage><unknown>this.value.cssAccessor.getProperty(BackgroundImage.PROP_NAME)
+
         }
 
         for (var i = 0; i < backgroundImage.getGradients().length; i++) {
@@ -49,7 +49,7 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
 
         var backgroundImage: BackgroundImage
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             backgroundImage = <BackgroundImage><unknown>activeSelector.cssAccessor.getProperty(BackgroundImage.PROP_NAME)
             if (!backgroundImage) {
@@ -73,14 +73,14 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
                 backgroundImage.setActive(true)
                 backgroundImage.getGradients().push(prop)
                 this.value.cssAccessor.addNewProperty(backgroundImage)
-                
+
             } else {
                 backgroundImage.setActive(true)
                 backgroundImage.getGradients().push(prop)
                 this.value.updateCssPropertyWithoutModel(backgroundImage.getName(), backgroundImage)
             }
         }
-        
+
         this.value.synchronize()
 
         return prop
@@ -97,7 +97,7 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
         // clonedCss.setValue(val.toString())
         var backgroundImage: BackgroundImage
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             backgroundImage = <BackgroundImage><unknown>activeSelector.cssAccessor.getProperty(BackgroundImage.PROP_NAME)
 
@@ -108,7 +108,7 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
             backgroundImage = <BackgroundImage><unknown>this.value.cssAccessor.getProperty(BackgroundImage.PROP_NAME)
 
             this.value.updateCssPropertyWithoutModel(backgroundImage.getName(), backgroundImage)
-            
+
         }
 
         return newProp.getClearValue()

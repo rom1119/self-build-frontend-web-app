@@ -65,11 +65,17 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
 
         var values = []
         for (const valCss of domain.getValues()) {
+
             // valCss
             let el = new StyleCssValue(valCss.mediaType.getValue(), Named.PROP_NAME)
             el.id = valCss.id
             if (valCss.mediaQueryOperator) {
                 el.setValue(valCss.mediaQueryOperator.getValue())
+
+            }
+
+            if (valCss.mediaQueryOperatorFirst) {
+                el.setValueSixth(valCss.mediaQueryOperatorFirst.getValue())
 
             }
             if (valCss.mediaType) {
@@ -100,6 +106,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
             el.setUnitNameSecond(Named.PROP_NAME )
             el.setUnitNameThird(Named.PROP_NAME)
             el.setUnitNameFifth(Named.PROP_NAME)
+            el.setUnitNameSixth(Named.PROP_NAME)
             if (valCss.featureValUnit) {
                 el.setUnitNameFourth(valCss.featureValUnit.name)
             }
@@ -109,6 +116,9 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
 
         model.values = []
         model.values = values
+
+        console.log('mediatomodel')
+        console.log(model)
         // this.cssFactoryFromName.create(model.getKey())
         // var unit = this.unitCssFactoryFromName.create(model.getUnitName())
         // domain.setValue(model.getValue())

@@ -6,19 +6,19 @@ import UnitUrl from "~/src/Unit/UnitUrl";
 import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
 import Unit from "~/src/Unit/Unit";
 import BackgroundColor from '../../../../../src/Css/Background/BackgroundColor';
+import Named from "~/src/Unit/Named";
 
 export default class BackgroundColorProperty extends BaseComputedPropertyManager<BackgroundColor> {
-    
+
     protected value: HtmlTag
-    DEFAULT_VAL = 0
-    DEFAULT_UNIT: Unit = new UnitUrl()
+    DEFAULT_VAL = 'blue'
+    DEFAULT_UNIT: Unit = new Named()
     property: BackgroundColor = new BackgroundColor(this.DEFAULT_VAL, this.DEFAULT_UNIT)
-   
+
     constructor(  )
     {
         super()
         this.getProperty().setActive(false)
-
     }
 
     getDefaultVal(): any {

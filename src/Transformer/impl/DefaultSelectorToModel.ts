@@ -10,11 +10,13 @@ import Input from '../../Layout/tag/Form/Input';
 import SelectorToModel from '../SelectorToModel';
 import PseudoSelector from '../../PseudoSelector/PseudoSelector';
 import Selector from '../../Api/Selector';
+import CssListAndMediaQueryAccessor from "~/src/Css/PropertyAccessor/mediaQuery/CssListAndMediaQueryAccessor";
+import BaseSelector from "~/src/BaseSelector";
 export default class DefaultSelectorToModel implements SelectorToModel
 {
 
     private styleTransformer: CssToModel
-    
+
     constructor()
     {
         this.styleTransformer = new DefaultCssToModel()
@@ -22,7 +24,7 @@ export default class DefaultSelectorToModel implements SelectorToModel
     transform(domain: PseudoSelector): Selector {
         let model = new Selector()
         model.id = domain.id
-        
+
         if (domain.cssAccessor.all.length) {
             for (const style of domain.cssAccessor.all) {
                 if (style.toSaveInApi) {
@@ -31,6 +33,24 @@ export default class DefaultSelectorToModel implements SelectorToModel
                     model.styles.push(subModel)
                 }
                 // domain..push(subModel)
+            }
+        }
+
+        for(var mediaCssKey in domain.cssListMediaOwner.getMediaQueryCssList()) {
+            // console.log(mediaCssKey)
+            var item: CssListAndMediaQueryAccessor<BaseSelector> = domain.cssListMediaOwner.getMediaQueryCssList()[mediaCssKey]
+            // console.log(item.all)
+
+            for(var cssD of item.all) {
+                if (cssD.toSaveInApi) {
+                    this.styleTransformer.setMediaQuery(item.mediaQuery)
+                    let subModel = this.styleTransformer.transform(cssD)
+                    model.styles.push(subModel)
+                    console.log(subModel)
+                    console.log(item.mediaQuery)
+
+                }
+
             }
         }
 
@@ -48,5 +68,5 @@ export default class DefaultSelectorToModel implements SelectorToModel
         return model
 
     }
-   
+
 }

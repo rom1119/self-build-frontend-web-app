@@ -37,6 +37,7 @@ export class MediaQueryStructVal implements CssValue {
     protected _mediaFeature: MediaFeature
     protected _mediaType: MediaType
     protected _mediaQueryOperator: MediaQueryOperator
+    protected _mediaQueryOperatorFirst: MediaQueryOperator
 
 
     getId(): number {
@@ -82,6 +83,17 @@ export class MediaQueryStructVal implements CssValue {
     get mediaQueryOperator()
     {
         return this._mediaQueryOperator
+    }
+
+    set mediaQueryOperatorFirst(val)
+    {
+        Vue.set(this, '_mediaQueryOperatorFirst', val)
+
+    }
+
+    get mediaQueryOperatorFirst()
+    {
+        return this._mediaQueryOperatorFirst
     }
 
     set featureVal(val)
@@ -132,6 +144,10 @@ export class MediaQueryStructVal implements CssValue {
         return this._mediaQueryOperator.getValue()
     }
 
+    getMediaQueryOperatorFirstValue(): string {
+        return this._mediaQueryOperatorFirst.getValue()
+    }
+
     getOrientationValue(): string {
         return this._orientation.getValue()
     }
@@ -140,8 +156,8 @@ export class MediaQueryStructVal implements CssValue {
     {
         var res = ''
 
-        if (this.getMediaQueryOperatorValue()) {
-            res += `${this.getMediaQueryOperatorValue()}`
+        if (this.mediaQueryOperatorFirst) {
+            res += `${this.getMediaQueryOperatorFirstValue()}`
         }
 
         if (this.getMediaTypeValue()) {
@@ -155,17 +171,19 @@ export class MediaQueryStructVal implements CssValue {
         res += ` (`
         res += `${this.getMediaFeatureValue()}`
         res += `: ${this.getFeatureValue()}`
-        res += `: `
+        res += `)`
 
 
-        if (this.getOrientationValue()) {
+        if (this.orientation) {
             res += `and`
             res += ` (`
             res += `orientation: ${this.getOrientationValue()}`
 
-            res += ` (`
+            res += ` )`
 
         }
+
+
 
 
         if (res.trim().length == 0) {
@@ -255,6 +273,34 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
     }
     removeValue(val: MediaQueryStructVal) {
         throw new Error("Method not implemented.");
+    }
+
+    getValue(): string
+    {
+        if (this.values.length == 0) {
+            throw new CssWithoutValue(`Media Query ID ${this.id} not have value` )
+        }
+        // if (this.values[0].toString().length < 1) {
+        //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+
+        // }
+        var val = '@media '
+        // if (this.direction) {
+        //     if (this.direction.getFullValue().trim().length > 0) {
+        //         val += this.direction.getFullValue() + ', '
+        //     }
+        //
+        // }
+
+        this.values.forEach((element, key) => {
+            val += element.getFullValue()
+            if (key < this.values.length - 1) {
+                val += ', '
+            }
+        });
+
+
+        return val
     }
 
     public synchronize()

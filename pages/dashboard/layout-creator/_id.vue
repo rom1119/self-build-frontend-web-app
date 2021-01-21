@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        
+
         <layout-creator-container ref="creatorContainer">
 
         </layout-creator-container>
@@ -16,6 +16,12 @@ import H1 from '../../components/html/H1.vue';
 import ModelToDomain from '~/src/Transformer/ModelToDomain';
 import DefaultModelToDomain from '~/src/Transformer/impl/DefaultModelToDomain';
 import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorContainer.vue';
+    import ModelToMediaQuery from "~/src/Transformer/ModelToMediaQuery";
+    import DefaultModelToMediaQuery from "~/src/Transformer/impl/DefaultModelToMediaQuery";
+    import MediaQueryManager
+        from "~/components/computedPropertyManagers/impl/ComputedProperty/MediaQuery/MediaQueryManager";
+    import DefaultMediaQueryApiService from "~/src/Api/impl/DefaultMediaQueryApiService";
+    import MediaQueryFactory from "~/src/MediaQuery/MediaQueryFactory";
 
 
     @Component({
@@ -34,7 +40,9 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
         $refs: {
             creatorContainer: LayoutCreatorContainer
         }
-        
+
+        modelToDomain: ModelToMediaQuery
+
 
         createPElement(target, cm) {
             console.log(target, cm);
@@ -64,22 +72,40 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
 
         async mounted()
         {
+            var apiMediaQuery = new DefaultMediaQueryApiService()
+            var mediaQueryFactory = new MediaQueryFactory(apiMediaQuery)
+
             this.modelToDomainTransformer = new DefaultModelToDomain()
+
+            var modelToDomainMediaQuery =new DefaultModelToMediaQuery(mediaQueryFactory)
+
 
             if (this.$route.params.id) {
                 let response = await this.$store.dispatch(this.storeFetchEndpoint, this.$route.params.id)
-                for (const tagModel of response.htmlTags) {
+
+                for (const medQ of response.mediaQueryList) {
+                    let domain = modelToDomainMediaQuery.transform(medQ)
+
+                    var manager = new MediaQueryManager(domain)
+                    manager.property.setApi(apiMediaQuery)
+                    manager.init()
+
+                    // @ts-ignore
+                    this.$refs.creatorContainer.mediaQueryComponent.addManager(manager)
+                }
+
+                for (const tagModel of response.model.htmlTags) {
                     let tag = this.modelToDomainTransformer.transform(tagModel)
                     // tag.setProjectId(this.$route.params.id)
                     // @ts-ignore
                     this.$refs.creatorContainer.addHtmlTag(tag)
                 // console.log(tag);
                     // tag.recalculateRealComputedProperties()
-                    
+
                 }
                 // console.log(this.$route.params.id);
                 // console.log(response);
-                
+
             }
             this.$loadingDialog.show()
             // let provinces = await this.$axios.$get('/units/provinces')

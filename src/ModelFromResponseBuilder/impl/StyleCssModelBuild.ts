@@ -10,6 +10,10 @@ export default class StyleCssModelBuild implements ModelFromResponse<StyleCssRes
     build(from: StyleCssResponse): StyleCssModel {
         let model = new StyleCssModel(from.name, from.value, from.unitName)
         model.id = from.id
+        if (from.mediaQuery) {
+            model.mediaQueryId = from.mediaQuery.id
+
+        }
         model.setValueSecond(from.valueSecond)
         model.setValueThird(from.valueThird)
         model.setUnitNameSecond(from.unitNameSecond)
@@ -17,7 +21,7 @@ export default class StyleCssModelBuild implements ModelFromResponse<StyleCssRes
         model.setResourcePath(from.resourcePath)
         model.setResourceUrl(from.resourceUrl)
 
-        
+
         if (from.multipleValue) {
             var values = []
             model.setAsMultiple()
@@ -31,11 +35,13 @@ export default class StyleCssModelBuild implements ModelFromResponse<StyleCssRes
                 cssValue.setValueThird(cssValModel.valueThird)
                 cssValue.setValueFourth(cssValModel.valueFourth)
                 cssValue.setValueFifth(cssValModel.valueFifth)
+                cssValue.setValueSixth(cssValModel.valueSixth)
                 cssValue.setUnitName(cssValModel.unitName)
                 cssValue.setUnitNameSecond(cssValModel.unitNameSecond)
                 cssValue.setUnitNameThird(cssValModel.unitNameThird)
                 cssValue.setUnitNameFourth(cssValModel.unitNameFourth)
                 cssValue.setUnitNameFifth(cssValModel.unitNameFifth)
+                cssValue.setUnitNameSixth(cssValModel.unitNameSixth)
                 cssValue.setResourcePath(cssValModel.resourcePath)
 
                 values.push(cssValue)
@@ -49,7 +55,7 @@ export default class StyleCssModelBuild implements ModelFromResponse<StyleCssRes
                 var child = this.build(childFrom)
                 model.getChildren().push(child)
             }
-            
+
         }
 
         return model;

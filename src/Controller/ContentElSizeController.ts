@@ -32,6 +32,9 @@ export default class ContentElSizeController extends SizeElController
         console.log(el.toString());
         // console.log(el.projectId);
         console.log(el.cssAccessor.all);
+        console.log(el.cssListMediaOwner);
+        console.log(el.pseudoClassAccessor);
+        console.log(el);
 
         // console.log(el.pseudoClassAccessor.all);
 

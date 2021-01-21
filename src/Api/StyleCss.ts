@@ -4,6 +4,7 @@ import StyleCssValue from "./StyleCssValue";
 export default class StyleCss
 {
     id
+    mediaQueryId
     private _key
     private _val
     private _unitName
@@ -24,6 +25,7 @@ export default class StyleCss
         this._unitName = unitName
     }
 
+
     getKey(): string
     {
         return this._key
@@ -38,17 +40,17 @@ export default class StyleCss
     isMultiple(): boolean{
         return this._multipleValue === true
     }
-    
+
     setAsMultiple(){
         this._multipleValue = true
     }
-    
+
     getValues(): StyleCssValue[]
     {
         return this._values
 
     }
-    
+
     getUnitName(): string
     {
         return this._unitName
@@ -59,12 +61,12 @@ export default class StyleCss
     {
         this._val = val
     }
-    
+
     public setValues(val)
     {
         this._values = val
     }
-    
+
     public setUnitName(val)
     {
         this._unitName = val
@@ -74,7 +76,7 @@ export default class StyleCss
     {
         this._valueSecond = val
     }
-    
+
     public setUnitNameSecond(val)
     {
         this._unitNameSecond = val
@@ -84,19 +86,19 @@ export default class StyleCss
     {
         this._valueThird = val
     }
-    
+
     public setUnitNameThird(val)
     {
         this._unitNameThird = val
     }
-    
+
 
     getValueSecond(): string
     {
         return this._valueSecond
 
     }
-    
+
     getUnitNameSecond(): string
     {
         return this._unitNameSecond
@@ -107,7 +109,7 @@ export default class StyleCss
     {
         return this._valueThird
     }
-    
+
     getUnitNameThird(): string
     {
         return this._unitNameThird
@@ -117,19 +119,19 @@ export default class StyleCss
     {
         this._resourcePath = val
     }
-    
+
 
     public getResourcePath(): string
     {
         return this._resourcePath
 
     }
-    
+
     public setResourceUrl(val)
     {
         this._resourceUrl = val
     }
-    
+
 
     public getResourceUrl(): string
     {

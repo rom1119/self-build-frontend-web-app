@@ -4,6 +4,12 @@
         >
 
             <div class="content-item__elem"
+            >
+                <select  name="operator-first" @change="change" v-model="mediaQueryOperatorFirst" >
+                    <option v-for="operator in operators" :value="operator" :key="operator"> {{ operator }} </option>
+                </select>
+            </div>
+            <div class="content-item__elem"
                  >
                 <select name="type" @change="change" v-model="mediaType">
                     <option v-for="type in types" :value="type" :key="type"> {{ type }} </option>
@@ -181,6 +187,17 @@ import MediaOrientation from '../../src/MediaQuery/MediaOrientation';
 
         set mediaQueryOperator(arg){
             this.value.mediaQueryOperator = new MediaQueryOperator(arg)
+        }
+
+        get mediaQueryOperatorFirst(){
+            if (!this.value.mediaQueryOperatorFirst) {
+                return ''
+            }
+            return this.value.mediaQueryOperatorFirst.getValue()
+        }
+
+        set mediaQueryOperatorFirst(arg){
+            this.value.mediaQueryOperatorFirst = new MediaQueryOperator(arg)
         }
 
 

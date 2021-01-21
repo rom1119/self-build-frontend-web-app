@@ -803,7 +803,7 @@ export default class TableTag extends TableContainer {
 
     get cssListOverride() : any
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector()
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
@@ -843,7 +843,7 @@ export default class TableTag extends TableContainer {
     get cssBoxListOverride() : any
     {
 
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector()
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList

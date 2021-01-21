@@ -217,7 +217,7 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     get cssListOverride() : any
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector()
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
@@ -289,7 +289,7 @@ export default abstract class TableCell extends HtmlTagBlock {
     get cssBoxListOverride() : any
     {
 
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector()
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList

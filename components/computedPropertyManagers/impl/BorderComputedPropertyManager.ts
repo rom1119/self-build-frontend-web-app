@@ -44,7 +44,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     topProperty: BaseBorderCss = new BorderTopCss(this.DEFAULT_BORDER, this.DEFAULT_BORDER_UNIT)
     bottomProperty: BaseBorderCss = new BorderBottomCss(this.DEFAULT_BORDER, this.DEFAULT_BORDER_UNIT)
     globalProperty: BaseBorderCss = new BorderCss(this.DEFAULT_BORDER, this.DEFAULT_BORDER_UNIT)
-    
+
     bottomLeftRadiusProperty: BaseBorderRadiusCss = new BorderRadiusBottomLeft(this.DEFAULT_BORDER_RADIUS, this.DEFAULT_BORDER_RADIUS_UNIT)
     bottomRightRadiusProperty: BaseBorderRadiusCss = new BorderRadiusBottomRight(this.DEFAULT_BORDER_RADIUS, this.DEFAULT_BORDER_RADIUS_UNIT)
     topRightRadiusProperty: BaseBorderRadiusCss = new BorderRadiusTopRight(this.DEFAULT_BORDER_RADIUS, this.DEFAULT_BORDER_RADIUS_UNIT)
@@ -52,13 +52,13 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     globalRadiusProperty: BaseBorderRadiusCss = new BorderRadiusGlobal(this.DEFAULT_BORDER_RADIUS, this.DEFAULT_BORDER_RADIUS_UNIT)
 
     protected realFetcher: BorderFetcherRealCssProp
-    
+
     protected borderRecalculator: HtmlTagRecalculator
     protected marginRecalculator: HtmlTagRecalculator
 
 
     constructor(  )
-    {   
+    {
         this.borderRecalculator = new BorderRecalculate()
         this.marginRecalculator = new MarginRecalculate()
 
@@ -95,7 +95,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     {
         this.value = val
     }
-    
+
     public setFetcher(fetcher)
     {
         this.realFetcher = fetcher
@@ -106,7 +106,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         if (!this.value) {
             return null
         }
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             return activeSelector.cssAccessor.getProperty(prop)
 
@@ -120,13 +120,13 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
             return false
         }
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
                 activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
             } else {
                 activeSelector.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-                
+
             }
 
         } else {
@@ -134,26 +134,26 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
                 this.value.tmpCssAccessor.addNewProperty(newCssProp)
             } else {
                 this.value.tmpCssAccessor.setNewPropertyValue(newCssProp.getName(), newCssProp)
-                
+
             }
 
         }
         // this.value.updateModelComponent()
 
     }
-    
+
     private initRadiusProperty(propertyArg: BaseBorderRadiusCss): BaseBorderRadiusCss
     {
         var prop = this.getPropertyCssFromModel(propertyArg.getName())
         let val = propertyArg.getClearValue()
         let unit = propertyArg.getUnit()
-        
+
         if (prop) {
             propertyArg = prop
             propertyArg.setActive(true)
 
             return propertyArg
-        } 
+        }
         propertyArg.setActive(false)
         let copy = _.cloneDeep(propertyArg)
         propertyArg = copy
@@ -168,7 +168,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         } else {
             propertyArg.setUnit(this.DEFAULT_BORDER_RADIUS_UNIT)
         }
-    
+
         return propertyArg
     }
 
@@ -183,17 +183,17 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
             // console.log(propertyArg);
             // console.log(clearWidth);
             // console.log(clearColor);
-            
+
         let unitWidth = this.realFetcher.fetchUnitWidth(propertyArg.getName())
         let unitStyle = this.realFetcher.fetchUnitStyle(propertyArg.getName())
         let unitColor = this.realFetcher.fetchUnitColor(propertyArg.getName())
-        
+
         if (prop) {
             propertyArg = <BaseBorderCss>prop
             propertyArg.setActive(true)
 
             return prop
-        } 
+        }
 
         propertyArg.setActive(false)
         let copy = _.cloneDeep(propertyArg)
@@ -207,11 +207,11 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         } else {
             propertyArg.setWidth(this.DEFAULT_BORDER, this.DEFAULT_BORDER_UNIT)
             propertyArg.setType(this.DEFAULT_BORDER_STYLE)
-            propertyArg.setColor(this.DEFAULT_BORDER_COLOR, this.DEFAULT_BORDER_COLOR_UNIT)            
+            propertyArg.setColor(this.DEFAULT_BORDER_COLOR, this.DEFAULT_BORDER_COLOR_UNIT)
         }
-        
+
         return propertyArg
-   
+
     }
     init() {
         this.leftProperty  = this.initProperty(this.leftProperty)
@@ -234,7 +234,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         this.rightProperty.setActive(false)
         this.topProperty.setActive(false)
         this.bottomProperty.setActive(false)
-        
+
         this.bottomLeftRadiusProperty.setActive(false)
         this.bottomRightRadiusProperty.setActive(false)
         this.topRightRadiusProperty.setActive(false)
@@ -242,7 +242,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         this.globalRadiusProperty.setActive(false)
         this.init()
     }
-    
+
     setDirectionsPropertiesFromVal(newVal: any, newUnit: Unit) {
         if (!this.value.cssAccessor.hasCssProperty(BorderLeftCss.PROP_NAME)) {
             this.leftProperty.setValue(newVal)
@@ -262,14 +262,14 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
 
         } else {
             this.value.removeCssProperty(prop)
-            
+
         }
         this.value.borderFilter.deactivateProp(prop)
 
@@ -283,18 +283,18 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
 
         } else {
-            this.value.cssAccessor.removePropWithName(prop.getName())  
+            this.value.cssAccessor.removePropWithName(prop.getName())
         }
 
         if (!this.globalProperty.active) {
             this.value.borderFilter.deactivateProp(prop)
-            
+
         } else {
             this.value.borderFilter.injectCssProperty(this.globalProperty)
         }
@@ -312,7 +312,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     activePropCss(prop: BasePropertyCss) {
         prop.id = null
 
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
                 activeSelector.cssAccessor.addNewProperty(prop)
@@ -322,16 +322,16 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
             if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
                 this.value.cssAccessor.addNewProperty(prop)
             }
-            
+
         }
         this.value.borderFilter.activateProp(prop)
         console.log('activr');
-        
+
         this.value.synchronize()
         this.value.recalculateRealComputedProperties()
 
         this.value.notifyPositionalTag()
-        
+
 
         this.recalculateBorders(this.value)
         this.recalculateMargins(this.value)
@@ -349,7 +349,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         // console.log(val);
         // console.log(clonedCss);
         // console.log('ALA MA');
-        var activeSelector = this.value.getSelectedSelector()
+        var activeSelector = this.value.selectedSelector()
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
             activeSelector.synchronize()
@@ -359,7 +359,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         }
         this.value.borderFilter.injectCssProperty(newProp)
         console.log(newProp);
-        
+
         // this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
 
         this.value.recalculateRealComputedProperties()
@@ -377,7 +377,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     private recalculateMargins(htmlTag: HtmlTag)
     {
         this.marginRecalculator.recalculate(htmlTag)
-            
+
     }
 
     private recalculateBorders(htmlTag: HtmlTag)

@@ -151,7 +151,7 @@ export default class TableTrItem extends HtmlTag implements CssList {
 
     get cssListOverride() : any
     {
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector()
 
         if (activeSelector) {
             var css = activeSelector.cssList
@@ -192,7 +192,7 @@ export default class TableTrItem extends HtmlTag implements CssList {
     get cssBoxListOverride() : any
     {
 
-        var activeSelector = this.getSelectedSelector()
+        var activeSelector = this.selectedSelector()
 
         if (activeSelector) {
             var css = activeSelector.cssBoxList

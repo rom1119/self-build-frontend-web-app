@@ -21,6 +21,7 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
     constructor(val: SelectorOwner) {
         this.tag = val
         Vue.set(this, 'selectors', [])
+        this.selectedSelector = null
     }
 
     public removeByName(name: string) {
@@ -31,12 +32,12 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
             if (selector.getName() === name) {
                 propsIndex = i
                 break
-            } 
+            }
         }
-        
+
         this.selectors.splice(propsIndex, 1);
     }
-    
+
     public removeById(id: number) {
         let propsIndex = null
 
@@ -45,9 +46,9 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
             if (selector.id === id) {
                 propsIndex = i
                 break
-            } 
+            }
         }
-        
+
         this.selectors.splice(propsIndex, 1);
     }
 
@@ -62,7 +63,7 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
         // console.log(str);
         // console.log(regex);
         // console.log(catName.match(regex));
-        
+
         if (lowerPropName.match(regex)) {
             return true
         }
@@ -73,7 +74,7 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
     {
         return this.selectors
     }
-    
+
     get all(): T[]
     {
         return this.selectors
@@ -91,14 +92,14 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
         }
         if (!prop.cssAccessor.hasCssProperty(css.getName())) {
             prop.cssAccessor.addNewProperty(css)
-        } else {            
+        } else {
 
             prop.cssAccessor.setNewPropertyValue(css.getName(), css)
         }
 
         return this
     }
-    
+
     public addCssToSelector(css: BasePropertyCss, val: T): SelectorAccessor<T>{
         let prop = this.getSelectorById(val.id)
         if (!prop) {
@@ -107,7 +108,7 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
 
         // if (!prop.cssPropertyAccessor.hasCssProperty(css.getName())) {
             prop.cssAccessor.addNewProperty(css)
-        // } else {            
+        // } else {
         //     let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
         //     if (currentBackground.getValue() === val.getValue()) {
         //         // return
@@ -117,19 +118,19 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
 
         return this
     }
-    
+
     public addNewSelector(newProp: T): SelectorAccessor<T>{
 
         newProp.setApi(this.tag.api)
         Vue.set(this.selectors, this.selectors.length, newProp)
         // console.log(this.cssProps);
-        
+
         // prop.clearValue()
         // this.cssProps.push(newProp)
 
         return this
     }
-    
+
     public clearPropertyCss(id: number): SelectorAccessor<T>{
         let prop = this.getSelectorById(id)
         if (!prop) {
@@ -143,28 +144,28 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
 
     public getSelectorByName(name: string): T
     {
-        
+
         let res = []
         // console.log(this.getAll());
-        
+
         for (const el of this.getAll()) {
             if (el.getName() === name) {
                 return el
-            } 
+            }
         }
 
         return null
     }
-    
+
     public getSelectorById(id: number): T
     {
-        
+
         // console.log(this.getAll());
-        
+
         for (const el of this.getAll()) {
             if (el.id === id) {
                 return el
-            } 
+            }
         }
 
         return null

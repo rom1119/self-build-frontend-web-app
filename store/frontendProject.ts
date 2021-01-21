@@ -6,8 +6,12 @@ import ModelFromResponse from "~/src/ModelFromResponseBuilder/ModelFromResponse"
 import _ from 'lodash'
 import ProjectFrontendModelBuild from '~/src/ModelFromResponseBuilder/impl/ProjectFrontendModelBuild';
 import ProjectFrontendResponse from '~/types/response/ProjectFrontendResponse';
+import MediaQueryModel from "~/types/MediaQueryModel";
+import MediaQueryResponse from "~/types/response/MediaQueryResponse";
+import MediaQueryModelBuild from "~/src/ModelFromResponseBuilder/impl/MediaQueryModelBuild";
 
 let builder: ModelFromResponse<ProjectFrontendResponse, ProjectFrontendModel> = new ProjectFrontendModelBuild()
+let mediaQueryBuilder: ModelFromResponse<MediaQueryResponse, MediaQueryModel> = new MediaQueryModelBuild()
 
 interface FrontendProjectState {
   items: ProjectFrontendModel[]
@@ -43,16 +47,24 @@ const actions: ActionTree<FrontendProjectState, FrontendProjectState> = {
       returnArray.push(model)
     }
     // console.log(returnArray);
-    
+
     return { ...response, data: returnArray }
-  }, 
+  },
   async findOne({ commit, state }, id) {
     // @ts-ignore
     let response = await this.$axios.$get(`/api/html-project/${id}`)
     let model = builder.build(response)
     commit('insert', model)
+      let mediaQueryArray: MediaQueryModel[] = []
 
-    return model
+      for (let answer of response.mediaQueryList) {
+          let model = mediaQueryBuilder.build(answer)
+
+          // console.log(model);
+          mediaQueryArray.push(model)
+      }
+
+      return { model: model, mediaQueryList:  mediaQueryArray}
   },
   async create({ commit, state}, token: ProjectFrontendModel) {
       // @ts-ignore
