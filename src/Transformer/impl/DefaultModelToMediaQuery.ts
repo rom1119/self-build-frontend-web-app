@@ -94,24 +94,31 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
             // valCss
         let el = new MediaQueryStructVal()
             el.id = valCss.id
-            el.mediaQueryOperator = new MediaQueryOperator(valCss.getValue())
+            if (valCss.getValue()) {
+                el.mediaQueryOperatorFirst = new MediaQueryOperator(valCss.getValue())
+
+            }
             el.mediaType = new MediaType(valCss.getValueSecond())
-            if (valCss.getValueThird()) {
-                el.mediaFeature = new MediaFeature(valCss.getValueThird())
-                el.featureVal = Number(valCss.getValueFourth())
+            el.mediaQueryOperator = new MediaQueryOperator(valCss.getValueThird())
+
+
+            if (valCss.getValueFourth()) {
+                el.mediaFeature = new MediaFeature(valCss.getValueFourth())
 
             }
             if (valCss.getValueFifth()) {
-                el.orientation = new MediaOrientation(valCss.getValueFifth())
+
+                el.featureVal = Number(valCss.getValueFifth())
 
             }
 
             if (valCss.getValueSixth()) {
-                el.mediaQueryOperatorFirst = new MediaQueryOperator(valCss.getValueSixth())
+                el.orientation = new MediaOrientation(valCss.getValueSixth())
 
             }
 
-            var unit = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+
+            var unit = this.unitCssFactoryFromName.create(valCss.getUnitNameFifth())
 
 
             el.featureValUnit = unit
@@ -132,6 +139,8 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
             // model.setValues(values)
             // model.setValueSecond(domainCast.getSecondValue())
             // model.setUnitNameSecond(domainCast.getSecondUnit().name)
+
+        // console.trace('AFTER BUILD')
 
 
         return domain

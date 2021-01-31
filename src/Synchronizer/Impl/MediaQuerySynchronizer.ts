@@ -83,7 +83,7 @@ export default class MediaQuerySynchronizer implements Synchronizer
                     }
 
                     this.setAsNowReadyToSynchronize()
-                    this.apiSocket.sendMessage(this.model.projectId)
+                    // this.apiSocket.sendMessage(this.model.projectId)
 
                     this.trySynchronize()
                 },
@@ -92,7 +92,7 @@ export default class MediaQuerySynchronizer implements Synchronizer
                     // console.log('error');
                     // console.log(arg);
                     this.trySynchronize()
-                    this.apiSocket.sendMessage(this.model.projectId)
+                    // this.apiSocket.sendMessage(this.model.projectId)
 
 
                 }

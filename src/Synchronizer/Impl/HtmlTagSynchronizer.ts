@@ -67,7 +67,7 @@ export default class HtmlTagSynchronizer implements Synchronizer
 
                     }
                     this.setAsNowReadyToSynchronize()
-                    this.apiSocket.sendMessage(this.tag.projectId)
+                    // this.apiSocket.sendMessage(this.tag.projectId)
 
                     this.trySynchronize()
                 },
@@ -76,7 +76,7 @@ export default class HtmlTagSynchronizer implements Synchronizer
                     // console.log('error');
                     // console.log(arg);
                     this.trySynchronize()
-                    this.apiSocket.sendMessage(this.tag.projectId)
+                    // this.apiSocket.sendMessage(this.tag.projectId)
 
 
                 }

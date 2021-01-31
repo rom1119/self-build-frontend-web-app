@@ -50,6 +50,7 @@ export default abstract class BaseMediaQueryComponent extends Vue
     {
         this.managers.splice(index, 1)
         this.accessor.removeById(arg.property.id)
+        this.accessor.selectedMediaQuery = null
     }
 
 

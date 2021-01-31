@@ -31,7 +31,7 @@ export default class HtmlSocketApi implements SocketApi
 
     private domainToModelTransformer: DomainToModel
     private tagModelToResponse: ResponseFromModel<TagDto, HtmlTagResponse>
-    
+
     private modelToDomainTransformer: ModelToDomain
     private responseToTagModel: ModelFromResponse<HtmlTagResponse, TagDto>
 
@@ -43,6 +43,8 @@ export default class HtmlSocketApi implements SocketApi
 
     protected projectId
 
+    protected type = 'normal'
+
     constructor()
     {
         // Vue.set(HtmlSocketApi.CURRENT_SESSION_ID, 'value', '')
@@ -52,14 +54,17 @@ export default class HtmlSocketApi implements SocketApi
 
         this.cssFromName = new CssPropertyFactoryFromName()
         // this.projectId = projectID
-        
-        
+
+
     }
 
+    setCodeType(type) {
+        this.type = type
+    }
 
     sendMessage(projectId) {
         if (projectId) {
-            HtmlSocketApi.stompClient.send("/app/update/html-code", {}, projectId);
+            HtmlSocketApi.stompClient.send("/app/update/html-code", {}, JSON.stringify({ 'projectId': projectId, 'type': this.type }));
 
         }
     }
@@ -70,7 +75,7 @@ export default class HtmlSocketApi implements SocketApi
         HtmlSocketApi.IS_CONNECTED = true
         HtmlSocketApi.socket = new SockJS(HtmlSocketApi.HOST + '/gs-guide-websocket');
         HtmlSocketApi.stompClient = Stomp.over(HtmlSocketApi.socket);
-        await HtmlSocketApi.stompClient.connect('guest', 'guest', () => { 
+        await HtmlSocketApi.stompClient.connect('guest', 'guest', () => {
             // HtmlSocketApi.CURRENT_SESSION_ID = this.getSessionId()
             // @ts-ignore
             // state.sessionId = HtmlSocketApi.CURRENT_SESSION_ID
@@ -79,7 +84,7 @@ export default class HtmlSocketApi implements SocketApi
             // console.log(getters);
             HtmlSocketApi.CURRENT_SESSION_ID.value = this.getSessionId()
             // Vue.set(, 'value', )
-            
+
             // var a = {...mapMutations({
             //     asd: 'globals/setSessionId'
             // })}
@@ -88,18 +93,18 @@ export default class HtmlSocketApi implements SocketApi
         });
         // setTimeout(() => {
         //     console.log('ConnectedAAAAA: ');
-            
-        
+
+
         // }, 9000)
     }
     subscribeMsg(msg: string) {
-        
+
         HtmlSocketApi.stompClient.subscribe(msg, function (greeting) {
             // this.showGreeting(JSON.parse(greeting.body).content);
 
             console.log('subscribe');
             console.log(JSON.parse(greeting.body).content);
-            
+
         });
     }
     onGetMessage(fn) {
@@ -128,7 +133,7 @@ export default class HtmlSocketApi implements SocketApi
     // getTreeTags(tag: HtmlTag): ResponseTreeTag {
     //     throw new Error("Method not implemented.");
     // }
-    
+
     // appendTagToProject(tag: HtmlTag) {
     //     let model = this.domainToModelTransformer.transform(tag)
     //     let response = this.tagModelToResponse.build(model)
@@ -146,12 +151,12 @@ export default class HtmlSocketApi implements SocketApi
 
     //         },
     //         () => {
-            
+
     //         },
     //     )
 
     // }
-    
+
     // appendChild(tag: HtmlTag) {
     //     let model = this.domainToModelTransformer.transform(tag)
     //     let response = this.tagModelToResponse.build(model)
@@ -168,14 +173,14 @@ export default class HtmlSocketApi implements SocketApi
     //             }
     //         },
     //         () => {
-            
+
     //         },
     //     )
 
     // }
 
- 
 
 
- 
+
+
 }

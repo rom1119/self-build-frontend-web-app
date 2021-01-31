@@ -24,9 +24,10 @@ export class MediaQueryStructVal implements CssValue {
     public static DEFAULT_MEDIA_SIZE = 500
     public static DEFAULT_MEDIA_SIZE_UNIT = new Pixel()
 
-    public static DEFAULT_MEDIA_FEATURE = MediaFeature.NEW_MAX_WIDTH
-    public static DEFAULT_MEDIA_TYPE = MediaType.NEW_SCREEN
-    public static DEFAULT_MEDIA_QUERY_OPERATOR = MediaQueryOperator.NEW_ONLY
+    public static DEFAULT_MEDIA_FEATURE = MediaFeature.NEW_MAX_WIDTH()
+    public static DEFAULT_MEDIA_TYPE = MediaType.NEW_SCREEN()
+    public static DEFAULT_MEDIA_QUERY_OPERATOR = MediaQueryOperator.NEW_AND()
+    public static DEFAULT_MEDIA_QUERY_OPERATOR_FIRST = MediaQueryOperator.NEW_ONLY()
 
 
     protected _orientation: MediaOrientation

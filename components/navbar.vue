@@ -21,8 +21,8 @@
                     <nuxt-link tag="li" class="nav-item" v-show="$auth.loggedIn" to="/dashboard" active-class="active" exact>
                         <a class="nav-link">Dashboard</a>
                     </nuxt-link>
-                    
-                    
+
+
                     <nuxt-link tag="li" class="nav-item" v-show="$auth.loggedIn" to="/home" active-class="active" exact>
                         <a class="nav-link">Home</a>
                     </nuxt-link>
@@ -76,8 +76,9 @@ import HtmlSocketApi from '~/src/Api/impl/HtmlSocketApi'
 
         generattingCode()
         {
-
-            var wind = window.open('/code-viewer/html-project/'  + this.sessionID.value)
+            // console.log('generattingCode')
+            // console.log()
+            var wind = window.open('/code-viewer/html-project/'  + this.sessionID.value + '?projectId=' + this.$route.params.id)
         }
 
         logout()

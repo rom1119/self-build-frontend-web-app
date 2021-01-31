@@ -80,6 +80,7 @@ import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
 import MediaQueryListOwner from "~/src/Css/PropertyAccessor/mediaQuery/MediaQueryListOwner";
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 import MediaQueryTag from "~/src/MediaQuery/headSection/MediaQueryTag";
+import SubscriberMediaAccessor from "../MediaQuery/SubscriberMediaAccessor";
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner
@@ -924,16 +925,29 @@ export default abstract class HtmlTag extends HtmlNode implements
         let pseudoSelectors = []
         for (const k in this.cssListMediaOwner.mediaQueryCssList) {
             var el = this.cssListMediaOwner.mediaQueryCssList[k]
+            if (!el.all.length) {
+                continue
+            }
             var m = new MediaQueryTag(el.mediaQuery, this.selectorLiteral, el.all)
             pseudoSelectors.push(m)
 
         }
 
-        // for (const selectorClass of this.pseudoClassAccessor.all) {
-        //
-        //     pseudoSelectors[selectorClass.value] = selectorClass.cssAccessor.all
-        //
-        // }
+        for (const selectorClass of this.pseudoClassAccessor.all) {
+
+            // pseudoSelectors[selectorClass.value] = selectorClass.cssAccessor.all
+
+            for (const kPK in selectorClass.cssListMediaOwner.mediaQueryCssList) {
+                var elPseudoClass = selectorClass.cssListMediaOwner.mediaQueryCssList[kPK]
+                if (!elPseudoClass.all.length) {
+                    continue
+                }
+                var m = new MediaQueryTag(elPseudoClass.mediaQuery, selectorClass.value, elPseudoClass.all)
+                pseudoSelectors.push(m)
+
+            }
+
+        }
 
         //
         // for (const element of this.pseudoElementAccessor.all) {
@@ -1855,5 +1869,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             this.updateHasPosition(positionCss)
         })
     }
+
+
 
 }

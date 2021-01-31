@@ -67,31 +67,37 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
         for (const valCss of domain.getValues()) {
 
             // valCss
-            let el = new StyleCssValue(valCss.mediaType.getValue(), Named.PROP_NAME)
+            let el = new StyleCssValue(null, null)
             el.id = valCss.id
-            if (valCss.mediaQueryOperator) {
-                el.setValue(valCss.mediaQueryOperator.getValue())
-
-            }
-
             if (valCss.mediaQueryOperatorFirst) {
-                el.setValueSixth(valCss.mediaQueryOperatorFirst.getValue())
-
+                el.setValue(valCss.mediaQueryOperatorFirst.getValue())
+                el.setUnitName(Named.PROP_NAME)
             }
+
             if (valCss.mediaType) {
                 el.setValueSecond(valCss.mediaType.getValue())
+                el.setUnitNameSecond(Named.PROP_NAME )
 
             }
+
+            if (valCss.mediaQueryOperator) {
+                el.setValueThird(valCss.mediaQueryOperator.getValue())
+                el.setUnitNameThird(Named.PROP_NAME)
+
+            }
+
             if (valCss.mediaFeature) {
-                el.setValueThird(valCss.mediaFeature.getValue())
+                el.setValueFourth(valCss.mediaFeature.getValue())
+                el.setUnitNameFourth(Named.PROP_NAME)
 
             }
             if (valCss.featureVal) {
-                el.setValueFourth(valCss.featureVal)
+                el.setValueFifth(valCss.featureVal)
 
             }
             if (valCss.orientation) {
-                el.setValueFifth(valCss.orientation.getValue())
+                el.setValueSixth(valCss.orientation.getValue())
+                el.setUnitNameSixth(Named.PROP_NAME)
 
             }
             // var color = valCss.color
@@ -102,13 +108,8 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
             //     el.setValueFourth(color)
             // }
 
-            el.setUnitName(Named.PROP_NAME)
-            el.setUnitNameSecond(Named.PROP_NAME )
-            el.setUnitNameThird(Named.PROP_NAME)
-            el.setUnitNameFifth(Named.PROP_NAME)
-            el.setUnitNameSixth(Named.PROP_NAME)
             if (valCss.featureValUnit) {
-                el.setUnitNameFourth(valCss.featureValUnit.name)
+                el.setUnitNameFifth(valCss.featureValUnit.name)
             }
 
             values.push(el)
@@ -119,6 +120,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
 
         console.log('mediatomodel')
         console.log(model)
+        console.log(domain)
         // this.cssFactoryFromName.create(model.getKey())
         // var unit = this.unitCssFactoryFromName.create(model.getUnitName())
         // domain.setValue(model.getValue())

@@ -1,11 +1,19 @@
 <template>
     <div class="black" v-if="project">
-        
+
         <h1 >
             {{ project.name }}
         </h1>
+        <div class="code-types">
+            <span class="code-type-el" v-for="codeTypeEl in generateTypes">
+                <label>
+                    {{ codeTypeEl.label }}
+                    <input type="radio" name="code-type" :value="codeTypeEl.key" v-model="selectedCodeType">
+                </label>
+            </span>
+        </div>
         <div class="code-tabs">
-            
+
             <pre class="left-code code-section" >
                 <div>
                     <button @click.stop="copyHtml">COPY HTML</button>
@@ -21,7 +29,7 @@
 </code>
             </pre>
         </div>
-        
+
 
     </div>
 
@@ -62,9 +70,28 @@ import {html} from 'js-beautify';
         cssCode = ''
         public SOCKET_MSG_NAME = `/queue/position-updates-user`
         public SOCKET_MSG_NAME2 = `/user/user_TEST_ASD/queue/position-updates`
+        projectId = null
+
+        generateCodeType = {
+            'key' : 'normal',
+            'label' : 'Kod HTML oddzielnie z CSS'
+        }
+
+        generateTypes = {
+            'normal' : {
+                'key' : 'normal',
+                'label' : 'Kod HTML oddzielnie z CSS'
+            },
+            'inline-css' : {
+                'key' : 'inline-css',
+                'label' : 'Kod CSS "inline" wraz z HTML'
+            },
+        }
 
         mounted() {
+            this.projectId = this.$route.query.projectId
             this.socketApi.connect()
+            this.socketApi.setCodeType(this.generateCodeType.key)
             this.socketApi.onGetMessage((e) => {
                 // console.log('messageAAAAAA++++++');
                 // console.log('message', e.data);
@@ -80,8 +107,28 @@ import {html} from 'js-beautify';
             setTimeout(() => {
                 // this.socketApi.subscribeMsg(this.SOCKET_MSG_NAME + this.$route.params.sessionId)
                 this.socketApi.subscribeMsg(this.SOCKET_MSG_NAME2)
+                this.socketApi.sendMessage(this.projectId)
+                this.updateCode()
             }, 2000)
 
+        }
+
+        get selectedCodeType() {
+            return this.generateCodeType.key
+        }
+
+        set selectedCodeType(arg) {
+            this.generateCodeType = this.generateTypes[arg]
+            this.socketApi.setCodeType(this.generateCodeType.key)
+
+        }
+
+        updateCode()
+        {
+            setInterval(() => {
+                this.socketApi.sendMessage(this.projectId)
+
+            }, 1000)
         }
 
         fetchHtmlContent(socketMsgString)
@@ -94,7 +141,7 @@ import {html} from 'js-beautify';
             html = html.substr(0, html.length - 1)
             // console.log(html);
             // console.log(html.substr(125));
-            
+
             var jsonContent = JSON.parse(html.trim().toString())
             this.htmlCode = jsonContent.html
             // this.htmlCode = jsonContent.html.replace(/>/g, '>\n')
@@ -111,7 +158,7 @@ import {html} from 'js-beautify';
             html = html.substr(0, html.length - 1)
             // console.log(html);
             // console.log(html.substr(125));
-            
+
             var jsonContent = JSON.parse(html.trim().toString())
             this.cssCode = jsonContent.css
 
@@ -137,15 +184,15 @@ import {html} from 'js-beautify';
             }
           }
           )
-          
+
             ).value
         }
-        
+
         get cssContent()
         {
           return  hljs.highlight('css',css(this.cssCode)).value
         }
-        
+
 
         createPElement(target, cm) {
             console.log(target, cm);
@@ -165,7 +212,7 @@ import {html} from 'js-beautify';
         copyHtml() {
             this.CopyToClipboard('html-code')
         }
-        
+
         copyCss() {
             this.CopyToClipboard('css-code')
         }
@@ -203,7 +250,7 @@ import {html} from 'js-beautify';
         // {
         //     hljs.initHighlightingOnLoad();
         //     // console.log(this.htmlContent());
-            
+
         //     // this.modelToDomainTransformer = new DefaultModelToDomain()
 
         //     if (this.$route.params.sessionId) {
@@ -215,11 +262,11 @@ import {html} from 'js-beautify';
         //         //     this.$refs.creatorContainer.addHtmlTag(tag)
         //         // // console.log(tag);
         //         //     // tag.recalculateRealComputedProperties()
-                    
+
         //         // }
         //         // console.log(this.$route.params.id);
         //         // console.log(response);
-                
+
         //     }
         //     this.$loadingDialog.show()
         //     // let provinces = await this.$axios.$get('/units/provinces')
@@ -233,6 +280,19 @@ import {html} from 'js-beautify';
 </script>
 
 <style lang="scss" scoped>
+
+    .code-types {
+        display: flex;
+        justify-content: center;
+    }
+    .code-type-el {
+        padding: 5px;
+
+        input {
+
+            width: 20px;
+        }
+    }
     .black {
         // background-color: black;
         width: 100vw;

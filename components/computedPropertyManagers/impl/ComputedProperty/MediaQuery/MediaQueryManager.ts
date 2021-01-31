@@ -92,9 +92,10 @@ export default class MediaQueryManager  {
     {
         let el = new MediaQueryStructVal()
         el.id = null
-        el.mediaFeature = MediaQueryStructVal.DEFAULT_MEDIA_FEATURE()
-        el.mediaType = MediaQueryStructVal.DEFAULT_MEDIA_TYPE()
-        el.mediaQueryOperator = MediaQueryStructVal.DEFAULT_MEDIA_QUERY_OPERATOR()
+        el.mediaFeature = MediaQueryStructVal.DEFAULT_MEDIA_FEATURE
+        el.mediaType = MediaQueryStructVal.DEFAULT_MEDIA_TYPE
+        el.mediaQueryOperator = MediaQueryStructVal.DEFAULT_MEDIA_QUERY_OPERATOR
+        el.mediaQueryOperatorFirst = MediaQueryStructVal.DEFAULT_MEDIA_QUERY_OPERATOR_FIRST
 
         var defaultmediasizeunit = MediaQueryStructVal.DEFAULT_MEDIA_SIZE_UNIT
 

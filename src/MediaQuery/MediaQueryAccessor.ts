@@ -6,21 +6,29 @@ import Vue from 'vue';
 import DefaultMediaQueryApiService from '../Api/impl/DefaultMediaQueryApiService';
 import MediaQueryApiService from '../Api/MediaQueryApiService';
 import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
+import SubscriberMediaAccessor from "~/src/MediaQuery/SubscriberMediaAccessor";
 export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
 {
     protected tag: SelectorOwner
     protected mediaQueries: T[]
+    protected subscribers: SubscriberMediaAccessor[]
     protected api: MediaQueryApiService
     protected _selectedMediaQuery: BaseMediaQueryCss
 
     constructor() {
         // this.tag = val
         Vue.set(this, 'mediaQueries', [])
+        Vue.set(this, 'subscribers', [])
         var a = new MediaQueryCss()
         a.id = 9999999
         Vue.set(this, 'selectedMediaQuery', null)
         this.api = new DefaultMediaQueryApiService()
 
+    }
+
+    addSubscriber(el: SubscriberMediaAccessor)
+    {
+        this.subscribers.push(el)
     }
 
     get selectedMediaQuery() {

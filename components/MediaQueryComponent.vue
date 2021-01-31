@@ -207,6 +207,8 @@
             arg.property.api.deleteMedia(arg.property).then(
                 () => {
                     this.removeManager(arg, index)
+                    this.$emit('selectMediaQuery', null)
+
                 },
                 () => {
                     alert('server error')

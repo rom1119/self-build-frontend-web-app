@@ -5,12 +5,13 @@ import CssListAndMediaQueryAccessor from "~/src/Css/PropertyAccessor/mediaQuery/
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
 import MediaQueryAccessor from "~/src/MediaQuery/MediaQueryAccessor";
 import Vue from 'vue';
+import SubscriberMediaAccessor from "~/src/MediaQuery/SubscriberMediaAccessor";
 
 interface MediaCssList {
     property: string;
 }
 
-export default class MediaQueryListOwner<T>{
+export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
 
 
     protected owner: T
@@ -29,10 +30,11 @@ export default class MediaQueryListOwner<T>{
         // this.mediaQueryListTmp = {};
         this.init()
 
+        this._mediaQueryAccessor.addSubscriber(this)
 
     }
 
-    protected init() {
+    public init() {
         for(var el of this._mediaQueryAccessor.all) {
             Vue.set(this.mediaQueryList, el.id, new CssListAndMediaQueryAccessor<T>(this.owner, el))
             Vue.set(this.mediaQueryListTmp, el.id, new CssListAndMediaQueryAccessor<T>(this.owner, el))
@@ -57,6 +59,7 @@ export default class MediaQueryListOwner<T>{
         if (!this._mediaQueryAccessor) {
             return null
         }
+
         return this._mediaQueryAccessor.selectedMediaQuery
     }
 
@@ -68,6 +71,7 @@ export default class MediaQueryListOwner<T>{
         console.log('currentCssList')
         console.log(this.selectedMedia)
         console.log(this.mediaQueryList)
+
 
         return null
     }
@@ -176,5 +180,9 @@ export default class MediaQueryListOwner<T>{
         if (this.hasMedia(media)) {
             this.mediaQueryListTmp[media.id].removePropWithName(css.getName())
         }
+    }
+
+    notify() {
+        this.init()
     }
 }

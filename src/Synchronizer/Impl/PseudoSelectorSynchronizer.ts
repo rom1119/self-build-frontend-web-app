@@ -13,7 +13,7 @@ import { BackgroundImage } from "~/src/Css";
 export default class PseudoSelectorSynchronizer implements Synchronizer
 {
 
-    protected isNowSynchronized 
+    protected isNowSynchronized
     protected isQueued = false
     protected selector: PseudoSelector
     protected api: ApiService
@@ -27,7 +27,7 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
         this.selector = selector
         this.api = api
         this.isNowSynchronized = false
-        
+
     }
 
     synchronize()
@@ -43,16 +43,16 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
 
     private setAsNowReadyToSynchronize()
     {
-        setTimeout(() => { 
+        setTimeout(() => {
             this.isNowSynchronized = false
             // console.log('qwerty');
-            
+
         }, 1000)
     }
 
     private updateApi()
     {
-        setTimeout(() => { 
+        setTimeout(() => {
 
             // this.setAsNowReadyToSynchronize()
             this.updatePromise().then(
@@ -62,9 +62,8 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
 
                     this.updateCssIds(res.data.cssStyleList, this.selector.cssAccessor.all)
 
-    
                     this.setAsNowReadyToSynchronize()
-                    this.apiSocket.sendMessage(this.selector.projectId)
+                    // this.apiSocket.sendMessage(this.selector.projectId)
 
                     this.trySynchronize()
                 },
@@ -73,7 +72,7 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
                     // console.log('error');
                     // console.log(arg);
                     this.trySynchronize()
-                    this.apiSocket.sendMessage(this.selector.projectId)
+                    // this.apiSocket.sendMessage(this.selector.projectId)
 
 
                 }
@@ -136,7 +135,7 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
                         }
                         // console.log(cssRes);
                         // console.log(cssDomain);
-                        
+
                         // @ts-ignore
                         const cssValDomain = cssDomain.getValues()[i]
                         cssValDomain.id = cssRes.cssValues[i].id
@@ -151,7 +150,7 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
             }
 
 
-            
+
         }
     }
 }
