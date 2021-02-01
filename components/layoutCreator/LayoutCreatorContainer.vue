@@ -292,7 +292,7 @@ export default class LayoutCreatorContainer extends Vue {
         let list = []
         this.mediaQueryList.reset()
         for (const tag of this.htmlTags) {
-            console.log(tag.mediaQueryWithElements);
+            // console.log(tag.mediaQueryWithElements);
             list.push(tag.mediaQueryWithElements)
             this.recursiveBuildMediaQueries(list, tag)
         }

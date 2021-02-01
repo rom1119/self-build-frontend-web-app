@@ -17,6 +17,7 @@ import MediaQueryListOwner from "~/src/Css/PropertyAccessor/mediaQuery/MediaQuer
 import MediaQueryAccessor from "~/src/MediaQuery/MediaQueryAccessor";
 import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
+import TransitionCss from "~/src/Css/Animation/TransitionCss";
 
 export default abstract class BaseSelector
 {
@@ -376,12 +377,32 @@ export default abstract class BaseSelector
             // this.transformStyleList.setAllImportant(true)
             var a = this.owner.transformStyleList.transform(this.cssListMediaOwner.currentCssList.all)
             // console.log('new css', a)
+            try {
+                if (a[TransitionCss.PROP_NAME]) {
+                    // @ts-ignore
+                    this.owner.onApplyTransitionCss(TransitionCss.PROP_NAME)
+
+                }
+            } catch (e) {
+                delete a[TransitionCss.PROP_NAME]
+            }
             return  a
         }
+        var cssL =  this.owner.transformStyleList.transform(this.cssAccessor.all)
 
-        return this.owner.transformStyleList.transform(this.cssAccessor.all)
 
-        // return css
+        try {
+            if (cssL[TransitionCss.PROP_NAME]) {
+                // @ts-ignore
+                this.owner.onApplyTransitionCss(TransitionCss.PROP_NAME)
+
+            }
+        } catch (e) {
+            delete cssL[TransitionCss.PROP_NAME]
+        }
+
+
+        return cssL
     }
 
     get realPositionCalculator()

@@ -81,6 +81,9 @@ import MediaQueryListOwner from "~/src/Css/PropertyAccessor/mediaQuery/MediaQuer
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 import MediaQueryTag from "~/src/MediaQuery/headSection/MediaQueryTag";
 import SubscriberMediaAccessor from "../MediaQuery/SubscriberMediaAccessor";
+import LayoutCreatorModeComponent from "~/components/LayoutCreatorModeComponent.vue";
+import ViewMode from "~/src/Mode/impl/ViewMode";
+import EditMode from "~/src/Mode/impl/EditMode";
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner
@@ -101,6 +104,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     paddingFactory: PaddingModelFactory = new PaddingModelFactory()
     marginFactory: MarginModelFactory = new MarginModelFactory()
 
+    layoutCreatorMode: LayoutCreatorModeComponent
     protected _borders: BorderModel[] = []
     borderBottom: BorderModel
     borderTop: BorderModel
@@ -896,7 +900,30 @@ export default abstract class HtmlTag extends HtmlNode implements
             return false
         }
 
+
+        try {
+             this.onApplyTransitionCss(css.getName())
+        } catch (e) {
+            return false
+        }
+
         return true
+    }
+
+    public onApplyTransitionCss(cssName){
+
+        // @ts-ignore
+        if (this.layoutCreatorMode) {
+            // @ts-ignore
+            if (this.layoutCreatorMode.mode.getName() === EditMode.NAME) {
+                // var a = this.layoutCreatorMode.mode
+                console.error('AAA')
+                if (cssName === TransitionCss.PROP_NAME) {
+                    throw new Error('can not apply transition in EditMode')
+                }
+
+            }
+        }
     }
 
     get pseudoSelectorsList() : any
@@ -1155,10 +1182,12 @@ export default abstract class HtmlTag extends HtmlNode implements
         return val
     }
 
+
     get cssList() : any
     {
         let css = {}
         var cssFormAccessor = cssFormAccessor = this._cssPropertyAccesor.all
+
 
         for (const cssProp of cssFormAccessor) {
             if (!this.canAddToCssList(cssProp)) {
@@ -1258,6 +1287,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
+
             return activeSelector.cssList
         }
 
@@ -1316,6 +1346,14 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
         var a = this.transformStyleList.transform(this.cssAccessor.all)
 
+        try {
+            if (a[TransitionCss.PROP_NAME]) {
+                this.onApplyTransitionCss(TransitionCss.PROP_NAME)
+
+            }
+        } catch (e) {
+            delete a[TransitionCss.PROP_NAME]
+        }
 
         // a = this.transformStyleList.transform(this.cssAccessor.all)
         // console.log('APPPPPPPPPPPPP');
@@ -1342,6 +1380,14 @@ export default abstract class HtmlTag extends HtmlNode implements
             // this.transformStyleList.setAllImportant(true)
             var a = this.transformStyleList.transform(this.cssListMediaOwner.currentCssList.all)
             // console.log('new css', a)
+            try {
+                if (a[TransitionCss.PROP_NAME]) {
+                    this.onApplyTransitionCss(TransitionCss.PROP_NAME)
+
+                }
+            } catch (e) {
+                delete a[TransitionCss.PROP_NAME]
+            }
             return  a
         }
 

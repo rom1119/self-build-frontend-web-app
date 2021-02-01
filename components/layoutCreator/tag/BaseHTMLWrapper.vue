@@ -570,6 +570,7 @@ export default class BaseHTMLWrapper extends Vue {
         console.log('CREA - COMP - BASE')
         console.log(BaseMediaQueryComponent.accessorStatic)
 
+        this.value.layoutCreatorMode = this.$layoutCreatorMode
         this.value.setHtmlEl(this.$el)
         this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
 
