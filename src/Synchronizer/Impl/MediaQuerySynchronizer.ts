@@ -40,10 +40,6 @@ export default class MediaQuerySynchronizer implements Synchronizer
         }
         this.isNowSynchronized = true
 
-        if (!this.model.id) {
-            return this.saveApi()
-        }
-
         return this.updateApi()
 
     }
@@ -101,49 +97,7 @@ export default class MediaQuerySynchronizer implements Synchronizer
         }, 1000)
     }
 
-    private saveApi()
-    {
-        setTimeout(() => {
 
-            // this.setAsNowReadyToSynchronize()
-            this.savePromise().then(
-                (res) => {
-                    // console.log('success');
-                    // console.log(res);
-                    var resValues = res.data.cssValues
-                    // this.updateCssIds(res.data.cssStyleList, this.model.cssAccessor.all)
-                    if (typeof this.model.values === 'function') {
-                        // @ts-ignore
-                        for (var i = 0; i < this.model.getValues().length; i++) {
-
-                            // console.log(cssRes);
-                            // console.log(cssDomain);
-
-                            // @ts-ignore
-                            const cssValDomain = cssDomain.getValues()[i]
-                            cssValDomain.id = resValues[i].id
-                        }
-
-                    }
-
-                    this.setAsNowReadyToSynchronize()
-                    this.apiSocket.sendMessage(this.model.projectId)
-
-                    this.trySynchronize()
-                },
-                (arg) => {
-                    this.setAsNowReadyToSynchronize()
-                    // console.log('error');
-                    // console.log(arg);
-                    this.trySynchronize()
-                    this.apiSocket.sendMessage(this.model.projectId)
-
-
-                }
-            )
-
-        }, 1000)
-    }
 
     private updatePromise() : Promise<any>
     {
@@ -152,11 +106,7 @@ export default class MediaQuerySynchronizer implements Synchronizer
 
     }
 
-    private savePromise() : Promise<any>
-    {
 
-        return this.api.appendMedia(this.model, this.model.projectId)
-    }
 
     private trySynchronize()
     {

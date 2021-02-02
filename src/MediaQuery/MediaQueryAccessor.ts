@@ -51,6 +51,8 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
         }
 
         this.mediaQueries.splice(propsIndex, 1);
+
+        this.notifySubscribers()
     }
 
     // public isPropertyLikeThis(prop: T, propNameToCompare: string): boolean
@@ -106,10 +108,20 @@ export default class MediaQueryAccessor<T extends BaseMediaQueryCss>
     //     return this
     // }
 
+    notifySubscribers()
+    {
+        for(var el of this.subscribers) {
+            el.notify()
+        }
+    }
+
     public addNewMediaQuery(newProp: T): MediaQueryAccessor<T>{
 
         newProp.setApi(this.api)
         Vue.set(this.mediaQueries, this.mediaQueries.length, newProp)
+
+        this.notifySubscribers()
+
         // console.log(this.cssProps);
 
         // prop.clearValue()

@@ -16,6 +16,7 @@ import MediaQueryApiService from '../Api/MediaQueryApiService';
 import MediaQuerySynchronizer from '../Synchronizer/Impl/MediaQuerySynchronizer';
 import Named from "~/src/Unit/Named";
 import UnitColor from "~/src/Unit/UnitColor";
+import {reject} from "~/node_modules/@types/q";
 
 
 export class MediaQueryStructVal implements CssValue {
@@ -309,5 +310,55 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
         if (this.synchronizer) {
             this.synchronizer.synchronize()
         }
+    }
+
+    private savePromise() : Promise<any>
+    {
+
+        return this.api.appendMedia(this, this.projectId)
+    }
+
+    public saveApi()
+    {
+
+            // this.setAsNowReadyToSynchronize()
+        return new Promise((resolve, reject) => {
+
+            this.savePromise().then(
+                (res) => {
+                    // console.log('success');
+                    // console.log(res);
+                    var resValues = res.data.cssValues
+                    this.id = res.data.id
+                    // this.updateCssIds(res.data.cssStyleList, this.model.cssAccessor.all)
+                    if (typeof this.values === 'function') {
+                        // @ts-ignore
+                        for (var i = 0; i < this.model.getValues().length; i++) {
+
+                            // console.log(cssRes);
+                            // console.log(cssDomain);
+
+                            // @ts-ignore
+                            const cssValDomain = cssDomain.getValues()[i]
+                            cssValDomain.id = resValues[i].id
+                        }
+
+                    }
+
+                    resolve()
+
+
+                },
+                (arg) => {
+                    reject()
+                    // console.log('error');
+                    // console.log(arg);
+
+
+                }
+            )
+
+        } )
+
     }
 }

@@ -78,7 +78,7 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
                     //     }
                     // }
 
-                    resolve()
+                    resolve(res)
 
 
                 },

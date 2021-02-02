@@ -145,8 +145,8 @@ export default class MediaQueryManager  {
 
     }
 
-    save(){
-        this.property.synchronize()
+    async save(){
+        await this.property.saveApi()
     }
 
     update() {

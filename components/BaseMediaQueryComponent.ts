@@ -39,10 +39,10 @@ export default abstract class BaseMediaQueryComponent extends Vue
     }
 
 
-    addManager(manager: MediaQueryManager)
+    async addManager(manager: MediaQueryManager)
     {
         this.managers.push(manager)
-        manager.save()
+
         this.accessor.addNewMediaQuery(manager.property)
     }
 

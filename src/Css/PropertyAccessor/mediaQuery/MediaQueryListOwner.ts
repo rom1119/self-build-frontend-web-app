@@ -35,7 +35,11 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
     }
 
     public init() {
+            // console.trace('init')
+        Vue.set(this, 'mediaQueryList', {})
+        Vue.set(this, 'mediaQueryListTmp', {})
         for(var el of this._mediaQueryAccessor.all) {
+            // console.log(el)
             Vue.set(this.mediaQueryList, el.id, new CssListAndMediaQueryAccessor<T>(this.owner, el))
             Vue.set(this.mediaQueryListTmp, el.id, new CssListAndMediaQueryAccessor<T>(this.owner, el))
 
@@ -43,6 +47,7 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
             // this.mediaQueryListTmp[el.id] = new CssListAndMediaQueryAccessor<T>(this.owner, el)
 
         }
+        // console.log(this.mediaQueryList)
     }
 
     getMediaQueryCssList()
@@ -64,13 +69,13 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
     }
 
     get currentCssList(){
+        // console.log('currentCssList')
+        // console.log(this.selectedMedia)
+        // console.log(this.mediaQueryList)
         if (this.mediaQueryList[this.selectedMedia.id]) {
             return this.mediaQueryList[this.selectedMedia.id]
         }
 
-        console.log('currentCssList')
-        console.log(this.selectedMedia)
-        console.log(this.mediaQueryList)
 
 
         return null

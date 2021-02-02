@@ -149,13 +149,14 @@
 
         }
 
-        addNew()
+        async addNew()
         {
             var manager = new MediaQueryManager(this.mediaQueryFactory.create())
             manager.init()
             manager.property.setApi(this.api)
             manager.property.projectId = this.projID
 
+            await manager.save()
             this.addManager(manager)
         }
 
