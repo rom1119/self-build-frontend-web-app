@@ -60,6 +60,7 @@ module.exports = {
         // {src: '@/plugins/loadingDialog', ssr: false},
         {src: '@/plugins/modals/textManageModal', ssr: false},
         {src: '@/plugins/modals/backgroundManageModal', ssr: false},
+        {src: '@/plugins/modals/imgManageModal', ssr: false},
         {src: '@/plugins/modals/borderManageModal', ssr: false},
         {src: '@/plugins/modals/boxModelManageModal', ssr: false},
         {src: '@/plugins/modals/displayManageModal', ssr: false},

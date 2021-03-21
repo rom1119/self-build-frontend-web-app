@@ -67,7 +67,7 @@ export default class BackgroundImage extends CssSimple implements CssResource, G
     {
         this.resource = val
     }
-    getId(): number {
+    getId(): any {
         return this.id
     }
     getResourceFile(): File {

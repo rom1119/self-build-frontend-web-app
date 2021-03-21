@@ -61,7 +61,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             return null
         }
 
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             return activeSelector.cssAccessor.getProperty(prop)
 
@@ -75,7 +75,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         if (!this.value) {
             return false
         }
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
                 activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
@@ -258,7 +258,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
 
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -281,7 +281,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     }
     deactivePropCss(prop: BasePropertyCss) {
 
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -313,7 +313,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     activePropCss(prop: BasePropertyCss) {
         prop.id = null
 
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
                 activeSelector.cssAccessor.addNewProperty(prop)
@@ -353,7 +353,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         // console.log(clonedCss);
         // console.log('ALA MA');
         // console.log(newProp);
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
             activeSelector.synchronize()

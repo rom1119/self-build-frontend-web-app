@@ -11,6 +11,7 @@ import TableTr from './tag/Table/TableTr';
 import TableTd from './tag/Table/TableTd';
 import TableTh from './tag/Table/TableTh';
 import TableTFoot from './tag/Table/TableTFoot';
+import ImgTag from './tag/ImgTag';
 export default class HtmlTagFactoryFromName {
 
     private htmlTagFactory: HtmlTagFactory
@@ -29,6 +30,8 @@ export default class HtmlTagFactoryFromName {
         switch (name) {
             case H1.TAG_NAME:
                 return this.htmlTagFactory.createH1()
+            case ImgTag.TAG_NAME:
+                return this.htmlTagFactory.createImage()
             case Div.TAG_NAME:
                 return this.htmlTagFactory.createDiv()
             case 'input-text':

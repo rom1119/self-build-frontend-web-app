@@ -1,7 +1,8 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template >
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <nuxt-link to="/" class="navbar-brand">Główna</nuxt-link>
+            <nuxt-link to="/" class="navbar-brand">Główna
+            </nuxt-link>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +53,7 @@
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator'
     import base64 from  'base-64'
-import HtmlSocketApi from '~/src/Api/impl/HtmlSocketApi'
+    import HtmlSocketApi from '~/src/Api/impl/HtmlSocketApi'
 
     @Component
     export default class Navbar extends Vue {

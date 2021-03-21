@@ -10,6 +10,9 @@ import Input from '../../Layout/tag/Form/Input';
 import SelectorToModel from '../SelectorToModel';
 import DefaultSelectorToModel from './DefaultSelectorToModel';
 import CssListAndMediaQueryAccessor from "~/src/Css/PropertyAccessor/mediaQuery/CssListAndMediaQueryAccessor";
+import CssResource from '~/src/Css/CssResource';
+import TagResource from '~/src/Css/TagResource';
+import ImgTag from '~/src/Layout/tag/ImgTag';
 export default class DefaultDomainToModel implements DomainToModel
 {
 
@@ -35,6 +38,18 @@ export default class DefaultDomainToModel implements DomainToModel
                 model.text = domain.text
 
             }
+
+            if (domain instanceof ImgTag) {
+                model.setResourcePath(domain.srcAttr.getResource())
+                model.setResourceUrl(domain.srcAttr.getResourceUrl().length > 0 ? domain.srcAttr.getResourceUrl() : null )
+                
+            }
+            
+            // // @ts-ignore
+            // if ( domain.srcAttr) {
+            //     var domainResource: TagResource = <TagResource><unknown>domain
+            //     model.setResourcePath(domainResource.srcAttr.getResource())
+            // }
 
             model.isClosingTag = domain.isClosingTag
             if (domain.cssAccessor.all.length) {
@@ -69,7 +84,7 @@ export default class DefaultDomainToModel implements DomainToModel
 
             if (domain.pseudoClassAccessor.all.length) {
                 for (const style of domain.pseudoClassAccessor.all) {
-
+                        
                     let subModel = this.selectorTransformer.transform(style)
                     model.selectors.push(subModel)
                     // domain..push(subModel)

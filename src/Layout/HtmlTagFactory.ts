@@ -13,6 +13,7 @@ import TableTFoot from './tag/Table/TableTFoot';
 import TableTh from './tag/Table/TableTh';
 import TableTr from './tag/Table/TableTr';
 import NormalTableTag from './tag/Table/impl/NormalTableTag';
+import ImgTag from './tag/ImgTag';
 export default class HtmlTagFactory {
 
     api: ApiService
@@ -50,6 +51,13 @@ export default class HtmlTagFactory {
     
     createButton() {
         let el = new Button()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createImage() {
+        let el = new ImgTag()
         el.setApi(this.api)
 
         return el

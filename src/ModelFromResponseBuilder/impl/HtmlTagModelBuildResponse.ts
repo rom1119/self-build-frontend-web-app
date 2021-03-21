@@ -32,6 +32,8 @@ export default class HtmlTagModelBuildResponse implements ResponseFromModel<Html
             response.tagName = from.tagName
             response.className = 'com.SelfBuildApp.ddd.Project.domain.HtmlTag'
 
+            response.resourceUrl = from.getResourceUrl()
+
             response.closingTag = from.isClosingTag
             response.attrs = from.attrs
             if (from.styles) {

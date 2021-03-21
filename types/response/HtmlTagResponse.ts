@@ -14,4 +14,6 @@ export default class HtmlTagResponse extends ResponseObject{
      cssStyleList = []
      pseudoSelectors = []
      className
+     resourcePath
+     resourceUrl
 }

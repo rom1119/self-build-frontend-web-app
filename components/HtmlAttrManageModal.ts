@@ -31,10 +31,6 @@ export default abstract class HtmlAttrManageModal extends AbstractModal
 
     show(val: HtmlTag){
         super.show(val)
-        // this.paddingRealFetcher = this.value.paddingRealFetcher
-        // this.marginRealFetcher = this.value.marginRealFetcher
-        // this.borderRealFetcher = this.value.borderRealFetcher
-        
         this.reinit()
     }
 
@@ -51,8 +47,8 @@ export default abstract class HtmlAttrManageModal extends AbstractModal
         this.init(this.rowspanManager)
         // this.init(this.customAttrManager)
 
-        console.log('ASDASD');
-        console.log(this.value.attributeAccessor.getAll());
+        // console.log('ASDASD');
+        // console.log(this.value.attributeAccessor.getAll());
         
         for (const attr of this.value.attributeAccessor.getAll()) {
             if (attr instanceof CustomAttr) {

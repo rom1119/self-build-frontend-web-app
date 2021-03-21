@@ -5,7 +5,7 @@ import { BackgroundImage } from "~/src/Css";
 export default abstract class BaseGradientPropertyManager<T extends BaseGradientCss> extends BaseComputedPropertyManager<T>
 {
     deactivePropCss(prop: T) {
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         var backgroundImage: BackgroundImage
 
         if (activeSelector) {
@@ -49,7 +49,7 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
 
         var backgroundImage: BackgroundImage
 
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             backgroundImage = <BackgroundImage><unknown>activeSelector.cssAccessor.getProperty(BackgroundImage.PROP_NAME)
             if (!backgroundImage) {
@@ -97,7 +97,7 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
         // clonedCss.setValue(val.toString())
         var backgroundImage: BackgroundImage
 
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             backgroundImage = <BackgroundImage><unknown>activeSelector.cssAccessor.getProperty(BackgroundImage.PROP_NAME)
 
@@ -114,8 +114,7 @@ export default abstract class BaseGradientPropertyManager<T extends BaseGradient
         return newProp.getClearValue()
     }
 
-    updateApi()
-    {
+    updateApi() {
         this.value.synchronize()
     }
 }

@@ -32,6 +32,7 @@ import DefaultSelectorToModel from "~/src/Transformer/impl/DefaultSelectorToMode
 import SelectorToModel from "~/src/Transformer/SelectorToModel";
 import { BaseGradientStructVal } from "~/src/Css/Gradient/BaseGradientCss";
 import NodeUpdater from "../idsUpdate/NodeUpdater";
+import TagResource from "~/src/Css/TagResource";
 
 export default class DefaultApiService implements ApiService
 {
@@ -62,6 +63,7 @@ export default class DefaultApiService implements ApiService
         this.idUpdater = new NodeUpdater()
 
     }
+    
 
     getTreeTags(tag: HtmlTag): ResponseTreeTag {
         throw new Error("Method not implemented.");
@@ -102,7 +104,7 @@ export default class DefaultApiService implements ApiService
             Axios.post(DefaultApiService.HOST + `/api/html-tag/${tag.parent.uuid}/${apiSuffix}`, response).then(
                 (res) => {
                     this.idUpdater.update(tag, res.data)
-                    resolve()
+                    resolve(res)
                 },
                 () => {
                     reject()
@@ -126,7 +128,7 @@ export default class DefaultApiService implements ApiService
             Axios.post(DefaultApiService.HOST + `/api/html-tag/${tag.parent.uuid}/${apiSuffix}`, response).then(
                 (res) => {
                     this.idUpdater.update(tag, res.data)
-                    resolve()
+                    resolve(res)
                 },
                 () => {
                     reject()
@@ -152,7 +154,7 @@ export default class DefaultApiService implements ApiService
                         }
                     }
 
-                    resolve()
+                    resolve(res)
 
 
                 },
@@ -196,10 +198,22 @@ export default class DefaultApiService implements ApiService
         return Axios.post(DefaultApiService.HOST + `/api/css-style/${css.getId()}/resource`, formData)
     }
 
+    putTagResource(arg: TagResource): Promise<any> {
+        let formData = new FormData()
+        formData.append('file', arg.getResourceFile())
+        return Axios.post(DefaultApiService.HOST + `/api/html-tag/${arg.getId()}/resource`, formData)
+    }
+
     deleteCssStyleResource(css: CssResource): Promise<any> {
         // let model = this.domainToModelTransformer.transform(css)
         // let response = this.tagModelToResponse.build(model)
         return Axios.delete(DefaultApiService.HOST + `/api/css-style/${css.getId()}/resource`)
+    }
+
+    deleteTagResource(css: TagResource): Promise<any> {
+        // let model = this.domainToModelTransformer.transform(css)
+        // let response = this.tagModelToResponse.build(model)
+        return Axios.delete(DefaultApiService.HOST + `/api/html-tag/${css.getId()}/resource`)
     }
 
     deleteTag(tag: HtmlNode) : Promise<any> {

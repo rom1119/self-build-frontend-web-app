@@ -21,6 +21,7 @@
                     <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
                     <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
                     <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
+                    <context-menu-item :action="createImgElement">Dodaj Obrazek</context-menu-item>
                     <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
 
 
@@ -35,6 +36,7 @@
         <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
         <context-menu-item :action="createText">Dodaj tekst</context-menu-item>
 
+        <context-menu-item v-if="isImgTag" :action="showImageModal">Grafika obrazka</context-menu-item>
 
         <template v-if="isHtmlTag">
             <context-menu-item :action="showTextCssModal">Font</context-menu-item>
@@ -61,6 +63,7 @@ import LayoutEl from '../../src/LayoutEl';
 import TableComponentFactory from '~/src/Layout/TableComponentFactory';
 import TableTag from '~/src/Layout/tag/Table/TableTag';
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
+import ImgTag from '~/src/Layout/tag/ImgTag';
 
 @Component
 export default class HtmlElementContextMenu extends Vue {
@@ -75,6 +78,7 @@ export default class HtmlElementContextMenu extends Vue {
     api: ApiService
     isTableTag = false
     isHtmlTag = false
+    isImgTag = false
 
     mounted() {
         // console.log(this.value.uuid);
@@ -98,6 +102,7 @@ export default class HtmlElementContextMenu extends Vue {
         this.setListTags(list)
         this.isTableTag = this.value instanceof TableTag
         this.isHtmlTag = this.value instanceof HtmlTag
+        this.isImgTag = this.value instanceof ImgTag
         // console.log("initOpen");
         // console.log(this.isTableTag);
         // console.log(this.isHtmlTag);
@@ -210,7 +215,7 @@ export default class HtmlElementContextMenu extends Vue {
         this.initCreatedTag(el)
     }
 
-    initCreatedTag(el){
+    initCreatedTag(el: HtmlTag){
         if (this.value) {
             el.parent = this.value
             el.projectId = this.value.projectId
@@ -234,7 +239,13 @@ export default class HtmlElementContextMenu extends Vue {
         this.$emit('createdTag', el)
     }
 
+    createImgElement()
+    {
+        var el = this.htmlFactory.createImage()
+        this.initCreatedTag(el)
+        this.$imgManageModal.show(el)
 
+    }
 
     createText()
     {
@@ -244,6 +255,11 @@ export default class HtmlElementContextMenu extends Vue {
         text.setProjectId(this.$route.params.id)
 
         this.value.appendChildDeep(text)
+    }
+
+    showImageModal()
+    {
+        this.$imgManageModal.show(this.value)
     }
 
     showTextCssModal()

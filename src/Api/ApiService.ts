@@ -6,6 +6,7 @@ import HtmlNode from '../Layout/HtmlNode';
 import CssResource from "../Css/CssResource";
 import CssValue from '../Css/CssValue';
 import PseudoSelector from "../PseudoSelector/PseudoSelector";
+import TagResource from "../Css/TagResource";
 
 export default interface ApiService 
 {
@@ -13,7 +14,9 @@ export default interface ApiService
 
     putSelector(selector: PseudoSelector): Promise<any>;
     putCssStyleResource(arg0: CssResource): Promise<any>;
+    putTagResource(arg0: TagResource): Promise<any>;
     deleteCssStyleResource(arg0: CssResource): Promise<any>;
+    deleteTagResource(arg0: CssResource): Promise<any>;
     getTreeTags(tag: HtmlTag) : ResponseTreeTag
     appendTagToProject(tag: HtmlNode)
     appendChild(tag: HtmlNode): Promise<any>

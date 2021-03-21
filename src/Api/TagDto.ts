@@ -17,6 +17,33 @@ export default class TagDto extends AggregateRoot
     children: TagDto[]  = []
     parent: TagDto
     styles: StyleCss[]  = []
-    selectors: Selector[]  = []
+    selectors: Selector[] = []
+    
+    _resourcePath
+    _resourceUrl
 
+
+    public setResourcePath(val)
+    {
+        this._resourcePath = val
+    }
+
+
+    public getResourcePath(): string
+    {
+        return this._resourcePath
+
+    }
+
+    public setResourceUrl(val)
+    {
+        this._resourceUrl = val
+    }
+
+
+    public getResourceUrl(): string
+    {
+        return this._resourceUrl
+
+    }
 }

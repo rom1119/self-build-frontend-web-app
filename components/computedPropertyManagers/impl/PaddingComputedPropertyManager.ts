@@ -67,7 +67,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         if (!this.value) {
             return null
         }
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             return activeSelector.cssAccessor.getProperty(prop)
 
@@ -80,7 +80,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         if (!this.value) {
             return false
         }
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             if (!activeSelector.tmpCssAccessor.hasCssProperty(newCssProp.getName())) {
                 activeSelector.tmpCssAccessor.addNewProperty(newCssProp)
@@ -255,7 +255,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         }
     }
     deactiveGlobalPropCss(prop: BasePropertyCss) {
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -276,7 +276,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         return null
     }
     deactivePropCss(prop: BasePropertyCss) {
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -311,7 +311,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
     activePropCss(prop: BasePropertyCss) {
         prop.id = null
 
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
                 activeSelector.cssAccessor.addNewProperty(prop)
@@ -354,7 +354,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         // console.log(clonedCss);
         // console.log('ALA MA');
 
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
             activeSelector.synchronize()

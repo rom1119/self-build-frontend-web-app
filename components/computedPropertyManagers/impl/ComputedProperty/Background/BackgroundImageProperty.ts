@@ -17,8 +17,7 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
     protected DEFAULT_VAL = 'empty.jpg'
     protected property: BackgroundImage = new BackgroundImage()
 
-    constructor(  )
-    {
+    constructor() {
         super()
         this.getProperty().setActive(false)
 
@@ -38,14 +37,14 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
         const arrayBuffer = new ArrayBuffer(byteString.length);
         const int8Array = new Uint8Array(arrayBuffer);
         for (let i = 0; i < byteString.length; i++) {
-          int8Array[i] = byteString.charCodeAt(i);
+            int8Array[i] = byteString.charCodeAt(i);
         }
         const blob = new Blob([int8Array], { type: 'image/jpeg' });
         return blob;
     }
 
     deactivePropCss(prop: BackgroundImage) {
-        var activeSelector = this.value.selectedSelector()
+        var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.cssAccessor.removePropWithName(prop.getName())
             activeSelector.synchronize()
@@ -74,7 +73,7 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
     activePropCss(prop: BackgroundImage) {
         super.activePropCss(prop)
 
-        let propCast = <CssResource> <unknown>prop
+        let propCast = <CssResource><unknown>prop
         if (propCast.getResourceFile()) {
             // const imageBlob = this.dataURItoBlob(propCast.getResource());
             // var file: File = new File([imageBlob], 'example_img.jpeg', { type: 'image/jpeg' })
@@ -92,7 +91,7 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
     updateCssProp(newProp: BackgroundImage) {
         super.updateCssProp(newProp)
         if (newProp.getResourceFile()) {
-            this.value.api.putCssStyleResource(<CssResource> <unknown>newProp).then((res) => {
+            this.value.api.putCssStyleResource(<CssResource><unknown>newProp).then((res) => {
                 newProp.setResource(res.data.resourcePath)
             })
 
@@ -103,7 +102,7 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
     }
 
     deleteResource(newProp: BackgroundImage) {
-        this.value.api.deleteCssStyleResource(<CssResource> <unknown>newProp).then((res) => {
+        this.value.api.deleteCssStyleResource(<CssResource><unknown>newProp).then((res) => {
             newProp.setResource(null)
             newProp.file = null
         })

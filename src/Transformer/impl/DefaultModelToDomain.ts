@@ -19,6 +19,8 @@ import PseudoClass from '../../PseudoSelector/PseudoClass';
 import PseudoElement from '~/src/PseudoSelector/PseudoElement';
 import HtmlAttrFactory from '~/src/Attribute/HtmlAttrFactory';
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
+import TagResource from '~/src/Css/TagResource';
+import ImgTag from '~/src/Layout/tag/ImgTag';
 export default class DefaultModelToDomain implements ModelToDomain
 {
     private htmlTagFactory: HtmlTagFactoryFromName
@@ -72,6 +74,18 @@ export default class DefaultModelToDomain implements ModelToDomain
             domain = this.htmlTagFactory.create(tagname)
             console.log('build domain', BaseMediaQueryComponent.accessorStatic)
             domain.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+
+            if (domain instanceof ImgTag) {
+                // model.setResourcePath()
+                // model.setResourceUrl(domain.getResourceUrl())
+
+                // @ts-ignore
+                domain.srcAttr.setResource(model.getResourcePath())
+                // @ts-ignore
+                domain.srcAttr.setResourceUrl(model.getResourceUrl())
+                
+            }
+        
 
             domain.uuid  = model.id
             domain.shortUUID  = model.shortUUID

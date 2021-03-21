@@ -1,3 +1,4 @@
+import HtmlAttrOwner from "../HtmlAttrOwner"
 
 export default class HtmlAttr
 {
@@ -5,11 +6,13 @@ export default class HtmlAttr
     protected _value: string
 
     active = false
+    protected _owner: HtmlAttrOwner
 
-    constructor(key, value)
+    constructor(key, value, owner)
     {
         this._key = key
         this._value = value
+        this._owner = owner
     }
 
     get key(): string
@@ -30,6 +33,12 @@ export default class HtmlAttr
     public setValue(arg)
     {
         this._value = arg
+
+    }
+    
+    public setOwner(arg)
+    {
+        this._owner = arg
 
     }
     

@@ -7,7 +7,7 @@ export default class CustomAttr extends HtmlAttr
 
     constructor(key, value)
     {
-        super(key, value)
+        super(key, value, null)
     }
 
     setKey(arg: string)

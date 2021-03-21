@@ -36,6 +36,10 @@ export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagRespo
         model.tagName = from.tagName
         model.version = from.version
         model.attrs = from.attrs
+
+        model.setResourcePath(from.resourcePath)
+        model.setResourceUrl(from.resourceUrl)
+        
         if (from.project) {
             model.projectId = from.project.id
 

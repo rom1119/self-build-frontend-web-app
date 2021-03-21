@@ -6,7 +6,7 @@ export default class RowspanAttr extends HtmlAttr
 
     constructor(value)
     {
-        super(RowspanAttr.NAME, value)
+        super(RowspanAttr.NAME, value, null)
     }
 
 }

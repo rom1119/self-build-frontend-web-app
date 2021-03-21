@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
 
         <div class="col-12 publications__pagination mt-4">
             <div class="row">

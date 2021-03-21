@@ -84,9 +84,11 @@ import SubscriberMediaAccessor from "../MediaQuery/SubscriberMediaAccessor";
 import LayoutCreatorModeComponent from "~/components/LayoutCreatorModeComponent.vue";
 import ViewMode from "~/src/Mode/impl/ViewMode";
 import EditMode from "~/src/Mode/impl/EditMode";
+import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
+import HtmlAttrOwner from "../HtmlAttrOwner";
 
 export default abstract class HtmlTag extends HtmlNode implements
-    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner
+    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner, HtmlAttrOwner
 {
     public isElementOfTable() {
         return false
@@ -202,6 +204,9 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
+    getUUID(): string {
+        return this.uuid
+    }
 
     setMediaQueryAccessor(value: MediaQueryAccessor<MediaQueryCss>) {
         this.cssListMediaOwner = new MediaQueryListOwner<HtmlTag>(this, value)
@@ -575,6 +580,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     public injectInitialSelectors()
     {
         let hover = new Hover(this)
+        hover.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
         // console.log('PPPP', border.getValue());
 
@@ -917,7 +923,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             // @ts-ignore
             if (this.layoutCreatorMode.mode.getName() === EditMode.NAME) {
                 // var a = this.layoutCreatorMode.mode
-                console.error('AAA')
+                // console.error('AAA')
                 if (cssName === TransitionCss.PROP_NAME) {
                     throw new Error('can not apply transition in EditMode')
                 }
