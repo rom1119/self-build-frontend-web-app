@@ -16,13 +16,11 @@ export default class TableTBody extends TableContainer {
     protected _innerText: string = `${this.uuid}  TableTBody`
     public static TAG_NAME = 'tbody'
     protected _parent: TableContainer
-    get parent(): TableContainer
-    {
+    get parent(): TableContainer {
         return this._parent
     }
 
-    set parent(arg: TableContainer)
-    {
+    set parent(arg: TableContainer) {
         this._parent = arg
     }
 
@@ -43,22 +41,20 @@ export default class TableTBody extends TableContainer {
 
 
 
-    public injectInitialCssStyles()
-    {
+    public injectInitialCssStyles() {
         // let border = new BorderGlobalCss('5', new Pixel())
         // border.setType('dotted')
         // border.setColor('orange', new Named())
 
         let width = new Width(100, new Percent())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
-        let backgroundColor = new BackgroundColor({r: 70, g:200, b: 70}, new RGB())
-        let cssList = [ width, boxSizing]
+        let backgroundColor = new BackgroundColor({ r: 70, g: 200, b: 70 }, new RGB())
+        let cssList = [width, boxSizing]
 
         this.addPropsToAccessor(cssList)
     }
 
-    get cssList() : any
-    {
+    get cssList(): any {
         var css = super.cssList
         var flex = new Display(Display.FLEX, new Named())
         var flexGrow = new FlexGrow(2, new Named())
@@ -71,9 +67,8 @@ export default class TableTBody extends TableContainer {
 
     }
 
-    get cssListOverride() : any
-    {
-        var activeSelector = this.selectedSelector()
+    get cssListOverride(): any {
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
@@ -92,8 +87,7 @@ export default class TableTBody extends TableContainer {
     }
 
 
-    get cssBoxList() : any
-    {
+    get cssBoxList(): any {
         var css = super.cssBoxList
         var flex = new Display(Display.FLEX, new Named())
         var flexGrow = new FlexGrow(2, new Named())
@@ -107,10 +101,9 @@ export default class TableTBody extends TableContainer {
         // return css
     }
 
-    get cssBoxListOverride() : any
-    {
+    get cssBoxListOverride(): any {
 
-        var activeSelector = this.selectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList

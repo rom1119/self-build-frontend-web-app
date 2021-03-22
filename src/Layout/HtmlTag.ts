@@ -708,7 +708,8 @@ export default abstract class HtmlTag extends HtmlNode implements
     public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
     {
         var activeSelector = this.selectedSelector
-
+        // console.log(activeSelector);
+        
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(propName, val)
             return

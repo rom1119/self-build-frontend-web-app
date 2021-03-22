@@ -29,7 +29,7 @@ import ColspanEditor from "~/src/Layout/tag/Table/editor/impl/ColspanEditor";
 import HtmlNode from "~/src/Layout/HtmlNode";
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 import TableElement from "~/src/Layout/tag/Table/elements/TableElement";
-import {Vue} from "~/node_modules/vue-property-decorator";
+import { Vue } from "~/node_modules/vue-property-decorator";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
 export default class TableTag extends TableContainer {
 
@@ -37,7 +37,7 @@ export default class TableTag extends TableContainer {
     public static TAG_NAME = 'table'
 
     children: TableContainer[]
-    isTableTag : boolean = true
+    isTableTag: boolean = true
 
 
     protected _columns: TableColumnEl[]
@@ -45,23 +45,23 @@ export default class TableTag extends TableContainer {
 
     protected colspanTableEditor: TableEditor
 
-    constructor(){
+    constructor() {
         super()
         this._columns = []
         this._rows = []
         this.colspanTableEditor = new ColspanEditor()
     }
 
-    get rows(){
+    get rows() {
         return this._rows
     }
 
 
-    get columns(){
+    get columns() {
         return this._columns
     }
 
-    set columns(arg){
+    set columns(arg) {
         this._columns = arg
     }
 
@@ -76,8 +76,7 @@ export default class TableTag extends TableContainer {
         return TableTag.TAG_NAME
     }
 
-    public calcContentHeight()
-    {
+    public calcContentHeight() {
         var height = 0
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
@@ -91,8 +90,7 @@ export default class TableTag extends TableContainer {
         return height
     }
 
-    public addChild(child: HtmlNode)
-    {
+    public addChild(child: HtmlNode) {
         super.addChild(child)
         // console.log('add child')
         // console.log(child)
@@ -101,7 +99,7 @@ export default class TableTag extends TableContainer {
 
     }
 
-    public updateRows(){
+    public updateRows() {
 
         // console.log('updateRows')
         var newRows = []
@@ -161,7 +159,7 @@ export default class TableTag extends TableContainer {
 
     }
 
-    public updateColumns(){
+    public updateColumns() {
 
         var newCols = []
         if (this.hasTrChild()) {
@@ -213,7 +211,7 @@ export default class TableTag extends TableContainer {
 
 
         Vue.nextTick(() => {
-            for(var el of this.columns){
+            for (var el of this.columns) {
                 // el.updateModelComponent()
                 // el.recalculateRealComputedProperties()
             }
@@ -221,8 +219,7 @@ export default class TableTag extends TableContainer {
 
     }
 
-    public getComputedVal(propName: string)
-    {
+    public getComputedVal(propName: string) {
         if (!this.getHtmlEl()) {
             // console.log('EL NOT')
             return 0
@@ -242,19 +239,18 @@ export default class TableTag extends TableContainer {
     }
 
     public changeAsActiveToManage() {
-                // this.updateModelComponent()
+        // this.updateModelComponent()
         this._toManage = true
 
-        for(var el of this.rows) {
+        for (var el of this.rows) {
             el.updateModelComponent()
         }
-        for(var col of this.columns) {
+        for (var col of this.columns) {
             col.updateModelComponent()
         }
     }
 
-    public setHeightSizeRow(child: TableCell, h)
-    {
+    public setHeightSizeRow(child: TableCell, h) {
 
         var index = this.recursiveFindTableRowIndexGlobal(child.shortUUID)
 
@@ -292,8 +288,7 @@ export default class TableTag extends TableContainer {
         return this.children[0] instanceof TableTr
     }
 
-    async appendRowDeep(child: TableTr, td: TableCell)
-    {
+    async appendRowDeep(child: TableTr, td: TableCell) {
         var body = this.getBodyTag()
         if (body) {
             await body.appendChildDeep(child)
@@ -350,8 +345,7 @@ export default class TableTag extends TableContainer {
         return newCell
     }
 
-    async appendColumn(childNew: TableCell)
-    {
+    async appendColumn(childNew: TableCell) {
         var body = this.getBodyTag()
         if (this.hasTrChild()) {
             for (const child of this.children) {
@@ -515,8 +509,8 @@ export default class TableTag extends TableContainer {
                     child.turnOnFlexGrow()
                     parent.turnOnFlexGrow()
                 }
-            } else if (child instanceof TableContainer ) {
-                this.updateHeightStylesForRowOnlyBody(child ,index)
+            } else if (child instanceof TableContainer) {
+                this.updateHeightStylesForRowOnlyBody(child, index)
             }
 
         }
@@ -541,8 +535,8 @@ export default class TableTag extends TableContainer {
                     child.turnOnFlexGrow()
                     parent.turnOnFlexGrow()
                 }
-            } else if (child instanceof TableTBody ) {
-                this.updateHeightStylesForRow(child ,index)
+            } else if (child instanceof TableTBody) {
+                this.updateHeightStylesForRow(child, index)
             }
 
         }
@@ -563,8 +557,8 @@ export default class TableTag extends TableContainer {
                 } else {
                     child.turnOnFlexGrow()
                 }
-            } else if (child instanceof TableTHead ) {
-                this.updateHeightStylesForRow(child ,index)
+            } else if (child instanceof TableTHead) {
+                this.updateHeightStylesForRow(child, index)
             }
 
         }
@@ -580,23 +574,23 @@ export default class TableTag extends TableContainer {
                 } else {
                     child.turnOnFlexGrow()
                 }
-            } else if (child instanceof TableTFoot ) {
-                this.updateHeightStylesForRow(child ,index)
+            } else if (child instanceof TableTFoot) {
+                this.updateHeightStylesForRow(child, index)
             }
 
         }
     }
 
-    public injectInitialCssStyles()
-    {
+    public injectInitialCssStyles() {
 
         let width = new MaxWidth(500, new Pixel())
         let minHeight = new Height(300, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
-        let backgroundColor = new BackgroundColor({r: 100, g:100, b: 100
+        let backgroundColor = new BackgroundColor({
+            r: 100, g: 100, b: 100
 
         }, new RGB())
-        let cssList = [ width, minHeight, boxSizing, backgroundColor]
+        let cssList = [width, minHeight, boxSizing, backgroundColor]
 
         this.addPropsToAccessor(cssList)
     }
@@ -606,7 +600,7 @@ export default class TableTag extends TableContainer {
 
         for (const prop of list) {
 
-            if (prop instanceof ColspanAttr ) {
+            if (prop instanceof ColspanAttr) {
 
                 this.colspanTableEditor.editTable(this)
                 continue
@@ -615,8 +609,7 @@ export default class TableTag extends TableContainer {
 
     }
 
-    recalculateRealComputedProperties()
-    {
+    recalculateRealComputedProperties() {
         var cssAll = this.cssAccessor.all
         var borderSpacing
         var borderCollapse
@@ -625,7 +618,7 @@ export default class TableTag extends TableContainer {
         }
         for (const prop of cssAll) {
 
-            if (prop instanceof Width || prop instanceof Height ) {
+            if (prop instanceof Width || prop instanceof Height) {
 
                 this.contentFilter.injectCssProperty(prop)
                 continue
@@ -729,7 +722,7 @@ export default class TableTag extends TableContainer {
         }
     }
 
-    protected setMarginAllRows( children , valUnit: UnitSize, val: number) {
+    protected setMarginAllRows(children, valUnit: UnitSize, val: number) {
         for (var i = 0; i < children.length; i++) {
             var child = children[i]
 
@@ -767,13 +760,11 @@ export default class TableTag extends TableContainer {
         }
     }
 
-    recalculateBorderSpacingX(valUnit: UnitSize, val: number)
-    {
+    recalculateBorderSpacingX(valUnit: UnitSize, val: number) {
         this.setMarginXAllCells(this.children, valUnit, val)
     }
 
-    recalculateBorderSpacingY(valUnit: UnitSize, val: number)
-    {
+    recalculateBorderSpacingY(valUnit: UnitSize, val: number) {
 
         this.setMarginAllRows(this.children, valUnit, val)
         var lastColumn = this.findLastRow()
@@ -784,8 +775,7 @@ export default class TableTag extends TableContainer {
         }
     }
 
-    get cssList() : any
-    {
+    get cssList(): any {
         var css = super.cssList
 
         var flex = new Display(Display.FLEX, new Named())
@@ -801,9 +791,8 @@ export default class TableTag extends TableContainer {
 
     }
 
-    get cssListOverride() : any
-    {
-        var activeSelector = this.selectedSelector()
+    get cssListOverride(): any {
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
@@ -824,8 +813,7 @@ export default class TableTag extends TableContainer {
 
     }
 
-    get cssBoxList() : any
-    {
+    get cssBoxList(): any {
         var css = super.cssBoxList
         var flex = new Display(Display.FLEX, new Named())
         css[flex.getName()] = flex.getValue()
@@ -840,10 +828,9 @@ export default class TableTag extends TableContainer {
         // return css
     }
 
-    get cssBoxListOverride() : any
-    {
+    get cssBoxListOverride(): any {
 
-        var activeSelector = this.selectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList

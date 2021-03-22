@@ -23,7 +23,7 @@ export default abstract class TableCell extends HtmlTagBlock {
     protected _innerText: string = `${this.uuid}  TableTd`
     protected hasFlexGrow = true
     hasMiddleTag: boolean = true
-    isTableCellTag : boolean = true
+    isTableCellTag: boolean = true
 
     protected _parent: TableTr
     protected _columnElement: TableColumnEl
@@ -41,11 +41,11 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     }
 
-    get columnElement(): TableColumnEl{
+    get columnElement(): TableColumnEl {
         return this._columnElement
     }
 
-    set columnElement(arg: TableColumnEl){
+    set columnElement(arg: TableColumnEl) {
         var w = this.cssAccessor.getProperty(Width.PROP_NAME)
         if (w) {
             arg.updateCssPropertyWithoutModel(w.getName(), w)
@@ -54,11 +54,11 @@ export default abstract class TableCell extends HtmlTagBlock {
         this._columnElement = arg
     }
 
-    get rowElement(): TableRowEl{
+    get rowElement(): TableRowEl {
         return this._rowElement
     }
 
-    set rowElement(arg: TableRowEl){
+    set rowElement(arg: TableRowEl) {
         var w = this.parent.cssAccessor.getProperty(Height.PROP_NAME)
         if (w) {
             arg.updateCssPropertyWithoutModel(w.getName(), w)
@@ -122,13 +122,11 @@ export default abstract class TableCell extends HtmlTagBlock {
         this.hasFlexGrow = false
     }
 
-    get parent(): TableTr
-    {
+    get parent(): TableTr {
         return this._parent
     }
 
-    set parent(arg: TableTr)
-    {
+    set parent(arg: TableTr) {
         this._parent = arg
     }
 
@@ -154,8 +152,7 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     }
 
-    public initWidth(w)
-    {
+    public initWidth(w) {
         this.toInitSizeUnits()
         // console.log(w);
         // console.log(h);
@@ -184,8 +181,7 @@ export default abstract class TableCell extends HtmlTagBlock {
         return css
     }
 
-    get cssList() : any
-    {
+    get cssList(): any {
         var css = super.cssList
         var minHeight = new MinHeight(100, new Percent())
         css[minHeight.getName()] = minHeight.getValue()
@@ -215,9 +211,8 @@ export default abstract class TableCell extends HtmlTagBlock {
 
 
 
-    get cssListOverride() : any
-    {
-        var activeSelector = this.selectedSelector()
+    get cssListOverride(): any {
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
@@ -248,8 +243,7 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     }
 
-    get cssBoxList() : any
-    {
+    get cssBoxList(): any {
         var css = super.cssBoxList
 
         var minHeight = new MinHeight(100, new Percent())
@@ -269,8 +263,8 @@ export default abstract class TableCell extends HtmlTagBlock {
         css[display.getName()] = display.getValue()
 
 
-            // var flexBasis = new FlexBasis(10, new Percent())
-            // css[flexBasis.getName()] = flexBasis.getValue()
+        // var flexBasis = new FlexBasis(10, new Percent())
+        // css[flexBasis.getName()] = flexBasis.getValue()
         if (this.hasFlexGrow) {
 
             var flexGrow = new FlexGrow(2, new Named())
@@ -286,10 +280,9 @@ export default abstract class TableCell extends HtmlTagBlock {
         // return css
     }
 
-    get cssBoxListOverride() : any
-    {
+    get cssBoxListOverride(): any {
 
-        var activeSelector = this.selectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList
@@ -325,8 +318,7 @@ export default abstract class TableCell extends HtmlTagBlock {
         return {}
     }
 
-    public injectInitialCssStyles()
-    {
+    public injectInitialCssStyles() {
         let border = new BorderGlobalCss('5', new Pixel())
         border.setType('solid')
         border.setColor('green', new Named())
@@ -334,7 +326,7 @@ export default abstract class TableCell extends HtmlTagBlock {
         let width = new Width(20, new Percent())
         let minHeight = new MinHeight(100, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
-        let backgroundColor = new BackgroundColor({r: 70, g:200, b: 200}, new RGB())
+        let backgroundColor = new BackgroundColor({ r: 70, g: 200, b: 200 }, new RGB())
         let p = new PaddingCss(10, new Pixel())
 
         let cssList = [width, minHeight, boxSizing, backgroundColor, p, border]

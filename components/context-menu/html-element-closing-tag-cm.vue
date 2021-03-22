@@ -222,10 +222,10 @@ export default class HtmlElementContextMenu extends Vue {
 
         }
 
+        el.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
         el.injectInitialCssStyles()
         el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
-        el.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
 
         if (this.value) {

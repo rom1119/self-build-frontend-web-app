@@ -50,7 +50,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
     }
 
 
-    protected recursiveFindTableColumnIndex(shortUUID) : number {
+    protected recursiveFindTableColumnIndex(shortUUID): number {
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
             var res
@@ -78,8 +78,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
 
 
-    public initHeight(h)
-    {
+    public initHeight(h) {
         this.toInitSizeUnits()
         // console.log(w);
         // console.log(h);
@@ -105,22 +104,21 @@ export default abstract class TableContainer extends HtmlTagBlock {
         }
     }
 
-    public injectInitialCssStyles()
-    {
+    public injectInitialCssStyles() {
 
         let width = new MaxWidth(500, new Pixel())
         let minHeight = new Height(300, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
-        let backgroundColor = new BackgroundColor({r: 100, g:100, b: 100
+        let backgroundColor = new BackgroundColor({
+            r: 100, g: 100, b: 100
 
         }, new RGB())
-        let cssList = [ width, minHeight, boxSizing, backgroundColor]
+        let cssList = [width, minHeight, boxSizing, backgroundColor]
 
         this.addPropsToAccessor(cssList)
     }
 
-    get cssList() : any
-    {
+    get cssList(): any {
         var css = super.cssList
         var flex = new Display(Display.FLEX, new Named())
         css[flex.getName()] = flex.getValue()
@@ -131,9 +129,8 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
     }
 
-    get cssListOverride() : any
-    {
-        var activeSelector = this.selectedSelector()
+    get cssListOverride(): any {
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
@@ -150,8 +147,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
     }
 
 
-    get cssBoxList() : any
-    {
+    get cssBoxList(): any {
         var css = super.cssBoxList
         var flex = new Display(Display.FLEX, new Named())
         css[flex.getName()] = flex.getValue()
@@ -161,10 +157,9 @@ export default abstract class TableContainer extends HtmlTagBlock {
         // return css
     }
 
-    get cssBoxListOverride() : any
-    {
+    get cssBoxListOverride(): any {
 
-        var activeSelector = this.selectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList

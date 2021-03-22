@@ -60,9 +60,9 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
 
     }
 
-    public selectedSelector()
+    get selectedSelector()
     {
-        return this.owner.selectedSelector()
+        return this.owner.selectedSelector
     }
 
     public synchronize()

@@ -22,13 +22,11 @@ export default class TableTHead extends TableContainer {
     public static TAG_NAME = 'thead'
 
     protected _parent: TableContainer
-    get parent(): TableContainer
-    {
+    get parent(): TableContainer {
         return this._parent
     }
 
-    set parent(arg: TableContainer)
-    {
+    set parent(arg: TableContainer) {
         this._parent = arg
     }
 
@@ -50,8 +48,7 @@ export default class TableTHead extends TableContainer {
 
 
 
-    public injectInitialCssStyles()
-    {
+    public injectInitialCssStyles() {
         let border = new BorderGlobalCss('5', new Pixel())
         border.setType('dotted')
         border.setColor('blue', new Named())
@@ -59,15 +56,14 @@ export default class TableTHead extends TableContainer {
         let width = new Width(100, new Percent())
         // let height = new Height(50, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
-        let backgroundColor = new BackgroundColor({r: 200, g:70, b: 70}, new RGB())
-        let cssList = [ width,  boxSizing]
+        let backgroundColor = new BackgroundColor({ r: 200, g: 70, b: 70 }, new RGB())
+        let cssList = [width, boxSizing]
 
         this.addPropsToAccessor(cssList)
     }
 
 
-    get cssList() : any
-    {
+    get cssList(): any {
         var css = super.cssList
         var flex = new Display(Display.FLEX, new Named())
         css[flex.getName()] = flex.getValue()
@@ -76,9 +72,8 @@ export default class TableTHead extends TableContainer {
 
     }
 
-    get cssListOverride() : any
-    {
-        var activeSelector = this.selectedSelector()
+    get cssListOverride(): any {
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
@@ -93,8 +88,7 @@ export default class TableTHead extends TableContainer {
     }
 
 
-    get cssBoxList() : any
-    {
+    get cssBoxList(): any {
         var css = super.cssBoxList
         var flex = new Display(Display.FLEX, new Named())
         css[flex.getName()] = flex.getValue()
@@ -111,10 +105,9 @@ export default class TableTHead extends TableContainer {
         // return css
     }
 
-    get cssBoxListOverride() : any
-    {
+    get cssBoxListOverride(): any {
 
-        var activeSelector = this.selectedSelector()
+        var activeSelector = this.selectedSelector
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList
