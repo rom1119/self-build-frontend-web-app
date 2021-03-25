@@ -13,6 +13,7 @@ import CssListAndMediaQueryAccessor from "~/src/Css/PropertyAccessor/mediaQuery/
 import CssResource from '~/src/Css/CssResource';
 import TagResource from '~/src/Css/TagResource';
 import ImgTag from '~/src/Layout/tag/ImgTag';
+import SvgTag from '~/src/Layout/tag/SvgTag';
 export default class DefaultDomainToModel implements DomainToModel
 {
 
@@ -36,12 +37,15 @@ export default class DefaultDomainToModel implements DomainToModel
 
             if (domain instanceof Input) {
                 model.text = domain.text
-
+                
+            }
+            if (domain instanceof SvgTag) {
+                model.setSvgContent(domain.getSvgContent())
             }
 
             if (domain instanceof ImgTag) {
                 model.setResourcePath(domain.srcAttr.getResource())
-                model.setResourceUrl(domain.srcAttr.getResourceUrl().length > 0 ? domain.srcAttr.getResourceUrl() : null )
+                model.setResourceUrl(domain.srcAttr.getResourceUrl() )
                 
             }
             

@@ -14,6 +14,7 @@ import TableTh from './tag/Table/TableTh';
 import TableTr from './tag/Table/TableTr';
 import NormalTableTag from './tag/Table/impl/NormalTableTag';
 import ImgTag from './tag/ImgTag';
+import SvgTag from './tag/SvgTag';
 export default class HtmlTagFactory {
 
     api: ApiService
@@ -58,6 +59,13 @@ export default class HtmlTagFactory {
     
     createImage() {
         let el = new ImgTag()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createSvg() {
+        let el = new SvgTag()
         el.setApi(this.api)
 
         return el

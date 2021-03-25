@@ -8,6 +8,7 @@ import LoadingDialog from '~/components/LoadingDialog'
 import ConfirmDialog from '../components/ConfirmDialog'
 import TextManageModal from '~/components/modal/TextManageModal.vue'
 import ImgManageModal from '~/components/modal/ImgManageModal.vue'
+import SvgManageModal from '~/components/modal/SvgManageModal.vue'
 import BackgroundManageModal from '~/components/modal/BackgroundManageModal.vue'
 import BorderManageModal from '~/components/modal/BorderManageModal.vue'
 import BoxModelManageModal from '~/components/modal/BoxModelManageModal.vue'
@@ -31,6 +32,7 @@ declare module 'vue/types/vue' {
         $textManageModal: TextManageModal,
 
         $imgManageModal: ImgManageModal,
+        $svgManageModal: SvgManageModal,
         $backgroundManageModal: BackgroundManageModal,
         $borderManageModal: BorderManageModal,
         $boxModelManageModal: BoxModelManageModal,

@@ -39,6 +39,7 @@ export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagRespo
 
         model.setResourcePath(from.resourcePath)
         model.setResourceUrl(from.resourceUrl)
+        model.setSvgContent(from.svgContent)
         
         if (from.project) {
             model.projectId = from.project.id

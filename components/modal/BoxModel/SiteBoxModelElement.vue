@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template >
 
     <div :class="allClass" 
         @dblclick.stop="customHasProp === true ? customHasProp = false : customHasProp = true"
@@ -27,150 +27,127 @@
 </template>
 
 <script lang="ts">
-    import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
-    import 'vue-cal/dist/vuecal.css'
-    import moment from 'moment'
-    import {Pagination} from "~/types/Pagination";
-  
+import { Component, Watch, Vue, Prop } from "vue-property-decorator";
+import "vue-cal/dist/vuecal.css";
+import moment from "moment";
+import { Pagination } from "~/types/Pagination";
 
-    @Component
-    export default class SiteBoxModelElement extends Vue {
-        
-        timeout
-        // value: HtmlTag
-        DEFAULT_FONT_SIZE = 20
-        @Prop({default:false, required:false})
-        globalEl
-        
-        @Prop({default:false, required:false})
-        setPropAuto
-        
-        @Prop({default:null, required:false})
-        onClickPropAuto
-        
-        @Prop({default:null, required:false})
-        propAuto
-        
-        @Prop({default:null, required:true})
-        hasProperty
-        
-        @Prop({default:null, required:true})
-        property
-        
-        @Prop({default:null, required:true})
-        propertyUnit
+@Component
+export default class SiteBoxModelElement extends Vue {
+  timeout;
+  // value: HtmlTag
+  DEFAULT_FONT_SIZE = 20;
+  @Prop({ default: false, required: false })
+  globalEl;
 
-        @Prop({default:null, required:true})
-        contextMenuName
-        
-        @Prop({default:null, required:true})
-        classList: string[]
+  @Prop({ default: false, required: false })
+  setPropAuto;
 
-        cmName = Math.floor(Math.random() * 1000000000).toString() + 'asd'
+  @Prop({ default: null, required: false })
+  onClickPropAuto;
 
-        mounted() 
-        {
-            // console.log(this.contextMenuName);
-            // console.log(this.cmName);
-            
-        }
+  @Prop({ default: null, required: false })
+  propAuto;
 
-        clickAutoBtn()
-        {
-            this.$emit('clickAuto')
-        }
+  @Prop({ default: null, required: true })
+  hasProperty;
 
-        get contextID()
-        {
-            return this.cmName
-        }
+  @Prop({ default: null, required: true })
+  property;
 
+  @Prop({ default: null, required: true })
+  propertyUnit;
 
-        get allClass()
-        {
-            var res = this.classList
-            if (this.hasProperty) {
-                if (this.globalEl) {
-                    res.push('active-global')
+  @Prop({ default: null, required: true })
+  contextMenuName;
 
-                } else {
-                    res.push('active')
+  @Prop({ default: null, required: true })
+  classList: string[];
 
-                }
-            }
+  cmName = Math.floor(Math.random() * 1000000000).toString() + "asd";
 
-            return res
-        }
+  mounted() {
+    // console.log(this.contextMenuName);
+    // console.log(this.cmName);
+  }
 
+  clickAutoBtn() {
+    this.$emit("clickAuto");
+  }
 
-        get customHasProp()
-        {
-            return this.hasProperty
-        }
+  get contextID() {
+    return this.cmName;
+  }
 
-        set customHasProp(val)
-        {
-            this.$emit('changeHasProp', val)
-        }
-
-        get customProp()
-        {
-            return this.property
-        }
-
-        set customProp(val)
-        {
-            this.$emit('changeProp', val)
-        }
-        
-        get customPropUnit()
-        {
-            return this.propertyUnit
-        }
-
-        set customPropUnit(val)
-        {
-            if (val) {
-                this.$emit('changePropUnit', val)
-
-            }
-        }
-        
-        @Watch('pagination.page', {deep: false, immediate: false})
-        async onPaginationChange(e)
-        {
-           
-        }
-
+  get allClass() {
+    var res = this.classList;
+    if (this.hasProperty) {
+      if (this.globalEl) {
+        res.push("active-global");
+      } else {
+        res.push("active");
+      }
     }
+
+    return res;
+  }
+
+  get customHasProp() {
+    return this.hasProperty;
+  }
+
+  set customHasProp(val) {
+    this.$emit("changeHasProp", val);
+  }
+
+  get customProp() {
+    return this.property;
+  }
+
+  set customProp(val) {
+    this.$emit("changeProp", val);
+  }
+
+  get customPropUnit() {
+    return this.propertyUnit;
+  }
+
+  set customPropUnit(val) {
+    if (val) {
+      this.$emit("changePropUnit", val);
+    }
+  }
+
+  @Watch("pagination.page", { deep: false, immediate: false })
+  async onPaginationChange(e) {}
+}
 </script>
 
-<style lang="scss" scoped> 
-    .disabled {
-        opacity: 0.6;
-    }
-    .auto-prop {
-        background-color: red;
-        padding: 5px;
-        // margin-left: 3px;
-        border-radius: 5px;
-    }
-    .green-bg {
-        background-color: greenyellow;
+<style lang="scss" scoped>
+.disabled {
+  opacity: 0.6;
+}
+.auto-prop {
+  background-color: red;
+  padding: 5px;
+  // margin-left: 3px;
+  border-radius: 5px;
+}
+.green-bg {
+  background-color: greenyellow;
+}
+// .rel {
+//     position: relative;
+// }
 
-    }
-    // .rel {
-    //     position: relative;
-    // }
+// .h-550 {
+//     height: 550px;
+// }
+// .w-400 {
+//     width: 400px;
+// }
 
-    // .h-550 {
-    //     height: 550px;
-    // }
-    // .w-400 {
-    //     width: 400px;
-    // }
-    
-    // .h-400 {
-    //     height: 400px;
-    // }
+// .h-400 {
+//     height: 400px;
+// }
 </style>

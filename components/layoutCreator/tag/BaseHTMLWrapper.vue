@@ -197,6 +197,7 @@ import { PositionCss } from "../../../src/Css";
 import TextNode from "~/src/Layout/TextNode";
 import HtmlNode from "~/src/Layout/HtmlNode";
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
+import SvgTag from "~/src/Layout/tag/SvgTag";
 
 
 @Component
@@ -243,6 +244,10 @@ export default class BaseHTMLWrapper extends Vue {
     }
 
     get tagName(){
+        if (this.value instanceof SvgTag) {
+            return 'div'
+
+        }
         if (this.value.isClosingTag) {
             return this.value.getTagName()
         }
@@ -567,10 +572,10 @@ export default class BaseHTMLWrapper extends Vue {
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
         // return
-        console.log('CREA - COMP - BASE')
-        console.log(BaseMediaQueryComponent.accessorStatic)
+        // console.log('CREA - COMP - BASE')
+        // console.log(BaseMediaQueryComponent.accessorStatic)
 
-        this.value.layoutCreatorMode = this.$layoutCreatorMode
+        // this.value.layoutCreatorMode = this.$layoutCreatorMode
         this.value.setHtmlEl(this.$el)
         this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
 

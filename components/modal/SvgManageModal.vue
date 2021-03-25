@@ -1,41 +1,36 @@
 <template>
 
-    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :tag="value">
+    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" width="1000px" :tag="value">
     
         <template slot="header">
             <div class="close">
                 <button @click="close($event)">X</button>
             </div>
             <h4>
-                Zdjęcie
+                Kreator SVG
             </h4>
         </template>
         <template slot="content">
+            <svg-builder ref="svgBuilder" v-if="value" @changeSvg="onChangeSvg" :value="value.svgContent" />
             <div class="content-item__elem_container ">
             
-                <div class="content-item-half">
+                <div class="content-item">
                     <h4 class="content-item__header">
+                        Treść SVG
                     </h4>
-                    <div class=" content-item">
-                        
-                        <input type="file" id="imgFile" @change="previewThumbnail($event);" accept="image/*" class="input-file">  
-                        <div>
-                            <button v-if="imgSrcManager.getAttr().resource" @click.stop="deleteResource" type="button">
-                                Usuń zasób
-                            </button>
-                            <img v-if="imgAttr.resource"  :src="imgAttr.resource" alt="" width="200" height="200">
-                            <img v-else :src="imgSrcManager.getAttr().resourceUrl" alt="" width="200" height="200">
-
-                        </div>
-                    </div>
-                    <div class=" content-item" v-if="!imgSrcManager.getAttr().resource">
-                        <label for="">
+                    
+                    <div class=" content-item" >
+                        <label style="width: 100%;">
                             Link do zewnętrznego zasobu
                             
-                            <input type="text" style="width: 100%;" @change="updateBackgroundImage" v-model="imgSrcManager.getAttr().resourceUrl" />
+                            <textarea style="width: 100%; height: 300px;" @input="inputSvgContent"  v-model="svgContenComp" >
+
+                            </textarea>
                         </label>
                     </div>
                 </div> 
+
+                
             </div>  
             
         </template>
@@ -77,12 +72,15 @@ import UnitColor from '../../src/Unit/UnitColor';
 import FileInput from '../forms/FileInput.vue';
 import { BackgroundRepeat, BackgroundAttachment } from '~/src/Css';
 import BackgroundImageProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundImageProperty';
-import ImgModal from '../ImgModal';
+import SvgModal from '../SvgModal';
 import SrcManager from '../computedPropertyManagers/htmlAttr/SrcManager';
 import DomainResource from '~/src/Css/DomainResource';
 import TagResource from '~/src/Css/TagResource';
 import ImgTag from '~/src/Layout/tag/ImgTag';
 import SrcAttr from '~/src/Attribute/html/SrcAttr';
+import SvgTag from '~/src/Layout/tag/SvgTag';
+import SvgBuilder from '~/components/fabricjs/SvgBuilder.vue';
+import { fabric } from 'fabric';
 
 // let Chrome = ColourPicker.Chrome
 
@@ -95,16 +93,27 @@ interface Color {
     rgba: colorObject
 }
 
-    @Component
-    export default class ImgManageModal extends ImgModal {
+    @Component(
+        {
+            components: {
+                SvgBuilder
+            }
+        }
+    )
+    export default class SvgManageModal extends SvgModal {
         
         timeout
         imgEl
         // value: HtmlTag
         colour = '#fff'
 
+        $refs : {
+            svgBuilder: SvgBuilder
+        }
         file: File
         idName = 'text-property-modal'
+
+        canvas
 
         created() {
             this.imgEl = document.getElementById('product-image')
@@ -115,81 +124,66 @@ interface Color {
             return this.idName
         }
 
+        inputSvgContent() {
+            this.$refs.svgBuilder.updateSvg(this.svgContenComp)
+        }
+
         async mounted()
         {
-            
+            // this.canvas = new fabric.Canvas('svg-editor');
+
+            // // create a rectangle object
+            // var rect = new fabric.Rect({
+            // left: 100,
+            // top: 100,
+            // fill: 'red',
+            // width: 20,
+            // height: 20
+            // });
+
+            // // "add" rectangle onto canvas
+            // this.canvas.add(rect);
         }
+
+
+
 
         onChangePseudoSelector()
         {
             this.reinitManagers()
         }
 
+        onChangeSvg(e){
+            this.svgContenComp = e
+        }
         
-        
-        get imgAttr(): SrcAttr
+        get svgContenComp()
         {
-            return this.imgSrcManager.attr
+            return this.svgContent
 
         }
         
-        set imgAttr(newVal: SrcAttr)
+        set svgContenComp(newVal)
         {   
-            let base64Img = newVal
-            let color = new UnitUrl()
-            console.log(123456);
+            // let base64Img = newVal
+            // let color = new UnitUrl()
+            // console.log(123456);
 
             // this.setPropertyToModel(new BackgroundImage(base64Img, color)) 
             // this.imgAttrManager.getProperty().setResource(base64Img)
-            (<TagResource><unknown>this.imgSrcManager.attr).file = this.file
-            // this.backgroundImageManager.getqProperty().setValue(base64Img)
+            (<SvgTag><unknown>this.value).svgContent = newVal
+            this.svgContent = newVal
 
-            // @ts-ignore
-            this.imgSrcManager.updateResource(this.imgSrcManager.getHtmlTag())
-        }
+            this.value.synchronize()
 
-        deleteResource()
-        {
-            
-            (<SrcManager><unknown>(this.imgSrcManager)).deleteResource()
-
-        }
-
-        updateBackgroundImage()
-        {
-            console.log(this.value);
-            (<SrcManager><unknown>(this.imgSrcManager)).updateResource()
+            // this.value.updateModelComponent()
+        
         }
 
 
-       
-
-        previewThumbnail (event) {
-          var input = event.target
-          var that = this
-        //   this.formData.file = event.target.files[0]
-          console.log(event.target.files)
-          if (input.files && input.files[0]) {
-              this.file = input.files[0]
-              console.log(event);
-              console.log(event.target);
-              console.log(event.target.files[0]);
-              
-            var reader = new FileReader()
-            reader.onload = function (e) {
-                // @ts-ignore
-              that.imgAttr = e.target.result
-              // el.imgUrl = e.target.result
-            //   console.log(el)
-//              $('#logo-demo').attr('src', e.target.result)
-            }
-            reader.readAsDataURL(input.files[0])
-          }
-        }
         
         
         
-        // private setPropUnit(newVal, prop: BasePropertyCss){
         //     if (!prop.isActive()) {
         //         return
         //     }

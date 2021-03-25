@@ -22,6 +22,7 @@
                     <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
                     <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
                     <context-menu-item :action="createImgElement">Dodaj Obrazek</context-menu-item>
+                    <context-menu-item :action="createSvgElement">Dodaj SVG</context-menu-item>
                     <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
 
 
@@ -37,6 +38,7 @@
         <context-menu-item :action="createText">Dodaj tekst</context-menu-item>
 
         <context-menu-item v-if="isImgTag" :action="showImageModal">Grafika obrazka</context-menu-item>
+        <context-menu-item v-if="isSvgTag" :action="showSvgModal">SVG</context-menu-item>
 
         <template v-if="isHtmlTag">
             <context-menu-item :action="showTextCssModal">Font</context-menu-item>
@@ -64,6 +66,8 @@ import TableComponentFactory from '~/src/Layout/TableComponentFactory';
 import TableTag from '~/src/Layout/tag/Table/TableTag';
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import ImgTag from '~/src/Layout/tag/ImgTag';
+import SvgManageModal from '../modal/SvgManageModal.vue';
+import SvgTag from '~/src/Layout/tag/SvgTag';
 
 @Component
 export default class HtmlElementContextMenu extends Vue {
@@ -79,6 +83,7 @@ export default class HtmlElementContextMenu extends Vue {
     isTableTag = false
     isHtmlTag = false
     isImgTag = false
+    isSvgTag = false
 
     mounted() {
         // console.log(this.value.uuid);
@@ -103,6 +108,7 @@ export default class HtmlElementContextMenu extends Vue {
         this.isTableTag = this.value instanceof TableTag
         this.isHtmlTag = this.value instanceof HtmlTag
         this.isImgTag = this.value instanceof ImgTag
+        this.isSvgTag = this.value instanceof SvgTag
         // console.log("initOpen");
         // console.log(this.isTableTag);
         // console.log(this.isHtmlTag);
@@ -239,6 +245,14 @@ export default class HtmlElementContextMenu extends Vue {
         this.$emit('createdTag', el)
     }
 
+    createSvgElement()
+    {
+        var el = this.htmlFactory.createSvg()
+        this.initCreatedTag(el)
+        this.$svgManageModal.show(el)
+
+    }
+
     createImgElement()
     {
         var el = this.htmlFactory.createImage()
@@ -257,6 +271,11 @@ export default class HtmlElementContextMenu extends Vue {
         this.value.appendChildDeep(text)
     }
 
+    showSvgModal()
+    {
+        this.$svgManageModal.show(this.value)
+    }
+    
     showImageModal()
     {
         this.$imgManageModal.show(this.value)

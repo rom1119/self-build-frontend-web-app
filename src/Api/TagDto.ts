@@ -23,6 +23,22 @@ export default class TagDto extends AggregateRoot
     _resourceUrl
 
 
+    _svgContent
+
+
+
+    public setSvgContent(val)
+    {
+        this._svgContent = val
+    }
+
+
+    public getSvgContent(): string
+    {
+        return this._svgContent
+
+    }
+
     public setResourcePath(val)
     {
         this._resourcePath = val

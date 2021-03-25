@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template >
 
     <div :class="allClass" 
         @dblclick.stop="property.active === true ? deactivate() : activate()"
@@ -40,165 +40,137 @@
 </template>
 
 <script lang="ts">
-    import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
-    import 'vue-cal/dist/vuecal.css'
-    import moment from 'moment'
-    import {Pagination} from "~/types/Pagination";
-    import BaseBorderCss from '../../../src/Css/Border/BaseBorderCss';
-    import BoxModelModal from '~/components/BoxModelModal';
-    import BorderComputedPropertyManager from '../../computedPropertyManagers/impl/BorderComputedPropertyManager';
-    import BaseMarginCss from '~/src/Css/BoxModel/BaseMarginCss';
-  import { Chrome }  from '~/node_modules/vue-color';
-import { RGBA, Pixel, Percent, EM, REM, VW, VH } from '../../../src/Unit';
-import BaseBorderRadiusCss from '~/src/Css/Border/BaseBorderRadiusCss';
+import { Component, Watch, Vue, Prop } from "vue-property-decorator";
+import "vue-cal/dist/vuecal.css";
+import moment from "moment";
+import { Pagination } from "~/types/Pagination";
+import BaseBorderCss from "../../../src/Css/Border/BaseBorderCss";
+import BoxModelModal from "~/components/BoxModelModal";
+import BorderComputedPropertyManager from "../../computedPropertyManagers/impl/BorderComputedPropertyManager";
+import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
+import { Chrome } from "~/node_modules/vue-color";
+import { RGBA, Pixel, Percent, EM, REM, VW, VH } from "../../../src/Unit";
+import BaseBorderRadiusCss from "~/src/Css/Border/BaseBorderRadiusCss";
 
+@Component({
+  components: {
+    Chrome,
+  },
+})
+export default class BorderSiteModelElement extends Vue {
+  timeout;
+  // value: HtmlTag
+  DEFAULT_FONT_SIZE = 20;
+  @Prop({ default: false, required: false })
+  globalEl;
 
-    @Component({
-        components: {
-            Chrome
-        }
-    })
-    export default class BorderSiteModelElement extends Vue {
-        
-        timeout
-        // value: HtmlTag
-        DEFAULT_FONT_SIZE = 20
-        @Prop({default:false, required:false})
-        globalEl
-        
-        @Prop({default:null, required:true})
-        property: BaseBorderRadiusCss
+  @Prop({ default: null, required: true })
+  property: BaseBorderRadiusCss;
 
-        @Prop({default:null, required:true})
-        contextMenuName
-        
-        @Prop({default:null, required:true})
-        classList: string[]
+  @Prop({ default: null, required: true })
+  contextMenuName;
 
-        cmName = Math.floor(Math.random() * 1000000000).toString() + 'asd'
+  @Prop({ default: null, required: true })
+  classList: string[];
 
-        hasBorderRadius = false
-        borderRadius = 0
-        borderRadiusUnit = 0
-        sizeUnits = []
-        tabActive = false
+  cmName = Math.floor(Math.random() * 1000000000).toString() + "asd";
 
-        mounted() 
-        {
+  hasBorderRadius = false;
+  borderRadius = 0;
+  borderRadiusUnit = 0;
+  sizeUnits = [];
+  tabActive = false;
 
-            this.sizeUnits.push(new Pixel())
-            this.sizeUnits.push(new Percent())
-            this.sizeUnits.push(new EM())
-            this.sizeUnits.push(new REM())
-            this.sizeUnits.push(new VW())
-            this.sizeUnits.push(new VH())
-            // console.log(this.property);
-            // console.log(this.cmName);
-            
-        }
+  mounted() {
+    this.sizeUnits.push(new Pixel());
+    this.sizeUnits.push(new Percent());
+    this.sizeUnits.push(new EM());
+    this.sizeUnits.push(new REM());
+    this.sizeUnits.push(new VW());
+    this.sizeUnits.push(new VH());
+    // console.log(this.property);
+    // console.log(this.cmName);
+  }
 
-        onChange(val)
-        {
-            console.log('change');
-            
-            this.$emit('change')
-            
-        }
+  onChange(val) {
+    console.log("change");
 
+    this.$emit("change");
+  }
 
+  toggleTab() {
+    this.tabActive = !this.tabActive;
+  }
 
-        toggleTab()
-        {
-            this.tabActive = !this.tabActive
-        }
+  get contextID() {
+    return this.cmName;
+  }
 
-
-        get contextID()
-        {
-            return this.cmName
-        }
-
-
-        get allClass()
-        {
-            var res = this.classList
-            if (this.property.isActive()) {
-                if (this.globalEl) {
-                    res.push('active-global')
-
-                } else {
-                    res.push('active')
-
-                }
-            }
-
-            return res
-        }
-
-
-       activate()
-       {
-           this.property.setActive(true)
-        //    if (this.globalEl) {
-        //        this.borderManager.activePropCss(this.property)
-        //         this.borderManager.updateDirections()
-
-
-        //    } else {
-        //        this.borderManager.activePropCss(this.property)
-
-        //    }
-       }
-       
-       deactivate()
-       {
-        //    this.property.setActive(false)
-        //    if (this.globalEl) {
-        //        this.borderManager.deactiveGlobalPropCss(this.property)
-        //         this.borderManager.updateDirections()
-
-
-        //    } else {
-        //        this.borderManager.deactivePropCss(this.property)
-
-        //    }
-       }
-        
-        @Watch('pagination.page', {deep: false, immediate: false})
-        async onPaginationChange(e)
-        {
-           
-        }
-
+  get allClass() {
+    var res = this.classList;
+    if (this.property.isActive()) {
+      if (this.globalEl) {
+        res.push("active-global");
+      } else {
+        res.push("active");
+      }
     }
+
+    return res;
+  }
+
+  activate() {
+    this.property.setActive(true);
+    //    if (this.globalEl) {
+    //        this.borderManager.activePropCss(this.property)
+    //         this.borderManager.updateDirections()
+
+    //    } else {
+    //        this.borderManager.activePropCss(this.property)
+
+    //    }
+  }
+
+  deactivate() {
+    //    this.property.setActive(false)
+    //    if (this.globalEl) {
+    //        this.borderManager.deactiveGlobalPropCss(this.property)
+    //         this.borderManager.updateDirections()
+    //    } else {
+    //        this.borderManager.deactivePropCss(this.property)
+    //    }
+  }
+
+  @Watch("pagination.page", { deep: false, immediate: false })
+  async onPaginationChange(e) {}
+}
 </script>
 
-<style lang="scss" scoped> 
-    .disabled {
-        opacity: 0.6;
-    }
-    .auto-prop {
-        background-color: red;
-        padding: 5px;
-        // margin-left: 3px;
-        border-radius: 5px;
-    }
-    .green-bg {
-        background-color: greenyellow;
+<style lang="scss" scoped>
+.disabled {
+  opacity: 0.6;
+}
+.auto-prop {
+  background-color: red;
+  padding: 5px;
+  // margin-left: 3px;
+  border-radius: 5px;
+}
+.green-bg {
+  background-color: greenyellow;
+}
+// .rel {
+//     position: relative;
+// }
 
-    }
-    // .rel {
-    //     position: relative;
-    // }
+// .h-550 {
+//     height: 550px;
+// }
+// .w-400 {
+//     width: 400px;
+// }
 
-    // .h-550 {
-    //     height: 550px;
-    // }
-    // .w-400 {
-    //     width: 400px;
-    // }
-    
-    // .h-400 {
-    //     height: 400px;
-    // }
+// .h-400 {
+//     height: 400px;
+// }
 </style>

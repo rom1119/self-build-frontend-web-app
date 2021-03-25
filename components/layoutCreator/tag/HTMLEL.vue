@@ -18,8 +18,10 @@
             </slot>
         </component>
     </div>
-    <component v-else :class="positionClass"
+     <component v-else-if="value.isSvg" 
+                :class="positionClass"
                class="wrapper-el"
+               v-html="filteredSvg"
                :is="value.getTagName()"
                :id="value.shortUUID + '-content'"
                :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride]"
@@ -27,6 +29,19 @@
                @mousedown.stop="onMouseDown($event)"
                @mouseover.stop="onMouseOver($event)"
                @mouseout.stop="onMouseOut($event)">
+        <slot>
+        </slot>
+    </component>
+    <component
+            v-else :class="positionClass"
+            class="wrapper-el"
+            :is="value.getTagName()"
+            :id="value.shortUUID + '-content'"
+            :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride]"
+            @click.stop="onClick($event)"
+            @mousedown.stop="onMouseDown($event)"
+            @mouseover.stop="onMouseOver($event)"
+            @mouseout.stop="onMouseOut($event)">
         <slot>
         </slot>
     </component>
@@ -59,6 +74,25 @@ export default class HTMLEL extends Vue {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
 
         // console.log(this.value.styleList)
+    }
+
+    get filteredSvg() {
+        // console.log('filteredSvg');
+        // console.log(this.value.isSvg);
+        // @ts-ignore
+        if (typeof this.value.isSvg) {
+            // @ts-ignore
+            var lines = this.value.svgContent.split('\n');
+            // remove one line, starting at the first position
+            lines.splice(lines.length - 1, 1);
+            lines.splice(0,3);
+            // join the array back into a single string
+            var newtext = lines.join('\n');
+    
+            return newtext
+
+        }
+        return ''
     }
 
     get text()

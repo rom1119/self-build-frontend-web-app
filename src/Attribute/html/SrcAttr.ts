@@ -38,10 +38,16 @@ export default class SrcAttr extends HtmlAttr implements TagResource
     
     set resourceUrl(arg)
     {
-        this.setValue(arg)
         if (!this.resource) {
         }
-        this._resourceUrl = arg
+        if (!arg) {
+            this.setValue(this.resource)
+            this._resourceUrl = null
+        } else {
+            this.setValue(arg)
+            this._resourceUrl = arg
+
+        }
     }
 
     setKey(arg: string)
@@ -64,7 +70,7 @@ export default class SrcAttr extends HtmlAttr implements TagResource
     }
     
     getResourceUrl(): string {
-        return String(this.resourceUrl)
+        return this.resourceUrl
     }
     setResourceUrl(val: string) {
         this.resourceUrl = val

@@ -33,6 +33,7 @@ export default class HtmlTagModelBuildResponse implements ResponseFromModel<Html
             response.className = 'com.SelfBuildApp.ddd.Project.domain.HtmlTag'
 
             response.resourceUrl = from.getResourceUrl()
+            response.svgContent = from.getSvgContent()
 
             response.closingTag = from.isClosingTag
             response.attrs = from.attrs

@@ -21,6 +21,7 @@ import HtmlAttrFactory from '~/src/Attribute/HtmlAttrFactory';
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import TagResource from '~/src/Css/TagResource';
 import ImgTag from '~/src/Layout/tag/ImgTag';
+import SvgTag from '~/src/Layout/tag/SvgTag';
 export default class DefaultModelToDomain implements ModelToDomain
 {
     private htmlTagFactory: HtmlTagFactoryFromName
@@ -85,8 +86,11 @@ export default class DefaultModelToDomain implements ModelToDomain
                 domain.srcAttr.setResourceUrl(model.getResourceUrl())
                 
             }
-        
 
+            if (domain instanceof SvgTag) {
+                domain.setSvgContent(model.getSvgContent())
+            }
+        
             domain.uuid  = model.id
             domain.shortUUID  = model.shortUUID
             domain.version  = model.version

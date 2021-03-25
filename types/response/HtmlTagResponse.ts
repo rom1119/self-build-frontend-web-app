@@ -16,4 +16,5 @@ export default class HtmlTagResponse extends ResponseObject{
      className
      resourcePath
      resourceUrl
+     svgContent
 }

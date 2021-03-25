@@ -35,6 +35,11 @@ export default class ContentElSizeController extends SizeElController
         console.log(el.cssListMediaOwner);
         console.log(el.pseudoClassAccessor);
         console.log(el);
+        // console.log(event);
+        // console.log('clientX', event.clientX);
+        // console.log('clientY', event.clientY);
+        // console.log('el.getComputedWidth()', el.getComputedWidth());
+        // console.log('el.getComputedHeight()', el.getComputedHeight());
 
         // console.log(el.pseudoClassAccessor.all);
 
