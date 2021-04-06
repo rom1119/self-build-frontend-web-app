@@ -3,7 +3,7 @@
         <div class="media-query-controls">
             <media-query-component ref="mediaQueryComponent"  @selectMediaQuery="onSelectMediaQuery" @changeThisMedia="onSelectMediaQuery" />
         </div>
-        <html-element-closing-tag-context-menu   @click.stop=""  @opened="cmIsOpened" ref="layout-builder-cm" />
+        <html-element-context-menu   @click.stop=""  @opened="cmIsOpened" ref="layout-builder-cm" />
 
         <object id="layout-object" class="main-object" :style="windowStyles" >
             <html>

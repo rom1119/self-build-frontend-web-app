@@ -22,6 +22,10 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
         from "~/components/computedPropertyManagers/impl/ComputedProperty/MediaQuery/MediaQueryManager";
     import DefaultMediaQueryApiService from "~/src/Api/impl/DefaultMediaQueryApiService";
     import MediaQueryFactory from "~/src/MediaQuery/MediaQueryFactory";
+import DefaultModelToFontFace from '~/src/Transformer/impl/DefaultModelToFontFace';
+import DefaultFontFaceApiService from '~/src/Api/impl/DefaultFontFaceApiService';
+import FontFaceAccessor from '~/src/Fonts/FontFaceAccessor';
+import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.vue';
 
 
     @Component({
@@ -34,7 +38,7 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
     })
     export default class LayoutCreatorPage extends Vue {
         storeFetchEndpoint = 'frontendProject/findOne'
-        storeFetchKeyFramesEndpoint = 'frontendProject/findKeyFramesByProject'
+        // storeFetchKeyFramesEndpoint = 'frontendProject/findKeyFramesByProject'
         modelToDomainTransformer: ModelToDomain
 
         $refs: {
@@ -73,11 +77,15 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
         async mounted()
         {
             var apiMediaQuery = new DefaultMediaQueryApiService()
+            var apiFontFace = new DefaultFontFaceApiService()
             var mediaQueryFactory = new MediaQueryFactory(apiMediaQuery)
+            this.$fontFaceManageModal.init(this.$route.params.id)
 
             this.modelToDomainTransformer = new DefaultModelToDomain()
 
-            var modelToDomainMediaQuery =new DefaultModelToMediaQuery(mediaQueryFactory)
+            var modelToDomainMediaQuery = new DefaultModelToMediaQuery(mediaQueryFactory)
+
+            var modelToDomainFontFace = new DefaultModelToFontFace()
 
 
             if (this.$route.params.id) {
@@ -92,6 +100,12 @@ import LayoutCreatorContainer from '~/components/layoutCreator/LayoutCreatorCont
 
                     // @ts-ignore
                     this.$refs.creatorContainer.mediaQueryComponent.addManager(manager)
+                }
+
+                for (const ff of response.fontFaceList) {
+                    let domainFF = modelToDomainFontFace.transform(ff)
+                    // @ts-ignore
+                    this.$fontFaceManageModal.addFont(domainFF)
                 }
 
                 for (const tagModel of response.model.htmlTags) {

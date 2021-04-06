@@ -345,7 +345,7 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
 
                     }
 
-                    resolve()
+                    resolve(res)
 
 
                 },

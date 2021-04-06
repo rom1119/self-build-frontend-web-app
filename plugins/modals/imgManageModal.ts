@@ -1,18 +1,18 @@
-import ImgManageModal from '~/components/modal/ImgManageModal.vue'
+import FontFaceManageModal from '~/components/modal/FontFaceManageModal.vue'
 import Vue from 'vue'
 
-const ImgManageModalInstaller = {
+const FontFaceManageModalInstaller = {
     install(Vue) {
         Vue.mixin({
             mounted() {
-                if (!Vue.prototype.$imgManageModal) {
-                    Vue.prototype.$imgManageModal = new ImgManageModal()
+                if (!Vue.prototype.$fontFaceManageModal) {
+                    Vue.prototype.$fontFaceManageModal = new FontFaceManageModal()
                     let plugin = document.createElement('div')
-                    plugin.id = 'imgManageModal'
+                    plugin.id = 'fontFaceManageModal'
                     let app = document.getElementById('app')
                     if(!app) return
                     app.appendChild(plugin)
-                    Vue.prototype.$imgManageModal.$mount('#imgManageModal')
+                    Vue.prototype.$fontFaceManageModal.$mount('#fontFaceManageModal')
                 }
             }
         })
@@ -20,4 +20,4 @@ const ImgManageModalInstaller = {
     }
 }
 
-Vue.use(ImgManageModalInstaller)
+Vue.use(FontFaceManageModalInstaller)

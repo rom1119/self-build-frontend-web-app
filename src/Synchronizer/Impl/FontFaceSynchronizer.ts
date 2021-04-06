@@ -11,17 +11,19 @@ import BaseGradientCss from "~/src/Css/Gradient/BaseGradientCss";
 import { BackgroundImage } from "~/src/Css";
 import MediaQueryCss from '../../MediaQuery/MediaQueryCss';
 import MediaQueryApiService from "~/src/Api/MediaQueryApiService";
+import FontFaceApiService from '../../Api/FontFaceApiService';
+import FontFace from '../../Fonts/FontFace';
 
-export default class MediaQuerySynchronizer implements Synchronizer
+export default class FontFaceSynchronizer implements Synchronizer
 {
 
     protected isNowSynchronized
     protected isQueued = false
-    protected model: MediaQueryCss
-    protected api: MediaQueryApiService
+    protected model: FontFace
+    protected api: FontFaceApiService
     protected apiSocket: SocketApi
 
-    constructor(selector: MediaQueryCss, api: MediaQueryApiService)
+    constructor(selector: FontFace, api: FontFaceApiService)
     {
         this.apiSocket = new HtmlSocketApi()
         this.apiSocket.connect()
@@ -64,19 +66,19 @@ export default class MediaQuerySynchronizer implements Synchronizer
                     // console.log(res);
                     var resValues = res.data.cssValues
                     // this.updateCssIds(res.data.cssStyleList, this.model.cssAccessor.all)
-                    if (typeof this.model.values === 'function') {
-                        // @ts-ignore
-                        for (var i = 0; i < this.model.getValues().length; i++) {
+                    // if (typeof this.model.values === 'function') {
+                    //     // @ts-ignore
+                    //     for (var i = 0; i < this.model.getValues().length; i++) {
 
-                            // console.log(cssRes);
-                            // console.log(cssDomain);
+                    //         // console.log(cssRes);
+                    //         // console.log(cssDomain);
 
-                            // @ts-ignore
-                            const cssValDomain = cssDomain.getValues()[i]
-                            cssValDomain.id = resValues[i].id
-                        }
+                    //         // @ts-ignore
+                    //         const cssValDomain = cssDomain.getValues()[i]
+                    //         cssValDomain.id = resValues[i].id
+                    //     }
 
-                    }
+                    // }
 
                     this.setAsNowReadyToSynchronize()
                     // this.apiSocket.sendMessage(this.model.projectId)
@@ -102,7 +104,7 @@ export default class MediaQuerySynchronizer implements Synchronizer
     private updatePromise() : Promise<any>
     {
 
-        return this.api.putMedia(this.model)
+        return this.api.putFontFace(this.model)
 
     }
 
@@ -130,4 +132,6 @@ export default class MediaQuerySynchronizer implements Synchronizer
         return  true
     }
 
+    
+    
 }

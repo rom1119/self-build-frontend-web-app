@@ -42,6 +42,7 @@
 
         <template v-if="isHtmlTag">
             <context-menu-item :action="showTextCssModal">Font</context-menu-item>
+            <context-menu-item :action="showFontFaceModal">Font Face</context-menu-item>
             <context-menu-item @click.stop="" :action="showBackgroundCssModal">Background</context-menu-item>
             <context-menu-item :action="showShadowCssModal">Shadow</context-menu-item>
             <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
@@ -68,6 +69,7 @@ import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import ImgTag from '~/src/Layout/tag/ImgTag';
 import SvgManageModal from '../modal/SvgManageModal.vue';
 import SvgTag from '~/src/Layout/tag/SvgTag';
+import FontFaceModal from '../FontFaceModal';
 
 @Component
 export default class HtmlElementContextMenu extends Vue {
@@ -284,6 +286,12 @@ export default class HtmlElementContextMenu extends Vue {
     showTextCssModal()
     {
         this.$textManageModal.show(this.value)
+    }
+    
+    showFontFaceModal()
+    {
+        this.$fontFaceManageModal.init(this.value.projectId)
+        this.$fontFaceManageModal.show(this.value)
     }
 
     showBackgroundCssModal()

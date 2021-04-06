@@ -7,33 +7,57 @@
                 <button @click="close($event)">X</button>
             </div>
             <h4>
-                Zdjęcie
+                Font Face
             </h4>
         </template>
         <template slot="content">
-            <div class="content-item__elem_container ">
-            
-                <div class="content-item-half">
+            <div class="content-item" style="display: flex">
+                <div
+                class="content-item-half"
+                >
                     <h4 class="content-item__header">
+                        Dodaj FONT
+                        <span class="add-btn" @click="addNewFont"> + </span>
                     </h4>
-                    <div class=" content-item">
-                        
-                        <input type="file" id="imgFile" @change="previewThumbnail($event);" accept="image/*" class="input-file">  
+                </div>
+            </div>
+            <div v-if="active" class="container ">
+            
+                <div v-for="font in accessor.all" :key="font.id" class="content-item-left">
+                    <p class="content-item__header rel">
+                        <button class="right-btn" @click="addFontSrc(font)"> Add Src </button>
+
+                    </p>
+                    <div class=" content-item-half rel">
+                        <input type="text" class="w90" @input="changeFont(font)" v-model="font.name" :name="'name' + font.id">
+                        <span class="remove-btn" @click="removeFont(font)"> X </span>
+
+                    </div>
+                    <div class="content-item" v-for="srcEl in font.src" :key="srcEl.id">
+                        <input type="file" id="imgFile" @change="updateFile($event, font, srcEl);" accept="font/ttf, font/otf, font/woff, font/woff2" class="input-file">  
+                        </br>
+                        <span v-show="srcEl.resourceError" class="error">
+                            {{ srcEl.resourceError }}
+                        </span>
                         <div>
-                            <button v-if="imgSrcManager.getAttr().resource" @click.stop="deleteResource" type="button">
+                            <button v-if="srcEl.resource" @click.stop="deleteResource(font, srcEl)" type="button">
                                 Usuń zasób
                             </button>
-                            <img v-if="imgAttr.resource"  :src="imgAttr.resource" alt="" width="200" height="200">
-                            <img v-else :src="imgSrcManager.getAttr().resourceUrl" alt="" width="200" height="200">
+                            <p v-if="srcEl.resource"   alt="" width="200" height="200">
+                                Wewnętrzny zasób <span class="white-b">{{ srcEl.resource }}</span>
+                            </p>
+                            <p v-else alt="" width="200" height="200">
+                                Link do zasobu <span class="white-b">{{ srcEl.resourceUrl }}</span>
+                            </p>
 
                         </div>
-                    </div>
-                    <div class=" content-item" v-if="!imgSrcManager.getAttr().resource">
-                        <label for="">
-                            Link do zewnętrznego zasobu
-                            
-                            <input type="text" style="width: 100%;" @change="updateBackgroundImage" v-model="imgSrcManager.getAttr().resourceUrl" />
-                        </label>
+                        <div class=" " v-if="!srcEl.resource">
+                            <label for="">
+                                Link do zewnętrznego zasobu
+                                
+                                <input type="text" style="width: 100%;" @input="updateFontUrl(font, srcEl)" v-model="srcEl.resourceUrl" />
+                            </label>
+                        </div>
                     </div>
                 </div> 
             </div>  
@@ -83,6 +107,11 @@ import DomainResource from '~/src/DomainResource';
 import TagResource from '~/src/Css/TagResource';
 import ImgTag from '~/src/Layout/tag/ImgTag';
 import SrcAttr from '~/src/Attribute/html/SrcAttr';
+import FontFaceModal from '../FontFaceModal';
+import AssetDomain from '~/src/Assets/AssetDomain';
+import SrcFont from '~/src/Fonts/SrcFont';
+import FontFace from '~/src/Fonts/FontFace';
+import FontFaceAccessor from '~/src/Fonts/FontFaceAccessor';
 
 // let Chrome = ColourPicker.Chrome
 
@@ -96,14 +125,12 @@ interface Color {
 }
 
     @Component
-    export default class ImgManageModal extends ImgModal {
+    export default class FontFaceManageModal extends FontFaceModal {
         
         timeout
         imgEl
         // value: HtmlTag
         colour = '#fff'
-
-        file: File
         idName = 'text-property-modal'
 
         created() {
@@ -117,73 +144,96 @@ interface Color {
 
         async mounted()
         {
-            
+            // this.managers = 
         }
 
         onChangePseudoSelector()
         {
-            this.reinitManagers()
+            // this.reinitManagers()
         }
 
-        
-        
-        get imgAttr(): SrcAttr
-        {
-            return this.imgSrcManager.attr
+        changeFont(font: FontFace){
+            this.accessor.updateFont(font)
+        }
 
+        addNewFont() {
+            this.accessor.addFontAndSave(FontFaceAccessor.NEW_DEFAULT_INSTANCE())
+        }
+
+        addFont(font: FontFace) {
+            console.trace(font)
+            this.accessor.addFont(font)
         }
         
-        set imgAttr(newVal: SrcAttr)
+        removeFont(font: FontFace) {
+            this.accessor.removeFont(font)
+        }
+        addFontSrc(font: FontFace) {
+            var fontSrc = new SrcFont()
+            this.accessor.addFontSrcAndSave(font, fontSrc)
+        }
+        
+        setFile(font: FontFace, src: SrcFont, file)
         {   
-            let base64Img = newVal
             let color = new UnitUrl()
             console.log(123456);
+            src.file = file
 
             // this.setPropertyToModel(new BackgroundImage(base64Img, color)) 
             // this.imgAttrManager.getProperty().setResource(base64Img)
-            (<TagResource><unknown>this.imgSrcManager.attr).file = this.file
             // this.backgroundImageManager.getqProperty().setValue(base64Img)
-
-            // @ts-ignore
-            this.imgSrcManager.updateResource(this.imgSrcManager.getHtmlTag())
+            src.clearErrors()
+            this.accessor.updateResource(font, src).then(
+                (res) => {
+                    console.log('GIT');
+                    console.log(res);
+                },
+                (error) => {
+                    if (error.response.data) {
+                        if (error.response.data.errors[0]) {
+                            src.resourceError = error.response.data.errors[0].message
+                        }
+                    }
+                    console.log('ERR');
+                    console.log(error.response.data.errors);
+                }
+            )
         }
 
-        deleteResource()
+        deleteResource(font: FontFace, src: AssetDomain)
         {
-            
-            (<SrcManager><unknown>(this.imgSrcManager)).deleteResource()
+            this.accessor.deleteResource(font, src)
 
         }
 
-        updateBackgroundImage()
+        updateFontUrl(font: FontFace, src: AssetDomain)
         {
-            console.log(this.value);
-            (<SrcManager><unknown>(this.imgSrcManager)).updateResource()
+            // console.log(src)
+            this.accessor.updateSrcResurceUrl(font, src)
         }
 
-
-       
-
-        previewThumbnail (event) {
+        updateFile (event, font: FontFace, src: AssetDomain) {
           var input = event.target
           var that = this
+          var file 
+          console.log();
         //   this.formData.file = event.target.files[0]
           console.log(event.target.files)
           if (input.files && input.files[0]) {
-              this.file = input.files[0]
-              console.log(event);
-              console.log(event.target);
-              console.log(event.target.files[0]);
+              file = input.files[0]
+            //   console.log(event);
+            //   console.log(event.target);
+            //   console.log(event.target.files[0]);
               
-            var reader = new FileReader()
-            reader.onload = function (e) {
-                // @ts-ignore
-              that.imgAttr = e.target.result
-              // el.imgUrl = e.target.result
-            //   console.log(el)
-//              $('#logo-demo').attr('src', e.target.result)
-            }
-            reader.readAsDataURL(input.files[0])
+                this.setFile(font, src, file)
+//             var reader = new FileReader()
+//             reader.onload = (e) => {
+//                 // @ts-ignore
+//               // el.imgUrl = e.target.result
+//             //   console.log(el)
+// //              $('#logo-demo').attr('src', e.target.result)
+//             }
+//             reader.readAsDataURL(input.files[0])
           }
         }
         

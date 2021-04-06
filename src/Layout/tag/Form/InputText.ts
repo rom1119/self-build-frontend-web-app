@@ -10,8 +10,8 @@ export default class InputText extends Input {
     constructor()
     {
         super()
-        this.attributeAccessor.addNewAttribute(new HtmlAttr('type', 'text'))
-        this.attributeAccessor.addNewAttribute(new HtmlAttr('value', this._text))
+        this.attributeAccessor.addNewAttribute(new HtmlAttr('type', 'text', this))
+        this.attributeAccessor.addNewAttribute(new HtmlAttr('value', this._text, this))
     }
 
     public injectInitialCssStyles()

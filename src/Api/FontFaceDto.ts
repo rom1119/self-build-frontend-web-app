@@ -1,14 +1,14 @@
 import HtmlTag from "../Layout/HtmlTag";
 import StyleCss from "./StyleCss";
 import AggregateRoot from "~/types/AggregateRoot";
+import AssetDto from './AssetDto';
 
-export default class Selector extends AggregateRoot
+export default class FontFaceDto extends AggregateRoot
 {
     projectId = ''
     name = ''
-    value = ''
-    delimiter = ''
+
     version = 1
-    styles: StyleCss[]  = []
+    src: AssetDto[]  = []
 
 }

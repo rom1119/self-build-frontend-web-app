@@ -9,9 +9,13 @@ import ProjectFrontendResponse from '~/types/response/ProjectFrontendResponse';
 import MediaQueryModel from "~/types/MediaQueryModel";
 import MediaQueryResponse from "~/types/response/MediaQueryResponse";
 import MediaQueryModelBuild from "~/src/ModelFromResponseBuilder/impl/MediaQueryModelBuild";
+import FontFaceModel from '../types/FontFaceModel';
+import FontFaceResponse from '../types/response/FontFaceResponse';
+import FontFaceModelBuild from '../src/ModelFromResponseBuilder/impl/FontFaceModelBuild';
 
 let builder: ModelFromResponse<ProjectFrontendResponse, ProjectFrontendModel> = new ProjectFrontendModelBuild()
 let mediaQueryBuilder: ModelFromResponse<MediaQueryResponse, MediaQueryModel> = new MediaQueryModelBuild()
+let fontFaceBuilder: ModelFromResponse<FontFaceResponse, FontFaceModel> = new FontFaceModelBuild()
 
 interface FrontendProjectState {
   items: ProjectFrontendModel[]
@@ -55,16 +59,25 @@ const actions: ActionTree<FrontendProjectState, FrontendProjectState> = {
     let response = await this.$axios.$get(`/api/html-project/${id}`)
     let model = builder.build(response)
     commit('insert', model)
-      let mediaQueryArray: MediaQueryModel[] = []
+    let mediaQueryArray: MediaQueryModel[] = []
 
-      for (let answer of response.mediaQueryList) {
-          let model = mediaQueryBuilder.build(answer)
+    for (let answer of response.mediaQueryList) {
+        let model = mediaQueryBuilder.build(answer)
+
+        // console.log(model);
+        mediaQueryArray.push(model)
+    }
+    
+    let fontFaceQueryArray: FontFaceModel[] = []
+
+      for (let fontFace of response.fontFaceList) {
+          let modelFontFace = fontFaceBuilder.build(fontFace)
 
           // console.log(model);
-          mediaQueryArray.push(model)
+          fontFaceQueryArray.push(modelFontFace)
       }
 
-      return { model: model, mediaQueryList:  mediaQueryArray}
+      return { model: model, mediaQueryList:  mediaQueryArray, fontFaceList: fontFaceQueryArray}
   },
   async create({ commit, state}, token: ProjectFrontendModel) {
       // @ts-ignore

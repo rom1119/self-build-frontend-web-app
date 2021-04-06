@@ -7,6 +7,7 @@ import LoadingDialog from '~/components/LoadingDialog'
 // @ts-ignore
 import ConfirmDialog from '../components/ConfirmDialog'
 import TextManageModal from '~/components/modal/TextManageModal.vue'
+import FontFaceManageModal from '~/components/modal/FontFaceManageModal.vue'
 import ImgManageModal from '~/components/modal/ImgManageModal.vue'
 import SvgManageModal from '~/components/modal/SvgManageModal.vue'
 import BackgroundManageModal from '~/components/modal/BackgroundManageModal.vue'
@@ -30,6 +31,7 @@ declare module 'vue/types/vue' {
         $loadingDialog: LoadingDialog,
         $confirmDialog: ConfirmDialog,
         $textManageModal: TextManageModal,
+        $fontFaceManageModal: FontFaceManageModal,
 
         $imgManageModal: ImgManageModal,
         $svgManageModal: SvgManageModal,

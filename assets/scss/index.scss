@@ -26,9 +26,20 @@
 @import "modal";
 @import "boxModel";
 @import "reset";
-@import "institution";
+
 
 @import "components/icon-link";
 @import "components/button";
 @import "components/v-select";
 
+.rel {
+    position: relative !important;
+}
+
+.w100 {
+    width: 100% !important;
+}
+
+.w90 {
+    width: 90% !important;
+}

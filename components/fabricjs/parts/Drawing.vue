@@ -120,11 +120,11 @@
 
                 var drawingModeEl = $('drawing-mode'),
                     drawingOptionsEl = $('drawing-mode-options'),
-                    drawingColorEl = $('drawing-color'),
-                    drawingShadowColorEl = $('drawing-shadow-color'),
-                    drawingLineWidthEl = $('drawing-line-width'),
-                    drawingShadowWidth = $('drawing-shadow-width'),
-                    drawingShadowOffset = $('drawing-shadow-offset');
+                    drawingColorEl: any = $('drawing-color'),
+                    drawingShadowColorEl: any = $('drawing-shadow-color'),
+                    drawingLineWidthEl: any = $('drawing-line-width'),
+                    drawingShadowWidth: any = $('drawing-shadow-width'),
+                    drawingShadowOffset: any = $('drawing-shadow-offset');
                     
 
 
@@ -218,7 +218,7 @@
                 
 
                 $('drawing-mode-selector').onchange = function() {
-                    
+                    // var thiss: any = this
                     // ts-ignore
                     if (this.value === 'hline') {
                     canvas.freeDrawingBrush = vLinePatternBrush;

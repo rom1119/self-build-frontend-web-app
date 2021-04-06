@@ -74,7 +74,7 @@ import { BackgroundRepeat, BackgroundAttachment } from '~/src/Css';
 import BackgroundImageProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundImageProperty';
 import SvgModal from '../SvgModal';
 import SrcManager from '../computedPropertyManagers/htmlAttr/SrcManager';
-import DomainResource from '~/src/Css/DomainResource';
+import DomainResource from '~/src/DomainResource';
 import TagResource from '~/src/Css/TagResource';
 import ImgTag from '~/src/Layout/tag/ImgTag';
 import SrcAttr from '~/src/Attribute/html/SrcAttr';
