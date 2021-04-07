@@ -70,17 +70,17 @@ export default class FontFace
         )
     }
     
+    
     public updateSrc(src: SrcFont)
     {
 
         this.api.putAsset(src)
     }
     
-    public removeSrc(src: SrcFont)
+    public removeSrcAndSave(src: SrcFont)
     {
-        this.src.push(src)
 
-        this.api.postAsset(src).then(
+        this.api.deleteAsset(src).then(
             (res) => {
                 var indx = null
                 for (let i = 0; i < this.src.length; i++) {
@@ -108,12 +108,16 @@ export default class FontFace
     
     public updateSrcResurceUrl(src: SrcFont)
     {
+        
         this.api.putAsset(src)
     }
     
     public deleteSrcFile(src: SrcFont)
     {
-        this.api.deleteFontFaceSrcResource(this, src)
+        this.api.deleteFontFaceSrcResource(this, src).then(() => {
+            src.file = null
+            src.resource = null
+        })
     }
 
     public synchronize()

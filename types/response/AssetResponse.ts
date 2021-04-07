@@ -10,6 +10,7 @@ export default class AssetResponse extends ResponseObject{
      project: any
 
      version
+     format
 
      resourcePath
      resourceUrl

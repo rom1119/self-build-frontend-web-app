@@ -19,6 +19,7 @@ export default class AssetModelBuild implements ModelFromResponse<AssetResponse,
 
         }
         model.type = from.type
+        model.format = from.format
         model.resourceUrl = from.resourceUrl
         model.resourcePath = from.resourcePath
 

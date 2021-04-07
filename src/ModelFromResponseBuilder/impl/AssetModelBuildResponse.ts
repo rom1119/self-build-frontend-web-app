@@ -23,9 +23,11 @@ export default class AssetModelBuildResponse implements ResponseFromModel<AssetM
             "id": from.fontFaceId,
         }
         response.type = from.type
+        response.format = from.format
         
         response.resourceUrl = from.resourceUrl
-
+        // console.log(from);
+        // console.log(response);
         return response;
     }
 

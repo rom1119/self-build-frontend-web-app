@@ -38,10 +38,10 @@ export default class FontFaceAccessor
         return this.inst
     }
 
-    updateSrcResurceUrl(font: FontFace, src: AssetDomain) {
+    updateSrcResurceUrl(font: FontFace, src: SrcFont) {
         font.updateSrcResurceUrl(src)
     }
-    updateResource(font: FontFace, src: AssetDomain) {
+    updateResource(font: FontFace, src: SrcFont) {
         // super.updateCssProp(newProp)
         // @ts-ignore
         if (src.file) {
@@ -52,7 +52,7 @@ export default class FontFaceAccessor
 
     }
 
-    public deleteResource(font: FontFace, src: AssetDomain) {
+    public deleteResource(font: FontFace, src: SrcFont) {
         font.deleteSrcFile(src)
     }
 
@@ -65,9 +65,14 @@ export default class FontFaceAccessor
     public async addFontAndSave(font: FontFace)
     {
         font.setApi(this.api)
+        font.projectId = this.projectId
         return new Promise((resolve, reject) => {
-            font.api.postFontFace(font, this.projectId).then(() => {
+            font.api.postFontFace(font, this.projectId).then((res) => {
                 this.addFont(font)
+                font.id = res.data.id
+                // console.log('addFontAndSave');
+                // console.log(res.data);
+                
             },
             () => {
                 alert('Server err')
@@ -79,6 +84,12 @@ export default class FontFaceAccessor
     {
         // return new Promise((resolve, reject) => {
         font.addSrcAndSave(src)
+    }
+    
+    public removeFontSrcAndSave(font: FontFace, src: SrcFont)
+    {
+        // return new Promise((resolve, reject) => {
+        return font.removeSrcAndSave(src)
     }
 
     public removeFont(font: FontFace) {
@@ -98,6 +109,10 @@ export default class FontFaceAccessor
     public addFont(font: FontFace)
     {
         font.setApi(this.api)
+        font.projectId = this.projectId
+        for (const src of font.src) {
+            src.projectId = this.projectId
+        }
         this.fonts.push(font)
     }
 

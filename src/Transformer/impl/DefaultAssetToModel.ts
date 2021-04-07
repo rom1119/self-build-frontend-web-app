@@ -51,7 +51,9 @@ export default class DefaultAssetToModel implements AssetToModel
         model.id = domain.id
         model.version = domain.version
         model.type = domain.type
+        model.format = domain.format
         model.fontFaceId = domain.font.id
+        model.projectId = domain.font.projectId
 
         model.setResourcePath(domain.getResource())
         model.setResourceUrl(domain.getResourceUrl())
@@ -65,6 +67,7 @@ export default class DefaultAssetToModel implements AssetToModel
         // domain.id = model.id
 
         // console.log(domain);
+        // console.log(model);
 
         return model
 

@@ -90,7 +90,10 @@
           class="color-picker-btn"
           @click.stop="toggleColorPicker()"
         ></div>
-        <span v-if="index > 0" class="remove-btn" @click="removeVal"> X </span>
+        <span class="p-abs" style="top: 20px; right: -5px;">
+          <span v-if="index > 0" class="remove-btn" @click="removeVal"> X </span>
+        
+        </span>
 
         <div
           class="color-picker"

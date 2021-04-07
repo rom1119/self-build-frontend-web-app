@@ -58,6 +58,7 @@ export default class DefaultModelToAsset implements ModelToAsset
         domain.id = model.id
         domain.version = model.version
         domain.projectId = model.projectId
+        domain.format = model.format
         domain.type = model.type
 
         domain.setResource(model.getResourcePath())

@@ -13,12 +13,7 @@
                 <ul class="navbar-nav ml-auto" >
                     <li id="layoutCreatorMode">
                     </li>
-                    <nuxt-link tag="li" class="nav-item btn btn-primary" to="/dashboard/layouts" active-class="active" exact>
-                        <a class="nav-link">Projekty</a>
-                    </nuxt-link>
-                    <li class="btn btn-primary" @click="generattingCode" v-if="$route.name == 'dashboard-layout-creator-id'"  active-class="active">
-                        <a class="nav-link">Generator kodu</a>
-                    </li>
+                
                     <nuxt-link tag="li" class="nav-item" v-show="$auth.loggedIn" to="/dashboard" active-class="active" exact>
                         <a class="nav-link">Dashboard</a>
                     </nuxt-link>
@@ -33,6 +28,15 @@
                 </div>
                 <div class="navbar__user-dropdown">
 
+                    <nuxt-link tag="div" class=" btn" to="/dashboard/layouts" active-class="" exact>
+                        <a>Projekty</a>
+                    </nuxt-link>
+                    <li class="btn btn-primary" @click="generattingCode" v-if="$route.name == 'dashboard-layout-creator-id'"  active-class="active">
+                        <a class="">Generator kodu</a>
+                    </li>
+                    <li class="btn btn-primary" :class="{'active': fontFaceActive}" @click="toggleFontFace" v-if="$route.name == 'dashboard-layout-creator-id'"  active-class="active">
+                        <a class="">Font Face</a>
+                    </li>
                     <b-dropdown v-if="$auth.loggedIn">
                         <template v-slot:button-content>
                             <img class="navbar__user-avatar" src="@/assets/img/contrast.svg" alt="">
@@ -42,7 +46,7 @@
                         <b-dropdown-item @click="logout">Wyloguj</b-dropdown-item>
                     </b-dropdown>
 
-                    <button v-else class="btn btn-primary" @click="$router.push('/login')">Zaloguj</button>
+                    <button v-else class="btn" @click="$router.push('/login')">Zaloguj</button>
                 </div>
             </div>
         </div>
@@ -57,7 +61,7 @@
 
     @Component
     export default class Navbar extends Vue {
-
+        
         sessionID = {value: null}
         created()
         {
@@ -73,6 +77,22 @@
             // console.log('@@&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@');
             // console.log(a);
             // return this.$store.getters['globals/sessionId']
+        }
+
+        fontFaceActive = false
+        
+        @Watch('$fontFaceManageModal.active', {deep: true})
+        onActange(aa) {
+            this.fontFaceActive = aa
+        }
+
+        toggleFontFace() {
+            if (this.$fontFaceManageModal.active) {
+                this.$fontFaceManageModal.close()
+            } else {
+                this.$fontFaceManageModal.show()
+
+            }
         }
 
         generattingCode()

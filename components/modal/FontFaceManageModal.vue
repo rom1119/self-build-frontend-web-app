@@ -16,35 +16,47 @@
                 class="content-item-half"
                 >
                     <h4 class="content-item__header">
-                        Dodaj FONT
-                        <span class="add-btn" @click="addNewFont"> + </span>
+                        
+                        <span class="add-btn btn" @click="addNewFont"> Dodaj FONT </span>
                     </h4>
                 </div>
             </div>
             <div v-if="active" class="container ">
             
-                <div v-for="font in accessor.all" :key="font.id" class="content-item-left">
+                <div v-for="font in accessor.all" :key="font.id" class="content-item-left green-b p-5">
                     <p class="content-item__header rel">
-                        <button class="right-btn" @click="addFontSrc(font)"> Add Src </button>
+                        <button class="right-btn btn btn_sm" @click="addFontSrc(font)"> Add Src </button>
 
                     </p>
-                    <div class=" content-item-half rel">
+                    <div class=" content-item rel">
+                        Nazwa czcionki
                         <input type="text" class="w90" @input="changeFont(font)" v-model="font.name" :name="'name' + font.id">
-                        <span class="remove-btn" @click="removeFont(font)"> X </span>
+                        <span class="p-abs">
+                            <span class="btn btn_red btn_sm" @click="removeFont(font)"> USUN FONT </span>
+                        </span>
 
                     </div>
-                    <div class="content-item" v-for="srcEl in font.src" :key="srcEl.id">
+                        <span>
+                            Src list:
+                        </span>
+                    <div class="content-item red-b m-2 rel" v-for="srcEl, key in font.src" :key="srcEl.id">
+                        <span style="left: 0px;" class="p-abs lab">
+                            {{ key + 1 }}.
+                        </span>
+                        <span class="p-abs" style="right: 0px;">
+                            <span class="btn btn_red btn_sm" @click="removeFontSrc(font, srcEl)"> USUN SRC </span>
+                        </span>
                         <input type="file" id="imgFile" @change="updateFile($event, font, srcEl);" accept="font/ttf, font/otf, font/woff, font/woff2" class="input-file">  
                         </br>
                         <span v-show="srcEl.resourceError" class="error">
                             {{ srcEl.resourceError }}
                         </span>
                         <div>
-                            <button v-if="srcEl.resource" @click.stop="deleteResource(font, srcEl)" type="button">
+                            <button v-if="srcEl.resource"  class="btn btn_sm" @click.stop="deleteResource(font, srcEl)" type="button">
                                 Usuń zasób
                             </button>
-                            <p v-if="srcEl.resource"   alt="" width="200" height="200">
-                                Wewnętrzny zasób <span class="white-b">{{ srcEl.resource }}</span>
+                            <p v-if="srcEl.resource" style="overflow-x:scroll;"   alt="" width="200" height="200">
+                                Wewnętrzny zasób <span  class="white-gray small-font">{{ srcEl.resource }}</span>
                             </p>
                             <p v-else alt="" width="200" height="200">
                                 Link do zasobu <span class="white-b">{{ srcEl.resourceUrl }}</span>
@@ -56,6 +68,15 @@
                                 Link do zewnętrznego zasobu
                                 
                                 <input type="text" style="width: 100%;" @input="updateFontUrl(font, srcEl)" v-model="srcEl.resourceUrl" />
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <label for="">
+                                Format
+                                <select @change="updateFontUrl(font, srcEl)" v-model="srcEl.format" :name="'font-src-format-' + srcEl.id" >
+                                    <option v-for="format, k in formatsFont" :key="k"  :value="format">{{ format }}</option>
+                                </select>
                             </label>
                         </div>
                     </div>
@@ -127,6 +148,7 @@ interface Color {
     @Component
     export default class FontFaceManageModal extends FontFaceModal {
         
+        formatsFont = ['woff', 'woff2', 'truetype', 'opentype', 'embedded-opentype', 'svg']
         timeout
         imgEl
         // value: HtmlTag
@@ -173,6 +195,10 @@ interface Color {
             this.accessor.addFontSrcAndSave(font, fontSrc)
         }
         
+        removeFontSrc(font: FontFace, src: SrcFont) {
+            this.accessor.removeFontSrcAndSave(font, src)
+        }
+        
         setFile(font: FontFace, src: SrcFont, file)
         {   
             let color = new UnitUrl()
@@ -182,37 +208,44 @@ interface Color {
             // this.setPropertyToModel(new BackgroundImage(base64Img, color)) 
             // this.imgAttrManager.getProperty().setResource(base64Img)
             // this.backgroundImageManager.getqProperty().setValue(base64Img)
-            src.clearErrors()
+    
             this.accessor.updateResource(font, src).then(
                 (res) => {
-                    console.log('GIT');
-                    console.log(res);
+                    // console.log('GIT');
+                    // console.log(res);
+                    src.file = null
+                    src.resource = res.data.resourcePath
                 },
                 (error) => {
                     if (error.response.data) {
                         if (error.response.data.errors[0]) {
                             src.resourceError = error.response.data.errors[0].message
                         }
+                    } else {
+                        alert('server ERR')
                     }
-                    console.log('ERR');
-                    console.log(error.response.data.errors);
+                    // console.log('ERR');
+                    // console.log(error.response.data.errors);
                 }
             )
         }
 
-        deleteResource(font: FontFace, src: AssetDomain)
+        deleteResource(font: FontFace, src: SrcFont)
         {
             this.accessor.deleteResource(font, src)
 
         }
 
-        updateFontUrl(font: FontFace, src: AssetDomain)
+        updateFontUrl(font: FontFace, src: SrcFont)
         {
             // console.log(src)
-            this.accessor.updateSrcResurceUrl(font, src)
+            this.$nextTick(() => {
+                this.accessor.updateSrcResurceUrl(font, src)
+
+            })
         }
 
-        updateFile (event, font: FontFace, src: AssetDomain) {
+        updateFile (event, font: FontFace, src: SrcFont) {
           var input = event.target
           var that = this
           var file 
@@ -236,46 +269,12 @@ interface Color {
 //             reader.readAsDataURL(input.files[0])
           }
         }
-        
-        
-        
-        // private setPropUnit(newVal, prop: BasePropertyCss){
-        //     if (!prop.isActive()) {
-        //         return
-        //     }
-        //     if (!newVal) {
-        //         return
-        //     }
-        //     // console.log('SET paddingUnitGlobal', newVal);
-        //     var newUnit = this.getUnitByName(this.allUnits, newVal)
-        //     // this.updateUnitInModel(newUnit, MarginCss.PROP_NAME)
-        //     prop.setUnit(newUnit)
-        //     this.updateCssPropWithMarginFilter(prop)
-
-        // }
-
-        // private setProp(newVal, prop: BasePropertyCss)
-        // {
-        //     if (!prop) {
-        //         return
-        //     }
-        //     if (!prop.isActive()) {
-        //         return
-        //     }
-        //     if (!newVal) {
-        //         return
-        //     }
-        //     prop.setValue(newVal.toString())
-        //     var a = this.updateCssPropWithMarginFilter(prop)
-        // }
 
         @Watch('pagination.page', {deep: false, immediate: false})
         async onPaginationChange(e)
         {
            
         }
-
-
 
 
     }

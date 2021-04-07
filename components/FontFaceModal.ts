@@ -17,7 +17,7 @@ import FontFace from '../src/Fonts/FontFace';
 
 export default abstract class FontFaceModal extends Vue
 {
-    protected active = false
+    active = false
 
     managers: FontFace[]
     accessor: FontFaceAccessor = null

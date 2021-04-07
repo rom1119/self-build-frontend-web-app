@@ -6,6 +6,7 @@ export default class AssetDto extends AggregateRoot
 {
     projectId = ''
     type
+    format
 
     fontFaceId
     resourcePath

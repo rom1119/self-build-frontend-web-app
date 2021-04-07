@@ -42,7 +42,6 @@
 
         <template v-if="isHtmlTag">
             <context-menu-item :action="showTextCssModal">Font</context-menu-item>
-            <context-menu-item :action="showFontFaceModal">Font Face</context-menu-item>
             <context-menu-item @click.stop="" :action="showBackgroundCssModal">Background</context-menu-item>
             <context-menu-item :action="showShadowCssModal">Shadow</context-menu-item>
             <context-menu-item :action="showBoxModelModal">BoxModel</context-menu-item>
@@ -291,7 +290,7 @@ export default class HtmlElementContextMenu extends Vue {
     showFontFaceModal()
     {
         this.$fontFaceManageModal.init(this.value.projectId)
-        this.$fontFaceManageModal.show(this.value)
+        this.$fontFaceManageModal.show()
     }
 
     showBackgroundCssModal()
