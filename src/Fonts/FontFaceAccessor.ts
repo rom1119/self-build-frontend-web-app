@@ -11,14 +11,17 @@ import DefaultFontFaceApiService from '../Api/impl/DefaultFontFaceApiService';
 import FontFaceApiService from '../Api/FontFaceApiService';
 import AssetDomain from '../Assets/AssetDomain';
 import SrcFont from './SrcFont';
+import FontFamilyFactory from './FontFamilyFactory';
+import FontFamilyValDomain from './FontFamilyValDomain';
 export default class FontFaceAccessor
 {
     
     protected projectId: string = ''
-    protected fonts: FontFace[] = []
+    fonts: FontFace[] = []
     protected api: DefaultFontFaceApiService
+    protected fontFamilyFactory: FontFamilyFactory
 
-    protected static inst: FontFaceAccessor
+    protected static inst: FontFaceAccessor = null
 
     private constructor(projectId) {
         // this.tag = val
@@ -26,30 +29,42 @@ export default class FontFaceAccessor
         // Vue.set(this, 'subscribers', [])
         this.projectId = projectId
         this.api = new DefaultFontFaceApiService()
+        this.fontFamilyFactory = new FontFamilyFactory()
 
     }
 
     
-    public static getInstance(projectId: string): FontFaceAccessor {
-        if (this.inst == null) {
-            this.inst = new FontFaceAccessor(projectId)
-        }
+    public static getInstance(): FontFaceAccessor {
 
         return this.inst
     }
+    public static createInstance(projectId: string): FontFaceAccessor {
+        this.inst = new FontFaceAccessor(projectId)
+        
 
-    updateSrcResurceUrl(font: FontFace, src: SrcFont) {
+        return this.getInstance()
+    }
+
+    public getAccessableProperty(): FontFamilyValDomain[] {
+        var res = []
+
+        for (const fontFace of this.fonts) {
+            var famValDom = this.fontFamilyFactory.newCustomDomainVal(fontFace)
+            res.push(famValDom)
+        }
+        return res
+    }
+
+    public updateSrcResurceUrl(font: FontFace, src: SrcFont) {
         font.updateSrcResurceUrl(src)
     }
-    updateResource(font: FontFace, src: SrcFont) {
+    public updateResource(font: FontFace, src: SrcFont) {
         // super.updateCssProp(newProp)
         // @ts-ignore
         if (src.file) {
             return font.updateSrcFile(src)
 
         }
-
-
     }
 
     public deleteResource(font: FontFace, src: SrcFont) {
@@ -130,6 +145,19 @@ export default class FontFaceAccessor
 
         this.fonts.splice(propsIndex, 1);
 
+    }
+
+
+    public static getFontByIdStatic(id: number): FontFace {
+        var accesor = FontFaceAccessor.inst
+        let propsIndex = null
+
+        for (let i = 0; i < accesor.fonts.length; i++) {
+            var el = accesor.fonts[i]
+            if (el.id === id) {
+                return el
+            }
+        }
     }
 
     protected getFontById(id: number) {

@@ -17,6 +17,10 @@
                         <style v-if="$layoutCreatorMode.mode.canRun(pseudoSelectorAction)" v-html="mediaQueryElements">
 
                         </style>
+                        
+                        <style v-if="$layoutCreatorMode.mode.canRun(fontFaceAction)" v-html="fontFaceElements">
+
+                        </style>
 
                     </template>
                 </head>
@@ -97,6 +101,9 @@ import DefaultRemoverAdvisor from "~/src/Remover/advisor/DefaultRemoverAdvisor";
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 import MediaQueryComponent from "~/components/MediaQueryComponent.vue";
 import MediaQueryForCssList from "~/src/MediaQuery/headSection/MediaQueryForCssList";
+import FontFaceViewAction from "~/src/Mode/action/FontFaceViewAction";
+import FontFaceAccessor from "~/src/Fonts/FontFaceAccessor";
+import FontFaceModal from "../FontFaceModal";
 
 @Component
 export default class LayoutCreatorContainer extends Vue {
@@ -134,7 +141,11 @@ export default class LayoutCreatorContainer extends Vue {
 
     mode
     pseudoSelectorAction = new PseudoSelectorViewAction()
+    fontFaceAction = new FontFaceViewAction()
     mediaQueryList: MediaQueryForCssList
+
+    @Prop({required: true})
+    fontFaceAccesor: FontFaceAccessor = null
 
     updateTagsOnChangeMediaQuery(list){
         for (const el of list) {
@@ -147,6 +158,10 @@ export default class LayoutCreatorContainer extends Vue {
         }
     }
 
+    created()
+    {
+
+    }
     mounted()
     {
         this.mediaQueryComponent = this.$refs['mediaQueryComponent']
@@ -177,6 +192,7 @@ export default class LayoutCreatorContainer extends Vue {
             }
 
         })
+
 
     }
 
@@ -285,6 +301,61 @@ export default class LayoutCreatorContainer extends Vue {
 
         return res
 
+    }
+
+    // @Watch('fontFaceAccesor', {deep: true})
+    // asd(a) {
+    //     console.error('watch FontFaceAccessor')
+    //     console.log(a)
+
+    // }
+
+    get fontFaceElements(): string
+    {
+        var res = ''
+        var reas = this.fontFaceAccesor
+        // console.log('onChangeFontFace')
+        // console.log(FontFaceAccessor.getInstance())
+        // console.log(this.fontFaceAccesor)
+
+        if (!this.fontFaceAccesor) {
+            return res
+
+        }
+
+        for (const fontFace of this.fontFaceAccesor.all) {
+            res += '@font-face {'
+            res += `font-family: "${fontFace.name}";`
+            res += `src: `
+
+            for (var i = 0; i < fontFace.src.length; i++) {
+                var srcItem = fontFace.src[i]
+                var url 
+                if (srcItem.resource){
+                    url = srcItem.resource
+                } else {
+                    url = srcItem.resourceUrl
+                }
+                res += `url("${url}")`
+
+                if (srcItem.format) {
+                    res += ` `
+                    res += `format("${srcItem.format}")`
+                }
+
+                if (i === fontFace.src.length - 1) {
+                    res += ` ;`
+                } else {
+                    res += ` ,`
+                }
+            }
+
+            res += '}'
+        }
+        console.log('END onChangeFontFace')
+        console.log(res)
+
+        return res
     }
 
     get mediaQueryElements(): string

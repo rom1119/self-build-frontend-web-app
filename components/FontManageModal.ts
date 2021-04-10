@@ -34,18 +34,20 @@ import LineHeight from '../src/Css/Text/LineHeight';
 import LineHeightProperty from './computedPropertyManagers/impl/ComputedProperty/Text/LineHeightProperty'
 import FontStretchProperty from './computedPropertyManagers/impl/ComputedProperty/Text/FontStretchProperty'
 import FontFamilyProperty from './computedPropertyManagers/impl/ComputedProperty/Text/FontFamilyProperty'
+import FontFamilyType from '../src/Fonts/FontFamilyType';
 
 
 export default abstract class FontManageModal extends AbstractModal
 {
     textAlignManager: BaseComputedPropertyManager<TextAlign>
     fontSizeManager: BaseComputedPropertyManager<FontSize>
-    fontFamilyManager: BaseComputedPropertyManager<FontFamily>
+    fontFamilyManager: FontFamilyProperty = null
     fontStretchManager: BaseComputedPropertyManager<FontStretch>
     fontColorManager: BaseComputedPropertyManager<FontColor>
     fontWeightManager: BaseComputedPropertyManager<FontWeight>
     fontStyleManager: BaseComputedPropertyManager<FontStyle>
     lineHeightManager: BaseComputedPropertyManager<LineHeight>
+
 
     constructor()
     {

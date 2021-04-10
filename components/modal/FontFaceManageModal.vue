@@ -183,7 +183,7 @@ interface Color {
         }
 
         addFont(font: FontFace) {
-            console.trace(font)
+            // console.trace(font)
             this.accessor.addFont(font)
         }
         

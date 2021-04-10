@@ -115,8 +115,8 @@ export default class MediaQueryComponent extends BaseMediaQueryComponent {
   modelToDomain: ModelToMediaQuery;
 
   async mounted() {
-    console.log("created mediq QQQ");
-    console.log(this.accessor);
+    // console.log("created mediq QQQ");
+    // console.log(this.accessor);
     var projID = this.$route.params.id;
     this.projID = projID;
     // console.log('created123', projID);
@@ -213,8 +213,8 @@ export default class MediaQueryComponent extends BaseMediaQueryComponent {
   }
 
   onClick(arg: MediaQueryManager) {
-    console.log(arg.property);
-    console.log(arg);
+    // console.log(arg.property);
+    // console.log(arg);
   }
 
   // *****************************************  LEFT ****************************************************

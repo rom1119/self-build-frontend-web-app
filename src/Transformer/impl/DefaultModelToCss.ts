@@ -28,6 +28,9 @@ import { LinearGradientStructVal, LinearGradientDirection } from '~/src/Css/Grad
 import LinearGradientCss from '../../Css/Gradient/impl/LinearGradientCss';
 import StyleCssValue from '~/src/Api/StyleCssValue';
 import RadialGradientCss from '../../Css/Gradient/impl/RadialGradientCss';
+import FontFamilyValDomain from '../../Fonts/FontFamilyValDomain';
+import FontFamily from '../../Css/Text/FontFamily';
+import FontFaceAccessor from '~/src/Fonts/FontFaceAccessor';
 export default class DefaultModelToCss implements ModelToCss
 {
 
@@ -142,17 +145,22 @@ export default class DefaultModelToCss implements ModelToCss
             var newDominShadow
             var newDominTransition
             var newDominGradient
+            var newDominFontFamily
             newDominShadow = <BasePropertyCss><unknown>this.transformShadows(domain, model)
             newDominTransition = <BasePropertyCss><unknown>this.transformTransition(domain, model)
             newDominGradient = <BasePropertyCss><unknown>this.transformGradient(domain, model)
+            newDominFontFamily = <BasePropertyCss><unknown>this.transformFontFamily(domain, model)
             if (newDominShadow) {
                 domain = newDominShadow
             } else if (newDominTransition) {
                 domain = newDominTransition
             } else if (newDominGradient) {
                 domain = newDominGradient
+            } else if (newDominFontFamily) {
+                domain = newDominFontFamily
             }
-
+            // console.log('domain', domain);
+            
             // model.setAsMultiple()
             // model.setValues(values)
             // model.setValueSecond(domainCast.getSecondValue())
@@ -163,6 +171,29 @@ export default class DefaultModelToCss implements ModelToCss
 
     }
 
+    private transformFontFamily(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<FontFamilyValDomain>
+        if (domain instanceof FontFamily) {
+            domainCastMultiplyVal = <CssMultipleValue<FontFamilyValDomain>><unknown>domain
+            domain.clearValue()
+            // console.log('instanceOF TEXT_SHADOW TO-CSS');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+
+            for (const valCss of model.getValues()) {
+                let el = new FontFamilyValDomain(valCss.getValue(), valCss.getValueSecond())
+                el.id = valCss.id
+                el.fontFace = FontFaceAccessor.getFontByIdStatic(Number(valCss.getValueThird()))
+                // console.log(el);
+
+
+                domainCastMultiplyVal.addValue(el)
+            }
+
+            return domainCastMultiplyVal
+        }
+    }
     private transformShadows(domain: BasePropertyCss, model: StyleCssModel)
     {
         var values = []
@@ -174,7 +205,7 @@ export default class DefaultModelToCss implements ModelToCss
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
 
             for (const valCss of model.getValues()) {
-                    valCss
+                
                 let el = new TextShadowStruct()
                     el.id = valCss.id
                     el.offsetX = parseInt(valCss.getValue())
@@ -211,7 +242,7 @@ export default class DefaultModelToCss implements ModelToCss
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
 
             for (const valCss of model.getValues()) {
-                    valCss
+                    
                 let el = new BoxShadowStruct()
                     el.id = valCss.id
                     el.inset = valCss.getInset()

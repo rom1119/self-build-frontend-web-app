@@ -28,6 +28,8 @@ import LinearGradientCss, { LinearGradientDirection, LinearGradientStructVal } f
 import RadialGradientCss, { RadialGradientStructVal, RadialGradientDirection } from '~/src/Css/Gradient/impl/RadialGradientCss';
 import { Named } from '~/src/Unit';
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
+import FontFamily from '../../Css/Text/FontFamily';
+import FontFamilyValDomain from '../../Fonts/FontFamilyValDomain';
 export default class DefaultCssToModel implements CssToModel
 {
 
@@ -51,7 +53,7 @@ export default class DefaultCssToModel implements CssToModel
 
     transform(domain: BasePropertyCss): StyleCss {
         var value = domain.getClearValue()
-        if (typeof value === 'object') {
+        if (typeof value === 'object' && !(domain instanceof FontFamily)) {
             value = JSON.stringify(value)
         }
         let model = new StyleCssModel(domain.getName(), value, domain.getUnit().name)
@@ -97,6 +99,7 @@ export default class DefaultCssToModel implements CssToModel
             this.transformShadows(domain, model)
             this.transformTransition(domain, model)
             this.transformGradient(domain, model)
+            this.transformFontFamily(domain, model)
             model.setAsMultiple()
             // model.setValueSecond(domainCast.getSecondValue())
             // model.setUnitNameSecond(domainCast.getSecondUnit().name)
@@ -132,6 +135,35 @@ export default class DefaultCssToModel implements CssToModel
 
     }
 
+    private transformFontFamily(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<FontFamilyValDomain>
+        // console.log('transformFontFamily');
+        
+        if (domain instanceof FontFamily) {
+            domainCastMultiplyVal = <CssMultipleValue<FontFamilyValDomain>><unknown>domain
+
+            for (const valCss of domainCastMultiplyVal.getValues()) {
+                
+                let el = new StyleCssValue(valCss.getName(), Named.PROP_NAME)
+                el.id = valCss.id
+                el.setValueSecond(valCss.getType())
+                el.setUnitNameSecond(Named.PROP_NAME)
+                if (valCss.fontFace) {
+                    el.setValueThird(valCss.fontFace.id)
+                    el.setUnitNameThird(Named.PROP_NAME)
+
+                }
+
+                values.push(el)
+            }
+
+            model.setValue(null)
+            model.setValues(values)
+        }
+
+    }
     private transformShadows(domain: BasePropertyCss, model: StyleCssModel)
     {
         var values = []

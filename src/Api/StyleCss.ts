@@ -15,7 +15,7 @@ export default class StyleCss
     private _resourcePath
     private _resourceUrl
     private _multipleValue = false
-    private _values: StyleCssValue[]
+    private _values: StyleCssValue[] = []
     private _children: StyleCss[] = []
 
     constructor(key: string, val: any, unitName: string)

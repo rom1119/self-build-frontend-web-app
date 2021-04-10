@@ -1,7 +1,7 @@
 <template>
     <div class="">
 
-        <layout-creator-container ref="creatorContainer">
+        <layout-creator-container ref="creatorContainer" :fontFaceAccesor="fontFaceAccesor">
 
         </layout-creator-container>
 
@@ -46,6 +46,7 @@ import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.v
         }
 
         modelToDomain: ModelToMediaQuery
+        fontFaceAccesor = null
 
 
         createPElement(target, cm) {
@@ -74,13 +75,20 @@ import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.v
             this.$loadingDialog.hide()
         }
 
+        // created()
+        // {
+        //     console.log('ID created', this.$route.params.id);
+
+        // }
         async mounted()
         {
             var apiMediaQuery = new DefaultMediaQueryApiService()
             var apiFontFace = new DefaultFontFaceApiService()
             var mediaQueryFactory = new MediaQueryFactory(apiMediaQuery)
             this.$fontFaceManageModal.init(this.$route.params.id)
-
+            this.fontFaceAccesor = FontFaceAccessor.getInstance()
+            console.log('mmmmmmmm');
+            console.log(this.fontFaceAccesor);
             this.modelToDomainTransformer = new DefaultModelToDomain()
 
             var modelToDomainMediaQuery = new DefaultModelToMediaQuery(mediaQueryFactory)

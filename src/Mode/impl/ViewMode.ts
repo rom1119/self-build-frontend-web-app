@@ -10,6 +10,7 @@ import MouseOutAction from '../action/MouseOutAction';
 import MouseMoveAction from '../action/MouseMoveAction';
 import KeyDownAction from '../action/KeyDownAction';
 import KeyUpAction from '../action/KeyUpAction';
+import FontFaceViewAction from '../action/FontFaceViewAction';
 export default class ViewMode extends LayoutMode 
 {
     public static NAME = 'view-mode-layout-creator'
@@ -37,6 +38,8 @@ export default class ViewMode extends LayoutMode
             case KeyUpAction.NAME:
                 return false
             case PseudoSelectorViewAction.NAME:
+                return true
+            case FontFaceViewAction.NAME:
                 return true
             
         }

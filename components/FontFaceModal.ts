@@ -21,7 +21,7 @@ export default abstract class FontFaceModal extends Vue
 
     managers: FontFace[]
     accessor: FontFaceAccessor = null
-    public static accessorStatic: FontFaceAccessor
+    public static accessorStatic: FontFaceAccessor = null
 
 
     constructor()
@@ -33,7 +33,7 @@ export default abstract class FontFaceModal extends Vue
 
     public init(projectId: string)
     {
-        this.accessor = FontFaceAccessor.getInstance(projectId)
+        this.accessor = FontFaceAccessor.createInstance(projectId)
         FontFaceModal.accessorStatic = this.accessor
     }
 

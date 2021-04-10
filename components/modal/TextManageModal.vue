@@ -10,7 +10,7 @@
                 Zarządzaj tekstem
             </h4>
         </template>
-        <template slot="content" >
+        <template v-if="active" slot="content" >
             <div class="content-item" style="display: flex;">
                 <div class="content-item-half" @dblclick="hasFontColor = !hasFontColor" :class="{'active': hasFontColor}">
                     <h4 class="content-item__header">
@@ -46,7 +46,7 @@
 
                             <label :for="'fontSize-'">
 
-                                <input @dblclick.stop.prevent="" type="number" style="width: 40px;" class="input-text" v-model="fontSize" name="fontSize" :id="'fontSize-'">
+                                <input @dblclick.stop.prevent="" type="number" style="width: 60px;" step=".01" class="input-text" v-model="fontSize" name="fontSize" :id="'fontSize-'">
                                 {{ fontSizeUnit.label }}
                             </label>
                         </div>
@@ -63,7 +63,7 @@
 
                             <label :for="'lineHeight-'">
 
-                                <input @dblclick.stop.prevent="" type="number" style="width: 40px;" class="input-text" v-model="lineHeight" name="lineHeight" :id="'lineHeight-'">
+                                <input @dblclick.stop.prevent="" type="number" style="width: 60px;" step=".01" class="input-text" v-model="lineHeight" name="lineHeight" :id="'lineHeight-'">
                                 {{ lineHeightUnit.label }}
                             </label>
                         </div>
@@ -103,6 +103,52 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+            <div v-if="fontFamilyManager" class="content-item"  @dblclick="hasFontFamily = !hasFontFamily" :class="{'active': hasFontFamily}">
+                <h4 class="content-item__header">
+                    Font Family
+                </h4>
+                <h4 class="content-item__header">
+                    <span class="add-btn" style="top: 20px; left: -5px;" @click="addDefaultFontFamilyVal"> + </span>
+                </h4>
+                <div class=" content-item__elem_container">
+                    <div class=" content-item_half">
+                        <h6 class="content-item__header">
+                            Typy czcionek
+                        </h6>
+                    </div>
+                    <div class=" content-item_half">
+                        <h6 class="content-item__header">
+                            Dostępne czcionki
+                        </h6>
+                    </div>
+                </div>
+                <div v-for="fontFamVal in fontFamilyManager.property.compValues" :key="fontFamVal.id" class=" content-item__elem_container">
+                    <div class=" content-item_half">
+                        <h6 class="content-item__header">
+                        </h6>
+                        <select class="content-item__elem" @change="onUpdateFontFamily" v-model="fontFamVal.fontType" name="fontFamily" >
+                            <option v-for="el, kkk in fontFamVal.availableFontTypes" :key="kkk" :value="el" >
+                                {{ el }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class=" content-item_half">
+                        <h6 class="content-item__header">
+                        
+                            <span  class="p-abs" style="top: 20px; left: -5px;">
+                                <span class="remove-btn" @click="removeFontFamilyVal(fontFamVal)"> X </span>
+                          
+                            </span>
+                    
+                        </h6>
+                        <select  class="content-item__elem" @change="onUpdateFontFamily" v-model="fontFamVal.fontName" name="fontFamily" >
+                            <option v-for="el, kkk in fontFamVal.availableFonts" :key="kkk" :value="el" >
+                                {{ el }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="content-item" @dblclick="hasFontWeight = !hasFontWeight" :class="{'active': hasFontWeight}">
@@ -170,8 +216,11 @@
     import { RGBA } from '~/src/Unit';
     import FontManageModal from '../FontManageModal';
     import { Chrome }  from '~/node_modules/vue-color';
-import { FontStyle } from '../../src/Css';
+import { FontFamily, FontStyle } from '../../src/Css';
 import FontStretch from '../../src/Css/Text/FontStretch';
+import FontFamilyDomain from '~/src/Fonts/FontFamilyValDomain';
+import FontFamilyProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontFamilyProperty';
+import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
     @Component({
         components: {
@@ -193,6 +242,9 @@ import FontStretch from '../../src/Css/Text/FontStretch';
         fontWeights: string[] = FontWeight.getAccessableProperty()
         fontStyles: string[] = FontStyle.getAccessableProperty()
         fontStretchs: string[] = FontStretch.getAccessableProperty()
+
+
+        
 
         pickerActive = false
         units: UnitSize[] = []
@@ -463,34 +515,47 @@ import FontStretch from '../../src/Css/Text/FontStretch';
 
         // *****************************************  FONT-FAMILY ****************************************************
 
-        get fontFamily()
-        {
-            return  this.fontFamilyManager.getProperty().value
+        addDefaultFontFamilyVal() {
+            this.fontFamilyManager.addDefaultFontFamilyVal()
+            this.onUpdateFontFamily()
         }
 
-        set fontFamily(newVal)
+        removeFontFamilyVal(val: FontFamilyValDomain) {
+            this.fontFamilyManager.removeFontFamilyVal(val)
+            this.onUpdateFontFamily()
+        }
+
+
+        onUpdateFontFamily()
         {
-            this.fontFamilyManager.getProperty().setValue(newVal)
+            if (!this.fontFamilyManager.getProperty()) {
+                return
+            }
+            // var f = FontFamily.findFontByName(newVal)
+            // this.fontFamilyManager.getProperty().setValue(f)
+
             this.fontFamilyManager.updateCssProp(this.fontFamilyManager.getProperty())
         }
 
         get hasFontFamily()
         {
+            if (!this.fontFamilyManager.getProperty()) {
+                return false
+            }
             return  this.fontFamilyManager.getProperty().active
         }
 
         set hasFontFamily(newVal: boolean)
         {
+            if (!this.fontFamilyManager.getProperty()) {
+                return
+            }
             if (!newVal) {
                 this.fontFamilyManager.deactivePropCss(this.fontFamilyManager.getProperty())
             } else {
                 this.fontFamilyManager.activePropCss(this.fontFamilyManager.getProperty())
             }
         }
-
-
-
-
 
 
         toggleColorPicker()

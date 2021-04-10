@@ -70,7 +70,7 @@ export default class LayoutCreatorModeComponent extends BaseLayoutModeComponent 
   }
 
   created() {
-    console.log("created");
+    // console.log("created");
     // console.log(this.value);
     // this.show(this.value)
   }
@@ -98,7 +98,7 @@ export default class LayoutCreatorModeComponent extends BaseLayoutModeComponent 
   }
 
   mounted() {
-    console.log("mounted");
+    // console.log("mounted");
 
     // this.show(this.value)
   }

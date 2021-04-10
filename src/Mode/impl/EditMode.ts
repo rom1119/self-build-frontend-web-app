@@ -10,6 +10,7 @@ import MouseClickAction from '../action/MouseClickAction';
 import MouseMoveAction from '../action/MouseMoveAction';
 import KeyDownAction from '../action/KeyDownAction';
 import KeyUpAction from '../action/KeyUpAction';
+import FontFaceViewAction from '../action/FontFaceViewAction';
 export default class EditMode extends LayoutMode 
 {
     public static NAME = 'edit-mode-layout-creator'
@@ -30,6 +31,8 @@ export default class EditMode extends LayoutMode
                 return true
             case PseudoSelectorViewAction.NAME:
                 return false
+            case FontFaceViewAction.NAME:
+                return true
             case MouseClickAction.NAME:
                 return true
             case MouseMoveAction.NAME:
