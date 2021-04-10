@@ -1312,6 +1312,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             //     height: `${this._height}${this.sizeUnitCurrent.value}`,
             // }
         }
+        var cssFormAccessor = cssFormAccessor = this._cssPropertyAccesor.all
 
         let borderLeftWidth = this.borderLeft.width
         let borderRightWidth = this.borderRight.width

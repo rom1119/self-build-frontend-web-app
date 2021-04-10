@@ -352,8 +352,8 @@ export default class LayoutCreatorContainer extends Vue {
 
             res += '}'
         }
-        console.log('END onChangeFontFace')
-        console.log(res)
+        // console.log('END onChangeFontFace')
+        // console.log(res)
 
         return res
     }

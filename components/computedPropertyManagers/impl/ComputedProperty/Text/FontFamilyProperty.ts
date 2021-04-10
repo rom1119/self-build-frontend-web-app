@@ -39,6 +39,11 @@ export default class FontFamilyProperty extends BaseComputedPropertyManager<Font
         return val
 
     }
+
+    updateCssProp(prop: FontFamily) {
+        super.updateCssProp(prop)
+        this.value.updateModelComponent()
+    }
     
     removeFontFamilyVal(val: FontFamilyValDomain): FontFamilyValDomain {
         this.property.removeValue(val)
