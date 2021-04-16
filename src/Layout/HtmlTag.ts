@@ -86,9 +86,10 @@ import ViewMode from "~/src/Mode/impl/ViewMode";
 import EditMode from "~/src/Mode/impl/EditMode";
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import HtmlAttrOwner from "../HtmlAttrOwner";
+import CssOwner from '../CssOwner';
 
 export default abstract class HtmlTag extends HtmlNode implements
-    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner, HtmlAttrOwner
+    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner, HtmlAttrOwner, CssOwner
 {
     public isElementOfTable() {
         return false
@@ -1207,7 +1208,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             if (this.isLikeBackgroundCss(cssProp)) {
                 continue
             }
-            css[cssProp.getName()] = cssProp.getValue()
+            css[cssProp.getName()] = cssProp.value
 
             if (cssProp instanceof FontSize) {
                 this._innerText = 'Font-size: ' + cssProp.getValue()
@@ -1260,7 +1261,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             if (this.isLikeBackgroundCss(cssProp)) {
                 continue
             }
-            css[cssProp.getName()] = cssProp.getValue()
+            css[cssProp.getName()] = cssProp.value
 
             if (cssProp instanceof FontSize) {
                 this._innerText = 'Font-size: ' + cssProp.getValue()

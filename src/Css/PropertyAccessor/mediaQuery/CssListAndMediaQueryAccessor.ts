@@ -5,6 +5,7 @@ import BasePropertyCss from "~/src/Css/BasePropertyCss";
 import Vue from 'vue';
 import CssPropNotFound from "~/src/Errors/CssPropNotFound";
 import CssComposite from "~/src/Css/CssComposite";
+import CssOwner from '../../../CssOwner';
 
 export default class CssListAndMediaQueryAccessor<T>{
 
@@ -112,6 +113,7 @@ export default class CssListAndMediaQueryAccessor<T>{
         if (prop) {
             throw new CssPropNotFound(`Property with name ${newProp.getName()} has exist in this HTML ELEMENT ${this.toString()} you can not add two the same css property`)
         }
+        newProp.initOwner(<CssOwner><unknown>this.value)
 
         Vue.set(this.cssProps, this.cssProps.length, newProp)
         // console.log(this.cssProps);
@@ -123,7 +125,7 @@ export default class CssListAndMediaQueryAccessor<T>{
     }
 
     public clearPropertyValues(propName: string): CssListAndMediaQueryAccessor<T>{
-        let prop = this.getProperty(name)
+        let prop = this.getProperty(propName)
         if (!prop) {
             throw new CssPropNotFound(`Property with name ${propName} not exist in this HTML ELEMENT ${this.toString()}`)
         }

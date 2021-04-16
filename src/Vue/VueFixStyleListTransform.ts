@@ -91,7 +91,7 @@ export class VueFixStyleListTransform
 
     setCssPropValue(css: BasePropertyCss, tag: HtmlTag) {
         var cssName = css.getName()
-        var cssVal = css.getValue()
+        var cssVal = css.value
         if (cssName.indexOf('-') > -1) {
             cssVal += ` /* ${this.rand} */`
         }

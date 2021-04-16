@@ -311,7 +311,7 @@ export default class BackgroundManageModal extends BackgroundModal {
   }
 
   get backgroundSize() {
-    return this.backgroundSizeManager.getProperty().value;
+    return this.backgroundSizeManager.getProperty().blankValue;
   }
 
   set backgroundSize(newVal: string) {
@@ -338,7 +338,7 @@ export default class BackgroundManageModal extends BackgroundModal {
   }
 
   get backgroundRepeat() {
-    return this.backgroundRepeatManager.getProperty().value;
+    return this.backgroundRepeatManager.getProperty().blankValue;
   }
 
   set backgroundRepeat(newVal: string) {
@@ -365,7 +365,7 @@ export default class BackgroundManageModal extends BackgroundModal {
   }
 
   get backgroundAttachment() {
-    return this.backgroundAttachmentManager.getProperty().value;
+    return this.backgroundAttachmentManager.getProperty().blankValue;
   }
 
   set backgroundAttachment(newVal: string) {
@@ -408,7 +408,7 @@ export default class BackgroundManageModal extends BackgroundModal {
   }
 
   get backgroundPosition() {
-    return this.backgroundPositionManager.getProperty().value;
+    return this.backgroundPositionManager.getProperty().blankValue;
   }
 
   set backgroundPosition(newVal: string) {

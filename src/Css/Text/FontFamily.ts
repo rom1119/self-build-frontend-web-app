@@ -4,18 +4,53 @@ import CssMultipleValue from "../CssMultipleValue";
 import Vue from "vue";
 import FontFamilyValDomain from '../../Fonts/FontFamilyValDomain';
 import Unit from '../../Unit/Unit';
+import CssOwner from '../../CssOwner';
+import FontFaceOwner from '../../Fonts/FontFaceOwner';
+import FontFaceAccessor from '../../Fonts/FontFaceAccessor';
 
 
-export default class FontFamily extends CssSimple implements CssPropertyLimitable, CssMultipleValue<FontFamilyValDomain>
+export default class FontFamily extends CssSimple implements CssPropertyLimitable, FontFaceOwner, CssMultipleValue<FontFamilyValDomain>
 {
+    hasThisFont(el: FontFamilyValDomain): boolean {
+      for (const val of this.values) {
+          if (!val.fontFace) {
+            continue
+          }
+
+          if (val.fontFace.id === el.fontFace.id) {
+            return true
+          }
+      }
+        
+      return false
+    }
     type: string = ''
 
     protected values: FontFamilyValDomain[] = []
 
+    public initOwner(owner: CssOwner) {
+        super.initOwner(owner)
+
+        this.updateFontFaceOwner()
+    }
+
+    updateFontFaceOwner() {
+        console.log('updateFontFaceOwner');
+        console.log(this.id);
+        console.log(this.values);
+        
+        for (const val of this.values) {
+            if (val.fontFace) {
+                console.log('addFontOwnerToFontFace');
+                FontFaceAccessor.getInstance().addFontOwnerToFontFace(val.fontFace, this, val)
+            }
+        }
+    }
     get compValues()
     {
         return this.values
     }
+    
     public static PROP_NAME = 'font-family'
     public getName(): string {
         return FontFamily.PROP_NAME
@@ -110,6 +145,9 @@ export default class FontFamily extends CssSimple implements CssPropertyLimitabl
 
         }
     }
+    getId(): number {
+        return this.id
+    }
 
     public clearValue()
     {
@@ -118,15 +156,36 @@ export default class FontFamily extends CssSimple implements CssPropertyLimitabl
         return this
     }
 
-    get value(): any
+    get blankValue(): any
     {
         var val = ''
         this.values.forEach((element, key) => {
-            val += element.getName()
+            val += element.fontName
             if (key < this.values.length - 1) {
                 val += ', '
             }
         });
+
+        // console.log('F family blankValue');
+        // console.log(val);
+        
+        
+        return val
+    }
+
+    get value(): string
+    {
+        var val = ''
+        this.values.forEach((element, key) => {
+            val += element.fontName
+            if (key < this.values.length - 1) {
+                val += ', '
+            }
+        });
+
+        // console.log('F family value');
+        // console.log(val);
+        // this.synchronize()
         
         return val
     }
@@ -156,6 +215,7 @@ export default class FontFamily extends CssSimple implements CssPropertyLimitabl
         return this.values
     }
     addValue(val: FontFamilyValDomain) {
+        val.setOwner(this)
         this.values.push(val)
     }
 
@@ -172,7 +232,7 @@ export default class FontFamily extends CssSimple implements CssPropertyLimitabl
         var idxToRemove
         for (var i = 0; i < this.values.length; i++) {
             const el = this.values[i]
-            if (el.equals(val)) {
+            if (el.id === val.id) {
                 idxToRemove = i
                 break
             }

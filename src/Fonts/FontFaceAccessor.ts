@@ -13,6 +13,7 @@ import AssetDomain from '../Assets/AssetDomain';
 import SrcFont from './SrcFont';
 import FontFamilyFactory from './FontFamilyFactory';
 import FontFamilyValDomain from './FontFamilyValDomain';
+import FontFamily from '../Css/Text/FontFamily';
 export default class FontFaceAccessor
 {
     
@@ -53,6 +54,33 @@ export default class FontFaceAccessor
             res.push(famValDom)
         }
         return res
+    }
+
+    public addFontOwnerToFontFace(font: FontFace, fontFamily: FontFamily, fontVal: FontFamilyValDomain) {
+        // console.log('addFontOwnerToFontFace');
+        
+        if (!font.owners[fontFamily.id]) {
+            font.owners[fontFamily.id] = []
+        }
+        font.owners[fontFamily.id].push(fontVal.id)
+        font.updateCountOwners()
+        // console.log(font.owners);
+        // console.log(font);
+        // console.log('addFontOwnerToFontFace END');
+    }
+    
+    public deleteFontOwnerFromFontFace(font: FontFace, fontFamily: FontFamily, fontVal: FontFamilyValDomain) {
+        // console.log('deleteFontOwnerFromFontFace');
+        font.owners[fontFamily.id].splice(font.owners[fontFamily.id].indexOf(fontVal.id))
+
+        if (font.owners[fontFamily.id].length < 1) {
+            delete font.owners[fontFamily.id]
+
+        }
+        font.updateCountOwners()
+
+        // console.log(font);
+        // console.log('deleteFontOwnerFromFontFace END');
     }
 
     public updateSrcResurceUrl(font: FontFace, src: SrcFont) {
@@ -151,6 +179,7 @@ export default class FontFaceAccessor
     public static getFontByIdStatic(id: number): FontFace {
         var accesor = FontFaceAccessor.inst
         let propsIndex = null
+        // console.log(accesor.fonts);
 
         for (let i = 0; i < accesor.fonts.length; i++) {
             var el = accesor.fonts[i]

@@ -17,6 +17,7 @@ import MediaQuerySynchronizer from '../Synchronizer/Impl/MediaQuerySynchronizer'
 import Named from "~/src/Unit/Named";
 import UnitColor from "~/src/Unit/UnitColor";
 import {reject} from "~/node_modules/@types/q";
+import CssOwner from '../CssOwner';
 
 
 export class MediaQueryStructVal implements CssValue {
@@ -197,7 +198,7 @@ export class MediaQueryStructVal implements CssValue {
 }
 
 
-export default abstract class BaseMediaQueryCss implements CssMultipleValue<MediaQueryStructVal>
+export default abstract class BaseMediaQueryCss implements CssMultipleValue<MediaQueryStructVal>, CssOwner
 {
 
     id

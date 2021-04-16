@@ -557,7 +557,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  BOX-SIZING ****************************************************
 
   get boxSizing() {
-    return this.boxSizingManager.getProperty().value;
+    return this.boxSizingManager.getProperty().blankValue;
   }
 
   set boxSizing(newVal: string) {
@@ -582,7 +582,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  BORDER-RADIUS ****************************************************
 
   get borderRadiusGlobal() {
-    return this.borderRadiusGlobalManager.getProperty().value;
+    return this.borderRadiusGlobalManager.getProperty().blankValue;
   }
 
   set borderRadiusGlobal(newVal: string) {
@@ -622,7 +622,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  BORDER-RADIUS_LEFT-TOP ****************************************************
 
   get borderRadiusTopLeft() {
-    return this.borderRadiusTopLeftManager.getProperty().value;
+    return this.borderRadiusTopLeftManager.getProperty().blankValue;
   }
 
   set borderRadiusTopLeft(newVal: string) {
@@ -662,7 +662,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  BORDER-RADIUS_RIGHT-TOP ****************************************************
 
   get borderRadiusTopRight() {
-    return this.borderRadiusTopRightManager.getProperty().value;
+    return this.borderRadiusTopRightManager.getProperty().blankValue;
   }
 
   set borderRadiusTopRight(newVal: string) {
@@ -702,7 +702,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  BORDER-RADIUS_BOTTOM-LEFT ****************************************************
 
   get borderRadiusBottomLeft() {
-    return this.borderRadiusBottomLeftManager.getProperty().value;
+    return this.borderRadiusBottomLeftManager.getProperty().blankValue;
   }
 
   set borderRadiusBottomLeft(newVal: string) {
@@ -744,7 +744,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  BORDER-RADIUS_BOTTOM-RIGHT ****************************************************
 
   get borderRadiusBottomRight() {
-    return this.borderRadiusBottomRightManager.getProperty().value;
+    return this.borderRadiusBottomRightManager.getProperty().blankValue;
   }
 
   set borderRadiusBottomRight(newVal: string) {
@@ -784,7 +784,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  WIDTH ****************************************************
 
   get width() {
-    return this.widthManager.getProperty().value;
+    return this.widthManager.getProperty().blankValue;
   }
 
   set width(newVal: string) {
@@ -816,7 +816,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  MIN-WIDTH ****************************************************
 
   get minWidth() {
-    return this.minWidthManager.getProperty().value;
+    return this.minWidthManager.getProperty().blankValue;
   }
 
   set minWidth(newVal: string) {
@@ -848,7 +848,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  MAX-WIDTH ****************************************************
 
   get maxWidth() {
-    return this.maxWidthManager.getProperty().value;
+    return this.maxWidthManager.getProperty().blankValue;
   }
 
   set maxWidth(newVal: string) {
@@ -880,7 +880,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  HEIGHT ****************************************************
 
   get height() {
-    return this.heightManager.getProperty().value;
+    return this.heightManager.getProperty().blankValue;
   }
 
   set height(newVal: string) {
@@ -912,7 +912,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  MIN-HEIGHT ****************************************************
 
   get minHeight() {
-    return this.minHeightManager.getProperty().value;
+    return this.minHeightManager.getProperty().blankValue;
   }
 
   set minHeight(newVal: string) {
@@ -946,7 +946,7 @@ export default class BoxModelManageModal extends BoxModelModal {
   // *****************************************  MAX-HEIGHT ****************************************************
 
   get maxHeight() {
-    return this.maxHeightManager.getProperty().value;
+    return this.maxHeightManager.getProperty().blankValue;
   }
 
   set maxHeight(newVal: string) {

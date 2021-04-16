@@ -569,7 +569,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  POSITION ****************************************************
 
   get position() {
-    return this.positionManager.getProperty().value;
+    return this.positionManager.getProperty().blankValue;
   }
 
   set position(newVal: string) {
@@ -592,7 +592,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  DISPLAY ****************************************************
 
   get display() {
-    return this.displayManager.getProperty().value;
+    return this.displayManager.getProperty().blankValue;
   }
 
   set display(newVal: string) {
@@ -615,7 +615,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  JUSTIFY-CONTENT ****************************************************
 
   get justifyContent() {
-    return this.justifyContentManager.getProperty().value;
+    return this.justifyContentManager.getProperty().blankValue;
   }
 
   set justifyContent(newVal: string) {
@@ -644,7 +644,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  ALIGN-ITEMS ****************************************************
 
   get alignItems() {
-    return this.alignItemsManager.getProperty().value;
+    return this.alignItemsManager.getProperty().blankValue;
   }
 
   set alignItems(newVal: string) {
@@ -671,7 +671,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  FlEX-DIRECTION ****************************************************
 
   get flexDirection() {
-    return this.flexDirectionManager.getProperty().value;
+    return this.flexDirectionManager.getProperty().blankValue;
   }
 
   set flexDirection(newVal: string) {
@@ -700,7 +700,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  FLEX-WRAP ****************************************************
 
   get flexWrap() {
-    return this.flexWrapManager.getProperty().value;
+    return this.flexWrapManager.getProperty().blankValue;
   }
 
   set flexWrap(newVal: string) {
@@ -723,7 +723,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  FLEX-ORDER ****************************************************
 
   get flexOrder() {
-    return this.flexOrderManager.getProperty().value;
+    return this.flexOrderManager.getProperty().blankValue;
   }
 
   set flexOrder(newVal: string) {
@@ -748,7 +748,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  FLEX-GROW ****************************************************
 
   get flexGrow() {
-    return this.flexGrowManager.getProperty().value;
+    return this.flexGrowManager.getProperty().blankValue;
   }
 
   set flexGrow(newVal: string) {
@@ -771,7 +771,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  FLEX-BASIS ****************************************************
 
   get flexBasis() {
-    return this.flexBasisManager.getProperty().value;
+    return this.flexBasisManager.getProperty().blankValue;
   }
 
   set flexBasis(newVal: string) {
@@ -796,7 +796,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  FLEX-SHRINK ****************************************************
 
   get flexShrink() {
-    return this.flexShrinkManager.getProperty().value;
+    return this.flexShrinkManager.getProperty().blankValue;
   }
 
   set flexShrink(newVal: string) {
@@ -823,7 +823,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  FLOAT ****************************************************
 
   get float() {
-    return this.floatManager.getProperty().value;
+    return this.floatManager.getProperty().blankValue;
   }
 
   set float(newVal: string) {
@@ -846,7 +846,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  CLEAR ****************************************************
 
   get clear() {
-    return this.clearManager.getProperty().value;
+    return this.clearManager.getProperty().blankValue;
   }
 
   set clear(newVal: string) {
@@ -869,7 +869,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  LEFT ****************************************************
 
   get left() {
-    return this.leftManager.getProperty().value;
+    return this.leftManager.getProperty().blankValue;
   }
 
   set left(newVal: string) {
@@ -901,7 +901,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  RIGHT ****************************************************
 
   get right() {
-    return this.rightManager.getProperty().value;
+    return this.rightManager.getProperty().blankValue;
   }
 
   set right(newVal: string) {
@@ -933,7 +933,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  TOP ****************************************************
 
   get top() {
-    return this.topManager.getProperty().value;
+    return this.topManager.getProperty().blankValue;
   }
 
   set top(newVal: string) {
@@ -965,7 +965,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  BOTTOM ****************************************************
 
   get bottom() {
-    return this.bottomManager.getProperty().value;
+    return this.bottomManager.getProperty().blankValue;
   }
 
   set bottom(newVal: string) {
@@ -1061,7 +1061,7 @@ export default class DisplayManageModalComponent extends DisplayManageModal {
   // *****************************************  BORDER COLLAPSE ****************************************************
 
   get borderCollapse() {
-    return this.borderCollapseManager.getProperty().value;
+    return this.borderCollapseManager.getProperty().blankValue;
   }
 
   set borderCollapse(newVal: string) {

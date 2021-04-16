@@ -5,6 +5,7 @@ import StyleCssResponse from '../../../types/response/StyleCssResponse';
 import BaseGradientCss from '~/src/Css/Gradient/BaseGradientCss';
 import { BackgroundImage } from '~/src/Css';
 import BasePropertyCss from '../../Css/BasePropertyCss';
+import FontFamily from '../../Css/Text/FontFamily';
 export default class CssStyleUpdater implements IDSUpdater<BasePropertyCss, StyleCssResponse> {
 
     update(domain: BasePropertyCss, results: StyleCssResponse) {
@@ -29,6 +30,14 @@ export default class CssStyleUpdater implements IDSUpdater<BasePropertyCss, Styl
                         const cssValDomain = cssDomain.getValues()[i - 1]
                         cssValDomain.id = cssRes.cssValues[i].id
                     }
+                }
+
+                if (cssDomain instanceof FontFamily) {
+                    // @ts-ignore
+
+                    const cssValDomain = cssDomain.getValues()[i]
+                    cssValDomain.id = cssRes.cssValues[i].id
+                    
                 }
                 // console.log('cssDomain', cssDomain);
                 // console.log('i', i);

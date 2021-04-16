@@ -1,12 +1,14 @@
 import CssWithoutValue from '../Errors/CssWithoutValue';
 import HtmlTag from '../Layout/HtmlTag';
 import Unit from '../Unit/Unit';
+import CssOwner from '../CssOwner';
 export default abstract class BasePropertyCss
 {
     id
     mediaQueryId
     protected values: any[]
     protected unit: Unit
+    protected owner: CssOwner
     public active = true
     public injectable = true
     public toSaveInApi = true
@@ -15,6 +17,15 @@ export default abstract class BasePropertyCss
     {
         this.unit = unit
         this.values = []
+    }
+
+    public initOwner(owner: CssOwner) {
+        this.owner = owner
+    }
+
+    public synchronize()
+    {
+        this.owner.synchronize()
     }
 
     public static canBeManageBy(htmlTag: HtmlTag) {
@@ -64,6 +75,11 @@ export default abstract class BasePropertyCss
     }
 
     get value(): any
+    {
+        return this.unit.getValue(this.values[0])
+    }
+    
+    get blankValue(): any
     {
         return this.values[0]
     }

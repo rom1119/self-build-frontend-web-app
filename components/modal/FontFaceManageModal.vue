@@ -30,6 +30,9 @@
                     </p>
                     <div class=" content-item rel">
                         Nazwa czcionki
+                        <br>
+                        ilosc użytych tagow: {{ font.countOwners }}
+
                         <input type="text" class="w90" @input="changeFont(font)" v-model="font.name" :name="'name' + font.id">
                         <span class="p-abs">
                             <span class="btn btn_red btn_sm" @click="removeFont(font)"> USUN FONT </span>
@@ -166,6 +169,7 @@ interface Color {
 
         async mounted()
         {
+            
             // this.managers = 
         }
 
@@ -188,7 +192,17 @@ interface Color {
         }
         
         removeFont(font: FontFace) {
-            this.accessor.removeFont(font)
+            if (font.isUsedInFontFamily()) {
+                var confirm = window.confirm('Uwaga, ta czcionka jest używana, czy mimo to chcesz ją usunąć ?')
+
+                if (confirm) {
+                    // console.log('USUN');
+                    this.accessor.removeFont(font)
+                } else {
+                    // console.log('NIE USUWAJ');
+
+                }
+            }
         }
         addFontSrc(font: FontFace) {
             var fontSrc = new SrcFont()

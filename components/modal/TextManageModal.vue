@@ -124,32 +124,8 @@
                         </h6>
                     </div>
                 </div>
-                <div v-for="fontFamVal in fontFamilyManager.property.compValues" :key="fontFamVal.id" class=" content-item__elem_container">
-                    <div class=" content-item_half">
-                        <h6 class="content-item__header">
-                        </h6>
-                        <select class="content-item__elem" @change="onUpdateFontFamily" v-model="fontFamVal.fontType" name="fontFamily" >
-                            <option v-for="el, kkk in fontFamVal.availableFontTypes" :key="kkk" :value="el" >
-                                {{ el }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class=" content-item_half">
-                        <h6 class="content-item__header">
-                        
-                            <span  class="p-abs" style="top: 20px; left: -5px;">
-                                <span class="remove-btn" @click="removeFontFamilyVal(fontFamVal)"> X </span>
-                          
-                            </span>
-                    
-                        </h6>
-                        <select  class="content-item__elem" @change="onUpdateFontFamily" v-model="fontFamVal.fontName" name="fontFamily" >
-                            <option v-for="el, kkk in fontFamVal.availableFonts" :key="kkk" :value="el" >
-                                {{ el }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
+
+                <font-family-value-component v-for="fontFamVal in fontFamilyManager.property.compValues" :fontFamVal="fontFamVal" :fontFamilyManager="fontFamilyManager"  :key="fontFamVal.id" />
             </div>
             <div class="content-item" @dblclick="hasFontWeight = !hasFontWeight" :class="{'active': hasFontWeight}">
                 <h4 class="content-item__header">
@@ -221,6 +197,8 @@ import FontStretch from '../../src/Css/Text/FontStretch';
 import FontFamilyDomain from '~/src/Fonts/FontFamilyValDomain';
 import FontFamilyProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontFamilyProperty';
 import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
+import FontFace from '~/src/Fonts/FontFace';
+import FontFaceAccessor from '~/src/Fonts/FontFaceAccessor';
 
     @Component({
         components: {
@@ -293,7 +271,7 @@ import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
         get lineHeight()
         {
-            return  this.lineHeightManager.getProperty().value
+            return  this.lineHeightManager.getProperty().blankValue
         }
 
         set lineHeight(newVal: string)
@@ -331,7 +309,7 @@ import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
         get fontSize()
         {
-            return  this.fontSizeManager.getProperty().value
+            return  this.fontSizeManager.getProperty().blankValue
         }
 
         set fontSize(newVal: string)
@@ -369,7 +347,7 @@ import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
         get fontColor()
         {
-            return  this.fontColorManager.getProperty().value
+            return  this.fontColorManager.getProperty().blankValue
         }
 
         set fontColor(newVal)
@@ -409,7 +387,7 @@ import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
         get textAlign()
         {
-            return  this.textAlignManager.getProperty().value
+            return  this.textAlignManager.getProperty().blankValue
         }
 
         set textAlign(newVal)
@@ -436,7 +414,7 @@ import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
         get fontStretch()
         {
-            return  this.fontStretchManager.getProperty().value
+            return  this.fontStretchManager.getProperty().blankValue
         }
 
         set fontStretch(newVal)
@@ -463,7 +441,7 @@ import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
         get fontWeight()
         {
-            return  this.fontWeightManager.getProperty().value
+            return  this.fontWeightManager.getProperty().blankValue
         }
 
         set fontWeight(newVal)
@@ -490,7 +468,7 @@ import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
         get fontStyle()
         {
-            return  this.fontStyleManager.getProperty().value
+            return  this.fontStyleManager.getProperty().blankValue
         }
 
         set fontStyle(newVal)
@@ -528,6 +506,27 @@ import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 
         onUpdateFontFamily()
         {
+            console.log();
+            if (!this.fontFamilyManager.getProperty()) {
+                return
+            }
+
+
+            // var f = FontFamily.findFontByName(newVal)
+            // this.fontFamilyManager.getProperty().setValue(f)
+
+            this.fontFamilyManager.updateCssProp(this.fontFamilyManager.getProperty())
+        }
+
+
+        onUpdateFontFaceInFontFamily(val)
+        {
+            console.log('onUpdateFontFaceInFontFamily');
+            console.log(val);
+            console.log(val.target);
+            console.log(val.target.value);
+            // FontFaceAccessor.getInstance().addFontOwnerToFontFace(val.fontFace, this)
+
             if (!this.fontFamilyManager.getProperty()) {
                 return
             }

@@ -13,7 +13,6 @@ interface MediaCssList {
 
 export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
 
-
     protected owner: T
     private _mediaQueryAccessor: MediaQueryAccessor<MediaQueryCss>
 

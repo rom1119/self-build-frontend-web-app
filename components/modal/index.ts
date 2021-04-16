@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import FontFamilyValueComponent from './Font/FontFamilyValueComponent.vue'
 import SiteBoxModelElement from './BoxModel/SiteBoxModelElement.vue'
 import BorderSiteModelElement from './BoxModel/BorderSiteModelElement.vue'
 import TextShadowValueComponent from './Shadow/TextShadowValueComponent.vue'
@@ -12,6 +13,7 @@ import RadialGradientDirectionComponent from './Gradient/RadialGradientDirection
 import DefaultAttrComponent from './HtmlAttr/DefaultAttrComponent.vue'
 import MediaQueryValueComponent from './MediaQueryValueComponent.vue'
 
+Vue.component('font-family-value-component', FontFamilyValueComponent)
 Vue.component('site-box-model-element', SiteBoxModelElement)
 Vue.component('border-site-model-element', BorderSiteModelElement)
 Vue.component('text-shadow-value-component', TextShadowValueComponent)

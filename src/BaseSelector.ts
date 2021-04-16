@@ -18,8 +18,9 @@ import MediaQueryAccessor from "~/src/MediaQuery/MediaQueryAccessor";
 import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 import TransitionCss from "~/src/Css/Animation/TransitionCss";
+import CssOwner from './CssOwner';
 
-export default abstract class BaseSelector
+export default abstract class BaseSelector implements CssOwner
 {
     id
     projectId
@@ -327,7 +328,7 @@ export default abstract class BaseSelector
             if (this.owner.isLikeBackgroundCss(cssProp)) {
                 continue
             }
-            css[cssProp.getName()] = cssProp.getValue()
+            css[cssProp.getName()] = cssProp.value
 
 
         }

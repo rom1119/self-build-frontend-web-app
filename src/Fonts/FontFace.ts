@@ -3,6 +3,7 @@ import FontFaceApiService from '../Api/FontFaceApiService';
 import FontFaceSynchronizer from '../Synchronizer/Impl/FontFaceSynchronizer';
 import SrcFont from './SrcFont';
 import DefaultFontFaceApiService from '../Api/impl/DefaultFontFaceApiService';
+import FontFaceOwner from './FontFaceOwner';
 
 
 export default class FontFace
@@ -14,14 +15,40 @@ export default class FontFace
 
     name: string = ''
     src: SrcFont[]
+    owners:  { [key: number]: number[]}
 
     api: DefaultFontFaceApiService
     synchronizer: FontFaceSynchronizer
 
+    protected _countOwners: number = 0
     constructor()
     {
         this.src = []
+        this.owners = {}
     }
+
+    isUsedInFontFamily() {
+        return this.countOwners > 0
+    }
+
+    public updateCountOwners() {
+        var size = 0,
+        key;
+        for (key in this.owners) {
+            if (this.owners.hasOwnProperty(key)) size++;
+        }
+        this._countOwners = size
+    }
+    get countOwners(): number {
+        
+        return this._countOwners;
+    
+    }
+    // set countOwners(arg) {
+        
+    //     this._countOwners = arg;
+    
+    // }
 
     public setApi(api: DefaultFontFaceApiService)
     {

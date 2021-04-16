@@ -181,11 +181,13 @@ export default class DefaultModelToCss implements ModelToCss
             // console.log('instanceOF TEXT_SHADOW TO-CSS');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
 
+            // console.log('modelTOCss');
             for (const valCss of model.getValues()) {
                 let el = new FontFamilyValDomain(valCss.getValue(), valCss.getValueSecond())
                 el.id = valCss.id
                 el.fontFace = FontFaceAccessor.getFontByIdStatic(Number(valCss.getValueThird()))
-                // console.log(el);
+                // console.log(el.id);
+                // console.log(el.fontFace);
 
 
                 domainCastMultiplyVal.addValue(el)

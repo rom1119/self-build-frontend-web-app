@@ -6,6 +6,7 @@ import Unit from '../Unit/Unit';
 import LayoutEl from '../LayoutEl';
 import Vue from 'vue';
 import { PositionCss } from '.';
+import CssOwner from '../CssOwner';
 export default abstract class CssPropertyAccessor
 {
     protected value: LayoutEl
@@ -109,6 +110,7 @@ export default abstract class CssPropertyAccessor
             throw new CssPropNotFound(`Property with name ${newProp.getName()} has exist in this HTML ELEMENT ${this.toString()} you can not add two the same css property`)
         }
 
+        newProp.initOwner(<CssOwner><unknown>this.value)
         Vue.set(this.cssProps, this.cssProps.length, newProp)
         // console.log(this.cssProps);
         
@@ -119,7 +121,7 @@ export default abstract class CssPropertyAccessor
     }
     
     public clearPropertyValues(propName: string): CssPropertyAccessor{
-        let prop = this.getProperty(name)
+        let prop = this.getProperty(propName)
         if (!prop) {
             throw new CssPropNotFound(`Property with name ${propName} not exist in this HTML ELEMENT ${this.toString()}`)
         }

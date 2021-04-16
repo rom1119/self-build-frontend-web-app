@@ -15,7 +15,7 @@ export default abstract class CssComposite extends BasePropertyCss
         this.values.push(val)
     }
 
-    get value(): string
+    get blankValue(): string
     {
         if (this.values[0] == 'undefined') {
             throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )

@@ -1,9 +1,9 @@
 import CssComposite from './CssComposite';
 export default abstract class CssDirectionComposite extends CssComposite
 {
-    get value(): string
+    get blankValue(): string
     {
-        var val = super.value
+        var val = super.blankValue
         if (this.values.length > 4) {
             throw Error(`Too much properties passed to Padding porperty. Permitted max 4, but current is ${this.values.length}`)
         }
@@ -14,7 +14,7 @@ export default abstract class CssDirectionComposite extends CssComposite
     get left(): string
     {
         let propLength = this.values.length
-        let fullProp = this.value
+        let fullProp = this.blankValue
         let newVal = ''
 
         switch (propLength) {
@@ -33,7 +33,7 @@ export default abstract class CssDirectionComposite extends CssComposite
     get right(): string
     {
         let propLength = this.values.length
-        let fullProp = this.value
+        let fullProp = this.blankValue
         let newVal = ''
 
         switch (propLength) {
@@ -52,7 +52,7 @@ export default abstract class CssDirectionComposite extends CssComposite
     get top(): string
     {
         let propLength = this.values.length
-        let fullProp = this.value
+        let fullProp = this.blankValue
         let newVal = ''
 
         return this.values[0]
@@ -61,7 +61,7 @@ export default abstract class CssDirectionComposite extends CssComposite
     get bottom(): string
     {
         let propLength = this.values.length
-        let fullProp = this.value
+        let fullProp = this.blankValue
         let newVal = ''
 
         switch (propLength) {

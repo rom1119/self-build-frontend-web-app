@@ -11,26 +11,26 @@ export default class BorderGlobalCss extends BorderCompositeCss
     get left(): string
     {
         let propLength = this.values.length
-        let fullProp = this.value
+        let fullProp = this.blankValue
         let newVal = ''
 
-        return this.value
+        return this.blankValue
     }
     
     get right(): string
     {
         let propLength = this.values.length
-        let fullProp = this.value
+        let fullProp = this.blankValue
         let newVal = ''
 
-        return this.value
+        return this.blankValue
 
     }
     
     get top(): string
     {
         let propLength = this.values.length
-        let fullProp = this.value
+        let fullProp = this.blankValue
         let newVal = ''
 
         return this.values[0]
@@ -39,10 +39,10 @@ export default class BorderGlobalCss extends BorderCompositeCss
     get bottom(): string
     {
         let propLength = this.values.length
-        let fullProp = this.value
+        let fullProp = this.blankValue
         let newVal = ''
 
-        return this.value
+        return this.blankValue
 
     }
 
