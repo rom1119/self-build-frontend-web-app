@@ -1,19 +1,16 @@
 import SizeElController from '~/src/SizeElController';
-import HtmlTag from '../Layout/HtmlTag';
-import Size2DDetector from '../SizeDetector/Size2DDetector';
-import BorderSizeCalculator from '../Calculator/Size/BorderSizeCalculator';
-import BorderOffsetSizeCalculator from '../Calculator/OffsetSize/BorderOffsetSizeCalculator';
-import MarginSizeCalculator from '../Calculator/Size/MarginSizeCalculator';
-import MarginOffsetSizeCalculator from '../Calculator/OffsetSize/MarginOffsetSizeCalculator';
-import MarginRecalculate from '../Recalculator/HtmlTagImpl/MarginRecalculate';
-import HtmlTagRecalculator from '../Recalculator/HtmlTagRecalculator';
+import HtmlTag from '../../Layout/HtmlTag';
+import Size2DDetector from '../../SizeDetector/Size2DDetector';
+import BorderSizeCalculator from '../../Calculator/Size/BorderSizeCalculator';
+import BorderOffsetSizeCalculator from '../../Calculator/OffsetSize/BorderOffsetSizeCalculator';
+import MarginSizeCalculator from '../../Calculator/Size/MarginSizeCalculator';
+import MarginOffsetSizeCalculator from '../../Calculator/OffsetSize/MarginOffsetSizeCalculator';
+import MarginRecalculate from '../../Recalculator/HtmlTagImpl/MarginRecalculate';
+import HtmlTagRecalculator from '../../Recalculator/HtmlTagRecalculator';
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
-import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
-import Height from "~/src/Css/Size/Height";
-import Pixel from "~/src/Unit/Size/Pixel";
-export default class TableRowSizeController extends SizeElController
+export default class TableColumnSizeController extends SizeElController
 {
-    protected currentElement: TableRowEl
+    protected currentElement: TableColumnEl
     protected mouseDetector: Size2DDetector
 
     protected marginRecalculator: HtmlTagRecalculator
@@ -31,11 +28,11 @@ export default class TableRowSizeController extends SizeElController
 
     public mouseDownHandler(source: any) {
         this.mouseDown = true
-        let el: TableRowEl = source.target
+        let el: TableColumnEl = source.target
         let event = source.event
-        // console.log(el.toString());
+        console.log(el.toString());
         // console.log(el.projectId);
-        // console.log(el.cssAccessor.all);
+        console.log(el.cssAccessor.all);
 
         // console.log(el.pseudoClassAccessor.all);
 
@@ -86,12 +83,11 @@ export default class TableRowSizeController extends SizeElController
         // console.log(ev.clientX);
         this.mouseDetector.x = ev.clientX
         this.mouseDetector.y = ev.clientY
-        let newValHeight = this.mouseDetector.computedHeight
+        let newValWidth = this.mouseDetector.computedWidth
 
-        if (newValHeight > 0) {
+        if (newValWidth > 0) {
 
-            this.currentElement.setHeightRow(newValHeight)
-            // this.currentElement.setHeightRow(new Height(newValHeight, new Pixel()))
+            this.currentElement.setWidthColumn(newValWidth)
             // this.recalculateMargins(this.currentElement)
             // this.recalculateBorders(this.currentElement)
 

@@ -1,22 +1,22 @@
 import SizeElController from "../SizeElController"
 import MoveEventController from "../MoveEventController"
 import MouseMoveTagEventSource from "./MouseMoveTagEventSource"
-import ContentElSizeController from "./ContentElSizeController"
-import BorderElSizeController from "./BorderElSizeController"
-import PaddingElSizeController from "./PaddingElSizeController"
-import MarginElSizeController from "./MarginElSizeController"
+import ContentElSizeController from "./Size/ContentElSizeController"
+import BorderElSizeController from "./Size/BorderElSizeController"
+import PaddingElSizeController from "./Size/PaddingElSizeController"
+import MarginElSizeController from "./Size/MarginElSizeController"
 import HtmlTagMoveEventController from "./HtmlTagMoveEventController"
 import BorderModel from "../Layout/Border/BorderModel"
 import HtmlTag from "../Layout/HtmlTag"
 import PaddingModel from "../Layout/Padding/PaddingModel"
 import MarginModel from "../Layout/Margin/MarginModel"
-import TableColumnSizeController from "~/src/Controller/TableColumnSizeController";
+import TableColumnSizeController from "~/src/Controller/Size/TableColumnSizeController";
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
-import TableRowSizeController from "~/src/Controller/TableRowSizeController";
+import TableRowSizeController from "~/src/Controller/Size/TableRowSizeController";
 import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
+import LayoutCreatorModeComponent from '../../components/LayoutCreatorModeComponent.vue';
 
-export default class AdvisorTagController
-{
+export default class AdvisorTagController {
 
     contentElSizeController: SizeElController = new ContentElSizeController()
     tableColumnSizeController: SizeElController = new TableColumnSizeController()
@@ -26,22 +26,21 @@ export default class AdvisorTagController
     marginElSizeController: SizeElController = new MarginElSizeController()
     tagMoveController: MoveEventController<MouseMoveTagEventSource>
 
-    protected _hasCtrlKey: boolean = false
+    protected _hasShiftKey: boolean = false
+    protected _creatorMode: LayoutCreatorModeComponent
 
-    constructor()
-    {
-        this.tagMoveController= new HtmlTagMoveEventController(this.hasCtrlKey)
+    constructor(creatorMode: LayoutCreatorModeComponent) {
+        this.tagMoveController = new HtmlTagMoveEventController(this.hasShiftKey)
+        this._creatorMode = creatorMode
     }
 
-    get hasCtrlKey(): boolean
-    {
-        return this._hasCtrlKey
+    get hasShiftKey(): boolean {
+        return this._hasShiftKey
     }
 
-    set hasCtrlKey(args: boolean)
-    {
-        (<HtmlTagMoveEventController>this.tagMoveController).ctrlKeyDown = args
-        this._hasCtrlKey = args
+    set hasShiftKey(args: boolean) {
+        (<HtmlTagMoveEventController>this.tagMoveController).shiftKeyDown = args
+        this._hasShiftKey = args
     }
 
 
@@ -66,7 +65,7 @@ export default class AdvisorTagController
             return null
         }
 
-        if (this.hasCtrlKey) {
+        if (this.hasShiftKey) {
             return this.tagMoveController
         }
 

@@ -13,13 +13,17 @@ import Focus from '~/src/PseudoSelector/PseudoClass/Focus'
 import PseudoClassManager from './computedPropertyManagers/pseudoSelector/PseudoClassManager'
 import FirstChild from '../src/PseudoSelector/PseudoClass/FirstChild';
 import FirstOfType from '../src/PseudoSelector/PseudoClass/FirstOfType';
+import LayoutMode from '../src/Mode/LayoutMode';
+import EditMode from '../src/Mode/impl/EditMode';
 
 
 
 export default abstract class BaseLayoutModeComponent extends Vue
 {
 
+    public mode: LayoutMode = new EditMode();
 
+    active = true;
     // show(val: HtmlTag){
     //     Vue.set(this, 'managers', [])
 

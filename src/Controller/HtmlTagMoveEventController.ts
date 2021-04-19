@@ -21,34 +21,33 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
     protected currentElement: HtmlTag
     protected mouseDetector: Move2DDetector
     protected mouseDownTimeout = 200
-    ctrlKeyDown = false
+    shiftKeyDown = false
 
 
-    constructor(hasCtrlKeyDown)
-    {
+    constructor(hasShiftKeyDown) {
         super()
         this.mouseDetector = new Move2DDetector()
-        Vue.set(this, 'ctrlKeyDown', false)
-        this.ctrlKeyDown = hasCtrlKeyDown
+        Vue.set(this, 'shiftKeyDown', false)
+        this.shiftKeyDown = hasShiftKeyDown
     }
 
     public hasActiveEl(): boolean {
-        return this.mouseDown === true && this.ctrlKeyDown === true
+        return this.mouseDown === true && this.shiftKeyDown === true
     }
 
     public mouseDownHandler(source: MouseMoveTagEventSource) {
         this.mouseDown = true
         let el = source.target
-         // var el = source.target
+        // var el = source.target
         if (el instanceof PaddingModel || el instanceof BorderModel || el instanceof MarginModel) {
-            
+
             el = el.getHtmlTag()
         } else if (el instanceof HtmlTag) {
             el = el
 
         }
         let event = source.event
-        
+
         clearTimeout(this.timeout)
         this.timeout = setTimeout(async () => {
             if (this.mouseDown && el) {
@@ -58,11 +57,11 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
                 let computedStyles = window.getComputedStyle(this.currentElement.getHtmlEl())
                 var left = parseInt(computedStyles.getPropertyValue('left'))
                 var top = parseInt(computedStyles.getPropertyValue('top'))
-                
-                console.log('=====================');
-                console.log(left);
-                console.log(top);
-                
+
+                // console.log('=====================');
+                // console.log(left);
+                // console.log(top);
+
 
                 if (!left) {
                     left = parseInt(computedStyles.getPropertyValue('margin-left'))
@@ -74,10 +73,10 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
 
                 this.currentElement.cssAccessor.removePropWithName(RightCss.PROP_NAME)
                 this.currentElement.cssAccessor.removePropWithName(BottomCss.PROP_NAME)
-                
+
                 if (!this.currentElement.hasPosition) {
                     var abs = PositionCss.NEW_ABSOLUTE();
-                    this.currentElement.updateCssPropertyWithoutModel(PositionCss.PROP_NAME,abs )
+                    this.currentElement.updateCssPropertyWithoutModel(PositionCss.PROP_NAME, abs)
                     this.currentElement.updateHasPosition(abs)
                 } else {
                     var pos = this.currentElement.cssAccessor.getProperty(PositionCss.PROP_NAME);
@@ -88,18 +87,18 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
                 // this.currentElement.updateCssPropertyWithoutModel(LeftCss.PROP_NAME, new LeftCss(left, new Pixel()))
                 // this.currentElement.updateCssPropertyWithoutModel(TopCss.PROP_NAME, new TopCss(top, new Pixel()))
                 // this.mouseDetector.initSize(width, height)
-                    // this.currentElement.changeAsActiveSize()
+                // this.currentElement.changeAsActiveSize()
 
-                }
+            }
 
-            }, this.mouseDownTimeout)
+        }, this.mouseDownTimeout)
     }
-    
+
     public mouseUpHandler(ev: MouseEvent) {
         this.mouseDown = false
         if (!this.currentElement) {
             return
-        }        
+        }
         // this.currentElement.changeAsDeactiveSize()
         this.currentElement = null
 
@@ -112,13 +111,13 @@ export default class HtmlTagMoveEventController extends MoveEventController<Mous
         this.mouseDetector.y = ev.clientY
         let newX = this.mouseDetector.computedX
         let newY = this.mouseDetector.computeY
-        
+
         // if (newX > 0 && newY > 0) {
-            console.log('======!!!!!!!!!!!!===============');
-            console.log(newX);
-            console.log(newY);
-            
-            this.currentElement.initPos(newX, newY)
+        // console.log('======!!!!!!!!!!!!===============');
+        // console.log(newX);
+        // console.log(newY);
+
+        this.currentElement.initPos(newX, newY)
         // }
     }
 

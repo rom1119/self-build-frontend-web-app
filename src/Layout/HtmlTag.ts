@@ -87,9 +87,10 @@ import EditMode from "~/src/Mode/impl/EditMode";
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import HtmlAttrOwner from "../HtmlAttrOwner";
 import CssOwner from '../CssOwner';
+import ActivableTagToAnimation from '../ActivableTagToAnimation';
 
 export default abstract class HtmlTag extends HtmlNode implements
-    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, SelectorOwner, HtmlAttrOwner, CssOwner
+    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, ActivableTagToAnimation, SelectorOwner, HtmlAttrOwner, CssOwner
 {
     public isElementOfTable() {
         return false
@@ -130,6 +131,8 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     protected _toManage = false
     protected _toPosition = false
+    protected _readyToAnimationCheck = false
+    protected _checkedToAnimation = false
 
     protected _width = HtmlTag.INITIAL_WIDTH
     protected _height = HtmlTag.INITIAL_HEIGHT
@@ -203,6 +206,11 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         // console.log(this.paddingRealFetcher);
 
+    }
+    changeAsReadyToAnimationCheck();
+    changeAsReadyToAnimationCheck();
+    changeAsReadyToAnimationCheck(): any {
+        throw new Error("Method not implemented.");
     }
 
     getUUID(): string {
@@ -1436,13 +1444,29 @@ export default abstract class HtmlTag extends HtmlNode implements
     public changeAsActiveToManage() {
         this._toManage = true
     }
+    
+    public changeAsActiveToAnimation() {
+        this._checkedToAnimation = true
+    }
 
     public changeAsNotActiveToManage() {
         this._toManage = false
     }
+    
+    public changeAsNotActiveToAnimation() {
+        this._checkedToAnimation = false
+    }
 
     public isActiveTagToManage(): boolean {
         return this._toManage === true
+    }
+    
+    public isReadyToAnimationCheck(): boolean {
+        return this._readyToAnimationCheck === true
+    }
+    
+    public isActiveTagToAnimation(): boolean {
+        return this._checkedToAnimation === true
     }
 
     public changeAsActiveToPosition() {

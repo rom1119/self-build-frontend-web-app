@@ -17,7 +17,19 @@
                 <!-- <span :style="value.cssBoxList"  ></span> -->
             </div>
 
-            <div class="light-shadow" v-show="value.isActiveTagToPosition()" @click.stop="onEmitRemove(value, $event)">
+            <div class="light-shadow" v-show="value.isReadyToAnimationCheck()" >
+                <div class="remove"  @click.stop="onCheckToAnimationElement(value, $event)">
+                    Wybierz element do animacji
+                </div>
+            </div>
+
+            <div class="animation-selected" v-show="value.isActiveTagToAnimation()" >
+                <div class="remove" >
+                    Tworzysz animację na elemencie
+                </div>  
+            </div>
+
+            <div class="light-shadow" v-show="value.isActiveTagToPosition()" >
 
             </div>
 

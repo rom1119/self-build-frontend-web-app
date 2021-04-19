@@ -29,6 +29,7 @@ import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate"
 import Hover from '../../../src/PseudoSelector/PseudoClass/Hover';
 import PseudoSelector from '../../../src/PseudoSelector/PseudoSelector';
 import PseudoClass from "~/src/PseudoSelector/PseudoClass";
+import BaseMediaQueryComponent from '../../BaseMediaQueryComponent';
 
 export default class PseudoClassManager
 {
@@ -140,6 +141,7 @@ export default class PseudoClassManager
         }
         console.log('activr');
         prop.setApi(this.value.api)
+        prop.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
         this.value.api.appendSelector(prop).then(
             () => {

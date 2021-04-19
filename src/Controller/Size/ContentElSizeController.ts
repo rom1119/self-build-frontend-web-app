@@ -1,12 +1,12 @@
 import SizeElController from '~/src/SizeElController';
-import HtmlTag from '../Layout/HtmlTag';
-import Size2DDetector from '../SizeDetector/Size2DDetector';
-import BorderSizeCalculator from '../Calculator/Size/BorderSizeCalculator';
-import BorderOffsetSizeCalculator from '../Calculator/OffsetSize/BorderOffsetSizeCalculator';
-import MarginSizeCalculator from '../Calculator/Size/MarginSizeCalculator';
-import MarginOffsetSizeCalculator from '../Calculator/OffsetSize/MarginOffsetSizeCalculator';
-import MarginRecalculate from '../Recalculator/HtmlTagImpl/MarginRecalculate';
-import HtmlTagRecalculator from '../Recalculator/HtmlTagRecalculator';
+import HtmlTag from '../../Layout/HtmlTag';
+import Size2DDetector from '../../SizeDetector/Size2DDetector';
+import BorderSizeCalculator from '../../Calculator/Size/BorderSizeCalculator';
+import BorderOffsetSizeCalculator from '../../Calculator/OffsetSize/BorderOffsetSizeCalculator';
+import MarginSizeCalculator from '../../Calculator/Size/MarginSizeCalculator';
+import MarginOffsetSizeCalculator from '../../Calculator/OffsetSize/MarginOffsetSizeCalculator';
+import MarginRecalculate from '../../Recalculator/HtmlTagImpl/MarginRecalculate';
+import HtmlTagRecalculator from '../../Recalculator/HtmlTagRecalculator';
 export default class ContentElSizeController extends SizeElController
 {
     protected currentElement: HtmlTag

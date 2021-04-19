@@ -16,6 +16,16 @@
           />
         </label>
         <label>
+          Animation
+          <input
+            type="radio"
+            name="layout-mode"
+            :id="animationModeName"
+            :value="animationModeName"
+            v-model="modeName"
+          />
+        </label>
+        <label>
           View
           <input
             type="radio"
@@ -25,6 +35,7 @@
             v-model="modeName"
           />
         </label>
+        
       </div>
     </section>
   </div>
@@ -46,13 +57,12 @@ import LayoutMode from "../src/Mode/LayoutMode";
 import EditMode from "../src/Mode/impl/EditMode";
 import ViewMode from "../src/Mode/impl/ViewMode";
 import ModeAction from "../src/Mode/ModeAction";
+import AnimationMode from '../src/Mode/impl/AnimationMode';
 
 @Component
 export default class LayoutCreatorModeComponent extends BaseLayoutModeComponent {
   timeout;
-  public mode: LayoutMode = new EditMode();
 
-  active = true;
 
   pseudoClasses: PseudoClass[] = [];
 
@@ -82,6 +92,9 @@ export default class LayoutCreatorModeComponent extends BaseLayoutModeComponent 
   get viewModeName(): string {
     return ViewMode.NAME;
   }
+  get animationModeName(): string {
+    return AnimationMode.NAME;
+  }
 
   get modeName(): string {
     return this.mode.getName();
@@ -92,6 +105,8 @@ export default class LayoutCreatorModeComponent extends BaseLayoutModeComponent 
       this.mode = new EditMode();
     } else if (arg === ViewMode.NAME) {
       this.mode = new ViewMode();
+    } else if (arg === AnimationMode.NAME) {
+      this.mode = new AnimationMode();
     }
 
     this.$emit("change", this.mode);

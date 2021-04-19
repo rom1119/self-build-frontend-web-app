@@ -13,10 +13,10 @@ import KeyUpAction from '../action/KeyUpAction';
 import FontFaceViewAction from '../action/FontFaceViewAction';
 import MediaQueryViewModeAction from '../action/MediaQueryViewModeAction';
 import KeyFrameViewModeAction from '../action/KeyFrameViewModeAction';
-export default class EditMode extends LayoutMode 
+export default class AnimationMode extends LayoutMode 
 {
-    public static NAME = 'edit-mode-layout-creator'
-    protected name = EditMode.NAME
+    public static NAME = 'animation-mode-layout-creator'
+    protected name = AnimationMode.NAME
 
 
     public canRun(action: ModeAction) {
@@ -52,11 +52,11 @@ export default class EditMode extends LayoutMode
         throw Error('Not implemented ' + action + ' action')
     }
     public getName() {
-        return EditMode.NAME
+        return AnimationMode.NAME
     }
 
     public getLabel() {
-        return 'Tryb edycji'
+        return 'Tryb animacji'
     }
 
 }
