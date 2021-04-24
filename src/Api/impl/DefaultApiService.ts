@@ -33,8 +33,9 @@ import SelectorToModel from "~/src/Transformer/SelectorToModel";
 import { BaseGradientStructVal } from "~/src/Css/Gradient/BaseGradientCss";
 import NodeUpdater from "../idsUpdate/NodeUpdater";
 import TagResource from "~/src/Css/TagResource";
+import SelectorApiService from '../SelectorApiService';
 
-export default class DefaultApiService implements ApiService
+export default class DefaultApiService implements ApiService, SelectorApiService
 {
     static HOST = 'http://localhost:8080'
 

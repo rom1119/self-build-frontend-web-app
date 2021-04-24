@@ -1,10 +1,10 @@
 
 import UnableCreateCssPropertyFromName from '../Errors/UnableCreateCssPropertyFromName';
-import * as libCss from "~/src/Css/Animation/timingFunction";
+import * as libCss from "~/src/Animation/timingFunction";
 import Unit from '../Unit/Unit';
 import UnableCreateTimingFunctionFromName from '../Errors/UnableCreateTimingFunctionFromName';
-import TimingFunction from '../Css/Animation/timingFunction/TimingFunction';
-import CubicBezier from '../Css/Animation/timingFunction/impl/CubicBezier';
+import TimingFunction from '../Animation/timingFunction/TimingFunction';
+import CubicBezier from '../Animation/timingFunction/impl/CubicBezier';
 
 export default class TimingFunctionFactoryFromName {
 

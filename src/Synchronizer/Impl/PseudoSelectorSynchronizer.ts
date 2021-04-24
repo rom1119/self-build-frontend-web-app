@@ -9,6 +9,7 @@ import TextNode from '../../Layout/TextNode';
 import PseudoSelector from '../../PseudoSelector/PseudoSelector';
 import BaseGradientCss from "~/src/Css/Gradient/BaseGradientCss";
 import { BackgroundImage } from "~/src/Css";
+import SelectorApiService from '../../Api/SelectorApiService';
 
 export default class PseudoSelectorSynchronizer implements Synchronizer
 {
@@ -16,10 +17,10 @@ export default class PseudoSelectorSynchronizer implements Synchronizer
     protected isNowSynchronized
     protected isQueued = false
     protected selector: PseudoSelector
-    protected api: ApiService
+    protected api: SelectorApiService
     protected apiSocket: SocketApi
 
-    constructor(selector: PseudoSelector, api: ApiService)
+    constructor(selector: PseudoSelector, api: SelectorApiService)
     {
         this.apiSocket = new HtmlSocketApi()
         this.apiSocket.connect()

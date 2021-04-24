@@ -13,13 +13,42 @@ import KeyUpAction from '../action/KeyUpAction';
 import FontFaceViewAction from '../action/FontFaceViewAction';
 import MediaQueryViewModeAction from '../action/MediaQueryViewModeAction';
 import KeyFrameViewModeAction from '../action/KeyFrameViewModeAction';
+import CreateAnimationAction from '../layoutAction/CreateAnimationAction';
+import SelectElementForAnimationAction from '../layoutAction/SelectElementForAnimationAction';
+import LayoutCreatorAction from '../LayoutCreatorAction';
+import BeforeSelectElementForAnimationAction from '../layoutAction/BeforeSelectElementForAnimationAction';
 export default class AnimationMode extends LayoutMode 
 {
+    public isAnimationEditMode = true
+
+    selectedHtmlEl = null
     public static NAME = 'animation-mode-layout-creator'
     protected name = AnimationMode.NAME
 
 
+    public canRunSystemAction(action: LayoutCreatorAction) {
+        if (!this.selectedHtmlEl) {
+            if (action instanceof SelectElementForAnimationAction) {
+                this.selectedHtmlEl = action.el
+                return true
+            }
+            
+            if (action instanceof BeforeSelectElementForAnimationAction) {
+                return true
+            }
+
+            return false
+        } else {
+            if (action instanceof CreateAnimationAction) {
+                return true
+            }
+
+            return false
+        }
+    }
+
     public canRun(action: ModeAction) {
+        
         switch (action.getName()) {
             case MouseDownAction.NAME :
                 return true

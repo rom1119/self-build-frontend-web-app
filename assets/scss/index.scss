@@ -24,7 +24,9 @@
 @import "frontend_builder";
 @import "frontend_builder_cm";
 @import "modal";
+@import "sidebar_tool";
 @import "boxModel";
+@import "manage_component";
 @import "reset";
 
 
@@ -38,6 +40,10 @@
 
 .w100 {
     width: 100% !important;
+}
+
+.w300px {
+    width: 300px !important;
 }
 
 .w90 {

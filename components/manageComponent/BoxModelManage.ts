@@ -1,54 +1,49 @@
-import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
 import HtmlTag from '~/src/Layout/HtmlTag'
-import BasePropertyCss from '~/src/Css/BasePropertyCss'
 import _ from 'lodash'
-import MoveEventController from '~/src/MoveEventController'
-import DefaultMoveEventController from '../src/Controller/DefaultMoveEventController';
-import UnitSize from '~/src/Unit/UnitSize'
-import Unit from '../src/Unit/Unit';
-import AbstractModal from './AbstractModal'
-import Pixel from '~/src/Unit/Size/Pixel'
-import BasePaddingCss from '~/src/Css/BoxModel/BasePaddingCss'
-import PaddingLeftCss from '~/src/Css/BoxModel/Padding/PaddingLeftCss'
-import PaddingCss from '~/src/Css/BoxModel/Padding/PaddingCss'
-import FetcherRealCssProp from '~/src/FetcherRealCssProp'
-import PaddingRightCss from '~/src/Css/BoxModel/Padding/PaddingRightCss'
-import PaddingTopCss from '~/src/Css/BoxModel/Padding/PaddingTopCss'
-import PaddingBottomCss from '~/src/Css/BoxModel/Padding/PaddingBottomCss'
-import BaseMarginCss from '~/src/Css/BoxModel/BaseMarginCss'
-import MarginLeftCss from '~/src/Css/BoxModel/Margin/MarginLeftCss'
-import MarginRightCss from '~/src/Css/BoxModel/Margin/MarginRightCss'
-import MarginTopCss from '~/src/Css/BoxModel/Margin/MarginTopCss'
-import MarginBottomCss from '~/src/Css/BoxModel/Margin/MarginBottomCss'
-import MarginCss from '~/src/Css/BoxModel/Margin/MarginCss'
-import DirectionComputedPropertyManager from './computedPropertyManagers/DirectionComputedPropertyManager'
-import PaddingComputedPropertyManager from './computedPropertyManagers/impl/PaddingComputedPropertyManager';
-import MarginComputedPropertyManager from './computedPropertyManagers/impl/MarginComputedPropertyManager'
-import BorderComputedPropertyManager from './computedPropertyManagers/impl/BorderComputedPropertyManager'
-import BaseBorderCss from '~/src/Css/Border/BaseBorderCss'
-import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp'
-import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
-import Width from '../src/Css/Size/Width';
-import { Height, MinWidth, MaxWidth, MinHeight, MaxHeight, BorderRadiusBottomLeft, BorderRadiusBottomRight } from '~/src/Css'
-import WidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty'
-import HeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/HeightProperty';
-import MinWidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MinWidthProperty'
-import MaxWidthProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MaxWidthProperty'
-import MinHeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MinHeightProperty'
-import MaxHeightProperty from './computedPropertyManagers/impl/ComputedProperty/Content/MaxHeightProperty'
-import BorderRadiusGlobal from '../src/Css/Border/Radius/BorderRadiusGlobal';
-import BorderRadiusTopLeft from '../src/Css/Border/Radius/BorderRadiusTopLeft';
-import BorderRadiusTopRight from '../src/Css/Border/Radius/BorderRadiusTopRight';
-import BorderRadiusGlobalProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusGlobalProperty'
-import BorderRadiusTopLeftProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusTopLeftProperty'
-import BorderRadiusTopRightProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusTopRightProperty'
-import BorderRadiusBottomLeftProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusBottomLeftProperty'
-import BorderRadiusBottomRightProperty from './computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusBottomRightProperty'
-import BoxSizing from '../src/Css/BoxModel/BoxSizing';
-import BoxSizingProperty from './computedPropertyManagers/impl/ComputedProperty/Content/BoxSizingProperty'
+import AbstractModal from '../AbstractModal'
+import BaseComputedPropertyManager from '../computedPropertyManagers/BaseComputedPropertyManager'
+import { BorderRadiusBottomLeft, BorderRadiusBottomRight, BorderRadiusGlobal, BorderRadiusTopLeft, BorderRadiusTopRight, BoxSizing, FontWeight, Height, MaxHeight, MaxWidth, MinHeight, MinWidth, Width } from '~/src/Css';
+import TextAlign from '../../src/Css/Text/TextAlign';
+import FontSize from '../../src/Css/Text/FontSize';
+import FontColor from '../../src/Css/Text/FontColor';
+import FontStyle from '../../src/Css/Text/FontStyle';
+import TextAlignProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/TextAlignProperty'
+import FontSizeProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontSizeProperty'
+import FontColorProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontColorProperty'
+import FontWeightProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontWeightProperty'
+import FontStyleProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontStyleProperty'
+import FontStretch from '../../src/Css/Text/FontStretch';
+import LineHeight from '../../src/Css/Text/LineHeight';
+import LineHeightProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/LineHeightProperty'
+import FontStretchProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontStretchProperty'
+import FontFamilyProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontFamilyProperty'
+import AbstractManageComponent from './AbstractManageComponent';
+import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp';
+import BasePropertyCss from '~/src/Css/BasePropertyCss';
+import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
+import BaseMarginCss from '~/src/Css/BoxModel/BaseMarginCss';
+import BasePaddingCss from '~/src/Css/BoxModel/BasePaddingCss';
+import FetcherRealCssProp from '~/src/FetcherRealCssProp';
+import UnitSize from '~/src/Unit/UnitSize';
+import DirectionComputedPropertyManager from '../computedPropertyManagers/DirectionComputedPropertyManager';
+import BorderComputedPropertyManager from '../computedPropertyManagers/impl/BorderComputedPropertyManager';
+import BorderRadiusBottomLeftProperty from '../computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusBottomLeftProperty';
+import BorderRadiusBottomRightProperty from '../computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusBottomRightProperty';
+import BorderRadiusGlobalProperty from '../computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusGlobalProperty';
+import BorderRadiusTopLeftProperty from '../computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusTopLeftProperty';
+import BorderRadiusTopRightProperty from '../computedPropertyManagers/impl/ComputedProperty/BorderRadius/BorderRadiusTopRightProperty';
+import BoxSizingProperty from '../computedPropertyManagers/impl/ComputedProperty/Content/BoxSizingProperty';
+import HeightProperty from '../computedPropertyManagers/impl/ComputedProperty/Content/HeightProperty';
+import MaxHeightProperty from '../computedPropertyManagers/impl/ComputedProperty/Content/MaxHeightProperty';
+import MaxWidthProperty from '../computedPropertyManagers/impl/ComputedProperty/Content/MaxWidthProperty';
+import MinHeightProperty from '../computedPropertyManagers/impl/ComputedProperty/Content/MinHeightProperty';
+import MinWidthProperty from '../computedPropertyManagers/impl/ComputedProperty/Content/MinWidthProperty';
+import WidthProperty from '../computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty';
+import MarginComputedPropertyManager from '../computedPropertyManagers/impl/MarginComputedPropertyManager';
+import PaddingComputedPropertyManager from '../computedPropertyManagers/impl/PaddingComputedPropertyManager';
 
 
-export default abstract class BoxModelModal extends AbstractModal
+export default abstract class BoxModelManage extends AbstractManageComponent
 {
     paddingRealFetcher: FetcherRealCssProp
     marginRealFetcher: FetcherRealCssProp
@@ -272,6 +267,4 @@ export default abstract class BoxModelModal extends AbstractModal
         this.marginManager.updateCssProp(prop)
     }
 
-
-    
 }

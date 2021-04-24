@@ -3,7 +3,7 @@
     <component :is="tagName"
                :class="positionClass"
                @click.stop="onContentMouseClick(value, $event)"
-               :style="[value.cssBoxList, value.cssBoxListMediaQuery, value.cssBoxListOverride]"  :key="value.updateComponentKey" :id="value.shortUUID" >
+               :style="[value.cssBoxList, value.cssBoxListMediaQuery, value.cssBoxListOverride, customStyles]"  :key="value.updateComponentKey" :id="value.shortUUID" >
         <!-- <html-element-closing-tag-context-menu v-if="value.isClosingTag" :value="value" :ref="value.uuid" />
         <html-element-short-closing-tag-context-menu v-else :value="value" :ref="value.uuid" /> -->
         <slot name="top-content" />
@@ -17,9 +17,9 @@
                 <!-- <span :style="value.cssBoxList"  ></span> -->
             </div>
 
-            <div class="light-shadow" v-show="value.isReadyToAnimationCheck()" >
-                <div class="remove"  @click.stop="onCheckToAnimationElement(value, $event)">
-                    Wybierz element do animacji
+            <div class="animation-shadow" v-show="value.isReadyToAnimationCheck()" >
+                <div class="tip-animation"  @click.stop="onCheckToAnimationElement(value, $event)">
+                    Klikni aby tworzyć animację
                 </div>
             </div>
 
@@ -221,6 +221,16 @@ export default class BaseHTMLWrapper extends Vue {
     protected marginRecalculator: HtmlTagRecalculator
 
     contextMenuName = 'cm-create-html-element123'
+
+    get customStyles() {
+        var res: any = {}
+
+        if (this.value.hardHidden) {
+            res.display = 'none !important;'
+        }
+
+        return res
+    }
 
     getComponentNameByTag(tag: HtmlNode) {
 
@@ -651,6 +661,29 @@ export default class BaseHTMLWrapper extends Vue {
         // display: flex;
     }
 
+    .tip-animation {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px;
+        border-radius: 20px;
+        background-color: rgb(229, 255, 0);
+        z-index: 99999999;
+        border: 2px solid #998866;
+        text-shadow: none;
+        color: black;
+        font-size: 14px;
+    }
+
+    .animation-shadow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0px 0px 3px 15px rgb(248, 72, 18) !important;
+    }
     .light-shadow {
         position: absolute;
         top: 0;
@@ -673,7 +706,7 @@ export default class BaseHTMLWrapper extends Vue {
         border: 2px solid #998866;
         text-shadow: none;
         color: black;
-        font-size: 1em;
+        font-size: 14px;
 
     }
     .remove:hover {

@@ -13,8 +13,8 @@ import BasePropertyCss from "../BasePropertyCss";
 import CssMultipleValue from "../CssMultipleValue";
 import Pixel from '../../Unit/Size/Pixel';
 import CssValue from "../CssValue";
-import TimingFunction from "./timingFunction/TimingFunction";
-import Linear from './timingFunction/impl/Linear';
+import TimingFunction from "../../Animation/timingFunction/TimingFunction";
+import Linear from '../../Animation/timingFunction/impl/Linear';
 import { UnitSecond } from "~/src/Unit";
 import Width from '../Size/Width';
 

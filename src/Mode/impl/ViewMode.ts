@@ -13,10 +13,18 @@ import KeyUpAction from '../action/KeyUpAction';
 import FontFaceViewAction from '../action/FontFaceViewAction';
 import MediaQueryViewModeAction from '../action/MediaQueryViewModeAction';
 import KeyFrameViewModeAction from '../action/KeyFrameViewModeAction';
+import LayoutCreatorAction from '../LayoutCreatorAction';
 export default class ViewMode extends LayoutMode 
 {
+    isViewMode = true
+
     public static NAME = 'view-mode-layout-creator'
     protected name = ViewMode.NAME
+
+    public canRunSystemAction(action: LayoutCreatorAction) {
+       
+        return false
+    }
 
     public canRun(action: ModeAction) {
         // console.error('as')

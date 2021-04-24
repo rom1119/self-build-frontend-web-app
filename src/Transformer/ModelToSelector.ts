@@ -6,10 +6,13 @@ import StyleCss from '../Api/StyleCss';
 import Selector from '../Api/Selector';
 import PseudoSelector from '../PseudoSelector/PseudoSelector';
 import HtmlTag from '../Layout/HtmlTag';
+import SelectorOwner from '../SelectorOwner';
+import BaseSelector from '../BaseSelector';
 export default interface ModelToSelector
 {
     /**
      * transform
      */
-    transform(model: Selector, tag: HtmlTag) : PseudoSelector 
+    transform(model: Selector, tag: SelectorOwner) : BaseSelector 
+    setWithKeyFrameSelectors() 
 }

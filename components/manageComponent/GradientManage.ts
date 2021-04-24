@@ -2,39 +2,36 @@ import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
 import HtmlTag from '~/src/Layout/HtmlTag'
 import BasePropertyCss from '~/src/Css/BasePropertyCss'
 import _ from 'lodash'
-import AbstractModal from './AbstractModal'
-import Display from '../src/Css/Display/Display';
-import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
-import DisplayProperty from './computedPropertyManagers/impl/ComputedProperty/Display/DisplayProperty'
-import { JustifyContent, AlignItems, FlexDirection, FlexGrow, FlexOrder, FlexShrink, FlexWrap, Float, BoxShadowCss, BackgroundImage } from '~/src/Css';
-import FlexBasis from '../src/Css/Display/FlexBasis';
-import Clear from '../src/Css/Display/Clear';
-import ClearProperty from './computedPropertyManagers/impl/ComputedProperty/Display/ClearProperty'
-import FloatProperty from './computedPropertyManagers/impl/ComputedProperty/Display/FloatProperty'
-import FlexWrapProperty from './computedPropertyManagers/impl/ComputedProperty/Display/FlexWrapProperty'
-import FlexShrinkProperty from './computedPropertyManagers/impl/ComputedProperty/Display/FlexShrinkProperty'
-import FlexOrderProperty from './computedPropertyManagers/impl/ComputedProperty/Display/FlexOrderProperty'
-import FlexGrowProperty from './computedPropertyManagers/impl/ComputedProperty/Display/FlexGrowProperty'
-import FlexDirectionProperty from './computedPropertyManagers/impl/ComputedProperty/Display/FlexDirectionProperty'
-import FlexBasisProperty from './computedPropertyManagers/impl/ComputedProperty/Display/FlexBasisProperty'
-import AlignItemsProperty from './computedPropertyManagers/impl/ComputedProperty/Display/AlignItemsProperty'
-import JustifyContentProperty from './computedPropertyManagers/impl/ComputedProperty/Display/JustifyContentProperty'
-import TextShadowCss from '../src/Css/Shadow/TextShadowCss';
-import TextShadowProperty from './computedPropertyManagers/impl/ComputedProperty/Shadow/TextShadowProperty';
-import BoxShadowProperty from './computedPropertyManagers/impl/ComputedProperty/Shadow/BoxShadowProperty'
-import LinearGradientCss from '../src/Css/Gradient/impl/LinearGradientCss';
-import LinearGradientProperty from './computedPropertyManagers/impl/ComputedProperty/Gradient/LinearGradientProperty'
-import RadialGradientCss from '~/src/Css/Gradient/impl/RadialGradientCss'
-import RadialGradientProperty from './computedPropertyManagers/impl/ComputedProperty/Gradient/RadialGradientProperty'
-import RepeatingLinearGradientCss from '~/src/Css/Gradient/impl/RepeatingLinearGradientCss'
-import RepeatingRadialGradientCss from '~/src/Css/Gradient/impl/RepeatingRadialGradientCss'
-import RepeatingLinearGradientProperty from './computedPropertyManagers/impl/ComputedProperty/Gradient/RepeatingLinearGradientProperty'
-import RepeatingRadialGradientProperty from './computedPropertyManagers/impl/ComputedProperty/Gradient/RepeatingRadialGradientProperty'
-import BaseGradientCss from '../src/Css/Gradient/BaseGradientCss';
-import BaseGradientPropertyManager from './computedPropertyManagers/impl/ComputedProperty/Gradient/BaseGradientPropertyManager';
+import AbstractModal from '../AbstractModal'
+import Display from '../../src/Css/Display/Display';
+import BaseComputedPropertyManager from '../computedPropertyManagers/BaseComputedPropertyManager'
+import DisplayProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/DisplayProperty'
+import { JustifyContent, AlignItems, FlexDirection, FlexGrow, FlexOrder, FlexShrink, FlexWrap, Float, BoxShadowCss, BackgroundImage, LinearGradientCss, RadialGradientCss, RepeatingLinearGradientCss, RepeatingRadialGradientCss } from '~/src/Css';
+import FlexBasis from '../../src/Css/Display/FlexBasis';
+import Clear from '../../src/Css/Display/Clear';
+import ClearProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/ClearProperty'
+import FloatProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FloatProperty'
+import FlexWrapProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexWrapProperty'
+import FlexShrinkProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexShrinkProperty'
+import FlexOrderProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexOrderProperty'
+import FlexGrowProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexGrowProperty'
+import FlexDirectionProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexDirectionProperty'
+import FlexBasisProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexBasisProperty'
+import AlignItemsProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/AlignItemsProperty'
+import JustifyContentProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/JustifyContentProperty'
+import TextShadowCss from '../../src/Css/Shadow/TextShadowCss';
+import TextShadowProperty from '../computedPropertyManagers/impl/ComputedProperty/Shadow/TextShadowProperty';
+import BoxShadowProperty from '../computedPropertyManagers/impl/ComputedProperty/Shadow/BoxShadowProperty'
+import TransitionCss from '~/src/Css/Animation/TransitionCss'
+import TransitionProperty from '../computedPropertyManagers/impl/ComputedProperty/Animation/TransitionProperty'
+import AbstractManageComponent from './AbstractManageComponent';
+import LinearGradientProperty from '../computedPropertyManagers/impl/ComputedProperty/Gradient/LinearGradientProperty'
+import RadialGradientProperty from '../computedPropertyManagers/impl/ComputedProperty/Gradient/RadialGradientProperty'
+import RepeatingLinearGradientProperty from '../computedPropertyManagers/impl/ComputedProperty/Gradient/RepeatingLinearGradientProperty'
+import RepeatingRadialGradientProperty from '../computedPropertyManagers/impl/ComputedProperty/Gradient/RepeatingRadialGradientProperty'
 
 
-export default abstract class GradientManageModal extends AbstractModal
+export default abstract class GradientManage extends AbstractManageComponent
 {
     linearGradientManager: BaseComputedPropertyManager<LinearGradientCss>
     radialGradientManager: BaseComputedPropertyManager<RadialGradientCss>
@@ -56,8 +53,8 @@ export default abstract class GradientManageModal extends AbstractModal
 
     }
 
-    show(val: HtmlTag){
-        super.show(val)
+    init(val: HtmlTag){
+        super.init(val)
         this.hasGradientActive = false
         this.currentGradientData = ''
         this.isLinear = false   

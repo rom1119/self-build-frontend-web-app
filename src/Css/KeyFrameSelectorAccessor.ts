@@ -9,10 +9,10 @@ import { PositionCss } from '.';
 import PseudoSelector from '../PseudoSelector/PseudoSelector';
 import PseudoSelectorNotFound from '../Errors/PseudoSelectorNotFound';
 import SelectorAccessor from './SelectorAccessor';
-import KeyFrameSelector from './Animation/KeyFrameSelector';
-import PercentKeyFrameSelector from './Animation/keyFrameSelectors/PercentKeyFrameSelector';
-import FromKeyFrameSelector from './Animation/keyFrameSelectors/FromKeyFrameSelector';
-import ToKeyFrameSelector from './Animation/keyFrameSelectors/ToKeyFrameSelector';
+import KeyFrameSelector from '../Animation/KeyFrameSelector';
+import PercentKeyFrameSelector from '../Animation/keyFrameSelectors/PercentKeyFrameSelector';
+import FromKeyFrameSelector from '../Animation/keyFrameSelectors/FromKeyFrameSelector';
+import ToKeyFrameSelector from '../Animation/keyFrameSelectors/ToKeyFrameSelector';
 export default class KeyFrameSelectorAccessor extends SelectorAccessor<KeyFrameSelector>
 {
     

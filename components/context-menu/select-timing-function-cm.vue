@@ -28,13 +28,8 @@ import VW from '../../src/Unit/Size/VW';
 import HtmlNode from '../../src/Layout/HtmlNode';
 import Unit from '../../src/Unit/Unit';
 import { BoxSizing } from '../../src/Css';
-import Linear from '~/src/Css/Animation/timingFunction/impl/Linear';
-import Ease from '~/src/Css/Animation/timingFunction/impl/Ease';
-import EaseIn from '~/src/Css/Animation/timingFunction/impl/EaseIn';
-import EaseOut from '~/src/Css/Animation/timingFunction/impl/EaseOut';
-import EaseInOut from '~/src/Css/Animation/timingFunction/impl/EaseInOut';
-import TimingFunction from '~/src/Css/Animation/timingFunction/TimingFunction';
-import { CubicBezier } from '~/src/Css/Animation/timingFunction';
+import { Linear, Ease, EaseIn, EaseOut, EaseInOut, CubicBezier } from '~/src/Animation/timingFunction';
+import TimingFunction from '~/src/Animation/timingFunction/TimingFunction';
 
 @Component
 export default class SelectTimingFunctionContextMenu extends Vue {

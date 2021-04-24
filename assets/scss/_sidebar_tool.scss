@@ -1,0 +1,59 @@
+.sidebar_tool{
+    right: -400px;
+    position: fixed;
+    width: 400px;
+    height: 70vh;
+    background-color: white;
+    box-shadow: 0px 0px 4px gray;
+    transition: right .2s linear;
+    overflow: scroll;
+    &__animate-tool {
+        top: 80px;
+        z-index: 2;
+    }
+    
+    &__layout-tag-tool {
+        top: 130px;
+        z-index: 1;
+    }
+    
+    &__container { 
+        width: 100%;
+    }
+    &__controls {
+        position: absolute;
+        left: -130px;
+        width: 150px;
+        
+    }
+    &__tabs {
+        display: flex;
+        overflow-x: scroll;
+        &__tab-item {
+            background-color: rgba(138, 13, 19, 0.438);
+            padding: 3px;
+            border: 1px solid rgba(26, 14, 197, 0.438);
+            &:hover {
+                background-color: rgba(224, 20, 31, 0.747);
+
+            }
+        }
+    }
+    &__content { 
+        width: 100%;
+        
+        &-item { 
+            width: 100%;
+
+
+        }
+
+    }
+    &__open {
+        right: 0;
+    }
+
+    .active{
+        background-color: aquamarine;
+    }
+}

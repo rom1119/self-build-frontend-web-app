@@ -22,7 +22,14 @@ export default class KeyFrameModelBuild implements ModelFromResponse<KeyFrameRes
     build(from: KeyFrameResponse): KeyFrameModel {
         let model = new KeyFrameModel()
         model.id = from.id
+        model.version = from.version
+        model.name = from.name
+        model.shortUuid = from.shortUuid
+        
+        if (from.project) {
+            model.projectId = from.project.id
 
+        }
 
         
         var sels = []

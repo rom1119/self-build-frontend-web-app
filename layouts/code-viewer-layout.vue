@@ -21,11 +21,9 @@
     import Navbar from '@/components/navbar.vue'
     import FooterComponent from '@/components/footer.vue'
     import LoadingDialog from "~/components/LoadingDialog.vue";
-    import Sidebar from "~/components/sidebar.vue";
 
     @Component({
         components: {
-            Sidebar,
             Navbar,
             FooterComponent,
             LoadingDialog

@@ -35,13 +35,13 @@ export default class FontFamily extends CssSimple implements CssPropertyLimitabl
     }
 
     updateFontFaceOwner() {
-        console.log('updateFontFaceOwner');
-        console.log(this.id);
-        console.log(this.values);
+        // console.log('updateFontFaceOwner');
+        // console.log(this.id);
+        // console.log(this.values);
         
         for (const val of this.values) {
             if (val.fontFace) {
-                console.log('addFontOwnerToFontFace');
+                // console.log('addFontOwnerToFontFace');
                 FontFaceAccessor.getInstance().addFontOwnerToFontFace(val.fontFace, this, val)
             }
         }

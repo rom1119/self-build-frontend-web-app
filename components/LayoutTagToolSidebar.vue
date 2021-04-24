@@ -1,0 +1,118 @@
+<template >
+  <div class="sidebar_tool sidebar_tool__layout-tag-tool" :class="{'sidebar_tool__open' : active}">
+    <div class="sidebar_tool__controls">
+      <span class="btn" @click="toggleSidebar">
+        HTML Tag 
+      </span>
+    </div>
+    
+      <div class="sidebar_tool_container">
+
+        <h5 class="text-center">
+          Layout Tag Tool Managed
+        </h5>
+        <div class="sidebar_tool__tabs">
+          <div v-for="tab in tabs" @click="onChangeTab(tab.componentName)" :key="tab.componentName" :class="{'active' : tab.componentName === currentComponentName }" class="sidebar_tool__tabs__tab-item">
+            {{ tab.name }}
+          </div>
+        </div>
+
+        <div class="sidebar_tool__content">
+        {{ currentActiveTag }}
+            <text-manage-component :activeTag="currentActiveTag" />
+          <div v-for="tab in tabs" v-show="tab.componentName === currentComponentName" :key="tab.componentName" class="sidebar_tool__content-item">
+            <span>
+              {{ tab.componentName }}
+            </span>
+          </div>
+        </div>
+
+        
+      </div>
+  </div>  
+  
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import base64 from "base-64";
+import { SidebarMenu } from "vue-sidebar-menu";
+import DefaultActiveToManageController from "~/src/Controller/DefaultActiveToManageController";
+import TextManageComponent from "~/components/manageComponent/component/TextManageComponent.vue";
+
+@Component({
+  components: {
+    TextManageComponent
+  },
+})
+export default class LayoutTagToolSidebar extends Vue {
+  active = true
+  currentComponentName = ''
+  tabs = [
+    {
+      name: 'Text',
+      componentName: 'text-manage-component'
+    },
+    // {
+    //   name: 'Background',
+    //   componentName: 'background-manage-component'
+    // },
+    // {
+    //   name: 'Display',
+    //   componentName: 'display-manage-component'
+    // },
+    // {
+    //   name: 'Box Model',
+    //   componentName: 'box-model-manage-component'
+    // },
+    // {
+    //   name: 'Shadow',
+    //   componentName: 'shadow-manage-component'
+    // },
+    // {
+    //   name: 'Gradient',
+    //   componentName: 'gradient-manage-component'
+    // },
+    // {
+    //   name: 'Animation',
+    //   componentName: 'animation-manage-component'
+    // },
+  ]
+
+  @Prop({required: true, default: null})   
+  accualActiveEl
+
+  mounted() {
+    this.currentComponentName = this.tabs[0].componentName
+  }
+
+  get currentActiveTag() {
+    console.log('  get currentActiveTag()');
+    console.log(this.accualActiveEl);
+
+    if (this.accualActiveEl) {
+      return this.accualActiveEl
+    }
+
+    return null
+  }
+
+  toggleSidebar() {
+    this.active = !this.active
+  }
+
+  onChangeTab(componentName) {
+    this.currentComponentName = componentName
+  }
+  logout() {
+    this.$loadingDialog.show();
+    // @ts-ignore
+
+    this.$loadingDialog.hide();
+  }
+}
+</script>
+
+<style  lang="scss">
+@import "vue-sidebar-menu/src/scss/vue-sidebar-menu.scss";
+</style>

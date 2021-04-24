@@ -25,7 +25,14 @@ export default class KeyFrameModelBuildResponse implements ResponseFromModel<Key
         let response = new KeyFrameResponse()
         response.id = from.id
         response.name = from.getName()
+        response.shortUuid = from.shortUuid
  
+
+        response.version = from.version
+        response.project = {
+            "id": from.projectId,
+            "version": 1
+        }
 
         var selectors = []
         for (const cssValModel of from.getSelectors()) {

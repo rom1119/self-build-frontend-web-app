@@ -6,7 +6,7 @@ import ActiveToController from '../ActiveToController';
 import ActivableTagToManage from '../ActivableTagToManage';
 export default class DefaultActiveToManageController implements ActiveToController<ActivableTagToManage>
 {
-    protected accualActiveEl: ActivableTagToManage
+    public accualActiveEl: ActivableTagToManage = null
 
 
     public updateActiveTag(elToActive: ActivableTagToManage)

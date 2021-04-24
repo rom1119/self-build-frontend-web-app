@@ -13,6 +13,16 @@
       ref="layout-builder-cm"
     />
 
+      <div>
+        <template v-if="appEventsController">
+          <layout-tag-tool-sidebar  :accualActiveEl="appEventsController.activeToManageController.accualActiveEl">
+          </layout-tag-tool-sidebar>
+        
+            
+          
+        </template>
+      </div>
+
     <object id="layout-object" class="main-object" :style="windowStyles">
       <html>
         <head>
@@ -70,50 +80,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import HtmlTag from "../../src/Layout/HtmlTag";
 import HtmlTagFactory from "../../src/Layout/HtmlTagFactory";
-import ActiveElController from "../../src/ActiveElController";
-import SizeElController from "../../src/SizeElController";
-import ContentElSizeController from "../../src/Controller/Size/ContentElSizeController";
-import BorderElSizeController from "../../src/Controller/Size/BorderElSizeController";
-import BorderModel from "../../src/Layout/Border/BorderModel";
-import DefaultActiveElController from "../../src/Controller/DefaultActiveElController";
-import PaddingElSizeController from "../../src/Controller/Size/PaddingElSizeController";
-import PaddingModel from "~/src/Layout/Padding/PaddingModel";
-import MarginElSizeController from "../../src/Controller/Size/MarginElSizeController";
-import MarginModel from "~/src/Layout/Margin/MarginModel";
-import DefaultActiveToManageController from "../../src/Controller/DefaultActiveToManageController";
-import ActiveToController from "~/src/ActiveToController";
-import Remover from "../../src/Remover";
-import HtmlNodeRemover from "../../src/Remover/HtmlNodeRemover";
-import ApiService from "../../src/Api/ApiService";
 import DefaultApiService from "~/src/Api/impl/DefaultApiService";
-import LayoutEl from "../../src/LayoutEl";
 import HtmlNode from "../../src/Layout/HtmlNode";
-import ActivableTagToManage from "../../src/ActivableTagToManage";
-import ActivableTagToPosition from "../../src/ActivableTagToPosition";
-import DefaultActiveToPositionController from "../../src/Controller/DefaultActiveToPositionController";
-import HtmlTagMoveEventController from "../../src/Controller/HtmlTagMoveEventController";
-import MouseMoveTagEventSource from "~/src/Controller/MouseMoveTagEventSource";
-import MoveEventController from "~/src/MoveEventController";
-import AdvisorTagController from "../../src/Controller/AdvisorTagController";
-import Form from "../forms/Form";
-import { css } from "js-beautify";
-import MouseDownAction from "../../src/Mode/action/MouseDownAction";
 import PseudoSelectorViewAction from "../../src/Mode/action/PseudoSelectorViewAction";
-import { Icon } from "leaflet";
-import MouseOverAction from "../../src/Mode/action/MouseOverAction";
-import MouseUpAction from "~/src/Mode/action/MouseUpAction";
-import MouseOutAction from "../../src/Mode/action/MouseOutAction";
-import MouseMoveAction from "../../src/Mode/action/MouseMoveAction";
-import KeyDownAction from "~/src/Mode/action/KeyDownAction";
-import KeyUpAction from "~/src/Mode/action/KeyUpAction";
-import MouseClickAction from "~/src/Mode/action/MouseClickAction";
 import ViewMode from "~/src/Mode/impl/ViewMode";
-import TableElement from "~/src/Layout/tag/Table/elements/TableElement";
 import TextNode from "~/src/Layout/TextNode";
-import Height from "~/src/Css/Size/Height";
 import RemoverAdvisor from "~/src/Remover/RemoverAdvisor";
 import DefaultRemoverAdvisor from "~/src/Remover/advisor/DefaultRemoverAdvisor";
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
@@ -121,14 +95,16 @@ import MediaQueryComponent from "~/components/MediaQueryComponent.vue";
 import MediaQueryForCssList from "~/src/MediaQuery/headSection/MediaQueryForCssList";
 import FontFaceViewAction from "~/src/Mode/action/FontFaceViewAction";
 import FontFaceAccessor from "~/src/Fonts/FontFaceAccessor";
-import FontFaceModal from "../FontFaceModal";
-import DefaultActiveToAnimationController from "../../src/Controller/DefaultActiveToAnimationController";
-import ActivableTagToAnimation from "~/src/ActivableTagToAnimation";
 import MediaQueryViewModeAction from "../../src/Mode/action/MediaQueryViewModeAction";
 import KeyFrameViewModeAction from "../../src/Mode/action/KeyFrameViewModeAction";
 import AppEventsController from '../../src/Controller/AppEventsController';
+import LayoutTagToolSidebar from "~/components/LayoutTagToolSidebar.vue";
 
-@Component
+@Component({
+  components: {
+    LayoutTagToolSidebar
+  }
+})
 export default class LayoutCreatorContainer extends Vue {
   contextMenuName = "cm-create-html-element";
   htmlTags: HtmlTag[] = [];
@@ -156,7 +132,7 @@ export default class LayoutCreatorContainer extends Vue {
 
   windowWidth = "100%";
 
-  appEventsController: AppEventsController
+  appEventsController: AppEventsController = null
 
 
   pseudoSelectorAction = new PseudoSelectorViewAction();
@@ -202,14 +178,15 @@ export default class LayoutCreatorContainer extends Vue {
 
     window.document.body.addEventListener("keydown", this.onKeyDown);
     window.document.body.addEventListener("keyup", this.onKeyUp);
-
+    // console.log('LayoutCreatorContainer');
+    // console.log(this);
     this.$layoutCreatorMode.$on("change", (e) => {
       if (e instanceof ViewMode) {
         this.recursiveClearSelectedSelector(this.htmlTags);
       }
     });
 
-    this.appEventsController = new AppEventsController(this.$layoutCreatorMode)
+    this.appEventsController = new AppEventsController(this.$layoutCreatorMode, this.htmlTags)
   }
 
   get windowStyles() {

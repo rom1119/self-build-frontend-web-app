@@ -78,14 +78,9 @@ import { RGBA } from "~/src/Unit";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import { BoxShadowStruct } from "~/src/Css/Shadow/BoxShadowCss";
 import { TransitionStruct } from "~/src/Css/Animation/TransitionCss";
-import TimingFunction from "~/src/Css/Animation/timingFunction/TimingFunction";
-import Linear from "~/src/Css/Animation/timingFunction/impl/Linear";
-import Ease from "../../../src/Css/Animation/timingFunction/impl/Ease";
-import EaseIn from "../../../src/Css/Animation/timingFunction/impl/EaseIn";
-import EaseInOut from "../../../src/Css/Animation/timingFunction/impl/EaseInOut";
-import EaseOut from "../../../src/Css/Animation/timingFunction/impl/EaseOut";
+
 import * as libCss from "~/src/Css/";
-import CubicBezier from "../../../src/Css/Animation/timingFunction/impl/CubicBezier";
+import { CubicBezier } from "~/src/Animation/timingFunction";
 
 @Component({
   components: {

@@ -4,7 +4,9 @@ import SelectorResponse from "./SelectorResponse";
 
 export default class KeyFrameResponse extends ResponseObject{
      id
+     version
      name
+     shortUuid
      value
      project: any
      selectors: SelectorResponse[]

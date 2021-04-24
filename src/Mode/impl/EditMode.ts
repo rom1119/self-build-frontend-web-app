@@ -13,11 +13,18 @@ import KeyUpAction from '../action/KeyUpAction';
 import FontFaceViewAction from '../action/FontFaceViewAction';
 import MediaQueryViewModeAction from '../action/MediaQueryViewModeAction';
 import KeyFrameViewModeAction from '../action/KeyFrameViewModeAction';
+import LayoutCreatorAction from '../LayoutCreatorAction';
 export default class EditMode extends LayoutMode 
 {
+    public isEditMode = true
     public static NAME = 'edit-mode-layout-creator'
     protected name = EditMode.NAME
 
+
+    public canRunSystemAction(action: LayoutCreatorAction) {
+       
+        return false
+    }
 
     public canRun(action: ModeAction) {
         switch (action.getName()) {

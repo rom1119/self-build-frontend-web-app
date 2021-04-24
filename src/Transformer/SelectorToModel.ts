@@ -4,10 +4,11 @@ import BasePropertyCss from '../Css/BasePropertyCss';
 import StyleCss from '../Api/StyleCss';
 import PseudoSelector from '../PseudoSelector/PseudoSelector';
 import Selector from '../Api/Selector';
+import BaseSelector from '../BaseSelector';
 export default interface SelectorToModel
 {
     /**
      * transform
      */
-    transform(domain: PseudoSelector) : Selector 
+    transform(domain: BaseSelector) : Selector 
 }

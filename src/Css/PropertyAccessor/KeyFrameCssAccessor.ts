@@ -6,7 +6,7 @@ import HtmlTagSynchronizer from "~/src/Synchronizer/Impl/HtmlTagSynchronizer";
 import { PositionCss } from "..";
 import LeftCss from '../Display/Direction/LeftCss';
 import PseudoSelector from "~/src/PseudoSelector/PseudoSelector";
-import KeyFrameSelector from '../Animation/KeyFrameSelector';
+import KeyFrameSelector from '../../Animation/KeyFrameSelector';
 
 export default class KeyFrameCssAccessor extends CssPropertyAccessor 
 {

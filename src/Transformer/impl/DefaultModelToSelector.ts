@@ -18,6 +18,9 @@ import Selector from '../../Api/Selector';
 import PseudoSelector from '../../PseudoSelector/PseudoSelector';
 import PseudoSelectorFactoryFromName from '../../Factory/PseudoSelectorFactoryFromName';
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
+import KeyFrameSelector from '../../Animation/KeyFrameSelector';
+import SelectorOwner from '../../SelectorOwner';
+import BaseSelector from '../../BaseSelector';
 export default class DefaultModelToSelector implements ModelToSelector
 {
 
@@ -25,26 +28,35 @@ export default class DefaultModelToSelector implements ModelToSelector
     private selectorFactoryFromName: PseudoSelectorFactoryFromName
     private styleTransformer: ModelToCss
 
+    protected withKeyFrameSelector = false
+
     constructor()
     {
         this.styleTransformer = new DefaultModelToCss()
         this.selectorFactoryFromName = new PseudoSelectorFactoryFromName()
     }
 
-    transform(model: Selector, tag: HtmlTag): PseudoSelector {
+    public setWithKeyFrameSelectors() {
+        this.withKeyFrameSelector = true
+    }
+
+    transform(model: Selector, tag: SelectorOwner): BaseSelector {
         var domain = this.build(model, tag)
 
         return domain
     }
 
-    build(model: Selector, tag: HtmlTag): PseudoSelector
+    build(model: Selector, tag: SelectorOwner): BaseSelector
     {
+
         var domain = this.selectorFactoryFromName.create(model.name)
         domain.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
         domain.id = model.id
         domain.projectId = model.projectId
-        domain.delimiter = model.delimiter
+        if (domain instanceof PseudoSelector) {
+            domain.delimiter = model.delimiter
+        }
         domain.setOwner(tag)
         // domain.setValue(model.value)
         domain.setVersion(model.version)

@@ -18,10 +18,12 @@ import FilterCssInjector from "./FilterCssInjector"
 import RealPositionCalculator from "./PositionCss/RealPositionCalculator";
 import { VueFixStyleListTransform } from "./Vue/VueFixStyleListTransform";
 import Synchronizer from './Synchronizer/Synchronizer';
+import SelectorApiService from './Api/SelectorApiService';
 
 export default interface SelectorOwner
 {
     uuid: string
+    shortUUID: string
 
     hasAbsolute: boolean
     hasFixed: boolean
@@ -33,7 +35,7 @@ export default interface SelectorOwner
 
     realPositionCalculator: RealPositionCalculator
     transformStyleList: VueFixStyleListTransform
-    api: ApiService
+    api: SelectorApiService
     synchronizer: Synchronizer
 
     canAddToCssList(prop: BasePropertyCss): boolean

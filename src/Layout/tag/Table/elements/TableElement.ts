@@ -34,9 +34,10 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
         this.owner = owner
         this.index = index
         // this.initCssAccessor()
+    }
 
-
-
+    public getOwner() {
+        return this.owner
     }
 
     public abstract  removeFromTable()

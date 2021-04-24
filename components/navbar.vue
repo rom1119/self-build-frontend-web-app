@@ -1,7 +1,7 @@
 <template >
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <nuxt-link to="/" class="navbar-brand">Główna
+            <nuxt-link to="/" class="navbar-brand">HOME
             </nuxt-link>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -11,6 +11,8 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto" >
+                    <li id="layoutCreatorInfo">
+                    </li>
                     <li id="layoutCreatorMode">
                     </li>
                 
@@ -23,9 +25,7 @@
                         <a class="nav-link">Home</a>
                     </nuxt-link>
                 </ul>
-                <div class="navbar__contrast-toggler">
-                    <img src="@/assets/img/contrast.svg" alt="">
-                </div>
+                
                 <div class="navbar__user-dropdown">
 
                     <nuxt-link tag="div" class=" btn" to="/dashboard/layouts" active-class="" exact>

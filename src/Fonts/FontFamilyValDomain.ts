@@ -38,8 +38,8 @@ export default class FontFamilyValDomain {
     }
     
     set fontFace(arg) {
-        console.log('set fontFace(arg)');
-        console.log(arg);
+        // console.log('set fontFace(arg)');
+        // console.log(arg);
         if (arg) {
             console.log(arg.name);
             this.name = arg.name

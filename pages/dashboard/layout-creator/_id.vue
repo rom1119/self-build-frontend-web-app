@@ -87,8 +87,8 @@ import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.v
             var mediaQueryFactory = new MediaQueryFactory(apiMediaQuery)
             this.$fontFaceManageModal.init(this.$route.params.id)
             this.fontFaceAccesor = FontFaceAccessor.getInstance()
-            console.log('mmmmmmmm');
-            console.log(this.fontFaceAccesor);
+            // console.log('mmmmmmmm');
+            // console.log(this.fontFaceAccesor);
             this.modelToDomainTransformer = new DefaultModelToDomain()
 
             var modelToDomainMediaQuery = new DefaultModelToMediaQuery(mediaQueryFactory)

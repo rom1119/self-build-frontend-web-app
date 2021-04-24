@@ -14,6 +14,8 @@ import { Pixel } from '../Unit';
 import UnitSize from '../Unit/UnitSize';
 import RealPositionCalculator from '../PositionCss/RealPositionCalculator';
 import BaseSelector from '../BaseSelector';
+import SelectorOwner from '../SelectorOwner';
+import SelectorApiService from '../Api/SelectorApiService';
 export default abstract class PseudoSelector extends BaseSelector
 {
 
@@ -22,7 +24,7 @@ export default abstract class PseudoSelector extends BaseSelector
     protected _delimiter = ''
 
     constructor(owner: HtmlTag) {
-        super(owner)
+        super(<SelectorOwner><unknown>owner)
         this._cssPropertyAccesor = new PseudoSelectorCssAccessor(owner, this)
         this._tmpCssPropertyAccesor = new PseudoSelectorCssAccessor(owner, this)
         if (owner) {
@@ -52,13 +54,13 @@ export default abstract class PseudoSelector extends BaseSelector
     }
 
     
-    public setApi(api: ApiService)
+    public setApi(api: SelectorApiService)
     {
         this.api = api
         this.synchronizer = new PseudoSelectorSynchronizer(this, api)
     }
 
-    public setOwner(tag: HtmlTag)
+    public setOwner(tag: SelectorOwner)
     {
         this._owner = tag
         this._value = '#' + tag.shortUUID + ':' + this.getName()

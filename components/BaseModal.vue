@@ -17,7 +17,7 @@
       <slot name="header" />
     </div>
     <div class="my-modal__content">
-      <slot name="content" />
+      <slot name="content" v-bind:value="tag" />
     </div>
     <div class="my-modal__footer">
       <slot name="footer" />
@@ -34,11 +34,14 @@ import AbstractModal from "./AbstractModal";
 import MoveEventController from "~/src/MoveEventController";
 import DefaultMoveEventController from "~/src/Controller/DefaultMoveEventController";
 import MouseMoveEventSource from "../src/Controller/MouseMoveEventSource";
+import TextManageComponent from "~/components/manageComponent/component/TextManageComponent.vue";
 
-@Component
+@Component({
+  components: {
+  },
+})
 export default class BaseModal extends Vue {
-  availableItemPerPage = [1, 2, 5, 10, 15, 20];
-  moveController: MoveEventController;
+  moveController: MoveEventController<MouseMoveEventSource>;
   selectorsShow = false;
 
   @Prop({ default: null, required: false })
@@ -46,7 +49,6 @@ export default class BaseModal extends Vue {
 
   @Prop({ default: null, required: false })
   tag: HtmlTag;
-  idName = "base-modal";
   mouseMoveHandler;
   mouseUpHandler;
 
@@ -85,10 +87,6 @@ export default class BaseModal extends Vue {
       this.mouseMoveHandler
     );
     window.document.body.removeEventListener("mouseup", this.mouseUpHandler);
-  }
-
-  get hashID(): string {
-    return this.idName;
   }
 
   async mounted() {

@@ -175,6 +175,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _hasPosition = false
     protected _hasAbsolute = false
     protected _hasFixed = false
+    protected _hardHidden = false
     protected _positionPropName
 
     protected _widthCalc: string = 'calc(100%)'
@@ -207,11 +208,19 @@ export default abstract class HtmlTag extends HtmlNode implements
         // console.log(this.paddingRealFetcher);
 
     }
-    changeAsReadyToAnimationCheck();
-    changeAsReadyToAnimationCheck();
-    changeAsReadyToAnimationCheck(): any {
-        throw new Error("Method not implemented.");
+
+    public hideElement() {
+        this._hardHidden = true
     }
+    
+    public showElement() {
+        this._hardHidden = false
+    }
+
+    get hardHidden() {
+        return this._hardHidden
+    }
+    
 
     getUUID(): string {
         return this.uuid
@@ -1441,12 +1450,20 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this._toManage
     }
 
+    changeAsNotReadyToAnimationCheck()
+    {
+        this._readyToAnimationCheck = false
+    }
+    changeAsReadyToAnimationCheck(): any {
+        this._readyToAnimationCheck = true
+    }
     public changeAsActiveToManage() {
         this._toManage = true
     }
     
     public changeAsActiveToAnimation() {
         this._checkedToAnimation = true
+        this.showElement()
     }
 
     public changeAsNotActiveToManage() {

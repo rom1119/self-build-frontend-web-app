@@ -72,7 +72,6 @@ import { BaseGradientStructVal } from "~/src/Css/Gradient/BaseGradientCss";
 import LinearSites from "~/src/Css/Gradient/LinearSites";
 import { LinearGradientDirection } from "../../../src/Css/Gradient/impl/LinearGradientCss";
 import UnitTurn from "~/src/Unit/UnitTurn";
-import Linear from "../../../src/Css/Animation/timingFunction/impl/Linear";
 
 @Component({
   components: {

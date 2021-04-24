@@ -19,6 +19,7 @@ import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 import TransitionCss from "~/src/Css/Animation/TransitionCss";
 import CssOwner from './CssOwner';
+import SelectorApiService from './Api/SelectorApiService';
 
 export default abstract class BaseSelector implements CssOwner
 {
@@ -52,7 +53,7 @@ export default abstract class BaseSelector implements CssOwner
     protected _tmpCssPropertyAccesor: CssPropertyAccessor
 
     protected synchronizer: PseudoSelectorSynchronizer
-    api: ApiService
+    api: SelectorApiService
 
     cssListMediaOwner: MediaQueryListOwner<BaseSelector>
 
@@ -133,7 +134,7 @@ export default abstract class BaseSelector implements CssOwner
 
 
 
-    public setApi(api: ApiService)
+    public setApi(api: SelectorApiService)
     {
         this.api = api
     }
@@ -512,6 +513,8 @@ export default abstract class BaseSelector implements CssOwner
         }
 
     }
+
+    public abstract setOwner(tag: SelectorOwner)
 
 
 }

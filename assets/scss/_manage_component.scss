@@ -1,0 +1,72 @@
+
+.component-manage, .my-modal {
+
+    &__content{
+        // display: flex;
+        width: 100%;
+        height: $heighContent;
+        overflow: auto;
+    
+        .content-item {
+            text-align: center;
+            width: 100%;
+            padding: 10px 0;
+    
+            &-half {
+                width: 50% !important;
+            }
+            &-half-and-quarter {
+                width: 75% !important;
+            }
+            &-sixty {
+                width: 60% !important;
+            }
+            &-left {
+                text-align: left !important;
+            }
+            &__header {
+                padding: 5px;
+                position: relative;
+            }
+            &__elem_container {
+                width: 100%;
+                display: inline-flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            &__elem {
+                padding: 5px;
+                &-4{
+                    width: 25%;
+                }
+            }
+        }
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .flex-inline {
+        display: inline-flex;
+    }
+
+    .flex-center {
+        justify-content: center;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    .item {
+        width: 100%;
+        padding: 5px 0;
+    }
+    .to-left {
+        justify-content: flex-start;
+    }
+    .to-right {
+        justify-content: flex-end;
+    }
+}

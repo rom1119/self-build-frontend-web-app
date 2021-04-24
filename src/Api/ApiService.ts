@@ -10,9 +10,6 @@ import TagResource from "../Css/TagResource";
 
 export default interface ApiService 
 {
-    appendSelector(selector: PseudoSelector): Promise<any>
-
-    putSelector(selector: PseudoSelector): Promise<any>;
     putCssStyleResource(arg0: CssResource): Promise<any>;
     putTagResource(arg0: TagResource): Promise<any>;
     deleteCssStyleResource(arg0: CssResource): Promise<any>;
@@ -24,6 +21,5 @@ export default interface ApiService
     putTag(tag: HtmlTag): Promise<any>
     putText(tag: TextNode): Promise<any>
     deleteTag(tag: HtmlNode): Promise<any>
-    deleteSelector(selector: PseudoSelector): Promise<any>
     deleteCssValue(val: CssValue) : Promise<any>
 }

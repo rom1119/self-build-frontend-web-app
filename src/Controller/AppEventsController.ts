@@ -26,18 +26,24 @@ import DefaultActiveToPositionController from './DefaultActiveToPositionControll
 import _ from 'lodash';
 import Vue from 'Vue';
 import LayoutMode from '../Mode/LayoutMode';
+import AnimationMode from '../Mode/impl/AnimationMode';
+import EditMode from '../Mode/impl/EditMode';
+import SelectElementForAnimationAction from '../Mode/layoutAction/SelectElementForAnimationAction';
+import CreateAnimationAction from '../Mode/layoutAction/CreateAnimationAction';
+import BeforeSelectElementForAnimationAction from '../Mode/layoutAction/BeforeSelectElementForAnimationAction';
+import UnSelectElementForAnimationAction from '../Mode/layoutAction/UnSelectElementForAnimationAction';
 
 
 export default class AppEventsController
 {
-  
+
     protected advisorController: AdvisorTagController
 
     activeElController: ActiveElController = new DefaultActiveElController();
     activeToManageController: ActiveToController<ActivableTagToManage> = new DefaultActiveToManageController();
     activeToPositionController: ActiveToController<ActivableTagToPosition> = new DefaultActiveToPositionController();
-    activeToAnimationController: ActiveToController<ActivableTagToAnimation> = new DefaultActiveToAnimationController();
-  
+    activeToAnimationController: DefaultActiveToAnimationController = null
+
     adivisorController: AdvisorTagController
     hasAccualControllerWorks = false;
     currentMouseOverTag: HtmlTag;
@@ -45,9 +51,10 @@ export default class AppEventsController
     protected _creatorMode: LayoutCreatorModeComponent
 
 
-    constructor(creatorMode: LayoutCreatorModeComponent) {
-      this._creatorMode = creatorMode
-      this.adivisorController = new AdvisorTagController(creatorMode);
+    constructor(creatorMode: LayoutCreatorModeComponent, tree: HtmlTag[]) {
+        this._creatorMode = creatorMode
+        this.adivisorController = new AdvisorTagController(creatorMode)
+        this.activeToAnimationController = new DefaultActiveToAnimationController(tree)
     }
 
     get creatorMode(): LayoutCreatorModeComponent
@@ -69,176 +76,230 @@ export default class AppEventsController
         return this.currentMouseOverTag
     }
 
-    onMouseOver(val) {
-        if (!this.currentMode.canRun(new MouseOverAction())) {
-          return;
-        }
-        // console.log('over');
-        // console.log(val);
-        // console.log(val);
+    getTagFromEventHandler(val): HtmlTag
+    {
         if (
-          val instanceof PaddingModel ||
-          val instanceof BorderModel ||
-          val instanceof MarginModel
-        ) {
-          this.currentMouseOverTag = val.getHtmlTag();
-        } else if (val instanceof HtmlTag) {
-          this.currentMouseOverTag = val;
-        } else if (val instanceof TableElement) {
-          this.currentMouseOverTag = val;
-        }
-    
-        if (this.adivisorController.hasShiftKey) {
-          if (
             val instanceof PaddingModel ||
             val instanceof BorderModel ||
             val instanceof MarginModel
-          ) {
-            this.activeToPositionController.updateActiveTag(val.getHtmlTag());
-          } else if (val instanceof HtmlTag) {
-            this.activeToPositionController.updateActiveTag(val);
-          }
+        ) {
+            return val.getHtmlTag()
+        } else if (val instanceof TableElement) {
+            return val.getOwner()
         } else {
-          this.activeElController.updateActiveEl(val);
+            return val
         }
-      }
-    
-      onMouseOut(val) {
+    }
+    onMouseOver(val) {
+        if (!this.currentMode.canRun(new MouseOverAction())) {
+            return;
+        }
+        var tag = this.getTagFromEventHandler(val)
+        
+        this.currentMouseOverTag = tag;
+        
+        // console.log('over');
+        // console.log(val);
+        // console.log(val);
+
+        if (this.currentMode instanceof AnimationMode) {
+            if (this.currentMode.canRunSystemAction(new BeforeSelectElementForAnimationAction(tag))) {
+                this.activeToAnimationController.updateReadyToCheckTag(tag);
+            }
+
+        } else if (this.currentMode instanceof EditMode) {
+            if (this.adivisorController.hasShiftKey) {
+            
+                this.activeToPositionController.updateActiveTag(tag);
+            }
+        } else if (this.currentMode instanceof EditMode) {
+            this.activeElController.updateActiveEl(val);
+        }
+     
+    }
+        
+    onMouseOut(val) {
         // console.log('out');
         // console.log(val);
         // console.log('out');
         if (!this.currentMode.canRun(new MouseOutAction())) {
-          return;
+            return;
         }
+        var tag = this.getTagFromEventHandler(val)
+
         this.currentMouseOverTag = null;
-        if (this.adivisorController.hasShiftKey) {
-          if (
-            val instanceof PaddingModel ||
-            val instanceof BorderModel ||
-            val instanceof MarginModel
-          ) {
-            this.activeToPositionController.deactiveTag();
-          } else if (val instanceof HtmlTag) {
-            this.activeToPositionController.deactiveTag();
-          }
-        } else {
-          this.activeElController.deactiveEl(val);
-        }
-      }
-    
-      onAnyElementMouseClick(source) {
+        if (this.currentMode instanceof AnimationMode) {
+            if (this.currentMode.canRunSystemAction(new BeforeSelectElementForAnimationAction(tag))) {
+                this.activeToAnimationController.deactiveReadyToCheckTag();
+            }
+        } else if (this.currentMode instanceof EditMode) {
+            if (this.adivisorController.hasShiftKey) {
+                this.activeToPositionController.deactiveTag();
+            } else {
+                this.activeElController.deactiveEl(val);
+
+            }
+        } 
+    }
+        
+    onAnyElementMouseClick(source) {
         if (!this.currentMode.canRun(new MouseClickAction())) {
-          return;
+        return;
         }
         var val = source.target;
+        var tag = this.getTagFromEventHandler(val)
+
         // console.log('onAnyElementMouseClick');
         // console.log(source.target);
-        // console.log(source.target.columns);
-        // console.log(source.target.rows);
-        if (!this.hasAccualControllerWorks) {
-          if (
-            val instanceof PaddingModel ||
-            val instanceof BorderModel ||
-            val instanceof MarginModel
-          ) {
-            this.activeToManageController.updateActiveTag(val.getHtmlTag());
-          } else {
-            this.activeToManageController.updateActiveTag(val);
-          }
+ 
+        if (this.hasAccualControllerWorks) {
+            return
         }
-      }
+
+        if (this.currentMode instanceof AnimationMode) {
+            if (this.currentMode.canRunSystemAction(new SelectElementForAnimationAction(tag))) {
+                this.activeToAnimationController.updateActiveTag(tag);
+            }
+
+        
+        } else if (this.currentMode instanceof EditMode) {
+            this.activeToManageController.updateActiveTag(tag);
+        } 
+        
+    }
     
     protected isLeftButtonMouseClick(evt) {
         evt = evt || window.event;
         if ("buttons" in evt) {
-          return evt.buttons == 1;
+            return evt.buttons == 1;
         }
         var button = evt.which || evt.button;
         return button == 1;
-      }
-    
-      onMouseDown(source) {
+    }
+        
+    public onMouseDown(source) {
         if (!this.isLeftButtonMouseClick(source.event)) {
-          return;
+            return;
         }
         var el = source.target;
-        // if (el instanceof PaddingModel || el instanceof BorderModel || el instanceof MarginModel) {
-    
-        //     el = el.getHtmlTag()
-        // } else if (el instanceof HtmlTag) {
-        //     el = el.
-    
-        // }
+        var tag = this.getTagFromEventHandler(el)
+
         if (!this.currentMode.canRun(new MouseDownAction())) {
-          return;
+            return;
         }
         if (el.getHtmlTag) {
-          var a = el.getHtmlTag().getComputedVal(Height.PROP_NAME);
-          console.log(a);
+            var a = el.getHtmlTag().getComputedVal(Height.PROP_NAME);
+            console.log(a);
         }
+
+        
         let controller = this.getAdviseController("mouseDown", source.target);
         // console.log('down');
         // console.log(source.target);
         // console.log(source);
         // console.log(controller);
         // console.log('down');
-        controller.mouseDownHandler(source);
-      }
-    
-      onMouseUp(e) {
+        if (this.currentMode instanceof AnimationMode) {
+            if (this.currentMode.canRunSystemAction(new CreateAnimationAction())) {
+                controller.mouseDownHandler(source);
+            }
+
+        
+        } else if (this.currentMode instanceof EditMode) {
+            controller.mouseDownHandler(source);
+        } 
+    }
+
+    onMouseUp(e) {
         if (!this.currentMode.canRun(new MouseUpAction())) {
-          return;
+            return;
         }
         let controller = this.getAdviseController("mouseUp");
-    
+
         if (controller) {
-          setTimeout(() => {
-            controller.mouseUpHandler(e);
-            this.hasAccualControllerWorks = false;
-          }, 0);
+            setTimeout(() => {
+                controller.mouseUpHandler(e);
+                this.hasAccualControllerWorks = false;
+            }, 0);
         }
-      }
-    
-      onMouseMove(e) {
+    }
+
+    onMouseMove(e) {
         if (!this.currentMode.canRun(new MouseMoveAction())) {
-          return;
+            return;
         }
+
         let controller = this.getAdviseController("mouseover");
-        if (controller) {
-          controller.mouseMoveHandler(e);
-          this.hasAccualControllerWorks = true;
+        if (this.currentMode instanceof AnimationMode) {
+            if (this.currentMode.canRunSystemAction(new CreateAnimationAction())) {
+                if (controller) {
+                    controller.mouseMoveHandler(e);
+                    this.hasAccualControllerWorks = true;
+                }
+            }
+        } else if (this.currentMode instanceof EditMode) {
+            if (controller) {
+                controller.mouseMoveHandler(e);
+                this.hasAccualControllerWorks = true;
+            }
+
         }
-      }
-    
-      onKeyDown(e) {
+    }
+
+    onKeyDown(e) {
         if (!this.currentMode.canRun(new KeyDownAction())) {
-          return;
+        return;
         }
-        // console.log("e.shiftKey");
+        console.log("e.shiftKey");
+        console.log(e.key);
         // console.log(e.shiftKey);
-        if (e.shiftKey) {
-          this.adivisorController.hasShiftKey = true;
-          if (this.currentMouseOverTag) {
-            this.activeToPositionController.updateActiveTag(
-              this.currentMouseOverTag
-            );
-          }
+
+        if (this.currentMode instanceof AnimationMode) {
+            if (this.currentMode.canRunSystemAction(new CreateAnimationAction())) {
+                if (e.shiftKey) {
+                    this.adivisorController.hasShiftKey = true;
+                    if (this.currentMouseOverTag) {
+                        this.activeToPositionController.updateActiveTag(
+                            this.currentMouseOverTag
+                        );
+                    }
+                }
+            }
+
+        } else if (this.currentMode instanceof EditMode) {
+            if (e.shiftKey) {
+                this.adivisorController.hasShiftKey = true;
+                if (this.currentMouseOverTag) {
+                    this.activeToPositionController.updateActiveTag(
+                    this.currentMouseOverTag
+                    );
+                }
+            }
+
         }
-      }
-    
-      onKeyUp(e) {
+        
+    }
+
+    onKeyPress(e) {
+        if (this.currentMode instanceof AnimationMode) {
+            if (this.currentMode.canRunSystemAction(new UnSelectElementForAnimationAction(e.key))) {
+                this.activeToAnimationController.deactiveTag();
+            }
+        }
+    }
+    onKeyUp(e) {
         if (!this.currentMode.canRun(new KeyUpAction())) {
-          return;
+            return;
         }
         console.log("e.shiftKey");
         console.log(e.shiftKey);
         if (this.adivisorController.hasShiftKey) {
-          this.adivisorController.hasShiftKey = false;
-          this.activeToPositionController.deactiveTag();
+            this.adivisorController.hasShiftKey = false;
+            this.activeToPositionController.deactiveTag();
         }
-      }
-    
-      private getAdviseController(eventName, el?) {
+    }
+
+    private getAdviseController(eventName, el?) {
         return this.adivisorController.advise(eventName, el);
-      }
+    }
 }
