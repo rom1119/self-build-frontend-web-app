@@ -1,5 +1,5 @@
 <template>
-    <div class="component-manage" v-if="active">
+    <div class="component-manage" v-if="value" >
         <div class="component-manage__content">
         
             <div class="content-item" style="display: flex">

@@ -13,6 +13,7 @@ import PositionCss from '../src/Css/Display/PositionCss';
 export default abstract class AbstractModal extends Vue
 {
     protected active = false
+    protected value: HtmlTag = null
   
     constructor()
     {
@@ -32,12 +33,14 @@ export default abstract class AbstractModal extends Vue
             throw Error('val must not be null')
         }
         this.active = true
+        this.value = val
  
     }
 
     public close()
     {
         this.active = false
+        this.value = null
     }
 
     

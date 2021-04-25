@@ -41,7 +41,7 @@ export default class FontFamilyValDomain {
         // console.log('set fontFace(arg)');
         // console.log(arg);
         if (arg) {
-            console.log(arg.name);
+            // console.log(arg.name);
             this.name = arg.name
 
         }

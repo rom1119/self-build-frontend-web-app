@@ -8,6 +8,7 @@
     </template>
     <template slot="content">
       <!-- <select-unit-context-menu :propertyUnit="val.offsetXUnit" @changePropUnit="val.offsetXUnit = $event" :ref="cmNameTextShadowOffX" /> -->
+      <animation-manage-component ref="manageComponent" :activeTag="value" /> 
 
       
     </template>
@@ -23,13 +24,15 @@ import { Component, Watch } from "vue-property-decorator";
 import "vue-cal/dist/vuecal.css";
 import _ from "lodash";
 import AbstractModal from "../AbstractModal";
+import HtmlTag from "~/src/Layout/HtmlTag";
+import AnimationManageComponent from "../manageComponent/component/AnimationManageComponent.vue";
 
 @Component
 export default class AnimationModalComponent extends AbstractModal {
   
 
   $refs: {
-      manageComponent: TextManageComponent
+      manageComponent: AnimationManageComponent
 
   }
 

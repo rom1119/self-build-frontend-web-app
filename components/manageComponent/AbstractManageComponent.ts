@@ -12,13 +12,18 @@ import PositionCss from '../../src/Css/Display/PositionCss';
 
 export default abstract class AbstractManageComponent extends Vue
 {
-    protected value: HtmlTag
+    protected value: HtmlTag = null
     protected managers= []
     copiedCssList: BasePropertyCss[] = []
 
     constructor()
     {
         super()
+    }
+
+    public onChangePseudoSelector()
+    {
+        this.reinitManagers()
     }
 
     public reinitManagers()

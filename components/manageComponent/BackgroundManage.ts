@@ -1,30 +1,14 @@
-import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
 import HtmlTag from '~/src/Layout/HtmlTag'
-import BasePropertyCss from '~/src/Css/BasePropertyCss'
 import _ from 'lodash'
-import AbstractModal from '../AbstractModal'
-import Display from '../../src/Css/Display/Display';
 import BaseComputedPropertyManager from '../computedPropertyManagers/BaseComputedPropertyManager'
-import DisplayProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/DisplayProperty'
-import { JustifyContent, AlignItems, FlexDirection, FlexGrow, FlexOrder, FlexShrink, FlexWrap, Float, BoxShadowCss } from '~/src/Css';
-import FlexBasis from '../../src/Css/Display/FlexBasis';
-import Clear from '../../src/Css/Display/Clear';
-import ClearProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/ClearProperty'
-import FloatProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FloatProperty'
-import FlexWrapProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexWrapProperty'
-import FlexShrinkProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexShrinkProperty'
-import FlexOrderProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexOrderProperty'
-import FlexGrowProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexGrowProperty'
-import FlexDirectionProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexDirectionProperty'
-import FlexBasisProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexBasisProperty'
-import AlignItemsProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/AlignItemsProperty'
-import JustifyContentProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/JustifyContentProperty'
-import TextShadowCss from '../../src/Css/Shadow/TextShadowCss';
-import TextShadowProperty from '../computedPropertyManagers/impl/ComputedProperty/Shadow/TextShadowProperty';
-import BoxShadowProperty from '../computedPropertyManagers/impl/ComputedProperty/Shadow/BoxShadowProperty'
-import TransitionCss from '~/src/Css/Animation/TransitionCss'
-import TransitionProperty from '../computedPropertyManagers/impl/ComputedProperty/Animation/TransitionProperty'
+import { BackgroundAttachment, BackgroundColor, BackgroundImage, BackgroundPosition, BackgroundRepeat, BackgroundSize } from '~/src/Css';
 import AbstractManageComponent from './AbstractManageComponent';
+import BackgroundColorProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundColorProperty'
+import BackgroundImageProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundImageProperty'
+import BackgroundPositionProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundPositionProperty'
+import BackgroundRepeatProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundRepeatProperty'
+import BackgroundSizeProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundSizeProperty'
+import BackgroundAttachmentProperty from '../computedPropertyManagers/impl/ComputedProperty/Background/BackgrountAttachmentProperty'
 
 
 export default abstract class BackgroundManage extends AbstractManageComponent
@@ -47,8 +31,8 @@ export default abstract class BackgroundManage extends AbstractManageComponent
         this.backgroundAttachmentManager = new BackgroundAttachmentProperty()
     }
 
-    show(val: HtmlTag){
-        super.show(val)
+    init(val: HtmlTag){
+        super.init(val)
 
         this.backgroundImageManager.setHtmlEl(val)
         this.backgroundColorManager.setHtmlEl(val)

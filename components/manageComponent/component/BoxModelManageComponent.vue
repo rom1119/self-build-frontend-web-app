@@ -1,7 +1,22 @@
 <template>
-    <div class="component-manage" v-if="active">
+    <div class="component-manage" v-if="value" >
         <div class="component-manage__content">
         
+            <div class="content-item" style="margin-top: 50px;">
+                <div v-if="value" class="border-radius-container"
+                      @dblclick.stop="hasBoxSizing === true ? hasBoxSizing = false : hasBoxSizing = true"
+                      :class="{'green-bg': hasBoxSizing}"
+                      v-context-menu="value.uuid.concat('-box-sizing')"
+                  >
+                      <span >
+                              Box sizing: {{ boxSizingManager.getProperty().getValue() }}
+                          </span>
+                          <div class="width-prop-container-right">
+                              <select-box-sizing-menu :property="boxSizing" @changeProp="boxSizing = $event" :ref="value.uuid.concat('-box-sizing')" />
+
+                          </div>
+              </div>
+            </div>
             <div class="content-item" style="margin-top: 50px;">
                 
                 <!-- BOX MODEL FOR FEATURE -->

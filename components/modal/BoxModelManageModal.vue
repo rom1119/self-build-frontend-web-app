@@ -9,22 +9,11 @@
             <h4 v-if="value">
                 Zarządzaj box modelem Tag {{ value.toString() }}
             </h4>
-            <div v-if="value" class="border-radius-container"
-                    @dblclick.stop="hasBoxSizing === true ? hasBoxSizing = false : hasBoxSizing = true"
-                    :class="{'green-bg': hasBoxSizing}"
-                    v-context-menu="value.uuid.concat('-box-sizing')"
-                >
-                    <span >
-                            Box sizing: {{ boxSizingManager.getProperty().getValue() }}
-                        </span>
-                        <div class="width-prop-container-right">
-                            <select-box-sizing-menu :property="boxSizing" @changeProp="boxSizing = $event" :ref="value.uuid.concat('-box-sizing')" />
-
-                        </div>
-                </div>
+            
         </template>
         <template slot="content">
-            
+            <box-model-manage-component ref="manageComponent" :activeTag="value" /> 
+
         </template>
         <template slot="footer">
             <button class="to-left" @click="restore($event)">
@@ -39,49 +28,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import "vue-cal/dist/vuecal.css";
-import moment from "moment";
 import _ from "lodash";
-import { Pagination } from "~/types/Pagination";
 import HtmlTag from "../../src/Layout/HtmlTag";
-import TextAlign from "../../src/Css/Text/TextAlign";
-import BaseModal from "~/components/BaseModal.vue";
-import FontWeight from "../../src/Css/Text/FontWeight";
-import BasePropertyCss from "../../src/Css/BasePropertyCss";
-import CssPropertyAccessor from "../../src/Css/CssPropertyAccessor";
 import AbstractModal from "../AbstractModal";
-import Named from "../../src/Unit/Named";
-import UnitSize from "../../src/Unit/UnitSize";
-import Pixel from "../../src/Unit/Size/Pixel";
-import Percent from "../../src/Unit/Size/Percent";
-import EM from "../../src/Unit/Size/EM";
-import REM from "../../src/Unit/Size/REM";
-import PaddingRightCss from "../../src/Css/BoxModel/Padding/PaddingRightCss";
-import PaddingCss from "~/src/Css/BoxModel/Padding/PaddingCss";
-import PaddingLeftCss from "../../src/Css/BoxModel/Padding/PaddingLeftCss";
-import BasePaddingCss from "../../src/Css/BoxModel/BasePaddingCss";
-import FetcherRealCssProp from "../../src/FetcherRealCssProp";
-import PaddingRealCssFetcher from "../../src/Css/RealCssProp/PadingRealCssFetcher";
-import VW from "../../src/Unit/Size/VW";
-import VH from "~/src/Unit/Size/VH";
-import BoxModelModal from "../BoxModelModal";
-import PaddingBottomCss from "~/src/Css/BoxModel/Padding/PaddingBottomCss";
-import PaddingTopCss from "~/src/Css/BoxModel/Padding/PaddingTopCss";
-import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
-import MarginCss from "~/src/Css/BoxModel/Margin/MarginCss";
-import MarginLeftCss from "~/src/Css/BoxModel/Margin/MarginLeftCss";
-import MarginBottomCss from "~/src/Css/BoxModel/Margin/MarginBottomCss";
-import MarginRightCss from "~/src/Css/BoxModel/Margin/MarginRightCss";
-import MarginTopCss from "~/src/Css/BoxModel/Margin/MarginTopCss";
-import CssAuto from "~/src/Css/CssAuto";
-import BaseBorderCss from "../../src/Css/Border/BaseBorderCss";
-import { Width } from "~/src/Css";
+import BoxModelManageComponent from "../manageComponent/component/BackgroundManageComponent.vue";
 
 @Component
 export default class BoxModelManageModal extends AbstractModal {
   $refs: {
-      manageComponent: TextManageComponent
+      manageComponent: BoxModelManageComponent
 
   }
 

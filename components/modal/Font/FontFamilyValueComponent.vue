@@ -90,16 +90,16 @@ export default class FontFamilyValueComponent extends Vue {
 
   mounted() {
     // console.log(this.contextMenuName);
-    console.log('VVAAAAA');
-    console.log('this.fontFamVal');
-    console.log(this.fontFamVal);
+    // console.log('VVAAAAA');
+    // console.log('this.fontFamVal');
+    // console.log(this.fontFamVal);
     this.compFontFace = this.fontFamVal.fontFace
     
   }
 
   removeFontFamilyVal(val: FontFamilyValDomain) {
-    console.log('removeFontFamilyVal');
-    console.log(val);
+    // console.log('removeFontFamilyVal');
+    // console.log(val);
       if (this.fontFamVal.fontFace) {
         FontFaceAccessor.getInstance().deleteFontOwnerFromFontFace(this.fontFamVal.fontFace, this.fontFamilyManager.getProperty(), val)
 

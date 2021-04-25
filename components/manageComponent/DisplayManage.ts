@@ -1,12 +1,9 @@
-import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
 import HtmlTag from '~/src/Layout/HtmlTag'
-import BasePropertyCss from '~/src/Css/BasePropertyCss'
 import _ from 'lodash'
-import AbstractModal from '../AbstractModal'
 import Display from '../../src/Css/Display/Display';
 import BaseComputedPropertyManager from '../computedPropertyManagers/BaseComputedPropertyManager'
 import DisplayProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/DisplayProperty'
-import { JustifyContent, AlignItems, FlexDirection, FlexGrow, FlexOrder, FlexShrink, FlexWrap, Float, BoxShadowCss, BackgroundImage, LinearGradientCss, RadialGradientCss, RepeatingLinearGradientCss, RepeatingRadialGradientCss } from '~/src/Css';
+import { JustifyContent, AlignItems, FlexDirection, FlexGrow, FlexOrder, FlexShrink, FlexWrap, Float, BorderCollapse, BorderSpacing, BottomCss, LeftCss, PositionCss, RightCss, TopCss } from '~/src/Css';
 import FlexBasis from '../../src/Css/Display/FlexBasis';
 import Clear from '../../src/Css/Display/Clear';
 import ClearProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/ClearProperty'
@@ -19,16 +16,14 @@ import FlexDirectionProperty from '../computedPropertyManagers/impl/ComputedProp
 import FlexBasisProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/FlexBasisProperty'
 import AlignItemsProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/AlignItemsProperty'
 import JustifyContentProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/JustifyContentProperty'
-import TextShadowCss from '../../src/Css/Shadow/TextShadowCss';
-import TextShadowProperty from '../computedPropertyManagers/impl/ComputedProperty/Shadow/TextShadowProperty';
-import BoxShadowProperty from '../computedPropertyManagers/impl/ComputedProperty/Shadow/BoxShadowProperty'
-import TransitionCss from '~/src/Css/Animation/TransitionCss'
-import TransitionProperty from '../computedPropertyManagers/impl/ComputedProperty/Animation/TransitionProperty'
 import AbstractManageComponent from './AbstractManageComponent';
-import LinearGradientProperty from '../computedPropertyManagers/impl/ComputedProperty/Gradient/LinearGradientProperty'
-import RadialGradientProperty from '../computedPropertyManagers/impl/ComputedProperty/Gradient/RadialGradientProperty'
-import RepeatingLinearGradientProperty from '../computedPropertyManagers/impl/ComputedProperty/Gradient/RepeatingLinearGradientProperty'
-import RepeatingRadialGradientProperty from '../computedPropertyManagers/impl/ComputedProperty/Gradient/RepeatingRadialGradientProperty'
+import BottomProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/BottomProperty'
+import LeftProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/LeftProperty'
+import PositionProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/PositionProperty'
+import RightProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/RightProperty'
+import TopProperty from '../computedPropertyManagers/impl/ComputedProperty/Display/TopProperty'
+import BorderCollapseProperty from '../computedPropertyManagers/impl/ComputedProperty/Table/BorderCollapseProperty'
+import BorderSpacingProperty from '../computedPropertyManagers/impl/ComputedProperty/Table/BorderSpacingProperty'
 
 
 export default abstract class DisplayManage extends AbstractManageComponent
@@ -81,8 +76,8 @@ export default abstract class DisplayManage extends AbstractManageComponent
 
     }
 
-    show(val: HtmlTag){
-        super.show(val)
+    init(val: HtmlTag){
+        super.init(val)
         // this.paddingRealFetcher = this.value.paddingRealFetcher
         // this.marginRealFetcher = this.value.marginRealFetcher
         // this.borderRealFetcher = this.value.borderRealFetcher

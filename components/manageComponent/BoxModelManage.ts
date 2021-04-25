@@ -1,22 +1,7 @@
 import HtmlTag from '~/src/Layout/HtmlTag'
 import _ from 'lodash'
-import AbstractModal from '../AbstractModal'
 import BaseComputedPropertyManager from '../computedPropertyManagers/BaseComputedPropertyManager'
-import { BorderRadiusBottomLeft, BorderRadiusBottomRight, BorderRadiusGlobal, BorderRadiusTopLeft, BorderRadiusTopRight, BoxSizing, FontWeight, Height, MaxHeight, MaxWidth, MinHeight, MinWidth, Width } from '~/src/Css';
-import TextAlign from '../../src/Css/Text/TextAlign';
-import FontSize from '../../src/Css/Text/FontSize';
-import FontColor from '../../src/Css/Text/FontColor';
-import FontStyle from '../../src/Css/Text/FontStyle';
-import TextAlignProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/TextAlignProperty'
-import FontSizeProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontSizeProperty'
-import FontColorProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontColorProperty'
-import FontWeightProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontWeightProperty'
-import FontStyleProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontStyleProperty'
-import FontStretch from '../../src/Css/Text/FontStretch';
-import LineHeight from '../../src/Css/Text/LineHeight';
-import LineHeightProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/LineHeightProperty'
-import FontStretchProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontStretchProperty'
-import FontFamilyProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontFamilyProperty'
+import { BorderRadiusBottomLeft, BorderRadiusBottomRight, BorderRadiusGlobal, BorderRadiusTopLeft, BorderRadiusTopRight, BoxSizing, Height, MaxHeight, MaxWidth, MinHeight, MinWidth, Width } from '~/src/Css';
 import AbstractManageComponent from './AbstractManageComponent';
 import BorderFetcherRealCssProp from '~/src/BorderFetcherRealCssProp';
 import BasePropertyCss from '~/src/Css/BasePropertyCss';
@@ -95,8 +80,8 @@ export default abstract class BoxModelManage extends AbstractManageComponent
 
     }
 
-    show(val: HtmlTag){
-        super.show(val)
+    init(val: HtmlTag){
+        super.init(val)
         this.paddingRealFetcher = this.value.paddingRealFetcher
         this.marginRealFetcher = this.value.marginRealFetcher
         this.borderRealFetcher = this.value.borderRealFetcher

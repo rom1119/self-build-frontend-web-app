@@ -8,6 +8,7 @@
     </template>
     <template slot="content">
       <!-- <select-unit-context-menu :propertyUnit="val.offsetXUnit" @changePropUnit="val.offsetXUnit = $event" :ref="cmNameTextShadowOffX" /> -->
+      <shadow-manage-component ref="manageComponent" :activeTag="value" /> 
 
       
     </template>
@@ -19,62 +20,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import "vue-cal/dist/vuecal.css";
-import moment from "moment";
 import _ from "lodash";
-import { Pagination } from "~/types/Pagination";
 import HtmlTag from "../../src/Layout/HtmlTag";
-import TextAlign from "../../src/Css/Text/TextAlign";
-import BaseModal from "~/components/BaseModal.vue";
-import FontWeight from "../../src/Css/Text/FontWeight";
-import BasePropertyCss from "../../src/Css/BasePropertyCss";
-import CssPropertyAccessor from "../../src/Css/CssPropertyAccessor";
 import AbstractModal from "../AbstractModal";
-import Named from "../../src/Unit/Named";
-import UnitSize from "../../src/Unit/UnitSize";
-import Pixel from "../../src/Unit/Size/Pixel";
-import Percent from "../../src/Unit/Size/Percent";
-import EM from "../../src/Unit/Size/EM";
-import REM from "../../src/Unit/Size/REM";
-import PaddingRightCss from "../../src/Css/BoxModel/Padding/PaddingRightCss";
-import PaddingCss from "~/src/Css/BoxModel/Padding/PaddingCss";
-import PaddingLeftCss from "../../src/Css/BoxModel/Padding/PaddingLeftCss";
-import BasePaddingCss from "../../src/Css/BoxModel/BasePaddingCss";
-import FetcherRealCssProp from "../../src/FetcherRealCssProp";
-import PaddingRealCssFetcher from "../../src/Css/RealCssProp/PadingRealCssFetcher";
-import VW from "../../src/Unit/Size/VW";
-import VH from "~/src/Unit/Size/VH";
-import BoxModelModal from "../BoxModelModal";
-import PaddingBottomCss from "~/src/Css/BoxModel/Padding/PaddingBottomCss";
-import PaddingTopCss from "~/src/Css/BoxModel/Padding/PaddingTopCss";
-import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
-import MarginCss from "~/src/Css/BoxModel/Margin/MarginCss";
-import MarginLeftCss from "~/src/Css/BoxModel/Margin/MarginLeftCss";
-import MarginBottomCss from "~/src/Css/BoxModel/Margin/MarginBottomCss";
-import MarginRightCss from "~/src/Css/BoxModel/Margin/MarginRightCss";
-import MarginTopCss from "~/src/Css/BoxModel/Margin/MarginTopCss";
-import CssAuto from "~/src/Css/CssAuto";
-import BaseBorderCss from "../../src/Css/Border/BaseBorderCss";
-import {
-  Width,
-  Display,
-  JustifyContent,
-  AlignItems,
-  FlexDirection,
-  FlexWrap,
-  Float,
-  Clear,
-} from "~/src/Css";
-import DisplayManageModal from "../DisplayManageModal";
-import ShadowManageModal from "../ShadowManageModal";
-import TextShadowCss from "../../src/Css/Shadow/TextShadowCss";
-import TextShadowProperty from "../computedPropertyManagers/impl/ComputedProperty/Shadow/TextShadowProperty";
+import ShadowManageComponent from "../manageComponent/component/ShadowManageComponent.vue";
 
 @Component
 export default class ShadowModalComponent extends AbstractModal {
     $refs: {
-      manageComponent: TextManageComponent
+      manageComponent: ShadowManageComponent
 
     }
 

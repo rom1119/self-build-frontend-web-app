@@ -1,5 +1,5 @@
 <template>
-    <div class="component-manage" v-if="active">
+    <div class="component-manage" v-if="value" >
         <div class="component-manage__content">
         
             <div class="content-item__elem_container">
@@ -205,7 +205,7 @@ interface Color {
             Chrome
         }
     })
-    export default class BoxModelManageComponent extends BackgroundManage {
+    export default class BackgroundManageComponent extends BackgroundManage {
 
         @Prop({default: null, required: true})
         activeTag

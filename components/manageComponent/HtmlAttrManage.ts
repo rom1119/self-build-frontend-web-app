@@ -1,19 +1,14 @@
-import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
 import HtmlTag from '~/src/Layout/HtmlTag'
-import BasePropertyCss from '~/src/Css/BasePropertyCss'
 import _ from 'lodash'
-import AbstractModal from './AbstractModal'
-import HtmlAttrManager from './computedPropertyManagers/HtmlAttrManager'
-import ColspanAttr from '~/src/Attribute/html/ColspanAttr'
-import RowspanAttr from '~/src/Attribute/html/RowspanAttr'
-import CustomAttr from '../src/Attribute/html/CustomAttr';
-import ColspanAttrManager from './computedPropertyManagers/htmlAttr/ColspanAttrManager'
-import CustomAttrManager from './computedPropertyManagers/htmlAttr/CustomAttrManager'
-import RowspanAttrManager from './computedPropertyManagers/htmlAttr/RowspanAttrManager'
+import AbstractManageComponent from './AbstractManageComponent';
+import { ColspanAttr, RowspanAttr, CustomAttr } from '~/src/Attribute'
+import ColspanAttrManager from '../computedPropertyManagers/htmlAttr/ColspanAttrManager'
+import CustomAttrManager from '../computedPropertyManagers/htmlAttr/CustomAttrManager'
+import RowspanAttrManager from '../computedPropertyManagers/htmlAttr/RowspanAttrManager'
+import HtmlAttrManager from '../computedPropertyManagers/HtmlAttrManager'
 
 
-
-export default abstract class HtmlAttrManageModal extends AbstractModal
+export default abstract class HtmlAttrManage extends AbstractManageComponent
 {
     colspanManager: HtmlAttrManager<ColspanAttr>
     rowspanManager: HtmlAttrManager<RowspanAttr>
@@ -29,12 +24,12 @@ export default abstract class HtmlAttrManageModal extends AbstractModal
         this.customManagerList = []
     }
 
-    show(val: HtmlTag){
-        super.show(val)
+    init(val: HtmlTag){
+        super.init(val)
         this.reinit()
     }
 
-    protected init(manager: HtmlAttrManager<any>) {
+    protected initManager(manager: HtmlAttrManager<any>) {
         manager.setHtmlEl(this.value)
         manager.init()
 
@@ -43,8 +38,8 @@ export default abstract class HtmlAttrManageModal extends AbstractModal
 
     public reinit() {
         this.managers = []
-        this.init(this.colspanManager)
-        this.init(this.rowspanManager)
+        this.initManager(this.colspanManager)
+        this.initManager(this.rowspanManager)
         // this.init(this.customAttrManager)
 
         // console.log('ASDASD');
@@ -54,7 +49,7 @@ export default abstract class HtmlAttrManageModal extends AbstractModal
             if (attr instanceof CustomAttr) {
                 var c = new CustomAttrManager()
                 c.attr = attr
-                this.init(c)
+                this.initManager(c)
 
             }
         }

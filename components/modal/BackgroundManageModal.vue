@@ -11,7 +11,8 @@
       <h4>Tło elementu</h4>
     </template>
     <template slot="content">
-      
+      <background-manage-component ref="manageComponent" :activeTag="value" /> 
+
     </template>
     <template slot="footer">
       <button class="to-left" @click="restore($event)">Przywróć</button>
@@ -21,31 +22,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import "vue-cal/dist/vuecal.css";
-import moment from "moment";
-import { Pagination } from "~/types/Pagination";
 import HtmlTag from "../../src/Layout/HtmlTag";
-import TextAlign from "../../src/Css/Text/TextAlign";
-import BaseModal from "~/components/BaseModal.vue";
-import FontWeight from "../../src/Css/Text/FontWeight";
-import BasePropertyCss from "../../src/Css/BasePropertyCss";
-import CssPropertyAccessor from "../../src/Css/CssPropertyAccessor";
 import AbstractModal from "../AbstractModal";
 import { Chrome } from "~/node_modules/vue-color";
-import BackgroundColor from "~/src/Css/Background/BackgroundColor";
-import RGBA from "../../src/Unit/Color/RGBA";
-import Named from "~/src/Unit/Named";
-import BackgroundImage from "../../src/Css/Background/BackgroundImage";
-import UnitUrl from "../../src/Unit/UnitUrl";
-import base64 from "base-64";
-import BackgroundSize from "../../src/Css/Background/BackgroundSize";
-import BackgroundPosition from "../../src/Css/Background/BackgroundPosition";
-import BackgroundModal from "../BackgroundModal";
-import UnitColor from "../../src/Unit/UnitColor";
-import FileInput from "../forms/FileInput.vue";
-import { BackgroundRepeat, BackgroundAttachment } from "~/src/Css";
-import BackgroundImageProperty from "../computedPropertyManagers/impl/ComputedProperty/Background/BackgroundImageProperty";
+import BackgroundManageComponent from "../manageComponent/component/BoxModelManageComponent.vue";
 
 // let Chrome = ColourPicker.Chrome
 
@@ -59,7 +41,7 @@ import BackgroundImageProperty from "../computedPropertyManagers/impl/ComputedPr
 export default class BackgroundManageModal extends AbstractModal {
   
   $refs: {
-      manageComponent: TextManageComponent
+      manageComponent: BackgroundManageComponent
 
   }
 
