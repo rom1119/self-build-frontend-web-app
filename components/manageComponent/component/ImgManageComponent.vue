@@ -1,5 +1,5 @@
 <template>
-    <div class="component-manage" v-if="value" >
+    <div class="component-manage" v-if="value && canManage" >
         <div class="component-manage__content">
         
             <div class="content-item__elem_container ">
@@ -46,6 +46,7 @@ import SrcManager from '~/components/computedPropertyManagers/htmlAttr/SrcManage
 import SrcAttr from '~/src/Attribute/html/SrcAttr';
 import TagResource from '~/src/Css/TagResource';
 import { UnitUrl } from '~/src/Unit';
+import ImgTag from '~/src/Layout/tag/ImgTag';
 
     @Component({
         components: {
@@ -62,10 +63,13 @@ import { UnitUrl } from '~/src/Unit';
             console.log('TextManagComponent updated');
             console.log(this.activeTag);
             if (this.activeTag) {
+                this.canManage = this.activeTag instanceof ImgTag
                 this.init(this.activeTag)
             } else {
             }
         }
+
+        canManage = false
 
         timeout
         imgEl

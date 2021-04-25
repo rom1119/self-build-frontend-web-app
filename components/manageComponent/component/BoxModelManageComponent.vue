@@ -1,18 +1,18 @@
 <template>
-    <div class="component-manage" v-if="value" >
+    <div class="component-manage" v-if="value && boxSizingCM" >
         <div class="component-manage__content">
         
-            <div class="content-item" style="margin-top: 50px;">
-                <div v-if="value" class="border-radius-container"
+            <div class="content-item" >
+                <div v-if="value" class="border-radius-container rel"
                       @dblclick.stop="hasBoxSizing === true ? hasBoxSizing = false : hasBoxSizing = true"
                       :class="{'green-bg': hasBoxSizing}"
-                      v-context-menu="value.uuid.concat('-box-sizing')"
+                      v-context-menu="boxSizingCM"
                   >
                       <span >
                               Box sizing: {{ boxSizingManager.getProperty().getValue() }}
                           </span>
                           <div class="width-prop-container-right">
-                              <select-box-sizing-menu :property="boxSizing" @changeProp="boxSizing = $event" :ref="value.uuid.concat('-box-sizing')" />
+                              <select-box-sizing-menu :property="boxSizing" @changeProp="boxSizing = $event" :ref="boxSizingCM" />
 
                           </div>
               </div>
@@ -495,11 +495,14 @@ interface Color {
         @Prop({default: null, required: true})
         activeTag
 
+        boxSizingCM = ''
+
         @Watch('activeTag')
         updateTag() {
             console.log('TextManagComponent updated');
             console.log(this.activeTag);
             if (this.activeTag) {
+                this.boxSizingCM = '-box-sizing'
                 this.init(this.activeTag)
             } else {
             }
@@ -1533,9 +1536,6 @@ interface Color {
 }
 .green-bg {
   background-color: greenyellow;
-}
-.rel {
-  position: relative;
 }
 
 .h-550 {

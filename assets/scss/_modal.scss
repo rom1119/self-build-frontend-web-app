@@ -1,6 +1,6 @@
 $widthModal: 650px;
-$minHeighModal: 400px;
-$heighContent: 400px;
+$minHeighModal: 500px;
+$heighContent: 500px;
 $minHeighFooter: 50px;
 
 .white-b {
@@ -25,7 +25,9 @@ $minHeighFooter: 50px;
     position: fixed;
     z-index: 99999999999999;
     width: $widthModal;
-    min-height: $minHeighModal;
+    height: $minHeighModal;
+    display: flex;
+    flex-direction: column;
     top: 0px;
     right: 0;
     left: 0;
@@ -33,6 +35,8 @@ $minHeighFooter: 50px;
     margin-left: auto;
     border-radius: 20px;
     padding: 5px;
+    overflow: hidden;
+
     &__move {
         height: 40px;
         width: 100%;

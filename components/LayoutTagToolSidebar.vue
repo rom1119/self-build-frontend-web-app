@@ -6,24 +6,21 @@
       </span>
     </div>
     
-      <div class="sidebar_tool_container">
+      <div class="sidebar_tool__container">
 
         <h5 class="text-center">
           Layout Tag Tool Managed
         </h5>
         <div class="sidebar_tool__tabs">
-          <div v-for="tab in tabs" @click="onChangeTab(tab.componentName)" :key="tab.componentName" :class="{'active' : tab.componentName === currentComponentName }" class="sidebar_tool__tabs__tab-item">
+          <div v-for="tab in tabs" v-show="canSelectTab(tab)"  @click="onChangeTab(tab.componentName)" :key="tab.componentName" :class="{'active' : tab.componentName === currentComponentName }" class="sidebar_tool__tabs__tab-item">
             {{ tab.name }}
           </div>
         </div>
 
         <div class="sidebar_tool__content">
-        {{ currentActiveTag }}
-            <text-manage-component :activeTag="currentActiveTag" />
-          <div v-for="tab in tabs" v-show="tab.componentName === currentComponentName" :key="tab.componentName" class="sidebar_tool__content-item">
-            <span>
-              {{ tab.componentName }}
-            </span>
+ 
+          <div v-for="tab in tabs"  v-show="tab.componentName === currentComponentName && canSelectTab(tab)"  :key="tab.componentName" class="sidebar_tool__content-item">
+            <component :is="tab.componentName"  :activeTag="accualActiveEl" />
           </div>
         </div>
 
@@ -39,6 +36,8 @@ import base64 from "base-64";
 import { SidebarMenu } from "vue-sidebar-menu";
 import DefaultActiveToManageController from "~/src/Controller/DefaultActiveToManageController";
 import TextManageComponent from "~/components/manageComponent/component/TextManageComponent.vue";
+import ImgTag from "~/src/Layout/tag/ImgTag";
+import SvgTag from "~/src/Layout/tag/SvgTag";
 
 @Component({
   components: {
@@ -48,39 +47,90 @@ import TextManageComponent from "~/components/manageComponent/component/TextMana
 export default class LayoutTagToolSidebar extends Vue {
   active = true
   currentComponentName = ''
+
+  canSelectTab(tab) {
+    if (!this.accualActiveEl) {
+      return false
+    }
+
+    if (tab.componentName === 'img-manage-component') {
+
+      if (this.accualActiveEl instanceof ImgTag) {
+        return true
+      }
+
+      return false
+    }
+
+    if (tab.componentName === 'img-manage-component') {
+
+      if (this.accualActiveEl instanceof ImgTag) {
+        return true
+      }
+
+      return false
+    }
+    
+    if (tab.componentName === 'svg-manage-component') {
+
+      if (this.accualActiveEl instanceof SvgTag) {
+        return true
+      }
+
+      return false
+    }
+
+
+    return true
+  }
   tabs = [
     {
       name: 'Text',
       componentName: 'text-manage-component'
     },
-    // {
-    //   name: 'Background',
-    //   componentName: 'background-manage-component'
-    // },
-    // {
-    //   name: 'Display',
-    //   componentName: 'display-manage-component'
-    // },
-    // {
-    //   name: 'Box Model',
-    //   componentName: 'box-model-manage-component'
-    // },
-    // {
-    //   name: 'Shadow',
-    //   componentName: 'shadow-manage-component'
-    // },
-    // {
-    //   name: 'Gradient',
-    //   componentName: 'gradient-manage-component'
-    // },
-    // {
-    //   name: 'Animation',
-    //   componentName: 'animation-manage-component'
-    // },
+    {
+      name: 'Background',
+      componentName: 'background-manage-component'
+    },
+    {
+      name: 'Display',
+      componentName: 'display-manage-component'
+    },
+    {
+      name: 'Box Model',
+      componentName: 'box-model-manage-component'
+    },
+    {
+      name: 'Attribute',
+      componentName: 'html-attr-manage-component'
+    },
+    {
+      name: 'Img',
+      componentName: 'img-manage-component'
+    },
+    {
+      name: 'Svg',
+      componentName: 'svg-manage-component'
+    },
+    {
+      name: 'Shadow',
+      componentName: 'shadow-manage-component'
+    },
+    {
+      name: 'Gradient',
+      componentName: 'gradient-manage-component'
+    },
+    {
+      name: 'Animation',
+      componentName: 'animation-manage-component'
+    },
   ]
 
-  @Prop({required: true, default: null})   
-  accualActiveEl
+  @Prop({required: false, default: null})   
+  accualActiveEl = null
+
+  isImgTag = false
+  isSvgTag = false
 
   mounted() {
     this.currentComponentName = this.tabs[0].componentName
@@ -89,6 +139,9 @@ export default class LayoutTagToolSidebar extends Vue {
   get currentActiveTag() {
     console.log('  get currentActiveTag()');
     console.log(this.accualActiveEl);
+
+    // this.isImgTag = this.accualActiveEl instanceof ImgTag
+    // this.isSvgTag = this.accualActiveEl instanceof SvgTag
 
     if (this.accualActiveEl) {
       return this.accualActiveEl
