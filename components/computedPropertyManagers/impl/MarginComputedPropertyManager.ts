@@ -31,7 +31,11 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
     protected realFetcher: FetcherRealCssProp
     protected borderRecalculator: HtmlTagRecalculator
     protected marginRecalculator: HtmlTagRecalculator
+    protected autoSaving = false
 
+    autoSave(arg: boolean) {
+        this.autoSaving = arg
+    }
     constructor(  )
     {
         this.borderRecalculator = new BorderRecalculate()

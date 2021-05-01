@@ -207,18 +207,30 @@ interface Color {
     })
     export default class BackgroundManageComponent extends BackgroundManage {
 
-        @Prop({default: null, required: true})
-        activeTag
+      @Prop({default: null, required: true})
+      activeTag
 
-        @Watch('activeTag')
-        updateTag() {
-            console.log('TextManagComponent updated');
-            console.log(this.activeTag);
-            if (this.activeTag) {
-                this.init(this.activeTag)
-            } else {
-            }
+      @Prop({default: false, required: false})
+      autoUpdate
+
+      @Watch('activeTag')
+      updateTag() {
+          this.onInitTag()
+      }
+
+      onInitTag(){
+        if (this.activeTag) {
+            this.setAutoSave(this.autoUpdate)
+            this.init(this.activeTag)
         }
+      }
+
+      async mounted() {
+
+        this.onInitTag()
+      }
+
+      
 
   timeout;
   imgEl;
@@ -239,7 +251,6 @@ interface Color {
     return this.idName;
   }
 
-  async mounted() {}
 
   onChangePseudoSelector() {
     this.reinitManagers();

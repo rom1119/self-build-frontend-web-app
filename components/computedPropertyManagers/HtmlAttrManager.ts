@@ -1,11 +1,17 @@
 import CustomAttr from '~/src/Attribute/html/CustomAttr';
 import HtmlAttr from '~/src/Attribute/HtmlAttr';
 import HtmlTag from '~/src/Layout/HtmlTag';
+import ComputedPropertyManager from './ComputedPropertyManager';
 export default abstract class HtmlAttrManager<T extends HtmlAttr> {
 
     attr: T
     protected value: HtmlTag
 
+    protected autoSaving = false
+
+    autoSave(arg: boolean) {
+        this.autoSaving = arg
+    }
     constructor() {
         this.attr = this.createInitAttr()
     }

@@ -37,7 +37,11 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
     protected borderRecalculator: HtmlTagRecalculator
     protected marginRecalculator: HtmlTagRecalculator
     protected paddingRecalculator: HtmlTagRecalculator
+    protected autoSaving = false
 
+    autoSave(arg: boolean) {
+        this.autoSaving = arg
+    }
     constructor(  )
     {
         this.borderRecalculator = new BorderRecalculate()

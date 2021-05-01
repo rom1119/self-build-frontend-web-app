@@ -13,12 +13,20 @@ import PositionCss from '../../src/Css/Display/PositionCss';
 export default abstract class AbstractManageComponent extends Vue
 {
     protected value: HtmlTag = null
+    protected autoSaving: boolean = false
     protected managers= []
     copiedCssList: BasePropertyCss[] = []
 
     constructor()
     {
         super()
+    }
+
+    setAutoSave(arg) {
+        this.autoSaving = arg
+        for (const manager of this.managers) {
+            manager.autoSave(this.autoSaving)  
+        }
     }
 
     public onChangePseudoSelector()

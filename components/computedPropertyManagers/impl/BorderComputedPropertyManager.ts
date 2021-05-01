@@ -55,7 +55,11 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
     protected borderRecalculator: HtmlTagRecalculator
     protected marginRecalculator: HtmlTagRecalculator
 
+    protected autoSaving = false
 
+    autoSave(arg: boolean) {
+        this.autoSaving = arg
+    }
     constructor() {
         this.borderRecalculator = new BorderRecalculate()
         this.marginRecalculator = new MarginRecalculate()

@@ -45,14 +45,23 @@
         @Prop({default: null, required: true})
         activeTag
 
+        @Prop({default: false, required: false})
+        autoUpdate
+
         @Watch('activeTag')
         updateTag() {
-            console.log('TextManagComponent updated');
-            console.log(this.activeTag);
+            this.onInitTag()
+        }
+
+        onInitTag(){
             if (this.activeTag) {
+                this.setAutoSave(this.autoUpdate)
                 this.init(this.activeTag)
-            } else {
             }
+        }
+
+        async mounted() {
+            this.onInitTag()
         }
 
         timeout
@@ -80,26 +89,6 @@
         inputSvgContent() {
             this.$refs.svgBuilder.updateSvg(this.svgContenComp)
         }
-
-        async mounted()
-        {
-            // this.canvas = new fabric.Canvas('svg-editor');
-
-            // // create a rectangle object
-            // var rect = new fabric.Rect({
-            // left: 100,
-            // top: 100,
-            // fill: 'red',
-            // width: 20,
-            // height: 20
-            // });
-
-            // // "add" rectangle onto canvas
-            // this.canvas.add(rect);
-        }
-
-
-
 
         onChangePseudoSelector()
         {

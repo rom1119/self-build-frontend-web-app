@@ -17,7 +17,11 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
     protected DEFAULT_UNIT: Unit
     protected property: T
     protected realFetcher: FetcherRealCssProp
+    protected autoSaving = false
 
+    autoSave(arg: boolean) {
+        this.autoSaving = arg
+    }
     abstract getDefaultVal(): any;
     abstract getDefaultUnit(): Unit;
 
@@ -142,7 +146,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
             //     activeSelector.cssAccessor.addNewProperty(prop)
             // }
             activeSelector.updateCssPropertyWithoutModel(prop.getName(), prop)
-            activeSelector.synchronize()
+            // activeSelector.synchronize()
         } else {
             // if (!this.value.cssAccessor.hasCssProperty(prop.getName())) {
             //
@@ -173,7 +177,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
-            activeSelector.synchronize()
+            // activeSelector.synchronize()
 
         } else {
             this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)

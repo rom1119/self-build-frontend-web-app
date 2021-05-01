@@ -3,8 +3,6 @@ import KeyFrame from './KeyFrame';
 import KeyFrameSelector from './KeyFrameSelector';
 export default class AnimationCreator
 {
-
-    
     
     protected _selectedTag: HtmlTag = null
     protected _selectedKeyFrame: KeyFrame = null
@@ -75,15 +73,15 @@ export default class AnimationCreator
     }
 
     isSelectedSelectorToManage(selector: KeyFrameSelector) {
-        console.log('isSelectedSelectorToManage');
+        // console.log('isSelectedSelectorToManage');
         
         if (!this.selectedKeyFrameSelector) {
             return false
         }
-        console.log('isSelectedSelectorToManage123');
-        console.log(selector);
-        console.log(this.selectedKeyFrameSelector);
-        console.log(this.selectedKeyFrameSelector.equals(selector));
+        // console.log('isSelectedSelectorToManage123');
+        // console.log(selector);
+        // console.log(this.selectedKeyFrameSelector);
+        // console.log(this.selectedKeyFrameSelector.equals(selector));
         return this.selectedKeyFrameSelector.equals(selector)
     }
     canSelectSelector(selector: KeyFrameSelector) {
@@ -100,9 +98,9 @@ export default class AnimationCreator
 
     get canSelectToManageAnimation(): boolean
     {
-        console.log('canSelectToManageAnimation');
-        console.log(this.selectedTag);
-        console.log(this.selectedKeyFrame);
+        // console.log('canSelectToManageAnimation');
+        // console.log(this.selectedTag);
+        // console.log(this.selectedKeyFrame);
         
         if (this._selectedTag && !this._selectedKeyFrame) {
             return true

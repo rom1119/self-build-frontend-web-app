@@ -31,7 +31,7 @@ import KeyFrameManageComponent from "~/components/animation/KeyFrameManageCompon
   },
 })
 export default class AnimationToolSidebar extends Vue {
-  active = true
+  active = false
 
   @Prop({ required: true })
   keyFrameAccessor: KeyFrameAccessor ;

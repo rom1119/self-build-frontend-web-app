@@ -58,15 +58,23 @@ import ImgTag from '~/src/Layout/tag/ImgTag';
         @Prop({default: null, required: true})
         activeTag
 
+        @Prop({default: false, required: false})
+        autoUpdate
+
         @Watch('activeTag')
         updateTag() {
-            console.log('TextManagComponent updated');
-            console.log(this.activeTag);
+            this.onInitTag()
+        }
+
+        onInitTag(){
             if (this.activeTag) {
-                this.canManage = this.activeTag instanceof ImgTag
+                this.setAutoSave(this.autoUpdate)
                 this.init(this.activeTag)
-            } else {
             }
+        }
+
+        async mounted() {
+            this.onInitTag()
         }
 
         canManage = false
@@ -81,16 +89,6 @@ import ImgTag from '~/src/Layout/tag/ImgTag';
 
         created() {
             this.imgEl = document.getElementById('product-image')
-        }
-
-        get hashID(): string
-        {
-            return this.idName
-        }
-
-        async mounted()
-        {
-            
         }
 
         onChangePseudoSelector()

@@ -490,22 +490,31 @@ interface Color {
             Chrome
         }
     })
-    export default class BackgroundManageComponent extends BoxModelManage {
+    export default class BoxModelManageComponent extends BoxModelManage {
 
         @Prop({default: null, required: true})
         activeTag
 
         boxSizingCM = ''
 
+        @Prop({default: false, required: false})
+        autoUpdate
+
         @Watch('activeTag')
         updateTag() {
-            console.log('TextManagComponent updated');
-            console.log(this.activeTag);
-            if (this.activeTag) {
-                this.boxSizingCM = '-box-sizing'
-                this.init(this.activeTag)
-            } else {
-            }
+            this.onInitTag()
+        }
+
+        onInitTag(){
+          if (this.activeTag) {
+              this.boxSizingCM = '-box-sizing'
+              this.setAutoSave(this.autoUpdate)
+              this.init(this.activeTag)
+          }
+        }
+
+        async mounted() {
+          this.onInitTag()
         }
 
   timeout;

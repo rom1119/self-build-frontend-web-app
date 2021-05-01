@@ -15,9 +15,9 @@ export default abstract class BaseComputedSelectorManager<T extends PseudoSelect
     protected value: HtmlTag
     
     protected selector: T
-
+    
     abstract getDefaultPseudoSelector(): T;
-
+    
     constructor(arg: T) {
         
     }

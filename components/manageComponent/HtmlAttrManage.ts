@@ -57,7 +57,7 @@ export default abstract class HtmlAttrManage extends AbstractManageComponent
 
     addCustomAttr(): CustomAttrManager {
         var man = new CustomAttrManager()
-        this.init(man)
+        this.initManager(man)
 
         // this.customManagerList.push(man)
 

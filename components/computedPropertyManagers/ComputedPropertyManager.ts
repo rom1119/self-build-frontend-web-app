@@ -5,6 +5,8 @@ import HtmlTag from "~/src/Layout/HtmlTag";
 
 export default interface ComputedPropertyManager {
 
+    autoSave(arg: boolean)
+
     init()
     setFetcher(realFetcher)
     setHtmlEl(val: HtmlTag)

@@ -193,12 +193,20 @@ import FontManage from '../FontManage';
 
         @Prop({default: null, required: true})
         activeTag
+        
+        @Prop({default: false, required: false})
+        autoUpdate
 
         @Watch('activeTag')
         updateTag() {
-            console.log('TextManagComponent updated');
-            console.log(this.activeTag);
+            //   console.log('TextManagComponent updated');
+            //   console.log(this.activeTag);
+            this.onInitTag()
+        }
+
+        onInitTag(){
             if (this.activeTag) {
+                this.setAutoSave(this.autoUpdate)
                 this.init(this.activeTag)
             } else {
             }
@@ -235,6 +243,8 @@ import FontManage from '../FontManage';
 
         mounted()
         {
+            this.onInitTag()
+
             // console.log(this.contextMenuName);
             // console.log(this.cmName);
 

@@ -19,8 +19,8 @@
 
         <div class="sidebar_tool__content">
  
-          <div v-for="tab in tabs"  v-show="tab.componentName === currentComponentName && canSelectTab(tab)"  :key="tab.componentName" class="sidebar_tool__content-item">
-            <component :is="tab.componentName"  :activeTag="accualActiveEl" />
+          <div  class="sidebar_tool__content-item">
+            <component :is="currentComponentName" v-if="accualActiveEl"  :autoUpdate="true"  :activeTag="accualActiveEl" />
           </div>
         </div>
 
@@ -45,44 +45,10 @@ import SvgTag from "~/src/Layout/tag/SvgTag";
   },
 })
 export default class LayoutTagToolSidebar extends Vue {
-  active = false
+  active = true
   currentComponentName = ''
 
-  canSelectTab(tab) {
-    if (!this.accualActiveEl) {
-      return false
-    }
-
-    if (tab.componentName === 'img-manage-component') {
-
-      if (this.accualActiveEl instanceof ImgTag) {
-        return true
-      }
-
-      return false
-    }
-
-    if (tab.componentName === 'img-manage-component') {
-
-      if (this.accualActiveEl instanceof ImgTag) {
-        return true
-      }
-
-      return false
-    }
-    
-    if (tab.componentName === 'svg-manage-component') {
-
-      if (this.accualActiveEl instanceof SvgTag) {
-        return true
-      }
-
-      return false
-    }
-
-
-    return true
-  }
+  
   tabs = [
     {
       name: 'Text',
@@ -136,18 +102,40 @@ export default class LayoutTagToolSidebar extends Vue {
     this.currentComponentName = this.tabs[0].componentName
   }
 
-  get currentActiveTag() {
-    console.log('  get currentActiveTag()');
-    console.log(this.accualActiveEl);
-
-    // this.isImgTag = this.accualActiveEl instanceof ImgTag
-    // this.isSvgTag = this.accualActiveEl instanceof SvgTag
-
-    if (this.accualActiveEl) {
-      return this.accualActiveEl
+  canSelectTab(componentName) {
+    if (!this.accualActiveEl) {
+      return false
     }
 
-    return null
+    if (componentName === 'img-manage-component') {
+
+      if (this.accualActiveEl instanceof ImgTag) {
+        return true
+      }
+
+      return false
+    }
+
+    if (componentName === 'img-manage-component') {
+
+      if (this.accualActiveEl instanceof ImgTag) {
+        return true
+      }
+
+      return false
+    }
+    
+    if (componentName === 'svg-manage-component') {
+
+      if (this.accualActiveEl instanceof SvgTag) {
+        return true
+      }
+
+      return false
+    }
+
+
+    return true
   }
 
   toggleSidebar() {
