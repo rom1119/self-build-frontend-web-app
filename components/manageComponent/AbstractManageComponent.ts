@@ -43,10 +43,12 @@ export default abstract class AbstractManageComponent extends Vue
         this.value.onChangeSelector()
     }
 
-    restore(e)
+    restore()
     {
         this.value.cssAccessor.replaceAll(this.copiedCssList)
         this.init(this.value)
+        this.value.updateModelComponent()
+        this.value.synchronize()
     }
 
     public init(val: HtmlTag)

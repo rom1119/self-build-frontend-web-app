@@ -32,6 +32,7 @@
     import AbstractModal from '../AbstractModal';
     import { Chrome }  from '~/node_modules/vue-color';
 import TextManageComponent from "~/components/manageComponent/component/TextManageComponent.vue";
+import AbstractManageComponent from '../manageComponent/AbstractManageComponent';
 
     @Component({
         components: {
@@ -55,7 +56,7 @@ import TextManageComponent from "~/components/manageComponent/component/TextMana
         }
 
         show(currentActiveTag: HtmlTag){
-            super.show(currentActiveTag)
+            super.show(currentActiveTag, this.$refs.manageComponent)
             this.$refs.manageComponent.init(currentActiveTag)
         }
 

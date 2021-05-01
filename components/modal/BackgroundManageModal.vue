@@ -54,7 +54,7 @@ export default class BackgroundManageModal extends AbstractModal {
   }
 
   show(currentActiveTag: HtmlTag){
-      super.show(currentActiveTag)
+      super.show(currentActiveTag, this.$refs.manageComponent)
       this.$refs.manageComponent.init(currentActiveTag)
   }
 }

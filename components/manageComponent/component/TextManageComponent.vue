@@ -5,7 +5,7 @@
             <div class="content-item" style="display: flex;">
                 <div class="content-item-sixty" @dblclick="hasFontColor = !hasFontColor" :class="{'active': hasFontColor}">
                     <h4 class="content-item__header">
-                        Kolor tekstu
+                        Kolor tekstu {{ autoSaving }}
                     </h4>
                     <div class="color-picker-box" @dblclick.stop.prevent="">
                         <!-- <label @dblclick.stop.prevent="">Kolor</label>
@@ -151,37 +151,18 @@
 </template>
 
 <script lang="ts">
-    import {Component, Watch, Vue, Prop} from 'vue-property-decorator'
+    import {Component, Watch, Prop} from 'vue-property-decorator'
     import 'vue-cal/dist/vuecal.css'
-    import moment from 'moment'
-    import {Pagination} from "~/types/Pagination";
-    import HtmlTag from '../../../src/Layout/HtmlTag';
     import TextAlign from '../../../src/Css/Text/TextAlign';
-    import BaseModal from '~/components/BaseModal.vue';
     import FontWeight from '../../../src/Css/Text/FontWeight';
-    import BasePropertyCss from '../../../src/Css/BasePropertyCss';
-    import CssPropertyAccessor from '../../../src/Css/CssPropertyAccessor';
-    import AbstractModal from '../../AbstractModal';
-    import Named from '../../../src/Unit/Named';
     import UnitSize from '~/src/Unit/UnitSize';
-    import Pixel from '~/src/Unit/Size/Pixel';
-    import Percent from '~/src/Unit/Size/Percent';
-    import VW from '~/src/Unit/Size/VW';
     import EM from '~/src/Unit/Size/EM';
-    import REM from '~/src/Unit/Size/REM';
     import FontSize from '../../../src/Css/Text/FontSize';
-    import DisplayManageModal from '../../DisplayManageModal';
     import { RGBA } from '~/src/Unit';
-    import FontManageModal from '../../FontManage';
     import { Chrome }  from '~/node_modules/vue-color';
-import { FontFamily, FontStyle } from '../../../src/Css';
+import { FontStyle } from '../../../src/Css';
 import FontStretch from '../../../src/Css/Text/FontStretch';
-import FontFamilyDomain from '~/src/Fonts/FontFamilyValDomain';
-import FontFamilyProperty from '../../computedPropertyManagers/impl/ComputedProperty/Text/FontFamilyProperty';
 import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
-import FontFace from '~/src/Fonts/FontFace';
-import FontFaceAccessor from '~/src/Fonts/FontFaceAccessor';
-import TextManageModal from '../../modal/TextManageModal.vue';
 import FontManage from '../FontManage';
 
     @Component({

@@ -53,7 +53,7 @@ import GradientManageComponent from '../manageComponent/component/GradientManage
         }
 
         show(currentActiveTag: HtmlTag){
-            super.show(currentActiveTag)
+            super.show(currentActiveTag, this.$refs.manageComponent)
             this.$refs.manageComponent.init(currentActiveTag)
         }
 

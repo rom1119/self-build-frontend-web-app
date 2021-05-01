@@ -26,6 +26,7 @@ import _ from "lodash";
 import AbstractModal from "../AbstractModal";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import AnimationManageComponent from "../manageComponent/component/AnimationManageComponent.vue";
+import AbstractManageComponent from "../manageComponent/AbstractManageComponent";
 
 @Component
 export default class AnimationModalComponent extends AbstractModal {
@@ -45,7 +46,7 @@ export default class AnimationModalComponent extends AbstractModal {
   }
 
   show(currentActiveTag: HtmlTag){
-      super.show(currentActiveTag)
+      super.show(currentActiveTag, this.$refs.manageComponent)
       this.$refs.manageComponent.init(currentActiveTag)
   }
 }

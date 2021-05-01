@@ -61,9 +61,9 @@ interface Color {
         }
 
         show(currentActiveTag: HtmlTag){
-            super.show(currentActiveTag)
+            super.show(currentActiveTag, this.$refs.manageComponent)
             this.$refs.manageComponent.init(currentActiveTag)
-        } 
+        }
 
 
     }

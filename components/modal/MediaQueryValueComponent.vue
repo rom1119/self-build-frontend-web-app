@@ -141,13 +141,6 @@ export default class MediaQueryValueComponent extends Vue {
   cmNameTextShadowColor =
     Math.floor(Math.random() * 1000000000).toString() + "text-shadow-color";
 
-  get maxSize() {
-    if (this.value.sizeUnit instanceof Percent) {
-      return 100;
-    }
-
-    return 99999;
-  }
 
   created() {
     this.features = MediaFeature.PROP;

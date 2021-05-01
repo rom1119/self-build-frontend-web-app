@@ -8,12 +8,14 @@ import UnitSize from '~/src/Unit/UnitSize'
 import Unit from '../src/Unit/Unit';
 import BaseComputedPropertyManager from './computedPropertyManagers/BaseComputedPropertyManager'
 import PositionCss from '../src/Css/Display/PositionCss';
+import AbstractManageComponent from './manageComponent/AbstractManageComponent';
 
 
 export default abstract class AbstractModal extends Vue
 {
     protected active = false
     protected value: HtmlTag = null
+    protected manageComponent: AbstractManageComponent = null
   
     constructor()
     {
@@ -24,14 +26,16 @@ export default abstract class AbstractModal extends Vue
     restore(e)
     {
         
-        this.close()
+        this.manageComponent.restore()
+        // this.close()
     }
 
-    public show(val: HtmlTag)
+    public show(val: HtmlTag, manageComponent: AbstractManageComponent)
     {
         if (!val) {
             throw Error('val must not be null')
         }
+        this.manageComponent = manageComponent
         this.active = true
         this.value = val
  

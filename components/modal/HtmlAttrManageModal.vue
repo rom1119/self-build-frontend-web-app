@@ -55,7 +55,7 @@ import HtmlAttrManageComponent from '../manageComponent/component/HtmlAttrManage
         }
 
         show(currentActiveTag: HtmlTag){
-            super.show(currentActiveTag)
+            super.show(currentActiveTag, this.$refs.manageComponent)
             this.$refs.manageComponent.init(currentActiveTag)
         }
 
