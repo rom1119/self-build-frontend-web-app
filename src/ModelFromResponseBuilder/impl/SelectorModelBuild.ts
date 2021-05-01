@@ -31,6 +31,9 @@ export default class SelectorModelBuild implements ModelFromResponse<SelectorRes
         model.delimiter = from.delimiter
         model.version = from.version
 
+        model.unitName = from.unitName
+
+
         model.version = from.version
         if (from.project) {
             model.projectId = from.project.id

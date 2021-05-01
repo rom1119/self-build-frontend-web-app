@@ -15,6 +15,9 @@
 
       <div>
         <template v-if="appEventsController">
+          <animation-tool-sidebar  :keyFrameAccessor="keyFrameAccessor">
+          </animation-tool-sidebar>
+          
           <layout-tag-tool-sidebar  :accualActiveEl="appEventsController.activeToManageController.accualActiveEl">
           </layout-tag-tool-sidebar>
         
@@ -99,6 +102,7 @@ import MediaQueryViewModeAction from "../../src/Mode/action/MediaQueryViewModeAc
 import KeyFrameViewModeAction from "../../src/Mode/action/KeyFrameViewModeAction";
 import AppEventsController from '../../src/Controller/AppEventsController';
 import LayoutTagToolSidebar from "~/components/LayoutTagToolSidebar.vue";
+import KeyFrameAccessor from "~/src/Animation/KeyFrameAccessor";
 
 @Component({
   components: {
@@ -144,6 +148,9 @@ export default class LayoutCreatorContainer extends Vue {
 
   @Prop({ required: true })
   fontFaceAccesor: FontFaceAccessor = null;
+  
+  @Prop({ required: true })
+  keyFrameAccessor: KeyFrameAccessor;
 
   updateTagsOnChangeMediaQuery(list) {
     for (const el of list) {

@@ -40,7 +40,7 @@ export default class KeyFrameModelBuildResponse implements ResponseFromModel<Key
             selectors.push(responseCssValue)
         }
 
-        response.selectors = selectors
+        response.selectorList = selectors
             
                
         return response;

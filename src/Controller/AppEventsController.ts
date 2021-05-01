@@ -32,6 +32,8 @@ import SelectElementForAnimationAction from '../Mode/layoutAction/SelectElementF
 import CreateAnimationAction from '../Mode/layoutAction/CreateAnimationAction';
 import BeforeSelectElementForAnimationAction from '../Mode/layoutAction/BeforeSelectElementForAnimationAction';
 import UnSelectElementForAnimationAction from '../Mode/layoutAction/UnSelectElementForAnimationAction';
+import ActiveToAnimationController from '../ActiveToAnimationController';
+import AnimationCreator from '../Animation/AnimationCreator';
 
 
 export default class AppEventsController
@@ -42,9 +44,10 @@ export default class AppEventsController
     activeElController: ActiveElController = new DefaultActiveElController();
     activeToManageController: ActiveToController<ActivableTagToManage> = new DefaultActiveToManageController();
     activeToPositionController: ActiveToController<ActivableTagToPosition> = new DefaultActiveToPositionController();
-    activeToAnimationController: DefaultActiveToAnimationController = null
+    activeToAnimationController: ActiveToAnimationController<HtmlTag> = null
 
     adivisorController: AdvisorTagController
+    animationCreator: AnimationCreator
     hasAccualControllerWorks = false;
     currentMouseOverTag: HtmlTag;
 
@@ -54,7 +57,8 @@ export default class AppEventsController
     constructor(creatorMode: LayoutCreatorModeComponent, tree: HtmlTag[]) {
         this._creatorMode = creatorMode
         this.adivisorController = new AdvisorTagController(creatorMode)
-        this.activeToAnimationController = new DefaultActiveToAnimationController(tree)
+        this.animationCreator = AnimationCreator.getInstance()
+        this.activeToAnimationController = new DefaultActiveToAnimationController(tree, this.animationCreator)
     }
 
     get creatorMode(): LayoutCreatorModeComponent
@@ -105,15 +109,19 @@ export default class AppEventsController
         if (this.currentMode instanceof AnimationMode) {
             if (this.currentMode.canRunSystemAction(new BeforeSelectElementForAnimationAction(tag))) {
                 this.activeToAnimationController.updateReadyToCheckTag(tag);
+            } else {
+                this.activeElController.updateActiveEl(val);
+
             }
 
         } else if (this.currentMode instanceof EditMode) {
             if (this.adivisorController.hasShiftKey) {
             
                 this.activeToPositionController.updateActiveTag(tag);
+            } else {
+                this.activeElController.updateActiveEl(val);
+
             }
-        } else if (this.currentMode instanceof EditMode) {
-            this.activeElController.updateActiveEl(val);
         }
      
     }
@@ -131,6 +139,8 @@ export default class AppEventsController
         if (this.currentMode instanceof AnimationMode) {
             if (this.currentMode.canRunSystemAction(new BeforeSelectElementForAnimationAction(tag))) {
                 this.activeToAnimationController.deactiveReadyToCheckTag();
+            } else {
+                this.activeElController.deactiveEl(val);
             }
         } else if (this.currentMode instanceof EditMode) {
             if (this.adivisorController.hasShiftKey) {
@@ -255,7 +265,11 @@ export default class AppEventsController
         // console.log(e.shiftKey);
 
         if (this.currentMode instanceof AnimationMode) {
-            if (this.currentMode.canRunSystemAction(new CreateAnimationAction())) {
+            if (this.currentMode.canRunSystemAction(new UnSelectElementForAnimationAction(e.key))) {
+                this.activeToAnimationController.deactiveTag();
+                this.activeElController.deactiveEl(null);
+                // this.activeToAnimationController.deactiveReadyToCheckTag();
+            } else if (this.currentMode.canRunSystemAction(new CreateAnimationAction())) {
                 if (e.shiftKey) {
                     this.adivisorController.hasShiftKey = true;
                     if (this.currentMouseOverTag) {

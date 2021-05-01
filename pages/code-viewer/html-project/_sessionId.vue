@@ -156,10 +156,11 @@ import {html} from 'js-beautify';
             html = html[html.length - 1]
             html = html
             html = html.substr(0, html.length - 1)
-            // console.log(html);
+            console.log(html);
             // console.log(html.substr(125));
 
             var jsonContent = JSON.parse(html.trim().toString())
+            console.log(jsonContent);
             this.cssCode = jsonContent.css
 
         }

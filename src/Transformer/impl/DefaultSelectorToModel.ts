@@ -12,6 +12,7 @@ import PseudoSelector from '../../PseudoSelector/PseudoSelector';
 import Selector from '../../Api/Selector';
 import CssListAndMediaQueryAccessor from "~/src/Css/PropertyAccessor/mediaQuery/CssListAndMediaQueryAccessor";
 import BaseSelector from "~/src/BaseSelector";
+import PercentKeyFrameSelector from '../../Animation/keyFrameSelectors/PercentKeyFrameSelector';
 export default class DefaultSelectorToModel implements SelectorToModel
 {
 
@@ -58,6 +59,12 @@ export default class DefaultSelectorToModel implements SelectorToModel
         model.delimiter = domain.delimiter
         model.name = domain.getName()
         model.version = domain.getVersion()
+
+        if (domain instanceof PercentKeyFrameSelector) {
+            model.value = String(domain.val)
+            model.unitName = domain.getUnit().name
+
+        }
 
         // let domain = this.htmlTagFactory.create(model.tagName)
         // console.log('LLLLLLLLLLLLL');

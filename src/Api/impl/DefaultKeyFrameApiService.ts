@@ -20,6 +20,9 @@ import SelectorResponse from '~/types/response/SelectorResponse';
 import DefaultApiService from './DefaultApiService';
 import SelectorToModel from '../../Transformer/SelectorToModel';
 import Selector from '../Selector';
+import BaseSelector from '../../BaseSelector';
+import DefaultSelectorToModel from '../../Transformer/impl/DefaultSelectorToModel';
+import SelectorModelBuildResponse from '../../ModelFromResponseBuilder/impl/SelectorModelBuildResponse';
 
 export default class DefaultKeyFrameApiService implements KeyFrameApiService, SelectorApiService
 {
@@ -45,8 +48,13 @@ export default class DefaultKeyFrameApiService implements KeyFrameApiService, Se
     {
 
         this.keyFrameDomainToModelTransformer = new DefaultKeyFrameToModel()
-
         this.keyFrameModelToResponse = new KeyFrameModelBuildResponse()
+        
+        
+        this.selectorDomainToModelTransformer = new DefaultSelectorToModel()
+        this.selectorModelToResponse = new SelectorModelBuildResponse()
+
+
         this.idUpdater = new KeyFrameUpdater()
 
 
@@ -93,17 +101,17 @@ export default class DefaultKeyFrameApiService implements KeyFrameApiService, Se
         let model = this.keyFrameDomainToModelTransformer.transform(arg)
         let response = this.keyFrameModelToResponse.build(model)
 
-        return Axios.put(DefaultKeyFrameApiService.HOST + `/api/key-frame/${arg.id}`, response)
+        return Axios.put(DefaultKeyFrameApiService.HOST + `/api/key-frame/${arg.uuid}`, response)
 
     }
 
 
 
     deleteKeyFrame(arg: KeyFrame): Promise<any> {
-        return Axios.delete(DefaultKeyFrameApiService.HOST + `/api/key-frame/${arg.id}`)
+        return Axios.delete(DefaultKeyFrameApiService.HOST + `/api/key-frame/${arg.uuid}`)
     }
 
-    appendSelector(selector: PseudoSelector): Promise<any> {
+    appendSelector(selector: BaseSelector): Promise<any> {
         let model = this.selectorDomainToModelTransformer.transform(selector)
         let response = this.selectorModelToResponse.build(model)
 
@@ -134,7 +142,7 @@ export default class DefaultKeyFrameApiService implements KeyFrameApiService, Se
 
     }
 
-    putSelector(selector: PseudoSelector): Promise<any> {
+    putSelector(selector: BaseSelector): Promise<any> {
         let model = this.selectorDomainToModelTransformer.transform(selector)
         let response = this.selectorModelToResponse.build(model)
 
@@ -142,7 +150,7 @@ export default class DefaultKeyFrameApiService implements KeyFrameApiService, Se
 
     }
 
-    deleteSelector(selector: PseudoSelector): Promise<any> {
+    deleteSelector(selector: BaseSelector): Promise<any> {
         return Axios.delete(DefaultApiService.HOST + `/api/pseudo-selector/${selector.id}`)
     }
 

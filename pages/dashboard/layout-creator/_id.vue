@@ -1,7 +1,7 @@
 <template>
     <div class="">
 
-        <layout-creator-container ref="creatorContainer" :fontFaceAccesor="fontFaceAccesor">
+        <layout-creator-container ref="creatorContainer" :fontFaceAccesor="fontFaceAccesor" :keyFrameAccessor="keyFrameAccessor">
 
         </layout-creator-container>
 
@@ -26,6 +26,8 @@ import DefaultModelToFontFace from '~/src/Transformer/impl/DefaultModelToFontFac
 import DefaultFontFaceApiService from '~/src/Api/impl/DefaultFontFaceApiService';
 import FontFaceAccessor from '~/src/Fonts/FontFaceAccessor';
 import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.vue';
+import DefaultModelToKeyFrame from '~/src/Transformer/impl/DefaultModelToKeyFrame';
+import KeyFrameAccessor from '~/src/Animation/KeyFrameAccessor';
 
 
     @Component({
@@ -46,7 +48,8 @@ import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.v
         }
 
         modelToDomain: ModelToMediaQuery
-        fontFaceAccesor = null
+        fontFaceAccesor: FontFaceAccessor = null
+        keyFrameAccessor: KeyFrameAccessor = null
 
 
         createPElement(target, cm) {
@@ -85,8 +88,12 @@ import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.v
             var apiMediaQuery = new DefaultMediaQueryApiService()
             var apiFontFace = new DefaultFontFaceApiService()
             var mediaQueryFactory = new MediaQueryFactory(apiMediaQuery)
+
             this.$fontFaceManageModal.init(this.$route.params.id)
             this.fontFaceAccesor = FontFaceAccessor.getInstance()
+
+            KeyFrameAccessor.createInstance(this.$route.params.id)
+            this.keyFrameAccessor = KeyFrameAccessor.getInstance()
             // console.log('mmmmmmmm');
             // console.log(this.fontFaceAccesor);
             this.modelToDomainTransformer = new DefaultModelToDomain()
@@ -94,6 +101,8 @@ import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.v
             var modelToDomainMediaQuery = new DefaultModelToMediaQuery(mediaQueryFactory)
 
             var modelToDomainFontFace = new DefaultModelToFontFace()
+
+            var modelToDomainKeyFrame = new DefaultModelToKeyFrame()
 
 
             if (this.$route.params.id) {
@@ -114,6 +123,12 @@ import FontFaceManageModal from '../../../components/modal/FontFaceManageModal.v
                     let domainFF = modelToDomainFontFace.transform(ff)
                     // @ts-ignore
                     this.$fontFaceManageModal.addFont(domainFF)
+                }
+
+                for (const keyFrameRes of response.keyFrameList) {
+                    let keyFrameDomain = modelToDomainKeyFrame.transform(keyFrameRes)
+                    // @ts-ignore
+                    this.keyFrameAccessor.addKeyFrame(keyFrameDomain)
                 }
 
                 for (const tagModel of response.model.htmlTags) {

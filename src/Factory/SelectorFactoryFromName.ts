@@ -1,12 +1,12 @@
 
 import UnableCreateCssPropertyFromName from '../Errors/UnableCreateCssPropertyFromName';
 import * as libCss from "~/src/PseudoSelector/PseudoClass/index";
-import * as libkeyFrame from "~/src/Animation/KeyFrameSelectors/index";
+import * as libkeyFrame from "~/src/Animation/keyFrameSelectors/index";
 import BasePropertyCss from '../Css/BasePropertyCss';
 import PseudoSelector from '../PseudoSelector/PseudoSelector';
 import BaseSelector from '../BaseSelector';
 
-export default class PseudoSelectorFactoryFromName {
+export default class SelectorFactoryFromName {
 
     // private htmlTagFactory: HtmlTagFactory
 

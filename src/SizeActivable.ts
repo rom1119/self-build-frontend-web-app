@@ -1,6 +1,6 @@
 
 
-export default interface SizeActivable
+export default interface SizeActivable 
 {
     changeAsActiveSize()
     

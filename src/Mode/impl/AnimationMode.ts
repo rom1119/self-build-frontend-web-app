@@ -17,6 +17,7 @@ import CreateAnimationAction from '../layoutAction/CreateAnimationAction';
 import SelectElementForAnimationAction from '../layoutAction/SelectElementForAnimationAction';
 import LayoutCreatorAction from '../LayoutCreatorAction';
 import BeforeSelectElementForAnimationAction from '../layoutAction/BeforeSelectElementForAnimationAction';
+import UnSelectElementForAnimationAction from '../layoutAction/UnSelectElementForAnimationAction';
 export default class AnimationMode extends LayoutMode 
 {
     public isAnimationEditMode = true
@@ -41,6 +42,13 @@ export default class AnimationMode extends LayoutMode
         } else {
             if (action instanceof CreateAnimationAction) {
                 return true
+            }
+
+            if (action instanceof UnSelectElementForAnimationAction) {
+                if (action.escapePress) {
+                    this.selectedHtmlEl = null
+                    return true
+                }
             }
 
             return false

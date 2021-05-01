@@ -16,36 +16,27 @@ import FirstOfType from '../src/PseudoSelector/PseudoClass/FirstOfType';
 
 
 
-export default abstract class BasePseudoSelectorComponent extends AbstractModal
+export default abstract class BasePseudoSelectorComponent extends Vue
 {
     pseudoClassManagers: PseudoClassManager[] = []
+    value: HtmlTag
     // hoverManager: PseudoSelectoryManager<Hover>
     // activeManager: PseudoSelectoryManager<Active>
     // focusManager: PseudoSelectoryManager<Focus>
     // visitedManager: PseudoSelectoryManager<Visited>
     // visitedManager: PseudoSelectoryManager<Visited>
 
-    constructor()
-    {
-        super()
-
-        // this.activeManager = new PseudoSelectoryManager<Active>()
-        // this.focusManager = new PseudoSelectoryManager<Focus>()
-        // this.visitedManager = new PseudoSelectoryManager<Visited>()
-
-
-    }
 
     show(val: HtmlTag){
-        super.show(val)
-        Vue.set(this, 'managers', [])
+        // super.show(val)
+        Vue.set(this, 'pseudoClassManagers', [])
         this.pseudoClassManagers.push(new PseudoClassManager(new Active(val)))
         this.pseudoClassManagers.push(new PseudoClassManager(new Hover(val)))
         this.pseudoClassManagers.push(new PseudoClassManager(new Visited(val)))
         this.pseudoClassManagers.push(new PseudoClassManager(new Focus(val)))
         this.pseudoClassManagers.push(new PseudoClassManager(new FirstChild(val)))
         this.pseudoClassManagers.push(new PseudoClassManager(new FirstOfType(val)))
-
+        this.value = val
 
         // this.hoverManager.setHtmlEl(val)
 

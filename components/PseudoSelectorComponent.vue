@@ -55,7 +55,7 @@ import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
     export default class PseudoSelectorComponent extends BasePseudoSelectorComponent {
       
         timeout
-        @Prop({default: "null", required: false})
+        @Prop({default: null, required: false})
         value: HtmlTag
         
         

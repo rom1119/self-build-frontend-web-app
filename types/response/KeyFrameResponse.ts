@@ -9,5 +9,5 @@ export default class KeyFrameResponse extends ResponseObject{
      shortUuid
      value
      project: any
-     selectors: SelectorResponse[]
+     selectorList: SelectorResponse[]
 }

@@ -27,20 +27,34 @@ import HtmlTag from '../Layout/HtmlTag';
 import Synchronizer from "~/src/Synchronizer/Synchronizer";
 import DefaultKeyFrameApiService from '../Api/impl/DefaultKeyFrameApiService';
 import KeyFrameSynchronizer from '../Synchronizer/Impl/KeyFrameSynchronizer';
+import KeyFrameSelector from './KeyFrameSelector';
+import AnimationCss from '../Css/Animation/AnimationCss';
 
 export default class KeyFrame implements SelectorOwner
 {
-    id
-
+    uuid: string
     version
     shortUuid
     projectId
     protected _version
     name
+
+    selectorsShow = true
+
+    isPercentSelector = false
+
     
     protected _selectorAccessor: KeyFrameSelectorAccessor
     tag: HtmlTag
+
+    owners:  { [key: number]: number[]}
+
+    protected _countOwners: number = 0
     
+    shortUUID: string;
+    synchronizer: KeyFrameSynchronizer
+    api: DefaultKeyFrameApiService
+    addSelectorError: string = ''
     constructor()
     {
         this._selectorAccessor = new KeyFrameSelectorAccessor(this)
@@ -49,10 +63,53 @@ export default class KeyFrame implements SelectorOwner
         // Vue.set(this.values, 0, shadow)
         
     }
-    shortUUID: string;
-    uuid: string;
-    synchronizer: KeyFrameSynchronizer
-    api: DefaultKeyFrameApiService
+
+    toggleSelectors() {
+        this.selectorsShow = !this.selectorsShow
+    }
+
+    isUsedInAnimationCss() {
+        return this.countOwners > 0
+    }
+
+    protected updateCountOwners() {
+        var size = 0,
+        key;
+        for (key in this.owners) {
+            if (this.owners.hasOwnProperty(key)) size++;
+        }
+        this._countOwners = size
+    }
+    get countOwners(): number {
+        
+        return this._countOwners;
+    
+    }
+
+    public addAnimationOwnerToKeyFrame( animation: AnimationCss) {
+        // console.log('addFontOwnerToFontFace');
+        
+        if (!this.owners[animation.id]) {
+            this.owners[animation.id] = []
+        }
+        this.updateCountOwners()
+        // console.log(font.owners);
+        // console.log(font);
+        // console.log('addFontOwnerToFontFace END');
+    }
+    
+    public deleteAnimationOwnerFromKeyFrame(animation: AnimationCss) {
+        // console.log('deleteFontOwnerFromFontFace');
+
+        if (this.owners[animation.id].length < 1) {
+            delete this.owners[animation.id]
+
+        }
+        this.updateCountOwners()
+
+        // console.log(font);
+        // console.log('deleteFontOwnerFromFontFace END');
+    }
 
     public getValue()
     {
@@ -79,7 +136,7 @@ export default class KeyFrame implements SelectorOwner
     public init(tag: HtmlTag) {
         this.tag = tag
         for (const selector of this.selectorAccessor.all) {
-            selector.init(tag)
+            selector.init(this)
         }
     }
 
@@ -124,7 +181,54 @@ export default class KeyFrame implements SelectorOwner
 
     get selectorAccessor(): KeyFrameSelectorAccessor
     {
-        return this.selectorAccessor
+        return this._selectorAccessor
+    }
+
+    public initSelector(src: KeyFrameSelector) {
+        src.init(this)
+        src.projectId = this.projectId
+
+    }
+    public addSelector(src: KeyFrameSelector) {
+        this.initSelector(src)
+        this.selectorAccessor.addNewSelector(src)
+
+    }
+
+    public addSelectorAndSave(src: KeyFrameSelector)
+    {
+        this.initSelector(src)
+        this.api.appendSelector(src).then(
+            (res) => {
+                this.addSelector(src)
+                src.id = res.data.id                
+            },
+            (err) => {
+                
+            }
+        )
+    }
+    
+    
+    public updateSelector(src: KeyFrameSelector)
+    {
+
+        this.api.putSelector(src)
+    }
+    
+    public removeSelector(src: KeyFrameSelector)
+    {
+
+        this.api.deleteSelector(src).then(
+            (res) => {
+                this.selectorAccessor.removeById(src.id)
+                this.addSelectorError = ''
+
+            },
+            (err) => {
+                
+            }
+        )
     }
     
     
@@ -142,6 +246,11 @@ export default class KeyFrame implements SelectorOwner
         // console.log(pseudoSelectors);
 
         return pseudoSelectors
+    }
+
+    public equals(el: KeyFrame): boolean
+    {
+        return this.uuid === el.uuid
     }
 
     

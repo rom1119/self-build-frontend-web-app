@@ -7,9 +7,11 @@ export default class UnSelectElementForAnimationAction implements LayoutCreatorA
     public static NAME = 'unselect-element-for-animation-action-layout-creator'
 
     escapePress: boolean = false
+    buttClicked: boolean = false
 
-    constructor(keyString: string) {
+    constructor(keyString?: string, buttClicked?: boolean) {
         this.escapePress = keyString === "Escape"
+        this.buttClicked = buttClicked
     }
 
     public getName() {

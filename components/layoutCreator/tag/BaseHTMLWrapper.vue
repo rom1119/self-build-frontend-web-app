@@ -17,7 +17,10 @@
                 <!-- <span :style="value.cssBoxList"  ></span> -->
             </div>
 
-            <div class="animation-shadow" v-show="value.isReadyToAnimationCheck()" >
+            <div 
+                @mouseover="onContentMouseOver(value)"
+                @mouseout="onContentMouseOut(value)"
+                class="animation-shadow" v-show="value.isReadyToAnimationCheck()" >
                 <div class="tip-animation"  @click.stop="onCheckToAnimationElement(value, $event)">
                     Klikni aby tworzyć animację
                 </div>
@@ -226,7 +229,7 @@ export default class BaseHTMLWrapper extends Vue {
         var res: any = {}
 
         if (this.value.hardHidden) {
-            res.display = 'none !important;'
+            res.display = 'none !important'
         }
 
         return res

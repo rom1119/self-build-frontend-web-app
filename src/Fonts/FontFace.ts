@@ -4,6 +4,8 @@ import FontFaceSynchronizer from '../Synchronizer/Impl/FontFaceSynchronizer';
 import SrcFont from './SrcFont';
 import DefaultFontFaceApiService from '../Api/impl/DefaultFontFaceApiService';
 import FontFaceOwner from './FontFaceOwner';
+import FontFamily from '../Css/Text/FontFamily';
+import FontFamilyValDomain from './FontFamilyValDomain';
 
 
 export default class FontFace
@@ -31,7 +33,7 @@ export default class FontFace
         return this.countOwners > 0
     }
 
-    public updateCountOwners() {
+    protected updateCountOwners() {
         var size = 0,
         key;
         for (key in this.owners) {
@@ -43,6 +45,33 @@ export default class FontFace
         
         return this._countOwners;
     
+    }
+
+    public addFontOwnerToFontFace( fontFamily: FontFamily, fontVal: FontFamilyValDomain) {
+        // console.log('addFontOwnerToFontFace');
+        
+        if (!this.owners[fontFamily.id]) {
+            this.owners[fontFamily.id] = []
+        }
+        this.owners[fontFamily.id].push(fontVal.id)
+        this.updateCountOwners()
+        // console.log(font.owners);
+        // console.log(font);
+        // console.log('addFontOwnerToFontFace END');
+    }
+    
+    public deleteFontOwnerFromFontFace(fontFamily: FontFamily, fontVal: FontFamilyValDomain) {
+        // console.log('deleteFontOwnerFromFontFace');
+        this.owners[fontFamily.id].splice(this.owners[fontFamily.id].indexOf(fontVal.id))
+
+        if (this.owners[fontFamily.id].length < 1) {
+            delete this.owners[fontFamily.id]
+
+        }
+        this.updateCountOwners()
+
+        // console.log(font);
+        // console.log('deleteFontOwnerFromFontFace END');
     }
     // set countOwners(arg) {
         

@@ -6,16 +6,63 @@ import ActiveToController from '../ActiveToController';
 import ActivableTagToPosition from '../ActivableTagToPosition';
 import ActivableTagToAnimation from '../ActivableTagToAnimation';
 import TextNode from '../Layout/TextNode';
-export default class DefaultActiveToAnimationController implements ActiveToController<ActivableTagToAnimation>
+import ActiveToAnimationController from '../ActiveToAnimationController';
+import AnimationCreator from '../Animation/AnimationCreator';
+export default class DefaultActiveToAnimationController implements ActiveToAnimationController<HtmlTag>
 {
-    protected accualActiveEl: ActivableTagToAnimation
-
     protected readyToCheckEl: ActivableTagToAnimation
 
     protected allTreeTags: HtmlTag[] = []
+    protected animationCreator: AnimationCreator
 
-    constructor(tree: HtmlTag[]) {
+    constructor(tree: HtmlTag[], animationCreator: AnimationCreator) {
         this.allTreeTags = tree
+        this.animationCreator = animationCreator
+    }
+
+    
+
+    public updateActiveTag(elToActive: HtmlTag) 
+    {
+        this.hideAllTags()
+        // console.log('updateActiveTag');
+        this.animationCreator.selectTag(elToActive)
+        elToActive.changeAsActiveToAnimation()
+        // console.log(elToActive);
+        this.deactiveReadyToCheckTag()
+    }
+
+    public deactiveTag() {
+        // console.log('deactiveTag');
+        if (this.animationCreator.selectedTag) {
+            this.showAllTags()
+            // console.log('showAllTags');
+            
+            this.animationCreator.selectedTag.changeAsNotActiveToAnimation()
+            this.animationCreator.unselectTag()
+        }
+    }
+
+    public updateReadyToCheckTag(elToActive: HtmlTag) 
+    {
+        if (this.readyToCheckEl) {
+            // @ts-ignore
+            // if (this.readyToCheckEl.equals(elToActive)) {
+            //     this.deactiveReadyToCheckTag()
+            //     return
+            // }
+            this.deactiveReadyToCheckTag()
+        }
+
+        this.readyToCheckEl = elToActive
+        this.readyToCheckEl.changeAsReadyToAnimationCheck()
+    }
+
+    public deactiveReadyToCheckTag() {
+        if (this.readyToCheckEl) {
+            this.readyToCheckEl.changeAsNotReadyToAnimationCheck()
+            this.readyToCheckEl = null
+        }
     }
 
     protected hideAllTagsRecursive(tags: HtmlTag[]) {
@@ -46,43 +93,5 @@ export default class DefaultActiveToAnimationController implements ActiveToContr
 
     protected showAllTags() {
         this.showAllTagsRecursive(this.allTreeTags)
-    }
-
-    public updateActiveTag(elToActive: ActivableTagToAnimation) 
-    {
-        this.hideAllTags()
-
-        this.accualActiveEl = elToActive
-        this.accualActiveEl.changeAsActiveToAnimation()
-        this.deactiveReadyToCheckTag()
-    }
-
-    public deactiveTag() {
-        if (this.accualActiveEl) {
-            this.accualActiveEl.changeAsNotActiveToAnimation()
-            this.accualActiveEl = null
-        }
-    }
-
-    public updateReadyToCheckTag(elToActive: ActivableTagToAnimation) 
-    {
-        if (this.readyToCheckEl) {
-            // @ts-ignore
-            // if (this.readyToCheckEl.equals(elToActive)) {
-            //     this.deactiveReadyToCheckTag()
-            //     return
-            // }
-            this.deactiveReadyToCheckTag()
-        }
-
-        this.readyToCheckEl = elToActive
-        this.readyToCheckEl.changeAsReadyToAnimationCheck()
-    }
-
-    public deactiveReadyToCheckTag() {
-        if (this.readyToCheckEl) {
-            this.readyToCheckEl.changeAsNotReadyToAnimationCheck()
-            this.readyToCheckEl = null
-        }
     }
 }

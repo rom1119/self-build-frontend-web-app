@@ -16,16 +16,17 @@ import HtmlAttr from '../../Attribute/HtmlAttr';
 import ModelToSelector from '../ModelToSelector';
 import Selector from '../../Api/Selector';
 import PseudoSelector from '../../PseudoSelector/PseudoSelector';
-import PseudoSelectorFactoryFromName from '../../Factory/PseudoSelectorFactoryFromName';
+import SelectorFactoryFromName from '../../Factory/SelectorFactoryFromName';
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import KeyFrameSelector from '../../Animation/KeyFrameSelector';
 import SelectorOwner from '../../SelectorOwner';
 import BaseSelector from '../../BaseSelector';
+import PercentKeyFrameSelector from '../../Animation/keyFrameSelectors/PercentKeyFrameSelector';
 export default class DefaultModelToSelector implements ModelToSelector
 {
 
     private htmlTagFactory: HtmlTagFactoryFromName
-    private selectorFactoryFromName: PseudoSelectorFactoryFromName
+    private selectorFactoryFromName: SelectorFactoryFromName
     private styleTransformer: ModelToCss
 
     protected withKeyFrameSelector = false
@@ -33,7 +34,7 @@ export default class DefaultModelToSelector implements ModelToSelector
     constructor()
     {
         this.styleTransformer = new DefaultModelToCss()
-        this.selectorFactoryFromName = new PseudoSelectorFactoryFromName()
+        this.selectorFactoryFromName = new SelectorFactoryFromName()
     }
 
     public setWithKeyFrameSelectors() {
@@ -56,6 +57,10 @@ export default class DefaultModelToSelector implements ModelToSelector
         domain.projectId = model.projectId
         if (domain instanceof PseudoSelector) {
             domain.delimiter = model.delimiter
+        }
+        if (domain instanceof PercentKeyFrameSelector) {
+            domain.val = Number(model.value)
+
         }
         domain.setOwner(tag)
         // domain.setValue(model.value)

@@ -8,7 +8,7 @@ import Percent from '../../Unit/Size/Percent';
 export default class PercentKeyFrameSelector extends KeyFrameSelector
 {
     public static NAME = 'percent-animation-selector'
-
+    readonly isPercent = true
     protected unit: Percent
     val: number = 0
 
@@ -22,5 +22,11 @@ export default class PercentKeyFrameSelector extends KeyFrameSelector
     public getValue(): string {
         return this.unit.getValue(this.val)
     }
+
+    public getUnit()
+    {
+        return this.unit
+    }
+
     
 }

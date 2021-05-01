@@ -20,6 +20,7 @@ import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 import TransitionCss from "~/src/Css/Animation/TransitionCss";
 import CssOwner from './CssOwner';
 import SelectorApiService from './Api/SelectorApiService';
+import KeyFrameSelector from './Animation/KeyFrameSelector';
 
 export default abstract class BaseSelector implements CssOwner
 {
@@ -49,8 +50,8 @@ export default abstract class BaseSelector implements CssOwner
     protected _heightCalc: string = 'calc(100%)'
 
 
-    protected _cssPropertyAccesor: CssPropertyAccessor
-    protected _tmpCssPropertyAccesor: CssPropertyAccessor
+    protected _cssPropertyAccesor: CssPropertyAccessor = null
+    protected _tmpCssPropertyAccesor: CssPropertyAccessor = null
 
     protected synchronizer: PseudoSelectorSynchronizer
     api: SelectorApiService
@@ -512,6 +513,11 @@ export default abstract class BaseSelector implements CssOwner
             this.positionPropName = null
         }
 
+    }
+
+    public equals(el: KeyFrameSelector): boolean
+    {
+        return this.id === el.id
     }
 
     public abstract setOwner(tag: SelectorOwner)

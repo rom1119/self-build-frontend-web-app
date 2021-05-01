@@ -210,15 +210,19 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
     public hideElement() {
-        this._hardHidden = true
+        this.hardHidden = true
     }
     
     public showElement() {
-        this._hardHidden = false
+        this.hardHidden = false
     }
 
     get hardHidden() {
         return this._hardHidden
+    }
+    
+    set hardHidden(arg) {
+        this._hardHidden = arg
     }
     
 

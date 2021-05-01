@@ -30,6 +30,7 @@ import Hover from '../../../src/PseudoSelector/PseudoClass/Hover';
 import PseudoSelector from '../../../src/PseudoSelector/PseudoSelector';
 import PseudoClass from "~/src/PseudoSelector/PseudoClass";
 import BaseMediaQueryComponent from '../../BaseMediaQueryComponent';
+import SelectorApiService from '../../../src/Api/SelectorApiService';
 
 export default class PseudoClassManager
 {
@@ -140,10 +141,10 @@ export default class PseudoClassManager
 
         }
         console.log('activr');
-        prop.setApi(this.value.api)
+        prop.setApi(<SelectorApiService><unknown>this.value.api)
         prop.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
-        this.value.api.appendSelector(prop).then(
+        prop.api.appendSelector(prop).then(
             () => {
                 this.value.pseudoClassAccessor.addNewSelector(prop)
 
@@ -166,7 +167,7 @@ export default class PseudoClassManager
         var prop = this.pseudoClass
 
 
-        this.value.api.deleteSelector(prop).then(
+        prop.api.deleteSelector(prop).then(
             () => {
                 this.value.pseudoClassAccessor.removeById(prop.id)
 

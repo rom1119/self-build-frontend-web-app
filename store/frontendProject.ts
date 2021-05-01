@@ -12,10 +12,14 @@ import MediaQueryModelBuild from "~/src/ModelFromResponseBuilder/impl/MediaQuery
 import FontFaceModel from '../types/FontFaceModel';
 import FontFaceResponse from '../types/response/FontFaceResponse';
 import FontFaceModelBuild from '../src/ModelFromResponseBuilder/impl/FontFaceModelBuild';
+import KeyFrameModel from '../types/KeyFrameModel';
+import KeyFrameResponse from '../types/response/KeyFrameResponse';
+import KeyFrameModelBuild from '../src/ModelFromResponseBuilder/impl/KeyFrameModelBuild';
 
 let builder: ModelFromResponse<ProjectFrontendResponse, ProjectFrontendModel> = new ProjectFrontendModelBuild()
 let mediaQueryBuilder: ModelFromResponse<MediaQueryResponse, MediaQueryModel> = new MediaQueryModelBuild()
 let fontFaceBuilder: ModelFromResponse<FontFaceResponse, FontFaceModel> = new FontFaceModelBuild()
+let keyFrameBuilder: ModelFromResponse<KeyFrameResponse, KeyFrameModel> = new KeyFrameModelBuild()
 
 interface FrontendProjectState {
   items: ProjectFrontendModel[]
@@ -63,21 +67,26 @@ const actions: ActionTree<FrontendProjectState, FrontendProjectState> = {
 
     for (let answer of response.mediaQueryList) {
         let model = mediaQueryBuilder.build(answer)
-
-        // console.log(model);
         mediaQueryArray.push(model)
     }
     
     let fontFaceQueryArray: FontFaceModel[] = []
 
-      for (let fontFace of response.fontFaceList) {
-          let modelFontFace = fontFaceBuilder.build(fontFace)
+    for (let fontFace of response.fontFaceList) {
+        let modelFontFace = fontFaceBuilder.build(fontFace)
+        fontFaceQueryArray.push(modelFontFace)
+    }
 
-          // console.log(model);
-          fontFaceQueryArray.push(modelFontFace)
-      }
+    let keyFrameQueryArray: KeyFrameModel[] = []
 
-      return { model: model, mediaQueryList:  mediaQueryArray, fontFaceList: fontFaceQueryArray}
+    for (let keyFrame of response.keyFrameList) {
+        let modelkeyFrame = keyFrameBuilder.build(keyFrame)
+
+        // console.log(model);
+        keyFrameQueryArray.push(modelkeyFrame)
+    }
+
+      return { model: model, mediaQueryList:  mediaQueryArray, fontFaceList: fontFaceQueryArray, keyFrameList: keyFrameQueryArray}
   },
   async create({ commit, state}, token: ProjectFrontendModel) {
       // @ts-ignore

@@ -25,6 +25,8 @@ export default class SelectorModelBuildResponse implements ResponseFromModel<Sel
             response.delimiter = from.delimiter
 
             response.value = from.value
+            response.unitName = from.unitName
+
             response.version = from.version
             if (from.styles) {
                 for (const style of from.styles) {

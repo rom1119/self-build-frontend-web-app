@@ -1,0 +1,301 @@
+import CssSimple from "../CssSimple";
+import CssPropertyLimitable from "../CssPropertyLimitable";
+import UnitSize from '../../Unit/UnitSize';
+import UnitColor from '../../Unit/UnitColor';
+import CssComposite from '../CssComposite';
+import CssDirectionComposite from "../CssDirectionComposite";
+import CssWithoutValue from "~/src/Errors/CssWithoutValue";
+import Unit from "~/src/Unit/Unit";
+import CssTripleValue from "../CssTripleValue";
+import Named from '../../Unit/Named';
+import Vue from 'vue'
+import BasePropertyCss from "../BasePropertyCss";
+import CssMultipleValue from "../CssMultipleValue";
+import Pixel from '../../Unit/Size/Pixel';
+import CssValue from "../CssValue";
+import TimingFunction from "../../Animation/timingFunction/TimingFunction";
+import Linear from '../../Animation/timingFunction/impl/Linear';
+import { UnitSecond } from "~/src/Unit";
+import Width from '../Size/Width';
+import CssOwner from '../../CssOwner';
+import KeyFrameAccessor from '../../Animation/KeyFrameAccessor';
+import KeyFrame from '../../Animation/KeyFrame';
+
+export class AnimationCssStruct implements CssValue {
+    id
+    protected _time: number
+    protected _timingFunction: TimingFunction
+    protected _delay: number
+    protected _iterationCount: string
+    protected _direction: string
+    protected _fillMode: string
+    protected _playState: string
+    protected _keyFrame: KeyFrame
+
+    protected _timeUnit: UnitSecond = new UnitSecond()
+    protected _delayUnit: UnitSecond = new UnitSecond()
+    protected _timingFunctionUnit: Named = new Named()
+
+    
+    getId(): number {
+        return this.id
+    }
+    
+    get durationUnit()
+    {
+        return this._timeUnit
+    }
+    
+    get delayUnit()
+    {
+        return this._delayUnit
+    }
+    
+
+    set iterationCount(val)
+    {
+        Vue.set(this, '_iterationCount', val)
+
+    }
+    
+    get iterationCount()
+    {
+        return this._iterationCount
+    }
+    
+    set time(val)
+    {
+        Vue.set(this, '_time', val)
+    }
+    
+    get time()
+    {
+        return this._time
+    }
+    
+    set timingFunction(val: TimingFunction)
+    {
+        Vue.set(this, '_timingFunction', val)
+    }
+    
+    get timingFunction(): TimingFunction
+    {
+        return this._timingFunction
+    }
+    
+    set delay(val)
+    {
+        this._delay = val
+    }
+    
+    get delay()
+    {
+        return this._delay
+    }
+    
+    set direction(val)
+    {
+        this._direction = val
+    }
+    
+    get direction()
+    {
+        return this._direction
+    }
+    
+    set fillMode(val)
+    {
+        this._fillMode = val
+    }
+    
+    get fillMode()
+    {
+        return this._fillMode
+    }
+    
+    set playState(val)
+    {
+        this._playState = val
+    }
+    
+    get playState()
+    {
+        return this._playState
+    }
+    
+    set keyFrame(val)
+    {
+        this._keyFrame = val
+    }
+    
+    get keyFrame()
+    {
+        return this._keyFrame
+    }
+    
+
+    getFullValue(): string
+    {
+        var str = ''
+
+        if (this.time) {
+            str += `${this.time}s`  
+        }
+        if (this.timingFunction) {
+            str += ` ${this.timingFunction.getValue()}`
+            
+        }
+        if (this.delay) {
+            str += ` ${this.delay}s`  
+        }
+        
+        if (this.iterationCount) {
+            str += ` ${this.iterationCount}`  
+        }
+        
+        if (this.direction) {
+            str += ` ${this.direction}`  
+        }
+        
+        if (this.fillMode) {
+            str += ` ${this.fillMode}`  
+        }
+        
+        if (this.playState) {
+            str += ` ${this.playState}`  
+        }
+        
+        
+        if (this.keyFrame) {
+            str += ` ${this.keyFrame.name}`  
+
+        }
+      
+
+        return str
+    }
+    
+}
+
+export default class AnimationCss extends BasePropertyCss implements CssMultipleValue<AnimationCssStruct>
+{
+    public static PROP_NAME = 'animation'
+
+    keyFrame: KeyFrame = null
+    public static DEFAULT_TIME = 2
+    public static DEFAULT_DELAY = 0
+    public static DEFAULT_TIMING_FUNCTION = new Linear()
+
+    public static DIRECTIONS = {
+        normal: 'normal',
+        reverse: 'reverse',
+        alternate: 'alternate',
+        'alternate-reverse': 'alternate-reverse',
+    }
+   
+    public static FILL_MODES = {
+        none: 'none',
+        forwards: 'forwards',
+        backwards: 'backwards',
+        both: 'both',
+        
+    }
+    public static PLAY_STATES = {
+        running: 'running',
+        paused: 'paused'
+    }
+
+    public val: AnimationCssStruct = null
+    
+    constructor()
+    {
+        super(new Pixel())
+        this.val = new AnimationCssStruct()
+        this.val.time = AnimationCss.DEFAULT_TIME
+        this.val.timingFunction = AnimationCss.DEFAULT_TIMING_FUNCTION
+        this.values = []
+        this.clearValue()
+        this.values.push(this.val)
+        // var shadow = this.createClearValue()
+        
+        // shadow.offsetX = offXPixel
+        // shadow.offsetY = offYPixel
+        // shadow.color = color
+        // shadow.blur = BaseShadowCss.DEFAULT_BLUR
+        
+        // shadow.offsetXUnit = BaseShadowCss.DEFAULT_OFFSET_X_UNIT
+        // shadow.offsetYUnit = BaseShadowCss.DEFAULT_OFFSET_Y_UNIT
+        // shadow.blurUnit = BaseShadowCss.DEFAULT_BLUR_UNIT
+        // shadow.colorUnit = BaseShadowCss.DEFAULT_COLOR_UNIT
+        
+        // this.values.push(shadow)
+        // Vue.set(this.values, 0, shadow)
+        
+    }
+
+    public initOwner(owner: CssOwner) {
+        super.initOwner(owner)
+
+        this.updateFontFaceOwner()
+    }
+
+    updateFontFaceOwner() {
+        // console.log('updateFontFaceOwner');
+        // console.log(this.id);
+        // console.log(this.values);
+        
+        if (this.keyFrame) {
+            // console.log('addFontOwnerToFontFace');
+            KeyFrameAccessor.getInstance().addAnimationOwnerToKeyFrame(this.keyFrame, this)
+        }
+    }
+    
+    public getName(): string {
+        return AnimationCss.PROP_NAME
+    }
+
+
+    // addValueWith()
+
+    getValueByIndex(index: number): AnimationCssStruct {
+        return this.values[index]
+    }
+
+    getValues(): AnimationCssStruct[] {
+        return this.values
+    }
+    addValue(val: AnimationCssStruct) {
+        throw new Error("Method not implemented.");
+        // this.values.push(val)
+    }
+    removeValue(val: AnimationCssStruct) {
+        throw new Error("Method not implemented.");
+    }
+
+    setValue(val: any)
+    {
+        return false        // this.values.push(val)
+    }
+
+    getValue(): string
+    {
+        if (this.values.length == 0) {
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+        }
+        // if (this.values[0].toString().length < 1) {
+        //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+
+        // }
+        var val = ''
+        this.values.forEach((element, key) => {
+            val += element.getFullValue()
+            if (key < this.values.length - 1) {
+                val += ', '
+            }
+        });
+        
+        return val
+    }
+
+    
+}

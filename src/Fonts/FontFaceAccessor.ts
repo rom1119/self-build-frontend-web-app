@@ -59,25 +59,12 @@ export default class FontFaceAccessor
     public addFontOwnerToFontFace(font: FontFace, fontFamily: FontFamily, fontVal: FontFamilyValDomain) {
         // console.log('addFontOwnerToFontFace');
         
-        if (!font.owners[fontFamily.id]) {
-            font.owners[fontFamily.id] = []
-        }
-        font.owners[fontFamily.id].push(fontVal.id)
-        font.updateCountOwners()
-        // console.log(font.owners);
-        // console.log(font);
-        // console.log('addFontOwnerToFontFace END');
+        font.addFontOwnerToFontFace(fontFamily, fontVal)
     }
     
     public deleteFontOwnerFromFontFace(font: FontFace, fontFamily: FontFamily, fontVal: FontFamilyValDomain) {
         // console.log('deleteFontOwnerFromFontFace');
-        font.owners[fontFamily.id].splice(font.owners[fontFamily.id].indexOf(fontVal.id))
-
-        if (font.owners[fontFamily.id].length < 1) {
-            delete font.owners[fontFamily.id]
-
-        }
-        font.updateCountOwners()
+        font.deleteFontOwnerFromFontFace(fontFamily, fontVal)
 
         // console.log(font);
         // console.log('deleteFontOwnerFromFontFace END');

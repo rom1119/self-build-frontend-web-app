@@ -35,7 +35,6 @@ $minHeighFooter: 50px;
     margin-left: auto;
     border-radius: 20px;
     padding: 5px;
-    overflow: hidden;
 
     &__move {
         height: 40px;
@@ -85,8 +84,7 @@ $minHeighFooter: 50px;
 .add-btn {
     position: absolute;
     font-weight: bold;
-    right: 10px;
-    top: -10px;
+
     color: green;
     font-size: 2em;
     cursor: pointer;

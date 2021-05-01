@@ -9,6 +9,7 @@ import KeyFrame from '../../Animation/KeyFrame';
 import ModelToSelector from '../ModelToSelector';
 import DefaultModelToSelector from './DefaultModelToSelector';
 import ModelToKeyFrame from '../ModelToKeyFrame';
+import KeyFrameSelector from '../../Animation/KeyFrameSelector';
 export default class DefaultModelToKeyFrame implements ModelToKeyFrame
 {
 
@@ -24,7 +25,7 @@ export default class DefaultModelToKeyFrame implements ModelToKeyFrame
         // console.log(domain);
 
  
-        domain.id = model.id
+        domain.uuid = model.id
         domain.version = model.version
         domain.name = model.name
         domain.shortUuid = model.shortUuid
@@ -35,7 +36,7 @@ export default class DefaultModelToKeyFrame implements ModelToKeyFrame
         for (const srcEl of model.selectors) {
             let srcModel = this.selectorTransformer.transform(srcEl, domain)
             
-            domain.selectorAccessor.addNewSelector(<>srcModel)
+            domain.selectorAccessor.addNewSelector(<KeyFrameSelector>srcModel)
         }
 // console.log('TRANS');
 // console.log(domain);

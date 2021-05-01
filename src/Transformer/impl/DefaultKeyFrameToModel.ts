@@ -24,7 +24,7 @@ export default class DefaultKeyFrameToModel implements KeyFrameToModel
         //     value = JSON.stringify(value)
         // }
         let model = new KeyFrameModel()
-        model.id = domain.id
+        model.id = domain.uuid
         model.version = domain.version
         model.name = domain.name
         model.shortUuid = domain.shortUuid

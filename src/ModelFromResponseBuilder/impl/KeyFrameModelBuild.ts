@@ -5,7 +5,7 @@ import StyleCssResponse from '~/types/response/StyleCssResponse';
 import StyleCssModel from "~/types/StyleCssModel";
 import StyleCssValue from "~/src/Api/StyleCssValue";
 import KeyFrameResponse from "~/types/response/KeyFrameResponse";
-import KeyFrameModel from "~/types/KeyframeModel";
+import KeyFrameModel from "~/types/KeyFrameModel";
 import SelectorModelBuild from "./SelectorModelBuild";
 import SelectorResponse from "~/types/response/SelectorResponse";
 import SelectorModel from "~/types/SelectorModel";
@@ -33,7 +33,7 @@ export default class KeyFrameModelBuild implements ModelFromResponse<KeyFrameRes
 
         
         var sels = []
-        for (const cssValModel of from.selectors) {
+        for (const cssValModel of from.selectorList) {
             let cssValue = this.selectorBuilder.build(cssValModel)
             
 

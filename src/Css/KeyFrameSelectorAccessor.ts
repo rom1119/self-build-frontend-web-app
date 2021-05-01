@@ -11,7 +11,8 @@ import PseudoSelectorNotFound from '../Errors/PseudoSelectorNotFound';
 import SelectorAccessor from './SelectorAccessor';
 import KeyFrameSelector from '../Animation/KeyFrameSelector';
 import PercentKeyFrameSelector from '../Animation/keyFrameSelectors/PercentKeyFrameSelector';
-import FromKeyFrameSelector from '../Animation/keyFrameSelectors/FromKeyFrameSelector';
+import { FromKeyFrameSelector } from '../Animation/keyFrameSelectors/index';
+
 import ToKeyFrameSelector from '../Animation/keyFrameSelectors/ToKeyFrameSelector';
 export default class KeyFrameSelectorAccessor extends SelectorAccessor<KeyFrameSelector>
 {
@@ -29,7 +30,7 @@ export default class KeyFrameSelectorAccessor extends SelectorAccessor<KeyFrameS
 
         if (hasPercent) {
 
-            if (newProp instanceof FromKeyFrameSelector || newProp instanceof ToKeyFrameSelector) {
+            if (newProp instanceof FromKeyFrameSelector) {
                 throw new Error('Can not add ' + newProp.getName() + ' selector to percentage animation')
             }
         }

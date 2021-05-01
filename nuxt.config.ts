@@ -72,8 +72,7 @@ module.exports = {
         {src: '@/plugins/modals/htmlAttrManageModal', ssr: false},
         {src: '@/plugins/layoutModeComponent', ssr: false},
         {src: '@/plugins/layoutCreatorInfoComponent', ssr: false},
-        {src: '@/plugins/sidebar/animationToolSidebarComponent', ssr: false},
-        {src: '@/plugins/sidebar/layoutTagToolSidebarComponent', ssr: false},
+
         {src: '@/plugins/axiosFileDownload', ssr: false},
         {src: '@/plugins/VueUploadComponent', ssr: false},
     ],

@@ -6,9 +6,9 @@ import ModelFromResponse from "~/src/ModelFromResponseBuilder/ModelFromResponse"
 import _ from 'lodash'
 import ProjectFrontendModelBuild from '~/src/ModelFromResponseBuilder/impl/ProjectFrontendModelBuild';
 import ProjectFrontendResponse from '~/types/response/ProjectFrontendResponse';
-import KeyFrameModel from '~/types/KeyframeModel';
+import KeyFrameModel from '~/types/KeyFrameModel';
 import KeyFrameResponse from '~/types/response/KeyFrameResponse';
-import KeyFrameModelBuild from '~/src/ModelFromResponseBuilder/impl/KeyframeModelBuild';
+import KeyFrameModelBuild from '~/src/ModelFromResponseBuilder/impl/KeyFrameModelBuild';
 
 let builder: ModelFromResponse<KeyFrameResponse, KeyFrameModel> = new KeyFrameModelBuild()
 
