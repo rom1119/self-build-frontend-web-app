@@ -30,6 +30,8 @@ import { Named } from '~/src/Unit';
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 import FontFamily from '../../Css/Text/FontFamily';
 import FontFamilyValDomain from '../../Fonts/FontFamilyValDomain';
+import { AnimationCssStruct } from '../../Css/Animation/AnimationCss';
+import AnimationCss from '../../Css/Animation/AnimationCss';
 export default class DefaultCssToModel implements CssToModel
 {
 
@@ -53,7 +55,10 @@ export default class DefaultCssToModel implements CssToModel
 
     transform(domain: BasePropertyCss): StyleCss {
         var value = domain.getClearValue()
-        if (typeof value === 'object' && !(domain instanceof FontFamily)) {
+        if (typeof value === 'object' &&
+            !(domain instanceof FontFamily) &&
+            !(domain instanceof AnimationCss)
+        ) {
             value = JSON.stringify(value)
         }
         let model = new StyleCssModel(domain.getName(), value, domain.getUnit().name)
@@ -100,6 +105,7 @@ export default class DefaultCssToModel implements CssToModel
             this.transformTransition(domain, model)
             this.transformGradient(domain, model)
             this.transformFontFamily(domain, model)
+            this.transformAnimation(domain, model)
             model.setAsMultiple()
             // model.setValueSecond(domainCast.getSecondValue())
             // model.setUnitNameSecond(domainCast.getSecondUnit().name)
@@ -237,6 +243,59 @@ export default class DefaultCssToModel implements CssToModel
 
     }
 
+    private transformAnimation(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<AnimationCssStruct>
+        if (domain instanceof AnimationCss) {
+            domainCastMultiplyVal = <CssMultipleValue<AnimationCssStruct>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-MODEL');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+
+            for (const valCss of domainCastMultiplyVal.getValues()) {
+                valCss
+                let el = new StyleCssValue(valCss.keyFrameName, Named.PROP_NAME)
+                el.id = valCss.id
+
+                el.setValueSecond(valCss.duration)
+                el.setValueThird(valCss.timingFunction.getValue())
+                el.setValueFourth(valCss.delay)
+                el.setValueFifth(valCss.iterationCount)
+                el.setValueSixth(valCss.direction)
+                el.setValueSeventh(valCss.fillMode)
+                el.setValueEighth(valCss.playState)
+
+                if (valCss.keyFrame) {
+                    el.setValueNinth(valCss.keyFrameId)
+                    el.setUnitNameNinth(Named.PROP_NAME)
+
+                }
+                // var color = valCss.color
+                // if (typeof color === 'object') {
+                //     var valueJsonStr = JSON.stringify(color)
+                //     el.setValueFourth(valueJsonStr)
+                // } else {
+                //     el.setValueFourth(color)
+                // }
+
+                // el.setUnitName(valCss.propertyNameUnit.name)
+                el.setUnitNameSecond(valCss.durationUnit.name)
+                el.setUnitNameThird(Named.PROP_NAME)
+                el.setUnitNameFourth(valCss.delayUnit.name)
+                el.setUnitNameFifth(Named.PROP_NAME)
+                el.setUnitNameSixth(Named.PROP_NAME)
+                el.setUnitNameSeventh(Named.PROP_NAME)
+                el.setUnitNameEighth(Named.PROP_NAME)
+
+                values.push(el)
+            }
+            model.setValue(null)
+            model.setValues(values)
+
+        }
+
+    }
+    
     private transformTransition(domain: BasePropertyCss, model: StyleCssModel)
     {
         var values = []

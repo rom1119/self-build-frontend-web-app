@@ -152,7 +152,7 @@ export default class KeyFrameAccessor
     }
 
 
-    public static getFontByIdStatic(id: string): KeyFrame {
+    public static getByIdStatic(id: string): KeyFrame {
         var accesor = KeyFrameAccessor.inst
         let propsIndex = null
         // console.log(accesor.fonts);
@@ -165,16 +165,6 @@ export default class KeyFrameAccessor
         }
     }
 
-    protected getFontById(id: string) {
-        let propsIndex = null
-
-        for (let i = 0; i < this.keyFrames.length; i++) {
-            var el = this.keyFrames[i]
-            if (el.uuid === id) {
-                return el
-            }
-        }
-    }
 
     public getApi(): KeyFrameApiService
     {

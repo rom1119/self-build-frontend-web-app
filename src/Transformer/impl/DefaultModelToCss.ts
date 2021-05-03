@@ -31,6 +31,9 @@ import RadialGradientCss from '../../Css/Gradient/impl/RadialGradientCss';
 import FontFamilyValDomain from '../../Fonts/FontFamilyValDomain';
 import FontFamily from '../../Css/Text/FontFamily';
 import FontFaceAccessor from '~/src/Fonts/FontFaceAccessor';
+import { AnimationCssStruct } from '../../Css/Animation/AnimationCss';
+import KeyFrameAccessor from '../../Animation/KeyFrameAccessor';
+import AnimationCss from '../../Css/Animation/AnimationCss';
 export default class DefaultModelToCss implements ModelToCss
 {
 
@@ -146,10 +149,12 @@ export default class DefaultModelToCss implements ModelToCss
             var newDominTransition
             var newDominGradient
             var newDominFontFamily
+            var newDominAnimation
             newDominShadow = <BasePropertyCss><unknown>this.transformShadows(domain, model)
             newDominTransition = <BasePropertyCss><unknown>this.transformTransition(domain, model)
             newDominGradient = <BasePropertyCss><unknown>this.transformGradient(domain, model)
             newDominFontFamily = <BasePropertyCss><unknown>this.transformFontFamily(domain, model)
+            newDominAnimation = <BasePropertyCss><unknown>this.transformAnimation(domain, model)
             if (newDominShadow) {
                 domain = newDominShadow
             } else if (newDominTransition) {
@@ -158,6 +163,8 @@ export default class DefaultModelToCss implements ModelToCss
                 domain = newDominGradient
             } else if (newDominFontFamily) {
                 domain = newDominFontFamily
+            } else if (newDominAnimation) {
+                domain = newDominAnimation
             }
             // console.log('domain', domain);
             
@@ -396,6 +403,49 @@ export default class DefaultModelToCss implements ModelToCss
         }
 
         return null
+    }
+
+    private transformAnimation(domain: BasePropertyCss, model: StyleCssModel) {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<AnimationCssStruct>
+        if (domain instanceof AnimationCss) {
+            domainCastMultiplyVal = <CssMultipleValue<AnimationCssStruct>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-CSS');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+
+            for (const valCss of model.getValues()) {
+                valCss
+                let el = new AnimationCssStruct()
+                el.id = valCss.id
+                el.keyFrame = KeyFrameAccessor.getByIdStatic(valCss.getValueNinth())
+
+                el.duration = Number(valCss.getValueSecond())
+                el.timingFunction = this.timingFunctionFactoryFromName.create(valCss.getValueThird())
+                el.delay = Number(valCss.getValueFourth())
+                el.iterationCount = valCss.getValueFifth()
+                el.direction = valCss.getValueSixth()
+                el.fillMode = valCss.getValueSeventh()
+                el.playState = valCss.getValueEighth()
+
+                var unitDuration = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                var unitDelay = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+                // var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
+                // var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+
+                el.durationUnit = unitDuration
+                el.delayUnit= unitDelay
+                // el.offsetYUnit = unitOffY
+                // el.blurUnit = unitBlur
+                // el.colorUnit = unitColor
+                // console.log(el);
+
+
+                domainCastMultiplyVal.addValue(el)
+            }
+
+            return domainCastMultiplyVal
+
+        }
     }
 
     private transformTransition(domain: BasePropertyCss, model: StyleCssModel) {

@@ -15,6 +15,15 @@ export default class StyleCssValue
     private _unitNameFifth
     private _valueSixth
     private _unitNameSixth
+
+    private _valueSeventh
+    private _unitNameSeventh
+
+    private _valueEighth
+    private _unitNameEighth
+    
+    private _valueNinth
+    private _unitNameNinth
     private _resourcePath
     private _inset
     private _specialValGradient
@@ -98,6 +107,20 @@ export default class StyleCssValue
     {
         this._valueSixth = val
     }
+    
+    public setValueSeventh(val)
+    {
+        this._valueSeventh = val
+    }
+    
+    public setValueEighth(val)
+    {
+        this._valueEighth = val
+    }
+        public setValueNinth(val)
+    {
+        this._valueNinth = val
+    }
 
     public setUnitNameFifth(val)
     {
@@ -107,6 +130,21 @@ export default class StyleCssValue
     public setUnitNameSixth(val)
     {
         this._unitNameSixth= val
+    }
+    
+    public setUnitNameSeventh(val)
+    {
+        this._unitNameSeventh= val
+    }
+    
+    public setUnitNameEighth(val)
+    {
+        this._unitNameEighth= val
+    }
+    
+    public setUnitNameNinth(val)
+    {
+        this._unitNameNinth= val
     }
 
 
@@ -151,6 +189,21 @@ export default class StyleCssValue
     {
         return this._valueSixth
     }
+    
+    getValueSeventh(): string
+    {
+        return this._valueSeventh
+    }
+    
+    getValueEighth(): string
+    {
+        return this._valueEighth
+    }
+
+    getValueNinth(): string
+    {
+        return this._valueNinth
+    }
 
     getUnitNameFifth(): string
     {
@@ -160,6 +213,21 @@ export default class StyleCssValue
     getUnitNameSixth(): string
     {
         return this._unitNameSixth
+    }
+    
+    getUnitNameSeventh(): string
+    {
+        return this._unitNameSeventh
+    }
+    
+    getUnitNameEighth(): string
+    {
+        return this._unitNameEighth
+    }
+    
+    getUnitNameNinth(): string
+    {
+        return this._unitNameNinth
     }
 
     public setResourcePath(val)

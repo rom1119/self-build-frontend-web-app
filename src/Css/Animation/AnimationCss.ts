@@ -23,7 +23,7 @@ import KeyFrame from '../../Animation/KeyFrame';
 
 export class AnimationCssStruct implements CssValue {
     id
-    protected _time: number
+    protected _duration: number
     protected _timingFunction: TimingFunction
     protected _delay: number
     protected _iterationCount: string
@@ -32,8 +32,8 @@ export class AnimationCssStruct implements CssValue {
     protected _playState: string
     protected _keyFrame: KeyFrame
 
-    protected _timeUnit: UnitSecond = new UnitSecond()
-    protected _delayUnit: UnitSecond = new UnitSecond()
+    protected _timeUnit: Unit = new UnitSecond()
+    protected _delayUnit: Unit = new UnitSecond()
     protected _timingFunctionUnit: Named = new Named()
 
     
@@ -41,14 +41,41 @@ export class AnimationCssStruct implements CssValue {
         return this.id
     }
     
+    get keyFrameName()
+    {
+        if (this.keyFrame) {
+            return this.keyFrame.name
+        }
+
+        return null
+    }
+    
+    get keyFrameId()
+    {
+        if (this.keyFrame) {
+            return this.keyFrame.uuid
+        }
+
+        return null
+    }
     get durationUnit()
     {
         return this._timeUnit
     }
     
+    set durationUnit(arg)
+    {
+        this._timeUnit = arg
+    }
+    
     get delayUnit()
     {
         return this._delayUnit
+    }
+    
+    set delayUnit(arg)
+    {
+        this._delayUnit = arg
     }
     
 
@@ -63,14 +90,14 @@ export class AnimationCssStruct implements CssValue {
         return this._iterationCount
     }
     
-    set time(val)
+    set duration(val)
     {
-        Vue.set(this, '_time', val)
+        Vue.set(this, '_duration', val)
     }
     
-    get time()
+    get duration()
     {
-        return this._time
+        return this._duration
     }
     
     set timingFunction(val: TimingFunction)
@@ -138,8 +165,8 @@ export class AnimationCssStruct implements CssValue {
     {
         var str = ''
 
-        if (this.time) {
-            str += `${this.time}s`  
+        if (this.duration) {
+            str += `${this.duration}s`  
         }
         if (this.timingFunction) {
             str += ` ${this.timingFunction.getValue()}`
@@ -181,9 +208,12 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
 {
     public static PROP_NAME = 'animation'
 
-    keyFrame: KeyFrame = null
-    public static DEFAULT_TIME = 2
+    public static DEFAULT_DURATION = 2
     public static DEFAULT_DELAY = 0
+    public static DEFAULT_ITERATION_COUNT = ''
+    public static DEFAULT_DIRECTION = ''
+    public static DEFAULT_FILL_MODE = ''
+    public static DEFAULT_PLAY_STATE = ''
     public static DEFAULT_TIMING_FUNCTION = new Linear()
 
     public static DIRECTIONS = {
@@ -204,18 +234,16 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
         running: 'running',
         paused: 'paused'
     }
-
-    public val: AnimationCssStruct = null
     
     constructor()
     {
         super(new Pixel())
-        this.val = new AnimationCssStruct()
-        this.val.time = AnimationCss.DEFAULT_TIME
-        this.val.timingFunction = AnimationCss.DEFAULT_TIMING_FUNCTION
+        // var val = new AnimationCssStruct()
+        // val.duration = AnimationCss.DEFAULT_DURATION
+        // val.timingFunction = AnimationCss.DEFAULT_TIMING_FUNCTION
         this.values = []
         this.clearValue()
-        this.values.push(this.val)
+        // this.values.push(val)
         // var shadow = this.createClearValue()
         
         // shadow.offsetX = offXPixel
@@ -236,17 +264,19 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
     public initOwner(owner: CssOwner) {
         super.initOwner(owner)
 
-        this.updateFontFaceOwner()
+        this.updateKeyFrameOwner()
     }
 
-    updateFontFaceOwner() {
+    updateKeyFrameOwner() {
         // console.log('updateFontFaceOwner');
         // console.log(this.id);
         // console.log(this.values);
-        
-        if (this.keyFrame) {
-            // console.log('addFontOwnerToFontFace');
-            KeyFrameAccessor.getInstance().addAnimationOwnerToKeyFrame(this.keyFrame, this)
+        for (const val of this.values) {
+            if (val.keyFrame) {
+                // console.log('addFontOwnerToFontFace');
+                KeyFrameAccessor.getInstance().addAnimationOwnerToKeyFrame(val.keyFrame, this)
+            }
+            
         }
     }
     
@@ -265,8 +295,8 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
         return this.values
     }
     addValue(val: AnimationCssStruct) {
-        throw new Error("Method not implemented.");
-        // this.values.push(val)
+        // throw new Error("Method not implemented.");
+        this.values.push(val)
     }
     removeValue(val: AnimationCssStruct) {
         throw new Error("Method not implemented.");

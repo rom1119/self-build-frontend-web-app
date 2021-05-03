@@ -5,27 +5,20 @@
         <!-- <select-unit-context-menu :propertyUnit="value.offsetXUnit" @changePropUnit="() => {value.offsetXUnit = $event; change();}" :ref="cmNameTextShadowOffX" /> -->
 
         <label :for="'textShadowOffesetX-'">
-          Property
+          Key Frame
           <select
-            @dblclick.stop.prevent=""
-            :disabled="isDisable"
-            type="number"
-            @input="change"
-            style="width: 40px"
-            class="input-text"
-            v-model="value.propertyName"
-            name="propertyName"
-            :id="'propertyName-'"
-          >
-            <option
-              :value="propName"
-              v-for="propName in cssPropNames"
-              :key="propName"
-            >
-              {{ propName }}
+           @change="onUpdateKeyFrameInAnimation" 
+           v-model="compKeyFrame"  
+           class="content-item__elem"  
+           name="fontFamily" >
+            <option v-for="el, kkk in availableKeyFrames" :key="kkk" :value="el" >
+                {{ el.name }}
             </option>
-          </select>
-          {{ value.propertyName }}
+        </select>
+          <span v-if="value.keyFrame">
+            {{ value.keyFrame.name }}
+
+          </span>
         </label>
       </div>
       <div class="content-item__elem">
@@ -35,7 +28,6 @@
             @dblclick.stop.prevent=""
             type="number"
             @input="change"
-            style="width: 40px"
             class="input-text"
             v-model="value.duration"
             name="duration"
@@ -70,7 +62,6 @@
             @dblclick.stop.prevent=""
             type="number"
             @input="change"
-            style="width: 40px"
             class="input-text"
             v-model="value.delay"
             name="delay"
@@ -79,15 +70,71 @@
           {{ value.delay }}
         </label>
       </div>
+      <div class="content-item__elem">
+        <label :for="'iterationCount' + value.id">
+          Iteration Count
+          <input
+            @dblclick.stop.prevent=""
+            type="number"
+            @input="change"
+            class="input-text"
+            v-model="value.iterationCount"
+            :name="'iterationCount' + value.id"
+            :id="'iterationCount-' + value.id"
+          />
+          {{ value.delay }}
+        </label>
+      </div>
+      <div class="content-item__elem">
+        <label :for="'direction' + value.id">
+          Direction
+          <select
+           @change="change" 
+           v-model="value.direction"  
+           class="content-item__elem"  
+           :name="'direction' + value.id" >
+            <option v-for="el, kkk in directionList" :key="kkk" :value="el" >
+                {{ el }}
+            </option>
+        </select>
+          {{ value.direction }}
+        </label>
+      </div>
+      <div class="content-item__elem">
+        <label :for="'fillMode' + value.id">
+          Fill mode
+          <select
+           @change="change" 
+           v-model="value.fillMode"  
+           class="content-item__elem"  
+           :name="'fillMode' + value.id" >
+            <option v-for="el, kkk in fillModeList" :key="kkk" :value="el" >
+                {{ el }}
+            </option>
+        </select>
+          {{ value.fillMode }}
+        </label>
+      </div>
+      <div class="content-item__elem">
+        <label :for="'playState' + value.id">
+          Play state
+          <select
+           @change="change" 
+           v-model="value.playState"  
+           class="content-item__elem"  
+           :name="'playState' + value.id" >
+            <option v-for="el, kkk in playStateList" :key="kkk" :value="el" >
+                {{ el }}
+            </option>
+        </select>
+          {{ value.playState }}
+        </label>
+      </div>
 
       <div class="content-item__elem content">
         <div class="color-picker-box" @dblclick.stop.prevent="">
           <span v-if="index > 0" class="remove-btn top-35" @click="removeVal">
             X
-          </span>
-          <span>
-            ALL
-            <input type="checkbox" @change="change" v-model="value.all" />
           </span>
         </div>
       </div>
@@ -117,19 +164,25 @@ import { TransitionStruct } from "~/src/Css/Animation/TransitionCss";
 import * as libCss from "~/src/Css/";
 import { CubicBezier } from "~/src/Animation/timingFunction";
 import TimingFunction from "~/src/Animation/timingFunction/TimingFunction";
+import AnimationCss, { AnimationCssStruct } from "~/src/Css/Animation/AnimationCss";
+import KeyFrame from "~/src/Animation/KeyFrame";
+import KeyFrameAccessor from "~/src/Animation/KeyFrameAccessor";
 
 @Component({
   components: {
     Chrome,
   },
 })
-export default class TransitionValueComponent extends Vue {
+export default class AnimationValueComponent extends Vue {
   timeout;
   @Prop({ default: null, required: true })
   tag: HtmlTag;
 
   @Prop({ default: null, required: true })
-  value: TransitionStruct;
+  value: AnimationCssStruct;
+
+  @Prop({ default: null, required: true })
+  animation: AnimationCss;
 
   @Prop({ default: null, required: true })
   index: number;
@@ -137,6 +190,10 @@ export default class TransitionValueComponent extends Vue {
   cssPropNames: string[] = [];
 
   isCubicBezier = false;
+
+  fillModeList = AnimationCss.FILL_MODES
+  directionList = AnimationCss.DIRECTIONS
+  playStateList = AnimationCss.PLAY_STATES
 
   // @Prop({default:null, required:false})
   // classList: string[]
@@ -160,6 +217,7 @@ export default class TransitionValueComponent extends Vue {
     b: 0,
     a: 1,
   };
+  compKeyFrame: KeyFrame = null;
 
   mounted() {
     var cssProps = libCss;
@@ -172,6 +230,7 @@ export default class TransitionValueComponent extends Vue {
     }
 
     this.checkCubicBezier(this.value.timingFunction);
+    this.compKeyFrame = this.value.keyFrame
 
     // console.log(this.contextMenuName);
     // console.log(this.cmName);
@@ -187,12 +246,43 @@ export default class TransitionValueComponent extends Vue {
     // }
   }
 
+  get availableKeyFrames() {
+    return KeyFrameAccessor.getInstance().keyFrames
+  }
+
   checkCubicBezier(tFunction: TimingFunction) {
     if (tFunction instanceof CubicBezier) {
       this.isCubicBezier = true;
     } else {
       this.isCubicBezier = false;
     }
+  }
+
+  onUpdateKeyFrameInAnimation(val)
+  {
+      // console.log('onUpdateFontFaceInFontFamily');
+      // console.log(this.compFontFace);
+      // console.log(this.fontFamVal.fontFace);
+      // console.log(val.target);
+      // console.log(val.target.value);
+      if (this.value.keyFrame) {
+        if (this.compKeyFrame.uuid !== this.value.keyFrame.uuid) {
+          KeyFrameAccessor.getInstance().deleteAnimationOwnerFromKeyFrame(this.value.keyFrame, this.animation)
+  
+        }
+
+      }
+
+      this.value.keyFrame = this.compKeyFrame
+      if (this.value.keyFrame) {
+        KeyFrameAccessor.getInstance().addAnimationOwnerToKeyFrame(this.value.keyFrame, this.animation)
+
+      }
+
+      // var f = FontFamily.findFontByName(newVal)
+      // this.fontFamilyManager.getProperty().setValue(f)
+
+      this.change()
   }
 
   toggleColorPicker() {

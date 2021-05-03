@@ -45,7 +45,7 @@ import SvgTag from "~/src/Layout/tag/SvgTag";
   },
 })
 export default class LayoutTagToolSidebar extends Vue {
-  active = false
+  active = true
   currentComponentName = ''
 
   
@@ -99,7 +99,7 @@ export default class LayoutTagToolSidebar extends Vue {
   isSvgTag = false
 
   mounted() {
-    this.currentComponentName = this.tabs[0].componentName
+    this.currentComponentName = 'animation-manage-component'
   }
 
   canSelectTab(componentName) {

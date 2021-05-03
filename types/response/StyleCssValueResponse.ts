@@ -14,6 +14,15 @@ export default class StyleCssValueResponse extends ResponseObject{
      unitNameFifth
      valueSixth
      unitNameSixth
+
+     valueSeventh
+     unitNameSeventh
+
+     valueEighth
+     unitNameEighth
+     
+     valueNinth
+     unitNameNinth
      inset
      specialValGradient
      resourcePath

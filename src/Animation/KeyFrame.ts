@@ -47,7 +47,7 @@ export default class KeyFrame implements SelectorOwner
     protected _selectorAccessor: KeyFrameSelectorAccessor
     tag: HtmlTag
 
-    owners:  { [key: number]: number[]}
+    owners: { [key: number]: number[] } = {}
 
     protected _countOwners: number = 0
     

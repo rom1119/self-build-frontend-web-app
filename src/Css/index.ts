@@ -101,6 +101,7 @@ import TextShadowCss from './Shadow/TextShadowCss';
 import BoxShadowCss from './Shadow/BoxShadowCss';
 
 import TransitionCss from './Animation/TransitionCss';
+import AnimationCss from './Animation/AnimationCss';
 
 import LinearGradientCss from './Gradient/impl/LinearGradientCss';
 import RepeatingLinearGradientCss from './Gradient/impl/RepeatingLinearGradientCss';
@@ -194,6 +195,7 @@ export {
     LineHeight,
 
     TransitionCss,
+    AnimationCss,
 
     LinearGradientCss,
     RepeatingLinearGradientCss,

@@ -8,61 +8,41 @@
                 @dblclick="hasTransition = !hasTransition"
                 :class="{ active: hasTransition }"
                 >
-                <h4 class="content-item__header">
-                    Transition
-                    <span class="add-btn" @click="addDefaultTransitionVal"> + </span>
-                </h4>
-                <transition-value-component
-                    v-for="(val, index) in transitionManager.getProperty().getValues()"
-                    @change="onChangeTransition(val)"
-                    @remove="onRemoveTransition(val)"
-                    :key="val.id"
-                    :tag="transitionManager.getHtmlTag()"
-                    :index="index"
-                    :value="val"
-                />
-            </div>
-        <!-- <div class="content-item-half" @dblclick="hasBoxShadow = !hasBoxShadow" :class="{'active': hasBoxShadow}" >
-                        <h4 class="content-item__header">
-                            Box shadow
-                            <span class="add-btn" @click="addDefaultBoxShadowVal">
-                                +
-                            </span>
-                        </h4>
-                        <box-shadow-value-component 
-                            v-for="(val, index) in boxShadowManager.getProperty().getValues()"
-                            @change="onChangeBoxShadow(val)" 
-                            @remove="onRemoveBoxShadow(val)" 
-                            :key="val.id" 
-                            :tag="boxShadowManager.getHtmlTag()" 
-                            :index="index" 
-                            :value="val" 
-                         />
+                  <h4 class="content-item__header">
+                      Transition
+                      <span class="add-btn" @click="addDefaultTransitionVal"> + </span>
+                  </h4>
+                  <transition-value-component
+                      v-for="(val, index) in transitionManager.getProperty().getValues()"
+                      @change="onChangeTransition(val)"
+                      @remove="onRemoveTransition(val)"
+                      :key="val.id"
+                      :tag="transitionManager.getHtmlTag()"
+                      :index="index"
+                      :value="val"
+                  />
+              </div>
 
-                    </div> -->
-
-        <!-- <li class="content-item__elem" @dblclick="hasFlexGrow = !hasFlexGrow" :class="{'active': hasFlexGrow}">
-                        <label :for="'flexGrow-'">
-                            Flex Grow
-                            <input type="number" style="width: 40px;" class="input-text" v-model="flexGrow" name="flexGrow" :id="'flexGrow-'">
-
-                        </label>
-                    </li>
-                    <li class="content-item__elem" @dblclick="hasFlexBasis = !hasFlexBasis" :class="{'active': hasFlexBasis}">
-                        <label :for="'flexBasis-'">
-                            Flex Basis
-                            <input type="number" style="width: 40px;" class="input-text" v-model="flexBasis" name="flexBasis" :id="'flexBasis-'">
-
-                        </label>
-                    </li>
-                    
-                    <li class="content-item__elem" @dblclick="hasFlexShrink = !hasFlexShrink" :class="{'active': hasFlexShrink}">
-                        <label :for="'flexShrink-'">
-                            Flex Shrink
-                            <input type="number" style="width: 40px;" class="input-text" v-model="flexShrink" name="flexShrink" :id="'flexShrink-'">
-
-                        </label>
-                    </li> -->
+              <div
+                class="content-item-half"
+                @dblclick="hasAnimation = !hasAnimation"
+                :class="{ active: hasAnimation }"
+                >
+                  <h4 class="content-item__header">
+                      Animation
+                      <span class="add-btn" @click="addDefaultAnimationVal"> + </span>
+                  </h4>
+                  <animation-value-component
+                      v-for="(val, index) in animationManager.getProperty().getValues()"
+                      @change="onChangeAnimation(val)"
+                      @remove="onRemoveAnimation(val)"
+                      :key="val.id"
+                      :tag="animationManager.getHtmlTag()"
+                      :index="index"
+                      :value="val"
+                      :animation="animationManager.getProperty()"
+                  />
+              </div>
             </div>
         </div>
    </div>
@@ -112,22 +92,7 @@ import AnimationManage from '../AnimationManage';
     // console.log(this.property);
   }
 
-  onRemoveTransition(val) {
-    var length = this.transitionManager.getProperty().getValues().length;
-    for (var i = 0; i < length; i++) {
-      var el = this.transitionManager.getProperty().getValues()[i];
-      if (el.id == val.id) {
-        this.transitionManager.getProperty().getValues().splice(i, 1);
-        break;
-      }
-    }
-  }
 
-  onChangeTransition(prop) {
-    console.log("update");
-    // console.log(val);
-    this.transitionManager.updateCssProp(this.transitionManager.getProperty());
-  }
 
   // *****************************************  TRANSITION ****************************************************
 
@@ -153,6 +118,70 @@ import AnimationManage from '../AnimationManage';
     this.transitionManager.getProperty().addValue(initVal);
     this.onChangeTransition(initVal);
   }
+
+  onRemoveTransition(val) {
+    var length = this.transitionManager.getProperty().getValues().length;
+    for (var i = 0; i < length; i++) {
+      var el = this.transitionManager.getProperty().getValues()[i];
+      if (el.id == val.id) {
+        this.transitionManager.getProperty().getValues().splice(i, 1);
+        break;
+      }
+    }
+  }
+
+  onChangeTransition(prop) {
+    console.log("update");
+    // console.log(val);
+    this.transitionManager.updateCssProp(this.transitionManager.getProperty());
+  }
+
+
+
+  // *****************************************  ANIMATION ****************************************************
+
+  get hasAnimation() {
+    return this.animationManager.getProperty().active;
+  }
+
+  set hasAnimation(newVal: boolean) {
+    if (!newVal) {
+      this.animationManager.deactivePropCss(
+        this.animationManager.getProperty()
+      );
+    } else {
+      this.animationManager.activePropCss(
+        this.animationManager.getProperty()
+      );
+    }
+  }
+
+  addDefaultAnimationVal() {
+    // @ts-ignore
+    let initVal = this.animationManager.createInitValue();
+    this.animationManager.getProperty().addValue(initVal);
+    this.onChangeTransition(initVal);
+  }
+
+  onRemoveAnimation(val) {
+    var length = this.animationManager.getProperty().getValues().length;
+    for (var i = 0; i < length; i++) {
+      var el = this.animationManager.getProperty().getValues()[i];
+      if (el.id == val.id) {
+        this.animationManager.getProperty().getValues().splice(i, 1);
+        break;
+      }
+    }
+  }
+
+  onChangeAnimation(prop) {
+    console.log("update");
+    // console.log(val);
+    this.animationManager.updateCssProp(this.animationManager.getProperty());
+  }
+
+
+
 }
 </script>
 
