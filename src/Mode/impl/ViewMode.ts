@@ -21,6 +21,11 @@ export default class ViewMode extends LayoutMode
     public static NAME = 'view-mode-layout-creator'
     protected name = ViewMode.NAME
 
+    public disable() {
+    }
+    public enable() {
+    }
+
     public canRunSystemAction(action: LayoutCreatorAction) {
        
         return false

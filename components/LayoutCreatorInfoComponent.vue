@@ -10,8 +10,11 @@
           Edycja projektu
       </div>
       <div v-else-if="currentMode.isAnimationEditMode">
-        <p v-if="currentMode.selectedHtmlEl">
-          Naciśnij Esc lub kliknij <a href="#" @click.prevent="backToSelectTag">tutaj</a> aby tworzyć animację na innym prototypie
+        <p v-if="currentMode.selectedHtmlEl" class="text-danger">
+          Naciśnij Esc lub kliknij <a href="#" class="btn btn_sm" @click.prevent="backToSelectTag">tutaj</a> aby powrócić do wyboru prototy dla animacji
+        </p>
+        <p v-if="currentMode.animationIsStarted">
+          Tryb edycji animacji "{{ currentMode.animationName }}"  dla klatki "{{ currentMode.selectorName }}"
         </p>
         <p v-else>
           Wybierz element HTML klikając w niego, aby stworzyć animację na jego bazie
@@ -28,9 +31,13 @@ import _ from "lodash";
 import PseudoClass from "~/src/PseudoSelector/PseudoClass";
 import BaseCreatorInfoComponent from "./BaseLayoutModeComponent";
 import LayoutCreatorModeComponent from "./LayoutCreatorModeComponent.vue";
+import DefaultActiveToAnimationController from "~/src/Controller/DefaultActiveToAnimationController";
+import ActiveToAnimationController from "~/src/ActiveToAnimationController";
+import HtmlTag from "~/src/Layout/HtmlTag";
 
 @Component
 export default class LayoutCreatorInfoComponent extends BaseCreatorInfoComponent {
+  
   timeout;
 
 
@@ -46,16 +53,22 @@ export default class LayoutCreatorInfoComponent extends BaseCreatorInfoComponent
   idName = "text-property-modal";
 
   layoutMode : LayoutCreatorModeComponent = null
+  activeToAnimationController: ActiveToAnimationController<HtmlTag> = null
+
+
+  setActiveToAnimation(activeAnimationController: DefaultActiveToAnimationController) {
+    this.activeToAnimationController = activeAnimationController
+  }
+
+  backToSelectTag() {
+    this.activeToAnimationController.deactiveTag()
+  }
 
   created() {
     // console.log("created");
     // console.log(this.value);
     // this.show(this.value)
     this.layoutMode = this.$layoutCreatorMode
-  }
-
-  backToSelectTag() {
-
   }
 
   

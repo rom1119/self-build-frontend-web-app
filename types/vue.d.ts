@@ -19,6 +19,7 @@ import HtmlAttrManageModal from '~/components/modal/HtmlAttrManageModal.vue'
 import GradientManageModal from '~/components/modal/GradientManageModal.vue'
 import AnimationManageModal from '~/components/modal/AnimationManageModal.vue'
 import LayoutCreatorModeComponent from '~/components/LayoutCreatorModeComponent.vue'
+import LayoutCreatorInfoComponent from '~/components/LayoutCreatorInfoComponent.vue'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import {Auth} from "~/types/nuxtjs-auth-module";
 
@@ -44,6 +45,7 @@ declare module 'vue/types/vue' {
         $gradientManageModal: GradientManageModal,
         $animationManageModal: AnimationManageModal,
         $layoutCreatorMode: LayoutCreatorModeComponent,
+        $layoutCreatorInfo: LayoutCreatorInfoComponent,
         $axios: NuxtAxiosInstance,
         $auth: Auth
     }

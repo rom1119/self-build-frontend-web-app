@@ -101,6 +101,9 @@ export default class LayoutCreatorModeComponent extends BaseLayoutModeComponent 
   }
 
   set modeName(arg: string) {
+    if (this.mode) {
+      this.mode.disable()
+    }
     if (arg === EditMode.NAME) {
       this.mode = new EditMode();
     } else if (arg === ViewMode.NAME) {
@@ -108,6 +111,8 @@ export default class LayoutCreatorModeComponent extends BaseLayoutModeComponent 
     } else if (arg === AnimationMode.NAME) {
       this.mode = new AnimationMode();
     }
+    this.mode.enable()
+
 
     this.$emit("change", this.mode);
   }

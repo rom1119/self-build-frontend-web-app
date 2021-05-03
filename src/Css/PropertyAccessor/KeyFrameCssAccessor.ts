@@ -28,6 +28,7 @@ export default class KeyFrameCssAccessor extends CssPropertyAccessor
     public removePropWithName(name: string) {
         let prop = this.getProperty(name)
 
+    
         
         let index = this.cssProps.indexOf(prop)
 

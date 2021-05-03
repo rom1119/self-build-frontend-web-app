@@ -9,9 +9,10 @@ export default interface ActiveToAnimationController<T extends ActivableTagTo> e
 {
 
     updateReadyToCheckTag(elToActive: T) 
-    
-
     deactiveReadyToCheckTag()
+
+    updateStartAnimation(elToActive: T) 
+    deactiveStartAnimation()
 
 
 }

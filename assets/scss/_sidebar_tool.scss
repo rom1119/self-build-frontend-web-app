@@ -8,12 +8,12 @@
     transition: right .2s linear;
     &__animate-tool {
         top: 80px;
-        z-index: 2;
+        z-index: 9999;
     }
     
     &__layout-tag-tool {
         top: 130px;
-        z-index: 1;
+        z-index: 9998;
     }
     
     &__container { 

@@ -18,19 +18,62 @@ import SelectElementForAnimationAction from '../layoutAction/SelectElementForAni
 import LayoutCreatorAction from '../LayoutCreatorAction';
 import BeforeSelectElementForAnimationAction from '../layoutAction/BeforeSelectElementForAnimationAction';
 import UnSelectElementForAnimationAction from '../layoutAction/UnSelectElementForAnimationAction';
+import AnimationCreator from '../../Animation/AnimationCreator';
+import HtmlTag from '../../Layout/HtmlTag';
 export default class AnimationMode extends LayoutMode 
 {
+    public disable() {
+        this.animationCreator.reInit()
+    }
+    public enable() {
+        this.animationCreator.reInit()
+    }
     public isAnimationEditMode = true
 
-    selectedHtmlEl = null
+    
     public static NAME = 'animation-mode-layout-creator'
     protected name = AnimationMode.NAME
 
+    protected animationCreator: AnimationCreator
+
+    constructor() {
+        super()
+        this.animationCreator = AnimationCreator.getInstance()
+        this.animationCreator.reInit()
+    }
+
+    get animationName(): string
+    {
+        if (this.animationCreator.selectedKeyFrame) {
+            return this.animationCreator.selectedKeyFrame.name
+        }
+
+        return ''
+    }
+    
+    get selectorName(): string
+    {
+        if (this.animationCreator.selectedKeyFrameSelector) {
+            return this.animationCreator.selectedKeyFrameSelector.getValue()
+        }
+
+        return ''
+    }
+    get animationIsStarted() 
+    {
+        return this.animationCreator.animationIsStarted
+    }
+
+    get selectedHtmlEl(): HtmlTag {
+        return this.animationCreator.selectedTag
+    }
 
     public canRunSystemAction(action: LayoutCreatorAction) {
+        // console.log('canRunSystemAction');
+        // console.log(this);
+        
         if (!this.selectedHtmlEl) {
             if (action instanceof SelectElementForAnimationAction) {
-                this.selectedHtmlEl = action.el
                 return true
             }
             
@@ -46,7 +89,6 @@ export default class AnimationMode extends LayoutMode
 
             if (action instanceof UnSelectElementForAnimationAction) {
                 if (action.escapePress) {
-                    this.selectedHtmlEl = null
                     return true
                 }
             }

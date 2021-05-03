@@ -66,6 +66,9 @@ export default abstract class BaseSelector implements CssOwner
         this.active = false
     }
 
+    getOwnerId(): string {
+        return this._owner.uuid
+    }
     setMediaQueryAccessor(value: MediaQueryAccessor<MediaQueryCss>) {
         this.cssListMediaOwner = new MediaQueryListOwner<BaseSelector>(this, value)
     }
@@ -162,10 +165,11 @@ export default abstract class BaseSelector implements CssOwner
     get selectedMedia(): BaseMediaQueryCss
     {
         console.log('selectedMedia SEL', this.cssListMediaOwner)
-
+        
         if (!this.cssListMediaOwner) {
             return null
         }
+        // console.trace('selectedMedia SEL 12333', this.cssListMediaOwner.selectedMedia)
         return  this.cssListMediaOwner.selectedMedia
     }
 

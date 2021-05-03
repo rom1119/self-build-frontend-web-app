@@ -88,6 +88,8 @@ import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import HtmlAttrOwner from "../HtmlAttrOwner";
 import CssOwner from '../CssOwner';
 import ActivableTagToAnimation from '../ActivableTagToAnimation';
+import KeyFrameSelector from '../Animation/KeyFrameSelector';
+import BaseSelector from '../BaseSelector';
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, ActivableTagToAnimation, SelectorOwner, HtmlAttrOwner, CssOwner
@@ -134,6 +136,8 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _readyToAnimationCheck = false
     protected _checkedToAnimation = false
 
+    protected _startedAnimation = false
+
     protected _width = HtmlTag.INITIAL_WIDTH
     protected _height = HtmlTag.INITIAL_HEIGHT
     public static INITIAL_WIDTH = 100
@@ -153,6 +157,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
 
     protected _attributeAccesor: AttributesAccessor
+    protected _animationSelector: KeyFrameSelector = null
 
     paddingFilter: FilterCssInjector
     marginFilter: FilterCssInjector
@@ -209,6 +214,8 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
+    
+
     public hideElement() {
         this.hardHidden = true
     }
@@ -223,6 +230,15 @@ export default abstract class HtmlTag extends HtmlNode implements
     
     set hardHidden(arg) {
         this._hardHidden = arg
+    }
+    
+    
+    get animationSelector() {
+        return this._animationSelector
+    }
+    
+    set animationSelector(arg) {
+        this._animationSelector = arg
     }
     
 
@@ -1469,6 +1485,9 @@ export default abstract class HtmlTag extends HtmlNode implements
         this._checkedToAnimation = true
         this.showElement()
     }
+    public changeAsStartAnimation() {
+        this._startedAnimation = true
+    }
 
     public changeAsNotActiveToManage() {
         this._toManage = false
@@ -1476,6 +1495,14 @@ export default abstract class HtmlTag extends HtmlNode implements
     
     public changeAsNotActiveToAnimation() {
         this._checkedToAnimation = false
+    }
+
+   
+    public changeAsStopAnimation() {
+        this._startedAnimation = false
+    }
+    public isReadyToStartAnimation(): boolean {
+        return this._startedAnimation === true
     }
 
     public isActiveTagToManage(): boolean {
@@ -1912,7 +1939,11 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.pseudoElementAccessor.selectedSelector = null
 
     }
-    get selectedSelector() : PseudoSelector {
+    get selectedSelector() : BaseSelector {
+        if (this.animationSelector) {
+            return this.animationSelector
+        }
+        
         if (this.pseudoClassAccessor.selectedSelector) {
             return this.pseudoClassAccessor.selectedSelector
         }
@@ -1970,6 +2001,14 @@ export default abstract class HtmlTag extends HtmlNode implements
         })
     }
 
-
+    public turnOffSynchronizer()
+    {
+        this.synchronizer.turnOff()
+    }
+    
+    public turnOnSynchronizer()
+    {
+        this.synchronizer.turnOn()
+    }
 
 }

@@ -28,6 +28,11 @@
 
             <div class="animation-selected" v-show="value.isActiveTagToAnimation()" >
                 <div class="remove" >
+                    Wybierz klatkę animacji aby zarządzać animacją
+                </div>  
+            </div>
+            <div class="animation-selected" v-show="value.isReadyToStartAnimation()" >
+                <div class="remove" >
                     Tworzysz animację na elemencie
                 </div>  
             </div>

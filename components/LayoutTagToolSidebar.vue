@@ -45,7 +45,7 @@ import SvgTag from "~/src/Layout/tag/SvgTag";
   },
 })
 export default class LayoutTagToolSidebar extends Vue {
-  active = true
+  active = false
   currentComponentName = ''
 
   

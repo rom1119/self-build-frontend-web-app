@@ -8,9 +8,16 @@ import HtmlTag from '../Layout/HtmlTag';
 import KeyFrame from './KeyFrame';
 import SelectorApiService from '../Api/SelectorApiService';
 import PseudoSelectorSynchronizer from '../Synchronizer/Impl/PseudoSelectorSynchronizer';
+import KeyFrameCssTmpAccessor from '../Css/PropertyAccessor/KeyFrameCssTmpAccessor';
 
 export default abstract class KeyFrameSelector extends BaseSelector
 {
+
+    protected _cssPropertyAccesor: KeyFrameCssAccessor = null
+    protected _tmpCssPropertyAccesor: KeyFrameCssTmpAccessor = null
+
+    keyFrame: KeyFrame = null
+    
     constructor()
     {
         super(null)
@@ -21,19 +28,29 @@ export default abstract class KeyFrameSelector extends BaseSelector
 
     protected initCss(owner: KeyFrame) {
         this._cssPropertyAccesor = new KeyFrameCssAccessor(owner, this)
-        this._tmpCssPropertyAccesor = new KeyFrameCssAccessor(owner, this)
+        this._tmpCssPropertyAccesor = new KeyFrameCssTmpAccessor(owner, this)
+    }
+
+    public initTag(tag: HtmlTag) {
+        this._cssPropertyAccesor.initTag(tag)
+        this._tmpCssPropertyAccesor.initTag(tag)
+        this._owner = <SelectorOwner><unknown>tag
     }
 
     public init(owner: KeyFrame)
     {
         this.setApi(owner.api)
-        this._owner = <SelectorOwner><unknown>owner
-        this.initCss(<KeyFrame><unknown>owner)
+        this.keyFrame = owner
+        this.initCss(owner)
 
     }
 
+    getOwnerId(): string {
+        return this.keyFrame.uuid
+    }
+
     public setOwner(tag: SelectorOwner) {
-        this._owner = tag
+        this.keyFrame = <KeyFrame><unknown>tag
 
         this.init(<KeyFrame><unknown>tag)
     }

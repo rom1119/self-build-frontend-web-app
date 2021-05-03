@@ -11,5 +11,11 @@ export default interface ActivableTagToAnimation extends ActivableTagTo
     changeAsReadyToAnimationCheck()
     
     changeAsNotReadyToAnimationCheck()
-    isReadyToAnimationCheck(): boolean
+    isReadyToStartAnimation(): boolean
+
+    changeAsStartAnimation()
+    
+    changeAsStopAnimation()
+    
+    isReadyToStartAnimation(): boolean
 }

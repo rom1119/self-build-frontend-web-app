@@ -54,11 +54,10 @@ export default class AppEventsController
     protected _creatorMode: LayoutCreatorModeComponent
 
 
-    constructor(creatorMode: LayoutCreatorModeComponent, tree: HtmlTag[]) {
+    constructor(creatorMode: LayoutCreatorModeComponent, activeToAnimationController: ActiveToAnimationController<HtmlTag>) {
         this._creatorMode = creatorMode
         this.adivisorController = new AdvisorTagController(creatorMode)
-        this.animationCreator = AnimationCreator.getInstance()
-        this.activeToAnimationController = new DefaultActiveToAnimationController(tree, this.animationCreator)
+        this.activeToAnimationController = activeToAnimationController
     }
 
     get creatorMode(): LayoutCreatorModeComponent
@@ -105,11 +104,12 @@ export default class AppEventsController
         // console.log('over');
         // console.log(val);
         // console.log(val);
-
+        
         if (this.currentMode instanceof AnimationMode) {
             if (this.currentMode.canRunSystemAction(new BeforeSelectElementForAnimationAction(tag))) {
                 this.activeToAnimationController.updateReadyToCheckTag(tag);
             } else {
+                // console.log('over updateActiveEl');
                 this.activeElController.updateActiveEl(val);
 
             }

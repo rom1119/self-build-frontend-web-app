@@ -6,30 +6,40 @@ import HtmlTagSynchronizer from "~/src/Synchronizer/Impl/HtmlTagSynchronizer";
 import { PositionCss } from "..";
 import LeftCss from '../Display/Direction/LeftCss';
 import PseudoSelector from "~/src/PseudoSelector/PseudoSelector";
+import KeyFrameSelector from '../../Animation/KeyFrameSelector';
+import KeyFrame from '../../Animation/KeyFrame';
+import { css } from 'js-beautify';
 
-export default class PseudoSelectorCssAccessor extends CssPropertyAccessor 
+export default class KeyFrameCssTmpAccessor extends CssPropertyAccessor 
 {
-    protected value: HtmlTag
-    protected selector: PseudoSelector
+    protected keyFrame: KeyFrame
+    protected selector: KeyFrameSelector
+    protected value: HtmlTag = null
 
-    constructor(tag: HtmlTag, selector: PseudoSelector)
+    constructor(tag: KeyFrame, selector: KeyFrameSelector)
     {
-        super(tag)
+        super(null)
         this.selector = selector
 
     }
 
+    public initTag(tag: HtmlTag) {
+        this.value = tag
+        for (const css of this.all) {
+            // if () {
+
+            // }
+        }
+    }
     public removePropWithName(name: string) {
         let prop = this.getProperty(name)
-        // console.trace('removePropWithName')
+
+        
         let index = this.cssProps.indexOf(prop)
+
         if (index !== -1) {
             prop.setActive(false)
             this.cssProps.splice(index, 1);
-        }
-
-        if (prop instanceof PositionCss) {
-            this.value.hasPosition = false
         }
     }
 

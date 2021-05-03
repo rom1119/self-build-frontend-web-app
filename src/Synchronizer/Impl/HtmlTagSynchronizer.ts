@@ -12,6 +12,12 @@ import CssStyleUpdater from "~/src/Api/idsUpdate/CssStyleUpdater";
 
 export default class HtmlTagSynchronizer implements Synchronizer
 {
+    turnOn() {
+        this.isEnabled = true
+    }
+    turnOff() {
+        this.isEnabled = false
+    }
 
     protected isNowSynchronized
     protected isQueued = false
@@ -19,6 +25,8 @@ export default class HtmlTagSynchronizer implements Synchronizer
     protected api: ApiService
     protected apiSocket: SocketApi
     protected cssUpdater: CssStyleUpdater
+
+    protected isEnabled = true
 
     constructor(tag: HtmlNode, api: ApiService)
     {
@@ -34,6 +42,9 @@ export default class HtmlTagSynchronizer implements Synchronizer
 
     synchronize()
     {
+        if (!this.isEnabled) {
+            return
+        }
         if (!this.canSynchronize()) {
             this.isQueued = true
             return

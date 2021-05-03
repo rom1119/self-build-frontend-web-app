@@ -133,6 +133,11 @@ export default class KeyFrame implements SelectorOwner
         }
     }
 
+    public initTagToSelectors(tag: HtmlTag) {
+        for (const selector of this.selectorAccessor.all) {
+            selector.initTag(tag)
+        }
+    }
     public init(tag: HtmlTag) {
         this.tag = tag
         for (const selector of this.selectorAccessor.all) {
@@ -197,6 +202,8 @@ export default class KeyFrame implements SelectorOwner
 
     public addSelectorAndSave(src: KeyFrameSelector)
     {
+        console.log('addSelectorAndSave');
+        
         this.initSelector(src)
         this.api.appendSelector(src).then(
             (res) => {

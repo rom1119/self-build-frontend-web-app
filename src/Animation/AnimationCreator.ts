@@ -1,8 +1,22 @@
 import HtmlTag from '../Layout/HtmlTag';
 import KeyFrame from './KeyFrame';
 import KeyFrameSelector from './KeyFrameSelector';
+import ActiveToAnimationController from '../ActiveToAnimationController';
+import DefaultActiveToAnimationController from '../Controller/DefaultActiveToAnimationController';
 export default class AnimationCreator
 {
+    reInit() {
+        this._selectedKeyFrame = null
+        this._selectedKeyFrameSelector = null
+        if (this._selectedTag) {
+            this._selectedTag.changeAsNotActiveToAnimation()
+            this._selectedTag.changeAsNotReadyToAnimationCheck()
+            this._selectedTag.changeAsStopAnimation()
+            this._selectedTag = null
+        }
+    }
+
+    protected activeAnimationController: DefaultActiveToAnimationController
     
     protected _selectedTag: HtmlTag = null
     protected _selectedKeyFrame: KeyFrame = null
@@ -19,6 +33,10 @@ export default class AnimationCreator
             AnimationCreator.inst = new this()
         }
         return AnimationCreator.inst
+    }
+
+    setActiveController(arg: DefaultActiveToAnimationController) {
+        this.activeAnimationController = arg
     }
     get selectedTag() {
         return this._selectedTag
@@ -44,18 +62,71 @@ export default class AnimationCreator
         this._selectedKeyFrameSelector = keyFrameSelector
     }
 
+    get animationIsStarted() {
+        if (!this.isBasicConditionToManagaAnimation) {
+            return false
+        }
+
+        return this.selectedTag.isReadyToStartAnimation()
+    }
+
+    get isBasicConditionToManagaAnimation() {
+        if (!this.selectedTag || !this.selectedKeyFrame || !this.selectedKeyFrameSelector) {
+            return false
+        }
+
+        return true
+    }
+
+    get canStartManageAnimation(): boolean {
+        if (!this.isBasicConditionToManagaAnimation) {
+            return false
+        }
+
+        return !this.selectedTag.isReadyToStartAnimation()
+    }
+
     startManageAnimation() {
-        if (!this.selectTag || !this.selectKeyFrame) {
+        if (!this.canStartManageAnimation) {
             throw Error('To start manage animation , you need select HTML tag, Animation and Key Frame ')
         }
 
-    }
-    unselectTag() {
-        this._selectedTag = null
-        this.unselectKeyFrame(null)
+        this._selectedKeyFrame.initTagToSelectors(this.selectedTag)
+        this.selectedTag.clearSelectedSelectors()
+        this.selectedTag.animationSelector = this.selectedKeyFrameSelector
+        this.selectedTag.onChangeSelector()
+        this.selectedTag.turnOffSynchronizer()
+        this.selectedTag.changeAsStartAnimation()
+        this.selectedTag.changeAsNotActiveToAnimation()
     }
 
-    unselectKeyFrame(keyFrame: KeyFrame) {
+    endManageAnimation() {
+        if (!this.selectedTag ) {
+            throw Error('To end manage animation , you need have a HTML tag, Animation and Key Frame ')
+        }
+
+        this.selectedTag.animationSelector = null
+        this.selectedTag.onChangeSelector()
+        this.selectedTag.turnOnSynchronizer()
+        this.selectedTag.changeAsStopAnimation()
+        this.selectedTag.changeAsNotActiveToAnimation()
+        this.selectedTag.changeAsReadyToAnimationCheck()
+
+        this.activeAnimationController.showAllTags()
+
+
+
+        this.unselectTag()
+
+    }
+
+    protected unselectTag() {
+        this._selectedTag = null
+        this.unselectKeyFrame(null)
+        this.unselectKeyFrameSelector(null)
+    }
+
+    unselectKeyFrame(keyFrame?: KeyFrame) {
         this._selectedKeyFrame = null
         this._selectedKeyFrameSelector = null
     }
@@ -84,16 +155,19 @@ export default class AnimationCreator
         // console.log(this.selectedKeyFrameSelector.equals(selector));
         return this.selectedKeyFrameSelector.equals(selector)
     }
-    canSelectSelector(selector: KeyFrameSelector) {
-        if (!this.selectedKeyFrame) {
-            return false
-        }
+    canSelectSelector(selector?: KeyFrameSelector) {
         
         if (this.selectedKeyFrameSelector) {
             return false
         }
+        
+        if (!this.canSelectToManageAnimation) {
+            return false
+        }
 
-        return this.selectedKeyFrame.selectorAccessor.getSelectorById(selector.id) != null
+        
+
+        return true
     }
 
     get canSelectToManageAnimation(): boolean

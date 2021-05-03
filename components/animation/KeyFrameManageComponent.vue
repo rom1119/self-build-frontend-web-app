@@ -1,60 +1,67 @@
 <template>
 
-    <div class="component-manage" >
-        <div class="component-manage__content">
-            <div class="content-item" style="display: flex">
+    <div class="component-manage h100" >
+        <div class="component-manage__content h100" style="display: flex; flex-direction: column;">
+            <div class="" style="display: flex;flex-direction: row;">
                 <div
                 class="content-item-half"
                 >
-                    <h4 class="content-item__header">
-                        
-                        <span class="add-btn btn" @click="addNewKeyFrame"> Dodaj Animację </span>
-                    </h4>
+                    <div class="content-item__header rel">
+                        <span class=" btn" @click="addNewKeyFrame"> Dodaj Animację </span>
+                    </div>
+                </div>
+                <div
+                class="content-item-half"
+                >
+                    <div class="content-item__header rel">
+                        <template v-if="animationCreator">
+                            <div v-if="canStartManageAnimation" class="rel" style=" left: 0;">
+                                <span class="btn btn_red " @click="startManageAnimation"> Rozpocznij edycję animacji </span>
+                            </div>
+                            <div v-if="animationIsStarted" class="rel" style=" left: 0;">
+                                <span class="btn btn_red " @click="endManageAnimation"> Zakończ edycję animacji </span>
+                            </div>     
+                            
+                        </template>
+                    </div>
                 </div>
             </div>
-            <div class="container ">
+            <div class="container " style="overflow: scroll;">
             
                 <div 
                     v-for="keyFrame in accessor.all" 
                     :key="keyFrame.id" 
                     :class="{'active-key-frame': isSelectedKeyFrameToManage(keyFrame)}" 
                     class="content-item-left green-b p-2">
-                    <p v-if="canAddSelector(keyFrame)" class="content-item__header rel">
-                        <button class="right-btn btn btn_sm" @click="addSelector(keyFrame)"> DODAJ KLATKĘ </button>
-                        <label class="lab">Procentowa poklatka
-                            <input type="checkbox" name="percentSelector" v-model="keyFrame.isPercentSelector">
-                        </label>
-                        <br>
-                        <span v-show="keyFrame.addSelectorError" class="error">
-                            {{ keyFrame.addSelectorError }}
-                        </span>
-                    </p>
+                    
                     <div class=" content-item rel">
-                        Nazwa animacji
+                        
+                        <span class="font-b">
+                            ilosc użytych animacji: {{ keyFrame.countOwners }}
+                        
+                        </span>    
                         <br>
-                        ilosc użytych animacji: {{ keyFrame.countOwners }}
-                        <p>
-                            <span 
-                                class="add-btn rel btn btn_sm" 
-                                v-if="canSelectAnimation" 
-                                @click="selectAnimationManage(keyFrame)"
-                            > Zarządzaj Animację </span>
+                        
+                        <div>
+                            Nazwa animacji:
 
-                            <span 
-                                class="btn_red rel btn btn_sm" 
-                                v-if="isSelectedKeyFrameToManage(keyFrame)" 
-                                @click="unselectAnimationManage(keyFrame)"
-                            > Odznacz Animację </span>
-
-                        </p>
-                        <p>
                             <input type="text" class="w90" @input="changeKeyFrame(keyFrame)" v-model="keyFrame.name" :name="'name' + keyFrame.id">
-                            <span class="p-abs" style="top: 10px;">
+                            <span class="p-abs" style="top: 10px; right: 0;">
                                 <span class="btn btn_red btn_sm" @click="removeKeyFrame(keyFrame)"> USUN Animację </span>
                             </span>
-                        </p>
+                        </div>
 
                     </div>
+                        <div v-if="canAddSelector(keyFrame)" class="content-item__header rel">
+                            <button class="right-btn btn btn_sm" @click="addSelector(keyFrame)"> DODAJ KLATKĘ </button>
+                            <label class="lab">Procentowa poklatka
+                                <input type="checkbox" name="percentSelector" v-model="keyFrame.isPercentSelector">
+                            </label>
+                            <br>
+                            <span v-show="keyFrame.addSelectorError" class="error">
+                                {{ keyFrame.addSelectorError }}
+                            </span>
+                        </div>
                         <div class="rel content-item">
                             Klatki animacji : 
                              <button class="right-btn btn btn_sm" style="top: 10px;" @click="keyFrame.toggleSelectors()"> 
@@ -84,7 +91,7 @@
                         <span 
                             class="btn_red rel btn btn_sm" 
                             style="left: 10%;"
-                            v-if="isSelectedSelectorToManage(selector)" 
+                            v-if="isSelectedSelectorToManage(selector) && !animationIsStarted" 
                             @click="unselectAnimationSelectorManage(selector)"
                         > Odznacz klatkę </span>
                         <span class="p-abs" style="right: 0px;">
@@ -191,6 +198,16 @@ interface Color {
         {
             return this.animationCreator.canSelectToManageAnimation
         }
+        
+        get canStartManageAnimation() 
+        {
+            return this.animationCreator.canStartManageAnimation
+        }
+        
+        get animationIsStarted() 
+        {
+            return this.animationCreator.animationIsStarted
+        }
 
         canSelectSelector(selector: KeyFrameSelector) {
             return this.animationCreator.canSelectSelector(selector)
@@ -205,6 +222,18 @@ interface Color {
         isSelectedSelectorToManage(selector: KeyFrameSelector) {
             return this.animationCreator.isSelectedSelectorToManage(selector)
 
+        }
+
+        startManageAnimation()
+        {
+            // console.log(this.animationCreator);
+            this.animationCreator.startManageAnimation()
+        }
+        
+        endManageAnimation()
+        {
+            // console.log(this.animationCreator);
+            this.animationCreator.endManageAnimation()
         }
 
         selectAnimationManage(keyFrame: KeyFrame)
@@ -223,12 +252,16 @@ interface Color {
         {
             // console.log(this.animationCreator);
             this.animationCreator.unselectKeyFrameSelector(selector)
+            this.animationCreator.unselectKeyFrame()
+
         }
         
         selectKeyFrameSelectorManage(selector: KeyFrameSelector)
         {
             console.log(this.animationCreator);
             this.animationCreator.selectKeyFrameSelector(selector)
+            this.animationCreator.selectKeyFrame(selector.keyFrame)
+
         }
 
 
@@ -298,10 +331,11 @@ interface Color {
         addSelector(font: KeyFrame) {
             var fontSrc
             try {
-                fontSrc = this.keyFrameSelectorFactory.createNew(font, this.percentSelector)
+                fontSrc = this.keyFrameSelectorFactory.createNew(font, font.isPercentSelector)
                 this.accessor.addSelectorAndSave(font, fontSrc)
 
             } catch (e) {
+                console.log('addSelector ERR');
                 font.addSelectorError = 'Nie możesz dodać poklatki, usuń jedną '
             }
             console.log('addSelector');

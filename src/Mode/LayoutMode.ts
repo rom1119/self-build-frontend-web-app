@@ -12,6 +12,8 @@ export default abstract class LayoutMode
     public abstract canRun(action: ModeAction)
     public abstract canRunSystemAction(action: LayoutCreatorAction)
     public abstract getName()
+    public abstract disable()
+    public abstract enable()
     public abstract getLabel()
 
 

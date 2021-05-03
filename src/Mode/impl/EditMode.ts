@@ -20,7 +20,10 @@ export default class EditMode extends LayoutMode
     public static NAME = 'edit-mode-layout-creator'
     protected name = EditMode.NAME
 
-
+    public disable() {
+    }
+    public enable() {
+    }
     public canRunSystemAction(action: LayoutCreatorAction) {
        
         return false

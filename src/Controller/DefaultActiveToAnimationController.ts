@@ -19,8 +19,15 @@ export default class DefaultActiveToAnimationController implements ActiveToAnima
         this.allTreeTags = tree
         this.animationCreator = animationCreator
     }
+    updateStartAnimation(elToActive: HtmlTag) {
+        elToActive.changeAsStartAnimation()
+    }
+    deactiveStartAnimation() {
+        if (this.animationCreator.selectedTag) {
+            this.animationCreator.selectedTag.changeAsStopAnimation()
+        }
+    }
 
-    
 
     public updateActiveTag(elToActive: HtmlTag) 
     {
@@ -35,11 +42,9 @@ export default class DefaultActiveToAnimationController implements ActiveToAnima
     public deactiveTag() {
         // console.log('deactiveTag');
         if (this.animationCreator.selectedTag) {
-            this.showAllTags()
             // console.log('showAllTags');
             
-            this.animationCreator.selectedTag.changeAsNotActiveToAnimation()
-            this.animationCreator.unselectTag()
+            this.animationCreator.endManageAnimation()
         }
     }
 

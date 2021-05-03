@@ -15,6 +15,7 @@ import FirstChild from '../src/PseudoSelector/PseudoClass/FirstChild';
 import FirstOfType from '../src/PseudoSelector/PseudoClass/FirstOfType';
 import LayoutMode from '../src/Mode/LayoutMode';
 import EditMode from '../src/Mode/impl/EditMode';
+import AnimationMode from '../src/Mode/impl/AnimationMode';
 
 
 
@@ -22,6 +23,7 @@ export default abstract class BaseLayoutModeComponent extends Vue
 {
 
     public mode: LayoutMode = new EditMode();
+    // public mode: LayoutMode = new AnimationMode();
 
     active = true;
     // show(val: HtmlTag){

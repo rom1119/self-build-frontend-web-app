@@ -103,6 +103,9 @@ import KeyFrameViewModeAction from "../../src/Mode/action/KeyFrameViewModeAction
 import AppEventsController from '../../src/Controller/AppEventsController';
 import LayoutTagToolSidebar from "~/components/LayoutTagToolSidebar.vue";
 import KeyFrameAccessor from "~/src/Animation/KeyFrameAccessor";
+import DefaultActiveToAnimationController from "~/src/Controller/DefaultActiveToAnimationController";
+import AnimationCreator from "~/src/Animation/AnimationCreator";
+import LayoutCreatorInfoComponent from '../LayoutCreatorInfoComponent.vue';
 
 @Component({
   components: {
@@ -186,14 +189,18 @@ export default class LayoutCreatorContainer extends Vue {
     window.document.body.addEventListener("keydown", this.onKeyDown);
     window.document.body.addEventListener("keyup", this.onKeyUp);
     // console.log('LayoutCreatorContainer');
-    // console.log(this);
+    // console.log(this);   
     this.$layoutCreatorMode.$on("change", (e) => {
       if (e instanceof ViewMode) {
         this.recursiveClearSelectedSelector(this.htmlTags);
       }
     });
 
-    this.appEventsController = new AppEventsController(this.$layoutCreatorMode, this.htmlTags)
+    var animationCreator = AnimationCreator.getInstance()
+    var activeAnimationController = new DefaultActiveToAnimationController(this.htmlTags, animationCreator)
+    animationCreator.setActiveController(activeAnimationController)
+    this.$layoutCreatorInfo.setActiveToAnimation(activeAnimationController)
+    this.appEventsController = new AppEventsController(this.$layoutCreatorMode, activeAnimationController)
   }
 
   get windowStyles() {

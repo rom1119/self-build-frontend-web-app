@@ -114,9 +114,12 @@ export default class DefaultKeyFrameApiService implements KeyFrameApiService, Se
     appendSelector(selector: BaseSelector): Promise<any> {
         let model = this.selectorDomainToModelTransformer.transform(selector)
         let response = this.selectorModelToResponse.build(model)
-
+        // console.log('appendSelector');
+        
         return new Promise((resolve, reject) => {
-            Axios.post(DefaultApiService.HOST + `/api/key-frame/${selector.owner.uuid}/append-selector`, response).then(
+            // console.log('appendSelector Promise');
+            // console.log(selector.owner);
+            Axios.post(DefaultApiService.HOST + `/api/key-frame/${selector.getOwnerId()}/append-selector`, response).then(
                 (res) => {
                     let data: SelectorResponse = res.data
                     selector.id = data.id
