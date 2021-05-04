@@ -58,9 +58,19 @@ export class TransitionStruct implements CssValue {
         return this._durationUnit
     }
     
+    set durationUnit(arg)
+    {
+        this._durationUnit = arg
+    }
+    
     get delayUnit()
     {
         return this._delayUnit
+    }
+    
+    set delayUnit(arg)
+    {
+        this._delayUnit = arg
     }
     
 
@@ -109,6 +119,22 @@ export class TransitionStruct implements CssValue {
     get delay()
     {
         return this._delay
+    }
+
+    get delayValue() {
+        
+        if (this.delayUnit) {
+            return this.delayUnit.getValue(this.delay)
+        }
+        return ''
+    }
+    
+    get durationValue() {
+        
+        if (this.durationUnit) {
+            return this.durationUnit.getValue(this.duration)
+        }
+        return ''
     }
     
     getPropertyName()
@@ -240,6 +266,19 @@ export default class TransitionCss extends BasePropertyCss implements CssMultipl
         //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
 
         // }
+        var val = ''
+        this.values.forEach((element, key) => {
+            val += element.getFullValue()
+            if (key < this.values.length - 1) {
+                val += ', '
+            }
+        });
+        
+        return val
+    }
+
+    get value(): any
+    {
         var val = ''
         this.values.forEach((element, key) => {
             val += element.getFullValue()

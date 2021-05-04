@@ -1,7 +1,7 @@
 <template >
   <div>
     <div class="content-item__elem_container">
-      <div class="content-item__elem">
+      <div class="content-item__elem p-0">
         <!-- <select-unit-context-menu :propertyUnit="value.offsetXUnit" @changePropUnit="() => {value.offsetXUnit = $event; change();}" :ref="cmNameTextShadowOffX" /> -->
 
         <label :for="'textShadowOffesetX-'">
@@ -25,26 +25,73 @@
               {{ propName }}
             </option>
           </select>
+          <br>
           {{ value.propertyName }}
         </label>
+
+        <span>
+            ALL
+          <input type="checkbox" @change="change" v-model="value.all" />
+        </span>
       </div>
-      <div class="content-item__elem">
-        <label :for="'textShadowBlur-'">
-          Duration
-          <input
-            @dblclick.stop.prevent=""
-            type="number"
-            @input="change"
-            style="width: 40px"
-            class="input-text"
-            v-model="value.duration"
-            name="duration"
-            :id="'duration-'"
-          />
-          {{ value.duration }}
-        </label>
+      <div class="content-item d-flex p-0">
+        <div class="content-item-half p-0" v-context-menu="cmNameDuration">
+          <label :for="'textShadowBlur-'">
+            Duration
+            <br>
+            <input
+              @dblclick.stop.prevent=""
+              type="number"
+              @input="change"
+              style="width: 40px"
+              class="input-text"
+              v-model="value.duration"
+              name="duration"
+              :id="'duration-'"
+            />
+            {{ value.durationValue }}
+            <select-time-unit-context-menu
+                :propertyUnit="value.durationUnit"
+                @changePropUnit="
+                  ($event) => {
+                    value.durationUnit = $event;
+                    change();
+                  }
+                "
+                :ref="cmNameDuration"
+              />
+          </label>
+        </div>
+        <div class="content-item-half p-0" v-context-menu="cmNameDelay">
+          <label :for="'textShadowSpread-'">
+            Delay
+            <br>
+            <input
+              @dblclick.stop.prevent=""
+              type="number"
+              @input="change"
+              style="width: 40px"
+              class="input-text"
+              v-model="value.delay"
+              name="delay"
+              :id="'delay-'"
+            />
+            {{ value.delayValue }}
+            <select-time-unit-context-menu
+              :propertyUnit="value.delayUnit"
+              @changePropUnit="
+                ($event) => {
+                  value.delayUnit = $event;
+                  change();
+                }
+              "
+              :ref="cmNameDelay"
+            />
+          </label>
+        </div>
+      
       </div>
-      <div class="content-item__elem" v-context-menu="cmNameTimingFunction">
+      <div class="content-item__elem p-0" v-context-menu="cmNameTimingFunction">
         <select-timing-function-menu
           :property="value.timingFunction"
           @changeProp="
@@ -63,32 +110,14 @@
         </label>
       </div>
 
-      <div class="content-item__elem">
-        <label :for="'textShadowSpread-'">
-          Delay
-          <input
-            @dblclick.stop.prevent=""
-            type="number"
-            @input="change"
-            style="width: 40px"
-            class="input-text"
-            v-model="value.delay"
-            name="delay"
-            :id="'delay-'"
-          />
-          {{ value.delay }}
-        </label>
-      </div>
+      
 
       <div class="content-item__elem content">
         <div class="color-picker-box" @dblclick.stop.prevent="">
           <span v-if="index > 0" class="remove-btn top-35" @click="removeVal">
             X
           </span>
-          <span>
-            ALL
-            <input type="checkbox" @change="change" v-model="value.all" />
-          </span>
+          
         </div>
       </div>
     </div>
@@ -151,6 +180,10 @@ export default class TransitionValueComponent extends Vue {
     Math.floor(Math.random() * 1000000000).toString() + "text-shadow-spread";
   cmNameTimingFunction =
     Math.floor(Math.random() * 1000000000).toString() + "timing-function";
+
+
+  cmNameDelay = Math.floor(Math.random() * 1000000000).toString() + "-delay";
+  cmNameDuration = Math.floor(Math.random() * 1000000000).toString() + "-duration";
 
   propNameEnable = false;
 

@@ -597,15 +597,18 @@ export default class BaseHTMLWrapper extends Vue {
 
     public mounted()
     {
+        this.value.setLayoutMode(this.$layoutCreatorMode)
+
         this.borderRecalculator = new BorderRecalculate()
         this.marginRecalculator = new MarginRecalculate()
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
         // return
-        // console.log('CREA - COMP - BASE')
-        // console.log(BaseMediaQueryComponent.accessorStatic)
+        console.log('CREA - COMP - BASE')
+        console.log(BaseMediaQueryComponent.accessorStatic)
+        console.log(this.$layoutCreatorMode)
+        console.log('CREA - COMP - BASE END')
 
-        // this.value.layoutCreatorMode = this.$layoutCreatorMode
         this.value.setHtmlEl(this.$el)
         this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
 
@@ -624,6 +627,10 @@ export default class BaseHTMLWrapper extends Vue {
 
         this.borderRecalculator.recalculate(this.value)
         this.marginRecalculator.recalculate(this.value)
+
+        // console.log('BEFORE CREATOR MODE SET');
+        // console.log('AFTER CREATOR MODE SET');
+
 
         // this.value.updateModelComponent()
 

@@ -960,9 +960,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         // @ts-ignore
         if (this.layoutCreatorMode) {
             // @ts-ignore
+
+            // @ts-ignore
             if (this.layoutCreatorMode.mode.getName() === EditMode.NAME) {
                 // var a = this.layoutCreatorMode.mode
-                // console.error('AAA')
                 if (cssName === TransitionCss.PROP_NAME) {
                     throw new Error('can not apply transition in EditMode')
                 }
@@ -1080,6 +1081,10 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
+    setLayoutMode(arg) {
+        this.layoutCreatorMode = arg
+    }
+
     recalculateRealComputedProperties()
     {
         var cssAll = this.cssAccessor.all
@@ -1110,13 +1115,15 @@ export default abstract class HtmlTag extends HtmlNode implements
             if (prop instanceof BasePaddingCss) {
 
                 let val = this.getComputedCssVal(prop)
-                let clonedCss = _.cloneDeep(prop)
+                let clonedCss = prop.deepCopy(prop)
                 clonedCss.setValue(parseInt(val).toString())
                 clonedCss.setUnit(new Pixel())
-                // console.log(newProp);
+                // console.log('ALA MA START');
+                // console.log(prop);
+                // console.log(clonedCss);
                 // console.log(val);
-                // // console.log(clonedCss);
-                // console.log('ALA MA');
+                // console.log(clonedCss);
+                // console.log('ALA MA END');
                 this.paddingFilter.injectCssProperty(clonedCss)
                 continue
             }
@@ -1138,22 +1145,22 @@ export default abstract class HtmlTag extends HtmlNode implements
             if (prop instanceof BaseBorderCss) {
                 // return
                 let val = this.getComputedCssVal(prop)
-                let clonedCss = _.cloneDeep(prop)
+                let clonedCss: BaseBorderCss = <BaseBorderCss>prop.deepCopy(prop)
                 // clonedCss.setValue(parseInt(val).toString())
                 // console.log(val);
-                clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+                clonedCss.setWidth(parseInt(val), new Pixel())
 
                 if (prop instanceof BaseBorderCss) {
 
 
                     if (prop.getColorUnit()) {
                         clonedCss.setUnit(new Pixel())
-                        clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+                        clonedCss.setWidth(parseInt(val), new Pixel())
                         clonedCss.setType(prop.getType())
                         clonedCss.setColor(prop.getColor(), prop.getColorUnit())
 
                     } else {
-                        clonedCss.setWidth(parseInt(val).toString(), new Pixel())
+                        clonedCss.setWidth(parseInt(val), new Pixel())
 
                         clonedCss.setValue(val)
                     }
@@ -1391,7 +1398,8 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         }
         var a = this.transformStyleList.transform(this.cssAccessor.all)
-
+        // console.log('cssBoxList', a);
+        
         try {
             if (a[TransitionCss.PROP_NAME]) {
                 this.onApplyTransitionCss(TransitionCss.PROP_NAME)

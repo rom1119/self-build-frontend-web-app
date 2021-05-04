@@ -307,6 +307,27 @@ export default class LayoutCreatorContainer extends Vue {
 
   get keyFrameElements(): string {
     var res = "";
+    var reas = this.keyFrameAccessor;
+
+    if (!this.keyFrameAccessor) {
+      return res;
+    }
+
+    for (const keyFrame of this.keyFrameAccessor.all) {
+      res += `@keyframes ${keyFrame.name} {`;
+
+      for (const selector of keyFrame.selectorAccessor.all) {
+ 
+          res += selector.getValue() + " {";
+          for (const css of selector.cssAccessor.all) {
+            res += css.getName() + ":" + css.getValue() + " ;";
+          }
+          res += "}";
+        
+      }
+
+      res += "}";
+    }
 
     return res;
   }

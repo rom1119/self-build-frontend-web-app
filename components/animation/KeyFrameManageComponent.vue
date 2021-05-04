@@ -309,23 +309,18 @@ interface Color {
         addNewKeyFrame() {
             this.accessor.addAndSave(KeyFrameAccessor.NEW_DEFAULT_INSTANCE())
         }
-
-        addFont(font: KeyFrame) {
-            // console.trace(font)
-            this.accessor.addKeyFrame(font)
-        }
         
-        removeFont(font: KeyFrame) {
+        removeKeyFrame(font: KeyFrame) {
             if (font.isUsedInAnimationCss()) {
                 var confirm = window.confirm('Uwaga, ta animacja jest używana, czy mimo to chcesz ją usunąć ?')
 
                 if (confirm) {
                     // console.log('USUN');
                     this.accessor.removeKeyFrame(font)
-                } else {
-                    // console.log('NIE USUWAJ');
-
                 }
+            } else {
+                this.accessor.removeKeyFrame(font)
+
             }
         }
         addSelector(font: KeyFrame) {

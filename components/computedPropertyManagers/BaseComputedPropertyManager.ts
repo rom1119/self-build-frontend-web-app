@@ -103,7 +103,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         } else {
 
             this.getProperty().setActive(false)
-            let copy = _.cloneDeep(this.getProperty())
+            let copy = this.getProperty().deepCopy(this.getProperty())
             this.setProperty(copy)
             this.setTmpPropertyToModel(copy)
             // if (clearval) {

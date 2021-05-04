@@ -17,31 +17,62 @@
         </select>
         </label>
       </div>
-      <div class="content-item__elem d-flex p-0" v-context-menu="cmNameDuration">
-        <label :for="'textShadowBlur-'" class="w-50">
-          Duration
-          <input
-            @dblclick.stop.prevent=""
-            type="number"
-            @input="change"
-            class="input-text w100"
-            v-model="value.duration"
-            name="duration"
-            :id="'duration-'"
-          />
-          <select-time-unit-context-menu
-            :propertyUnit="value.durationUnit"
-            @changePropUnit="
-              ($event) => {
-                value.durationUnit = $event;
-                change();
-              }
-            "
-            :ref="cmNameDuration"
-          />
-        </label>
-        <div class="w-50">
-          {{ value.durationValue }}
+      <div class="content-item d-flex p-0">
+          <div class="content-item-half p-0" v-context-menu="cmNameDuration">
+            <label :for="'textShadowBlur-'" class="">
+              Duration
+              <br>
+              <input
+                @dblclick.stop.prevent=""
+                type="number"
+                @input="change"
+                style="width: 40px"
+                class="input-text"
+                v-model="value.duration"
+                name="duration"
+                :id="'duration-'"
+              />
+              {{ value.durationValue }}
+              <select-time-unit-context-menu
+                :propertyUnit="value.durationUnit"
+                @changePropUnit="
+                  ($event) => {
+                    value.durationUnit = $event;
+                    change();
+                  }
+                "
+                :ref="cmNameDuration"
+              />
+            </label>
+
+        </div>
+        <div class="content-item-half p-0" v-context-menu="cmNameDelay">
+          <label :for="'textShadowSpread-'" class="">
+            Delay
+            <br>
+            <input
+              @dblclick.stop.prevent=""
+              type="number"
+              @input="change"
+              style="width: 40px"
+              class="input-text"
+              v-model="value.delay"
+              name="delay"
+              :id="'delay-'"
+            />
+            {{ value.delayValue }}
+            <select-time-unit-context-menu
+              :propertyUnit="value.delayUnit"
+              @changePropUnit="
+                ($event) => {
+                  value.delayUnit = $event;
+                  change();
+                }
+              "
+              :ref="cmNameDelay"
+            />
+          </label>
+   
         </div>
       </div>
       <div class="content-item__elem p-0" v-context-menu="cmNameTimingFunction">
@@ -63,88 +94,65 @@
         </label>
       </div>
 
-      <div class="content-item__elem d-flex p-0" v-context-menu="cmNameDelay">
-        <label :for="'textShadowSpread-'" class="w-50">
-          Delay
-          <input
-            @dblclick.stop.prevent=""
-            type="number"
-            @input="change"
-            class="input-text w100"
-            v-model="value.delay"
-            name="delay"
-            :id="'delay-'"
-          />
-          <select-time-unit-context-menu
-            :propertyUnit="value.delayUnit"
-            @changePropUnit="
-              ($event) => {
-                value.delayUnit = $event;
-                change();
-              }
-            "
-            :ref="cmNameDelay"
-          />
-        </label>
-        <div class="w-50">
-          {{ value.delayValue }}
+      <div class="content-item d-flex p-0">
+        <div class="content-item-half  p-0">
+          <label :for="'iterationCount' + value.id" >
+            Iteration Count
+            <input
+              @dblclick.stop.prevent=""
+              type="number"
+              @input="change"
+              class="input-text w100"
+              v-model="value.iterationCount"
+              :name="'iterationCount' + value.id"
+              :id="'iterationCount-' + value.id"
+            />
+          </label>
+        </div>
+        <div class="content-item-half p-0">
+          <label :for="'direction' + value.id">
+            Direction
+            <select
+            @change="change" 
+            v-model="value.direction"  
+            class="content-item__elem"  
+            :name="'direction' + value.id" >
+              <option v-for="el, kkk in directionList" :key="kkk" :value="el" >
+                  {{ el }}
+              </option>
+          </select>
+          </label>
         </div>
       </div>
-      <div class="content-item__elem  p-0">
-        <label :for="'iterationCount' + value.id" >
-          Iteration Count
-          <input
-            @dblclick.stop.prevent=""
-            type="number"
-            @input="change"
-            class="input-text w100"
-            v-model="value.iterationCount"
-            :name="'iterationCount' + value.id"
-            :id="'iterationCount-' + value.id"
-          />
-        </label>
-      </div>
-      <div class="content-item__elem p-0">
-        <label :for="'direction' + value.id">
-          Direction
-          <select
-           @change="change" 
-           v-model="value.direction"  
-           class="content-item__elem"  
-           :name="'direction' + value.id" >
-            <option v-for="el, kkk in directionList" :key="kkk" :value="el" >
-                {{ el }}
-            </option>
-        </select>
-        </label>
-      </div>
-      <div class="content-item__elem p-0">
-        <label :for="'fillMode' + value.id">
-          Fill mode
-          <select
-           @change="change" 
-           v-model="value.fillMode"  
-           class="content-item__elem"  
-           :name="'fillMode' + value.id" >
-            <option v-for="el, kkk in fillModeList" :key="kkk" :value="el" >
-                {{ el }}
-            </option>
-        </select>
-        </label>
-      </div>
-      <div class="content-item__elem p-0">
-        <label :for="'playState' + value.id">
-          Play state
-          <select
-           @change="change" 
-           v-model="value.playState"  
-           class="content-item__elem"  
-           :name="'playState' + value.id" >
-            <option v-for="el, kkk in playStateList" :key="kkk" :value="el" >
-                {{ el }}
-            </option>
-        </select>
-        </label>
+      <div class="content-item d-flex p-0">
+        <div class="content-item-half  p-0">
+          <label :for="'fillMode' + value.id">
+            Fill mode
+            <select
+            @change="change" 
+            v-model="value.fillMode"  
+            class="content-item__elem"  
+            :name="'fillMode' + value.id" >
+              <option v-for="el, kkk in fillModeList" :key="kkk" :value="el" >
+                  {{ el }}
+              </option>
+          </select>
+          </label>
+        </div>
+        <div class="content-item-half p-0">
+          <label :for="'playState' + value.id">
+            Play state
+            <select
+            @change="change" 
+            v-model="value.playState"  
+            class="content-item__elem"  
+            :name="'playState' + value.id" >
+              <option v-for="el, kkk in playStateList" :key="kkk" :value="el" >
+                  {{ el }}
+              </option>
+          </select>
+          </label>
+        </div>
       </div>
 
       <div class="content-item__elem content">

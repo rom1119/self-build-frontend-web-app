@@ -58,7 +58,11 @@ export default abstract class AbstractManageComponent extends Vue
         }
         this.value = val
         
-        this.copiedCssList = _.cloneDeep(this.value.cssAccessor.getAll())
+        var cpCss = []
+        for (const css of this.value.cssAccessor.getAll()) {
+            cpCss.push(css.deepCopy(css))
+        }
+        this.copiedCssList = cpCss
         
     }
 

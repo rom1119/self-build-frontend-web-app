@@ -134,8 +134,11 @@ import KeyFrameAccessor from '~/src/Animation/KeyFrameAccessor';
                 for (const tagModel of response.model.htmlTags) {
                     let tag = this.modelToDomainTransformer.transform(tagModel)
                     // tag.setProjectId(this.$route.params.id)
+
                     // @ts-ignore
                     this.$refs.creatorContainer.addHtmlTag(tag)
+                    // @ts-ignore
+                    // tag.layoutCreatorMode = this.$layoutCreatorMode
                 // console.log(tag);
                     // tag.recalculateRealComputedProperties()
 

@@ -78,6 +78,10 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
         }
     }
 
+    get value() {
+        return `${this.getWidth()} ${this.getType()} ${this.getColor()}`
+    }
+
     getValue(): string
     {
         if (this.values[0] == 'undefined') {

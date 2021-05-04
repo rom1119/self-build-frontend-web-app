@@ -11,6 +11,14 @@ export default abstract class CssDirectionComposite extends CssComposite
         return val
     }
 
+    get value(): string
+    {
+        var val = super.value
+
+
+        return val
+    }
+
     get left(): string
     {
         let propLength = this.values.length

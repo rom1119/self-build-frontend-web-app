@@ -344,5 +344,18 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
         return val
     }
 
+    get value(): any
+    {
+        var val = ''
+        this.values.forEach((element, key) => {
+            val += element.getFullValue()
+            if (key < this.values.length - 1) {
+                val += ', '
+            }
+        });
+        
+        return val
+    }
+
     
 }

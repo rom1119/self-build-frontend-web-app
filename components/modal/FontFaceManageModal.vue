@@ -169,10 +169,9 @@ interface Color {
                 if (confirm) {
                     // console.log('USUN');
                     this.accessor.removeFont(font)
-                } else {
-                    // console.log('NIE USUWAJ');
-
                 }
+            } else {
+                this.accessor.removeFont(font)
             }
         }
         addFontSrc(font: FontFace) {
