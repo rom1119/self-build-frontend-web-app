@@ -1,7 +1,7 @@
 <template >
   <div>
     <div class="content-item__elem_container">
-      <div class="content-item__elem">
+      <div class="content-item__elem p-0">
         <!-- <select-unit-context-menu :propertyUnit="value.offsetXUnit" @changePropUnit="() => {value.offsetXUnit = $event; change();}" :ref="cmNameTextShadowOffX" /> -->
 
         <label :for="'textShadowOffesetX-'">
@@ -15,28 +15,36 @@
                 {{ el.name }}
             </option>
         </select>
-          <span v-if="value.keyFrame">
-            {{ value.keyFrame.name }}
-
-          </span>
         </label>
       </div>
-      <div class="content-item__elem">
-        <label :for="'textShadowBlur-'">
+      <div class="content-item__elem d-flex p-0" v-context-menu="cmNameDuration">
+        <label :for="'textShadowBlur-'" class="w-50">
           Duration
           <input
             @dblclick.stop.prevent=""
             type="number"
             @input="change"
-            class="input-text"
+            class="input-text w100"
             v-model="value.duration"
             name="duration"
             :id="'duration-'"
           />
-          {{ value.duration }}
+          <select-time-unit-context-menu
+            :propertyUnit="value.durationUnit"
+            @changePropUnit="
+              ($event) => {
+                value.durationUnit = $event;
+                change();
+              }
+            "
+            :ref="cmNameDuration"
+          />
         </label>
+        <div class="w-50">
+          {{ value.durationValue }}
+        </div>
       </div>
-      <div class="content-item__elem" v-context-menu="cmNameTimingFunction">
+      <div class="content-item__elem p-0" v-context-menu="cmNameTimingFunction">
         <select-timing-function-menu
           :property="value.timingFunction"
           @changeProp="
@@ -55,37 +63,48 @@
         </label>
       </div>
 
-      <div class="content-item__elem">
-        <label :for="'textShadowSpread-'">
+      <div class="content-item__elem d-flex p-0" v-context-menu="cmNameDelay">
+        <label :for="'textShadowSpread-'" class="w-50">
           Delay
           <input
             @dblclick.stop.prevent=""
             type="number"
             @input="change"
-            class="input-text"
+            class="input-text w100"
             v-model="value.delay"
             name="delay"
             :id="'delay-'"
           />
-          {{ value.delay }}
+          <select-time-unit-context-menu
+            :propertyUnit="value.delayUnit"
+            @changePropUnit="
+              ($event) => {
+                value.delayUnit = $event;
+                change();
+              }
+            "
+            :ref="cmNameDelay"
+          />
         </label>
+        <div class="w-50">
+          {{ value.delayValue }}
+        </div>
       </div>
-      <div class="content-item__elem">
-        <label :for="'iterationCount' + value.id">
+      <div class="content-item__elem  p-0">
+        <label :for="'iterationCount' + value.id" >
           Iteration Count
           <input
             @dblclick.stop.prevent=""
             type="number"
             @input="change"
-            class="input-text"
+            class="input-text w100"
             v-model="value.iterationCount"
             :name="'iterationCount' + value.id"
             :id="'iterationCount-' + value.id"
           />
-          {{ value.delay }}
         </label>
       </div>
-      <div class="content-item__elem">
+      <div class="content-item__elem p-0">
         <label :for="'direction' + value.id">
           Direction
           <select
@@ -97,10 +116,9 @@
                 {{ el }}
             </option>
         </select>
-          {{ value.direction }}
         </label>
       </div>
-      <div class="content-item__elem">
+      <div class="content-item__elem p-0">
         <label :for="'fillMode' + value.id">
           Fill mode
           <select
@@ -112,10 +130,9 @@
                 {{ el }}
             </option>
         </select>
-          {{ value.fillMode }}
         </label>
       </div>
-      <div class="content-item__elem">
+      <div class="content-item__elem p-0">
         <label :for="'playState' + value.id">
           Play state
           <select
@@ -127,7 +144,6 @@
                 {{ el }}
             </option>
         </select>
-          {{ value.playState }}
         </label>
       </div>
 
@@ -195,19 +211,10 @@ export default class AnimationValueComponent extends Vue {
   directionList = AnimationCss.DIRECTIONS
   playStateList = AnimationCss.PLAY_STATES
 
-  // @Prop({default:null, required:false})
-  // classList: string[]
 
-  cmNameTextShadowOffX =
-    Math.floor(Math.random() * 1000000000).toString() + "text_shadow_off_x";
-  cmNameTextShadowOffY =
-    Math.floor(Math.random() * 1000000000).toString() + "text-shadow-off-y";
-  cmNameTextShadowBlur =
-    Math.floor(Math.random() * 1000000000).toString() + "text-shadow-blur";
-  cmNameTextShadowSpread =
-    Math.floor(Math.random() * 1000000000).toString() + "text-shadow-spread";
-  cmNameTimingFunction =
-    Math.floor(Math.random() * 1000000000).toString() + "timing-function";
+  cmNameDelay = Math.floor(Math.random() * 1000000000).toString() + "-delay";
+  cmNameDuration = Math.floor(Math.random() * 1000000000).toString() + "-duration";
+  cmNameTimingFunction = Math.floor(Math.random() * 1000000000).toString() + "timing-function";
 
   propNameEnable = false;
 

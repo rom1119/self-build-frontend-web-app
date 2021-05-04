@@ -20,6 +20,7 @@ import Width from '../Size/Width';
 import CssOwner from '../../CssOwner';
 import KeyFrameAccessor from '../../Animation/KeyFrameAccessor';
 import KeyFrame from '../../Animation/KeyFrame';
+import UnitTime from '../../Unit/UnitTime';
 
 export class AnimationCssStruct implements CssValue {
     id
@@ -32,8 +33,8 @@ export class AnimationCssStruct implements CssValue {
     protected _playState: string
     protected _keyFrame: KeyFrame
 
-    protected _timeUnit: Unit = new UnitSecond()
-    protected _delayUnit: Unit = new UnitSecond()
+    protected _timeUnit: UnitTime = new UnitSecond()
+    protected _delayUnit: UnitTime = new UnitSecond()
     protected _timingFunctionUnit: Named = new Named()
 
     
@@ -158,6 +159,22 @@ export class AnimationCssStruct implements CssValue {
     get keyFrame()
     {
         return this._keyFrame
+    }
+
+    get delayValue() {
+        
+        if (this.delayUnit) {
+            return this.delayUnit.getValue(this.delay)
+        }
+        return ''
+    }
+    
+    get durationValue() {
+        
+        if (this.durationUnit) {
+            return this.durationUnit.getValue(this.duration)
+        }
+        return ''
     }
     
 

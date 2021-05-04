@@ -15,10 +15,12 @@ import VW from './Size/VW';
 
 // another
 import UnitUrl from './UnitUrl';
-import UnitSecond from './UnitSecond';
 import UnitDeg from './UnitDeg';
 import UnitTurn from './UnitTurn';
 
+// time
+import UnitSecond from './Time/UnitSecond';
+import UnitMiliSecond from './Time/UnitMiliSecond';
 
 
 export {
@@ -33,7 +35,8 @@ export {
     VH,
     VW,
     UnitUrl,
-    UnitSecond,
     UnitDeg,
-    UnitTurn
+    UnitTurn,
+    UnitSecond,
+    UnitMiliSecond,
 }

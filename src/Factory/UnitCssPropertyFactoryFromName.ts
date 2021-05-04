@@ -27,7 +27,7 @@ export default class UnitCssPropertyFactoryFromName {
             }
         }
         
-        throw new UnableCreateCssPropertyFromName(`Can not create css property from name ${name}`)
+        throw new UnableCreateCssPropertyFromName(`Can not create UNIT from name ${name}`)
     }
     
 }

@@ -427,13 +427,18 @@ export default class DefaultModelToCss implements ModelToCss
                 el.fillMode = valCss.getValueSeventh()
                 el.playState = valCss.getValueEighth()
 
-                var unitDuration = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
-                var unitDelay = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+                if (valCss.getUnitNameSecond()) {
+                    var unitDuration = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                    el.durationUnit = unitDuration
+                    
+                }
+                if (valCss.getUnitNameFourth()) {
+                    var unitDelay = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+                    el.delayUnit = unitDelay
+                }
                 // var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
                 // var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
 
-                el.durationUnit = unitDuration
-                el.delayUnit= unitDelay
                 // el.offsetYUnit = unitOffY
                 // el.blurUnit = unitBlur
                 // el.colorUnit = unitColor
