@@ -14,6 +14,7 @@ import LayoutMode from '../../Mode/LayoutMode';
 import EditMode from '../../Mode/impl/EditMode';
 import TransitionObject from '../decisionObjects/TransitionObject';
 import AnimationObject from '../decisionObjects/AnimationObject';
+import AnimationMode from '../../Mode/impl/AnimationMode';
 
 export default class CssPropForLayoutModeDecisionMaker implements DecisionManager<CssDecisionObject> {
 
@@ -31,6 +32,12 @@ export default class CssPropForLayoutModeDecisionMaker implements DecisionManage
             }
 
             if (arg instanceof AnimationObject) {
+                return false
+            }
+        }
+
+        if (this.mode instanceof AnimationMode) {
+            if (arg instanceof TransitionObject) {
                 return false
             }
         }
