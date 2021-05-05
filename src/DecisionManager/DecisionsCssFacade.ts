@@ -8,6 +8,8 @@ import BasePropertyCss from '../Css/BasePropertyCss';
 import Width from '../Css/Size/Width';
 import Height from "../Css/Size/Height";
 import { MinWidth, MaxWidth, MinHeight, MaxHeight } from "../Css";
+import LayoutMode from '../Mode/LayoutMode';
+import CssPropForLayoutModeDecisionMaker from './impl/CssPropForLayoutModeDecisionMaker';
 
 
 
@@ -22,6 +24,17 @@ export default class DecisionsCssFacade {
         this.tag = tag
         this.cssDecisionManager = new CssPropManager(tag)
         this.cssDecisionObjectFactory = new CssDecisionObjectFactory()
+    }
+
+    canManageCssInMode(cssName: string, mode: LayoutMode) {
+        var decisionManager = new CssPropForLayoutModeDecisionMaker(mode)
+        var decObj = this.cssDecisionObjectFactory.create(cssName)
+        
+        if (!decObj) {
+            return true
+        }
+
+        return decisionManager.canManage(decObj)
     }
 
     canManageCss(css: BasePropertyCss) {

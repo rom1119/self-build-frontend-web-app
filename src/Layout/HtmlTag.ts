@@ -945,32 +945,45 @@ export default abstract class HtmlTag extends HtmlNode implements
             return false
         }
 
+        return this.canApplyCss(css.getName())
+    }
 
-        try {
-             this.onApplyTransitionCss(css.getName())
-        } catch (e) {
-            return false
+    get layoutMode() {
+        if (!this.layoutCreatorMode) {
+            return null
+        }
+
+        // @ts-ignore
+        return this.layoutCreatorMode.mode
+    }
+
+    public canApplyCss(cssName: string) {
+        // @ts-ignore
+        if (this.layoutMode) {
+            // @ts-ignore
+            if (!this.decisionCssFacade.canManageCssInMode(cssName, this.layoutMode)) {
+                return false
+
+            }
         }
 
         return true
     }
 
-    public onApplyTransitionCss(cssName){
-
-        // @ts-ignore
-        if (this.layoutCreatorMode) {
-            // @ts-ignore
-
-            // @ts-ignore
-            if (this.layoutCreatorMode.mode.getName() === EditMode.NAME) {
-                // var a = this.layoutCreatorMode.mode
-                if (cssName === TransitionCss.PROP_NAME) {
-                    throw new Error('can not apply transition in EditMode')
+    public onApplyCss(cssNameList: {}){
+        
+        for (const key in cssNameList) {
+            if (Object.prototype.hasOwnProperty.call(cssNameList, key)) {
+                const element = cssNameList[key];
+                if (!this.canApplyCss(key)) {
+                    delete cssNameList[key]
                 }
-
             }
         }
+        
     }
+
+    public on
 
     get pseudoSelectorsList() : any
     {
@@ -1400,14 +1413,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         var a = this.transformStyleList.transform(this.cssAccessor.all)
         // console.log('cssBoxList', a);
         
-        try {
-            if (a[TransitionCss.PROP_NAME]) {
-                this.onApplyTransitionCss(TransitionCss.PROP_NAME)
-
-            }
-        } catch (e) {
-            delete a[TransitionCss.PROP_NAME]
-        }
+        this.onApplyCss(a)
 
         // a = this.transformStyleList.transform(this.cssAccessor.all)
         // console.log('APPPPPPPPPPPPP');
@@ -1434,14 +1440,8 @@ export default abstract class HtmlTag extends HtmlNode implements
             // this.transformStyleList.setAllImportant(true)
             var a = this.transformStyleList.transform(this.cssListMediaOwner.currentCssList.all)
             // console.log('new css', a)
-            try {
-                if (a[TransitionCss.PROP_NAME]) {
-                    this.onApplyTransitionCss(TransitionCss.PROP_NAME)
+            this.onApplyCss(a)
 
-                }
-            } catch (e) {
-                delete a[TransitionCss.PROP_NAME]
-            }
             return  a
         }
 

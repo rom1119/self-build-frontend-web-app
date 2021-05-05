@@ -604,10 +604,10 @@ export default class BaseHTMLWrapper extends Vue {
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
         // return
-        console.log('CREA - COMP - BASE')
-        console.log(BaseMediaQueryComponent.accessorStatic)
-        console.log(this.$layoutCreatorMode)
-        console.log('CREA - COMP - BASE END')
+        // console.log('CREA - COMP - BASE')
+        // console.log(BaseMediaQueryComponent.accessorStatic)
+        // console.log(this.$layoutCreatorMode)
+        // console.log('CREA - COMP - BASE END')
 
         this.value.setHtmlEl(this.$el)
         this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))

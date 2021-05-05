@@ -12,6 +12,9 @@ import MarginRightObject from './decisionObjects/MarginRightObject';
 import MarginTopObject from './decisionObjects/MarginTopObject';
 import MarginBottomObject from './decisionObjects/MarginBottomObject';
 
+import TransitionObject from './decisionObjects/TransitionObject';
+import AnimationObject from './decisionObjects/AnimationObject';
+
 
 
 
@@ -29,5 +32,8 @@ export {
     MarginRightObject,
     MarginTopObject,
     MarginBottomObject,
+
+    TransitionObject,
+    AnimationObject,
 
 }
