@@ -98,16 +98,22 @@
         <div class="content-item-half  p-0">
           <label :for="'iterationCount' + value.id" >
             Iteration Count
+            <span>
+              INFINITE
+              <input type="checkbox" @change="change" v-model="infiniteChecked" />
+            </span>
             <input
               @dblclick.stop.prevent=""
               type="number"
               @input="change"
+              :disabled="infiniteCheckedData"
               class="input-text w100"
               v-model="value.iterationCount"
               :name="'iterationCount' + value.id"
               :id="'iterationCount-' + value.id"
             />
           </label>
+          
         </div>
         <div class="content-item-half p-0">
           <label :for="'direction' + value.id">
@@ -219,6 +225,8 @@ export default class AnimationValueComponent extends Vue {
   directionList = AnimationCss.DIRECTIONS
   playStateList = AnimationCss.PLAY_STATES
 
+  infiniteCheckedData = false
+
 
   cmNameDelay = Math.floor(Math.random() * 1000000000).toString() + "-delay";
   cmNameDuration = Math.floor(Math.random() * 1000000000).toString() + "-duration";
@@ -246,6 +254,7 @@ export default class AnimationValueComponent extends Vue {
 
     this.checkCubicBezier(this.value.timingFunction);
     this.compKeyFrame = this.value.keyFrame
+    this.infiniteCheckedData = this.value.iterationCount === 'infinite' ? true : false
 
     // console.log(this.contextMenuName);
     // console.log(this.cmName);
@@ -260,6 +269,22 @@ export default class AnimationValueComponent extends Vue {
     //     this.color.a = this.value.color.a
     // }
   }
+
+  get infiniteChecked(){
+    return this.infiniteCheckedData
+  }
+  
+  set infiniteChecked(arg){
+    // console.log('set infiniteChecked(arg)');
+    // console.log(arg);
+    this.infiniteCheckedData = arg
+    if (arg) {
+      this.value.iterationCount = 'infinite'
+    } else {
+      this.value.iterationCount = null
+    }
+  }
+
 
   get availableKeyFrames() {
     return KeyFrameAccessor.getInstance().keyFrames

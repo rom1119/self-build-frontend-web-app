@@ -183,14 +183,14 @@ export class AnimationCssStruct implements CssValue {
         var str = ''
 
         if (this.duration) {
-            str += `${this.duration}s`  
+            str += `${this.durationValue}`  
         }
         if (this.timingFunction) {
             str += ` ${this.timingFunction.getValue()}`
             
         }
         if (this.delay) {
-            str += ` ${this.delay}s`  
+            str += ` ${this.delayValue}`  
         }
         
         if (this.iterationCount) {
@@ -234,6 +234,7 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
     public static DEFAULT_TIMING_FUNCTION = new Linear()
 
     public static DIRECTIONS = {
+        empty_val: '',
         normal: 'normal',
         reverse: 'reverse',
         alternate: 'alternate',
@@ -241,6 +242,7 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
     }
    
     public static FILL_MODES = {
+        empty_val: '',
         none: 'none',
         forwards: 'forwards',
         backwards: 'backwards',
@@ -248,6 +250,7 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
         
     }
     public static PLAY_STATES = {
+        empty_val: '',
         running: 'running',
         paused: 'paused'
     }
