@@ -90,6 +90,10 @@ export default class LayoutTagToolSidebar extends Vue {
       name: 'Animation',
       componentName: 'animation-manage-component'
     },
+    {
+      name: '3D',
+      componentName: 'three-dimensioanl-manage-component'
+    },
   ]
 
   @Prop({required: false, default: null})   

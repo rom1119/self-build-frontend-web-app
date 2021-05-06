@@ -29,6 +29,7 @@ import ImgManageComponent from '~/components/manageComponent/component/ImgManage
 import ShadowManageComponent from '~/components/manageComponent/component/ShadowManageComponent.vue'
 import SvgManageComponent from '~/components/manageComponent/component/SvgManageComponent.vue'
 import TextManageComponent from '~/components/manageComponent/component/TextManageComponent.vue'
+import ThreeDimensionalManageComponent from '~/components/manageComponent/component/ThreeDimensionalManageComponent.vue'
 
 Vue.component('animation-manage-component', AnimationManageComponent)
 Vue.component('background-manage-component', BackgroundManageComponent)
@@ -41,6 +42,7 @@ Vue.component('img-manage-component', ImgManageComponent)
 Vue.component('shadow-manage-component', ShadowManageComponent)
 Vue.component('svg-manage-component', SvgManageComponent)
 Vue.component('text-manage-component', TextManageComponent)
+Vue.component('three-dimensional-manage-component', ThreeDimensionalManageComponent)
 
 Vue.component('vuetify-select2', vuetifySelect2)
 Vue.component('base-modal', BaseModal)

@@ -1,0 +1,71 @@
+<template>
+
+    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :tag="value">
+
+        <template slot="header">
+            <div class="close">
+                <button @click="close($event)">X</button>
+            </div>
+            <h4>
+                Zarządzaj tekstem
+            </h4>
+        </template>
+        <template slot="content" >
+            <three-dimensional-manage-component ref="manageComponent" :activeTag="value" /> 
+        </template>
+        <template slot="footer">
+            <button class="to-left" @click="restore($event)">
+                Przywróć
+            </button>
+            <button class="to-right">
+                Zapisz
+            </button>
+        </template>
+    </base-modal>
+
+</template>
+
+<script lang="ts">
+    import {Component} from 'vue-property-decorator'
+    import 'vue-cal/dist/vuecal.css'
+    import HtmlTag from '../../src/Layout/HtmlTag';
+    import AbstractModal from '../AbstractModal';
+    import { Chrome }  from '~/node_modules/vue-color';
+import TextManageComponent from "~/components/manageComponent/component/TextManageComponent.vue";
+import AbstractManageComponent from '../manageComponent/AbstractManageComponent';
+import ThreeDimensionalManageComponent from '../manageComponent/component/ThreeDimensionalManageComponent.vue';
+
+    @Component({
+        components: {
+             Chrome
+             
+        }
+    })
+    export default class ThreeDimensionalManageModal extends AbstractModal {
+
+        $refs: {
+            manageComponent: ThreeDimensionalManageComponent
+
+        }
+
+        mounted() {
+            // this.$refs.manageComponent = null
+        }
+        onChangePseudoSelector()
+        {
+            this.$refs.manageComponent.onChangePseudoSelector()
+        }
+
+        show(currentActiveTag: HtmlTag){
+            super.show(currentActiveTag, this.$refs.manageComponent)
+            this.$refs.manageComponent.init(currentActiveTag)
+        }
+
+    }
+</script>
+
+<style lang="scss" scoped>
+    .active {
+        background-color: rgba($color: #d81121, $alpha: .4);
+    }
+</style>

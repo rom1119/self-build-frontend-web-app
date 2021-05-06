@@ -49,6 +49,7 @@
             <context-menu-item :action="showAnimationModal">Animation</context-menu-item>
             <context-menu-item :action="showGradientModal">Gradient</context-menu-item>
             <context-menu-item :action="showHtmlAttrModal">Atrybuty</context-menu-item>
+            <context-menu-item :action="showThreeDimensionalModal">3D</context-menu-item>
         </template>
 
     </context-menu>
@@ -285,6 +286,11 @@ export default class HtmlElementContextMenu extends Vue {
     showTextCssModal()
     {
         this.$textManageModal.show(this.value)
+    }
+    
+    showThreeDimensionalModal()
+    {
+        this.$threeDimensionalManageModal.show(this.value)
     }
     
     showFontFaceModal()

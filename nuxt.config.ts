@@ -59,6 +59,7 @@ module.exports = {
         // {src: '@/plugins/alertsContainer', ssr: false},
         // {src: '@/plugins/loadingDialog', ssr: false},
         {src: '@/plugins/modals/textManageModal', ssr: false},
+        {src: '@/plugins/modals/threeDimensionalManageModal', ssr: false},
         {src: '@/plugins/modals/backgroundManageModal', ssr: false},
         {src: '@/plugins/modals/imgManageModal', ssr: false},
         {src: '@/plugins/modals/fontFaceManageModal', ssr: false},
