@@ -627,7 +627,7 @@ export default class TableTag extends TableContainer {
             if (prop instanceof BasePaddingCss) {
 
                 let val = this.getComputedCssVal(prop)
-                let clonedCss = _.cloneDeep(prop)
+                let clonedCss = prop.deepCopy(prop)
                 clonedCss.setValue(parseInt(val).toString())
                 clonedCss.setUnit(new Pixel())
                 this.paddingFilter.injectCssProperty(clonedCss)
@@ -642,7 +642,7 @@ export default class TableTag extends TableContainer {
             if (prop instanceof BaseBorderCss) {
                 // return
                 let val = this.getComputedCssVal(prop)
-                let clonedCss = _.cloneDeep(prop)
+                let clonedCss = prop.deepCopy(prop)
                 // clonedCss.setValue(parseInt(val).toString())
                 // console.log(val);
                 clonedCss.setWidth(parseInt(val).toString(), new Pixel())

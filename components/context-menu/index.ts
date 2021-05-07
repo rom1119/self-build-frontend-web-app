@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 import HtmlElementCm from './html-element-cm.vue'
 import HtmlElementShortClosingTagContextMenu from './html-element-short-closing-tag-cm.vue'
-import CreateHtmlElementCm from './create-html-element-cm.vue'
 import BorderHtmlCm from './border-cm.vue'
 import SelectUnitCm from './select-unit-cm.vue'
 import SelectTimeUnitCm from './select-time-unit-cm.vue'

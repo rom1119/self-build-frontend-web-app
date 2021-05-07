@@ -12,11 +12,15 @@ export default class TransformStyle extends CssSimple implements CssPropertyLimi
     public getName(): string {
         return TransformStyle.PROP_NAME
     }
-    getAccessableProperty(): any[] {
+    static getAccessableProperty(): any[] {
         let props = []
         props.push(TransformStyle.FLAT)
         props.push(TransformStyle.PRESERVE_3D)
         return props
+    }
+
+    getAccessableProperty(): any[] {
+        return TransformStyle.getAccessableProperty()
     }
   
 

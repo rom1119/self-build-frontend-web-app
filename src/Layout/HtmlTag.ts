@@ -1754,6 +1754,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         child.parent = this
         child.setApi(this.api)
         child.setProjectId(this.projectId)
+        if (child instanceof HtmlTag) {
+            child.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+
+        }
         super.appendChild(child)
         if (child instanceof HtmlTag) {
             child.injectInitialCssStyles()

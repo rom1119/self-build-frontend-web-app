@@ -95,7 +95,10 @@ export default class DefaultCssToModel implements CssToModel
         if (typeof domain.getSecondValue === 'function') {
             var domainCast: CssDoubleValue = <CssDoubleValue><unknown>domain
             model.setValueSecond(domainCast.getSecondValue())
-            model.setUnitNameSecond(domainCast.getSecondUnit().name)
+            if (domainCast.getSecondUnit()) {
+                model.setUnitNameSecond(domainCast.getSecondUnit().name)
+
+            }
         }
 
         // @ts-ignore

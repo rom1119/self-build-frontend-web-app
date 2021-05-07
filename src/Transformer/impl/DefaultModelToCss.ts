@@ -118,8 +118,13 @@ export default class DefaultModelToCss implements ModelToCss
         if (typeof domain.getSecondValue === 'function') {
             var domainCast: CssDoubleValue = <CssDoubleValue><unknown>domain
             domainCast.setSecondValue(model.getValueSecond())
-            let unitSecond = this.unitCssFactoryFromName.create(model.getUnitNameSecond())
-            domainCast.setSecondUnit(unitSecond)
+            try {
+                let unitSecond = this.unitCssFactoryFromName.create(model.getUnitNameSecond())
+                domainCast.setSecondUnit(unitSecond)
+ 
+            } catch (e) {
+
+            }
 
             domain = <BaseBorderCss>domainCast
         }

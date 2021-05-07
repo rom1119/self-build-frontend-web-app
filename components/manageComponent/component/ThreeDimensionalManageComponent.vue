@@ -1,22 +1,61 @@
 <template>
     <div class="component-manage" v-if="value" >
         <div class="component-manage__content">
-        
-  
+            <div class="content-item__elem_container">
+                <div class="content-item-half-and-quarter d-flex">
+                
+                    <div class="content-item-half" @dblclick="hasTransformStyle = !hasTransformStyle" :class="{'active': hasTransformStyle}">
+                        <h4 class="content-item__header">
+                            Transform Style
+                        </h4>
+                        <ul class=" content-item__elem_container">
+                            <li class="content-item__elem" v-for="el in transformStyleList" :key="el">
+                                <label :for="'transformStyle-' + el">
+                                    {{ el }}
+                                    <input type="radio" v-model="transformStyle" :value="el" name="transformStyle" :id="'transformStyle-' + el">
 
-            <div class="content-item" @dblclick="hasFontWeight = !hasFontWeight" :class="{'active': hasFontWeight}">
-                <h4 class="content-item__header">
-                    Waga czcionki
-                </h4>
-                <ul class=" content-item__elem_container">
-                    <li class="content-item__elem" v-for="el in fontWeights" :key="el">
-                        <label :for="'fontWeight-' + el">
-                            {{ el }}
-                            <input type="radio" v-model="fontWeight" :value="el" name="fontWeight" :id="'fontWeight-' + el">
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="content-item-half" @dblclick="hasBackfaceVisibility = !hasBackfaceVisibility" :class="{'active': hasBackfaceVisibility}">
+                        <h4 class="content-item__header">
+                            Backface Visibility
+                        </h4>
+                        <ul class=" content-item__elem_container">
+                            <li class="content-item__elem" v-for="el in backfaceVisibilityList" :key="el">
+                                <label :for="'backfaceVisibility-' + el">
+                                    {{ el }}
+                                    <input type="radio" v-model="backfaceVisibility" :value="el" name="backfaceVisibility" :id="'backfaceVisibility-' + el">
 
-                        </label>
-                    </li>
-                </ul>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-item-quarter" @dblclick="hasPerspective = !hasPerspective" :class="{'active': hasPerspective}">
+                    <div>
+                        <h4 class="content-item__header">
+                            Perspective
+                        </h4>
+                        <div class="content-item__elem"
+                                v-context-menu="cmNamePerspective"
+                            >
+                            <select-unit-context-menu :propertyUnit="perspectiveUnit" @changePropUnit="($event) => {perspectiveUnit = $event;}" :ref="cmNamePerspective" />
+
+                            <label :for="'perspective-'">
+
+                                <input @dblclick.stop.prevent="" type="number" style="width: 60px;" step=".01" class="input-text" v-model="perspective" name="perspective" :id="'perspective-'">
+                                {{ perspectiveUnit.label }}
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-item__elem_container" @dblclick="hasPerspectiveOrigin = !hasPerspectiveOrigin" :class="{'active': hasPerspectiveOrigin}">
+                <css-two-axis-component :value="perspectiveOrigin" @change="perspectiveOriginManager.updateCssProp(perspectiveOriginManager.getProperty())" />
             </div>
 
             
@@ -31,18 +70,20 @@
     import FontWeight from '../../../src/Css/Text/FontWeight';
     import UnitSize from '~/src/Unit/UnitSize';
     import EM from '~/src/Unit/Size/EM';
+    import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.vue';
     import FontSize from '../../../src/Css/Text/FontSize';
     import { RGBA } from '~/src/Unit';
     import { Chrome }  from '~/node_modules/vue-color';
-import { FontStyle } from '../../../src/Css';
 import FontStretch from '../../../src/Css/Text/FontStretch';
 import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 import FontManage from '../FontManage';
 import ThreeDimensionalManage from '../ThreeDimensionalManage';
+import TransformStyle from '~/src/Css/ThreeDimensional/TransformStyle';
+import BackfaceVisibility from '../../../src/Css/ThreeDimensional/BackfaceVisibility';
 
     @Component({
         components: {
-            Chrome
+            Chrome, CssTwoAxisComponent
         }
     })
     export default class ThreeDimensionalManageComponent extends ThreeDimensionalManage {
@@ -74,10 +115,11 @@ import ThreeDimensionalManage from '../ThreeDimensionalManage';
         DEFAULT_FONT_SIZE_UNIT = new EM()
         fontSizeData = new FontSize(this.DEFAULT_FONT_SIZE, this.DEFAULT_FONT_SIZE_UNIT)
 
-        cmNameFontSize = Math.floor(Math.random() * 1000000000).toString() + 'font-size'
+        cmNamePerspective = Math.floor(Math.random() * 1000000000).toString() + 'perspective'
         cmNameLineHeight = Math.floor(Math.random() * 1000000000).toString() + 'line-height'
 
-        textAligns: string[] = TextAlign.getAccessableProperty()
+        transformStyleList: string[] = TransformStyle.getAccessableProperty()
+        backfaceVisibilityList: string[] = BackfaceVisibility.getAccessableProperty()
 
         // currentActiveTag: HtmlTag
         
@@ -108,30 +150,133 @@ import ThreeDimensionalManage from '../ThreeDimensionalManage';
 
         }
 
-        // *****************************************  FONT-WEIGHT ****************************************************
+        // *****************************************  TRANSFORM-STYLE ****************************************************
 
-        get fontWeight()
+        get transformStyle()
         {
-            return  this.fontWeightManager.getProperty().blankValue
+            return  this.transformStyleManager.getProperty().blankValue
         }
 
-        set fontWeight(newVal)
+        set transformStyle(newVal)
         {
-            this.fontWeightManager.getProperty().setValue(newVal)
-            this.fontWeightManager.updateCssProp(this.fontWeightManager.getProperty())
+            this.transformStyleManager.getProperty().setValue(newVal)
+            this.transformStyleManager.updateCssProp(this.transformStyleManager.getProperty())
         }
 
-        get hasFontWeight()
+        get hasTransformStyle()
         {
-            return  this.fontWeightManager.getProperty().active
+            return  this.transformStyleManager.getProperty().active
         }
 
-        set hasFontWeight(newVal: boolean)
+        set hasTransformStyle(newVal: boolean)
         {
             if (!newVal) {
-                this.fontWeightManager.deactivePropCss(this.fontWeightManager.getProperty())
+                this.transformStyleManager.deactivePropCss(this.transformStyleManager.getProperty())
             } else {
-                this.fontWeightManager.activePropCss(this.fontWeightManager.getProperty())
+                this.transformStyleManager.activePropCss(this.transformStyleManager.getProperty())
+            }
+        }
+
+        // *****************************************  BACKFACE-VISIBILITY ****************************************************
+
+        get backfaceVisibility()
+        {
+            return  this.backfaceVisibilityManager.getProperty().blankValue
+        }
+
+        set backfaceVisibility(newVal)
+        {
+            this.backfaceVisibilityManager.getProperty().setValue(newVal)
+            this.backfaceVisibilityManager.updateCssProp(this.backfaceVisibilityManager.getProperty())
+        }
+
+        get hasBackfaceVisibility()
+        {
+            return  this.backfaceVisibilityManager.getProperty().active
+        }
+
+        set hasBackfaceVisibility(newVal: boolean)
+        {
+            if (!newVal) {
+                this.backfaceVisibilityManager.deactivePropCss(this.backfaceVisibilityManager.getProperty())
+            } else {
+                this.backfaceVisibilityManager.activePropCss(this.backfaceVisibilityManager.getProperty())
+            }
+        }
+        
+        // *****************************************  PERSPECTIVE ****************************************************
+
+        get perspective()
+        {
+            return  this.perspectiveManager.getProperty().blankValue
+        }
+
+        set perspective(newVal)
+        {
+            this.perspectiveManager.getProperty().setValue(newVal)
+            this.perspectiveManager.updateCssProp(this.perspectiveManager.getProperty())
+        }
+
+        get perspectiveUnit()
+        {
+            return  this.perspectiveManager.getProperty().getUnit()
+        }
+
+        set perspectiveUnit(newVal: UnitSize)
+        {
+            this.perspectiveManager.getProperty().setUnit(newVal)
+            this.perspectiveManager.updateCssProp(this.perspectiveManager.getProperty())
+        }
+
+        get hasPerspective()
+        {
+            return  this.perspectiveManager.getProperty().active
+        }
+
+        set hasPerspective(newVal: boolean)
+        {
+            if (!newVal) {
+                this.perspectiveManager.deactivePropCss(this.perspectiveManager.getProperty())
+            } else {
+                this.perspectiveManager.activePropCss(this.perspectiveManager.getProperty())
+            }
+        }
+
+        // *****************************************  PERSPECTIVE-ORIGIN ****************************************************
+
+        get perspectiveOrigin()
+        {
+            return  this.perspectiveOriginManager.getProperty()
+        }
+
+        // set perspectiveOrigin(newVal)
+        // {
+        //     this.perspectiveOriginManager.getProperty().setValue(newVal)
+        //     this.perspectiveOriginManager.updateCssProp(this.perspectiveOriginManager.getProperty())
+        // }
+
+        // get perspectiveUnit()
+        // {
+        //     return  this.perspectiveManager.getProperty().getUnit()
+        // }
+
+        // set perspectiveUnit(newVal: UnitSize)
+        // {
+        //     this.perspectiveManager.getProperty().setUnit(newVal)
+        //     this.perspectiveManager.updateCssProp(this.perspectiveManager.getProperty())
+        // }
+
+        get hasPerspectiveOrigin()
+        {
+            return  this.perspectiveOriginManager.getProperty().active
+        }
+
+        set hasPerspectiveOrigin(newVal: boolean)
+        {
+            if (!newVal) {
+                this.perspectiveOriginManager.deactivePropCss(this.perspectiveOriginManager.getProperty())
+            } else {
+                this.perspectiveOriginManager.activePropCss(this.perspectiveOriginManager.getProperty())
             }
         }
 

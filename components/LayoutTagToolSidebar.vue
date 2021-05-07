@@ -92,7 +92,7 @@ export default class LayoutTagToolSidebar extends Vue {
     },
     {
       name: '3D',
-      componentName: 'three-dimensioanl-manage-component'
+      componentName: 'three-dimensional-manage-component'
     },
   ]
 
@@ -103,7 +103,7 @@ export default class LayoutTagToolSidebar extends Vue {
   isSvgTag = false
 
   mounted() {
-    this.currentComponentName = 'animation-manage-component'
+    this.currentComponentName = 'three-dimensional-manage-component'
   }
 
   canSelectTab(componentName) {

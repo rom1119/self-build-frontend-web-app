@@ -19,18 +19,31 @@ import FontStretchProperty from '../computedPropertyManagers/impl/ComputedProper
 import FontFamilyProperty from '../computedPropertyManagers/impl/ComputedProperty/Text/FontFamilyProperty'
 import AbstractManageComponent from './AbstractManageComponent';
 import TransformStyle from '../../src/Css/ThreeDimensional/TransformStyle';
+import TransformStyleProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/TransformStyleProperty';
+import BackfaceVisibility from '../../src/Css/ThreeDimensional/BackfaceVisibility';
+import BackfaceVisibilityProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/BackfaceVisibilityProperty';
+import Perspective from '../../src/Css/ThreeDimensional/Perspective';
+import PerspectiveProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/PerspectiveProperty';
+import PerspectiveOrigin from '../../src/Css/ThreeDimensional/PerspectiveOrigin';
+import PerspectiveOriginProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/PerspectiveOriginProperty';
 
 
 export default abstract class ThreeDimensionalManage extends AbstractManageComponent
 {
-    textAlignManager: BaseComputedPropertyManager<TransformStyle>
+    transformStyleManager: BaseComputedPropertyManager<TransformStyle>
+    backfaceVisibilityManager: BaseComputedPropertyManager<BackfaceVisibility>
+    perspectiveManager: BaseComputedPropertyManager<Perspective>
+    perspectiveOriginManager: BaseComputedPropertyManager<PerspectiveOrigin>
 
 
 
     constructor()
     {
         super()
-        this.textAlignManager = new TextAlignProperty()
+        this.transformStyleManager = new TransformStyleProperty()
+        this.backfaceVisibilityManager = new BackfaceVisibilityProperty()
+        this.perspectiveManager = new PerspectiveProperty()
+        this.perspectiveOriginManager = new PerspectiveOriginProperty()
 
 
     }
@@ -41,14 +54,20 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
         // this.marginRealFetcher = this.value.marginRealFetcher
         // this.borderRealFetcher = this.value.borderRealFetcher
 
-        this.textAlignManager.setHtmlEl(val)
+        this.transformStyleManager.setHtmlEl(val)
+        this.backfaceVisibilityManager.setHtmlEl(val)
+        this.perspectiveManager.setHtmlEl(val)
+        this.perspectiveOriginManager.setHtmlEl(val)
 
 
         // this.paddingManager.setFetcher(this.paddingRealFetcher)
         // this.marginManager.setFetcher(this.marginRealFetcher)
         // this.borderManager.setFetcher(this.borderRealFetcher)
 
-        this.textAlignManager.init()
+        this.transformStyleManager.init()
+        this.backfaceVisibilityManager.init()
+        this.perspectiveManager.init()
+        this.perspectiveOriginManager.init()
 
 
      
