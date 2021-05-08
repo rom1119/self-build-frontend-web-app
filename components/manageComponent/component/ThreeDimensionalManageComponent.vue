@@ -1,6 +1,18 @@
 <template>
     <div class="component-manage" v-if="value" >
         <div class="component-manage__content">
+            <div class="content-item__elem_container" @dblclick="hasTransformOrigin = !hasTransformOrigin" :class="{'active': hasTransformOrigin}">
+                 <h4 class="content-item__header">
+                    Transform Origin
+                </h4>
+                <transform-origin-component :value="transformOrigin" @change="transformOriginManager.updateCssProp(transformOriginManager.getProperty())" />
+            </div>
+            <div class="content-item__elem_container" @dblclick="hasPerspectiveOrigin = !hasPerspectiveOrigin" :class="{'active': hasPerspectiveOrigin}">
+                 <h4 class="content-item__header">
+                            Perspective Origin
+                </h4>
+                <css-two-axis-component :value="perspectiveOrigin" @change="perspectiveOriginManager.updateCssProp(perspectiveOriginManager.getProperty())" />
+            </div>
             <div class="content-item__elem_container">
                 <div class="content-item-half-and-quarter d-flex">
                 
@@ -54,9 +66,7 @@
                 </div>
             </div>
             
-            <div class="content-item__elem_container" @dblclick="hasPerspectiveOrigin = !hasPerspectiveOrigin" :class="{'active': hasPerspectiveOrigin}">
-                <css-two-axis-component :value="perspectiveOrigin" @change="perspectiveOriginManager.updateCssProp(perspectiveOriginManager.getProperty())" />
-            </div>
+            
 
             
         </div>
@@ -80,10 +90,12 @@ import FontManage from '../FontManage';
 import ThreeDimensionalManage from '../ThreeDimensionalManage';
 import TransformStyle from '~/src/Css/ThreeDimensional/TransformStyle';
 import BackfaceVisibility from '../../../src/Css/ThreeDimensional/BackfaceVisibility';
+import TransformOriginComponent from '../../modal/AxisCss/TransformOriginComponent.vue';
+import { TransformOrigin } from '~/src/Css';
 
     @Component({
         components: {
-            Chrome, CssTwoAxisComponent
+            Chrome, CssTwoAxisComponent, TransformOriginComponent
         }
     })
     export default class ThreeDimensionalManageComponent extends ThreeDimensionalManage {
@@ -249,23 +261,6 @@ import BackfaceVisibility from '../../../src/Css/ThreeDimensional/BackfaceVisibi
             return  this.perspectiveOriginManager.getProperty()
         }
 
-        // set perspectiveOrigin(newVal)
-        // {
-        //     this.perspectiveOriginManager.getProperty().setValue(newVal)
-        //     this.perspectiveOriginManager.updateCssProp(this.perspectiveOriginManager.getProperty())
-        // }
-
-        // get perspectiveUnit()
-        // {
-        //     return  this.perspectiveManager.getProperty().getUnit()
-        // }
-
-        // set perspectiveUnit(newVal: UnitSize)
-        // {
-        //     this.perspectiveManager.getProperty().setUnit(newVal)
-        //     this.perspectiveManager.updateCssProp(this.perspectiveManager.getProperty())
-        // }
-
         get hasPerspectiveOrigin()
         {
             return  this.perspectiveOriginManager.getProperty().active
@@ -277,6 +272,27 @@ import BackfaceVisibility from '../../../src/Css/ThreeDimensional/BackfaceVisibi
                 this.perspectiveOriginManager.deactivePropCss(this.perspectiveOriginManager.getProperty())
             } else {
                 this.perspectiveOriginManager.activePropCss(this.perspectiveOriginManager.getProperty())
+            }
+        }
+        
+        // *****************************************  TRANSFORM-ORIGIN ****************************************************
+
+        get transformOrigin()
+        {
+            return  this.transformOriginManager.getProperty()
+        }
+
+        get hasTransformOrigin()
+        {
+            return  this.transformOriginManager.getProperty().active
+        }
+
+        set hasTransformOrigin(newVal: boolean)
+        {
+            if (!newVal) {
+                this.transformOriginManager.deactivePropCss(this.transformOriginManager.getProperty())
+            } else {
+                this.transformOriginManager.activePropCss(this.transformOriginManager.getProperty())
             }
         }
 

@@ -53,6 +53,16 @@ export default abstract class CssTwoAxis extends BasePropertyCss implements CssD
             this.yValUnit = new Pixel()
         }
     }
+    onChangeHasTwoValue() {
+
+        if (!this.hasTwoValues) {
+            this._yVal = null
+            this.yValUnit = null
+        } else {
+            this._yVal = 'center'
+            this.yValUnit = new Named()
+        }
+    }
 
     get value(): any
     {
@@ -124,13 +134,7 @@ export default abstract class CssTwoAxis extends BasePropertyCss implements CssD
     
     set hasTwoValues(arg) {
         this._hasTwoValues = arg
-        if (!arg) {
-            this._yVal = null
-            this.yValUnit = null
-        } else {
-            this._yVal = 'center'
-            this.yValUnit = new Named()
-        }
+        
     }
       
     static getAccessableXAxisProperty(): any[] {
@@ -181,7 +185,7 @@ export default abstract class CssTwoAxis extends BasePropertyCss implements CssD
     }
     setSecondValue(val: string) {
         this.yVal = val
-        this.hasTwoValues = true
+        this._hasTwoValues = true
     }
     getSecondUnit(): Unit {
         return this.yValUnit

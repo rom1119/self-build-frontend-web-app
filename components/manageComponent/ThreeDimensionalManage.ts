@@ -2,7 +2,7 @@ import HtmlTag from '~/src/Layout/HtmlTag'
 import _ from 'lodash'
 import AbstractModal from '../AbstractModal'
 import BaseComputedPropertyManager from '../computedPropertyManagers/BaseComputedPropertyManager'
-import { FontWeight } from '~/src/Css';
+import { FontWeight, TransformOrigin } from '~/src/Css';
 import TextAlign from '../../src/Css/Text/TextAlign';
 import FontSize from '../../src/Css/Text/FontSize';
 import FontColor from '../../src/Css/Text/FontColor';
@@ -26,6 +26,7 @@ import Perspective from '../../src/Css/ThreeDimensional/Perspective';
 import PerspectiveProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/PerspectiveProperty';
 import PerspectiveOrigin from '../../src/Css/ThreeDimensional/PerspectiveOrigin';
 import PerspectiveOriginProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/PerspectiveOriginProperty';
+import TransformOriginProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/TransformOriginProperty';
 
 
 export default abstract class ThreeDimensionalManage extends AbstractManageComponent
@@ -34,6 +35,7 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
     backfaceVisibilityManager: BaseComputedPropertyManager<BackfaceVisibility>
     perspectiveManager: BaseComputedPropertyManager<Perspective>
     perspectiveOriginManager: BaseComputedPropertyManager<PerspectiveOrigin>
+    transformOriginManager: BaseComputedPropertyManager<TransformOrigin>
 
 
 
@@ -44,6 +46,7 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
         this.backfaceVisibilityManager = new BackfaceVisibilityProperty()
         this.perspectiveManager = new PerspectiveProperty()
         this.perspectiveOriginManager = new PerspectiveOriginProperty()
+        this.transformOriginManager = new TransformOriginProperty()
 
 
     }
@@ -58,6 +61,7 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
         this.backfaceVisibilityManager.setHtmlEl(val)
         this.perspectiveManager.setHtmlEl(val)
         this.perspectiveOriginManager.setHtmlEl(val)
+        this.transformOriginManager.setHtmlEl(val)
 
 
         // this.paddingManager.setFetcher(this.paddingRealFetcher)
@@ -68,6 +72,7 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
         this.backfaceVisibilityManager.init()
         this.perspectiveManager.init()
         this.perspectiveOriginManager.init()
+        this.transformOriginManager.init()
 
 
      

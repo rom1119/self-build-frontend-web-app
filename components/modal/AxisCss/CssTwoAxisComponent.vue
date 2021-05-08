@@ -1,16 +1,16 @@
 <template >
   <div >
     <div class="content-item__elem">
-      <h5>
+      <h5 class="font-md">
         Select amount values
       </h5>
       <label>
         Single value
-        <input type="radio" @change="change" name="selectAmountValues" id="" :value="false" v-model="value.hasTwoValues">
+        <input type="radio" @change="onChangeHasTwoValue" :name="'selectAmountValues' + radioBoxName"  :value="false" v-model="hasTwoValsComp">
       </label>
       <label>
         Double value
-        <input type="radio" @change="change" name="selectAmountValues" id="" :value="true" v-model="value.hasTwoValues">
+        <input type="radio" @change="onChangeHasTwoValue" :name="'selectAmountValues' + radioBoxName"  :value="true" v-model="hasTwoValsComp">
       </label>
     </div>
     <template v-if="value.hasTwoValues">
@@ -78,7 +78,7 @@
     <template v-else>
       <div class="content-item-half" >
             <h5>
-              global position
+              global-position
             </h5>
           <label for="" v-context-menu="cmNameGlobal">
             <select-unit-context-menu
@@ -128,9 +128,26 @@ export default class CssTwoAxisComponent extends Vue {
   cmNameLeft = Math.floor(Math.random() * 1000000000).toString() + "left";
   cmNameRight = Math.floor(Math.random() * 1000000000).toString() + "right";
   cmNameGlobal = Math.floor(Math.random() * 1000000000).toString() + "global";
+  radioBoxName = Math.floor(Math.random() * 1000000000).toString() + "radiobox";
 
   mounted() {
       // this.$refs.manageComponent = null
+      this.hasTwoVals = this.value.hasTwoValues
+      console.log(this.value);
+      console.log(this.value.hasTwoValues);
+      console.log(this.hasTwoVals);
+      console.log('moubnted CssTwoAxisComponent');
+      console.log(this.hasTwoVals);
+  }
+
+  hasTwoVals = false
+
+  get hasTwoValsComp() {
+    return this.hasTwoVals
+  }
+  set hasTwoValsComp(arg){
+    this.hasTwoVals = arg
+    this.value.hasTwoValues = arg
   }
 
   changeXNumericVal() {
@@ -148,6 +165,11 @@ export default class CssTwoAxisComponent extends Vue {
   }
   changeYKeywordVal() {
     this.value.onChangeYKeywordValue()
+    this.change()
+  }
+  
+  onChangeHasTwoValue() {
+    this.value.onChangeHasTwoValue()
     this.change()
   }
 
