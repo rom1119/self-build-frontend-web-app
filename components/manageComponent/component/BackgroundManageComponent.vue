@@ -82,24 +82,9 @@
               :class="{ active: hasBackgroundPosition }"
             >
               <h4 class="content-item__header">Background position</h4>
-              <ul class="content-item__elem_container">
-                <li
-                  class="content-item__elem"
-                  v-for="el in backgroundPositions"
-                  :key="el"
-                >
-                  <label :for="'backgroundPosition-' + el">
-                    {{ el }}
-                    <input
-                      type="radio"
-                      v-model="backgroundPosition"
-                      :value="el"
-                      name="backgroundPosition"
-                      :id="'backgroundPosition-' + el"
-                    />
-                  </label>
-                </li>
-              </ul>
+              <css-two-axis-component :value="backgroundPositionManager.getProperty()" @change="backgroundPositionManager.updateCssProp(backgroundPositionManager.getProperty())" />
+
+             
             </div>
             <div
               class="content-item"
@@ -189,6 +174,7 @@ import BackgroundImageProperty from '~/components/computedPropertyManagers/impl/
 import { BackgroundSize, BackgroundPosition, BackgroundRepeat, BackgroundAttachment, BackgroundColor } from '~/src/Css';
 import { UnitUrl, RGBA } from '~/src/Unit';
 import UnitColor from '~/src/Unit/UnitColor';
+import CssTwoAxisComponent from '../../modal/AxisCss/CssTwoAxisComponent.vue';
 
 interface colorObject {
   r;
@@ -202,7 +188,7 @@ interface Color {
 }
     @Component({
         components: {
-            Chrome
+            Chrome, CssTwoAxisComponent
         }
     })
     export default class BackgroundManageComponent extends BackgroundManage {

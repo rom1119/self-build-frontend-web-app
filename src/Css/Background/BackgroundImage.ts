@@ -29,6 +29,38 @@ export default class BackgroundImage extends CssSimple implements CssResource, G
 
     }
 
+    get value(): string {
+        var res = ''
+        if (this.gradients.length > 0) {
+            for (var i = 0; i < this.gradients.length; i++) {
+                var grad = this.gradients[i]
+                res += grad.getValue()
+                if (this.gradients.length - 1 > i) {
+                    res += ','
+                }
+            }
+
+            if (this.resource) {
+                res += ", " + this.unit.getValue(this.resource)
+            }
+            
+            if (this.resourceUrl) {
+                res += ", " + this.unit.getValue(this.resourceUrl)
+            }
+            // console.log('BACK_IMAG' , res);
+            
+            return res
+        }
+
+        if (this.resource) {
+            return this.unit.getValue(this.resource)
+        }
+        
+        if (this.resourceUrl) {
+            return this.unit.getValue(this.resourceUrl)
+        }
+        return ''
+    }
     getValue(): string
     {
         var res = ''

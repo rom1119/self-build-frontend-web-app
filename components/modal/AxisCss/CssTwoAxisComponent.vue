@@ -1,9 +1,9 @@
 <template >
-  <div class="content-item">
+  <div >
     <div class="content-item__elem">
-      <h4>
+      <h5>
         Select amount values
-      </h4>
+      </h5>
       <label>
         Single value
         <input type="radio" @change="change" name="selectAmountValues" id="" :value="false" v-model="value.hasTwoValues">
@@ -25,9 +25,12 @@
                 "
                 :ref="cmNameLeft"
             />
+            <h5>
+              X-position
+            </h5>
           <label for="">
-            predefined keyword for X-position
-            <select name="leftVal" :disabled="!value.canSelectXvalKeyword" v-model="value.xVal" @change="change" >
+            predefined keyword 
+            <select name="leftVal" :disabled="!value.canSelectXvalKeyword" v-model="value.xVal" @change="changeXKeywordVal" >
               <option v-for="el in value.getAccessableXAsixProperty()" :key="el" :value="el">
                 {{ el }}
               </option>
@@ -35,10 +38,10 @@
 
           </label>
           <label for="">
-            numeric value for X-position
+            numeric value
             <br>
             current unit ({{ value.xValUnit.label }})
-            <input type="number"  @input="change"  name="xPos" v-model="value.xVal">
+            <input type="number"  @input="changeXNumericVal"  name="xPos" v-model="value.xVal">
           </label>
         </div>
         <div class="content-item-half" v-context-menu="cmNameRight">
@@ -51,24 +54,32 @@
                 "
                 :ref="cmNameRight"
             />
+            <h5>
+              Y-position
+            </h5>
           <label for="">
-            predefined keyword for Y-position
-            <select name="rightVal" :disabled="!value.canSelectYvalKeyword" v-model="value.yVal" @change="change" >
+            predefined keyword 
+            <select name="rightVal" :disabled="!value.canSelectYvalKeyword" v-model="value.yVal" @change="changeYKeywordVal" >
               <option v-for="el in value.getAccessableYAsixProperty()" :key="el" :value="el">
                 {{ el }}
               </option>
             </select>
           </label>
           <label for="">
-            numeric value for Y-position
+            numeric value
+            <br>
+            current unit ({{ value.yValUnit.label }})
 
-            <input type="number"  @input="change" name="yPos" v-model="value.yVal">
+            <input type="number"  @input="changeYNumericVal" name="yPos" v-model="value.yVal">
           </label>
         </div>
       </div>
     </template>
     <template v-else>
       <div class="content-item-half" >
+            <h5>
+              global position
+            </h5>
           <label for="" v-context-menu="cmNameGlobal">
             <select-unit-context-menu
                   :propertyUnit="value.xValUnit"
@@ -79,17 +90,18 @@
                   "
                   :ref="cmNameGlobal"
               />
-            predefined keyword global
-            <select name="globalVal" v-model="value.xVal" @change="change" >
-              <option v-for="el in value.getAccessableXAsixProperty()" :key="el" :value="el">
+            predefined keyword
+            <select name="globalVal" :disabled="!value.canSelectXvalKeyword" v-model="value.xVal" @change="changeXKeywordVal" >
+              <option v-for="el in value.getAccessableProperty()" :key="el" :value="el">
                 {{ el }}
               </option>
             </select>
           </label>
           <label for="">
-            numeric value for global
-
-            <input type="number"  @input="change" name="globalPos" v-model="value.xVal">
+            numeric value
+            <br>
+            current unit ({{ value.xValUnit.label }})
+            <input type="number"  @input="changeXNumericVal" name="globalPos" v-model="value.xVal">
           </label>
         </div>
         
@@ -105,6 +117,7 @@ import _ from "lodash";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import AnimationManageComponent from "../manageComponent/component/AnimationManageComponent.vue";
 import CssTwoAxis from "~/src/Css/CssTwoAxis";
+import { Named, Pixel } from "~/src/Unit";
 
 @Component
 export default class CssTwoAxisComponent extends Vue {
@@ -118,6 +131,24 @@ export default class CssTwoAxisComponent extends Vue {
 
   mounted() {
       // this.$refs.manageComponent = null
+  }
+
+  changeXNumericVal() {
+    this.value.onChangeXNumericValue()
+    this.change()
+  }
+  changeYNumericVal() {
+    this.value.onChangeYNumericValue()
+    this.change()
+  }
+  
+  changeXKeywordVal() {
+    this.value.onChangeXKeywordValue()
+    this.change()
+  }
+  changeYKeywordVal() {
+    this.value.onChangeYKeywordValue()
+    this.change()
   }
 
   change() {

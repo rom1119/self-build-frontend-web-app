@@ -8,7 +8,7 @@
                         <h4 class="content-item__header">
                             Transform Style
                         </h4>
-                        <ul class=" content-item__elem_container">
+                        <ul class=" content-item__elem_container m-0">
                             <li class="content-item__elem" v-for="el in transformStyleList" :key="el">
                                 <label :for="'transformStyle-' + el">
                                     {{ el }}
@@ -22,7 +22,7 @@
                         <h4 class="content-item__header">
                             Backface Visibility
                         </h4>
-                        <ul class=" content-item__elem_container">
+                        <ul class=" content-item__elem_container m-0">
                             <li class="content-item__elem" v-for="el in backfaceVisibilityList" :key="el">
                                 <label :for="'backfaceVisibility-' + el">
                                     {{ el }}

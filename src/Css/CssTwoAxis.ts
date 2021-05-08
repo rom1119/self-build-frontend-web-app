@@ -8,9 +8,9 @@ import Named from '../Unit/Named';
 
 export default abstract class CssTwoAxis extends BasePropertyCss implements CssDoubleValue, CssPropertyLimitable
 {
-    protected _xVal: string = 'center'
+    protected _xVal: string = ''
     xValUnit: Unit = new Named()
-    protected _yVal: string = 'center'
+    protected _yVal: string = ''
     yValUnit: Unit = new Named()
 
     protected _hasTwoValues = false
@@ -30,6 +30,30 @@ export default abstract class CssTwoAxis extends BasePropertyCss implements CssD
         this.values.push(val)
     }
 
+    onChangeXKeywordValue() {
+        if (!(this.xValUnit instanceof Named)) {
+            this.xValUnit = new Named()
+        }
+    }
+    
+    onChangeYKeywordValue() {
+        if (!(this.yValUnit instanceof Named)) {
+            this.yValUnit = new Named()
+        }
+    }
+
+    onChangeXNumericValue() {
+        if (this.xValUnit instanceof Named) {
+            this.xValUnit = new Pixel()
+        }
+    }
+    
+    onChangeYNumericValue() {
+        if (this.yValUnit instanceof Named) {
+            this.yValUnit = new Pixel()
+        }
+    }
+
     get value(): any
     {
         if (this._hasTwoValues) {
@@ -39,14 +63,15 @@ export default abstract class CssTwoAxis extends BasePropertyCss implements CssD
         return this.xValUnit.getValue(this._xVal)
     }
 
+    getClearValue(): string
+    {
+        return this.xVal
+    }
+
     getValue(): string
     {
         if (this._xVal == 'undefined') {
             throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
-        }
-        if (this._xVal.toString().length < 1) {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
-
         }
         if (!this.xValUnit) {
             throw new Error(`CSS property ${this.getName()} not have set Unit` )
@@ -64,7 +89,7 @@ export default abstract class CssTwoAxis extends BasePropertyCss implements CssD
     
     set xVal(arg) {
         this._xVal = arg
-        if (!arg) {
+        if (!arg.length) {
             this.xValUnit = new Named()
         } else {
             
@@ -133,8 +158,9 @@ export default abstract class CssTwoAxis extends BasePropertyCss implements CssD
     static getAccessableProperty(): any[] {
         let props = []
 
-        props.concat(CssTwoAxis.getAccessableXAxisProperty(), CssTwoAxis.getAccessableYAxisProperty())
-   
+        props = props.concat(CssTwoAxis.getAccessableXAxisProperty(), CssTwoAxis.getAccessableYAxisProperty())
+        props.splice(props.indexOf(CssTwoAxis.CENTER), 1)
+        props.splice(props.indexOf(CssTwoAxis.UNSET), 1)
 
         return props
     }
