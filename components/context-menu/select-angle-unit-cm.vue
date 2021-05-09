@@ -8,9 +8,6 @@
                 </div>
 
             </context-menu-item>
-
-        
-
     </context-menu>
 </template>
 
@@ -23,15 +20,15 @@ import DefaultApiService from '~/src/Api/impl/DefaultApiService';
 import TextNode from '~/src/Layout/TextNode';
 import LayoutEl from '../../src/LayoutEl';
 import UnitSize from '~/src/Unit/UnitSize';
-import { Pixel, Percent, EM, REM, VH, Named } from '~/src/Unit';
+import { Pixel, Percent, EM, REM, VH, UnitSecond, UnitMiliSecond, UnitDeg, UnitGrad, UnitRad, UnitTurn } from '~/src/Unit';
 import VW from '../../src/Unit/Size/VW';
 import HtmlNode from '../../src/Layout/HtmlNode';
 import Unit from '../../src/Unit/Unit';
-import UnitDeg from '~/src/Unit/UnitAngle/UnitDeg';
-import UnitTurn from '~/src/Unit/UnitAngle/UnitTurn';
+import UnitTime from '~/src/Unit/UnitTime';
+import UnitAngle from '~/src/Unit/UnitAngle';
 
 @Component
-export default class SelectLinearGradientDirectionUnitContextMenu extends Vue {
+export default class SelectAngleUnitContextMenu extends Vue {
 
     // @Prop({required: true, default: null})
     // value: HtmlTag
@@ -42,7 +39,7 @@ export default class SelectLinearGradientDirectionUnitContextMenu extends Vue {
     htmlFactory: HtmlTagFactory = new HtmlTagFactory()
 
     api: ApiService
-    allUnits: UnitSize[] = []
+    allUnits: UnitAngle[] = []
 
 
     mounted() {
@@ -52,10 +49,11 @@ export default class SelectLinearGradientDirectionUnitContextMenu extends Vue {
 
         this.api = new DefaultApiService();
 
-        this.allUnits.push(new Named())
         this.allUnits.push(new UnitDeg())
         this.allUnits.push(new UnitTurn())
-        
+        this.allUnits.push(new UnitGrad())
+        this.allUnits.push(new UnitRad())
+
         
     }
 

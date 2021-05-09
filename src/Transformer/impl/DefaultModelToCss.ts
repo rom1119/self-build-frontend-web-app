@@ -34,12 +34,18 @@ import FontFaceAccessor from '~/src/Fonts/FontFaceAccessor';
 import { AnimationCssStruct } from '../../Css/Animation/AnimationCss';
 import KeyFrameAccessor from '../../Animation/KeyFrameAccessor';
 import AnimationCss from '../../Css/Animation/AnimationCss';
+import CssValueModelToTransformType from './CssValueModelToTransformType';
+import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
+import TransformCss from '../../Css/ThreeDimensional/TransformCss';
 export default class DefaultModelToCss implements ModelToCss
 {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
     private timingFunctionFactoryFromName: TimingFunctionFactoryFromName
+
+    private cssValueModelToTransformType: CssValueModelToTransformType
+
     // private styleTransformer: ModelToCss
 
     constructor()
@@ -47,6 +53,7 @@ export default class DefaultModelToCss implements ModelToCss
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         this.timingFunctionFactoryFromName = new TimingFunctionFactoryFromName()
+        this.cssValueModelToTransformType = new CssValueModelToTransformType()
         // this.styleTransformer = new HtmlTagFactoryFromName()
     }
 
@@ -155,11 +162,13 @@ export default class DefaultModelToCss implements ModelToCss
             var newDominGradient
             var newDominFontFamily
             var newDominAnimation
+            var newDominTransform
             newDominShadow = <BasePropertyCss><unknown>this.transformShadows(domain, model)
             newDominTransition = <BasePropertyCss><unknown>this.transformTransition(domain, model)
             newDominGradient = <BasePropertyCss><unknown>this.transformGradient(domain, model)
             newDominFontFamily = <BasePropertyCss><unknown>this.transformFontFamily(domain, model)
             newDominAnimation = <BasePropertyCss><unknown>this.transformAnimation(domain, model)
+            newDominTransform = <BasePropertyCss><unknown>this.transformCssTransform(domain, model)
             if (newDominShadow) {
                 domain = newDominShadow
             } else if (newDominTransition) {
@@ -170,6 +179,8 @@ export default class DefaultModelToCss implements ModelToCss
                 domain = newDominFontFamily
             } else if (newDominAnimation) {
                 domain = newDominAnimation
+            } else if (newDominTransform) {
+                domain = newDominTransform
             }
             // console.log('domain', domain);
             
@@ -190,14 +201,32 @@ export default class DefaultModelToCss implements ModelToCss
         if (domain instanceof FontFamily) {
             domainCastMultiplyVal = <CssMultipleValue<FontFamilyValDomain>><unknown>domain
             domain.clearValue()
+            for (const valCss of model.getValues()) {
+                let el = new FontFamilyValDomain(valCss.getValue(), valCss.getValueSecond())
+                el.id = valCss.id
+                el.fontFace = FontFaceAccessor.getFontByIdStatic(Number(valCss.getValueThird()))
+                domainCastMultiplyVal.addValue(el)
+            }
+
+            return domainCastMultiplyVal
+        }
+    }
+
+    private transformCssTransform(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<TransformCssStruct>
+        if (domain instanceof TransformCss) {
+            domainCastMultiplyVal = <CssMultipleValue<TransformCssStruct>><unknown>domain
+            domain.clearValue()
             // console.log('instanceOF TEXT_SHADOW TO-CSS');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
 
             // console.log('modelTOCss');
             for (const valCss of model.getValues()) {
-                let el = new FontFamilyValDomain(valCss.getValue(), valCss.getValueSecond())
+                var transformType = this.cssValueModelToTransformType.transform(valCss)
+                let el = new TransformCssStruct(transformType)
                 el.id = valCss.id
-                el.fontFace = FontFaceAccessor.getFontByIdStatic(Number(valCss.getValueThird()))
                 // console.log(el.id);
                 // console.log(el.fontFace);
 

@@ -71,7 +71,7 @@ import { BoxShadowStruct } from "~/src/Css/Shadow/BoxShadowCss";
 import { BaseGradientStructVal } from "~/src/Css/Gradient/BaseGradientCss";
 import LinearSites from "~/src/Css/Gradient/LinearSites";
 import { LinearGradientDirection } from "../../../src/Css/Gradient/impl/LinearGradientCss";
-import UnitTurn from "~/src/Unit/UnitTurn";
+import UnitTurn from "~/src/Unit/UnitAngle/UnitTurn";
 
 @Component({
   components: {

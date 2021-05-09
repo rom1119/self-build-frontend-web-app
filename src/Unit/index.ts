@@ -15,8 +15,11 @@ import VW from './Size/VW';
 
 // another
 import UnitUrl from './UnitUrl';
-import UnitDeg from './UnitDeg';
-import UnitTurn from './UnitTurn';
+// angle
+import UnitDeg from './UnitAngle/UnitDeg';
+import UnitTurn from './UnitAngle/UnitTurn';
+import UnitGrad from './UnitAngle/UnitGrad';
+import UnitRad from './UnitAngle/UnitRad';
 
 // time
 import UnitSecond from './Time/UnitSecond';
@@ -37,6 +40,8 @@ export {
     UnitUrl,
     UnitDeg,
     UnitTurn,
+    UnitGrad,
+    UnitRad,
     UnitSecond,
     UnitMiliSecond,
 }

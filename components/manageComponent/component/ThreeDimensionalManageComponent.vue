@@ -1,6 +1,42 @@
 <template>
     <div class="component-manage" v-if="value" >
         <div class="component-manage__content">
+            <div class="content-item__elem_container" @dblclick="hasTransform = !hasTransform" :class="{'active': hasTransform}">
+                <div class="container " style="overflow: scroll;">
+                    <h4 class="content-item__header">
+                        Transform
+                    </h4>
+                    <div v-if="canAddTransformValue" class="content-item__header rel">
+                        <label >
+                        <span v-if="selectedTransformTypeName">
+                            curr {{ selectedTransformTypeName }}
+                        
+                        </span>
+                            <select :name="transformTypeName" v-model="selectedTransformTypeName" >
+                                <option v-for="el, kk in transform.availableTypes()" :key="kk" :value="el.getName()">
+                                    {{ el.getName() }}
+                                </option>
+                            </select>
+                        </label>
+                        <button class="right-btn btn btn_sm" @click="addTransformValue"> Add value </button>
+                    
+                        <br>
+                        <span v-show="transform.addValueError" class="error">
+                            {{ transform.addValueError }}
+                        </span>
+                    </div>
+                    <div 
+                        v-for="transformVal in transform.values" 
+                        :key="transformVal.id" 
+                        class="content-item-left green-b p-2 rel">
+                        <span class="p-abs" style="right: 0px;">
+                            <span class="btn btn_red  btn_sm" @click="removeTransformValue(transformVal)"> USUN KLATKĘ </span>
+                        </span>
+                        <transform-val-component :value="transformVal" @change="transformManager.updateCssProp(transformManager.getProperty())" :transform="transform" />
+
+                    </div>
+                </div>
+            </div>
             <div class="content-item__elem_container" @dblclick="hasTransformOrigin = !hasTransformOrigin" :class="{'active': hasTransformOrigin}">
                  <h4 class="content-item__header">
                     Transform Origin
@@ -92,10 +128,14 @@ import TransformStyle from '~/src/Css/ThreeDimensional/TransformStyle';
 import BackfaceVisibility from '../../../src/Css/ThreeDimensional/BackfaceVisibility';
 import TransformOriginComponent from '../../modal/AxisCss/TransformOriginComponent.vue';
 import { TransformOrigin } from '~/src/Css';
+import TransformValComponent from '~/components/modal/ThreeDimensional/TransformValComponent.vue';
+import TransformType from '~/src/Css/ThreeDimensional/TransformType';
+import { TransformCssStruct } from '~/src/Css/ThreeDimensional/TransformCss';
+import TransformTypeFactoryFromName from '~/src/Factory/TransformTypeFactoryFromName';
 
     @Component({
         components: {
-            Chrome, CssTwoAxisComponent, TransformOriginComponent
+            Chrome, CssTwoAxisComponent, TransformOriginComponent, TransformValComponent
         }
     })
     export default class ThreeDimensionalManageComponent extends ThreeDimensionalManage {
@@ -129,6 +169,7 @@ import { TransformOrigin } from '~/src/Css';
 
         cmNamePerspective = Math.floor(Math.random() * 1000000000).toString() + 'perspective'
         cmNameLineHeight = Math.floor(Math.random() * 1000000000).toString() + 'line-height'
+        transformTypeName = Math.floor(Math.random() * 1000000000).toString() + 'transformType-select'
 
         transformStyleList: string[] = TransformStyle.getAccessableProperty()
         backfaceVisibilityList: string[] = BackfaceVisibility.getAccessableProperty()
@@ -138,6 +179,8 @@ import { TransformOrigin } from '~/src/Css';
 
         pickerActive = false
         units: UnitSize[] = []
+
+        selectedTransformTypeName: string = null
 
         idName = 'text-property-modal'
 
@@ -293,6 +336,46 @@ import { TransformOrigin } from '~/src/Css';
                 this.transformOriginManager.deactivePropCss(this.transformOriginManager.getProperty())
             } else {
                 this.transformOriginManager.activePropCss(this.transformOriginManager.getProperty())
+            }
+        }
+
+         // *****************************************  TRANSFORM ****************************************************
+
+        addTransformValue() {
+            var transformTypeFactory = new TransformTypeFactoryFromName()
+            var selectedTransformType =  transformTypeFactory.create(this.selectedTransformTypeName)
+            var val = new TransformCssStruct(selectedTransformType)
+            this.transform.addValue(val)
+            this.selectedTransformTypeName = null
+
+            this.transformManager.updateCssProp(this.transform)
+        }
+
+        removeTransformValue(val: TransformCssStruct) {
+            this.transform.removeValue(val)
+            this.transformManager.updateCssProp(this.transform)
+        }
+
+        get canAddTransformValue() {
+            return this.transform.canAddTransformValue
+        }
+
+        get transform()
+        {
+            return  this.transformManager.getProperty()
+        }
+
+        get hasTransform()
+        {
+            return  this.transformManager.getProperty().active
+        }
+
+        set hasTransform(newVal: boolean)
+        {
+            if (!newVal) {
+                this.transformManager.deactivePropCss(this.transformManager.getProperty())
+            } else {
+                this.transformManager.activePropCss(this.transformManager.getProperty())
             }
         }
 

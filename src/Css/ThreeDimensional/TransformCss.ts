@@ -21,198 +21,40 @@ import CssOwner from '../../CssOwner';
 import KeyFrameAccessor from '../../Animation/KeyFrameAccessor';
 import KeyFrame from '../../Animation/KeyFrame';
 import UnitTime from '../../Unit/UnitTime';
+import TransformType from './TransformType';
+import TransformTypeFactoryFromName from '../../Factory/TransformTypeFactoryFromName';
 
-export class AnimationCssStruct implements CssValue {
+export class TransformCssStruct implements CssValue {
     id
-    protected _duration: number
-    protected _timingFunction: TimingFunction
-    protected _delay: number
-    protected _iterationCount: string
-    protected _direction: string
-    protected _fillMode: string
-    protected _playState: string
-    protected _keyFrame: KeyFrame
+    protected _value: TransformType
+    
 
-    protected _timeUnit: UnitTime = new UnitSecond()
-    protected _delayUnit: UnitTime = new UnitSecond()
-    protected _timingFunctionUnit: Named = new Named()
-
+    constructor(value: TransformType) {
+        this._value = value
+    }
     
     getId(): number {
         return this.id
     }
-    
-    get keyFrameName()
-    {
-        if (this.keyFrame) {
-            return this.keyFrame.name
-        }
 
-        return null
+    get value()
+    {
+        return this._value
     }
     
-    get keyFrameId()
-    {
-        if (this.keyFrame) {
-            return this.keyFrame.uuid
-        }
-
-        return null
-    }
-    get durationUnit()
-    {
-        return this._timeUnit
-    }
+    // set value(arg)
+    // {
+    //     this._value = arg
+    // }
     
-    set durationUnit(arg)
-    {
-        this._timeUnit = arg
-    }
-    
-    get delayUnit()
-    {
-        return this._delayUnit
-    }
-    
-    set delayUnit(arg)
-    {
-        this._delayUnit = arg
-    }
-    
-
-    set iterationCount(val)
-    {
-        Vue.set(this, '_iterationCount', val)
-
-    }
-    
-    get iterationCount()
-    {
-        return this._iterationCount
-    }
-    
-    set duration(val)
-    {
-        Vue.set(this, '_duration', val)
-    }
-    
-    get duration()
-    {
-        return this._duration
-    }
-    
-    set timingFunction(val: TimingFunction)
-    {
-        Vue.set(this, '_timingFunction', val)
-    }
-    
-    get timingFunction(): TimingFunction
-    {
-        return this._timingFunction
-    }
-    
-    set delay(val)
-    {
-        this._delay = val
-    }
-    
-    get delay()
-    {
-        return this._delay
-    }
-    
-    set direction(val)
-    {
-        this._direction = val
-    }
-    
-    get direction()
-    {
-        return this._direction
-    }
-    
-    set fillMode(val)
-    {
-        this._fillMode = val
-    }
-    
-    get fillMode()
-    {
-        return this._fillMode
-    }
-    
-    set playState(val)
-    {
-        this._playState = val
-    }
-    
-    get playState()
-    {
-        return this._playState
-    }
-    
-    set keyFrame(val)
-    {
-        this._keyFrame = val
-    }
-    
-    get keyFrame()
-    {
-        return this._keyFrame
-    }
-
-    get delayValue() {
-        
-        if (this.delayUnit) {
-            return this.delayUnit.getValue(this.delay)
-        }
-        return ''
-    }
-    
-    get durationValue() {
-        
-        if (this.durationUnit) {
-            return this.durationUnit.getValue(this.duration)
-        }
-        return ''
-    }
     
 
     getFullValue(): string
     {
         var str = ''
 
-        if (this.duration) {
-            str += `${this.durationValue}`  
-        }
-        if (this.timingFunction) {
-            str += ` ${this.timingFunction.getValue()}`
-            
-        }
-        if (this.delay) {
-            str += ` ${this.delayValue}`  
-        }
-        
-        if (this.iterationCount) {
-            str += ` ${this.iterationCount}`  
-        }
-        
-        if (this.direction) {
-            str += ` ${this.direction}`  
-        }
-        
-        if (this.fillMode) {
-            str += ` ${this.fillMode}`  
-        }
-        
-        if (this.playState) {
-            str += ` ${this.playState}`  
-        }
-        
-        
-        if (this.keyFrame) {
-            str += ` ${this.keyFrame.name}`  
-
+        if (this.value) {
+            str += `${this.value.getValue()}`  
         }
       
 
@@ -221,24 +63,45 @@ export class AnimationCssStruct implements CssValue {
     
 }
 
-export default class TransformCss extends BasePropertyCss implements CssMultipleValue<AnimationCssStruct>
+export default class TransformCss extends BasePropertyCss implements CssMultipleValue<TransformCssStruct>
 {
+    
     public static PROP_NAME = 'transform'
+    
+    protected transformTypeFactory: TransformTypeFactoryFromName
+
     constructor()
     {
         super(new Pixel())
+        this.transformTypeFactory = new TransformTypeFactoryFromName()
         // var val = new AnimationCssStruct()
         // val.duration = AnimationCss.DEFAULT_DURATION
         // val.timingFunction = AnimationCss.DEFAULT_TIMING_FUNCTION
         this.values = []
         this.clearValue()
-        // this.values.push(val)
-        // var shadow = this.createClearValue()
         
+    }
 
-        // this.values.push(shadow)
-        // Vue.set(this.values, 0, shadow)
+     availableTypes(): TransformType[] {
+        var all = this.transformTypeFactory.createAll()
+        var res = []
+        console.log('get availableTypes');
+        console.log('all', all);
         
+        
+        for (const el of all) {
+            if (!this.hasValueWithType(el)) {
+                res.push(el)
+            }
+        }
+        console.log('res', res);
+
+        return res
+    }
+
+    get canAddTransformValue(): boolean
+    {
+        return true
     }
 
     public initOwner(owner: CssOwner) {
@@ -253,19 +116,30 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
 
     // addValueWith()
 
-    getValueByIndex(index: number): AnimationCssStruct {
+    getValueByIndex(index: number): TransformCssStruct {
         return this.values[index]
     }
 
-    getValues(): AnimationCssStruct[] {
+    getValues(): TransformCssStruct[] {
         return this.values
     }
-    addValue(val: AnimationCssStruct) {
+    addValue(val: TransformCssStruct) {
         // throw new Error("Method not implemented.");
         this.values.push(val)
     }
-    removeValue(val: AnimationCssStruct) {
-        throw new Error("Method not implemented.");
+    removeValue(val: TransformCssStruct) {
+        var indx = null
+        for (const key in this.values) {
+            var el = this.values[key]
+            if (val.id === el.id) {
+                indx = key
+                break
+            }
+        }
+
+        if (indx != null) {
+            this.values.splice(indx, 1)
+        }
     }
 
     setValue(val: any)
@@ -273,11 +147,21 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         return false        // this.values.push(val)
     }
 
+    protected hasValueWithType(el: TransformType): boolean {
+        
+        for (const val of this.values) {
+            if (val.value.getName() === el.getName()) {
+                return true
+            }
+        }
+        return false
+    }
+
     getValue(): string
     {
-        if (this.values.length == 0) {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
-        }
+        // if (this.values.length == 0) {
+        //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+        // }
         // if (this.values[0].toString().length < 1) {
         //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
 
@@ -305,6 +189,8 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         
         return val
     }
+
+
 
     
 }

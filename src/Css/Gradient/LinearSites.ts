@@ -2,8 +2,8 @@ import CssPropertyLimitable from '../CssPropertyLimitable';
 import PredefinedKeywords from './PredefinedKeywords';
 import CssUnitLimitable from '../CssUnitLimitable';
 import Unit from '~/src/Unit/Unit';
-import UnitDeg from '../../Unit/UnitDeg';
-import UnitTurn from '../../Unit/UnitTurn';
+import UnitDeg from '../../Unit/UnitAngle/UnitDeg';
+import UnitTurn from '../../Unit/UnitAngle/UnitTurn';
 export default class LinearSites implements CssPropertyLimitable, PredefinedKeywords, CssUnitLimitable
 {
     

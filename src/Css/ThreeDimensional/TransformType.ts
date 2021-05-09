@@ -1,11 +1,11 @@
 import CssSimple from "../CssSimple";
 import CssPropertyLimitable from "../CssPropertyLimitable";
 
-export default abstract class TransformType 
+export default interface TransformType 
 {
 
-    public abstract getName(): string 
-
+    getName(): string 
+    getValue(): string 
   
 
 

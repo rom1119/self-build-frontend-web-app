@@ -32,11 +32,16 @@ import FontFamily from '../../Css/Text/FontFamily';
 import FontFamilyValDomain from '../../Fonts/FontFamilyValDomain';
 import { AnimationCssStruct } from '../../Css/Animation/AnimationCss';
 import AnimationCss from '../../Css/Animation/AnimationCss';
+import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
+import TransformCss from '../../Css/ThreeDimensional/TransformCss';
+import TransformTypeToCssValueModel from './TransformTypeToCssValueModel';
 export default class DefaultCssToModel implements CssToModel
 {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
+
+    private transformTypeToCssValueModel: TransformTypeToCssValueModel
     // private styleTransformer: ModelToCss
 
     private mediaQuery: BaseMediaQueryCss
@@ -45,6 +50,7 @@ export default class DefaultCssToModel implements CssToModel
     {
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
+        this.transformTypeToCssValueModel = new TransformTypeToCssValueModel()
         // this.styleTransformer = new HtmlTagFactoryFromName()
     }
 
@@ -109,6 +115,7 @@ export default class DefaultCssToModel implements CssToModel
             this.transformGradient(domain, model)
             this.transformFontFamily(domain, model)
             this.transformAnimation(domain, model)
+            this.transformCssTransform(domain, model)
             model.setAsMultiple()
             // model.setValueSecond(domainCast.getSecondValue())
             // model.setUnitNameSecond(domainCast.getSecondUnit().name)
@@ -246,6 +253,26 @@ export default class DefaultCssToModel implements CssToModel
 
     }
 
+    private transformCssTransform(domain: BasePropertyCss, model: StyleCssModel)
+    {
+        var values = []
+        var domainCastMultiplyVal: CssMultipleValue<TransformCssStruct>
+        if (domain instanceof TransformCss) {
+            domainCastMultiplyVal = <CssMultipleValue<TransformCssStruct>><unknown>domain
+            // console.log('instanceOF TEXT_SHADOW TO-MODEL');
+            // console.log(domainCastMultiplyVal instanceof TextShadowCss);
+
+            for (const valCss of domainCastMultiplyVal.getValues()) {
+                valCss
+                let el = this.transformTypeToCssValueModel.transform(valCss)
+
+                values.push(el)
+            }
+            model.setValue(null)
+            model.setValues(values)
+
+        }
+    }
     private transformAnimation(domain: BasePropertyCss, model: StyleCssModel)
     {
         var values = []

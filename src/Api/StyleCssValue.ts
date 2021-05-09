@@ -28,7 +28,7 @@ export default class StyleCssValue
     private _inset
     private _specialValGradient
 
-    constructor(val: any, unitName: string)
+    constructor(val?: any, unitName?: string)
     {
         this._val = val
         this._unitName = unitName

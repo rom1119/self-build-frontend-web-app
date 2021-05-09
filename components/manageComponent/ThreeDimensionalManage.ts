@@ -27,6 +27,8 @@ import PerspectiveProperty from '../computedPropertyManagers/impl/ComputedProper
 import PerspectiveOrigin from '../../src/Css/ThreeDimensional/PerspectiveOrigin';
 import PerspectiveOriginProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/PerspectiveOriginProperty';
 import TransformOriginProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/TransformOriginProperty';
+import TransformCss from '../../src/Css/ThreeDimensional/TransformCss';
+import TransformCssProperty from '../computedPropertyManagers/impl/ComputedProperty/ThreeDimensional/TransformCssProperty';
 
 
 export default abstract class ThreeDimensionalManage extends AbstractManageComponent
@@ -36,6 +38,7 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
     perspectiveManager: BaseComputedPropertyManager<Perspective>
     perspectiveOriginManager: BaseComputedPropertyManager<PerspectiveOrigin>
     transformOriginManager: BaseComputedPropertyManager<TransformOrigin>
+    transformManager: BaseComputedPropertyManager<TransformCss>
 
 
 
@@ -47,6 +50,7 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
         this.perspectiveManager = new PerspectiveProperty()
         this.perspectiveOriginManager = new PerspectiveOriginProperty()
         this.transformOriginManager = new TransformOriginProperty()
+        this.transformManager = new TransformCssProperty()
 
 
     }
@@ -62,6 +66,7 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
         this.perspectiveManager.setHtmlEl(val)
         this.perspectiveOriginManager.setHtmlEl(val)
         this.transformOriginManager.setHtmlEl(val)
+        this.transformManager.setHtmlEl(val)
 
 
         // this.paddingManager.setFetcher(this.paddingRealFetcher)
@@ -73,6 +78,7 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
         this.perspectiveManager.init()
         this.perspectiveOriginManager.init()
         this.transformOriginManager.init()
+        this.transformManager.init()
 
 
      

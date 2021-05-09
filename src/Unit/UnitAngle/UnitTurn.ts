@@ -1,6 +1,7 @@
-import Unit from "./Unit";
+import Unit from "../Unit";
+import UnitAngle from '../UnitAngle';
 
-export default class UnitTurn extends Unit {
+export default class UnitTurn extends UnitAngle {
 
     public static PROP_NAME = 'turn-unit'
 
