@@ -120,7 +120,7 @@ export default class CssValueModelToTransformType
         arg.valThird = Number(el.getValueThird())
         arg.valFourth = Number(el.getValueFourth())
 
-        var unit = this.unitFactory.create(el.getUnitName())
+        var unit = this.unitFactory.create(el.getUnitNameFourth())
 
         arg.valForthUnit = unit
 

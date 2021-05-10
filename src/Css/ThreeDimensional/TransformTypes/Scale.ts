@@ -9,10 +9,10 @@ export default class Scale implements TransformType
 {
     public static PROP_NAME = 'scale'
 
-    val: number = 2
+    val: number = 1
     unit: Unit = new Named()
     
-    valSecond: number = 2
+    valSecond: number = 1
     unitSecond: Unit = new Named()
 
     getValue(): string {

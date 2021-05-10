@@ -90,6 +90,7 @@ import CssOwner from '../CssOwner';
 import ActivableTagToAnimation from '../ActivableTagToAnimation';
 import KeyFrameSelector from '../Animation/KeyFrameSelector';
 import BaseSelector from '../BaseSelector';
+import TransformCss from '../Css/ThreeDimensional/TransformCss';
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, ActivableTagToAnimation, SelectorOwner, HtmlAttrOwner, CssOwner
@@ -879,41 +880,6 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this.cssAccessor.isPropertyLikeThis(cssProp, 'background')
     }
 
-    private isLikePositionCss(cssProp: BasePropertyCss): boolean
-    {
-        return this.cssAccessor.isPropertyLikeThis(cssProp, PositionCss.PROP_NAME)
-    }
-
-    private filterCss(css: BasePropertyCss): boolean
-    {
-        if (css instanceof BasePaddingCss) {
-            return true
-        }
-
-        if (css instanceof BaseMarginCss) {
-            return true
-        }
-
-        if (css instanceof BaseBorderCss) {
-            return true
-        }
-
-        if (css instanceof ContentSizeCss) {
-            return true
-        }
-
-        if (css instanceof BoxSizing) {
-            return true
-        }
-
-        if (this.isLikeBackgroundCss(css)) {
-            return true
-        }
-
-        return false
-
-    }
-
     canAddToCssList(css: BasePropertyCss): boolean
     {
         if (css instanceof BasePaddingCss) {
@@ -937,6 +903,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
 
         if (css instanceof PositionCss) {
+            return false
+        }
+        
+        if (css instanceof TransformCss) {
             return false
         }
 

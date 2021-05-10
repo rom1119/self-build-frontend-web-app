@@ -6,6 +6,7 @@ import BaseGradientCss from '~/src/Css/Gradient/BaseGradientCss';
 import { BackgroundImage } from '~/src/Css';
 import BasePropertyCss from '../../Css/BasePropertyCss';
 import FontFamily from '../../Css/Text/FontFamily';
+import TransformCss from '../../Css/ThreeDimensional/TransformCss';
 export default class CssStyleUpdater implements IDSUpdater<BasePropertyCss, StyleCssResponse> {
 
     update(domain: BasePropertyCss, results: StyleCssResponse) {
@@ -32,7 +33,7 @@ export default class CssStyleUpdater implements IDSUpdater<BasePropertyCss, Styl
                     }
                 }
 
-                if (cssDomain instanceof FontFamily) {
+                if ((cssDomain instanceof FontFamily) || (cssDomain instanceof TransformCss)) {
                     // @ts-ignore
 
                     const cssValDomain = cssDomain.getValues()[i]

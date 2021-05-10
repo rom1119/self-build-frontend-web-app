@@ -1,11 +1,13 @@
 <template >
   <div >
-  
+    <h4>{{ value.value.getName() }}</h4>
     <component 
       :is="getComponentNameByTransformType(value.value)"
        :value="value.value" 
        @change="change"
-       :transform="transform" />
+       :transform="transform"
+       :transformVal="value"
+        />
   </div>
 </template>
 
@@ -23,9 +25,9 @@ import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
 import TransformType from "~/src/Css/ThreeDimensional/TransformType";
 import { Rotate, Rotate3D, Scale, Skew, Translate, Translate3D } from "~/src/Css/ThreeDimensional/TransformTypes";
 import RotateComponent from './TransformType/RotateComponent.vue';
-import Rotate3DComponent from './TransformType/Rotate3DComponent.vue';
+import RotateThreedimensionalComponent from './TransformType/RotateThreedimensionalComponent.vue';
 import TranslateComponent from './TransformType/TranslateComponent.vue';
-import Translate3DComponent from './TransformType/Translate3DComponent.vue';
+import TranslateThreedimensionalComponent from './TransformType/TranslateThreedimensionalComponent.vue';
 import ScaleComponent from './TransformType/ScaleComponent.vue';
 import SkewComponent from './TransformType/SkewComponent.vue';
 
@@ -33,9 +35,9 @@ import SkewComponent from './TransformType/SkewComponent.vue';
     components: {
         CssTwoAxisComponent, 
         RotateComponent,
-        Rotate3DComponent,
+        RotateThreedimensionalComponent,
         TranslateComponent,
-        Translate3DComponent,
+        TranslateThreedimensionalComponent,
         ScaleComponent,
         SkewComponent,
     }
@@ -61,7 +63,7 @@ export default class TransformValComponent extends Vue {
     }
     
     if (el instanceof Rotate3D) {
-      return 'rotate-3d-component'
+      return 'rotate-threedimensional-component'
     }
     
     if (el instanceof Translate) {
@@ -69,7 +71,7 @@ export default class TransformValComponent extends Vue {
     }
     
     if (el instanceof Translate3D) {
-      return 'translate-3d-component'
+      return 'translate-threedimensional-component'
     }
     
     if (el instanceof Scale) {

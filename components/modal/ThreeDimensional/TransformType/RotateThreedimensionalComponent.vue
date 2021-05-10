@@ -1,27 +1,59 @@
 <template >
-  <div >
-  
+  <div class="d-flex" style="flex-direction: column;" >
+    <div class=" d-flex"  >
+      <div class="content-item-half "  >
+          <h5 class="p-0 m-0">
+            X position
+          </h5>
+
+        <label for="">
+          numeric value
+          <input type="number" step=".01" class="w50px" @input="change"  name="zPos" v-model="value.val">
+        </label>
+      </div>
+      <div class="content-item-half "  >
+          <h5 class="p-0 m-0">
+            Y position
+          </h5>
+
+        <label for="">
+          numeric value
+          <input type="number" step=".01" class="w50px"  @input="change" name="yPos" v-model="value.valSecond">
+        </label>
+      </div>
+    </div>
+    <div class="d-flex"  >
+    <div class="content-item-half "  >
+        <h5 class="p-0 m-0">
+          Z position
+        </h5>
+
+      <label for="">
+        numeric value
+        <input type="number" step=".01" class="w50px" @input="change" name="zPos" v-model="value.valThird">
+      </label>
+    </div>
       <div class="content-item-half " v-context-menu="cmNameZOffset" >
             <h5 class="p-0 m-0">
               Z position
             </h5>
             <select-angle-unit-context-menu
-                  :propertyUnit="value.valUnit"
+                  :propertyUnit="value.valForthUnit"
                   @changePropUnit="
                   ($event) => {
-                      value.valUnit = $event; change();
+                      value.valForthUnit = $event; change();
                   }
                   "
                   :ref="cmNameZOffset"
               />
           <label for="">
             numeric value
+            <input type="number"  class="w50px" @input="change" name="zPos" v-model="value.valFourth">
             <br>
-            current unit ({{ value.valUnit.label }})
-            <input type="number"  @input="change" name="zPos" v-model="value.val">
+            current unit ({{ value.valForthUnit.label }})
           </label>
         </div>
-    
+    </div>
   </div>
 </template>
 
@@ -43,13 +75,16 @@ import { Rotate3D } from "~/src/Css/ThreeDimensional/TransformTypes";
         CssTwoAxisComponent
     }
 })
-export default class Rotate3DComponent extends Vue {
+export default class RotateThreedimensionalComponent extends Vue {
   
   @Prop({required: true, default: null})
   value: Rotate3D
   
   @Prop({required: true, default: null})
   transform: TransformCss
+
+  @Prop({required: true, default: null})
+  transformVal: TransformCssStruct
 
   cmNameZOffset = Math.floor(Math.random() * 1000000000).toString() + "zoffset";
 

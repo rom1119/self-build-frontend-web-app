@@ -170,7 +170,7 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         this.values.forEach((element, key) => {
             val += element.getFullValue()
             if (key < this.values.length - 1) {
-                val += ', '
+                val += ' '
             }
         });
         
@@ -183,7 +183,7 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         this.values.forEach((element, key) => {
             val += element.getFullValue()
             if (key < this.values.length - 1) {
-                val += ', '
+                val += ' '
             }
         });
         

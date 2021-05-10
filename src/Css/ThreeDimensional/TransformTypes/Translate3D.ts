@@ -11,7 +11,7 @@ export default class Translate3D implements TransformType
     public static PROP_NAME = 'translate3d'
 
     val: number = 200
-    unit: Unit
+    unit: Unit = new Pixel()
     
     valSecond: number = 20
     unitSecond: Unit = new Pixel()

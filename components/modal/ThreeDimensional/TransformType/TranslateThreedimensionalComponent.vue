@@ -1,6 +1,5 @@
 <template >
   <div class="d-flex">
-  
       <div class="content-item-half " v-context-menu="cmNameXOffset" >
             <h5 class="p-0 m-0">
               X position
@@ -41,6 +40,26 @@
             <input type="number" class="w50px" @input="change" name="yPos" v-model="value.valSecond">
           </label>
       </div>
+      <div class="content-item-half " v-context-menu="cmNameZOffset" >
+            <h5 class="p-0 m-0">
+              Z position
+            </h5>
+            <select-angle-unit-context-menu
+                  :propertyUnit="value.unitThird"
+                  @changePropUnit="
+                  ($event) => {
+                      value.unitThird = $event; change();
+                  }
+                  "
+                  :ref="cmNameZOffset"
+              />
+          <label for="">
+            numeric value
+            <br>
+            current unit ({{ value.unitThird.label }})
+            <input type="number"  @input="change" name="zPos" v-model="value.valThird">
+          </label>
+        </div>
     
   </div>
 </template>
@@ -56,17 +75,17 @@ import { Named, Pixel } from "~/src/Unit";
 import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.vue';
 import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
-import { Rotate, Translate } from "~/src/Css/ThreeDimensional/TransformTypes";
+import { Rotate, Translate, Translate3D } from "~/src/Css/ThreeDimensional/TransformTypes";
 
 @Component({
     components: {
         CssTwoAxisComponent
     }
 })
-export default class TranslateComponent extends Vue {
+export default class TranslateThreedimensionalComponent extends Vue {
   
   @Prop({required: true, default: null})
-  value: Translate
+  value: Translate3D
   
   @Prop({required: true, default: null})
   transform: TransformCss
@@ -76,6 +95,7 @@ export default class TranslateComponent extends Vue {
 
   cmNameXOffset = Math.floor(Math.random() * 1000000000).toString() + "xoffset";
   cmNameYOffset = Math.floor(Math.random() * 1000000000).toString() + "yoffset";
+  cmNameZOffset = Math.floor(Math.random() * 1000000000).toString() + "zoffset";
 
 
   mounted() {

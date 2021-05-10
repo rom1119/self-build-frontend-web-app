@@ -1,5 +1,5 @@
 <template >
-  <div >
+  <div class="d-flex">
   
       <div class="content-item-half " >
           <h5 class="p-0 m-0">
@@ -9,7 +9,7 @@
         <label for="">
 
           current unit ({{ value.unit.label }})
-          <input type="number"  @input="change" :name="'xPos' + transformVal.id" v-model="value.val">
+          <input type="number" step=".01" class="w50px" @input="change" :name="'xPos' + transformVal.id" v-model="value.val">
         </label>
       </div>
 
@@ -21,7 +21,7 @@
         <label for="">
 
           current unit ({{ value.unitSecond.label }})
-          <input type="number"  @input="change" :name="'yPos' + transformVal.id" v-model="value.valSecond">
+          <input type="number" step=".01" class="w50px"  @input="change" :name="'yPos' + transformVal.id" v-model="value.valSecond">
         </label>
       </div>
     

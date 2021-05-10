@@ -51,6 +51,9 @@ export default class RotateComponent extends Vue {
   @Prop({required: true, default: null})
   transform: TransformCss
 
+  @Prop({required: true, default: null})
+  transformVal: TransformCssStruct
+
   cmNameZOffset = Math.floor(Math.random() * 1000000000).toString() + "zoffset";
 
 
