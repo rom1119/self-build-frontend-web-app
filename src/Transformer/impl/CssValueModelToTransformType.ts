@@ -1,13 +1,6 @@
 import StyleCssValue from '../../Api/StyleCssValue';
 import TransformType from '../../Css/ThreeDimensional/TransformType';
-import Rotate from '../../Css/ThreeDimensional/TransformTypes/Rotate';
 import Rotate3D from '../../Css/ThreeDimensional/TransformTypes/Rotate3D';
-import Named from '../../Unit/Named';
-import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
-import Translate from '../../Css/ThreeDimensional/TransformTypes/Translate';
-import Translate3D from '../../Css/ThreeDimensional/TransformTypes/Translate3D';
-import Scale from '../../Css/ThreeDimensional/TransformTypes/Scale';
-import Skew from '../../Css/ThreeDimensional/TransformTypes/Skew';
 import TransformTypeFactoryFromName from '../../Factory/TransformTypeFactoryFromName';
 import UnitCssPropertyFactoryFromName from '../../Factory/UnitCssPropertyFactoryFromName';
 import CssWithThreeValues from '../../Css/CssWithThreeValues';
@@ -137,7 +130,6 @@ export default class CssValueModelToTransformType
         arg.valFourteenth = Number(vals[13])
         arg.valFifteenth = Number(vals[14])
         arg.valSixteenth = Number(vals[15])
-
 
         return arg
     }

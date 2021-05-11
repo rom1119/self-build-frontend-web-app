@@ -8,7 +8,7 @@ export default class Rotate  implements TransformType, CssWithOneValue
 {
     public static PROP_NAME = 'rotate'
 
-    val: number = 90
+    val: number = 45
     unit: UnitAngle = new UnitDeg()
 
     getValue(): string {

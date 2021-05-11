@@ -152,7 +152,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
             return propertyArg
         }
         propertyArg.setActive(false)
-        let copy = _.cloneDeep(propertyArg)
+        let copy = propertyArg.deepCopy(propertyArg)
         propertyArg = copy
         this.setTmpPropertyToModel(copy)
         if (val) {
@@ -192,7 +192,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         }
 
         propertyArg.setActive(false)
-        let copy = _.cloneDeep(propertyArg)
+        let copy = propertyArg.deepCopy(propertyArg)
         propertyArg = copy
         this.setTmpPropertyToModel(copy)
         if (clearWidth) {
@@ -338,7 +338,7 @@ export default class BorderComputedPropertyManager implements DirectionComputedP
         // console.log(newProp.getUnit());
         // console.log(newProp);
         let val = this.value.getComputedCssVal(newProp)
-        let clonedCss: BaseBorderCss = _.cloneDeep(newProp)
+        let clonedCss: BaseBorderCss = newProp.deepCopy(newProp)
         clonedCss.setWidth(parseInt(val), new Pixel())
         // clonedCss.setUnit()
         // console.log(newProp);

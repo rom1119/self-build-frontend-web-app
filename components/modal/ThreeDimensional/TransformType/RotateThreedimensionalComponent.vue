@@ -7,7 +7,6 @@
           </h5>
 
         <label for="">
-          numeric value
           <input type="number" step=".01" class="w50px" @input="change"  name="zPos" v-model="value.val">
         </label>
       </div>
@@ -17,7 +16,6 @@
           </h5>
 
         <label for="">
-          numeric value
           <input type="number" step=".01" class="w50px"  @input="change" name="yPos" v-model="value.valSecond">
         </label>
       </div>
@@ -29,7 +27,6 @@
         </h5>
 
       <label for="">
-        numeric value
         <input type="number" step=".01" class="w50px" @input="change" name="zPos" v-model="value.valThird">
       </label>
     </div>
@@ -47,7 +44,6 @@
                   :ref="cmNameZOffset"
               />
           <label for="">
-            numeric value
             <input type="number"  class="w50px" @input="change" name="zPos" v-model="value.valFourth">
             <br>
             current unit ({{ value.valForthUnit.label }})

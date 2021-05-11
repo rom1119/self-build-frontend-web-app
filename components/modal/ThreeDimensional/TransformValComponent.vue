@@ -23,23 +23,56 @@ import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.
 import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
 import TransformType from "~/src/Css/ThreeDimensional/TransformType";
-import { Rotate, Rotate3D, Scale, Skew, Translate, Translate3D } from "~/src/Css/ThreeDimensional/TransformTypes";
+import { Matrix, Matrix3D, Perspective, Rotate, Rotate3D, RotateX, RotateY, RotateZ, Scale, Scale3D, ScaleX, ScaleY, ScaleZ, Skew, SkewX, SkewY, Translate, Translate3D, TranslateX, TranslateY, TranslateZ } from "~/src/Css/ThreeDimensional/TransformTypes";
+// COMPONENTS
 import RotateComponent from './TransformType/RotateComponent.vue';
+import RotateXComponent from './TransformType/RotateXComponent.vue';
+import RotateYComponent from './TransformType/RotateYComponent.vue';
+import RotateZComponent from './TransformType/RotateZComponent.vue';
 import RotateThreedimensionalComponent from './TransformType/RotateThreedimensionalComponent.vue';
 import TranslateComponent from './TransformType/TranslateComponent.vue';
+import TranslateXComponent from './TransformType/TranslateXComponent.vue';
+import TranslateYComponent from './TransformType/TranslateYComponent.vue';
+import TranslateZComponent from './TransformType/TranslateZComponent.vue';
 import TranslateThreedimensionalComponent from './TransformType/TranslateThreedimensionalComponent.vue';
 import ScaleComponent from './TransformType/ScaleComponent.vue';
+import ScaleXComponent from './TransformType/ScaleXComponent.vue';
+import ScaleYComponent from './TransformType/ScaleYComponent.vue';
+import ScaleZComponent from './TransformType/ScaleZComponent.vue';
+import ScaleThreedimensionalComponent from './TransformType/ScaleThreedimensionalComponent.vue';
 import SkewComponent from './TransformType/SkewComponent.vue';
+import SkewXComponent from './TransformType/SkewXComponent.vue';
+import SkewYComponent from './TransformType/SkewYComponent.vue';
+
+import PerspectiveComponent from './TransformType/PerspectiveComponent.vue';
+
+import MatrixComponent from './TransformType/MatrixComponent.vue';
+import MatrixThreedimensionalComponent from './TransformType/MatrixThreedimensionalComponent.vue';
 
 @Component({
     components: {
         CssTwoAxisComponent, 
         RotateComponent,
+        RotateXComponent,
+        RotateYComponent,
+        RotateZComponent,
         RotateThreedimensionalComponent,
         TranslateComponent,
+        TranslateXComponent,
+        TranslateYComponent,
+        TranslateZComponent,
         TranslateThreedimensionalComponent,
         ScaleComponent,
+        ScaleXComponent,
+        ScaleYComponent,
+        ScaleZComponent,
+        ScaleThreedimensionalComponent,
         SkewComponent,
+        SkewXComponent,
+        SkewYComponent,
+        PerspectiveComponent,
+        MatrixComponent,
+        MatrixThreedimensionalComponent,
     }
 })
 export default class TransformValComponent extends Vue {
@@ -62,12 +95,36 @@ export default class TransformValComponent extends Vue {
       return 'rotate-component'
     }
     
+    if (el instanceof RotateX) {
+      return 'rotate-x-component'
+    }
+    
+    if (el instanceof RotateY) {
+      return 'rotate-y-component'
+    }
+    
+    if (el instanceof RotateZ) {
+      return 'rotate-z-component'
+    }
+    
     if (el instanceof Rotate3D) {
       return 'rotate-threedimensional-component'
     }
     
     if (el instanceof Translate) {
       return 'translate-component'
+    }
+    
+    if (el instanceof TranslateX) {
+      return 'translate-x-component'
+    }
+    
+    if (el instanceof TranslateY) {
+      return 'translate-y-component'
+    }
+    
+    if (el instanceof TranslateZ) {
+      return 'translate-z-component'
     }
     
     if (el instanceof Translate3D) {
@@ -78,9 +135,46 @@ export default class TransformValComponent extends Vue {
       return 'scale-component'
     }
     
+    if (el instanceof ScaleX) {
+      return 'scale-x-component'
+    }
+    
+    if (el instanceof ScaleY) {
+      return 'scale-y-component'
+    }
+    
+    if (el instanceof ScaleZ) {
+      return 'scale-z-component'
+    }
+
+    if (el instanceof Scale3D) {
+      return 'scale-threedimensional-component'
+    }
+    
     if (el instanceof Skew) {
       return 'skew-component'
     }
+    
+    if (el instanceof SkewX) {
+      return 'skew-x-component'
+    }
+    
+    if (el instanceof SkewY) {
+      return 'skew-y-component'
+    }
+    
+    if (el instanceof Perspective) {
+      return 'perspective-component'
+    }
+    
+    if (el instanceof Matrix3D) {
+      return 'matrix-threedimensional-component'
+    }
+    
+    if (el instanceof Matrix) {
+      return 'matrix-component'
+    }
+    
 
     throw Error(`can not fin module for ${el.getName()} Transform type`)
   

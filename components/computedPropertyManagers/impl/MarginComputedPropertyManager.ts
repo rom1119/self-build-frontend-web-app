@@ -112,7 +112,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.leftProperty.setActive(true)
         } else {
             this.leftProperty.setActive(false)
-            let copy = _.cloneDeep(this.leftProperty)
+            let copy = this.leftProperty.deepCopy(this.leftProperty)
             this.leftProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valLeft) {
@@ -349,7 +349,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
         // console.log(newProp);
 
         let val = this.value.getComputedCssVal(newProp)
-        let clonedCss = _.cloneDeep(newProp)
+        let clonedCss = newProp.deepCopy(newProp)
         clonedCss.setValue(parseInt(val).toString())
         clonedCss.setUnit(new Pixel())
         // console.log(newProp);

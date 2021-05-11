@@ -27,7 +27,8 @@ export default class TransformTypeFactoryFromName {
     }
     create(nameArg: string) : TransformType {
         var cssProps = libCss;
-        var name = nameArg.replace(/\.?([A-Z])/g, function (x,y){return "-" + y.toLowerCase()}).replace(/^-/, "")
+        var name = nameArg
+        // var name = nameArg.replace(/\.?([A-Z])/g, function (x,y){return "-" + y.toLowerCase()}).replace(/^-/, "")
 
         // console.log(name);
         

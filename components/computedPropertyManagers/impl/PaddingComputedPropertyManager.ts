@@ -350,7 +350,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
         // console.log(newProp.getUnit());
         // console.log(newProp);
         let val = this.value.getComputedCssVal(newProp)
-        let clonedCss = _.cloneDeep(newProp)
+        let clonedCss = newProp.deepCopy(newProp)
         clonedCss.setValue(parseInt(val).toString())
         clonedCss.setUnit(new Pixel())
         // console.log(newProp);

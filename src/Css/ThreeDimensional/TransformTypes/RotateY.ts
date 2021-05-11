@@ -8,7 +8,7 @@ export default class RotateY implements TransformType, CssWithOneValue
 {
     public static PROP_NAME = 'rotateY'
 
-    val: number = 90
+    val: number = 45
     unit: UnitAngle = new UnitDeg()
 
     getValue(): string {

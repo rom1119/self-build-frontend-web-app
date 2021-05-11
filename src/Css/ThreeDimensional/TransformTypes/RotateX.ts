@@ -8,7 +8,7 @@ export default class RotateX implements TransformType, CssWithOneValue
 {
     public static PROP_NAME = 'rotateX'
 
-    val: number = 90
+    val: number = 45
     unit: UnitAngle = new UnitDeg()
 
     getValue(): string {

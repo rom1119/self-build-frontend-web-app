@@ -8,7 +8,7 @@ export default class RotateZ implements TransformType, CssWithOneValue
 {
     public static PROP_NAME = 'rotateZ'
 
-    val: number = 90
+    val: number = 45
     unit: UnitAngle = new UnitDeg()
 
     getValue(): string {

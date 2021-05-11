@@ -3,26 +3,16 @@
   
       <div class="content-item-half " >
           <h5 class="p-0 m-0">
-            X val
+            Z val
           </h5>
 
         <label for="">
 
           current unit ({{ value.unit.label }})
-          <input type="number" step=".01" class="w50px" @input="change" :name="'xPos' + transformVal.id" v-model="value.val">
+          <input type="number" step=".01" class="w50px" @input="change" :name="'zPos' + transformVal.id" v-model="value.val">
         </label>
       </div>
 
-       <div class="content-item-half ">
-          <h5 class="p-0 m-0">
-            Y val
-          </h5>
-          
-        <label for="">
-          current unit ({{ value.unitSecond.label }})
-          <input type="number" step=".01" class="w50px"  @input="change" :name="'yPos' + transformVal.id" v-model="value.valSecond">
-        </label>
-      </div>
     
   </div>
 </template>
@@ -38,17 +28,17 @@ import { Named, Pixel } from "~/src/Unit";
 import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.vue';
 import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
-import { Rotate, Scale } from "~/src/Css/ThreeDimensional/TransformTypes";
+import { Rotate, Scale, ScaleY, ScaleZ } from "~/src/Css/ThreeDimensional/TransformTypes";
 
 @Component({
     components: {
         CssTwoAxisComponent
     }
 })
-export default class ScaleComponent extends Vue {
+export default class ScaleZComponent extends Vue {
   
   @Prop({required: true, default: null})
-  value: Scale
+  value: ScaleZ
   
   @Prop({required: true, default: null})
   transform: TransformCss

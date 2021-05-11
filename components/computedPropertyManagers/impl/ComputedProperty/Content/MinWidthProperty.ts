@@ -63,7 +63,7 @@ export default class MinWidthProperty extends BaseComputedPropertyManager<MinWid
         }
         
         let val = this.value.getComputedCssVal(newProp)
-        let clonedCss = _.cloneDeep(newProp)
+        let clonedCss = newProp.deepCopy(newProp)
         clonedCss.setValue(parseInt(val))
         // clonedCss.setUnit(new Pixel())
     // console.log(newProp);

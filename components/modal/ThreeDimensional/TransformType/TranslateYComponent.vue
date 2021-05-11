@@ -1,27 +1,23 @@
 <template >
   <div class="d-flex">
   
-      <div class="content-item-half " >
-          <h5 class="p-0 m-0">
-            X val
-          </h5>
-
-        <label for="">
-
-          current unit ({{ value.unit.label }})
-          <input type="number" step=".01" class="w50px" @input="change" :name="'xPos' + transformVal.id" v-model="value.val">
-        </label>
-      </div>
-
-       <div class="content-item-half ">
-          <h5 class="p-0 m-0">
-            Y val
-          </h5>
-          
-        <label for="">
-          current unit ({{ value.unitSecond.label }})
-          <input type="number" step=".01" class="w50px"  @input="change" :name="'yPos' + transformVal.id" v-model="value.valSecond">
-        </label>
+      <div class="content-item-half " v-context-menu="cmNameXOffset" >
+            <h5 class="p-0 m-0">
+              Y position
+            </h5>
+            <select-unit-context-menu
+                  :propertyUnit="value.unit"
+                  @changePropUnit="
+                  ($event) => {
+                      value.unit = $event; change();
+                  }
+                  "
+                  :ref="cmNameXOffset"
+              />
+          <label for="">
+            current unit ({{ value.unit.label }})
+            <input type="number" class="w50px"  @input="change" name="yPos" v-model="value.val">
+          </label>
       </div>
     
   </div>
@@ -38,17 +34,17 @@ import { Named, Pixel } from "~/src/Unit";
 import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.vue';
 import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
-import { Rotate, Scale } from "~/src/Css/ThreeDimensional/TransformTypes";
+import { Rotate, Translate, TranslateX, TranslateY } from "~/src/Css/ThreeDimensional/TransformTypes";
 
 @Component({
     components: {
         CssTwoAxisComponent
     }
 })
-export default class ScaleComponent extends Vue {
+export default class TranslateYComponent extends Vue {
   
   @Prop({required: true, default: null})
-  value: Scale
+  value: TranslateY
   
   @Prop({required: true, default: null})
   transform: TransformCss

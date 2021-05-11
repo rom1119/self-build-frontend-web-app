@@ -15,8 +15,6 @@
                   :ref="cmNameZOffset"
               />
           <label for="">
-            numeric value
-            <br>
             current unit ({{ value.unit.label }})
             <input type="number"  @input="change" name="zPos" v-model="value.val">
           </label>

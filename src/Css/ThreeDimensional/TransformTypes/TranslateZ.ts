@@ -12,7 +12,7 @@ export default class TranslateZ implements TransformType, CssWithOneValue
     public static PROP_NAME = 'translateZ'
 
     val: number = 2
-    unit: Unit = new Named()
+    unit: Unit = new Pixel()
 
 
     getValue(): string {

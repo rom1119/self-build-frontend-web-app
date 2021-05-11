@@ -1,13 +1,8 @@
 import StyleCssValue from '../../Api/StyleCssValue';
 import TransformType from '../../Css/ThreeDimensional/TransformType';
-import Rotate from '../../Css/ThreeDimensional/TransformTypes/Rotate';
 import Rotate3D from '../../Css/ThreeDimensional/TransformTypes/Rotate3D';
 import Named from '../../Unit/Named';
 import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
-import Translate from '../../Css/ThreeDimensional/TransformTypes/Translate';
-import Translate3D from '../../Css/ThreeDimensional/TransformTypes/Translate3D';
-import Scale from '../../Css/ThreeDimensional/TransformTypes/Scale';
-import Skew from '../../Css/ThreeDimensional/TransformTypes/Skew';
 import Matrix3D from '../../Css/ThreeDimensional/TransformTypes/Matrix3D';
 import Matrix from '~/src/Css/ThreeDimensional/TransformTypes/Matrix';
 import CssWithThreeValues from '../../Css/CssWithThreeValues';
@@ -102,6 +97,8 @@ export default class TransformTypeToCssValueModel
         `
 
         el.setValue(strVal)
+        
+        el.setUnitName(Named.PROP_NAME)
 
         return el
     }
@@ -125,7 +122,17 @@ export default class TransformTypeToCssValueModel
         ${arg.valFifteenth};
         ${arg.valSixteenth}
         `
-        el.setValue(strVal)
+
+        var arr = strVal.split(';')
+        var res = ''
+        for (var elLoop of arr) {
+            elLoop = elLoop.replaceAll("\n", "")
+            elLoop = elLoop.trim()
+            res += `${elLoop};`
+        }
+        el.setValue(res)
+
+        el.setUnitName(Named.PROP_NAME)
 
         return el
     }

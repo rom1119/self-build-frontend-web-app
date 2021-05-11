@@ -19,8 +19,8 @@ export default class Matrix3D extends Matrix
     valEleventh: number = 2
     valTwelfth: number = 2
 
-    valThirteenth: number = 2
-    valFourteenth: number = 2
+    valThirteenth: number = 200
+    valFourteenth: number = 200
     valFifteenth: number = 2
     valSixteenth: number = 2
     // unit: Unit = new Pixel()
@@ -28,24 +28,7 @@ export default class Matrix3D extends Matrix
     // unitSecond: Unit = new Pixel()
 
     getValue(): string {
-        return `matrix3d(
-            ${this.val},
-            ${this.valSecond}, 
-            ${this.valThird}, 
-            ${this.valFourth},
-            ${this.valFiveth}, 
-            ${this.valSixth}, 
-            ${this.valSeventh}),
-            ${this.valEighth}),
-            ${this.valNinth}),
-            ${this.valTenth}),
-            ${this.valEleventh}),
-            ${this.valTwelfth}),
-            ${this.valThirteenth}),
-            ${this.valFourteenth}),
-            ${this.valFiveth}),
-            ${this.valSixteenth})
-             `
+        return `matrix3d(${this.val}, ${this.valSecond}, ${this.valThird}, ${this.valFourth}, ${this.valFiveth}, ${this.valSixth}, ${this.valSeventh}, ${this.valEighth}, ${this.valNinth}, ${this.valTenth}, ${this.valEleventh}, ${this.valTwelfth}, ${this.valThirteenth}, ${this.valFourteenth}, ${this.valFifteenth}, ${this.valSixteenth})`
     }
 
     public getName(): string  {

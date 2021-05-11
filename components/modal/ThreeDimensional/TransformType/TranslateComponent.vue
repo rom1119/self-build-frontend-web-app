@@ -5,7 +5,7 @@
             <h5 class="p-0 m-0">
               X position
             </h5>
-            <select-angle-unit-context-menu
+            <select-unit-context-menu
                   :propertyUnit="value.unit"
                   @changePropUnit="
                   ($event) => {
@@ -15,8 +15,6 @@
                   :ref="cmNameXOffset"
               />
           <label for="">
-            numeric value
-            <br>
             current unit ({{ value.unit.label }})
             <input type="number" class="w50px"  @input="change" name="xPos" v-model="value.val">
           </label>
@@ -25,7 +23,7 @@
             <h5 class="p-0 m-0">
               Y position
             </h5>
-            <select-angle-unit-context-menu
+            <select-unit-context-menu
                   :propertyUnit="value.unitSecond"
                   @changePropUnit="
                   ($event) => {
@@ -35,8 +33,6 @@
                   :ref="cmNameYOffset"
               />
           <label for="">
-            numeric value
-            <br>
             current unit ({{ value.unitSecond.label }})
             <input type="number" class="w50px" @input="change" name="yPos" v-model="value.valSecond">
           </label>
