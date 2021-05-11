@@ -4,25 +4,23 @@ import UnitDeg from '../../../Unit/UnitAngle/UnitDeg';
 import Unit from '../../../Unit/Unit';
 import Named from '../../../Unit/Named';
 import Pixel from '../../../Unit/Size/Pixel';
-import CssWithTwoValues from '../../CssWithTwoValues';
+import CssWithOneValue from '../../CssWithOneValue';
 
 
-export default class Translate implements TransformType, CssWithTwoValues
+export default class TranslateY implements TransformType, CssWithOneValue
 {
-    public static PROP_NAME = 'translate'
+    public static PROP_NAME = 'translateY'
 
     val: number = 2
     unit: Unit = new Pixel()
-    
-    valSecond: number = 2
-    unitSecond: Unit = new Pixel()
+
 
     getValue(): string {
-        return `translate(${this.unit.getValue(this.val)}, ${this.unitSecond.getValue(this.valSecond)})`
+        return `translateY(${this.unit.getValue(this.val)})`
     }
 
     public getName(): string  {
-        return Translate.PROP_NAME
+        return TranslateY.PROP_NAME
     }
 
   

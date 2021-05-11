@@ -4,19 +4,19 @@ import UnitDeg from '../../../Unit/UnitAngle/UnitDeg';
 import CssWithOneValue from '../../CssWithOneValue';
 
 
-export default class Rotate  implements TransformType, CssWithOneValue
+export default class RotateZ implements TransformType, CssWithOneValue
 {
-    public static PROP_NAME = 'rotate'
+    public static PROP_NAME = 'rotateZ'
 
     val: number = 90
     unit: UnitAngle = new UnitDeg()
 
     getValue(): string {
-        return `rotate(${this.unit.getValue(this.val)})`
+        return `rotateZ(${this.unit.getValue(this.val)})`
     }
 
     public getName(): string  {
-        return Rotate.PROP_NAME
+        return RotateZ.PROP_NAME
     }
 
   

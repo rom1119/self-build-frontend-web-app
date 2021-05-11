@@ -1,9 +1,10 @@
 import TransformType from '../TransformType';
 import UnitAngle from '../../../Unit/UnitAngle';
 import UnitDeg from '../../../Unit/UnitAngle/UnitDeg';
+import CssWithTwoValues from '../../CssWithTwoValues';
 
 
-export default class Skew implements TransformType
+export default class Skew implements TransformType, CssWithTwoValues
 {
     public static PROP_NAME = 'skew'
 

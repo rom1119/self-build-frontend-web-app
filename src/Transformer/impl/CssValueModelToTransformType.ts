@@ -10,6 +10,11 @@ import Scale from '../../Css/ThreeDimensional/TransformTypes/Scale';
 import Skew from '../../Css/ThreeDimensional/TransformTypes/Skew';
 import TransformTypeFactoryFromName from '../../Factory/TransformTypeFactoryFromName';
 import UnitCssPropertyFactoryFromName from '../../Factory/UnitCssPropertyFactoryFromName';
+import CssWithThreeValues from '../../Css/CssWithThreeValues';
+import CssWithTwoValues from '../../Css/CssWithTwoValues';
+import CssWithOneValue from '~/src/Css/CssWithOneValue';
+import Matrix from '~/src/Css/ThreeDimensional/TransformTypes/Matrix';
+import Matrix3D from '../../Css/ThreeDimensional/TransformTypes/Matrix3D';
 
 
 export default class CssValueModelToTransformType
@@ -27,25 +32,25 @@ export default class CssValueModelToTransformType
     {
         var transformType =  this.transformTypeFactory.create(arg.getValueNinth())
 
-        if (transformType instanceof Rotate) {
-            return this.rotate(transformType, arg)
-        } else if (transformType instanceof Rotate3D) {
+        if (transformType instanceof Rotate3D) {
             return this.rotate3D(transformType, arg)
-        } else if (transformType instanceof Translate) {
-            return this.translate(transformType, arg)
-        } else if (transformType instanceof Scale) {
-            return this.scale(transformType, arg)
-        } else if (transformType instanceof Skew) {
-            return this.skew(transformType, arg)
-        } else if (transformType instanceof Translate3D) {
-            return this.translate3D(transformType, arg)
-        }
+        } else if (transformType instanceof Matrix3D) {
+            return this.matrix3d (transformType, arg)
+        } else if (transformType instanceof Matrix) {
+            return this.matrix(transformType, arg)
+        } else if (this.instanceOfCssWithThreeValues(transformType)) {
+            return <TransformType><unknown>this.transformThreeValues(<CssWithThreeValues><unknown>transformType, arg)
+        } else if (this.instanceOfCssWithTwoValues(transformType)) {
+            return <TransformType><unknown>this.transformTwoValues(<CssWithTwoValues><unknown>transformType, arg)
+        } else if (this.instanceOfCssWithOneValue(transformType)) {
+            return <TransformType><unknown>this.transformOneValue(<CssWithOneValue><unknown>transformType, arg)
+        } 
 
         throw Error(`Unable to create TransformType from name ${arg.getValueNinth()}` )
 
     }
 
-    protected rotate(arg: Rotate, el: StyleCssValue): Rotate {
+    protected transformOneValue(arg: CssWithOneValue, el: StyleCssValue): CssWithOneValue {
         arg.val = Number(el.getValue())
 
         var unit = this.unitFactory.create(el.getUnitName())
@@ -54,8 +59,8 @@ export default class CssValueModelToTransformType
 
         return arg
     }
-
-    protected translate(arg: Translate, el: StyleCssValue): Translate {
+    
+    protected transformTwoValues(arg: CssWithTwoValues, el: StyleCssValue): CssWithTwoValues {
         
         arg.val = Number(el.getValue())
         arg.valSecond = Number(el.getValueSecond())
@@ -69,35 +74,7 @@ export default class CssValueModelToTransformType
         return arg
     }
     
-    protected scale(arg: Scale, el: StyleCssValue): Scale {
-        
-        arg.val = Number(el.getValue())
-        arg.valSecond = Number(el.getValueSecond())
-
-        var unit = this.unitFactory.create(el.getUnitName())
-        var unitSec = this.unitFactory.create(el.getUnitNameSecond())
-
-        arg.unit = unit
-        arg.unitSecond = unitSec
-
-        return arg
-    }
-    
-    protected skew(arg: Skew, el: StyleCssValue): Skew {
-        
-        arg.val = Number(el.getValue())
-        arg.valSecond = Number(el.getValueSecond())
-
-        var unit = this.unitFactory.create(el.getUnitName())
-        var unitSec = this.unitFactory.create(el.getUnitNameSecond())
-
-        arg.unit = unit
-        arg.unitSecond = unitSec
-
-        return arg
-    }
-    
-    protected translate3D(arg: Translate3D, el: StyleCssValue): Translate3D {
+    protected transformThreeValues(arg: CssWithThreeValues, el: StyleCssValue): CssWithThreeValues {
         
         arg.val = Number(el.getValue())
         arg.valSecond = Number(el.getValueSecond())
@@ -126,5 +103,54 @@ export default class CssValueModelToTransformType
 
 
         return arg
+    }
+    protected matrix(arg: Matrix, el: StyleCssValue): Matrix {
+        var vals = el.getValue().split(';')
+
+        arg.val = Number(vals[0])
+        arg.valSecond = Number(vals[1])
+        arg.valThird = Number(vals[2])
+        arg.valFourth = Number(vals[3])
+        arg.valFiveth = Number(vals[4])
+        arg.valSixth = Number(vals[5])
+
+
+        return arg
+    }
+    
+    protected matrix3d(arg: Matrix3D, el: StyleCssValue): Matrix3D {
+        var vals = el.getValue().split(';')
+
+        arg.val = Number(vals[0])
+        arg.valSecond = Number(vals[1])
+        arg.valThird = Number(vals[2])
+        arg.valFourth = Number(vals[3])
+        arg.valFiveth = Number(vals[4])
+        arg.valSixth = Number(vals[5])
+        arg.valSeventh = Number(vals[6])
+        arg.valEighth = Number(vals[7])
+        arg.valNinth = Number(vals[8])
+        arg.valTenth = Number(vals[9])
+        arg.valEleventh = Number(vals[10])
+        arg.valTwelfth = Number(vals[11])
+        arg.valThirteenth = Number(vals[12])
+        arg.valFourteenth = Number(vals[13])
+        arg.valFifteenth = Number(vals[14])
+        arg.valSixteenth = Number(vals[15])
+
+
+        return arg
+    }
+
+    instanceOfCssWithOneValue(object: any): boolean {
+        return 'val' in object &&  'unit' in object ;
+    }
+    
+    instanceOfCssWithTwoValues(object: any): boolean {
+        return 'valSecond' in object &&  'unitSecond' in object && this.instanceOfCssWithOneValue(object) ;
+    }
+    
+    instanceOfCssWithThreeValues(object: any): boolean {
+        return 'valThird' in object &&  'unitThird' in object && this.instanceOfCssWithTwoValues(object) ;
     }
 }
