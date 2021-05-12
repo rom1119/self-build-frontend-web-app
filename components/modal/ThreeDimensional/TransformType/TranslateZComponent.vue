@@ -1,24 +1,19 @@
 <template >
   <div class="d-flex">
   
-      <div class="content-item-half " v-context-menu="cmNameXOffset" >
-            <h5 class="p-0 m-0">
-              Z position
-            </h5>
-          <select-unit-context-menu
-                  :propertyUnit="value.unit"
-                  @changePropUnit="
-                  ($event) => {
-                      value.unit = $event; change();
-                  }
-                  "
-                  :ref="cmNameXOffset"
-              />
-          <label for="">
-            current unit ({{ value.unit.label }})
-            <input type="number" class="w50px"  @input="change" name="yPos" v-model="value.val">
-          </label>
-      </div>
+      <input-val-component 
+        labelProp="Z position"
+        classContainer="content-item-half"
+        contextMenuName="length-units"
+        :valueProp="value.val"
+        :unitProp="value.unit"
+        :minRangeProp="-2000"
+        :maxRangeProp="2000"
+        :stepValue="1"
+        @changeValue="value.val = $event"
+        @changeUnit="value.unit = $event"
+        @change="change"
+      />
     
   </div>
 </template>
@@ -35,10 +30,11 @@ import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.
 import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
 import { Rotate, Translate, TranslateX, TranslateY, TranslateZ } from "~/src/Css/ThreeDimensional/TransformTypes";
+import InputValComponent from '../../../InputValComponent.vue';
 
 @Component({
     components: {
-        CssTwoAxisComponent
+        CssTwoAxisComponent, InputValComponent
     }
 })
 export default class TranslateZComponent extends Vue {

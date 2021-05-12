@@ -6,7 +6,7 @@
       </span>
     </div>
     
-      <div class="sidebar_tool__container">
+      <div class="sidebar_tool__container d-flex flex-col">
 
         <h5 class="text-center">
           Layout Tag Tool Managed

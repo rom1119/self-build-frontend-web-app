@@ -81,6 +81,13 @@ export default abstract class ThreeDimensionalManage extends AbstractManageCompo
         this.transformManager.init()
 
 
+        this.managers = []
+        this.managers.push(this.transformStyleManager)
+        this.managers.push(this.backfaceVisibilityManager)
+        this.managers.push(this.perspectiveManager)
+        this.managers.push(this.perspectiveOriginManager)
+        this.managers.push(this.transformOriginManager)
+        this.managers.push(this.transformManager)
      
     }
 }

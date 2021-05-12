@@ -76,6 +76,15 @@ export default abstract class FontManage extends AbstractManageComponent
         this.fontStretchManager.init()
         this.lineHeightManager.init()
 
+        this.managers = []
+        this.managers.push(this.textAlignManager)
+        this.managers.push(this.fontSizeManager)
+        this.managers.push(this.fontColorManager)
+        this.managers.push(this.fontWeightManager)
+        this.managers.push(this.fontStyleManager)
+        this.managers.push(this.fontFamilyManager)
+        this.managers.push(this.fontStretchManager)
+        this.managers.push(this.lineHeightManager)
      
     }
 }

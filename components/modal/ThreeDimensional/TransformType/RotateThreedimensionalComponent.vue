@@ -1,54 +1,60 @@
 <template >
   <div class="d-flex" style="flex-direction: column;" >
     <div class=" d-flex"  >
-      <div class="content-item-half "  >
-          <h5 class="p-0 m-0">
-            X position
-          </h5>
+    
+      <input-val-component 
+        labelProp="X position"
+        classContainer="content-item-half"
+        contextMenuName="angle-units"
+        :valueProp="value.val"
+        :minRangeProp="-2"
+        :maxRangeProp="2"
+        :stepValue=".01"
+        @changeValue="value.val = $event"
+        @change="change"
+      />
+      
+      <input-val-component 
+        labelProp="Y position"
+        classContainer="content-item-half"
+        contextMenuName="angle-units"
+        :valueProp="value.valSecond"
+        :minRangeProp="-2"
+        :maxRangeProp="2"
+        :stepValue=".01"
+        @changeValue="value.valSecond = $event"
+        @change="change"
+      />
 
-        <label for="">
-          <input type="number" step=".01" class="w50px" @input="change"  name="zPos" v-model="value.val">
-        </label>
-      </div>
-      <div class="content-item-half "  >
-          <h5 class="p-0 m-0">
-            Y position
-          </h5>
-
-        <label for="">
-          <input type="number" step=".01" class="w50px"  @input="change" name="yPos" v-model="value.valSecond">
-        </label>
-      </div>
     </div>
     <div class="d-flex"  >
-    <div class="content-item-half "  >
-        <h5 class="p-0 m-0">
-          Z position
-        </h5>
 
-      <label for="">
-        <input type="number" step=".01" class="w50px" @input="change" name="zPos" v-model="value.valThird">
-      </label>
-    </div>
-      <div class="content-item-half " v-context-menu="cmNameZOffset" >
-            <h5 class="p-0 m-0">
-              Z position
-            </h5>
-            <select-angle-unit-context-menu
-                  :propertyUnit="value.valForthUnit"
-                  @changePropUnit="
-                  ($event) => {
-                      value.valForthUnit = $event; change();
-                  }
-                  "
-                  :ref="cmNameZOffset"
-              />
-          <label for="">
-            <input type="number"  class="w50px" @input="change" name="zPos" v-model="value.valFourth">
-            <br>
-            current unit ({{ value.valForthUnit.label }})
-          </label>
-        </div>
+    <input-val-component 
+        labelProp="Z position"
+        classContainer="content-item-half"
+        contextMenuName="angle-units"
+        :valueProp="value.valThird"
+        :minRangeProp="-2"
+        :maxRangeProp="2"
+        :stepValue=".01"
+        @changeValue="value.valThird = $event"
+        @change="change"
+      />
+
+    <input-val-component 
+        labelProp="Z position"
+        classContainer="content-item-half"
+        contextMenuName="angle-units"
+        :valueProp="value.valFourth"
+        :unitProp="value.valForthUnit"
+        :minRangeProp="-2000"
+        :maxRangeProp="2000"
+        :stepValue="1"
+        @changeValue="value.valFourth = $event"
+        @changeUnit="value.valForthUnit = $event"
+        @change="change"
+      />
+
     </div>
   </div>
 </template>
@@ -65,10 +71,11 @@ import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.
 import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
 import { Rotate3D } from "~/src/Css/ThreeDimensional/TransformTypes";
+import InputValComponent from '../../../InputValComponent.vue';
 
 @Component({
     components: {
-        CssTwoAxisComponent
+        CssTwoAxisComponent, InputValComponent
     }
 })
 export default class RotateThreedimensionalComponent extends Vue {

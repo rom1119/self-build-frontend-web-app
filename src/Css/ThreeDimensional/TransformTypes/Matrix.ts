@@ -10,13 +10,13 @@ export default class Matrix implements TransformType
 {
     public static PROP_NAME = 'matrix'
 
-    val: number = 2
-    valSecond: number = 2
+    val: number = 1
+    valSecond: number = 0
 
-    valThird: number = 2
-    valFourth: number = 2
-    valFiveth: number = 2
-    valSixth: number = 2
+    valThird: number = 0
+    valFourth: number = 1
+    valFiveth: number = 200
+    valSixth: number = 200
     // unit: Unit = new Pixel()
     
     // unitSecond: Unit = new Pixel()

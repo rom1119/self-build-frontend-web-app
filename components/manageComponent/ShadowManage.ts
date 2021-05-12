@@ -34,6 +34,10 @@ export default abstract class ShadowManage extends AbstractManageComponent
         this.textShadowManager.init()
         this.boxShadowManager.init()
 
+        this.managers = []
+        this.managers.push(this.textShadowManager)
+        this.managers.push(this.boxShadowManager)
+
      
     }
 }

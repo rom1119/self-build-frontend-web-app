@@ -1,45 +1,33 @@
 <template >
   <div >
   
-      <div class="content-item-half " v-context-menu="cmNameXOffset" >
-          <h5 class="p-0 m-0">
-            X val
-          </h5>
-          <select-angle-unit-context-menu
-                :propertyUnit="value.unit"
-                @changePropUnit="
-                ($event) => {
-                    value.unit = $event; change();
-                }
-                "
-                :ref="cmNameXOffset"
-            />
-        <label for="">
-
-          current unit ({{ value.unit.label }})
-          <input type="number"  @input="change" :name="'xPos' + transformVal.id" v-model="value.val">
-        </label>
-      </div>
-
-       <div class="content-item-half " v-context-menu="cmNameYOffset" >
-          <h5 class="p-0 m-0">
-            Y val
-          </h5>
-          <select-angle-unit-context-menu
-                :propertyUnit="value.unitSecond"
-                @changePropUnit="
-                ($event) => {
-                    value.unitSecond = $event; change();
-                }
-                "
-                :ref="cmNameYOffset"
-            />
-        <label for="">
-
-          current unit ({{ value.unitSecond.label }})
-          <input type="number"  @input="change" :name="'yPos' + transformVal.id" v-model="value.valSecond">
-        </label>
-      </div>
+    <input-val-component 
+        labelProp="X val"
+        classContainer="content-item-half"
+        contextMenuName="angel-units"
+        :valueProp="value.val"
+        :unitProp="value.unit"
+        :minRangeProp="-2000"
+        :maxRangeProp="2000"
+        :stepValue="1"
+        @changeValue="value.val = $event"
+        @changeUnit="value.unit = $event"
+        @change="change"
+      />
+      
+      <input-val-component 
+        labelProp="Y val"
+        classContainer="content-item-half"
+        contextMenuName="angel-units"
+        :valueProp="value.valSecond"
+        :unitProp="value.unitSecond"
+        :minRangeProp="-2000"
+        :maxRangeProp="2000"
+        :stepValue="1"
+        @changeValue="value.valSecond = $event"
+        @changeUnit="value.unitSecond = $event"
+        @change="change"
+      />
     
   </div>
 </template>
@@ -56,10 +44,11 @@ import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.
 import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
 import { Rotate, Scale, Skew } from "~/src/Css/ThreeDimensional/TransformTypes";
+import InputValComponent from '../../../InputValComponent.vue';
 
 @Component({
     components: {
-        CssTwoAxisComponent
+        CssTwoAxisComponent, InputValComponent
     }
 })
 export default class SkewComponent extends Vue {

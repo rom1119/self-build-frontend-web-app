@@ -85,8 +85,8 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
      availableTypes(): TransformType[] {
         var all = this.transformTypeFactory.createAll()
         var res = []
-        console.log('get availableTypes');
-        console.log('all', all);
+        // console.log('get availableTypes');
+        // console.log('all', all);
         
         
         for (const el of all) {
@@ -94,7 +94,7 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
                 res.push(el)
             }
         }
-        console.log('res', res);
+        // console.log('res', res);
 
         return res
     }

@@ -1,71 +1,71 @@
 <template >
   <div class="d-flex">
   
-      <div class="content-item-half " >
-          <h5 class="p-0 m-0 font-sm">
-            scale X
-          </h5>
-
-        <label for="">
-
-          <input type="number" step=".01" class="w50px" @input="change" :name="'scaleX' + transformVal.id" v-model="value.val">
-        </label>
-      </div>
-      
-      <div class="content-item-half " >
-          <h5 class="p-0 m-0 font-sm">
-            Skew Y
-          </h5>
-
-        <label for="">
-
-          <input type="number" step=".01" class="w50px" @input="change" :name="'skewY' + transformVal.id" v-model="value.valSecond">
-        </label>
-      </div>
-      
-      <div class="content-item-half " >
-          <h5 class="p-0 m-0 font-sm">
-            Skew X
-          </h5>
-
-        <label for="">
-
-          <input type="number" step=".01" class="w50px" @input="change" :name="'skewX' + transformVal.id" v-model="value.valThird">
-        </label>
-      </div>
-      
-      <div class="content-item-half " >
-          <h5 class="p-0 m-0 font-sm">
-            Scale Y
-          </h5>
-
-        <label for="">
-
-          <input type="number" step=".01" class="w50px" @input="change" :name="'scaleY' + transformVal.id" v-model="value.valFourth">
-        </label>
-      </div>
-      
-      <div class="content-item-half " >
-          <h5 class="p-0 m-0 font-sm">
-            Translate X
-          </h5>
-
-        <label for="">
-
-          <input type="number" step=".01" class="w50px" @input="change" :name="'translateX' + transformVal.id" v-model="value.valFiveth">
-        </label>
-      </div>
-      
-      <div class="content-item-half " >
-          <h5 class="p-0 m-0 font-sm">
-            Translate Y
-          </h5>
-
-        <label for="">
-
-          <input type="number" step=".01" class="w50px" @input="change" :name="'translateY' + transformVal.id" v-model="value.valSixth">
-        </label>
-      </div>
+    <input-val-component 
+      labelProp="scale X"
+      classContainer="content-item-half"
+      :valueProp="value.val"
+      :minRangeProp="-2"
+      :maxRangeProp="3"
+      :stepValue=".01"
+      @changeValue="value.val = $event"
+      @change="change"
+    />
+    
+    <input-val-component 
+      labelProp="Skew Y"
+      classContainer="content-item-half"
+      :valueProp="value.valSecond"
+      :minRangeProp="-2"
+      :maxRangeProp="3"
+      :stepValue=".01"
+      @changeValue="value.valSecond = $event"
+      @change="change"
+    />
+    
+    <input-val-component 
+      labelProp="Skew X"
+      classContainer="content-item-half"
+      :valueProp="value.valThird"
+      :minRangeProp="-2"
+      :maxRangeProp="3"
+      :stepValue=".01"
+      @changeValue="value.valThird = $event"
+      @change="change"
+    />
+    
+    <input-val-component 
+      labelProp="Scale Y"
+      classContainer="content-item-half"
+      :valueProp="value.valFourth"
+      :minRangeProp="-2"
+      :maxRangeProp="3"
+      :stepValue=".01"
+      @changeValue="value.valFourth = $event"
+      @change="change"
+    />
+    
+    <input-val-component 
+      labelProp="Translate X"
+      classContainer="content-item-half"
+      :valueProp="value.valFiveth"
+      :minRangeProp="-2000"
+      :maxRangeProp="2000"
+      :stepValue="1"
+      @changeValue="value.valFiveth = $event"
+      @change="change"
+    />
+    
+    <input-val-component 
+      labelProp="Translate Y"
+      classContainer="content-item-half"
+      :valueProp="value.valSixth"
+      :minRangeProp="-2000"
+      :maxRangeProp="2000"
+      :stepValue="1"
+      @changeValue="value.valSixth = $event"
+      @change="change"
+    />
     
   </div>
 </template>
@@ -83,10 +83,11 @@ import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
 import { Matrix, Rotate, Scale, ScaleX } from "~/src/Css/ThreeDimensional/TransformTypes";
 import UnitSecond from '../../../../src/Unit/Time/UnitSecond';
+import InputValComponent from '../../../InputValComponent.vue';
 
 @Component({
     components: {
-        CssTwoAxisComponent
+        CssTwoAxisComponent, InputValComponent
     }
 })
 export default class MatrixComponent extends Vue {

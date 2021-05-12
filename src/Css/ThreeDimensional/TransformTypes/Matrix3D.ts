@@ -11,13 +11,20 @@ export default class Matrix3D extends Matrix
 {
     public static PROP_NAME = 'matrix3d'
 
-    valSeventh: number = 2
-    valEighth: number = 2
+    val: number = 1
+    valSecond: number = 0
+    valThird: number = 0
+    valFourth: number = 0
 
-    valNinth: number = 2
-    valTenth: number = 2
-    valEleventh: number = 2
-    valTwelfth: number = 2
+    valFiveth: number = 0
+    valSixth: number = 1
+    valSeventh: number = 0
+    valEighth: number = 0
+
+    valNinth: number = 0
+    valTenth: number = 0
+    valEleventh: number = 1
+    valTwelfth: number = 0
 
     valThirteenth: number = 200
     valFourteenth: number = 200

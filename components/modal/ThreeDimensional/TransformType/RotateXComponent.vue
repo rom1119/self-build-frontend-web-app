@@ -1,24 +1,20 @@
 <template >
   <div >
   
-      <div class="content-item-half " v-context-menu="cmNameZOffset" >
-            <h5 class="p-0 m-0">
-              X position
-            </h5>
-            <select-angle-unit-context-menu
-                  :propertyUnit="value.unit"
-                  @changePropUnit="
-                  ($event) => {
-                      value.unit = $event; change();
-                  }
-                  "
-                  :ref="cmNameZOffset"
-              />
-          <label for="">
-            current unit ({{ value.unit.label }})
-            <input type="number"  @input="change" name="zPos" v-model="value.val">
-          </label>
-        </div>
+    <input-val-component 
+        labelProp="X position"
+        classContainer="content-item-half"
+        contextMenuName="angel-units"
+        :valueProp="value.val"
+        :unitProp="value.unit"
+        :minRangeProp="-2000"
+        :maxRangeProp="2000"
+        :stepValue="1"
+        @changeValue="value.val = $event"
+        @changeUnit="value.unit = $event"
+        @change="change"
+      />
+    
     
   </div>
 </template>
@@ -35,10 +31,11 @@ import CssTwoAxisComponent from '~/components/modal/AxisCss/CssTwoAxisComponent.
 import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
 import { Rotate, RotateX } from "~/src/Css/ThreeDimensional/TransformTypes";
+import InputValComponent from '../../../InputValComponent.vue';
 
 @Component({
     components: {
-        CssTwoAxisComponent
+        CssTwoAxisComponent, InputValComponent
     }
 })
 export default class RotateXComponent extends Vue {

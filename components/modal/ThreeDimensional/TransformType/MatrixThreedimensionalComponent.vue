@@ -1,159 +1,191 @@
 <template >
   <div class="d-flex" style="flex-direction:column;">
     <div class="content-item p-0 d-flex">
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            scale X / rotate Z cos(a) / rotate Y cos(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valOne' + transformVal.id" v-model="value.val">
-        </label>
-      </div>
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            Skew Y - tan(a) / rotate Z sin(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valTwo' + transformVal.id" v-model="value.valSecond">
-        </label>
-      </div>
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            XXX / rotate Y -sin(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valThree' + transformVal.id" v-model="value.valThird">
-        </label>
-      </div>
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            XXX
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valFour' + transformVal.id" v-model="value.valFourth">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="scale X / rotate Z cos(a) / rotate Y cos(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.val"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".001"
+        @changeValue="value.val = $event"
+        @change="change"
+      />
+      <input-val-component 
+        labelProp="Skew Y - tan(a) / rotate Z sin(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.valSecond"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".001"
+        @changeValue="value.valSecond = $event"
+        @change="change"
+      />
+      
+      <input-val-component 
+        labelProp="rotate Y -sin(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.valThird"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".001"
+        @changeValue="value.valThird = $event"
+        @change="change"
+      />
+      
+      <input-val-component 
+        labelProp="XXX"
+        classContainer="content-item-quarter"
+        :valueProp="value.valFourth"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".0001"
+        @changeValue="value.valFourth = $event"
+        @change="change"
+      />
     
     </div>
     <div class="content-item p-0 d-flex">
-
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            Skew X - tan(a) / Rotate Z  -sin(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valFive' + transformVal.id" v-model="value.valFiveth">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="Skew X - tan(a) / Rotate Z  -sin(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.valFiveth"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".01"
+        @changeValue="value.valFiveth = $event"
+        @change="change"
+      />
       
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            Scale Y / rotate Z cos(a) / rotate X cos(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valSix' + transformVal.id" v-model="value.valSixth">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="Scale Y / rotate Z cos(a) / rotate X cos(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.valSixth"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".01"
+        @changeValue="value.valSixth = $event"
+        @change="change"
+      />
       
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            XXXXX / rotate X sin(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valSeventh' + transformVal.id" v-model="value.valSeventh">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="rotate X sin(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.valSeventh"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".01"
+        @changeValue="value.valSeventh = $event"
+        @change="change"
+      />
       
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            XXXX
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valEighth' + transformVal.id" v-model="value.valEighth">
-        </label>
-      </div>
-
-      
-
-    </div>
-
-    <div class="content-item p-0 d-flex">
-
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            XXXXX / rotate Y sin(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valNinth' + transformVal.id" v-model="value.valNinth">
-        </label>
-      </div>
-      
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            XXXXX / rotate X -sin(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valTenth' + transformVal.id" v-model="value.valTenth">
-        </label>
-      </div>
-      
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            Scale Z / rotate X cos(a) / rotate Y cos(a)
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valEleventh' + transformVal.id" v-model="value.valEleventh">
-        </label>
-      </div>
-      
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            XXXX
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valTwelfth' + transformVal.id" v-model="value.valTwelfth">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="XXXX"
+        classContainer="content-item-quarter"
+        :valueProp="value.valEighth"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".0001"
+        @changeValue="value.valEighth = $event"
+        @change="change"
+      />
 
     </div>
 
     <div class="content-item p-0 d-flex">
 
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            Translate X
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step="1" class="w100" @input="change" :name="'valThirteenth' + transformVal.id" v-model="value.valThirteenth">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="rotate Y sin(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.valNinth"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".001"
+        @changeValue="value.valNinth = $event"
+        @change="change"
+      />
       
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            Translate Y
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step="1" class="w100" @input="change" :name="'valFourteenth' + transformVal.id" v-model="value.valFourteenth">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="rotate X -sin(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.valTenth"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".001"
+        @changeValue="value.valTenth = $event"
+        @change="change"
+      />
       
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            Translate Z
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step="1" class="w100" @input="change" :name="'valFifteenth' + transformVal.id" v-model="value.valFifteenth">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="Scale Z / rotate X cos(a) / rotate Y cos(a)"
+        classContainer="content-item-quarter"
+        :valueProp="value.valEleventh"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".1"
+        @changeValue="value.valEleventh = $event"
+        @change="change"
+      />
       
-      <div class="content-item-quarter " >
-          <h5 class="p-0 m-0 font-sm">
-            XXXX
-          </h5>
-        <label for="" class="w100">
-          <input type="number" step=".0001" class="w100" @input="change" :name="'valSixteenth' + transformVal.id" v-model="value.valSixteenth">
-        </label>
-      </div>
+      <input-val-component 
+        labelProp="XXXX"
+        classContainer="content-item-quarter"
+        :valueProp="value.valTwelfth"
+        :minRangeProp="-2"
+        :maxRangeProp="1"
+        :stepValue=".0001"
+        @changeValue="value.valTwelfth = $event"
+        @change="change"
+      />
+
+    </div>
+
+    <div class="content-item p-0 d-flex">
+
+      <input-val-component 
+        labelProp="Translate X"
+        classContainer="content-item-quarter"
+        :valueProp="value.valThirteenth"
+        :minRangeProp="-800"
+        :maxRangeProp="1900"
+        :stepValue="1"
+        @changeValue="value.valThirteenth = $event"
+        @change="change"
+      />
+      
+      <input-val-component 
+        labelProp="Translate Y"
+        classContainer="content-item-quarter"
+        :valueProp="value.valFourteenth"
+        :minRangeProp="-800"
+        :maxRangeProp="1900"
+        :stepValue="1"
+        @changeValue="value.valFourteenth = $event"
+        @change="change"
+      />
+      
+      
+      <input-val-component 
+        labelProp="Translate Z"
+        classContainer="content-item-quarter"
+        :valueProp="value.valFifteenth"
+        :minRangeProp="-800"
+        :maxRangeProp="1900"
+        :stepValue="1"
+        @changeValue="value.valFifteenth = $event"
+        @change="change"
+      />
+      
+      <input-val-component 
+        labelProp="XXX"
+        classContainer="content-item-quarter"
+        :valueProp="value.valSixteenth"
+        :minRangeProp="-2"
+        :maxRangeProp="2"
+        :stepValue=".001"
+        @changeValue="value.valSixteenth = $event"
+        @change="change"
+      />
 
     </div>
     
@@ -173,10 +205,11 @@ import { TransformCss, TransformOrigin } from "~/src/Css";
 import { TransformCssStruct } from "~/src/Css/ThreeDimensional/TransformCss";
 import { Matrix, Matrix3D, Rotate, Scale, ScaleX } from "~/src/Css/ThreeDimensional/TransformTypes";
 import UnitSecond from '../../../../src/Unit/Time/UnitSecond';
+import InputValComponent from '../../../InputValComponent.vue';
 
 @Component({
     components: {
-        CssTwoAxisComponent
+        CssTwoAxisComponent, InputValComponent
     }
 })
 export default class MatrixThreedimensionalComponent extends Vue {

@@ -18,62 +18,34 @@
         </label>
       </div>
       <div class="content-item d-flex p-0">
-          <div class="content-item-half p-0" v-context-menu="cmNameDuration">
-            <label :for="'textShadowBlur-'" class="">
-              Duration
-              <br>
-              <input
-                @dblclick.stop.prevent=""
-                type="number"
-                @input="change"
-                style="width: 40px"
-                class="input-text"
-                v-model="value.duration"
-                name="duration"
-                :id="'duration-'"
-              />
-              {{ value.durationValue }}
-              <select-time-unit-context-menu
-                :propertyUnit="value.durationUnit"
-                @changePropUnit="
-                  ($event) => {
-                    value.durationUnit = $event;
-                    change();
-                  }
-                "
-                :ref="cmNameDuration"
-              />
-            </label>
-
-        </div>
-        <div class="content-item-half p-0" v-context-menu="cmNameDelay">
-          <label :for="'textShadowSpread-'" class="">
-            Delay
-            <br>
-            <input
-              @dblclick.stop.prevent=""
-              type="number"
-              @input="change"
-              style="width: 40px"
-              class="input-text"
-              v-model="value.delay"
-              name="delay"
-              :id="'delay-'"
-            />
-            {{ value.delayValue }}
-            <select-time-unit-context-menu
-              :propertyUnit="value.delayUnit"
-              @changePropUnit="
-                ($event) => {
-                  value.delayUnit = $event;
-                  change();
-                }
-              "
-              :ref="cmNameDelay"
-            />
-          </label>
-   
-        </div>
+        <input-val-component 
+          labelProp="Duration"
+          classContainer="content-item-half p-0"
+          contextMenuName="time-units"
+          :valueProp="value.duration"
+          :unitProp="value.durationUnit"
+          :minRangeProp="-20000"
+          :maxRangeProp="20000"
+          :stepValue="1"
+          @changeValue="value.duration = $event"
+          @changeUnit="value.durationUnit = $event"
+          @change="change"
+        />
+        
+        <input-val-component 
+          labelProp="Delay"
+          classContainer="content-item-half p-0"
+          contextMenuName="time-units"
+          :valueProp="value.delay"
+          :unitProp="value.delayUnit"
+          :minRangeProp="-20000"
+          :maxRangeProp="20000"
+          :stepValue="1"
+          @changeValue="value.delay = $event"
+          @changeUnit="value.delayUnit = $event"
+          @change="change"
+        />
+        
       </div>
       <div class="content-item__elem p-0" v-context-menu="cmNameTimingFunction">
         <select-timing-function-menu
@@ -197,10 +169,11 @@ import TimingFunction from "~/src/Animation/timingFunction/TimingFunction";
 import AnimationCss, { AnimationCssStruct } from "~/src/Css/Animation/AnimationCss";
 import KeyFrame from "~/src/Animation/KeyFrame";
 import KeyFrameAccessor from "~/src/Animation/KeyFrameAccessor";
+import InputValComponent from '../../InputValComponent.vue';
 
 @Component({
   components: {
-    Chrome,
+    Chrome, InputValComponent
   },
 })
 export default class AnimationValueComponent extends Vue {
