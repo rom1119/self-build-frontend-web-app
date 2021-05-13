@@ -89,7 +89,7 @@ export default class RadialGradientProperty extends BaseGradientPropertyManager<
         } else {
 
             this.getProperty().setActive(false)
-            let copy: RadialGradientCss = _.cloneDeep(this.getProperty())
+            let copy: RadialGradientCss = this.getProperty().deepCopyThis()
 
             let el = this.createInitValue()
             let elTwo = this.createInitValueNext()

@@ -91,7 +91,7 @@ export default class RepeatingRadialGradientProperty  extends RadialGradientProp
         } else {
 
             this.getProperty().setActive(false)
-            let copy: RepeatingRadialGradientCss = _.cloneDeep(this.getProperty())
+            let copy: RepeatingRadialGradientCss = this.getProperty().deepCopyThis()
 
             let el = this.createInitValue()
             let elTwo = this.createInitValueNext()

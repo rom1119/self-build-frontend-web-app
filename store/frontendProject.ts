@@ -15,8 +15,11 @@ import FontFaceModelBuild from '../src/ModelFromResponseBuilder/impl/FontFaceMod
 import KeyFrameModel from '../types/KeyFrameModel';
 import KeyFrameResponse from '../types/response/KeyFrameResponse';
 import KeyFrameModelBuild from '../src/ModelFromResponseBuilder/impl/KeyFrameModelBuild';
+import ProjectFrontendModelBuildResponse from '~/src/ModelFromResponseBuilder/impl/ProjectFrontendModelBuildResponse';
+import ResponseFromModel from '../src/ModelFromResponseBuilder/ResponseFromModel';
 
 let builder: ModelFromResponse<ProjectFrontendResponse, ProjectFrontendModel> = new ProjectFrontendModelBuild()
+let builderResponse: ResponseFromModel<ProjectFrontendModel, ProjectFrontendResponse> = new ProjectFrontendModelBuildResponse()
 let mediaQueryBuilder: ModelFromResponse<MediaQueryResponse, MediaQueryModel> = new MediaQueryModelBuild()
 let fontFaceBuilder: ModelFromResponse<FontFaceResponse, FontFaceModel> = new FontFaceModelBuild()
 let keyFrameBuilder: ModelFromResponse<KeyFrameResponse, KeyFrameModel> = new KeyFrameModelBuild()
@@ -86,17 +89,40 @@ const actions: ActionTree<FrontendProjectState, FrontendProjectState> = {
         keyFrameQueryArray.push(modelkeyFrame)
     }
 
-      return { model: model, mediaQueryList:  mediaQueryArray, fontFaceList: fontFaceQueryArray, keyFrameList: keyFrameQueryArray}
+      return { model: _.cloneDeep(model), mediaQueryList:  mediaQueryArray, fontFaceList: fontFaceQueryArray, keyFrameList: keyFrameQueryArray}
   },
-  async create({ commit, state}, token: ProjectFrontendModel) {
+  async save({ commit, state}, token: ProjectFrontendModel) {
       // @ts-ignore
-      let model = builder.build(token)
+    let res = builderResponse.build(token)
+    var response
+    if (res.id) {
+      response = await this.$axios.$put(`/api/html-project/${res.id}`, res)
+      
+    } else {
+      response = await this.$axios.$post(`/api/html-project`, res)
+
+    }
+
         // console.log(model)
     let returnArray: ProjectFrontendModel[] = []
 
-      commit('deleteAll')
-      commit('insert', model)
-    return _.cloneDeep(model)
+      // commit('deleteAll')
+      // commit('insert', model)
+    return _.cloneDeep(response)
+  },
+  
+  async delete({ commit, state }, token: ProjectFrontendModel) {
+      // @ts-ignore
+    // let res = builderResponse.build(token)
+    var response
+    response = await this.$axios.delete(`/api/html-project/${token.id}`)
+
+        // console.log(model)
+    let returnArray: ProjectFrontendModel[] = []
+
+      // commit('deleteAll')
+      // commit('insert', model)
+    return _.cloneDeep(response)
   },
 
 }

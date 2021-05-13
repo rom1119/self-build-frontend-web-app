@@ -32,6 +32,9 @@ export default abstract class BasePropertyCss
         return true
     }
 
+    public deepCopyThis() {
+        return this.deepCopy(this)
+    }
     public deepCopy(obj) {
         var copy;
 

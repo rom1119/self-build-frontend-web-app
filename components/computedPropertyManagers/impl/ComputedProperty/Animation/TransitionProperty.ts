@@ -51,7 +51,7 @@ export default class TransitionProperty extends BaseComputedPropertyManager<Tran
         } else {
 
             this.getProperty().setActive(false)
-            let copy = _.cloneDeep(this.getProperty())
+            let copy = this.getProperty().deepCopyThis()
 
             let el = this.createInitValue()
             copy.clearValue()

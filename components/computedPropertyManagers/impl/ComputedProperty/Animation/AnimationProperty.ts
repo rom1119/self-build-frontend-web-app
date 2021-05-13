@@ -53,7 +53,7 @@ export default class AnimationProperty extends BaseComputedPropertyManager<Anima
         } else {
 
             this.getProperty().setActive(false)
-            let copy = _.cloneDeep(this.getProperty())
+            let copy = this.getProperty().deepCopyThis()
 
             let el = this.createInitValue()
             copy.clearValue()

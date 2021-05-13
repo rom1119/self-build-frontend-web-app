@@ -115,7 +115,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.leftProperty.setActive(true)
         } else {
             this.leftProperty.setActive(false)
-            let copy = _.cloneDeep(this.leftProperty)
+            let copy = this.leftProperty.deepCopyThis()
             this.leftProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valLeft) {
@@ -139,7 +139,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.rightProperty.setActive(true)
         } else {
             this.rightProperty.setActive(false)
-            let copy = _.cloneDeep(this.rightProperty)
+            let copy = this.rightProperty.deepCopyThis()
             this.rightProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valRight) {
@@ -164,7 +164,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.topProperty.setActive(true)
         } else {
             this.topProperty.setActive(false)
-            let copy = _.cloneDeep(this.topProperty)
+            let copy = this.topProperty.deepCopyThis()
             this.topProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valTop) {
@@ -189,7 +189,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.bottomProperty.setActive(true)
         } else {
             this.bottomProperty.setActive(false)
-            let copy = _.cloneDeep(this.bottomProperty)
+            let copy = this.bottomProperty.deepCopyThis()
             this.bottomProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valBottom) {
@@ -215,7 +215,7 @@ export default class PaddingComputedPropertyManager implements DirectionComputed
             this.globalProperty.setActive(true)
         } else {
             this.globalProperty.setActive(false)
-            let copy = _.cloneDeep(this.globalProperty)
+            let copy = this.globalProperty.deepCopyThis()
             this.globalProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valGlobal) {

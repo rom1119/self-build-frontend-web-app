@@ -4,6 +4,7 @@ import HtmlTagModel from './HtmlTagModel';
 export default class ProjectFrontendModel extends AggregateRoot {
 
     name 
+    version 
     htmlTags: HtmlTagModel[]
 
     constructor() 

@@ -139,7 +139,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.rightProperty.setActive(true)
         } else {
             this.rightProperty.setActive(false)
-            let copy = _.cloneDeep(this.rightProperty)
+            let copy = this.rightProperty.deepCopyThis()
             this.rightProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valRight) {
@@ -165,7 +165,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.topProperty.setActive(true)
         } else {
             this.topProperty.setActive(false)
-            let copy = _.cloneDeep(this.topProperty)
+            let copy = this.topProperty.deepCopyThis()
             this.topProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valTop) {
@@ -190,7 +190,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.bottomProperty.setActive(true)
         } else {
             this.bottomProperty.setActive(false)
-            let copy = _.cloneDeep(this.bottomProperty)
+            let copy = this.bottomProperty.deepCopyThis()
             this.bottomProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valBottom) {
@@ -216,7 +216,7 @@ export default class MarginComputedPropertyManager implements DirectionComputedP
             this.globalProperty.setActive(true)
         } else {
             this.globalProperty.setActive(false)
-            let copy = _.cloneDeep(this.globalProperty)
+            let copy = this.globalProperty.deepCopyThis()
             this.globalProperty = copy
             this.setTmpPropertyToModel(copy)
             if (valGlobal) {

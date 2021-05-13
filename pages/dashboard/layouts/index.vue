@@ -2,6 +2,13 @@
     <div >
         <h1>Stworzone Layouty</h1>
 
+        <div class="row">
+            <div class="col-12 d-flex justify-content__end">
+                <nuxt-link tag="button" class="btn btn-primary pull-right"  :to="{ name: 'dashboard-layouts-new'}">
+                    Nowy projekt
+                </nuxt-link>
+            </div>
+        </div>
 
         <div class="content content--bg mt-5">
             <div class="row">
@@ -38,6 +45,14 @@
                                     <nuxt-link tag="a" class="btn btn-primary"  :to="{ name: 'dashboard-layout-creator-id', params: { id: el.id }}">
                                         Otwórz projekt
                                     </nuxt-link>
+                                    
+                                    <nuxt-link tag="a" class="btn btn-primary"  :to="{ name: 'dashboard-layouts-edit-id', params: { id: el.id }}">
+                                        Edytuj
+                                    </nuxt-link>
+                                    
+                                    <button @click="deleteItem(el)" class="btn btn-primary"  >
+                                        Usuń
+                                    </button>
 
                                 </td>
 <!--                                <td>-->
@@ -48,7 +63,7 @@
 <!--                                <td>Woj. Mazowieckie</td>-->
                             </tr>
 
-                            <tr class="spacer"></tr>
+                            <!-- <tr class="spacer"></tr> -->
                         </template>
 
                         </tbody>
@@ -73,9 +88,10 @@
 
 <script lang="ts">
     import {Component, Vue, Watch} from 'vue-property-decorator'
-import DomainToModel from '../../src/Transformer/DomainToModel';
-import ModelToDomain from '../../src/Transformer/ModelToDomain';
-import DefaultModelToDomain from '../../src/Transformer/impl/DefaultModelToDomain';
+import DomainToModel from '../../../src/Transformer/DomainToModel';
+import ModelToDomain from '../../../src/Transformer/ModelToDomain';
+import DefaultModelToDomain from '../../../src/Transformer/impl/DefaultModelToDomain';
+import ProjectFrontendModel from '~/types/ProjectFrontendModel';
 
     @Component({
         'layout': 'dashboard-layout',
@@ -89,6 +105,7 @@ import DefaultModelToDomain from '../../src/Transformer/impl/DefaultModelToDomai
         search = ''
         items: any[] = []
         storeFetchEndpoint = 'frontendProject/findAll'
+        storeDeleteEndpoint = 'frontendProject/delete'
 
         @Watch('currentProvince')
         async onCurrentProvince() {
@@ -100,7 +117,24 @@ import DefaultModelToDomain from '../../src/Transformer/impl/DefaultModelToDomai
             }
             this.$loadingDialog.hide()
         }
-
+        async deleteItem(project: ProjectFrontendModel) {
+            try {
+                var res = await this.$store.dispatch(this.storeDeleteEndpoint, project)
+                var keyToRemove
+                for (const key in this.items) {
+                    var el = this.items[key]
+                    if (el.id === project.id) {
+                        keyToRemove = key
+                    }
+                }
+                if (keyToRemove != null) {
+                    this.items.splice(keyToRemove, 1)
+                }
+            } catch (e) {
+                alert('Błąd usuwania')
+            }
+        }
+    
         async fetchItems(data) {
             this.items = data
 

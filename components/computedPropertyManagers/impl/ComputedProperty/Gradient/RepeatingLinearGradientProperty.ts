@@ -90,7 +90,7 @@ export default class RepeatingLinearGradientProperty  extends LinearGradientProp
         } else {
 
             this.getProperty().setActive(false)
-            let copy = _.cloneDeep(this.getProperty())
+            let copy = this.getProperty().deepCopyThis()
 
             let el = this.createInitValue()
             let elTwo = this.createInitValueNext()
