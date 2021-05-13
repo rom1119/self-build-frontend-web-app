@@ -47,127 +47,94 @@
                 <template v-if="value">
                     <div class="content-item" v-show="value.hasPosition">
                     <h4 class="content-item__header">Pozycja</h4>
-                    <ul class="content-item__elem_container">
-                        <li
-                        class="content-item__elem"
-                        v-context-menu="cmNameLeft"
-                        style="padding: 10px"
-                        @dblclick="hasLeft = !hasLeft"
-                        :class="{ active: hasLeft }"
-                        >
-                        <select-unit-context-menu
-                            :propertyUnit="leftUnit"
-                            @changePropUnit="
-                            ($event) => {
-                                leftUnit = $event;
-                            }
-                            "
-                            :ref="cmNameLeft"
-                        />
+                    <div class="content-item__elem_container">
+                        <div 
+                            class="content-item-quarter" 
+                            style="padding: 10px"
+                            @dblclick="hasLeft = !hasLeft"
+                            :class="{ active: hasLeft }">
+                            <input-val-component 
+                                labelProp="Left"
+                                classContainer="content-item"
+                                contextMenuName="length-units"
+                                :valueProp="left"
+                                :unitProp="leftUnit"
+                                :minRangeProp="-2000"
+                                :maxRangeProp="2000"
+                                :stepValue="1"
+                                @changeValue="left = $event"
+                                @changeUnit="leftUnit = $event"
+                                @change="change"
+                            />
 
-                        <label :for="'left-'">
-                            Left
-                            <input
-                            type="number"
-                            style="width: 60px"
-                            class="input-text"
-                            v-model="left"
-                            name="left"
-                            :id="'left-'"
+                        </div>
+                        
+                        <div 
+                            class="content-item-quarter" 
+                            style="padding: 10px"
+                            @dblclick="hasRight = !hasRight"
+                            :class="{ active: hasRight }">
+                            <input-val-component 
+                                labelProp="Right"
+                                classContainer="content-item"
+                                contextMenuName="length-units"
+                                :valueProp="right"
+                                :unitProp="rightUnit"
+                                :minRangeProp="-2000"
+                                :maxRangeProp="2000"
+                                :stepValue="1"
+                                @changeValue="right = $event"
+                                @changeUnit="rightUnit = $event"
+                                @change="change"
                             />
-                            {{ leftUnit.label }}
-                        </label>
-                        </li>
-                        <li
-                        class="content-item__elem"
-                        v-context-menu="cmNameRight"
-                        style="padding: 10px"
-                        @dblclick="hasRight = !hasRight"
-                        :class="{ active: hasRight }"
-                        >
-                        <select-unit-context-menu
-                            :propertyUnit="rightUnit"
-                            @changePropUnit="
-                            ($event) => {
-                                rightUnit = $event;
-                            }
-                            "
-                            :ref="cmNameRight"
-                        />
 
-                        <label :for="'right-'">
-                            Right
-                            <input
-                            type="number"
-                            style="width: 60px"
-                            class="input-text"
-                            v-model="right"
-                            name="right"
-                            :id="'right-'"
+                        </div>
+                        
+                        <div 
+                            class="content-item-quarter" 
+                            style="padding: 10px"
+                            @dblclick="hasTop = !hasTop"
+                            :class="{ active: hasTop }">
+                            <input-val-component 
+                                labelProp="Top"
+                                classContainer="content-item"
+                                contextMenuName="length-units"
+                                :valueProp="top"
+                                :unitProp="topUnit"
+                                :minRangeProp="-2000"
+                                :maxRangeProp="2000"
+                                :stepValue="1"
+                                @changeValue="top = $event"
+                                @changeUnit="topUnit = $event"
+                                @change="change"
                             />
-                            {{ rightUnit.label }}
-                        </label>
-                        </li>
-                        <li
-                        class="content-item__elem"
-                        v-context-menu="cmNameTop"
-                        style="padding: 10px"
-                        @dblclick="hasTop = !hasTop"
-                        :class="{ active: hasTop }"
-                        >
-                        <select-unit-context-menu
-                            :propertyUnit="topUnit"
-                            @changePropUnit="
-                            ($event) => {
-                                topUnit = $event;
-                            }
-                            "
-                            :ref="cmNameTop"
-                        />
-                        <label :for="'top-'">
-                            Top
-                            <input
-                            type="number"
-                            style="width: 60px"
-                            class="input-text"
-                            v-model="top"
-                            name="top"
-                            :id="'top-'"
-                            />
-                            {{ topUnit.label }}
-                        </label>
-                        </li>
 
-                        <li
-                        class="content-item__elem"
-                        v-context-menu="cmNameBottom"
-                        style="padding: 10px"
-                        @dblclick="hasBottom = !hasBottom"
-                        :class="{ active: hasBottom }"
-                        >
-                        <select-unit-context-menu
-                            :propertyUnit="bottomUnit"
-                            @changePropUnit="
-                            ($event) => {
-                                bottomUnit = $event;
-                            }
-                            "
-                            :ref="cmNameBottom"
-                        />
-                        <label :for="'bottom-'">
-                            Bottom
-                            <input
-                            type="number"
-                            style="width: 60px"
-                            class="input-text"
-                            v-model="bottom"
-                            name="bottom"
-                            :id="'bottom-'"
+                        </div>
+                        
+                        <div 
+                            class="content-item-quarter" 
+                            style="padding: 10px"
+                            @dblclick="hasBottom = !hasBottom"
+                            :class="{ active: hasBottom }">
+                            <input-val-component 
+                                labelProp="Bottom"
+                                classContainer="content-item"
+                                contextMenuName="length-units"
+                                :valueProp="bottom"
+                                :unitProp="bottomUnit"
+                                :minRangeProp="-2000"
+                                :maxRangeProp="2000"
+                                :stepValue="1"
+                                @changeValue="bottom = $event"
+                                @changeUnit="bottomUnit = $event"
+                                @change="change"
                             />
-                            {{ bottomUnit.label }}
-                        </label>
-                        </li>
-                    </ul>
+
+                        </div>
+                        
+                        
+
+                    </div>
                     </div>
                 </template>
                 <div
@@ -467,10 +434,11 @@
     import { Chrome }  from '~/node_modules/vue-color';
 import { AlignItems, BorderCollapse, Clear, Display, FlexDirection, FlexWrap, Float, JustifyContent, PositionCss } from '../../../src/Css';
 import DisplayManage from '../DisplayManage';
+import InputValComponent from '../../InputValComponent.vue';
 
     @Component({
         components: {
-            Chrome
+            Chrome, InputValComponent
         }
     })
     export default class DisplayManageComponent extends DisplayManage {

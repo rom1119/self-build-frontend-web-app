@@ -1,93 +1,55 @@
 <template >
   <div class="content-item__elem_container">
-    <div class="content-item__elem" v-context-menu="cmNameTextShadowOffX">
-      <select-unit-context-menu
-        :propertyUnit="value.offsetXUnit"
-        @changePropUnit="
-          () => {
-            value.offsetXUnit = $event;
-            change();
-          }
-        "
-        :ref="cmNameTextShadowOffX"
+  
+    <input-val-component 
+        labelProp="Offset X"
+        classContainer="content-item-half"
+        contextMenuName="length-units"
+        :valueProp="value.offsetX"
+        :unitProp="value.offsetXUnit"
+        :minRangeProp="-500"
+        :maxRangeProp="500"
+        :stepValue="1"
+        @changeValue="value.offsetX = $event"
+        @changeUnit="value.offsetXUnit = $event"
+        @change="change"
       />
-
-      <label :for="'textShadowOffesetX-'">
-        Offset X
-        <input
-          @dblclick.stop.prevent=""
-          type="number"
-          @input="change"
-          style="width: 40px"
-          class="input-text"
-          v-model="value.offsetX"
-          name="textShadowOffesetX"
-          :id="'textShadowOffesetX-'"
-        />
-        {{ value.offsetXUnit.label }}
-      </label>
-    </div>
-    <div class="content-item__elem" v-context-menu="cmNameTextShadowOffY">
-      <select-unit-context-menu
-        :propertyUnit="value.offsetYUnit"
-        @changePropUnit="
-          () => {
-            value.offsetYUnit = $event;
-            change();
-          }
-        "
-        :ref="cmNameTextShadowOffY"
+      
+      <input-val-component 
+        labelProp="Offset Y"
+        classContainer="content-item-half"
+        contextMenuName="length-units"
+        :valueProp="value.offsetY"
+        :unitProp="value.offsetYUnit"
+        :minRangeProp="-500"
+        :maxRangeProp="500"
+        :stepValue="1"
+        @changeValue="value.offsetY = $event"
+        @changeUnit="value.offsetYUnit = $event"
+        @change="change"
       />
+      
+    <input-val-component 
+      labelProp="Blur"
+      classContainer="content-item__elem"
+      contextMenuName="length-units"
+      :valueProp="value.blur"
+      :unitProp="value.blurUnit"
+      :minRangeProp="-500"
+      :maxRangeProp="500"
+      :stepValue="1"
+      @changeValue="value.blur = $event"
+      @changeUnit="value.blurUnit = $event"
+      @change="change"
+    />
 
-      <label :for="'textShadowOffesetY-'">
-        Offset Y
-        <input
-          @dblclick.stop.prevent=""
-          type="number"
-          @input="change"
-          style="width: 40px"
-          class="input-text"
-          v-model="value.offsetY"
-          name="textShadowOffesetY"
-          :id="'textShadowOffesetY-'"
-        />
-        {{ value.offsetYUnit.label }}
-      </label>
-    </div>
-
-    <div class="content-item__elem" v-context-menu="cmNameTextShadowBlur">
-      <select-unit-context-menu
-        :propertyUnit="value.blurUnit"
-        @changePropUnit="
-          () => {
-            value.blurUnit = $event;
-            change();
-          }
-        "
-        :ref="cmNameTextShadowBlur"
-      />
-
-      <label :for="'textShadowBlur-'">
-        Blur
-        <input
-          @dblclick.stop.prevent=""
-          type="number"
-          @input="change"
-          style="width: 40px"
-          class="input-text"
-          v-model="value.blur"
-          name="textShadowBlur"
-          :id="'textShadowBlur-'"
-        />
-        {{ value.blurUnit.label }}
-      </label>
-    </div>
     <div class="content-item__elem content">
       <div class="color-picker-box" @dblclick.stop.prevent="">
         <label @dblclick.stop.prevent="">Kolor</label>
         <div
           @dblclick.stop.prevent=""
           class="color-picker-btn"
+          :style="{'background-color': colorValue}"
           @click.stop="toggleColorPicker()"
         ></div>
         <span class="p-abs" style="top: 20px; right: -5px;">
@@ -97,7 +59,7 @@
 
         <div
           class="color-picker"
-          style="left 230px; top: 30px;"
+          style="left: 0; top: 30px;"
           v-show="pickerActive"
         >
           <Chrome v-model="color" :color="color" label="Color" />
@@ -120,10 +82,11 @@ import { TextShadowStruct } from "~/src/Css/Shadow/TextShadowCss";
 import { Chrome } from "~/node_modules/vue-color";
 import { RGBA } from "~/src/Unit";
 import HtmlTag from "~/src/Layout/HtmlTag";
+import InputValComponent from '../../InputValComponent.vue';
 
 @Component({
   components: {
-    Chrome,
+    Chrome, InputValComponent
   },
 })
 export default class TextShadowValueComponent extends Vue {
@@ -150,7 +113,7 @@ export default class TextShadowValueComponent extends Vue {
     Math.floor(Math.random() * 1000000000).toString() + "text-shadow-color";
 
   pickerActive = false;
-
+  colorValue = ''
   color: any = {
     r: 255,
     g: 0,
@@ -171,6 +134,9 @@ export default class TextShadowValueComponent extends Vue {
       this.color.b = this.value.color.b;
       this.color.a = this.value.color.a;
     }
+
+    this.colorValue = this.value.getColorValue()
+
   }
 
   toggleColorPicker() {
@@ -198,6 +164,8 @@ export default class TextShadowValueComponent extends Vue {
     console.log(this.color);
     this.value.color = this.color.rgba;
     this.value.colorUnit = new RGBA();
+    this.colorValue = this.value.getColorValue()
+
     this.change();
     this.toggleColorPicker();
   }

@@ -175,10 +175,28 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
         if (this.values.length == 0) {
             throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
         }
-        // if (this.values[0].toString().length < 1) {
-        //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+        var val = '' + this.getName() + '('
+        if (this.direction) {
+            if (this.direction.getFullValue().trim().length > 0) {
+                val += this.direction.getFullValue() + ', '
+            }
 
-        // }
+        }
+        
+        this.values.forEach((element, key) => {
+            val += element.getFullValue()
+            if (key < this.values.length - 1) {
+                val += ', '
+            }
+        });
+
+        val += ')'
+        
+        return val
+    }
+
+    get value(): string
+    {
         var val = '' + this.getName() + '('
         if (this.direction) {
             if (this.direction.getFullValue().trim().length > 0) {

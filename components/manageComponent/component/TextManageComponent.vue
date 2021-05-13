@@ -27,37 +27,37 @@
 
                 <div class="content-item-half" >
                     <div @dblclick="hasFontSize = !hasFontSize" :class="{'active': hasFontSize}">
-                        <h4 class="content-item__header">
-                            Rozmiar tekstu
-                        </h4>
-                        <div class="content-item__elem"
-                                v-context-menu="cmNameFontSize"
-                            >
-                            <select-unit-context-menu :propertyUnit="fontSizeUnit" @changePropUnit="($event) => {fontSizeUnit = $event;}" :ref="cmNameFontSize" />
-
-                            <label :for="'fontSize-'">
-
-                                <input @dblclick.stop.prevent="" type="number" style="width: 60px;" step=".01" class="input-text" v-model="fontSize" name="fontSize" :id="'fontSize-'">
-                                {{ fontSizeUnit.label }}
-                            </label>
-                        </div>
+                        <input-val-component 
+                            labelProp="Rozmiar tekstu"
+                            classContainer="content-item"
+                            contextMenuName="length-units"
+                            :valueProp="fontSize"
+                            :unitProp="fontSizeUnit"
+                            :minRangeProp="-200"
+                            :maxRangeProp="200"
+                            :stepValue="1"
+                            @changeValue="fontSize = $event"
+                            @changeUnit="fontSizeUnit = $event"
+                            @change="change"
+                        />
 
                     </div>
                     <div @dblclick="hasLineHeight = !hasLineHeight" :class="{'active': hasLineHeight}">
-                        <h4 class="content-item__header">
-                            Wysokość linii
-                        </h4>
-                        <div class="content-item__elem"
-                                v-context-menu="cmNameLineHeight"
-                            >
-                            <select-unit-context-menu :propertyUnit="lineHeightUnit" @changePropUnit="($event) => {lineHeightUnit = $event;}" :ref="cmNameLineHeight" />
 
-                            <label :for="'lineHeight-'">
-
-                                <input @dblclick.stop.prevent="" type="number" style="width: 60px;" step=".01" class="input-text" v-model="lineHeight" name="lineHeight" :id="'lineHeight-'">
-                                {{ lineHeightUnit.label }}
-                            </label>
-                        </div>
+                        <input-val-component 
+                            labelProp="Wysokość linii"
+                            classContainer="content-item"
+                            contextMenuName="length-units"
+                            :valueProp="lineHeight"
+                            :unitProp="lineHeightUnit"
+                            :minRangeProp="-200"
+                            :maxRangeProp="200"
+                            :stepValue="1"
+                            @changeValue="lineHeight = $event"
+                            @changeUnit="lineHeightUnit = $event"
+                            @change="change"
+                        />
+                        
                     </div>
                     <div @dblclick="hasTextAlign = !hasTextAlign" :class="{'active': hasTextAlign}">
                         <h4 class="content-item__header">
@@ -164,10 +164,11 @@ import { FontStyle } from '../../../src/Css';
 import FontStretch from '../../../src/Css/Text/FontStretch';
 import FontFamilyValDomain from '~/src/Fonts/FontFamilyValDomain';
 import FontManage from '../FontManage';
+import InputValComponent from '../../InputValComponent.vue';
 
     @Component({
         components: {
-            Chrome
+            Chrome, InputValComponent
         }
     })
     export default class TextManageComponent extends FontManage {

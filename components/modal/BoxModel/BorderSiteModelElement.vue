@@ -19,7 +19,7 @@
             <div class="color-picker-box" @dblclick.stop.prevent="">
                 <div class="color-picker-btn" :style="{'background-color': backgroundColor}"  @click.stop="toggleColorPicker()">
                 </div>
-                <div class="color-picker" v-show="pickerActive">
+                <div class="color-picker" style="left: 0; top: 30px;" v-show="pickerActive">
                     <Chrome v-model="borderColor" :color="borderColor" label="Color" />
                     <div class="color-picker-nav">
                         <button @click="cancelColor">Anuluj</button>

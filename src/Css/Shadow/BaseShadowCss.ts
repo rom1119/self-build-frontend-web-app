@@ -221,5 +221,22 @@ export default abstract class BaseShadowCss extends BasePropertyCss implements C
         return val
     }
 
+    get value(): string
+    {
+        // if (this.values[0].toString().length < 1) {
+        //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+
+        // }
+        var val = ''
+        this.values.forEach((element, key) => {
+            val += element.getFullValue()
+            if (key < this.values.length - 1) {
+                val += ', '
+            }
+        });
+        
+        return val
+    }
+
     
 }
