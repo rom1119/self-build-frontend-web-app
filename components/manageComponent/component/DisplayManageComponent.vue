@@ -64,7 +64,6 @@
                                 :stepValue="1"
                                 @changeValue="left = $event"
                                 @changeUnit="leftUnit = $event"
-                                @change="change"
                             />
 
                         </div>
@@ -85,7 +84,6 @@
                                 :stepValue="1"
                                 @changeValue="right = $event"
                                 @changeUnit="rightUnit = $event"
-                                @change="change"
                             />
 
                         </div>
@@ -106,7 +104,6 @@
                                 :stepValue="1"
                                 @changeValue="top = $event"
                                 @changeUnit="topUnit = $event"
-                                @change="change"
                             />
 
                         </div>
@@ -127,7 +124,6 @@
                                 :stepValue="1"
                                 @changeValue="bottom = $event"
                                 @changeUnit="bottomUnit = $event"
-                                @change="change"
                             />
 
                         </div>

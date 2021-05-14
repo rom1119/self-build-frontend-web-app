@@ -4,7 +4,7 @@
     <input-val-component 
         labelProp="X val"
         classContainer="content-item-half"
-        contextMenuName="angel-units"
+        contextMenuName="angle-units"
         :valueProp="value.val"
         :unitProp="value.unit"
         :minRangeProp="-2000"
@@ -18,7 +18,7 @@
       <input-val-component 
         labelProp="Y val"
         classContainer="content-item-half"
-        contextMenuName="angel-units"
+        contextMenuName="angle-units"
         :valueProp="value.valSecond"
         :unitProp="value.unitSecond"
         :minRangeProp="-2000"

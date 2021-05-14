@@ -1,14 +1,11 @@
-import LayoutEl from "../LayoutEl";
 import Percent from '../Unit/Size/Percent';
 import Pixel from "../Unit/Size/Pixel";
 import UnitSize from '~/src/Unit/UnitSize';
-import CssList from './CssList';
 import UnitColor from "../Unit/UnitColor";
 import Named from "../Unit/Named";
 import SizeActivable from "../SizeActivable";
 import BorderModel from "./Border/BorderModel";
 import CssPropertyAccessor from '../Css/CssPropertyAccessor';
-import DefaultCssPropertyAccessor from "../Css/PropertyAccessor/ContentElCssPropertyAccessor";
 import Width from '../Css/Size/Width';
 import Height from "../Css/Size/Height";
 import BackgroundColor from "../Css/Background/BackgroundColor";
@@ -26,13 +23,11 @@ import FontSize from '../Css/Text/FontSize';
 import PaddingLeftCss from '../Css/BoxModel/Padding/PaddingLeftCss';
 import FetcherRealCssProp from "../FetcherRealCssProp";
 import PaddingRealCssFetcher from "../Css/RealCssProp/PadingRealCssFetcher";
-import ContentElPropertyAccessor from "../Css/PropertyAccessor/ContentElCssPropertyAccessor";
 import MarginFilterCssInjector from "../FilterCssInjector/MarginFilterCssInjector";
 import MarginCss from "../Css/BoxModel/Margin/MarginCss";
 import BaseMarginCss from "../Css/BoxModel/BaseMarginCss";
 import MarginRealCssFetcher from "../Css/RealCssProp/MarginRealCssFetcher";
 import _ from 'lodash'
-import CssAuto from '~/src/Css/CssAuto';
 import BorderRealCssFetcher from "../Css/RealCssProp/BorderRealCssFetcher";
 import BorderGlobalCss from "../Css/Border/Global/BorderGlobalCss";
 import BoxSizing from '../Css/BoxModel/BoxSizing';
@@ -40,7 +35,6 @@ import BaseBorderCss from "../Css/Border/BaseBorderCss";
 import BorderFilterCssInjector from "../FilterCssInjector/BorderFilterCssInjector";
 import Display from '../Css/Display/Display';
 import ApiService from "../Api/ApiService";
-import DefaultApiService from "../Api/impl/DefaultApiService";
 import ContentFilterCssInjector from "../FilterCssInjector/ContentFilterCssInjector";
 import ContentSizeCss from '../Css/Size/ContentSizeCss';
 import ActivableTagToManage from "../ActivableTagToManage";
@@ -51,39 +45,26 @@ import BorderFetcherRealCssProp from "../BorderFetcherRealCssProp";
 import { VueFixStyleListTransform } from "../Vue/VueFixStyleListTransform";
 import AttributesAccessor from "../Attribute/AttributesAccessor";
 import DefaultAttributesAccessor from '../Attribute/impl/DefaultAttributesAccessor';
-import Input from './tag/Form/Input';
 import BoxShadowCss from '../Css/Shadow/BoxShadowCss';
 import PositionCss from '../Css/Display/PositionCss';
-import LayoutFinder from "../LayoutFinder";
-import NearTagWithPositionalFinder from '../PositionCss/NearTagWithPositionalFinder';
 import RealPositionCalculator from "../PositionCss/RealPositionCalculator";
 import LeftCss from '../Css/Display/Direction/LeftCss';
 import ActivableTagToPosition from "../ActivableTagToPosition";
-import { RightCss, TopCss, BottomCss, BorderRightCss, PaddingRightCss, MarginLeftCss, MarginRightCss, BorderLeftWidth, MarginBottomCss, MarginTopCss, PaddingBottomCss, BorderBottomWidth, BorderTopWidth, PaddingTopCss } from "../Css";
+import { RightCss, TopCss, BottomCss, PaddingRightCss, MarginLeftCss, MarginRightCss, BorderLeftWidth, MarginBottomCss, MarginTopCss, PaddingBottomCss, BorderBottomWidth, BorderTopWidth, PaddingTopCss } from "../Css";
 import Vue from "vue";
-import BorderRight from './Border/BorderRight';
-import BorderLeftCss from '../Css/Border/Left/BorderLeftCss';
 import BorderRightWidth from '../Css/Border/Right/BorderRightWidth';
-import HtmlTagPropertyTmpAccessor from "../Css/PropertyAccessor/HtmlTagPropertyTmpAccessor";
 import PseudoClassPropertyAccessor from "../Css/PropertyAccessor/pseudoSelector/PseudoClassPropertyAccessor";
 import PseudoElementPropertyAccessor from "../Css/PropertyAccessor/pseudoSelector/PseudoElementPropertyAccessor";
 import Hover from '../PseudoSelector/PseudoClass/Hover';
-import PseudoSelector from '../PseudoSelector/PseudoSelector';
 import CssListAndOveride from "./CssListAndOverride";
-import TransitionCss from '../Css/Animation/TransitionCss';
 import SelectorOwner from "../SelectorOwner";
 import DecisionsCssFacade from "../DecisionManager/DecisionsCssFacade";
-import TableEditor from "./tag/Table/editor/TableEditor";
-import {Switch} from "~/node_modules/element-ui";
 import MediaQueryAccessor from "~/src/MediaQuery/MediaQueryAccessor";
 import MediaQueryCss from "~/src/MediaQuery/MediaQueryCss";
 import MediaQueryListOwner from "~/src/Css/PropertyAccessor/mediaQuery/MediaQueryListOwner";
 import BaseMediaQueryCss from "~/src/MediaQuery/BaseMediaQueryCss";
 import MediaQueryTag from "~/src/MediaQuery/headSection/MediaQueryTag";
-import SubscriberMediaAccessor from "../MediaQuery/SubscriberMediaAccessor";
 import LayoutCreatorModeComponent from "~/components/LayoutCreatorModeComponent.vue";
-import ViewMode from "~/src/Mode/impl/ViewMode";
-import EditMode from "~/src/Mode/impl/EditMode";
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import HtmlAttrOwner from "../HtmlAttrOwner";
 import CssOwner from '../CssOwner';
@@ -182,7 +163,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _hasAbsolute = false
     protected _hasFixed = false
     protected _hardHidden = false
-    protected _positionPropName
+    protected _positionPropName = ''
 
     protected _widthCalc: string = 'calc(100%)'
     protected _heightCalc: string = 'calc(100%)'
@@ -400,6 +381,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         if (activeSelector) {
             activeSelector.updatePositionName(prop)
         }
+
         if (prop) {
             this.positionPropName = prop.getClearValue()
 
@@ -507,6 +489,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             return
         }
         this.notifyPositionalTag();
+        
         this.updatePositionName(prop)
 
         if (!prop.isActive()) {

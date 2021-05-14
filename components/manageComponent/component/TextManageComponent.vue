@@ -38,7 +38,6 @@
                             :stepValue="1"
                             @changeValue="fontSize = $event"
                             @changeUnit="fontSizeUnit = $event"
-                            @change="change"
                         />
 
                     </div>
@@ -55,7 +54,6 @@
                             :stepValue="1"
                             @changeValue="lineHeight = $event"
                             @changeUnit="lineHeightUnit = $event"
-                            @change="change"
                         />
                         
                     </div>

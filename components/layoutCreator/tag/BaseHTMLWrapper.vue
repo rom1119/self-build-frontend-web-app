@@ -578,6 +578,8 @@ export default class BaseHTMLWrapper extends Vue {
 
     get positionClass(): string {
         var currentPositionName = this.value.positionPropName
+        console.log('get positionClass BASEHTML');
+        console.log(currentPositionName);
         switch(currentPositionName) {
             case PositionCss.ABSOLUTE:
                 return 'absolute-important'

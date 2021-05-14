@@ -126,7 +126,7 @@ export default class TransformTypeToCssValueModel
         var arr = strVal.split(';')
         var res = ''
         for (var elLoop of arr) {
-            elLoop = elLoop.replaceAll("\n", "")
+            elLoop = elLoop.replace(/"\n"/, "")
             elLoop = elLoop.trim()
             res += `${elLoop};`
         }

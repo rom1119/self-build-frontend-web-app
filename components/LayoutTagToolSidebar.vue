@@ -103,7 +103,7 @@ export default class LayoutTagToolSidebar extends Vue {
   isSvgTag = false
 
   mounted() {
-    this.currentComponentName = 'three-dimensional-manage-component'
+    this.currentComponentName = 'text-manage-component'
   }
 
   canSelectTab(componentName) {
