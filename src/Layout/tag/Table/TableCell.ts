@@ -18,6 +18,8 @@ import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
 import FlexShrink from "~/src/Css/Display/FlexShrink";
 import FlexBasis from "~/src/Css/Display/FlexBasis";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
+import ColspanAttr from '../../../Attribute/html/ColspanAttr';
+import RowspanAttr from '../../../Attribute/html/RowspanAttr';
 export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
@@ -28,6 +30,11 @@ export default abstract class TableCell extends HtmlTagBlock {
     protected _parent: TableTr
     protected _columnElement: TableColumnEl
     protected _rowElement: TableRowEl
+    protected _colspanAttr: ColspanAttr = null
+    protected _rowspanAttr: RowspanAttr = null
+
+    protected _widthBoxCalc: string = ''
+
 
     constructor(textArg?) {
         super()
@@ -39,6 +46,40 @@ export default abstract class TableCell extends HtmlTagBlock {
 
         }
 
+    }
+
+    public checkIsOverflow(el) {
+        var curOverf = el.style.overflow;
+          
+        if ( !curOverf || curOverf === "visible" )
+            el.style.overflow = "hidden";
+          
+        var isOverflowing = el.clientWidth < el.scrollWidth
+            || el.clientHeight < el.scrollHeight;
+          
+        el.style.overflow = curOverf;
+          
+        return isOverflowing;
+    }
+
+
+
+    get colspanAttr() {
+        
+        console.log('get colspanAttr');
+        return this._colspanAttr
+    }
+    
+    set colspanAttr(arg) {
+        this._colspanAttr = arg
+    }
+    
+    get rowspanAttr() {
+        return this._rowspanAttr
+    }
+    
+    set rowspanAttr(arg) {
+        this._rowspanAttr = arg
     }
 
     get columnElement(): TableColumnEl {
@@ -265,13 +306,29 @@ export default abstract class TableCell extends HtmlTagBlock {
 
         // var flexBasis = new FlexBasis(10, new Percent())
         // css[flexBasis.getName()] = flexBasis.getValue()
+        // console.log('cssBoxList', this.hasFlexGrow);
+        
         if (this.hasFlexGrow) {
-
+                
             var flexGrow = new FlexGrow(2, new Named())
             css[flexGrow.getName()] = flexGrow.getValue()
 
             var flexShring = new FlexShrink(2, new Named())
             css[flexShring.getName()] = flexShring.getValue()
+
+        }
+
+        if (this.colspanAttr) {
+            var replacedCss = {}
+
+            // replacedCss['left'] = 'calc(' + this.realPositionCalculator.realLeftCalc + ')'
+            // replacedCss['top'] = 'calc(' + this.realPositionCalculator.realTopCalc + ')'
+            // replacedCss['right'] = 'calc(' + this.realPositionCalculator.realRightCalc + ')'
+            // replacedCss['bottom'] = 'calc(' + this.realPositionCalculator.realBottomCalc + ')'
+
+            if (css[Width.PROP_NAME]) {
+
+            }
 
         }
 

@@ -305,8 +305,8 @@ export default class TableTag extends TableContainer {
             this.synchronizer.synchronize()
         }
 
-
-        for (const col of this.columns) {
+        var columnLength = this.columns.length
+        for (var i = 0; i < columnLength; i++) {
 
             var newCopy = this.copyCell(td, true)
             newCopy.parent = child
@@ -681,6 +681,7 @@ export default class TableTag extends TableContainer {
         }
 
         this.updateSeparate(borderCollapse, borderSpacing)
+        this.updateTogglePaddingOnBorderCollapse(borderCollapse)
     }
 
     isCollapsePropertyVal(prop?: BorderCollapse): boolean {
@@ -697,14 +698,26 @@ export default class TableTag extends TableContainer {
         return [BorderCollapse.SEPARATE, BorderCollapse.INITIAL].includes(prop.getValue())
     }
 
-
-    removePaddigsIfCollapse(prop: BorderCollapse) {
+    setAsInjectableCss(name: string, injectable: boolean) {
+        var prop = this.cssAccessor.getProperty(name)
+        if (prop) {
+            prop.injectable = injectable
+        }
+    }
+    updateTogglePaddingOnBorderCollapse(prop: BorderCollapse) {
+        
         if (this.isCollapsePropertyVal(prop)) {
-            this.removeCssProperty(new PaddingCss(null, null))
-            this.removeCssProperty(new PaddingLeftCss(null, null))
-            this.removeCssProperty(new PaddingRightCss(null, null))
-            this.removeCssProperty(new PaddingTopCss(null, null))
-            this.removeCssProperty(new PaddingBottomCss(null, null))
+            this.setAsInjectableCss(PaddingCss.PROP_NAME, false)
+            this.setAsInjectableCss(PaddingLeftCss.PROP_NAME, false)
+            this.setAsInjectableCss(PaddingRightCss.PROP_NAME, false)
+            this.setAsInjectableCss(PaddingTopCss.PROP_NAME, false)
+            this.setAsInjectableCss(PaddingBottomCss.PROP_NAME, false) 
+        } else {
+            this.setAsInjectableCss(PaddingCss.PROP_NAME, true)
+            this.setAsInjectableCss(PaddingLeftCss.PROP_NAME, true)
+            this.setAsInjectableCss(PaddingRightCss.PROP_NAME, true)
+            this.setAsInjectableCss(PaddingTopCss.PROP_NAME, true)
+            this.setAsInjectableCss(PaddingBottomCss.PROP_NAME, true)
         }
     }
 

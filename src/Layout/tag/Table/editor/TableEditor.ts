@@ -7,3 +7,5 @@ export default interface TableEditor{
 
      editTable(tableTag: TableTag)
 }
+
+

@@ -6,7 +6,7 @@ export default class ColspanAttr extends HtmlAttr
 
     constructor(value)
     {
-        super(ColspanAttr.NAME, value)
+        super(ColspanAttr.NAME, value, null)
     }
 
 }

@@ -5,12 +5,13 @@ import BaseComputedPropertyManager from "~/components/computedPropertyManagers/B
 import { Named, EM } from "~/src/Unit";
 import Unit from "~/src/Unit/Unit";
 import Display from '../../../../../src/Css/Display/Display';
+import Pixel from '../../../../../src/Unit/Size/Pixel';
 
 export default class FontSizeProperty extends BaseComputedPropertyManager<FontSize> {
 
     protected value: HtmlTag
     DEFAULT_VAL = 1
-    DEFAULT_UNIT = new EM()
+    DEFAULT_UNIT = new Pixel()
     property: FontSize = new FontSize(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
     getDefaultVal(): any {

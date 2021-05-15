@@ -1,7 +1,8 @@
 
 <template>
     <component :is="tagName"
-               :class="positionClass"
+               :class="[positionClass]"
+               class="css-box"
                @click.stop="onContentMouseClick(value, $event)"
                :style="[value.cssBoxList, value.cssBoxListMediaQuery, value.cssBoxListOverride, customStyles]"  :key="value.updateComponentKey" :id="value.shortUUID" >
         <!-- <html-element-closing-tag-context-menu v-if="value.isClosingTag" :value="value" :ref="value.uuid" />
@@ -233,8 +234,16 @@ export default class BaseHTMLWrapper extends Vue {
     get customStyles() {
         var res: any = {}
 
-        if (this.value.hardHidden) {
+        if (this.value.displayNone) {
             res.display = 'none !important'
+        }
+        
+        if (this.value.visibilityHidden) {
+            res.visibility = 'hidden !important'
+        }
+        
+        if (this.value.widthBoxCalc) {
+            res.width = this.value.widthBoxCalc + ' !important'
         }
 
         return res
@@ -578,8 +587,6 @@ export default class BaseHTMLWrapper extends Vue {
 
     get positionClass(): string {
         var currentPositionName = this.value.positionPropName
-        console.log('get positionClass BASEHTML');
-        console.log(currentPositionName);
         switch(currentPositionName) {
             case PositionCss.ABSOLUTE:
                 return 'absolute-important'
@@ -666,6 +673,14 @@ export default class BaseHTMLWrapper extends Vue {
 
     .fixed-important {
         position: fixed !important;
+    }
+
+    .css-box {
+        user-select: none;
+    }
+    
+    .visible-hidden {
+        visibility: hidden !important;
     }
 
     .wrapper {

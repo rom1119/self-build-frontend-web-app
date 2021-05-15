@@ -6,6 +6,7 @@ import ColspanAttrManager from '../computedPropertyManagers/htmlAttr/ColspanAttr
 import CustomAttrManager from '../computedPropertyManagers/htmlAttr/CustomAttrManager'
 import RowspanAttrManager from '../computedPropertyManagers/htmlAttr/RowspanAttrManager'
 import HtmlAttrManager from '../computedPropertyManagers/HtmlAttrManager'
+import TableCell from '../../src/Layout/tag/Table/TableCell';
 
 
 export default abstract class HtmlAttrManage extends AbstractManageComponent
@@ -38,8 +39,11 @@ export default abstract class HtmlAttrManage extends AbstractManageComponent
 
     public reinit() {
         this.managers = []
-        this.initManager(this.colspanManager)
-        this.initManager(this.rowspanManager)
+        if (this.value instanceof TableCell) {
+            this.initManager(this.colspanManager)
+            this.initManager(this.rowspanManager)
+
+        }
         // this.init(this.customAttrManager)
 
         // console.log('ASDASD');

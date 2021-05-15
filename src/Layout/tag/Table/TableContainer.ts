@@ -50,7 +50,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
     }
 
 
-    protected recursiveFindTableColumnIndex(shortUUID): number {
+    public recursiveFindTableColumnIndex(shortUUID): number {
         for (var i = 0; i < this.children.length; i++) {
             var child = this.children[i]
             var res

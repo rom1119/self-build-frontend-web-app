@@ -5,6 +5,9 @@ import LayoutEl from '../LayoutEl';
 import Vue from 'vue';
 import HtmlAttribute from './HtmlAttr';
 import HtmlAttr from './HtmlAttr';
+import TableCell from '../Layout/tag/Table/TableCell';
+import ColspanAttr from './html/ColspanAttr';
+import RowspanAttr from './html/RowspanAttr';
 export default abstract class AttributesAccessor
 {
     
@@ -23,6 +26,20 @@ export default abstract class AttributesAccessor
         let index = this.attrs.indexOf(prop)
         if (index !== -1) {
             this.attrs.splice(index, 1);
+            // @ts-ignore
+            if (this.value.colspanAttr !== undefined) {
+                if (prop instanceof ColspanAttr) {
+                    // @ts-ignore
+                    this.value.colspanAttr = null
+                }
+            }
+            // @ts-ignore
+            if (this.value.rowspanAttr !== undefined) {
+                if (prop instanceof RowspanAttr) {
+                    // @ts-ignore
+                    this.value.rowspanAttr = null
+                }
+            }
         }
     }
 
@@ -79,6 +96,25 @@ export default abstract class AttributesAccessor
         if (prop) {
             return
         }
+
+        // @ts-ignore
+        if (this.value.colspanAttr !== undefined) {
+            if (newProp instanceof ColspanAttr) {
+                // @ts-ignore
+                this.value.colspanAttr = newProp
+            }
+        }
+        // @ts-ignore
+        if (this.value.rowspanAttr !== undefined) {
+            if (newProp instanceof RowspanAttr) {
+                // @ts-ignore
+                this.value.rowspanAttr = newProp
+            }
+        }
+        newProp.setOwner(this.value)
+        //     if (newProp instanceof RowspanAttr) {
+        //         this.value.rowspanAttr = newProp
+        //     }
         Vue.set(this.attrs, this.attrs.length, newProp)
         // console.log(this.cssProps);
         

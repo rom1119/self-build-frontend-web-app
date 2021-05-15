@@ -10,10 +10,8 @@
 
 
                 <template v-if="isTableTag">
-                    <context-menu-item  :action="createTrElement">Dodaj Wiersz</context-menu-item>
-                    <context-menu-item  :action="createTdElement">Dodaj Kolumnę</context-menu-item>
-
-
+                    <context-menu-item  :action="appendRowElement">Dodaj Wiersz</context-menu-item>
+                    <context-menu-item  :action="appendColumnElement">Dodaj Kolumnę</context-menu-item>
 
                 </template>
                 <template v-else>
@@ -161,12 +159,14 @@ export default class HtmlElementContextMenu extends Vue {
 
     protected initTag(tag: HtmlTag){
 
-        tag.injectInitialCssStyles()
-        tag.injectInitialSelectors()
+        // tag.injectInitialCssStyles()
+        // tag.injectInitialSelectors()
         tag.setProjectId(this.$route.params.id)
+        tag.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+
     }
 
-    createTrElement(target, cm, a) {
+    appendRowElement(target, cm, a) {
         var el = this.tableComponentFactory.createExampleTr()
         var tab: TableTag = <TableTag>this.value
         el.parent = tab
@@ -184,13 +184,13 @@ export default class HtmlElementContextMenu extends Vue {
         this.$emit('createdTag', el)
     }
 
-    createTdElement(target, cm, a) {
+    appendColumnElement(target, cm, a) {
         var el = this.tableComponentFactory.createExampleTd()
         var tab: TableTag = <TableTag>this.value
         el.projectId = tab.projectId
 
-        el.injectInitialCssStyles()
-        el.injectInitialSelectors()
+        // el.injectInitialCssStyles()
+        // el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
         tab.appendColumn(el)
 

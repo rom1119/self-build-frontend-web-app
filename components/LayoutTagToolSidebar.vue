@@ -9,7 +9,10 @@
       <div class="sidebar_tool__container d-flex flex-col">
 
         <h5 class="text-center">
-          Layout Tag Tool Managed
+          Layout Tag Tool Managed 
+          <span v-if="accualActiveEl">
+            {{ accualActiveEl.getDomainTagName() }}
+          </span>
         </h5>
         <div class="sidebar_tool__tabs">
           <div v-for="tab in tabs" v-show="canSelectTab(tab)"  @click="onChangeTab(tab.componentName)" :key="tab.componentName" :class="{'active' : tab.componentName === currentComponentName }" class="sidebar_tool__tabs__tab-item">

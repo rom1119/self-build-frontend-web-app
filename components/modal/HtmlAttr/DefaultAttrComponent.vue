@@ -150,7 +150,7 @@ export default class DefaultAttrComponent extends Vue {
 
   change(a) {
     // @ts-ignore
-    this.value.setKey(this.attrKey);
+    // this.value.key = this.attrKey
     this.$emit("change");
   }
 

@@ -162,10 +162,12 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _hasPosition = false
     protected _hasAbsolute = false
     protected _hasFixed = false
-    protected _hardHidden = false
+    protected _displayNone = false
+    protected _visibilityHidden = false
     protected _positionPropName = ''
 
     protected _widthCalc: string = 'calc(100%)'
+    protected _widthBoxCalc: string = null
     protected _heightCalc: string = 'calc(100%)'
 
     decisionCssFacade: DecisionsCssFacade = new DecisionsCssFacade(this)
@@ -199,19 +201,27 @@ export default abstract class HtmlTag extends HtmlNode implements
     
 
     public hideElement() {
-        this.hardHidden = true
+        this.displayNone = true
     }
     
     public showElement() {
-        this.hardHidden = false
+        this.displayNone = false
     }
 
-    get hardHidden() {
-        return this._hardHidden
+    get displayNone() {
+        return this._displayNone
     }
     
-    set hardHidden(arg) {
-        this._hardHidden = arg
+    set displayNone(arg) {
+        this._displayNone = arg
+    }
+    
+    get visibilityHidden() {
+        return this._visibilityHidden
+    }
+    
+    set visibilityHidden(arg) {
+        this._visibilityHidden = arg
     }
     
     
@@ -412,6 +422,16 @@ export default abstract class HtmlTag extends HtmlNode implements
         this._widthCalc = arg
     }
 
+    get widthBoxCalc(): string
+    {
+        return this._widthBoxCalc
+    }
+
+    set widthBoxCalc(arg)
+    {
+        this._widthBoxCalc = arg
+    }
+
     get heightCalc(): string
     {
         return this._heightCalc
@@ -469,6 +489,11 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
     public getWidthValue()
+    {
+        return this.widthUnitCurrent.getValue(this.width)
+    }
+    
+    get widthValue()
     {
         return this.widthUnitCurrent.getValue(this.width)
     }
@@ -1709,7 +1734,8 @@ export default abstract class HtmlTag extends HtmlNode implements
         child.setProjectId(this.projectId)
         if (child instanceof HtmlTag) {
             child.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
-
+            child.injectInitialCssStyles()
+            child.injectInitialSelectors()
         }
         super.appendChild(child)
         if (child instanceof HtmlTag) {
@@ -1727,6 +1753,12 @@ export default abstract class HtmlTag extends HtmlNode implements
         child.parent = this
         child.setProjectId(this.projectId)
         child.setApi(this.api)
+        if (child instanceof HtmlTag) {
+            child.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+            child.injectInitialCssStyles()
+            child.injectInitialSelectors()
+
+        }
         this.addChild(child)
 
         if (child instanceof HtmlTag) {

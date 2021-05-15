@@ -54,7 +54,6 @@ export default class BorderCollapseProperty extends BaseComputedPropertyManager<
     
 
     activePropCss(prop: BorderCollapse) {
-        this.value.removePaddigsIfCollapse(prop)
         super.activePropCss(prop)
         this.value.recalculateRealComputedProperties()
         return prop
@@ -68,7 +67,6 @@ export default class BorderCollapseProperty extends BaseComputedPropertyManager<
     }
 
     updateCssProp(newProp: BorderCollapse) {
-        this.value.removePaddigsIfCollapse(newProp)
 
         this.value.cssAccessor.setNewPropertyValue(newProp.getName(), newProp)
         

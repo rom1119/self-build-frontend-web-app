@@ -5,7 +5,7 @@
             <div class="content-item" style="display: flex;">
                 <div class="content-item-sixty" @dblclick="hasFontColor = !hasFontColor" :class="{'active': hasFontColor}">
                     <h4 class="content-item__header">
-                        Kolor tekstu {{ autoSaving }}
+                        Kolor tekstu 
                     </h4>
                     <div class="color-picker-box" @dblclick.stop.prevent="">
                         <!-- <label @dblclick.stop.prevent="">Kolor</label>

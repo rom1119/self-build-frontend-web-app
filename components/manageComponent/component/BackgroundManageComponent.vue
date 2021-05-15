@@ -11,7 +11,7 @@
                 <h4 class="content-item__header">Kolor tła</h4>
                 <div class="content-item__elem_container">
                   <h2>
-                    {{ backgroundColor }}
+                    
                   </h2>
                   <Chrome
                     v-model="backgroundColor"

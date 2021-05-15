@@ -1382,7 +1382,7 @@ interface Color {
     if (!prop) {
       return null;
     }
-    console.log("GET paddingUnitGlobal", prop.getUnit());
+    // console.log("GET paddingUnitGlobal", prop.getUnit());
     if (prop.getUnit()) {
       return prop.getUnit();
     }
