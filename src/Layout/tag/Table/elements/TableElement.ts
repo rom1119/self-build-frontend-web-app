@@ -28,14 +28,20 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
     children: TableCell[]
     index
 
+    hiddenChildren: TableCell[] = []
+
+
     constructor(owner: TableTag, index)
     {
         super()
         this.owner = owner
         this.index = index
+
         // this.initCssAccessor()
     }
-
+    get allChildren() {
+        return this.children.concat(this.hiddenChildren)
+    }
     public getOwner() {
         return this.owner
     }

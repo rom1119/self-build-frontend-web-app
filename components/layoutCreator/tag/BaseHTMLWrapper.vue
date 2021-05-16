@@ -455,7 +455,13 @@ export default class BaseHTMLWrapper extends Vue {
 
     get children() : LayoutEl[]
     {
-        return this.value.children
+        var children = this.value.children
+        // @ts-ignore
+        if (this.value.hiddenChildren) {
+            // @ts-ignore
+            children = children.concat(this.value.hiddenChildren)
+        }
+        return children
     }
 
     set children(arg: LayoutEl[])

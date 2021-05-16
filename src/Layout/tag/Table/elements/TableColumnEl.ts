@@ -37,7 +37,13 @@ import TableColumnPropertyTmpAccessor from "~/src/Css/PropertyAccessor/TableColu
 export default class TableColumnEl extends TableElement{
     protected _lengthOffsetCalc: string = 'calc(0px)'
 
+    constructor(owner: TableTag, index)
+    {
+        super(owner, index)
+        console.log('constructor TableColumnEl')
 
+        // this.initCssAccessor()
+    }
     getDomainTagName(): string {
         this.updateComponentKey
         return "";
@@ -76,8 +82,8 @@ export default class TableColumnEl extends TableElement{
 
     public setWidthColumn( width) {
         //
-        for (var i = 0; i < this.children.length; i++) {
-            var child = this.children[i]
+        for (var i = 0; i < this.allChildren.length; i++) {
+            var child = this.allChildren[i]
             child.initWidth(width)
 
         }

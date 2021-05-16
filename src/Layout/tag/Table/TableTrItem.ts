@@ -44,8 +44,7 @@ export default class TableTrItem extends HtmlTag implements CssList {
         super.addChild(child)
         // console.log('add child')
         // console.log(child)
-        this.getTable().updateColumns()
-        this.getTable().updateRows()
+        this.getTable().updateTableStructure()
 
     }
 

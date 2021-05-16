@@ -28,9 +28,17 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
 
     public updateWidthStylesForColumn(index: string, width) {
-
-        for (var i = 0; i < this.children.length; i++) {
-            var child = this.children[i]
+        var childrenList
+        // @ts-ignore
+        if (this.allChildren) {
+            // @ts-ignore
+            childrenList = this.allChildren
+        } else {
+            childrenList = this.children
+            
+        }
+        for (var i = 0; i < childrenList.length; i++) {
+            var child = childrenList[i]
 
             if (child instanceof TableContainer) {
                 child.updateWidthStylesForColumn(index, width)

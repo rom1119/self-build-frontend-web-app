@@ -12,16 +12,67 @@ import TableTBody from './TableTBody';
 import TableTFoot from './TableTFoot';
 import TableTHead from './TableTHead';
 import HtmlNode from "~/src/Layout/HtmlNode";
+import HtmlTag from '../../HtmlTag';
+import TableRowEl from './elements/TableRowEl';
 
 export default class TableTr extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTr`
     protected _children: TableCell[] = []
+    hiddenChildren: TableCell[] = []
     protected hasFlexGrow = true
+
+    protected _rowElement: TableRowEl
 
     public static TAG_NAME = 'tr'
 
     protected _parent: TableContainer
+
+
+    get rowElement(): TableRowEl {
+        return this._rowElement
+    }
+
+    set rowElement(arg: TableRowEl) {
+        var w = this.parent.cssAccessor.getProperty(Height.PROP_NAME)
+        if (w) {
+            arg.updateCssPropertyWithoutModel(w.getName(), w)
+
+        }
+        this._rowElement = arg
+    }
+
+    canAddThAsChild(): boolean {
+        if (this.parent instanceof TableTHead) {
+            return true
+        }
+        return false
+    }
+
+    get allChildren() {
+        return this.children.concat(this.hiddenChildren)
+    }
+
+    public tryRemoveLastHiddenChild(child: TableCell)
+    {
+        if (this.hiddenChildren.length > 0) {
+            this.hiddenChildren.splice(this.hiddenChildren.length - 1, 1)
+
+        }
+    }
+    public appendHiddenChild(child: TableCell)
+    {
+        child.parent = this
+        child.setApi(this.api)
+        child.setProjectId(this.projectId)
+        // child.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+        // child.injectInitialCssStyles()
+        // child.injectInitialSelectors()
+
+        this.notifyPositionalTag()
+        this.hiddenChildren.push(child)
+
+    }
     get parent(): TableContainer {
         return this._parent
     }
@@ -42,8 +93,7 @@ export default class TableTr extends TableContainer {
         super.addChild(child)
         // console.log('add child')
         // console.log(child)
-        this.getTable().updateColumns()
-        this.getTable().updateRows()
+        this.getTable().updateTableStructure()
 
     }
 

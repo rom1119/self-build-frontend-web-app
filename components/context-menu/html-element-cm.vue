@@ -22,6 +22,7 @@
                     <context-menu-item :action="createImgElement">Dodaj Obrazek</context-menu-item>
                     <context-menu-item :action="createSvgElement">Dodaj SVG</context-menu-item>
                     <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
+                    <context-menu-item v-if="isTableRowTag"  :action="appendCellElement">Dodaj Komórkę</context-menu-item>
 
 
 
@@ -68,6 +69,9 @@ import ImgTag from '~/src/Layout/tag/ImgTag';
 import SvgManageModal from '../modal/SvgManageModal.vue';
 import SvgTag from '~/src/Layout/tag/SvgTag';
 import FontFaceModal from '../FontFaceModal';
+import TableTr from '~/src/Layout/tag/Table/TableTr';
+import TableTHead from '~/src/Layout/tag/Table/TableTHead';
+import TableCell from '~/src/Layout/tag/Table/TableCell';
 
 @Component
 export default class HtmlElementContextMenu extends Vue {
@@ -82,6 +86,7 @@ export default class HtmlElementContextMenu extends Vue {
     api: ApiService
     isTableTag = false
     isHtmlTag = false
+    isTableRowTag = false
     isImgTag = false
     isSvgTag = false
 
@@ -109,6 +114,7 @@ export default class HtmlElementContextMenu extends Vue {
         this.isHtmlTag = this.value instanceof HtmlTag
         this.isImgTag = this.value instanceof ImgTag
         this.isSvgTag = this.value instanceof SvgTag
+        this.isTableRowTag = this.value instanceof TableTr
         // console.log("initOpen");
         // console.log(this.isTableTag);
         // console.log(this.isHtmlTag);
@@ -166,6 +172,19 @@ export default class HtmlElementContextMenu extends Vue {
 
     }
 
+    appendCellElement(target, cm, a) {
+        var el
+        if (this.value.parent instanceof TableTHead) {
+            el = this.tableComponentFactory.createTableTh()
+        } else {
+            el = this.tableComponentFactory.createTableTd()
+
+        }
+        this.initCreatedTag(el)
+
+        this.$emit('createdTag', el)
+    }
+
     appendRowElement(target, cm, a) {
         var el = this.tableComponentFactory.createExampleTr()
         var tab: TableTag = <TableTag>this.value
@@ -176,9 +195,6 @@ export default class HtmlElementContextMenu extends Vue {
         var td = this.tableComponentFactory.createExampleTd()
         td.parent = el
         this.initTag(td)
-
-
-
         tab.appendRowDeep(el, td)
 
         this.$emit('createdTag', el)
@@ -235,6 +251,11 @@ export default class HtmlElementContextMenu extends Vue {
         el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
 
+        if (this.value instanceof TableTr) {
+
+            this.value.getTable().addCell(<TableCell>el, this.value)
+            return
+        }
 
         if (this.value) {
             this.value.appendChildDeep(el)

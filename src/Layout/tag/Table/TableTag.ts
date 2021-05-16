@@ -31,6 +31,7 @@ import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 import TableElement from "~/src/Layout/tag/Table/elements/TableElement";
 import { Vue } from "~/node_modules/vue-property-decorator";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
+import NotFullRowEditor from './editor/impl/NotFullRowEditor';
 export default class TableTag extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -44,12 +45,14 @@ export default class TableTag extends TableContainer {
     protected _rows: TableRowEl[]
 
     protected colspanTableEditor: TableEditor
+    protected notFullRowTableEditor: TableEditor
 
     constructor() {
         super()
         this._columns = []
         this._rows = []
         this.colspanTableEditor = new ColspanEditor()
+        this.notFullRowTableEditor = new NotFullRowEditor()
     }
 
     get rows() {
@@ -90,13 +93,35 @@ export default class TableTag extends TableContainer {
         return height
     }
 
+    public addCell(cell: TableCell, tr: TableTr) {
+        var col = this.columns[tr.children.length]
+        var width = col.width
+        var widthUnit = col.getWithUnit()
+        var row = tr.rowElement
+        var height = row.height
+        var heightUnit = row.getHeightUnit()
+
+        var widthCss = new Width(width, widthUnit)
+        var heightCss = new Height(height, heightUnit)
+
+        tr.appendChildDeep(cell)
+
+        cell.updateCssPropertyWithoutModel(widthCss.getName(), widthCss)
+        cell.updateCssPropertyWithoutModel(heightCss.getName(), heightCss)
+
+    }
     public addChild(child: HtmlNode) {
         super.addChild(child)
         // console.log('add child')
         // console.log(child)
+        this.updateTableStructure()
+
+    }
+
+    public updateTableStructure() {
         this.updateColumns()
         this.updateRows()
-
+        this.notFullRowTableEditor.editTable(this)
     }
 
     public updateRows() {
@@ -112,6 +137,7 @@ export default class TableTag extends TableContainer {
 
                 var row = new TableRowEl(this, i)
                 row.tr = tr
+                tr.rowElement = row
                 var ii = 0
                 for (const td of tr.children) {
 
@@ -138,8 +164,8 @@ export default class TableTag extends TableContainer {
                     // console.log('tr', tr)
                     var row = new TableRowEl(this, i)
                     row.tr = tr
+                    tr.rowElement = row
                     var ii = 0
-
                     for (const td of tr.children) {
                         if (ii == 0) {
                             td.rowElement = row
@@ -160,6 +186,7 @@ export default class TableTag extends TableContainer {
     }
 
     public updateColumns() {
+        console.trace('updateColumns')
 
         var newCols = []
         if (this.hasTrChild()) {
@@ -185,9 +212,10 @@ export default class TableTag extends TableContainer {
 
             for (const cont of this.children) {
 
-                for (const tr of cont.children) {
-
+                for (const ell of cont.children) {
+                    var tr: TableTr = <TableTr>ell
                     for (var i = 0; i < tr.children.length; i++) {
+
                         var tda: TableCell = <TableCell>tr.children[i]
                         var cola: TableColumnEl
                         if (!newCols[i]) {
@@ -294,15 +322,7 @@ export default class TableTag extends TableContainer {
             await body.appendChildDeep(child)
             // child.realPositionCalculator.updateNearPositionalTag()
         } else {
-            child.parent = this
-            child.projectId = this.projectId
-            child.setApi(this.api)
-            this.children.push(child)
-
-            this.notifyPositionalTag()
-
-            await this.api.appendChildDeep(child)
-            this.synchronizer.synchronize()
+            this.appendChildDeep(child)
         }
 
         var columnLength = this.columns.length
@@ -313,9 +333,7 @@ export default class TableTag extends TableContainer {
             child.appendChildDeep(newCopy)
         }
 
-        this.updateColumns()
-        this.updateRows()
-
+        this.updateTableStructure()
 
     }
 
@@ -336,7 +354,7 @@ export default class TableTag extends TableContainer {
             if (textNode) {
                 newCell = new TableTd(textNode.text)
             } else {
-                newCell = new TableTh()
+                newCell = new TableTd()
 
             }
         } else {
@@ -376,8 +394,7 @@ export default class TableTag extends TableContainer {
             }
         }
 
-        this.updateColumns()
-        this.updateRows()
+        this.updateTableStructure()
     }
 
     public recursiveFindTableRowIndex(shortUUID): number {

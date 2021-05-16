@@ -70,14 +70,14 @@ export default class TableComponentFactory {
     }
 
     createTableTh() {
-        let el = new TableTh()
+        let el = new TableTh(' header text')
         el.setApi(this.api)
 
         return el
     }
 
     createTableTd() {
-        let el = new TableTd()
+        let el = new TableTd('content')
         el.setApi(this.api)
 
         return el

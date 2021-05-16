@@ -69,7 +69,7 @@ export default class ContentFilterCssInjector extends FilterCssInjector
         // console.log(cssProp.getUnit());
         
         if (cssProp instanceof Width) {
-            this.htmlTag.setWithUnit(cssProp.getUnit())
+            this.htmlTag.setWidthUnit(cssProp.getUnit())
             this.htmlTag.setWidth(parseInt(cssProp.getClearValue()))
             // var val = this.htmlTag.getComputedCssVal(cssProp)
             // console.log(val);
@@ -151,7 +151,7 @@ export default class ContentFilterCssInjector extends FilterCssInjector
     }
     
     public resetAll() {
-		this.htmlTag.setWithUnit(new Pixel())
+		this.htmlTag.setWidthUnit(new Pixel())
         this.htmlTag.setWidth(0)
         
         this.htmlTag.setHeightUnit(new Pixel())

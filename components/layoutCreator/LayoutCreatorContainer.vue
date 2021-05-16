@@ -150,7 +150,7 @@ export default class LayoutCreatorContainer extends Vue {
   mediaQueryList: MediaQueryForCssList;
 
   @Prop({ required: true })
-  fontFaceAccesor: FontFaceAccessor = null;
+  fontFaceAccesor: FontFaceAccessor;
   
   @Prop({ required: true })
   keyFrameAccessor: KeyFrameAccessor;

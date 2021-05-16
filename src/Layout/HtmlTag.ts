@@ -468,7 +468,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.synchronizer = new HtmlTagSynchronizer(this, api)
     }
 
-    public setWithUnit(unit: UnitSize)
+    public setWidthUnit(unit: UnitSize)
     {
         this.widthUnitCurrent = unit
     }
@@ -766,16 +766,17 @@ export default abstract class HtmlTag extends HtmlNode implements
             this.cssListMediaOwner.setNewValCssForMedia(val)
         } else {
             super.updateCssPropertyWithoutModel(propName, val)
+            this.updateTmpCssPropertyWithoutModel(propName, val)
 
-            if (!this.cssAccessor.hasCssProperty(val.getName())) {
-                this.cssAccessor.addNewProperty(val)
-            } else {
-                let currentBackground = this.cssAccessor.getProperty(val.getName())
-                if (currentBackground.getValue() === val.getValue()) {
-                    // return
-                }
-                this.cssAccessor.setNewPropertyValue(propName, val)
-            }
+            // if (!this.cssAccessor.hasCssProperty(val.getName())) {
+            //     this.cssAccessor.addNewProperty(val)
+            // } else {
+            //     let currentBackground = this.cssAccessor.getProperty(val.getName())
+            //     if (currentBackground.getValue() === val.getValue()) {
+            //         // return
+            //     }
+            //     this.cssAccessor.setNewPropertyValue(propName, val)
+            // }
 
         }
 
@@ -1739,8 +1740,6 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
         super.appendChild(child)
         if (child instanceof HtmlTag) {
-            child.injectInitialCssStyles()
-            child.injectInitialSelectors()
             // child.realPositionCalculator.updateNearPositionalTag()
             this.notifyPositionalTag()
 

@@ -14,6 +14,8 @@ import Pixel from "~/src/Unit/Size/Pixel";
 import TableColumnPropertyAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyAccessor";
 import TableRowPropertyAccessor from "~/src/Css/PropertyAccessor/TableRowPropertyAccessor";
 import BorderBottomCss from "~/src/Css/Border/Bottom/BorderBottomCss";
+import TableTag from '../TableTag';
+import TableTHead from '../TableTHead';
 
 
 export default class TableRowEl extends TableElementEl{
@@ -23,6 +25,10 @@ export default class TableRowEl extends TableElementEl{
     getDomainTagName(): string {
         this.removeCssProperty
         return "";
+    }
+
+    canAddThAsChild() {
+        return this.tr.canAddThAsChild()
     }
 
     getTagName(): string {

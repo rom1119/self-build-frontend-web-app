@@ -31,6 +31,9 @@ export default class DefaultDomainToModel implements DomainToModel
         model.shortUUID = domain.shortUUID
 
         if (domain instanceof HtmlTag) {
+            if (domain.visibilityHidden) {
+                return null
+            }
             var tagName = domain.getDomainTagName()
             model.tagName = tagName
             model.projectId = domain.projectId
@@ -115,7 +118,9 @@ export default class DefaultDomainToModel implements DomainToModel
             if (deep) {
                 for (const child of domain.children) {
                     var c = this.transform(child, true)
-                    model.children.push(c)
+                    if (c) {
+                        model.children.push(c)
+                    }
                 }
             }
 

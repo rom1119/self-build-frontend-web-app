@@ -27,7 +27,8 @@ export default class TableCellRemover extends HtmlNodeRemover
                     if (!htmltag.parent.children) {
                         this.trRemover.remove(htmltag.parent)
                     }
-                    resolve()
+                    resolve(htmltag)
+                    tag.getTable().updateTableStructure()
                 },
                 () => {
                     reject()

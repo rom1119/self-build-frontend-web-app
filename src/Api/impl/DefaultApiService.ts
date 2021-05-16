@@ -72,13 +72,16 @@ export default class DefaultApiService implements ApiService, SelectorApiService
 
     appendTagToProject(tag: HtmlNode) {
         let model = this.domainToModelTransformer.transform(tag, true)
+        if (!model) {
+            return
+        }
         let response = this.tagModelToResponse.build(model, true)
-        console.log('tag');
-        console.log(tag);
-        console.log('model');
-        console.log(model);
-        console.log('response');
-        console.log(response);
+        // console.log('tag');
+        // console.log(tag);
+        // console.log('model');
+        // console.log(model);
+        // console.log('response');
+        // console.log(response);
 
         Axios.post(DefaultApiService.HOST + `/api/html-project/${tag.projectId}/append-tag`, response).then(
             (res) => {
@@ -92,6 +95,9 @@ export default class DefaultApiService implements ApiService, SelectorApiService
 
     appendChild(tag: HtmlTag): Promise<any> {
         let model = this.domainToModelTransformer.transform(tag)
+        if (!model) {
+            return
+        }
         let response = this.tagModelToResponse.build(model)
         var apiSuffix
         if (tag instanceof TextNode) {
@@ -116,6 +122,9 @@ export default class DefaultApiService implements ApiService, SelectorApiService
 
     appendChildDeep(tag: HtmlTag): Promise<any> {
         let model = this.domainToModelTransformer.transform(tag, true)
+        if (!model) {
+            return
+        }
         let response = this.tagModelToResponse.build(model, true)
         var apiSuffix
         if (tag instanceof TextNode) {
@@ -171,6 +180,11 @@ export default class DefaultApiService implements ApiService, SelectorApiService
 
     putTag(tag: HtmlTag) : Promise<any> {
         let model = this.domainToModelTransformer.transform(tag)
+        if (!model) {
+            return new Promise((resolve, reject) => {
+                resolve('ok')
+            })
+        }
         let response = this.tagModelToResponse.build(model)
 
         return Axios.put(DefaultApiService.HOST + `/api/html-tag/${tag.uuid}`, response)
@@ -187,6 +201,11 @@ export default class DefaultApiService implements ApiService, SelectorApiService
 
     putText(tag: TextNode): Promise<any> {
         let model = this.domainToModelTransformer.transform(tag)
+        if (!model) {
+            return new Promise((resolve, reject) => {
+                resolve('ok')
+            })
+        }
         let response = this.tagModelToResponse.build(model)
         return Axios.put(DefaultApiService.HOST + `/api/html-tag/text/${tag.uuid}`, response)
     }
