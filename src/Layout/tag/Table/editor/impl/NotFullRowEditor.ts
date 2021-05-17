@@ -56,18 +56,18 @@ export default class NotFullRowEditor implements TableEditor{
             if (el.amontCellsInRow < maxColsInRow) {
                 while (el.row.tr.allChildren.length < maxColsInRow) {
                     console.log('while');
-                    console.log('el.index',el.rowIndex);
-                    console.log('el.row.tr.allChildren.length',el.row.tr.allChildren.length);
+                    // console.log('el.index',el.rowIndex);
+                    // console.log('el.row.tr.allChildren.length',el.row.tr.allChildren.length);
                     var col = tableTag.columns[el.row.tr.allChildren.length]
                     var cell = this.createNotVisibleCells(el.row, col)
                     el.row.tr.appendHiddenChild(cell)
                     el.row.hiddenChildren.push(cell)
-                    console.log('col.hiddenChildren.length',col.hiddenChildren.length);
-                    console.log('col.allChildren.length',col.allChildren.length);
                     col.hiddenChildren.push(cell)
+                    // console.log('col.hiddenChildren.length',col.hiddenChildren.length);
+                    // console.log('col.allChildren.length',col.allChildren.length);
  
-                    console.log('col.hiddenChildren.length',col.hiddenChildren.length);
-                    console.log('col.allChildren.length',col.allChildren.length);
+                    // console.log('col.hiddenChildren.length',col.hiddenChildren.length);
+                    // console.log('col.allChildren.length',col.allChildren.length);
                 }
             }
             
@@ -96,7 +96,8 @@ export default class NotFullRowEditor implements TableEditor{
 
         console.log('createNotVisibleCells');
         console.log(rowIndex);
-        // console.log(widthUnit);
+        console.log(width);
+        console.log(widthUnit);
         
 
         var widthCss = new Width(width, widthUnit)

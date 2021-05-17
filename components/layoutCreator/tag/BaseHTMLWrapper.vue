@@ -44,6 +44,7 @@
 
             <div class="remove" v-show="value.isActiveTagToManage()" @click.stop="onEmitRemove(value, $event)">
                 X
+
             </div>
 
             <margin-top
@@ -157,6 +158,8 @@
 
             :value="value"
         >
+                        <slot name="middle-content" />
+
             <!-- <div class="wrapper-children"> -->
             <template v-for="child in children">
                 <component
@@ -214,11 +217,13 @@ import MarginModelFactory from '../../../src/Layout/Margin/MarginModelFactory';
 import HtmlTagRecalculator from "~/src/Recalculator/HtmlTagRecalculator";
 import BorderRecalculate from "~/src/Recalculator/HtmlTagImpl/BorderRecalculate";
 import MarginRecalculate from "~/src/Recalculator/HtmlTagImpl/MarginRecalculate";
-import { PositionCss } from "../../../src/Css";
+import { PositionCss, Width } from "../../../src/Css";
 import TextNode from "~/src/Layout/TextNode";
 import HtmlNode from "~/src/Layout/HtmlNode";
 import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import SvgTag from "~/src/Layout/tag/SvgTag";
+import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
+import WidthProperty from "~/components/computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty";
 
 
 @Component
@@ -608,7 +613,22 @@ export default class BaseHTMLWrapper extends Vue {
 
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
 
+        this.widthManager = new WidthProperty()
+        this.widthManager.setHtmlEl(this.value)
+
     }
+
+    widthManager: BaseComputedPropertyManager<Width> = null
+
+
+    get hasWidth() {
+        if (!this.widthManager) {
+            return false
+        }
+        return  this.widthManager.getProperty().active
+    }
+
+
 
     public mounted()
     {
@@ -646,6 +666,7 @@ export default class BaseHTMLWrapper extends Vue {
         // console.log('BEFORE CREATOR MODE SET');
         // console.log('AFTER CREATOR MODE SET');
 
+        this.widthManager.init()
 
         // this.value.updateModelComponent()
 

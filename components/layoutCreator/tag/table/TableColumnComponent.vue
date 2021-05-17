@@ -91,13 +91,6 @@ export default class TableColumnComponent extends Vue {
     mounted()
     {
         this.value.setHtmlEl(this.$el)
-
-        // this.value.updateModelComponent()
-        // this.value.updateModelComponent()
-
-
-        // console.log('COLUMN MOUNTED');
-
         if (this.value instanceof HtmlTag)  {
             this.value.realPositionCalculator.reInitDefaultPosition()
 
@@ -112,11 +105,6 @@ export default class TableColumnComponent extends Vue {
     created() {
         this.widthManager = new WidthProperty()
         this.widthManager.setHtmlEl(this.value)
-        // console.log('COLUMN CREATED');
-
-        // this.widthManager.init()
-        // this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
-        // console.log(this.value.styleList)
     }
 }
 </script>

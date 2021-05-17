@@ -18,6 +18,11 @@
         @paddingMouseDown="onPaddingMouseDownChild($event)"
         @marginMouseDown="onMarginMouseDownChild($event)"
     >
+        <template slot="middle-content">
+            <span v-if="hasWidth">
+                Width {{ value.getWidthValue() }}
+            </span>
+        </template>
         <template slot="top-content">
                 
 <!--            <div  class="wrapper__not-flex ">-->
@@ -59,6 +64,9 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import TableColumnComponent from '~/components/layoutCreator/tag/table/TableColumnComponent.vue'
 import TableRowComponent from '~/components/layoutCreator/tag/table/TableRowComponent.vue'
 import BaseHTMLWrapper from "~/components/layoutCreator/tag/BaseHTMLWrapper.vue";
+import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
+import { Width } from "~/src/Css";
+import WidthProperty from "~/components/computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty";
 
 @Component({
     components: {
@@ -67,9 +75,7 @@ import BaseHTMLWrapper from "~/components/layoutCreator/tag/BaseHTMLWrapper.vue"
     }
 })
 export default class HTMLTableCellWrapper extends BaseHTMLWrapper {
-
-
-
+   
 }
 </script>
 

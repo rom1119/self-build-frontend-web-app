@@ -109,6 +109,8 @@ export default class TableTag extends TableContainer {
         cell.updateCssPropertyWithoutModel(widthCss.getName(), widthCss)
         cell.updateCssPropertyWithoutModel(heightCss.getName(), heightCss)
 
+        this.updateTableStructure()
+
     }
     public addChild(child: HtmlNode) {
         super.addChild(child)
@@ -186,7 +188,7 @@ export default class TableTag extends TableContainer {
     }
 
     public updateColumns() {
-        console.trace('updateColumns')
+        // console.trace('updateColumns')
 
         var newCols = []
         if (this.hasTrChild()) {
