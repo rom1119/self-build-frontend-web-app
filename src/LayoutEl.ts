@@ -8,7 +8,7 @@ export default abstract class LayoutEl {
     protected _uuid: string;
     protected _cssPropertyAccesor: CssPropertyAccessor
     protected _updateComponent = 0
-    protected _htmlEl = null
+    protected _htmlEl: HTMLElement = null
     protected _htmlElHidden = null
 
     protected _children: LayoutEl[] = []

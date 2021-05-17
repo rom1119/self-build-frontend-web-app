@@ -80,10 +80,33 @@ export default class TableColumnEl extends TableElement{
 
     }
 
-    public setWidthColumn( width) {
-        //
+    get isOverflowContent() {
+        for (const child of this.allChildren) {
+            if (child.isOverflowContent) {
+                return true
+            }
+        }
+        return false
+    }
+
+    public setWidthColumn(width) {
+        var currColWidth = this.allChildren[0].getComputedWidth()
+        var diffWidth = width - currColWidth
+
+        console.log('currColWidth', currColWidth )
+        console.log('diffWidth', diffWidth )
+        console.log('width', width )
+        console.log('RES', ( diffWidth + 3) <= 0 )
+        if (( diffWidth) <= 0) {
+            if (this.isOverflowContent) {
+                return
+            }
+        }
+ 
         for (var i = 0; i < this.allChildren.length; i++) {
             var child = this.allChildren[i]
+            child.checkIsOverflow()
+            
             child.initWidth(width)
 
         }

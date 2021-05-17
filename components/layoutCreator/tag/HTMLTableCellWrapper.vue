@@ -20,7 +20,12 @@
     >
         <template slot="middle-content">
             <span v-if="hasWidth">
-                Width {{ value.getWidthValue() }}
+                <span v-if="value.isOverflowContent" style="background-color: red;" >
+                    Width {{ value.getWidthValue() }}
+                </span>
+                <span v-else style="background-color: green;" >
+                    Width {{ value.getWidthValue() }}
+                </span>
             </span>
         </template>
         <template slot="top-content">

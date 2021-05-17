@@ -1,7 +1,7 @@
 
 <template>
     <component :is="tagName"
-               :class="[positionClass]"
+               :class="[positionClass, anotherClass]"
                class="css-box"
                @click.stop="onContentMouseClick(value, $event)"
                :style="[value.cssBoxList, value.cssBoxListMediaQuery, value.cssBoxListOverride, customStyles]"  :key="value.updateComponentKey" :id="value.shortUUID" >
@@ -15,6 +15,8 @@
         <div class="wrapper">
             <div class="none">
                 {{ value.updateFlag }}
+                            <slot name="middle-content" />
+
                 <!-- <span :style="value.cssBoxList"  ></span> -->
             </div>
 
@@ -158,7 +160,6 @@
 
             :value="value"
         >
-                        <slot name="middle-content" />
 
             <!-- <div class="wrapper-children"> -->
             <template v-for="child in children">
@@ -250,6 +251,8 @@ export default class BaseHTMLWrapper extends Vue {
         if (this.value.widthBoxCalc) {
             res.width = this.value.widthBoxCalc + ' !important'
         }
+        
+        
 
         return res
     }
@@ -596,6 +599,12 @@ export default class BaseHTMLWrapper extends Vue {
         this.value.marginTop = arg
     }
 
+    get anotherClass(): string {
+        // @ts-ignore
+        if (this.value.isOverflowContent) {
+            return 'red-bg'
+        }
+    }
     get positionClass(): string {
         var currentPositionName = this.value.positionPropName
         switch(currentPositionName) {
@@ -718,6 +727,10 @@ export default class BaseHTMLWrapper extends Vue {
         top: 0;
         left: 0;
         // display: flex;
+    }
+
+    .red-bg {
+        background-color: red !important;
     }
 
     .tip-animation {

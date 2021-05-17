@@ -34,6 +34,7 @@ export default abstract class TableCell extends HtmlTagBlock {
     protected _rowspanAttr: RowspanAttr = null
 
     protected _widthBoxCalc: string = ''
+    protected _isOverflowContent: boolean = false
 
 
     constructor(textArg?) {
@@ -48,16 +49,34 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     }
 
-    public checkIsOverflow(el) {
+    get isOverflowContent() {
+        return this._isOverflowContent
+    }
+    
+    set isOverflowContent(arg) {
+        this._isOverflowContent = arg
+    }
+
+    public checkIsOverflow() {
+        var el = this._htmlEl
         var curOverf = el.style.overflow;
           
         if ( !curOverf || curOverf === "visible" )
             el.style.overflow = "hidden";
           
-        var isOverflowing = el.clientWidth < el.scrollWidth
-            || el.clientHeight < el.scrollHeight;
+        var isOverflowing = el.offsetWidth - 5 < el.scrollWidth 
+            // || el.clientHeight < el.scrollHeight;
           
         el.style.overflow = curOverf;
+        // console.log('checkIsOverflow');
+        // console.log('el.offsetWidth', el.offsetWidth);
+        // console.log('el.clientWidth', el.clientWidth);
+        // console.log('el.scrollWidth', el.scrollWidth);
+        // console.log(el.clientWidth < el.scrollWidth);
+        // console.log(isOverflowing);
+        // console.log(this._htmlEl);
+        
+        this.isOverflowContent = isOverflowing
           
         return isOverflowing;
     }
@@ -66,7 +85,7 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     get colspanAttr() {
         
-        console.log('get colspanAttr');
+        // console.log('get colspanAttr');
         return this._colspanAttr
     }
     

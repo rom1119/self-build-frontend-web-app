@@ -44,9 +44,9 @@ export default class NotFullRowEditor implements TableEditor{
         for (const col of cols) {
             col.hiddenChildren = []
         }
-        console.log('updateRows');
-        console.log(rowIndexWhereNotFullRow);
-        console.log(maxColsInRow);
+        // console.log('updateRows');
+        // console.log(rowIndexWhereNotFullRow);
+        // console.log(maxColsInRow);
         
         
         for (const el of rowIndexWhereNotFullRow) {
@@ -55,7 +55,7 @@ export default class NotFullRowEditor implements TableEditor{
             el.row.hiddenChildren = []
             if (el.amontCellsInRow < maxColsInRow) {
                 while (el.row.tr.allChildren.length < maxColsInRow) {
-                    console.log('while');
+                    // console.log('while');
                     // console.log('el.index',el.rowIndex);
                     // console.log('el.row.tr.allChildren.length',el.row.tr.allChildren.length);
                     var col = tableTag.columns[el.row.tr.allChildren.length]
@@ -94,10 +94,10 @@ export default class NotFullRowEditor implements TableEditor{
         var height = row.height
         var heightUnit = row.getHeightUnit()
 
-        console.log('createNotVisibleCells');
-        console.log(rowIndex);
-        console.log(width);
-        console.log(widthUnit);
+        // console.log('createNotVisibleCells');
+        // console.log(rowIndex);
+        // console.log(width);
+        // console.log(widthUnit);
         
 
         var widthCss = new Width(width, widthUnit)
