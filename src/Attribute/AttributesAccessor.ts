@@ -98,14 +98,16 @@ export default abstract class AttributesAccessor
         }
 
         // @ts-ignore
-        if (this.value.colspanAttr !== undefined) {
+        if ((<HtmlTag>this.value).isTableCellTag) {
+            console.error('isTableCellTag');
             if (newProp instanceof ColspanAttr) {
+                console.error(newProp);
                 // @ts-ignore
                 this.value.colspanAttr = newProp
             }
         }
         // @ts-ignore
-        if (this.value.rowspanAttr !== undefined) {
+        if ((<HtmlTag>this.value).isTableCellTag) {
             if (newProp instanceof RowspanAttr) {
                 // @ts-ignore
                 this.value.rowspanAttr = newProp

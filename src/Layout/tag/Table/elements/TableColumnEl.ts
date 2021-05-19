@@ -35,12 +35,45 @@ import TableColumnPropertyTmpAccessor from "~/src/Css/PropertyAccessor/TableColu
 
 
 export default class TableColumnEl extends TableElement{
+    addCellChild(cell: TableCell) {
+        var k = this.findChildIndexByID(cell.uuid)
+        
+        if (k === -1) {
+            this.children.push(cell)
+            
+        }
+    }
+    removeChildByRowIdx(rowIndex: any) {
+
+        this.children.splice(rowIndex, 1)
+    }
+    
+    removeChildById(id: string) {
+        var k = this.findChildIndexByID(id)
+
+        if (k > -1) {
+            this.children.splice(k, 1)
+
+        }
+    }
+
+    protected findChildIndexByID(id: string) : number {
+        var k = -1
+        for (let i = 0; i < this.children.length; i++) {
+            const el = this.children[i];
+            if (el.uuid === id) {
+                k = i
+            }
+        }
+
+        return k
+    }
     protected _lengthOffsetCalc: string = 'calc(0px)'
 
     constructor(owner: TableTag, index)
     {
         super(owner, index)
-        console.log('constructor TableColumnEl')
+        // console.log('constructor TableColumnEl')
 
         // this.initCssAccessor()
     }
@@ -93,13 +126,13 @@ export default class TableColumnEl extends TableElement{
         var currColWidth = this.allChildren[0].getComputedWidth()
         var diffWidth = width - currColWidth
 
-        console.log('currColWidth', currColWidth )
-        console.log('diffWidth', diffWidth )
-        console.log('width', width )
-        console.log('RES', ( diffWidth + 3) <= 0 )
+        // console.log('currColWidth', currColWidth )
+        // console.log('diffWidth', diffWidth )
+        // console.log('width', width )
+        // console.log('RES', ( diffWidth + 3) <= 0 )
         if (( diffWidth) <= 0) {
             if (this.isOverflowContent) {
-                return
+                // return
             }
         }
  
@@ -232,8 +265,8 @@ export default class TableColumnEl extends TableElement{
             css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
         } else {
 
-            css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px)`
         }
+        css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px)`
         // console.log('APPPPPPPPPPPPP thisHeight', thisHeight);
         // console.log('APPPPPPPPPPPPP', css);
         // console.log('APPPPPPPPPPPPP index', this.index);

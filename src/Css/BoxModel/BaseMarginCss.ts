@@ -51,4 +51,13 @@ export default class BaseMarginCss extends CssDirectionComposite implements CssA
 
         return super.getValue()
     }
+    
+    get value(): string
+    {
+        if (this.isAuto()) {
+            return 'auto'
+        }
+
+        return super.getValue()
+    }
 }

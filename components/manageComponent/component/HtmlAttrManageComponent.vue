@@ -100,11 +100,11 @@ import HtmlAttr from '~/src/Attribute/HtmlAttr';
         // }
         
         onToggleAttr(val: HtmlAttr, i) {
-            console.log('val', val);
-            console.log('i', i);
+            // console.log('val', val);
+            // console.log('i', i);
             
             if (val.active) {
-            console.log('active');
+            // console.log('active');
 
                 (<HtmlAttrManager<any>>this.managers[i]).deactivateAttr(val)
                 if (val instanceof CustomAttr) {

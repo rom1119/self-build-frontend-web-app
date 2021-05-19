@@ -38,7 +38,7 @@
                     @contentMouseClick="onContentMouseClickChild($event)"
                     @contentMouseDown="onContentMouseDown(value.columnElement, $event)"
                     @tagRemove="onEmitRemove(value.columnElement)"
-                    v-if="value.columnElement"
+                    v-if="value.rowIndex == 0"
                     v-show="value.getTable().toManage"
                     :value="value.columnElement"
                     :key="value.columnElement.updateComponentKey"
@@ -53,7 +53,7 @@
 
                     :key="value.rowElement.updateComponentKey"
 
-                    v-if="value.rowElement"
+                    v-if="value.colIndex == 0"
                     v-show="value.getTable().toManage"
                     :value="value.rowElement" />
 
@@ -80,7 +80,7 @@ import WidthProperty from "~/components/computedPropertyManagers/impl/ComputedPr
     }
 })
 export default class HTMLTableCellWrapper extends BaseHTMLWrapper {
-   
+
 }
 </script>
 

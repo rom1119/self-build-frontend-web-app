@@ -26,6 +26,9 @@ export default abstract class TableCell extends HtmlTagBlock {
     protected hasFlexGrow = true
     hasMiddleTag: boolean = true
     isTableCellTag: boolean = true
+    colIndex = null
+    rowIndex = null
+    containColumns: TableColumnEl[] = []
 
     protected _parent: TableTr
     protected _columnElement: TableColumnEl
@@ -49,6 +52,34 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     }
 
+    get widthBoxCalc(): string {
+        // console.log('get widthBoxCalc');
+        // console.log('this.containColumns', this.containColumns.length);
+        
+        // var columns = []
+        // columns.push(this.columnElement)
+        var calcStr = this.columnElement.getWidthValue()
+        var res = 'calc(' + calcStr
+        for (const containColumn of this.containColumns) {
+            var w = containColumn.width
+            // console.log('containColumn.getWidthValue()', containColumn.getWidthValue());
+            res += ' + ' + containColumn.getWidthValue()
+            console.log(res);
+            
+        }
+
+        res += ')'
+
+        return res
+    }
+
+    get colspanAttrVal(): number {
+        if (!this.colspanAttr) {
+            return 0
+        }
+
+        return Number(this.colspanAttr.value)
+    }
     get isOverflowContent() {
         return this._isOverflowContent
     }
@@ -72,7 +103,7 @@ export default abstract class TableCell extends HtmlTagBlock {
         // console.log('el.offsetWidth', el.offsetWidth);
         // console.log('el.clientWidth', el.clientWidth);
         // console.log('el.scrollWidth', el.scrollWidth);
-        // console.log(el.clientWidth < el.scrollWidth);
+        // console.log(el.offsetWidth - 5 < el.scrollWidth );
         // console.log(isOverflowing);
         // console.log(this._htmlEl);
         

@@ -103,7 +103,7 @@ export default abstract class LayoutEl {
             if (currentBackground.getValue() === val.getValue()) {
                 // return
             }
-            this._cssPropertyAccesor.setNewPropertyValue(propName, val)
+            this.cssAccessor.setNewPropertyValue(propName, val)
         }
     }
 

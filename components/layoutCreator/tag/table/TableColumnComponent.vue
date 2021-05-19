@@ -1,6 +1,7 @@
 <template>
 
     <div class="stretch tab-column border stretch__flex cursor-resize-to-left"
+    style="visibility: visible;"
         @mousedown.stop="onMouseDown($event)"
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut"

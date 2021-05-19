@@ -29,30 +29,57 @@ export default class NormalTableTag extends TableTag {
         var trHead  = new TableTr()
         var col = new TableTh('head col 1')
         var colSec = new TableTh('head col 2')
+        var colThird = new TableTh('head col 3')
+        var colFourth = new TableTh('head col 4')
 
         trHead.appendChild(col)
         trHead.appendChild(colSec)
+        trHead.appendChild(colThird)
+        trHead.appendChild(colFourth)
 
         thead.appendChild(trHead)
 
         var tbody = new TableTBody()
 
-        var trbody  = new TableTr()
+        var trbody = new TableTr()
+        
         var cell = new TableTd('content col 1')
         var cellsec = new TableTd('content col 2')
-
-        trbody.appendChild(cell)
-        trbody.appendChild(cellsec)
-        
-        var trbodySec = new TableTr()
         var cellS = new TableTd('content col 3')
         var cellsecS = new TableTd('content col 4')
 
+        trbody.appendChild(cell)
+        trbody.appendChild(cellsec)
+        trbody.appendChild(cellS)
+        trbody.appendChild(cellsecS)
+        
+        var trbodySec = new TableTr()
+        
+        var cell = new TableTd('content col 1')
+        var cellsec = new TableTd('content col 2')
+        var cellS = new TableTd('content col 3')
+        var cellsecS = new TableTd('content col 4')
+
+        trbodySec.appendChild(cell)
+        trbodySec.appendChild(cellsec)
         trbodySec.appendChild(cellS)
         trbodySec.appendChild(cellsecS)
 
+        var trbodyThird = new TableTr()
+        
+        var cell = new TableTd('content col 1')
+        var cellsec = new TableTd('content col 2')
+        var cellS = new TableTd('content col 3')
+        var cellsecS = new TableTd('content col 4')
+
+        trbodyThird.appendChild(cell)
+        trbodyThird.appendChild(cellsec)
+        trbodyThird.appendChild(cellS)
+        trbodyThird.appendChild(cellsecS)
+
         tbody.appendChild(trbody)
         tbody.appendChild(trbodySec)
+        tbody.appendChild(trbodyThird)
 
         this.appendChild(thead)
         this.appendChild(tbody)

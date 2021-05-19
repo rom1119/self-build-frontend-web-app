@@ -51,7 +51,7 @@ export default class TableTag extends TableContainer {
         super()
         this._columns = []
         this._rows = []
-        this.colspanTableEditor = new ColspanEditor()
+        this.colspanTableEditor = new ColspanEditor(this)
         this.notFullRowTableEditor = new NotFullRowEditor()
     }
 
@@ -104,6 +104,10 @@ export default class TableTag extends TableContainer {
         var widthCss = new Width(width, widthUnit)
         var heightCss = new Height(height, heightUnit)
 
+        for (const css of row.children) {
+            
+        }
+
         tr.appendChildDeep(cell)
 
         cell.updateCssPropertyWithoutModel(widthCss.getName(), widthCss)
@@ -124,6 +128,8 @@ export default class TableTag extends TableContainer {
         this.updateColumns()
         this.updateRows()
         this.notFullRowTableEditor.editTable(this)
+        this.colspanTableEditor.editTable(this)
+        this.notFullRowTableEditor.editTable(this)
     }
 
     public updateRows() {
@@ -140,14 +146,13 @@ export default class TableTag extends TableContainer {
                 var row = new TableRowEl(this, i)
                 row.tr = tr
                 tr.rowElement = row
-                var ii = 0
-                for (const td of tr.children) {
+                var globalColIndex = 0
 
-                    if (ii == 0) {
-                        td.rowElement = row
-                    }
+                for (const td of tr.children) {
+                    td.colIndex = globalColIndex
+                    td.rowElement = row
                     row.addChild(td)
-                    ii++
+                    globalColIndex++
                 }
 
                 newRows.push(row)
@@ -167,13 +172,13 @@ export default class TableTag extends TableContainer {
                     var row = new TableRowEl(this, i)
                     row.tr = tr
                     tr.rowElement = row
-                    var ii = 0
+                    var globalColIndex = 0
+
                     for (const td of tr.children) {
-                        if (ii == 0) {
-                            td.rowElement = row
-                        }
+                        td.colIndex = globalColIndex
+                        td.rowElement = row
                         row.addChild(td)
-                        ii++
+                        globalColIndex++
                     }
 
                     newRows.push(row)
@@ -189,6 +194,7 @@ export default class TableTag extends TableContainer {
 
     public updateColumns() {
         // console.trace('updateColumns')
+        var globalRowIndex = 0
 
         var newCols = []
         if (this.hasTrChild()) {
@@ -201,13 +207,15 @@ export default class TableTag extends TableContainer {
                     if (!newCols[i]) {
                         col = new TableColumnEl(this, i)
                         newCols.push(col)
-                        td.columnElement = col
                     } else {
                         col = newCols[i]
                     }
+                    td.columnElement = col
+                    td.rowIndex = globalRowIndex
                     col.addChild(td)
 
                 }
+                globalRowIndex++
 
             }
         } else {
@@ -223,14 +231,15 @@ export default class TableTag extends TableContainer {
                         if (!newCols[i]) {
                             cola = new TableColumnEl(this, i)
                             newCols.push(cola)
-                            tda.columnElement = cola
                         } else {
                             cola = newCols[i]
                         }
+                        tda.columnElement = cola
+                        tda.rowIndex = globalRowIndex
                         cola.addChild(tda)
 
                     }
-
+                    globalRowIndex++
                 }
             }
         }

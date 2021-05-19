@@ -245,7 +245,9 @@ export default class BaseHTMLWrapper extends Vue {
         }
         
         if (this.value.visibilityHidden) {
-            res.visibility = 'hidden !important'
+            // res.visibility = 'hidden !important'
+            res.background = 'darkred !important'
+            res.border = '10px dotted pink !important'
         }
         
         if (this.value.widthBoxCalc) {

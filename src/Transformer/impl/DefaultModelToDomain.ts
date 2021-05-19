@@ -100,12 +100,7 @@ export default class DefaultModelToDomain implements ModelToDomain
             domain.isClosingTag  = model.isClosingTag
             // console.log('LLLLLLLLLLLLL');
             // console.log(model);
-            if (parent) {
-                domain.parent = parent
-                domain.projectId = parent.projectId
-                parent.addChild(domain)
-                // domain.parent = parent
-            }
+            
 
             if (model.styles) {
                 for (const style of model.styles) {
@@ -166,6 +161,12 @@ export default class DefaultModelToDomain implements ModelToDomain
             }
 
             // this.recalculate(domain)
+            if (parent) {
+                domain.parent = parent
+                domain.projectId = parent.projectId
+                parent.addChild(domain)
+                // domain.parent = parent
+            }
 
             if (model.children) {
                 for (const el of model.children) {
