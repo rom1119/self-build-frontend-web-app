@@ -5,7 +5,7 @@
                :id="value.shortUUID + '-content'"
                class="wrapper-el"
                :is="value.getTagName()"
-               :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride]"
+               :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride, customStyles]"
                @click.stop="onClick($event)"
                @mousedown.stop="onMouseDown($event)"
                @mouseover.stop="onMouseOver($event)"
@@ -13,7 +13,8 @@
     />
 
     <div v-else-if="value.hasMiddleTag" :style="value.middleTagCss">
-        <component :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+        <component :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" 
+        :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
             <slot>
             </slot>
         </component>
@@ -37,7 +38,7 @@
             class="wrapper-el"
             :is="value.getTagName()"
             :id="value.shortUUID + '-content'"
-            :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride]"
+            :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride, customStyles]"
             @click.stop="onClick($event)"
             @mousedown.stop="onMouseDown($event)"
             @mouseover.stop="onMouseOver($event)"
@@ -74,6 +75,20 @@ export default class HTMLEL extends Vue {
         this.contextMenuName = this.contextMenuName.concat(this.value.uuid)
 
         // console.log(this.value.styleList)
+    }
+
+    get customStyles() {
+        var res: any = {}
+
+        // @ts-ignore
+        // if (this.value.gridTemplateColumns) {
+        //     // @ts-ignore
+        //     res.gridTemplateColumns = this.value.gridTemplateColumns + ' !important'
+        // }
+        
+        
+
+        return res
     }
 
     get filteredSvg() {

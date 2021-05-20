@@ -69,7 +69,7 @@ export default class NotFullRowEditor implements TableEditor{
                     var col = tableTag.columns[el.row.tr.allChildren.length + el.colOffset]
                     var cell = this.createNotVisibleCells(el.row, col)
                     cell.rowIndex = el.rowIndex
-                    cell.colIndex = i + el.colOffset
+                    cell.colIndex = col.index
                     
                     el.row.tr.appendHiddenChild(cell)
                     el.row.hiddenChildren.push(cell)

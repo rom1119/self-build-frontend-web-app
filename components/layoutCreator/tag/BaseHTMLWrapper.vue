@@ -15,7 +15,7 @@
         <div class="wrapper">
             <div class="none">
                 {{ value.updateFlag }}
-                            <slot name="middle-content" />
+                            
 
                 <!-- <span :style="value.cssBoxList"  ></span> -->
             </div>
@@ -160,7 +160,7 @@
 
             :value="value"
         >
-
+<slot name="middle-content" />
             <!-- <div class="wrapper-children"> -->
             <template v-for="child in children">
                 <component
@@ -245,9 +245,9 @@ export default class BaseHTMLWrapper extends Vue {
         }
         
         if (this.value.visibilityHidden) {
-            // res.visibility = 'hidden !important'
-            res.background = 'darkred !important'
-            res.border = '10px dotted pink !important'
+            res.visibility = 'hidden !important'
+            // res.background = 'darkred !important'
+            // res.border = '10px dotted pink !important'
         }
         
         if (this.value.widthBoxCalc) {
@@ -467,9 +467,9 @@ export default class BaseHTMLWrapper extends Vue {
     {
         var children = this.value.children
         // @ts-ignore
-        if (this.value.hiddenChildren) {
+        if (this.value.allChildren) {
             // @ts-ignore
-            children = children.concat(this.value.hiddenChildren)
+            children = this.value.allChildren
         }
         return children
     }
@@ -673,6 +673,8 @@ export default class BaseHTMLWrapper extends Vue {
 
         this.borderRecalculator.recalculate(this.value)
         this.marginRecalculator.recalculate(this.value)
+
+        this.value.updateRealView()
 
         // console.log('BEFORE CREATOR MODE SET');
         // console.log('AFTER CREATOR MODE SET');

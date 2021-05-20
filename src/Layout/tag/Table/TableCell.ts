@@ -24,6 +24,7 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
     protected hasFlexGrow = true
+    hasSetMinMaxGridColumn = false
     hasMiddleTag: boolean = true
     isTableCellTag: boolean = true
     colIndex = null
@@ -213,6 +214,14 @@ export default abstract class TableCell extends HtmlTagBlock {
         this.hasFlexGrow = false
     }
 
+    public turnOnMinMaxGridColumn() {
+        this.hasSetMinMaxGridColumn = true
+    }
+
+    public turnOffMinMaxGridColumn() {
+        this.hasSetMinMaxGridColumn = false
+    }
+
     get parent(): TableTr {
         return this._parent
     }
@@ -234,12 +243,12 @@ export default abstract class TableCell extends HtmlTagBlock {
     }
 
     public setWidthColumn(w) {
-        this.getTable().setWidthColumn(this.shortUUID, w)
+        this.getTable().setWidthColumn(this, w)
 
     }
 
     public setColumnCss(prop: BasePropertyCss) {
-        this.getTable().setCssForColumnColumn(this.shortUUID, prop)
+        this.getTable().setCssForColumnColumn(this, prop)
 
     }
 
@@ -376,9 +385,9 @@ export default abstract class TableCell extends HtmlTagBlock {
             // replacedCss['right'] = 'calc(' + this.realPositionCalculator.realRightCalc + ')'
             // replacedCss['bottom'] = 'calc(' + this.realPositionCalculator.realBottomCalc + ')'
 
-            if (css[Width.PROP_NAME]) {
+            // if (css[Width.PROP_NAME]) {
 
-            }
+            // }
 
         }
 

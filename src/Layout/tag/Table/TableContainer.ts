@@ -13,6 +13,7 @@ import BoxSizing from '~/src/Css/BoxModel/BoxSizing';
 import BackgroundColor from '~/src/Css/Background/BackgroundColor';
 import Display from '~/src/Css/Display/Display';
 import Named from '~/src/Unit/Named';
+import TableColumnEl from './elements/TableColumnEl';
 export default abstract class TableContainer extends HtmlTagBlock {
 
     protected hasFlexGrow = false
@@ -27,7 +28,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
     public abstract getTable(): TableTag
 
 
-    public updateWidthStylesForColumn(index: string, width) {
+    public updateWidthStylesForColumn(tabCol: TableColumnEl, width) {
         var childrenList
         // @ts-ignore
         if (this.allChildren) {
@@ -37,18 +38,29 @@ export default abstract class TableContainer extends HtmlTagBlock {
             childrenList = this.children
             
         }
+        var hasSetMinMaxGridColumn = false
         for (var i = 0; i < childrenList.length; i++) {
             var child = childrenList[i]
 
             if (child instanceof TableContainer) {
-                child.updateWidthStylesForColumn(index, width)
+                child.updateWidthStylesForColumn(tabCol, width)
 
             } else if (child instanceof TableCell) {
-                if (i === parseInt(index)) {
+
+                if (i === 0) {
+                    if (!hasSetMinMaxGridColumn) {
+                    }
+                } else {
+                    
+                }
+                // if(tabCol.addCellChild)
+                if (tabCol.index === child.colIndex) {
                     // child.initWidth(width)
                     child.turnOffFlexGrow()
+                    child.turnOffMinMaxGridColumn()
                 } else {
                     child.turnOnFlexGrow()
+                    child.turnOnMinMaxGridColumn()
                 }
             }
 

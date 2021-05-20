@@ -57,6 +57,18 @@ export default class TableColumnEl extends TableElement{
         }
     }
 
+    hasChildByColIndex(colIdx: number) {
+        var k = -1
+        for (let i = 0; i < this.children.length; i++) {
+            const el = this.children[i];
+            if (el.colIndex === colIdx) {
+                k = i
+            }
+        }
+
+        return k > -1
+    }
+
     protected findChildIndexByID(id: string) : number {
         var k = -1
         for (let i = 0; i < this.children.length; i++) {
@@ -144,7 +156,7 @@ export default class TableColumnEl extends TableElement{
 
         }
         // this.owner.setWidthColumn(this.children[0].shortUUID, width)
-        this.owner.updateWidthStylesForColumn(this.index.toString(), width)
+        this.owner.updateWidthStylesForColumn(this, width)
 
         // console.log('setWidthColumn col EL', this.children.length)
         this.initSize(width)

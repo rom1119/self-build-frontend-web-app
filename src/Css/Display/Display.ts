@@ -16,6 +16,7 @@ export default class Display extends CssSimple implements CssPropertyLimitable
     public static TABLE = 'table'
     public static TABLE_ROW = 'table-row'
     public static TABLE_CELL = 'table-cell'
+    public static GRID = 'grid'
 
     static getAccessableProperty(): any[] {
         let props = []
@@ -25,6 +26,7 @@ export default class Display extends CssSimple implements CssPropertyLimitable
         props.push(Display.INLINE)
         props.push(Display.FLEX)
         props.push(Display.INLINE_FLEX)
+        props.push(Display.GRID)
         // props.push(Display.TABLE)
         // props.push(Display.TABLE_ROW)
         // props.push(Display.TABLE_CELL)

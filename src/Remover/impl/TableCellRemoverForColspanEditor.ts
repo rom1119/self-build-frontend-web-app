@@ -19,7 +19,7 @@ export default class TableCellRemoverForColspanEditor extends HtmlNodeRemover
     {
 
         let a = this.removeDeep(tag.uuid)
-        tag.columnElement.removeChildById(tag.rowIndex)
+        tag.columnElement.removeChildById(tag.uuid)
         return new Promise((resolve, reject) => {
             tag.api.deleteTag(tag).then(
                 (htmltag) => {

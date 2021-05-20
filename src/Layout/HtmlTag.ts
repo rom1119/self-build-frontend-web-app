@@ -1047,6 +1047,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.marginTop.updateModelComponent()
     }
 
+    public updateRealView() {
+        
+    }
+
     // get cssContentSizeList() : any
     // {
     //     return {

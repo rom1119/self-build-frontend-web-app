@@ -173,6 +173,27 @@ export default class TableTr extends TableContainer {
         this.addPropsToAccessor(cssList)
     }
 
+    get gridTemplateColumns() {
+        var str = ''
+        // console.error('gridTemplateColumns');
+        
+        for (const cell of this.allChildren) {
+            
+            str += 'minmax(' + cell.widthBoxCalc + ', 1fr' + '' +') '
+            if (cell.hasSetMinMaxGridColumn) {
+                // str += 'minmax(min-content, 1fr' + '' +') '
+                // str += ' 1fr ' 
+                
+            } else {
+                
+            }
+            // str += cell.widthBoxCalc + ' '
+        }
+        console.error('str ' + this.rowElement.children[0].rowIndex, str);
+
+        return str
+    }
+
     get cssList(): any {
         var css = super.cssList
         // var flex = new Display(Display.BLOCK, new Named())

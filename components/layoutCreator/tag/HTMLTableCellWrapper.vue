@@ -20,12 +20,17 @@
     >
         <template slot="middle-content">
             <span v-if="hasWidth">
-                <span v-if="value.isOverflowContent" style="background-color: red;" >
+                <!--<span v-if="value.isOverflowContent" style="background-color: red;" >
                     Width {{ value.getWidthValue() }}
                 </span>
                 <span v-else style="background-color: green;" >
                     Width {{ value.getWidthValue() }}
                 </span>
+                <span style="background:green;">
+                    {{ value.hasSetMinMaxGridColumn }}
+                </span>
+                
+                -->
             </span>
         </template>
         <template slot="top-content">

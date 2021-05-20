@@ -258,6 +258,13 @@ export default class TableTag extends TableContainer {
 
     }
 
+    public updateRealView() {
+        for (const col of this.columns) {
+            this.updateWidthStylesForColumn(col, col.width)
+
+        }
+    }
+
     public getComputedVal(propName: string) {
         if (!this.getHtmlEl()) {
             // console.log('EL NOT')
@@ -291,26 +298,26 @@ export default class TableTag extends TableContainer {
 
     public setHeightSizeRow(child: TableCell, h) {
 
-        var index = this.recursiveFindTableRowIndexGlobal(child.shortUUID)
+        // var index = this.recursiveFindTableRowIndexGlobal(child.shortUUID)
 
-        this.rows[index].setHeightRow(h)
+        this.rows[child.rowIndex].setHeightRow(h)
     }
 
-    public setWidthColumn(shortUUID: string, width: Width) {
+    public setWidthColumn(child: TableCell, width: Width) {
 
-        var index = this.recursiveFindTableColumnIndex(shortUUID)
+        // var index = this.recursiveFindTableColumnIndex(shortUUID)
 
         // console.log(this._columns[index])
-        this.columns[index].setWidthColumn(width)
+        child.columnElement.setWidthColumn(width)
     }
 
-    public setCssForColumnColumn(shortUUID: string, prop: BasePropertyCss) {
+    public setCssForColumnColumn(child: TableCell, prop: BasePropertyCss) {
 
-        var index = this.recursiveFindTableColumnIndex(shortUUID)
+        // var index = this.recursiveFindTableColumnIndex(shortUUID)
 
         // super.setWidthColumn(index.toString(), width)
         // console.log(this._columns[index])
-        this.columns[index].updateCssPropertyWithoutModel(prop.getName(), prop)
+        this.columns[child.colIndex].updateCssPropertyWithoutModel(prop.getName(), prop)
     }
 
     public getBodyTag() {
