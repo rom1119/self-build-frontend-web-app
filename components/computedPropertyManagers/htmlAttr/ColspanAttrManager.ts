@@ -16,6 +16,7 @@ export default class ColspanAttrManager extends HtmlAttrManager<ColspanAttr>{
         this.value.attributeAccessor.setNewWithValue(attr.key, attr.value)
 
         this.value.getTable().updateTableStructure()
+        this.value.getTable().updateRealView()
         // attr.active = true
         this.value.synchronize()
 

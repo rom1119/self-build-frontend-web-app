@@ -36,7 +36,7 @@ export default class NotFullRowEditor implements TableEditor{
             // throw new Error('ASDASD')
             var row = rows[i]
             var realOffsetCols = this.realOffsetColumns.countElementsFrom(row, cols.length)
-            console.log('REAL OFFSET', realOffsetCols);
+            // console.log('REAL OFFSET', realOffsetCols);
             
             if (row.tr.children.length > maxColsInRow) {
                 maxColsInRow = row.tr.children.length
@@ -62,7 +62,8 @@ export default class NotFullRowEditor implements TableEditor{
             el.row.hiddenChildren = []
             if (el.amontCellsInRow < maxColsInRow) {
                 var i = el.row.tr.allChildren.length - 1
-                while (el.row.tr.allChildren.length  < maxColsInRow - el.colOffset) {
+                while (el.row.tr.allChildren.length < maxColsInRow - el.colOffset) {
+                    // throw Error('asd')
                     // console.log('while');
                     // console.log('el.index',el.rowIndex);
                     // console.log('el.row.tr.allChildren.length',el.row.tr.allChildren.length);

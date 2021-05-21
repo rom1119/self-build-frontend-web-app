@@ -19,8 +19,11 @@
             </div>
             </br>
             <span v-show="hasWidth">
-                Width {{ value.getWidthValue() }} ({{ value.allChildren.length }})
+                Width {{ value.getWidthValue() }} all - ({{ value.allChildren.length }})
+                <br>
+                
             </span>
+            <span style="display: none;">hide - ({{ value.hiddenChildren.length }})</span>
         </div>
     </div>
 

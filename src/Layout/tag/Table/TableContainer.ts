@@ -47,12 +47,13 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
             } else if (child instanceof TableCell) {
 
-                if (i === 0) {
-                    if (!hasSetMinMaxGridColumn) {
-                    }
-                } else {
+                // if (i === 0) {
+                //     if (!hasSetMinMaxGridColumn) {
+                //     }
+                
+                // } else {
                     
-                }
+                // }
                 // if(tabCol.addCellChild)
                 if (tabCol.index === child.colIndex) {
                     // child.initWidth(width)

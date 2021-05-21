@@ -368,9 +368,14 @@ export default abstract class TableCell extends HtmlTagBlock {
         // console.log('cssBoxList', this.hasFlexGrow);
         
         if (this.hasFlexGrow) {
-                
-            var flexGrow = new FlexGrow(2, new Named())
-            css[flexGrow.getName()] = flexGrow.getValue()
+            if (this.colspanAttrVal > 1) {
+                var flexGrow = new FlexGrow(6, new Named())
+                css[flexGrow.getName()] = flexGrow.getValue()
+            } else {
+                var flexGrow = new FlexGrow(2, new Named())
+                css[flexGrow.getName()] = flexGrow.getValue()
+
+            }
 
             var flexShring = new FlexShrink(2, new Named())
             css[flexShring.getName()] = flexShring.getValue()

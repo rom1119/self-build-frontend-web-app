@@ -68,12 +68,55 @@ export default class TableColumnEl extends TableElement{
 
         return k > -1
     }
+    
+    replaceChildInRow(cellToMove: TableCell) {
+        var k = this.findChildIndexByRowIndex(cellToMove.rowIndex)
 
+        if (k > -1) {
+            this.children.splice(k, 1)
+        }
+
+        this.children.push(cellToMove)
+
+    }
+    getChildByIDAndRemove(id: string): TableCell {
+        var k = this.findChildIndexByID(id)
+
+        if (k > -1) {
+            var el = this.children[k]
+            this.children.splice(k, 1)
+            return el
+        }
+
+        return null
+    }
     protected findChildIndexByID(id: string) : number {
         var k = -1
         for (let i = 0; i < this.children.length; i++) {
             const el = this.children[i];
             if (el.uuid === id) {
+                k = i
+            }
+        }
+
+        return k
+    }
+
+    getCellByRowIndex(index: number): TableCell {
+        var k = this.findChildIndexByRowIndex(index)
+
+        if (k > -1) {
+            return this.children[k]
+        }
+
+        return null
+    }
+    
+    protected findChildIndexByRowIndex(index: number): number {
+        var k = -1
+        for (let i = 0; i < this.children.length; i++) {
+            const el = this.children[i];
+            if (el.rowIndex === index) {
                 k = i
             }
         }
@@ -147,7 +190,7 @@ export default class TableColumnEl extends TableElement{
                 // return
             }
         }
- 
+        
         for (var i = 0; i < this.allChildren.length; i++) {
             var child = this.allChildren[i]
             child.checkIsOverflow()

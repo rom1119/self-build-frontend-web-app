@@ -32,6 +32,7 @@ export default class TableCellRemover extends HtmlNodeRemover
                     }
                     resolve(htmltag)
                     tag.getTable().updateTableStructure()
+                    tag.getTable().updateRealView()
                 },
                 () => {
                     reject()

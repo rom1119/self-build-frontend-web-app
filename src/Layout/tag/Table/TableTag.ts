@@ -98,6 +98,9 @@ export default class TableTag extends TableContainer {
         var width = col.width
         var widthUnit = col.getWithUnit()
         var row = tr.rowElement
+
+        cell.rowElement = tr.rowElement
+        cell.columnElement = col
         var height = row.height
         var heightUnit = row.getHeightUnit()
 
@@ -114,6 +117,7 @@ export default class TableTag extends TableContainer {
         cell.updateCssPropertyWithoutModel(heightCss.getName(), heightCss)
 
         this.updateTableStructure()
+        this.updateRealView()
 
     }
     public addChild(child: HtmlNode) {
@@ -336,22 +340,28 @@ export default class TableTag extends TableContainer {
 
     async appendRowDeep(child: TableTr, td: TableCell) {
         var body = this.getBodyTag()
-        if (body) {
-            await body.appendChildDeep(child)
-            // child.realPositionCalculator.updateNearPositionalTag()
-        } else {
-            this.appendChildDeep(child)
-        }
+        try {
+            if (body) {
+                await body.appendChildDeep(child)
+                // child.realPositionCalculator.updateNearPositionalTag()
+            } else {
+                await this.appendChildDeep(child)
+            }
+    
+            var columnLength = this.columns.length
+            for (var i = 0; i < columnLength; i++) {
+    
+                var newCopy = this.copyCell(td, true)
+                newCopy.parent = child
+                await child.appendChildDeep(newCopy)
+            }
 
-        var columnLength = this.columns.length
-        for (var i = 0; i < columnLength; i++) {
+        } catch (e) {
 
-            var newCopy = this.copyCell(td, true)
-            newCopy.parent = child
-            child.appendChildDeep(newCopy)
         }
 
         this.updateTableStructure()
+        this.updateRealView()
 
     }
 
@@ -389,7 +399,7 @@ export default class TableTag extends TableContainer {
 
                 var newCopy = this.copyCell(childNew, true)
                 newCopy.parent = tr
-                tr.appendChildDeep(newCopy)
+                await tr.appendChildDeep(newCopy)
             }
             // child.realPositionCalculator.updateNearPositionalTag()
         } else {
@@ -407,12 +417,13 @@ export default class TableTag extends TableContainer {
                     }
                     newCopy.parent = tr
 
-                    tr.appendChildDeep(newCopy)
+                    await tr.appendChildDeep(newCopy)
                 }
             }
         }
 
         this.updateTableStructure()
+        this.updateRealView()
     }
 
     public recursiveFindTableRowIndex(shortUUID): number {
