@@ -30,6 +30,10 @@ export default class MaxHeightProperty extends BaseComputedPropertyManager<MaxHe
         this.marginRecalculator = new MarginRecalculate()
     }
 
+    createInitProperty() {
+        return new MaxHeight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
+
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

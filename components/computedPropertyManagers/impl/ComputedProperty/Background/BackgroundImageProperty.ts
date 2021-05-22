@@ -22,6 +22,9 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
         this.getProperty().setActive(false)
 
     }
+    createInitProperty() {
+        return new BackgroundImage()
+    }
 
     getDefaultVal(): any {
         return this.DEFAULT_VAL

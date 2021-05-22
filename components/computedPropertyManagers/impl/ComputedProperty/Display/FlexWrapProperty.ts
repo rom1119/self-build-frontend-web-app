@@ -13,6 +13,9 @@ export default class FlexWrapProperty extends BaseComputedPropertyManager<FlexWr
     DEFAULT_UNIT = new Named()
     property: FlexWrap = new FlexWrap(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FlexWrap(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

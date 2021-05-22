@@ -17,6 +17,9 @@ export default class TransformOriginProperty extends BaseComputedPropertyManager
     DEFAULT_UNIT = new Named()
     property: TransformOrigin = new TransformOrigin(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new TransformOrigin(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

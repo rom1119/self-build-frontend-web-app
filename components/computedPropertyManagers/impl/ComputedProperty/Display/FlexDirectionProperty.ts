@@ -13,6 +13,9 @@ export default class FlexDirectionProperty extends BaseComputedPropertyManager<F
     DEFAULT_UNIT = new Named()
     property: FlexDirection = new FlexDirection(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FlexDirection(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

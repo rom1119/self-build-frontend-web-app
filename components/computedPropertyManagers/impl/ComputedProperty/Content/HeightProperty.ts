@@ -17,6 +17,9 @@ export default class HeightProperty extends BaseComputedPropertyManager<Height> 
     DEFAULT_UNIT = new Pixel()
     property: Height = new Height(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new Height(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

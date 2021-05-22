@@ -13,6 +13,9 @@ export default class AlignItemsProperty extends BaseComputedPropertyManager<Alig
     DEFAULT_UNIT = new Named()
     property: AlignItems = new AlignItems(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new AlignItems(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

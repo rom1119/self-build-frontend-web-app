@@ -15,6 +15,9 @@ export default class LeftProperty extends BaseComputedPropertyManager<LeftCss> {
     DEFAULT_UNIT = new Pixel()
     property: LeftCss = new LeftCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new LeftCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

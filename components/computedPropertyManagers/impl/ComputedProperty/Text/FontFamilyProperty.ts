@@ -16,6 +16,9 @@ export default class FontFamilyProperty extends BaseComputedPropertyManager<Font
     DEFAULT_UNIT = new Named()
     property: FontFamily = new FontFamily(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FontFamily(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return new FontFamilyValDomain(this.DEFAULT_VAL.getName(), this.DEFAULT_VAL.getType())
     }

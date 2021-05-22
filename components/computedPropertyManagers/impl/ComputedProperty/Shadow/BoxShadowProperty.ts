@@ -18,6 +18,9 @@ export default class BoxShadowProperty extends BaseComputedPropertyManager<BoxSh
     DEFAULT_UNIT = new Named()
     property: BoxShadowCss = new BoxShadowCss(BoxShadowCss.DEFAULT_OFFSET_X, BoxShadowCss.DEFAULT_OFFSET_Y, BoxShadowCss.DEFAULT_COLOR)
 
+    createInitProperty() {
+        return new BoxShadowCss(BoxShadowCss.DEFAULT_OFFSET_X, BoxShadowCss.DEFAULT_OFFSET_Y, BoxShadowCss.DEFAULT_COLOR)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

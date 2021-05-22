@@ -19,6 +19,9 @@ export default class AnimationProperty extends BaseComputedPropertyManager<Anima
     DEFAULT_UNIT = new Named()
     property: AnimationCss = new AnimationCss()
 
+    createInitProperty() {
+        return new AnimationCss()
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }
@@ -51,7 +54,7 @@ export default class AnimationProperty extends BaseComputedPropertyManager<Anima
             this.setProperty(prop)
             this.getProperty().setActive(true)
         } else {
-            
+            this.setProperty(this.newProperty())
             this.getProperty().setActive(false)
             let copy = this.getProperty().deepCopyThis()
 

@@ -13,6 +13,9 @@ export default class FlexShrinkProperty extends BaseComputedPropertyManager<Flex
     DEFAULT_UNIT = new Named()
     property: FlexShrink = new FlexShrink(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FlexShrink(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

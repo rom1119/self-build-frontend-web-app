@@ -38,6 +38,10 @@ export default class BorderCollapseProperty extends BaseComputedPropertyManager<
         this.marginRecalculator = new MarginRecalculate()
     }
 
+    createInitProperty() {
+        return new BorderCollapse(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
+
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

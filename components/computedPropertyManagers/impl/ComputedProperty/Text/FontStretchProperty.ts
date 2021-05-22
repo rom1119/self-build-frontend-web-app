@@ -15,6 +15,9 @@ export default class FontStretchProperty extends BaseComputedPropertyManager<Fon
     DEFAULT_UNIT = new Named()
     property: FontStretch = new FontStretch(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FontStretch(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

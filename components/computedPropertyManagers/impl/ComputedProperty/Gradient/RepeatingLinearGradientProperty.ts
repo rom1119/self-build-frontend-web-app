@@ -22,6 +22,9 @@ export default class RepeatingLinearGradientProperty  extends LinearGradientProp
     DEFAULT_UNIT = null
     property: RepeatingLinearGradientCss = new RepeatingLinearGradientCss()
 
+    createInitProperty() {
+        return new RepeatingLinearGradientCss()
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

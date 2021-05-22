@@ -15,6 +15,9 @@ export default class TransformCssProperty extends BaseComputedPropertyManager<Tr
     DEFAULT_UNIT = new Named()
     property: TransformCss = new TransformCss()
 
+    createInitProperty() {
+        return new TransformCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

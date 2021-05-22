@@ -14,6 +14,9 @@ export default class BorderRadiusBottomRightProperty extends BaseComputedPropert
     DEFAULT_UNIT = new Pixel()
     property: BorderRadiusBottomRight = new BorderRadiusBottomRight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new BorderRadiusBottomRight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

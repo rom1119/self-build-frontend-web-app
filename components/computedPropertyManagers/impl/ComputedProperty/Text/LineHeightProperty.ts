@@ -16,6 +16,9 @@ export default class LineHeightProperty extends BaseComputedPropertyManager<Line
     DEFAULT_UNIT = new Pixel()
     property: LineHeight = new LineHeight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new LineHeight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

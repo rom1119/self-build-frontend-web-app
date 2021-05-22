@@ -16,6 +16,9 @@ export default class PerspectiveProperty extends BaseComputedPropertyManager<Per
     DEFAULT_UNIT = new Pixel()
     property: Perspective = new Perspective(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new Perspective(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

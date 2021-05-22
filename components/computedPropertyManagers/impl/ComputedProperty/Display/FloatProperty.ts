@@ -13,6 +13,9 @@ export default class FloatProperty extends BaseComputedPropertyManager<Float> {
     DEFAULT_UNIT = new Named()
     property: Float = new Float(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new Float(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

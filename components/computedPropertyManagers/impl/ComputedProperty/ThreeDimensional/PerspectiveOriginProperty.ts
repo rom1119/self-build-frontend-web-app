@@ -17,6 +17,9 @@ export default class PerspectiveOriginProperty extends BaseComputedPropertyManag
     DEFAULT_UNIT = new Named()
     property: PerspectiveOrigin = new PerspectiveOrigin(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new PerspectiveOrigin(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

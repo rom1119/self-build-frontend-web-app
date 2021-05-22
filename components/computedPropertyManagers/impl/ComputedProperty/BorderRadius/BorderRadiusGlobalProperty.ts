@@ -14,6 +14,9 @@ export default class BorderRadiusGlobalProperty extends BaseComputedPropertyMana
     DEFAULT_UNIT = new Pixel()
     property: BorderRadiusGlobal = new BorderRadiusGlobal(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new BorderRadiusGlobal(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

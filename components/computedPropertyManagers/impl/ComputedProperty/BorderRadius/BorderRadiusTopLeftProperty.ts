@@ -14,6 +14,9 @@ export default class BorderRadiusTopLeftProperty extends BaseComputedPropertyMan
     DEFAULT_UNIT = new Pixel()
     property: BorderRadiusTopLeft = new BorderRadiusTopLeft(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new BorderRadiusTopLeft(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

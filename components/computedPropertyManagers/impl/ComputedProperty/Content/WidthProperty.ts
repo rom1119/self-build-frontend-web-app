@@ -30,6 +30,9 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
         this.borderRecalculator = new BorderRecalculate()
         this.marginRecalculator = new MarginRecalculate()
     }
+    createInitProperty() {
+        return new Width(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
 
     getDefaultVal(): any {
         return this.DEFAULT_VAL

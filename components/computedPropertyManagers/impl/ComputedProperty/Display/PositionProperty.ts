@@ -16,6 +16,9 @@ export default class PositionProperty extends BaseComputedPropertyManager<Positi
     DEFAULT_UNIT = new Named()
     property: PositionCss = new PositionCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new PositionCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

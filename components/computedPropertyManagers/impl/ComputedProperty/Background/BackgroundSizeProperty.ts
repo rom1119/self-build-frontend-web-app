@@ -13,6 +13,10 @@ export default class BackgroundSizeProperty extends BaseComputedPropertyManager<
     DEFAULT_UNIT = new Named()
     property: BackgroundSize = new BackgroundSize(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new BackgroundSize(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
+    
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

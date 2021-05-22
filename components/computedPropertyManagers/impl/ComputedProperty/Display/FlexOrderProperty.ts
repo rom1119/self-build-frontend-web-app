@@ -13,6 +13,9 @@ export default class FlexOrderProperty extends BaseComputedPropertyManager<FlexO
     DEFAULT_UNIT = new Named()
     property: FlexOrder = new FlexOrder(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FlexOrder(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

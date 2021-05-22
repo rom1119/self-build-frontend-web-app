@@ -14,6 +14,9 @@ export default class FontStyleProperty extends BaseComputedPropertyManager<FontS
     DEFAULT_UNIT = new Named()
     property: FontStyle = new FontStyle(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FontStyle(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

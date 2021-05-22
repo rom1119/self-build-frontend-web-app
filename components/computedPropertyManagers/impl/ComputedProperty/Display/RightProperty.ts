@@ -16,6 +16,9 @@ export default class RightProperty extends BaseComputedPropertyManager<RightCss>
     DEFAULT_UNIT = new Pixel()
     property: RightCss = new RightCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new RightCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

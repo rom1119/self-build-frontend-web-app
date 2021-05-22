@@ -20,6 +20,9 @@ export default class LinearGradientProperty extends BaseGradientPropertyManager<
     DEFAULT_UNIT = null
     property: LinearGradientCss = new LinearGradientCss()
 
+    createInitProperty() {
+        return new LinearGradientCss()
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

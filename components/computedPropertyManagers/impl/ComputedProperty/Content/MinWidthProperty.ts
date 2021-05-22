@@ -30,6 +30,9 @@ export default class MinWidthProperty extends BaseComputedPropertyManager<MinWid
         this.marginRecalculator = new MarginRecalculate()
     }
 
+    createInitProperty() {
+        return new MinWidth(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

@@ -13,6 +13,9 @@ export default class BackgroundRepeatProperty extends BaseComputedPropertyManage
     DEFAULT_UNIT = new Named()
     property: BackgroundSize = new BackgroundRepeat(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new BackgroundRepeat(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

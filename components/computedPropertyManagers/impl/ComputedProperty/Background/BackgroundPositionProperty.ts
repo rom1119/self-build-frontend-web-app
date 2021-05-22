@@ -13,6 +13,9 @@ export default class BackgroundPositionProperty extends BaseComputedPropertyMana
     DEFAULT_UNIT = new Named()
     property: BackgroundPosition = new BackgroundPosition(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new BackgroundPosition(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

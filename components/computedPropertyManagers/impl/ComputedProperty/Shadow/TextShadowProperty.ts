@@ -17,6 +17,9 @@ export default class TextShadowProperty extends BaseComputedPropertyManager<Text
     DEFAULT_UNIT = new Named()
     property: TextShadowCss = new TextShadowCss(TextShadowCss.DEFAULT_OFFSET_X, TextShadowCss.DEFAULT_OFFSET_Y, TextShadowCss.DEFAULT_COLOR)
 
+    createInitProperty() {
+        return new TextShadowCss(TextShadowCss.DEFAULT_OFFSET_X, TextShadowCss.DEFAULT_OFFSET_Y, TextShadowCss.DEFAULT_COLOR)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

@@ -30,6 +30,9 @@ export default class MaxWidthProperty extends BaseComputedPropertyManager<MaxWid
         this.marginRecalculator = new MarginRecalculate()
     }
 
+    createInitProperty() {
+        return new MaxWidth(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

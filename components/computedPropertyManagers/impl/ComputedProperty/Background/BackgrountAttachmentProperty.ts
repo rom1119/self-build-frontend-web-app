@@ -13,6 +13,9 @@ export default class BackgroundAttachmentProperty extends BaseComputedPropertyMa
     DEFAULT_UNIT = new Named()
     property: BackgroundSize = new BackgroundAttachment(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new BackgroundAttachment(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

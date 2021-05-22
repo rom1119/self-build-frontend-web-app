@@ -17,6 +17,9 @@ export default class TopProperty extends BaseComputedPropertyManager<TopCss> {
     DEFAULT_UNIT = new Pixel()
     property: TopCss = new TopCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new TopCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

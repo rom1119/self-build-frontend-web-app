@@ -13,6 +13,9 @@ export default class FontWeightProperty extends BaseComputedPropertyManager<Font
     DEFAULT_UNIT = new Named()
     property: FontWeight = new FontWeight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FontWeight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

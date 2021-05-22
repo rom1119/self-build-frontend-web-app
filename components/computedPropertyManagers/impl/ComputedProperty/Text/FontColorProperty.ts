@@ -14,6 +14,9 @@ export default class FontColorProperty extends BaseComputedPropertyManager<FontC
     DEFAULT_UNIT = new Named()
     property: FontSize = new FontColor(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FontColor(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

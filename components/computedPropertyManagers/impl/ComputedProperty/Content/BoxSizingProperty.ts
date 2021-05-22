@@ -14,6 +14,9 @@ export default class BoxSizingProperty extends BaseComputedPropertyManager<BoxSi
     DEFAULT_UNIT = new Named()
     property: BoxSizing = BoxSizing.NEW_CONTENT_BOX()
 
+    createInitProperty() {
+        return BoxSizing.NEW_CONTENT_BOX()
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

@@ -13,6 +13,9 @@ export default class TextAlignProperty extends BaseComputedPropertyManager<TextA
     DEFAULT_UNIT = new Named()
     property: TextAlign = new TextAlign(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new TextAlign(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

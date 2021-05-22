@@ -14,6 +14,9 @@ export default class FontSizeProperty extends BaseComputedPropertyManager<FontSi
     DEFAULT_UNIT = new Pixel()
     property: FontSize = new FontSize(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FontSize(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

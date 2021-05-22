@@ -21,6 +21,9 @@ export default class RadialGradientProperty extends BaseGradientPropertyManager<
     DEFAULT_UNIT = null
     property: RadialGradientCss = new RadialGradientCss()
 
+    createInitProperty() {
+        return new RadialGradientCss()
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

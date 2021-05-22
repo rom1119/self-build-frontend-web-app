@@ -14,6 +14,9 @@ export default class ClearProperty extends BaseComputedPropertyManager<Clear> {
     DEFAULT_UNIT = new Named()
     property: Clear = new Clear(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new Clear(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

@@ -30,6 +30,9 @@ export default class MinHeightProperty extends BaseComputedPropertyManager<MinHe
         this.marginRecalculator = new MarginRecalculate()
     }
 
+    createInitProperty() {
+        return new MinHeight(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

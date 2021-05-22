@@ -17,6 +17,9 @@ export default class BottomProperty extends BaseComputedPropertyManager<BottomCs
     DEFAULT_UNIT = new Pixel()
     property: BottomCss = new BottomCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new BottomCss(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

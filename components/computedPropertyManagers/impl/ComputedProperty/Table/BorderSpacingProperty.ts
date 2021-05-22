@@ -36,6 +36,10 @@ export default class BorderSpacingProperty extends BaseComputedPropertyManager<B
         this.marginRecalculator = new MarginRecalculate()
     }
 
+    
+    createInitProperty() {
+        return new BorderSpacing(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

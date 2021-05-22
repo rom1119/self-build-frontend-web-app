@@ -14,6 +14,9 @@ export default class TransformStyleProperty extends BaseComputedPropertyManager<
     DEFAULT_UNIT = new Named()
     property: TransformStyle = new TransformStyle(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new TransformStyle(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

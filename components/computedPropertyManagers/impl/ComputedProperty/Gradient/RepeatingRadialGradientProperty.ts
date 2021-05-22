@@ -23,6 +23,9 @@ export default class RepeatingRadialGradientProperty  extends RadialGradientProp
     DEFAULT_UNIT = null
     property: RepeatingRadialGradientCss = new RepeatingRadialGradientCss()
 
+    createInitProperty() {
+        return new RepeatingRadialGradientCss()
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

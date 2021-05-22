@@ -13,6 +13,9 @@ export default class DisplayProperty extends BaseComputedPropertyManager<Display
     DEFAULT_UNIT = new Named()
     property: Display = new Display(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new Display(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

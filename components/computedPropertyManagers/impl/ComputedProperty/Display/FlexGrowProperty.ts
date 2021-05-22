@@ -13,6 +13,9 @@ export default class FlexGrowProperty extends BaseComputedPropertyManager<FlexGr
     DEFAULT_UNIT = new Named()
     property: FlexGrow = new FlexGrow(this.DEFAULT_VAL, this.DEFAULT_UNIT)
 
+    createInitProperty() {
+        return new FlexGrow(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

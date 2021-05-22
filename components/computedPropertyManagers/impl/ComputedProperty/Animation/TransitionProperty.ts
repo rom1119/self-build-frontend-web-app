@@ -26,6 +26,10 @@ export default class TransitionProperty extends BaseComputedPropertyManager<Tran
         return this.DEFAULT_UNIT
     }
 
+    createInitProperty() {
+        return new TransitionCss()
+    }
+
     createInitValue(): TransitionStruct
     {
         let el = new TransitionStruct()
@@ -49,7 +53,7 @@ export default class TransitionProperty extends BaseComputedPropertyManager<Tran
             this.setProperty(prop)
             this.getProperty().setActive(true)
         } else {
-
+            this.setProperty(this.newProperty())
             this.getProperty().setActive(false)
             let copy = this.getProperty().deepCopyThis()
 
