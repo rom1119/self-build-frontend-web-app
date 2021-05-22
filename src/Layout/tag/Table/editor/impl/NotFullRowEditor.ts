@@ -29,7 +29,7 @@ export default class NotFullRowEditor implements TableEditor{
         if (rows.length < 2) {
             return
         }
-        type rowIndexWithAmountCell = { rowIndex: number, colOffset: number, amontCellsInRow: number, row: TableRowEl }
+        type rowIndexWithAmountCell = { rowIndex: number, colOffset: number, amountCellsInRow: number, row: TableRowEl }
         var rowIndexWhereNotFullRow: rowIndexWithAmountCell[] = []
         var maxColsInRow = 0
         for (var i = 0; i < rows.length; i++) {
@@ -41,18 +41,20 @@ export default class NotFullRowEditor implements TableEditor{
             if (row.tr.children.length > maxColsInRow) {
                 maxColsInRow = row.tr.children.length
             }
-            rowIndexWhereNotFullRow.push({
+            var newEl = {
                 rowIndex: i,
                 colOffset: realOffsetCols,
-                amontCellsInRow: row.tr.children.length + realOffsetCols,
+                amountCellsInRow: row.tr.children.length + realOffsetCols,
                 row: row,
-            })
+            }
+            rowIndexWhereNotFullRow.push(newEl)
+            row.amountCellsInRow = newEl.amountCellsInRow
         }
 
         for (const col of cols) {
             col.hiddenChildren = []
         }
-        // console.log('updateRows');
+        // console.log('%c updateRows', 'background: blue;');
         // console.log(rowIndexWhereNotFullRow);
         // console.log(maxColsInRow);
         
@@ -60,11 +62,11 @@ export default class NotFullRowEditor implements TableEditor{
             // const rowIndex = rowIndexWhereNotFullRow[amontCellsInRow];
             el.row.tr.hiddenChildren = []
             el.row.hiddenChildren = []
-            if (el.amontCellsInRow < maxColsInRow) {
+            if (el.amountCellsInRow < maxColsInRow) {
                 var i = el.row.tr.allChildren.length - 1
                 while (el.row.tr.allChildren.length < maxColsInRow - el.colOffset) {
                     // throw Error('asd')
-                    // console.log('while');
+                    // console.log('while not null');
                     // console.log('el.index',el.rowIndex);
                     // console.log('el.row.tr.allChildren.length',el.row.tr.allChildren.length);
                     var col = tableTag.columns[el.row.tr.allChildren.length + el.colOffset]

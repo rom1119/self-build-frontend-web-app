@@ -22,6 +22,12 @@ export default class TableRowEl extends TableElementEl{
 
     tr: TableTr
 
+    amountCellsInRow = 0
+
+
+    public isCapacityFull() {
+        return this.children.length === this.amountCellsInRow
+    }
     getDomainTagName(): string {
         this.removeCssProperty
         return "";

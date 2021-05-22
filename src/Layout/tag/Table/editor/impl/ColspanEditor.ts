@@ -11,6 +11,7 @@ export default class ColspanEditor implements TableEditor{
     protected cellRemover: TableCellRemoverForColspanEditor
 
     protected columns: TableColumnEl[]
+    protected rows: TableRowEl[]
 
     constructor(tab: TableTag) {
         this.cellRemover = new TableCellRemoverForColspanEditor(tab.rows, tab.api)
@@ -22,6 +23,7 @@ export default class ColspanEditor implements TableEditor{
         // return
         // console.trace('PL');
         this.columns = tableTag.columns
+        this.rows = tableTag.rows
         for (const row of tableTag.rows) {
             this.updateRow(row)
         }
@@ -65,13 +67,13 @@ export default class ColspanEditor implements TableEditor{
                 realColspan = maxColspan 
             }
             // console.log('cell.colspanAttrVal', cell.colspanAttrVal);
-            console.log('maxColspan', maxColspan);
-            console.log('currColINDEX', currColINDEX);
-            console.log('realColspan', realColspan);
+            // console.log('maxColspan', maxColspan);
+            // console.log('currColINDEX', currColINDEX);
+            // console.log('realColspan', realColspan);
             
             
             currColINDEX += realColspan - 1
-            console.log('currColINDEX 22', currColINDEX);
+            // console.log('currColINDEX 22', currColINDEX);
 
             toRemoveAmount += realColspan - 1
 
@@ -80,12 +82,12 @@ export default class ColspanEditor implements TableEditor{
             newChildrenList.push(newColWithColspan)
         }
 
-        // console.log('newChildrenList', newChildrenList);
-        // console.log('toRemoveAmount', toRemoveAmount);
+        console.log('newChildrenList', newChildrenList);
+        console.log('toRemoveAmount', toRemoveAmount);
         // console.log('removed', row.children.sli);
         if (currColINDEX > colsTotal) {
             var elsToRemove = row.children.slice(row.children.length - toRemoveAmount)
-            // console.log('elsToRemove', elsToRemove);
+            console.log('elsToRemove', elsToRemove);
     
             for (const rem of elsToRemove) {
                 this.cellRemover.remove(rem)
@@ -101,20 +103,21 @@ export default class ColspanEditor implements TableEditor{
         var colToAdd: TableColumnEl[] = []
 
         colToAdd = this.columns.slice(currColINDEX, currColINDEX +  realColspan - 1)
-        console.log('modifyCellWithColspan');
-        console.log('currColINDEX', currColINDEX);
-        console.log('realColspan', realColspan);
-        console.log('cell.rowIndex', cell.rowIndex);
-        console.log(colToAdd);
+        // console.log('modifyCellWithColspan');
+        // console.log('currColINDEX', currColINDEX);
+        // console.log('realColspan', realColspan);
+        // console.log('cell.rowIndex', cell.rowIndex);
+        // console.log(colToAdd);
         
+        this.moveCellFromColumnIndexToOffset(currColINDEX, cell.rowIndex, realColspan)
         for (const col of colToAdd) {
             // console.log('cellWithRowIndex', cellWithRowIndex);
-            console.log('col.children', col.children);
+            // console.log('col.children', col.children);
             // if (cellWithRowIndex) {
                 
             // }
-            this.moveCellFromColumnIndexToOffset(currColINDEX, cell.rowIndex, realColspan)
             col.addCellChild(cell)
+            cell.columnElement = col
             // console.log(col.getHtmlEl());
             
         }
@@ -127,18 +130,30 @@ export default class ColspanEditor implements TableEditor{
     protected moveCellFromColumnIndexToOffset(colIdx: number, cellRowIndex: number, realColspan) {
         var step = realColspan - 1
         var currIndex = this.columns.length - 1
-        console.log('moveCellFromColumnIndexToOffset');
+        // console.log('%c moveCellFromColumnIndexToOffset', 'background: aqua;');
+        // console.log('colIdx', colIdx);
+        // console.log('step', step);
+        // console.log('cellRowIndex', cellRowIndex);
+        // console.log('this.rows[cellRowIndex].amoun', this.rows[cellRowIndex].amountCellsInRow);
+        if (this.rows[cellRowIndex].amountCellsInRow === this.columns.length) {
+            // return 
+        }
         
         while (currIndex >= colIdx) {
             // console.log('while');
+            // console.log('currIndex', currIndex);
             var col: TableColumnEl = this.columns[currIndex]
             currIndex --
             var cellWithRowIndex = col.getCellByRowIndex(cellRowIndex)
+            // console.log('cellWithRowIndex', cellWithRowIndex);
             if (!cellWithRowIndex) {
                 continue
             }
+            // console.log('cellWithRowIndex.colIndex', cellWithRowIndex.colIndex);
             var newIndexCol = cellWithRowIndex.colIndex + step
             var cellToMove = col.getChildByIDAndRemove(cellWithRowIndex.uuid)
+            // console.log('newIndexCol', newIndexCol);
+            // console.log('cellToMove', cellToMove);
 
             if (newIndexCol <= this.columns.length - 1) {
                 cellToMove.colIndex = newIndexCol

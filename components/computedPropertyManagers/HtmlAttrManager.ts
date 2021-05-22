@@ -21,6 +21,10 @@ export default abstract class HtmlAttrManager<T extends HtmlAttr> {
         return this.value
     }
 
+    protected newAttr() {
+        return this.createInitAttr()
+    }
+
     protected abstract createInitAttr(): T
 
     public setHtmlEl(val: HtmlTag)
@@ -54,7 +58,7 @@ export default abstract class HtmlAttrManager<T extends HtmlAttr> {
             this.getAttr().active  = true
         } else {
 
-            
+            this.setAttr(this.newAttr())
             this.getAttr().active  = false
             // if (clearval) {
             //     this.getProperty().setValue(clearval)

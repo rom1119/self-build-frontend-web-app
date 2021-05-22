@@ -25,6 +25,12 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
     abstract getDefaultVal(): any;
     abstract getDefaultUnit(): Unit;
 
+    protected newProperty() {
+        return this.createInitProperty()
+    }
+
+    protected abstract createInitProperty(): T
+
     getProperty(): T
     {
         return this.property
@@ -101,7 +107,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
             this.setProperty(prop)
             this.getProperty().setActive(true)
         } else {
-
+            this.setProperty(this.newProperty())
             this.getProperty().setActive(false)
             let copy = this.getProperty().deepCopy(this.getProperty())
             this.setProperty(copy)

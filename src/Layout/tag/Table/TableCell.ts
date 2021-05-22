@@ -54,6 +54,9 @@ export default abstract class TableCell extends HtmlTagBlock {
     }
 
     get widthBoxCalc(): string {
+        if (!this.columnElement) {
+            return ''
+        }
         // console.log('get widthBoxCalc');
         // console.log('this.containColumns', this.containColumns.length);
         
@@ -369,17 +372,25 @@ export default abstract class TableCell extends HtmlTagBlock {
         
         if (this.hasFlexGrow) {
             if (this.colspanAttrVal > 1) {
+                
                 var flexGrow = new FlexGrow(6, new Named())
                 css[flexGrow.getName()] = flexGrow.getValue()
+
+                var flexShring = new FlexShrink(1.8, new Named())
+                css[flexShring.getName()] = flexShring.getValue()
             } else {
                 var flexGrow = new FlexGrow(2, new Named())
                 css[flexGrow.getName()] = flexGrow.getValue()
 
+                var flexShring = new FlexShrink(2, new Named())
+                css[flexShring.getName()] = flexShring.getValue()
+
             }
 
-            var flexShring = new FlexShrink(2, new Named())
-            css[flexShring.getName()] = flexShring.getValue()
 
+        } else if (this.rowElement.allChildren.length === 1) {
+            var flexGrow = new FlexGrow(2, new Named())
+            css[flexGrow.getName()] = flexGrow.getValue()
         }
 
         if (this.colspanAttr) {

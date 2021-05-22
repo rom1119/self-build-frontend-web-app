@@ -21,6 +21,10 @@ export default class BackgroundColorProperty extends BaseComputedPropertyManager
         this.getProperty().setActive(false)
     }
 
+    createInitProperty() {
+        return new BackgroundColor(this.DEFAULT_VAL, this.DEFAULT_UNIT)
+    }
+
     getDefaultVal(): any {
         return this.DEFAULT_VAL
     }

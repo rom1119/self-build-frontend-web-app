@@ -30,7 +30,6 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
 
     hiddenChildren: TableCell[] = []
 
-
     constructor(owner: TableTag, index)
     {
         super()
@@ -39,6 +38,96 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
 
         // this.initCssAccessor()
     }
+
+    addCellChild(cell: TableCell) {
+        var k = this.findChildIndexByID(cell.uuid)
+        
+        if (k === -1) {
+            this.children.push(cell)
+            
+        }
+    }
+    removeChildByRowIdx(rowIndex: any) {
+
+        this.children.splice(rowIndex, 1)
+    }
+    
+    removeChildById(id: string) {
+        var k = this.findChildIndexByID(id)
+
+        if (k > -1) {
+            this.children.splice(k, 1)
+
+        }
+    }
+
+    hasChildByColIndex(colIdx: number) {
+        var k = -1
+        for (let i = 0; i < this.children.length; i++) {
+            const el = this.children[i];
+            if (el.colIndex === colIdx) {
+                k = i
+            }
+        }
+
+        return k > -1
+    }
+    
+    replaceChildInRow(cellToMove: TableCell) {
+        var k = this.findChildIndexByRowIndex(cellToMove.rowIndex)
+
+        if (k > -1) {
+            this.children.splice(k, 1)
+        }
+
+        this.children.push(cellToMove)
+
+    }
+    getChildByIDAndRemove(id: string): TableCell {
+        var k = this.findChildIndexByID(id)
+
+        if (k > -1) {
+            var el = this.children[k]
+            this.children.splice(k, 1)
+            return el
+        }
+
+        return null
+    }
+    protected findChildIndexByID(id: string) : number {
+        var k = -1
+        for (let i = 0; i < this.children.length; i++) {
+            const el = this.children[i];
+            if (el.uuid === id) {
+                k = i
+            }
+        }
+
+        return k
+    }
+
+    getCellByRowIndex(index: number): TableCell {
+        var k = this.findChildIndexByRowIndex(index)
+
+        if (k > -1) {
+            return this.children[k]
+        }
+
+        return null
+    }
+    
+    protected findChildIndexByRowIndex(index: number): number {
+        var k = -1
+        for (let i = 0; i < this.children.length; i++) {
+            const el = this.children[i];
+            if (el.rowIndex === index) {
+                k = i
+            }
+        }
+
+        return k
+    }
+    
     get allChildren() {
         return this.children.concat(this.hiddenChildren)
     }

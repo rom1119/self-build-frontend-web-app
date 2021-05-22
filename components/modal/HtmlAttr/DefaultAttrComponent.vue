@@ -43,7 +43,7 @@
         Value
         <input
           @dblclick.stop.prevent=""
-          type="text"
+          type="number"
           @input="change"
           style="width: 60px"
           class="input-text"

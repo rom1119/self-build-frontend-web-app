@@ -33,7 +33,7 @@ export default class TableColumnSizeController extends SizeElController
         console.log(el.toString());
         // console.log(el.projectId);
         // console.log(el.children);
-        for (const c of el.children) {
+        for (const c of el.allChildren) {
             console.log(c.getHtmlEl());
             
         }
