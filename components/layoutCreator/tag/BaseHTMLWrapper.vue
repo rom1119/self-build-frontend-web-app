@@ -249,6 +249,8 @@ export default class BaseHTMLWrapper extends Vue {
             // res.background = 'darkred !important'
             // res.border = '10px dotted pink !important'
         }
+        // console.log('%c get customStyles', 'font-size: 20px;');
+        // console.log(this.value.widthBoxCalc);
         
         if (this.value.widthBoxCalc) {
             res.width = this.value.widthBoxCalc + ' !important'

@@ -93,7 +93,7 @@ export default class TableTr extends TableContainer {
         super.addChild(child)
         // console.log('add child')
         // console.log(child)
-        this.getTable().updateTableStructure()
+        // this.getTable().updateTableStructure()
 
     }
 

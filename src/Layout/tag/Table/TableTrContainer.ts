@@ -45,7 +45,7 @@ export default class TableTrContainer extends HtmlTag implements CssList {
         super.addChild(child)
         // console.log('add child')
         // console.log(child)
-        this.getTable().updateTableStructure()
+        // this.getTable().updateTableStructure()
 
     }
 

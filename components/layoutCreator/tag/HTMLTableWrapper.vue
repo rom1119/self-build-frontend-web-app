@@ -92,6 +92,9 @@ export default class HTMLTableWrapper extends BaseHTMLWrapper {
         this.borderRecalculator.recalculate(this.value)
         // @ts-ignore
         this.marginRecalculator.recalculate(this.value)
+
+        this.value.updateTableStructure()
+        this.value.updateRealView()
         // this.value.updateRows()
         // this.value.updateColumns()
         // this.value.updateModelComponent()

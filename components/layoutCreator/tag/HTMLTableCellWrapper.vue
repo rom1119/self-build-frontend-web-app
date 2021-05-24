@@ -26,11 +26,15 @@
                 <span v-else style="background-color: green;" >
                     Width {{ value.getWidthValue() }}
                 </span>
-                <span style="background:green;">
-                    {{ value.hasSetMinMaxGridColumn }}
-                </span>
                 
+                <span style="background:green;">
+                    widthBoxCalc : {{ value.widthBoxCalc }}
+                </span>
+                <span v-if="value.columnElement" style="background:green;">
+                     indexCol : {{ value.index }}
+                </span>
                 -->
+                
             </span>
         </template>
         <template slot="top-content">

@@ -64,7 +64,15 @@ export default class DefaultModelToCss implements ModelToCss
 
         var val
         if (unit instanceof RGBA || unit instanceof RGB) {
-            val = JSON.parse(model.getValue())
+            try {
+                val = JSON.parse(model.getValue())
+            } catch (err) {
+                if (err instanceof SyntaxError) {
+                    // console.log('SYNTAX');
+                    val = {r: 255, g: 0, b: 0}
+                }
+            } 
+  
         } else {
             val = model.getValue()
         }
@@ -143,7 +151,17 @@ export default class DefaultModelToCss implements ModelToCss
             var val
             // console.trace(model)
             if (unitThird instanceof RGBA || unitThird instanceof RGB) {
-                val = JSON.parse(model.getValueThird())
+                try {
+                    // console.log(model.getValueThird());
+                    
+                    val = JSON.parse(model.getValueThird())
+                } catch (err) {
+                    if (err instanceof SyntaxError) {
+                        // console.log('SYNTAX');
+                        val = {r: 255, g: 0, b: 0}
+
+                    }
+                } 
             } else {
                 val = model.getValueThird()
             }

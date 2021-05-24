@@ -32,8 +32,8 @@ export default abstract class TableCell extends HtmlTagBlock {
     containColumns: TableColumnEl[] = []
 
     protected _parent: TableTr
-    protected _columnElement: TableColumnEl
-    protected _rowElement: TableRowEl
+    protected _columnElement: TableColumnEl = null
+    protected _rowElement: TableRowEl = null
     protected _colspanAttr: ColspanAttr = null
     protected _rowspanAttr: RowspanAttr = null
 

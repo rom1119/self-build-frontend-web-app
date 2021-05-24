@@ -37,14 +37,14 @@ export default class NotFullRowEditor implements TableEditor{
             var row = rows[i]
             var realOffsetCols = this.realOffsetColumns.countElementsFrom(row, cols.length)
             // console.log('REAL OFFSET', realOffsetCols);
-            
-            if (row.tr.children.length > maxColsInRow) {
-                maxColsInRow = row.tr.children.length
+            var amountCellsInRow = row.tr.children.length + realOffsetCols
+            if (amountCellsInRow > maxColsInRow) {
+                maxColsInRow = amountCellsInRow
             }
             var newEl = {
                 rowIndex: i,
                 colOffset: realOffsetCols,
-                amountCellsInRow: row.tr.children.length + realOffsetCols,
+                amountCellsInRow: amountCellsInRow,
                 row: row,
             }
             rowIndexWhereNotFullRow.push(newEl)
@@ -54,9 +54,9 @@ export default class NotFullRowEditor implements TableEditor{
         for (const col of cols) {
             col.hiddenChildren = []
         }
-        // console.log('%c updateRows', 'background: blue;');
-        // console.log(rowIndexWhereNotFullRow);
-        // console.log(maxColsInRow);
+        console.log('%c updateRows', 'background: blue;');
+        console.log(rowIndexWhereNotFullRow);
+        console.log(maxColsInRow);
         
         for (const el of rowIndexWhereNotFullRow) {
             // const rowIndex = rowIndexWhereNotFullRow[amontCellsInRow];
@@ -66,10 +66,13 @@ export default class NotFullRowEditor implements TableEditor{
                 var i = el.row.tr.allChildren.length - 1
                 while (el.row.tr.allChildren.length < maxColsInRow - el.colOffset) {
                     // throw Error('asd')
-                    // console.log('while not null');
+                    console.log('while not null');
                     // console.log('el.index',el.rowIndex);
                     // console.log('el.row.tr.allChildren.length',el.row.tr.allChildren.length);
                     var col = tableTag.columns[el.row.tr.allChildren.length + el.colOffset]
+                    if (!col) {
+                        return
+                    }
                     var cell = this.createNotVisibleCells(el.row, col)
                     cell.rowIndex = el.rowIndex
                     cell.colIndex = col.index

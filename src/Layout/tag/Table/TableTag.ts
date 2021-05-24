@@ -53,6 +53,7 @@ export default class TableTag extends TableContainer {
         this._rows = []
         this.colspanTableEditor = new ColspanEditor(this)
         this.notFullRowTableEditor = new NotFullRowEditor()
+        this._toManage = true
     }
 
     get rows() {
@@ -124,7 +125,7 @@ export default class TableTag extends TableContainer {
         super.addChild(child)
         // console.log('add child')
         // console.log(child)
-        this.updateTableStructure()
+        // this.updateTableStructure()
 
     }
 

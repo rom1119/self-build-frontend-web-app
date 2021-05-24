@@ -26,8 +26,8 @@ export default class TableColumnRemover extends HtmlNodeRemover
 
             for (var tag of col.children) {
                 this.cellRemover.remove(tag).then(
-            () => {
-                    resolve()
+                () => {
+                    resolve(tag)
                 },
                 () => {
                     reject()
