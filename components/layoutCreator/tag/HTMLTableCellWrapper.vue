@@ -33,8 +33,10 @@
                 <span v-if="value.columnElement" style="background:green;">
                      indexCol : {{ value.index }}
                 </span>
+                <span v-if="value.columnElement" style="background:green;">
+                     contain Count : {{ value.containColumns.length }}
+                </span>
                 -->
-                
             </span>
         </template>
         <template slot="top-content">

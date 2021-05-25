@@ -89,6 +89,10 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
         if (k > -1) {
             var el = this.children[k]
             this.children.splice(k, 1)
+            console.log('remove()');
+            console.log('el.getHtmlEl()', el.getHtmlEl());
+            
+            
             return el
         }
 
@@ -100,6 +104,7 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
             const el = this.children[i];
             if (el.uuid === id) {
                 k = i
+                break
             }
         }
 
@@ -122,6 +127,7 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
             const el = this.children[i];
             if (el.rowIndex === index) {
                 k = i
+                break
             }
         }
 

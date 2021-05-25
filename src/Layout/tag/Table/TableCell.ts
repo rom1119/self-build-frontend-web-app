@@ -376,7 +376,7 @@ export default abstract class TableCell extends HtmlTagBlock {
                 var flexGrow = new FlexGrow(6, new Named())
                 css[flexGrow.getName()] = flexGrow.getValue()
 
-                var flexShring = new FlexShrink(1.8, new Named())
+                var flexShring = new FlexShrink(1.5, new Named())
                 css[flexShring.getName()] = flexShring.getValue()
             } else {
                 var flexGrow = new FlexGrow(2, new Named())

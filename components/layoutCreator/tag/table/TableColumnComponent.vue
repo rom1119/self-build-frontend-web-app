@@ -18,11 +18,15 @@
                 X
             </div>
             </br>
+            <!-- 
             <span v-show="hasWidth">
                 Width {{ value.getWidthValue() }} all - ({{ value.allChildren.length }})
                 <br>
                 
             </span>
+            
+            -->
+            <span>col {{ value.index }} / ({{ value.allChildren.length }})</span>
             <span style="display: none;">hide - ({{ value.hiddenChildren.length }})</span>
         </div>
     </div>

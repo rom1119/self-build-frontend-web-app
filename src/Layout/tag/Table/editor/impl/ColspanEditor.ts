@@ -37,17 +37,17 @@ export default class ColspanEditor implements TableEditor{
         var colsTotal = row.amountCellsInRow
 
         var toRemoveAmount = 0
-        var currColINDEX = -1
+        var currColINDEX = 0
         var newChildrenList = []
 
-        // console.log('%c updateRow ColspanEditor', 'background: red;');
-        // // console.log('row.children', row.tr.children);
-        // console.log('row INDEX', row.index);
-        // console.log('colsTotal', colsTotal);
+        console.log('%c updateRow ColspanEditor', 'background: red;');
+        // console.log('row.children', row.tr.children);
+        console.log('row INDEX', row.index);
+        console.log('colsTotal', colsTotal);
         var rowChildrenLength = row.children.length
         for (var i = 0; i < rowChildrenLength ; i++) {
             var cell = row.children[i]
-            // console.log('key', i);
+            console.log('key', i);
             // console.log('row.children.length', row.children.length);
             cell.containColumns = []
             // if (currColINDEX === colsTotal - 1) {
@@ -71,29 +71,29 @@ export default class ColspanEditor implements TableEditor{
             }
             // console.log('cell.colspanAttrVal', cell.colspanAttrVal);
             // console.log('maxColspan', maxColspan);
-            console.log('currColINDEX LOOP', currColINDEX);
+            // console.log('currColINDEX LOOP', currColINDEX);
             // console.log('realColspan', realColspan);
             
             
-            currColINDEX += realColspan - 1
             // console.log('currColINDEX 22', currColINDEX);
-
+            
             toRemoveAmount += realColspan - 1
-
-            var newColWithColspan = this.modifyCellWithColspan(cell, realColspan, i + 1)
+            
+            var newColWithColspan = this.modifyCellWithColspan(cell, realColspan, i + 1, currColINDEX)
+            currColINDEX += realColspan - 1
 
             newChildrenList.push(newColWithColspan)
         }
 
-        // console.log('newChildrenList', newChildrenList);
-        // console.log('toRemoveAmount', toRemoveAmount);
-        // console.log('currColINDEX', currColINDEX);
-        // console.log('row.children.length', row.children.length);
+        console.log('newChildrenList', newChildrenList);
+        console.log('toRemoveAmount', toRemoveAmount);
+        console.log('currColINDEX', currColINDEX);
+        console.log('row.children.length', row.children.length);
         // console.log('removed', row.children.sli);
         if (row.amountCellsInRow > row.children.length) {
             var sliceChildren = newChildrenList.splice(row.children.length - (row.amountCellsInRow - this.tabel.columns.length))
-            // console.log('elsToRemove', toRemoveAmount);
-            // console.log('sliceChildren', sliceChildren);
+            console.log('elsToRemove', toRemoveAmount);
+            console.log('sliceChildren', sliceChildren);
             var i = 0
             while (i < sliceChildren.length) {
                 var col = this.tabel.columns[this.tabel.columns.length]
@@ -125,17 +125,17 @@ export default class ColspanEditor implements TableEditor{
         row.children = newChildrenList
         row.tr.children = newChildrenList
     }
-    protected modifyCellWithColspan(cell: TableCell, realColspan: number, currColINDEX: number): TableCell {
+    protected modifyCellWithColspan(cell: TableCell, realColspan: number, currColINDEX: number, currentTotalCol): TableCell {
         var colToAdd: TableColumnEl[] = []
 
-        colToAdd = this.columns.slice(currColINDEX, currColINDEX +  realColspan - 1)
+        colToAdd = this.columns.slice(currentTotalCol, currentTotalCol +  realColspan - 1)
         console.log('modifyCellWithColspan !!!!');
-        // console.log('currColINDEX', currColINDEX);
+        // console.log('currColINDEX', currentTotalCol);
         // console.log('realColspan', realColspan);
         // console.log('cell.rowIndex', cell.rowIndex);
-        console.log(colToAdd);
+        // console.log(colToAdd);
         
-        this.moveCellFromColumnIndexToOffset(currColINDEX, cell.rowIndex, realColspan)
+        this.moveCellFromColumnIndexToOffset(currColINDEX, cell.rowIndex, realColspan, currentTotalCol)
         for (const col of colToAdd) {
             // console.log('cellWithRowIndex', cellWithRowIndex);
             // console.log('col.children', col.children);
@@ -147,48 +147,56 @@ export default class ColspanEditor implements TableEditor{
             // console.log(col.getHtmlEl());
             
         }
-        console.log('cell.colIndex', cell.colIndex);
+        // console.log('cell.colIndex', cell.colIndex);
         cell.containColumns = colToAdd
-        console.log('cell.containColumns', cell.containColumns);
+        // console.log('cell.containColumns', cell.containColumns);
 
 
         return cell
     }
 
-    protected moveCellFromColumnIndexToOffset(colIdx: number, cellRowIndex: number, realColspan) {
+    protected moveCellFromColumnIndexToOffset(colIdx: number, cellRowIndex: number, realColspan, currentTotalCol) {
         var step = realColspan - 1
         var currIndex = this.columns.length - 1
-        // console.log('%c moveCellFromColumnIndexToOffset', 'background: aqua;');
-        // console.log('colIdx', colIdx);
+        console.log('%c moveCellFromColumnIndexToOffset', 'background: aqua;');
+        // console.log('colIdx', currentTotalCol);
         // console.log('step', step);
         // console.log('cellRowIndex', cellRowIndex);
+        // console.log('realColspan', realColspan);
         // console.log('this.rows[cellRowIndex].amoun', this.rows[cellRowIndex].amountCellsInRow);
         if (this.rows[cellRowIndex].amountCellsInRow === this.columns.length) {
             // return 
         }
         
-        while (currIndex >= colIdx) {
-            // console.log('while');
-            // console.log('currIndex', currIndex);
+        while (currIndex >= currentTotalCol) {
+            console.log('%c while MOVE', 'font-size: 15px;background: green;');
+            console.log('currIndex', currIndex);
             var col: TableColumnEl = this.columns[currIndex]
             currIndex --
             var cellWithRowIndex = col.getCellByRowIndex(cellRowIndex)
-            // console.log('cellWithRowIndex', cellWithRowIndex);
+            console.log('cellWithRowIndex', cellWithRowIndex);
             if (!cellWithRowIndex) {
                 continue
             }
+            // console.log('cellWithRowIndex.EL', cellWithRowIndex.getHtmlEl());
             // console.log('cellWithRowIndex.colIndex', cellWithRowIndex.colIndex);
             var newIndexCol = cellWithRowIndex.colIndex + step
+            // console.log('COL.CHILDREN.LEN BEFORE', col.children.length);
+
             var cellToMove = col.getChildByIDAndRemove(cellWithRowIndex.uuid)
             // console.log('newIndexCol', newIndexCol);
             // console.log('cellToMove', cellToMove);
 
             if (newIndexCol <= this.columns.length - 1) {
+                // console.log(' NEW COL.CHILDREN.LEN BEFORE', this.columns[newIndexCol].children.length);
                 cellToMove.colIndex = newIndexCol
                 cellToMove.columnElement = this.columns[newIndexCol]
                 this.columns[newIndexCol].replaceChildInRow(cellToMove)
+                // console.log(' NEW COL.CHILDREN.LEN AFTER', this.columns[newIndexCol].children.length);
                  
             }
+
+            // console.log('COL.CHILDREN.LEN AFTER', col.children.length);
 
             
         }
