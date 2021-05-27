@@ -72,6 +72,7 @@ import ActivableTagToAnimation from '../ActivableTagToAnimation';
 import KeyFrameSelector from '../Animation/KeyFrameSelector';
 import BaseSelector from '../BaseSelector';
 import TransformCss from '../Css/ThreeDimensional/TransformCss';
+import { html } from 'js-beautify';
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, ActivableTagToAnimation, SelectorOwner, HtmlAttrOwner, CssOwner

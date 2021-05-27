@@ -79,7 +79,7 @@ export default class ColspanEditor implements TableEditor{
             
             toRemoveAmount += realColspan - 1
             
-            var newColWithColspan = this.modifyCellWithColspan(cell, realColspan, i + 1, currColINDEX)
+            var newColWithColspan = this.modifyCellWithColspan(cell, realColspan, currColINDEX)
             currColINDEX += realColspan - 1
 
             newChildrenList.push(newColWithColspan)
@@ -125,7 +125,7 @@ export default class ColspanEditor implements TableEditor{
         row.children = newChildrenList
         row.tr.children = newChildrenList
     }
-    protected modifyCellWithColspan(cell: TableCell, realColspan: number, currColINDEX: number, currentTotalCol): TableCell {
+    protected modifyCellWithColspan(cell: TableCell, realColspan: number, currentTotalCol): TableCell {
         var colToAdd: TableColumnEl[] = []
 
         colToAdd = this.columns.slice(currentTotalCol, currentTotalCol +  realColspan - 1)
@@ -135,7 +135,7 @@ export default class ColspanEditor implements TableEditor{
         // console.log('cell.rowIndex', cell.rowIndex);
         // console.log(colToAdd);
         
-        this.moveCellFromColumnIndexToOffset(currColINDEX, cell.rowIndex, realColspan, currentTotalCol)
+        this.moveCellFromColumnIndexToOffset(cell.rowIndex, realColspan, currentTotalCol)
         for (const col of colToAdd) {
             // console.log('cellWithRowIndex', cellWithRowIndex);
             // console.log('col.children', col.children);
@@ -155,7 +155,7 @@ export default class ColspanEditor implements TableEditor{
         return cell
     }
 
-    protected moveCellFromColumnIndexToOffset(colIdx: number, cellRowIndex: number, realColspan, currentTotalCol) {
+    protected moveCellFromColumnIndexToOffset( cellRowIndex: number, realColspan, currentTotalCol) {
         var step = realColspan - 1
         var currIndex = this.columns.length - 1
         console.log('%c moveCellFromColumnIndexToOffset', 'background: aqua;');
