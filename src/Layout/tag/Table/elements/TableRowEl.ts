@@ -24,7 +24,6 @@ export default class TableRowEl extends TableElementEl{
 
     amountCellsInRow = 0
 
-
     public isCapacityFull() {
         return this.children.length === this.amountCellsInRow
     }

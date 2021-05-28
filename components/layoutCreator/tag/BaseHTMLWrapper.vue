@@ -163,6 +163,9 @@
 <slot name="middle-content" />
             <!-- <div class="wrapper-children"> -->
             <template v-for="child in children">
+                <div :id="child.shortUUID + '-hidden-outsite-box'" :key="child.uuid + 'hidden-outsite-box'" class="hidden-box">
+
+                </div>
                 <component
                     :is="getComponentNameByTag(child)"
                     @contentMouseOver="onContentMouseOver"
@@ -252,9 +255,9 @@ export default class BaseHTMLWrapper extends Vue {
         // console.log('%c get customStyles', 'font-size: 20px;');
         // console.log(this.value.widthBoxCalc);
         
-        if (this.value.widthBoxCalc) {
-            res.width = this.value.widthBoxCalc + ' !important'
-        }
+        // if (this.value.widthBoxCalc) {
+        //     res.width = this.value.widthBoxCalc + ' !important'
+        // }
         
         
 
@@ -655,10 +658,12 @@ export default class BaseHTMLWrapper extends Vue {
         // console.log('CREA - COMP - BASE')
         // console.log(BaseMediaQueryComponent.accessorStatic)
         // console.log(this.$layoutCreatorMode)
+        // console.log(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
         // console.log('CREA - COMP - BASE END')
 
         this.value.setHtmlEl(this.$el)
         this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
+        this.value.setHtmlElOutsiteHidden(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
 
         // this.value.updateModelComponent()
         // this.value.updateModelComponent()

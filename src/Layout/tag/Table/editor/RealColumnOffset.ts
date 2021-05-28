@@ -14,8 +14,6 @@ export default class RealColumnOffset {
             // console.log('key', i);
             // console.log('row.children.length', row.children.length);
             if (realCapacityCols === colsTotal - 1) {
-                // console.log('BREAK');
-                
                 break
             }
             realCapacityCols++

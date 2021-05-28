@@ -196,14 +196,14 @@ export default class TableTr extends TableContainer {
 
     get cssList(): any {
         var css = super.cssList
-        // var flex = new Display(Display.BLOCK, new Named())
-        // css[flex.getName()] = flex.getValue()
+        var flex = new Display(Display.FLEX, new Named())
+        css[flex.getName()] = flex.getValue()
 
-        if (this.hasFlexGrow) {
-            var flexGrow = new FlexGrow(1, new Named())
-            css[flexGrow.getName()] = flexGrow.getValue()
+        // if (this.hasFlexGrow) {
+        //     var flexGrow = new FlexGrow(1, new Named())
+        //     css[flexGrow.getName()] = flexGrow.getValue()
 
-        }
+        // }
 
         return css
 

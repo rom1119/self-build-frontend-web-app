@@ -7,6 +7,7 @@ import LayoutEl from '../LayoutEl';
 import Vue from 'vue';
 import { PositionCss } from '.';
 import CssOwner from '../CssOwner';
+import BoxSizing from './BoxModel/BoxSizing';
 export default abstract class CssPropertyAccessor
 {
     protected value: LayoutEl
@@ -24,6 +25,10 @@ export default abstract class CssPropertyAccessor
         if (index !== -1) {
             prop.setActive(false)
             this.cssProps.splice(index, 1);
+
+            if (prop instanceof BoxSizing) {
+                this.value.boxSizing = null
+            }
         }
     }
 
@@ -97,9 +102,9 @@ export default abstract class CssPropertyAccessor
         // prop.clearValue()
         if (prop instanceof CssComposite) {
             prop.addPropVal(val.getValue())
-
+            
         }
-
+        
         return this
     }
     
@@ -108,6 +113,10 @@ export default abstract class CssPropertyAccessor
         
         if (prop) {
             throw new CssPropNotFound(`Property with name ${newProp.getName()} has exist in this HTML ELEMENT ${this.toString()} you can not add two the same css property`)
+        }
+
+        if (newProp instanceof BoxSizing) {
+            this.value.boxSizing = newProp
         }
 
         newProp.initOwner(<CssOwner><unknown>this.value)

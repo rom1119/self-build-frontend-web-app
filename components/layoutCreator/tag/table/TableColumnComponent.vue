@@ -1,11 +1,11 @@
 <template>
 
     <div class="stretch tab-column border stretch__flex cursor-resize-to-left"
-    style="visibility: visible;"
         @mousedown.stop="onMouseDown($event)"
         @mouseover.stop="onMouseOver"
         @mouseout.stop="onMouseOut"
         @click.stop="onMouseClick"
+        :class="{'visible': canVisible, 'unvisible' : !canVisible}"
          :style="value.cssList"
          :key="value.updateComponentKey"
          oncopy="return false"
@@ -19,15 +19,15 @@
             </div>
             </br>
             <!-- 
+            <span>col {{ value.index }} / ({{ value.allChildren.length }})</span>
+            <span style="display: none;">hide - ({{ value.hiddenChildren.length }})</span>
+            
+            -->
             <span v-show="hasWidth">
-                Width {{ value.getWidthValue() }} all - ({{ value.allChildren.length }})
+                Width {{ value.getWidthValue() }}
                 <br>
                 
             </span>
-            
-            -->
-            <span>col {{ value.index }} / ({{ value.allChildren.length }})</span>
-            <span style="display: none;">hide - ({{ value.hiddenChildren.length }})</span>
         </div>
     </div>
 
@@ -49,6 +49,9 @@ export default class TableColumnComponent extends Vue {
     }
     @Prop({required:true})
     value: TableColumnEl
+    
+    @Prop({required:true})
+    canVisible: boolean
 
     // currentElement: BorderModel = null
 
@@ -118,12 +121,18 @@ export default class TableColumnComponent extends Vue {
 </script>
 
 <style scoped>
+    .visible {
+        visibility: visible !important;
+    }
+    .unvisible {
+        visibility: hidden !important;
+    }
     .tab-column {
         z-index: 999;
         color: white;
         display: inline-block;
         font-size: 12px !important;
-        background: rgba(0,7,121,0.49);
+        background: rgba(0,7,121,0.29);
         height: 35px;
     }
 

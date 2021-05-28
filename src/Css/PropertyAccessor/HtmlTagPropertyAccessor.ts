@@ -5,6 +5,7 @@ import BasePropertyCss from "../BasePropertyCss";
 import HtmlTagSynchronizer from "~/src/Synchronizer/Impl/HtmlTagSynchronizer";
 import { PositionCss } from "..";
 import LeftCss from '../Display/Direction/LeftCss';
+import BoxSizing from '../BoxModel/BoxSizing';
 
 export default class HtmlTagPropertyAccessor extends CssPropertyAccessor 
 {
@@ -23,6 +24,10 @@ export default class HtmlTagPropertyAccessor extends CssPropertyAccessor
         if (index !== -1) {
             prop.setActive(false)
             this.cssProps.splice(index, 1);
+
+            if (prop instanceof BoxSizing) {
+                this.value.boxSizing = null
+            }
         }
 
         if (prop instanceof PositionCss) {

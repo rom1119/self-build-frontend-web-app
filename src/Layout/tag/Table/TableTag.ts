@@ -32,6 +32,7 @@ import TableElement from "~/src/Layout/tag/Table/elements/TableElement";
 import { Vue } from "~/node_modules/vue-property-decorator";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
 import NotFullRowEditor from './editor/impl/NotFullRowEditor';
+import TabelColumnsCalculator from '../../../Calculator/table/calculator/TabelColumnsCalculator';
 export default class TableTag extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -46,6 +47,7 @@ export default class TableTag extends TableContainer {
 
     protected colspanTableEditor: TableEditor
     protected notFullRowTableEditor: TableEditor
+    public tableColumnCalculator: TabelColumnsCalculator
 
     constructor() {
         super()
@@ -54,6 +56,7 @@ export default class TableTag extends TableContainer {
         this.colspanTableEditor = new ColspanEditor(this)
         this.notFullRowTableEditor = new NotFullRowEditor()
         this._toManage = true
+        this.tableColumnCalculator = new TabelColumnsCalculator(this)
     }
 
     get rows() {
@@ -135,6 +138,7 @@ export default class TableTag extends TableContainer {
         this.notFullRowTableEditor.editTable(this)
         this.colspanTableEditor.editTable(this)
         this.notFullRowTableEditor.editTable(this)
+        // this.tableColumnCalculator.calculate()
     }
 
     public updateRows() {
@@ -269,6 +273,8 @@ export default class TableTag extends TableContainer {
 
         }
     }
+
+
 
     public getComputedVal(propName: string) {
         if (!this.getHtmlEl()) {
@@ -666,8 +672,13 @@ export default class TableTag extends TableContainer {
         for (const prop of cssAll) {
 
             if (prop instanceof Width || prop instanceof Height) {
+                let val = this.getComputedCssVal(prop)
+                let clonedCss = prop.deepCopy(prop)
+                clonedCss.setValue(parseInt(val).toString())
+                clonedCss.setUnit(new Pixel())
+                // console.log(val);
 
-                this.contentFilter.injectCssProperty(prop)
+                this.contentFilter.injectCssProperty(clonedCss)
                 continue
             }
 
@@ -675,7 +686,7 @@ export default class TableTag extends TableContainer {
 
                 let val = this.getComputedCssVal(prop)
                 let clonedCss = prop.deepCopy(prop)
-                clonedCss.setValue(parseInt(val).toString())
+                clonedCss.setValue(val.toString())
                 clonedCss.setUnit(new Pixel())
                 this.paddingFilter.injectCssProperty(clonedCss)
                 continue
@@ -875,11 +886,11 @@ export default class TableTag extends TableContainer {
 
     get cssBoxList(): any {
         var css = super.cssBoxList
-        var flex = new Display(Display.FLEX, new Named())
+        var flex = new Display(Display.INLINE_BLOCK, new Named())
         css[flex.getName()] = flex.getValue()
 
-        var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
-        css[flexDirection.getName()] = flexDirection.getValue()
+        // var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
+        // css[flexDirection.getName()] = flexDirection.getValue()
 
         // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
         // css[flexWrap.getName()] = flexWrap.getValue()
@@ -895,11 +906,11 @@ export default class TableTag extends TableContainer {
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList
 
-            var flex = new Display(Display.FLEX, new Named())
+            var flex = new Display(Display.INLINE_BLOCK, new Named())
             cssSelector[flex.getName()] = flex.getValue()
 
-            var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
-            cssSelector[flexDirection.getName()] = flexDirection.getValue()
+            // var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
+            // cssSelector[flexDirection.getName()] = flexDirection.getValue()
 
             // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
             // cssSelector[flexWrap.getName()] = flexWrap.getValue()

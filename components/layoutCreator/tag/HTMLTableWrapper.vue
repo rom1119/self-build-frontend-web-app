@@ -18,6 +18,15 @@
          @paddingMouseDown="onPaddingMouseDownChild($event)"
          @marginMouseDown="onMarginMouseDownChild($event)"
     >
+    <template slot="middle-content">
+            <span v-if="hasWidth">
+            </span>
+            Width {{ value.width }}
+            pad left {{ value.paddingLeft.width }}
+            columnTotalS {{ value.tableColumnCalculator.columnTotalSize }}
+            columnTotal {{ value.tableColumnCalculator.calculated }}
+
+    </template>
         <template slot="bottom-content">
             <div class="resize-content" :style="resizeContentCss"  @mousedown.stop="onContentMouseDown(value, $event)">
                 cols: {{ value.columns.length }}

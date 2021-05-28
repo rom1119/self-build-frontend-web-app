@@ -23,6 +23,7 @@ import MinHeight from '../Css/Size/MinHeight';
 import MaxHeight from '../Css/Size/MaxHeight';
 import ContentSizeCss from "../Css/Size/ContentSizeCss";
 import Pixel from '../Unit/Size/Pixel';
+import TableTag from '../Layout/tag/Table/TableTag';
 
 export default class ContentFilterCssInjector extends FilterCssInjector
 {
@@ -71,6 +72,10 @@ export default class ContentFilterCssInjector extends FilterCssInjector
         if (cssProp instanceof Width) {
             this.htmlTag.setWidthUnit(cssProp.getUnit())
             this.htmlTag.setWidth(parseInt(cssProp.getClearValue()))
+
+            // if (this.htmlTag.isTableTag) {
+            //     (<TableTag>this.htmlTag).
+            // }
             // var val = this.htmlTag.getComputedCssVal(cssProp)
             // console.log(val);
             // console.log('!@#$');

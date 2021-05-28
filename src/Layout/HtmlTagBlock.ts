@@ -8,8 +8,8 @@ export default abstract class HtmlTagBlock extends HtmlTag
 {
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
-    protected _width = 150
-    protected _height = 150
+    // protected _width = 150
+    // protected _height = 150
         
     constructor() {
         super()

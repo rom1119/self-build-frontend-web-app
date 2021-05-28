@@ -62,6 +62,7 @@ export default class WidthProperty extends BaseComputedPropertyManager<Width> {
         Vue.nextTick(() => {
             this.recalculate(this.value, prop)
         })
+        this.value.clearWidth()
         return prop
     }
 

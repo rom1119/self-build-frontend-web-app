@@ -3,7 +3,7 @@ import TableColumnCalculator from "~/src/Calculator/TableColumnCalculator";
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 import UnitSize from "~/src/Unit/UnitSize";
 import Pixel from "~/src/Unit/Size/Pixel";
-import ColPxCalculator from "~/src/Calculator/table/calculator/ColPxCalculator";
+import ColPxCalculator from "~/src/Calculator/table/calculator/TabelColumnsCalculator";
 
 export default class DefaultTableColCalculatorAdvisor implements TableColCalculatorAdvisor{
 

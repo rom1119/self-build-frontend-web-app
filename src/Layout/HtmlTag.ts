@@ -121,8 +121,10 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     protected _startedAnimation = false
 
-    protected _width = HtmlTag.INITIAL_WIDTH
-    protected _height = HtmlTag.INITIAL_HEIGHT
+    protected _widthToRealInject: any = null
+
+    protected _width = null
+    protected _height = null
     public static INITIAL_WIDTH = 100
     public static INITIAL_HEIGHT = 100
     public static INITIAL_SIZE_UNIT: UnitSize = new Pixel()
@@ -199,7 +201,13 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
+    get widthToRealInject() {
+        return this._widthToRealInject
+    }
     
+    set widthToRealInject(arg) {
+        this._widthToRealInject = arg
+    }
 
     public hideElement() {
         this.displayNone = true
@@ -840,12 +848,21 @@ export default abstract class HtmlTag extends HtmlNode implements
     {
         return this._width
     }
+    
+    get widthUnit()
+    {
+        return this.widthUnitCurrent
+    }
 
     get height()
     {
         return this._height
     }
 
+    public clearWidth() {
+
+        this._width = null
+    }
     public setWidth(arg: number)
     {
         this._width = arg
@@ -1172,6 +1189,30 @@ export default abstract class HtmlTag extends HtmlNode implements
                 continue
             }
         }
+    }
+
+    public getComputedCssValFromHiddenOutsite(prop: BasePropertyCss): string{
+        // @ts-ignore
+        if (typeof prop.isAuto === 'function') {
+            // @ts-ignore
+            if (prop.isAuto()) {
+                this.getHtmlElOutsiteHidden().style[prop.getName()] = 'auto'
+                // this.getHtmlEl().style['margin-left'] = 'auto'
+                // throw Error('AJAJAJA')
+            } else {
+                this.getHtmlElOutsiteHidden().style[prop.getName()] = prop.getValue()
+
+            }
+
+        } else {
+            this.getHtmlElOutsiteHidden().style[prop.getName()] = prop.getValue()
+
+        }
+        var a = window.getComputedStyle(this.getHtmlElOutsiteHidden())
+        var val = a.getPropertyValue(prop.getName())
+        // this.getHtmlEl().removeAttribute('style')
+
+        return val
     }
 
     public getComputedCssValFromHidden(prop: BasePropertyCss): string{
@@ -1659,6 +1700,52 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
     getComputedWidth(): number {
         return this.getComputedVal(Width.PROP_NAME)
+    }
+    
+    getComputedHiddenOutsiteWidth(): number {
+        return Number(this.getComputedCssValFromHiddenOutsite(new Width(this.width, this.widthUnit)))
+    }
+    
+    getComputedClientWidth(): number {
+        // console.log('getComputedClientWidth')
+        if (!this.getHtmlElOutsiteHidden()) {
+            // console.log('EL NOT')
+            return 0
+        }
+        console.log(this.getHtmlElOutsiteHidden())
+        this.getHtmlElOutsiteHidden().style[Width.PROP_NAME] = this.getWidthValue()
+        
+        // var a = window.getComputedStyle(this.getHtmlEl())
+        var val = this.getHtmlElOutsiteHidden().clientWidth
+        // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
+
+        // console.log('EL val', val)
+        // console.log('EL val', parseInt(val))
+        if (val) {
+            return val
+        }
+
+        return 0
+    }
+
+    getComputedOffsetWidth(): number {
+        // console.log('getComputedOffsetWidth', this.getDomainTagName())
+        if (!this.getHtmlElOutsiteHidden()) {
+            // console.log('EL NOT')
+            return 0
+        }
+        this.getHtmlElOutsiteHidden().style[Width.PROP_NAME] = this.getWidthValue()
+        
+        // var a = window.getComputedStyle(this.getHtmlEl())
+        var val = this.getHtmlElOutsiteHidden().offsetWidth
+        // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
+        // console.log('EL val', val)
+        // console.log('EL val', parseInt(val))
+        if (val) {
+            return val
+        }
+
+        return 0
     }
 
     getComputedMarginRight(): number {

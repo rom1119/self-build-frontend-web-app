@@ -53,6 +53,14 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     }
 
+    get widthToRealInject() {
+        return this._widthToRealInject
+    }
+    
+    set widthToRealInject(arg) {
+        this._widthToRealInject = arg
+    }
+
     get widthBoxCalc(): string {
         if (!this.columnElement) {
             return ''
@@ -357,41 +365,48 @@ export default abstract class TableCell extends HtmlTagBlock {
 
         var height = new Height(100, new Percent())
         css[height.getName()] = height.getValue()
+        
+        if (this.widthToRealInject != null) {
+            var width = new Width(this.widthToRealInject, new Pixel())
+            css[width.getName()] = width.getValue()
 
+        } else {
+            delete css[Width.PROP_NAME]
+        }
 
         var borderBox = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         css[borderBox.getName()] = borderBox.getValue()
 
-        var display = new Display(Display.INLINE_BLOCK, new Named())
-        css[display.getName()] = display.getValue()
+        // var display = new Display(Display.INLINE_BLOCK, new Named())
+        // css[display.getName()] = display.getValue()
 
 
         // var flexBasis = new FlexBasis(10, new Percent())
         // css[flexBasis.getName()] = flexBasis.getValue()
         // console.log('cssBoxList', this.hasFlexGrow);
         
-        if (this.hasFlexGrow) {
-            if (this.colspanAttrVal > 1) {
+        // if (this.hasFlexGrow) {
+        //     if (this.colspanAttrVal > 1) {
                 
-                var flexGrow = new FlexGrow(6, new Named())
-                css[flexGrow.getName()] = flexGrow.getValue()
+        //         var flexGrow = new FlexGrow(6, new Named())
+        //         css[flexGrow.getName()] = flexGrow.getValue()
 
-                var flexShring = new FlexShrink(1.5, new Named())
-                css[flexShring.getName()] = flexShring.getValue()
-            } else {
-                var flexGrow = new FlexGrow(2, new Named())
-                css[flexGrow.getName()] = flexGrow.getValue()
+        //         var flexShring = new FlexShrink(1.5, new Named())
+        //         css[flexShring.getName()] = flexShring.getValue()
+        //     } else {
+        //         var flexGrow = new FlexGrow(2, new Named())
+        //         css[flexGrow.getName()] = flexGrow.getValue()
 
-                var flexShring = new FlexShrink(2, new Named())
-                css[flexShring.getName()] = flexShring.getValue()
+        //         var flexShring = new FlexShrink(2, new Named())
+        //         css[flexShring.getName()] = flexShring.getValue()
 
-            }
+        //     }
 
 
-        } else if (this.rowElement.allChildren.length === 1) {
-            var flexGrow = new FlexGrow(2, new Named())
-            css[flexGrow.getName()] = flexGrow.getValue()
-        }
+        // } else if (this.rowElement.allChildren.length === 1) {
+        //     var flexGrow = new FlexGrow(2, new Named())
+        //     css[flexGrow.getName()] = flexGrow.getValue()
+        // }
 
         if (this.colspanAttr) {
             var replacedCss = {}
@@ -431,6 +446,13 @@ export default abstract class TableCell extends HtmlTagBlock {
             var height = new Height(100, new Percent())
             cssSelector[height.getName()] = height.getValue()
 
+            if (this.widthToRealInject != null) {
+                var width = new Width(this.widthToRealInject, new Pixel())
+                cssSelector[width.getName()] = width.getValue()
+
+            } else {
+                delete cssSelector[Width.PROP_NAME]
+            }
             // var display = new Display(Display.INLINE_BLOCK, new Named())
             // cssSelector[display.getName()] = display.getValue()
 

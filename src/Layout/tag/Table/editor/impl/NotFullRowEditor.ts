@@ -54,9 +54,9 @@ export default class NotFullRowEditor implements TableEditor{
         for (const col of cols) {
             col.hiddenChildren = []
         }
-        console.log('%c updateRows', 'background: blue;');
-        console.log(rowIndexWhereNotFullRow);
-        console.log(maxColsInRow);
+        // console.log('%c updateRows', 'background: blue;');
+        // console.log(rowIndexWhereNotFullRow);
+        // console.log(maxColsInRow);
         
         for (const el of rowIndexWhereNotFullRow) {
             // const rowIndex = rowIndexWhereNotFullRow[amontCellsInRow];
@@ -66,7 +66,7 @@ export default class NotFullRowEditor implements TableEditor{
                 var i = el.row.tr.allChildren.length - 1
                 while (el.row.tr.allChildren.length < maxColsInRow - el.colOffset) {
                     // throw Error('asd')
-                    console.log('while not null');
+                    // console.log('while not null');
                     // console.log('el.index',el.rowIndex);
                     // console.log('el.row.tr.allChildren.length',el.row.tr.allChildren.length);
                     var col = tableTag.columns[el.row.tr.allChildren.length + el.colOffset]

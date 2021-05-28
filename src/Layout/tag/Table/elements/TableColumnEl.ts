@@ -32,6 +32,7 @@ import BorderLeftCss from "~/src/Css/Border/Left/BorderLeftCss";
 import TableColumnPropertyAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyAccessor";
 import BorderRightCss from "~/src/Css/Border/Right/BorderRightCss";
 import TableColumnPropertyTmpAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyTmpAccessor";
+import Pixel from '../../../../Unit/Size/Pixel';
 
 
 export default class TableColumnEl extends TableElement{
@@ -41,9 +42,24 @@ export default class TableColumnEl extends TableElement{
     constructor(owner: TableTag, index)
     {
         super(owner, index)
+
         // console.log('constructor TableColumnEl')
 
         // this.initCssAccessor()
+    }
+
+    get widthToRealInject() {
+        return this._widthToRealInject
+    }
+    
+    set widthToRealInject(arg) {
+        this._widthToRealInject = arg
+
+        for (var i = 0; i < this.allChildren.length; i++) {
+            var child = this.allChildren[i]
+            child.widthToRealInject = arg
+            
+        }
     }
     getDomainTagName(): string {
         this.updateComponentKey
@@ -177,6 +193,10 @@ export default class TableColumnEl extends TableElement{
         return false
     }
 
+    getComputedOffsetWidth() {
+        return this.children[0].getComputedOffsetWidth()
+    }
+
     get cssList() : any
     {
         let css = {}
@@ -191,6 +211,7 @@ export default class TableColumnEl extends TableElement{
             //     this._innerText = 'Font-size: ' + cssProp.getValue()
             // }
         }
+ 
         var tes = this._updateComponent
 
         var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
@@ -222,23 +243,31 @@ export default class TableColumnEl extends TableElement{
 
         }
 
+        if (this.widthToRealInject != null) {
+            var width = new Width(this.widthToRealInject, new Pixel())
+            css[width.getName()] = width.getValue()
 
-        if (realLeftBorderWidthUnit) {
-            css[LeftCss.PROP_NAME] =  `calc(0px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`
+        } else {
+            delete css[Width.PROP_NAME]
 
         }
+        
+        
+        if (realLeftBorderWidthUnit) {
+            css[LeftCss.PROP_NAME] =  `calc(0px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`
+            
+        }
         if (realTopBorderWidthUnit) {
-
+            
             // console.log('APPPPPPPPPPPPP realTopBorderWidth', realTopBorderWidthUnit.getValue(realTopBorderWidth));
             css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
         } else {
-
+            
         }
         css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px)`
         // console.log('APPPPPPPPPPPPP thisHeight', thisHeight);
-        // console.log('APPPPPPPPPPPPP', css);
         // console.log('APPPPPPPPPPPPP index', this.index);
-
+        
 
         // if (this.hasAbsolute || this.hasFixed) {
         //     css[Width.PROP_NAME] = this.widthCalc

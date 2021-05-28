@@ -50,7 +50,7 @@
                     @contentMouseDown="onContentMouseDown(value.columnElement, $event)"
                     @tagRemove="onEmitRemove(value.columnElement)"
                     v-if="value.rowIndex == 0"
-                    v-show="value.getTable().toManage"
+                    :canVisible="value.getTable().toManage"
                     :value="value.columnElement"
                     :key="value.columnElement.updateComponentKey"
                 />

@@ -1,15 +1,19 @@
 import CssPropertyAccessor from "./Css/CssPropertyAccessor";
 import BasePropertyCss from "./Css/BasePropertyCss";
 import ContentElPropertyAccessor from "./Css/PropertyAccessor/ContentElCssPropertyAccessor";
+import BoxSizing from './Css/BoxModel/BoxSizing';
 
 export default abstract class LayoutEl {
 
     protected _lastSynch: Date;
+    boxSizing: BoxSizing = null
+
     protected _uuid: string;
     protected _cssPropertyAccesor: CssPropertyAccessor
     protected _updateComponent = 0
     protected _htmlEl: HTMLElement = null
     protected _htmlElHidden = null
+    protected _htmlElOutsiteHidden = null
 
     protected _children: LayoutEl[] = []
     protected _active: boolean = true;
@@ -165,6 +169,16 @@ export default abstract class LayoutEl {
     public getHtmlElHidden(): HTMLElement
     {
         return this._htmlElHidden
+    }
+    
+    public setHtmlElOutsiteHidden(htmlEl)
+    {
+        this._htmlElOutsiteHidden = htmlEl
+    }
+
+    public getHtmlElOutsiteHidden(): HTMLElement
+    {
+        return this._htmlElOutsiteHidden
     }
 
     public setHtmlEl(htmlEl)

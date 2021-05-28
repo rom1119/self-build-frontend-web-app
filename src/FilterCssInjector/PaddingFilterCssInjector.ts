@@ -214,7 +214,7 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 			prop = new Height(cssProp.getClearValue(), cssProp.getUnit());
 		}
 		if (parseInt(prop.getClearValue()) > -1) {
-			paddingModel.width = parseInt(prop.getClearValue());
+			paddingModel.width = parseFloat(prop.getClearValue());
 			paddingModel.widthUnit = prop.getUnit();
 			paddingModel.offsetCalc = this.offsetCalculator.build(paddingModel);
 			paddingModel.lengthCalc = this.sizeCalculator.build(paddingModel);
@@ -238,7 +238,7 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 		var bottomProp = this.htmlTag.cssAccessor.getProperty(PaddingBottomCss.PROP_NAME);
 		if (parseInt(right.getClearValue()) > -1 && !rightProp) {
 			// if (!rightProp.isActive()) {
-			this.htmlTag.paddingRight.width = parseInt(right.getClearValue());
+			this.htmlTag.paddingRight.width = parseFloat(right.getClearValue());
 			this.htmlTag.paddingRight.widthUnit = right.getUnit();
 			this.htmlTag.paddingRight.offsetCalc = this.offsetCalculator.build(this.htmlTag.paddingRight);
 			this.htmlTag.paddingRight.lengthCalc = this.sizeCalculator.build(this.htmlTag.paddingRight);
@@ -248,7 +248,7 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 
 		if (parseInt(left.getClearValue()) > -1 && !leftProp) {
 			// if (!leftProp.isActive()) {
-			this.htmlTag.paddingLeft.width = parseInt(left.getClearValue());
+			this.htmlTag.paddingLeft.width = parseFloat(left.getClearValue());
 			this.htmlTag.paddingLeft.widthUnit = left.getUnit();
 			this.htmlTag.paddingLeft.offsetCalc = this.offsetCalculator.build(this.htmlTag.paddingLeft);
 			this.htmlTag.paddingLeft.lengthCalc = this.sizeCalculator.build(this.htmlTag.paddingLeft);
@@ -259,7 +259,7 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 		}
 
 		if (parseInt(top.getClearValue()) > -1 && !topProp) {
-			this.htmlTag.paddingTop.width = parseInt(top.getClearValue());
+			this.htmlTag.paddingTop.width = parseFloat(top.getClearValue());
 			this.htmlTag.paddingTop.widthUnit = top.getUnit();
 			this.htmlTag.paddingTop.offsetCalc = this.offsetCalculator.build(this.htmlTag.paddingTop);
 			this.htmlTag.paddingTop.lengthCalc = this.sizeCalculator.build(this.htmlTag.paddingTop);
@@ -268,7 +268,7 @@ export default class PaddingFilterCssInjector extends FilterCssInjector {
 		}
 
 		if (parseInt(bottom.getClearValue()) > -1 && !bottomProp) {
-			this.htmlTag.paddingBottom.width = parseInt(bottom.getClearValue());
+			this.htmlTag.paddingBottom.width = parseFloat(bottom.getClearValue());
 			this.htmlTag.paddingBottom.widthUnit = bottom.getUnit();
 			this.htmlTag.paddingBottom.offsetCalc = this.offsetCalculator.build(this.htmlTag.paddingBottom);
 			this.htmlTag.paddingBottom.lengthCalc = this.sizeCalculator.build(this.htmlTag.paddingBottom);
