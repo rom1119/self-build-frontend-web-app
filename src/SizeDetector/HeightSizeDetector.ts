@@ -32,6 +32,11 @@ export default class HeightSizeDetector implements AxisSizeDetector {
         this._y = newVal
     }
 
+    get y()
+    {
+        return this._y
+    }
+
     get computedHeight()
     {
         var newCalc =  this._y - this._yStart   

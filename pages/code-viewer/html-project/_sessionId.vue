@@ -1,6 +1,23 @@
 <template>
     <div class="black" v-if="project">
+        <div class="review">
+            <object >
+                <html>
+                    <head>
+                        <style>
+                            table {
+                                border-collapse: initial;
+                            }
+                        </style>
+                        <style v-html="cssCode"></style>
+                    </head>
+                    <body v-html="htmlCode">
+                        
+                    </body>
+                </html>
 
+            </object>
+        </div>
         <h1 >
             {{ project.name }}
         </h1>
@@ -30,6 +47,8 @@
             </pre>
         </div>
 
+
+        
 
     </div>
 
@@ -156,11 +175,11 @@ import {html} from 'js-beautify';
             html = html[html.length - 1]
             html = html
             html = html.substr(0, html.length - 1)
-            console.log(html);
+            // console.log(html);
             // console.log(html.substr(125));
 
             var jsonContent = JSON.parse(html.trim().toString())
-            console.log(jsonContent);
+            // console.log(jsonContent);
             this.cssCode = jsonContent.css
 
         }
@@ -281,7 +300,7 @@ import {html} from 'js-beautify';
 </script>
 
 <style lang="scss" scoped>
-
+    
     .code-types {
         display: flex;
         justify-content: center;

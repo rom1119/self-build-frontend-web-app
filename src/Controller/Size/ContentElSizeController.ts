@@ -87,7 +87,9 @@ export default class ContentElSizeController extends SizeElController
         if (!this.currentElement) {
             return
         }
-        // console.log(ev.clientX);
+        if (this.mouseDetector.x == ev.clientX && this.mouseDetector.y == ev.clientY) {
+            return
+        }
         this.mouseDetector.x = ev.clientX
         this.mouseDetector.y = ev.clientY
         let newValWidth = this.mouseDetector.computedWidth

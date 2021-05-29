@@ -54,12 +54,27 @@ export default abstract class TableCell extends HtmlTagBlock {
     }
 
     get widthToRealInject() {
-        return this._widthToRealInject
+        if (!this.columnElement) {
+            return null
+        }
+
+        var calcStr = this.columnElement.widthToRealInject
+        var res = `calc( ${calcStr}px`
+        for (const containColumn of this.containColumns) {
+            var w = containColumn.widthToRealInject
+            // console.log('containColumn.getWidthValue()', containColumn.getWidthValue());
+            res += ` + ${w}px`
+            
+        }
+
+        res += ')'
+
+        return res
     }
     
-    set widthToRealInject(arg) {
-        this._widthToRealInject = arg
-    }
+    // set widthToRealInject(arg) {
+    //     this._widthToRealInject = arg
+    // }
 
     get widthBoxCalc(): string {
         if (!this.columnElement) {
@@ -367,7 +382,7 @@ export default abstract class TableCell extends HtmlTagBlock {
         css[height.getName()] = height.getValue()
         
         if (this.widthToRealInject != null) {
-            var width = new Width(this.widthToRealInject, new Pixel())
+            var width = new Width(this.widthToRealInject, new Named())
             css[width.getName()] = width.getValue()
 
         } else {

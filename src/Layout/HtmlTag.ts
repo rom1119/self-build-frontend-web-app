@@ -655,8 +655,8 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         let padding = new PaddingCss('41', new Pixel())
         let margin = new MarginCss('11', new Pixel())
-        let width = new Width(this._width, this.widthUnitCurrent)
-        let height = new Height(this._height, this.heightUnitCurrent)
+        let width = new Width(HtmlTag.INITIAL_WIDTH, HtmlTag.INITIAL_SIZE_UNIT)
+        let height = new Height(HtmlTag.INITIAL_HEIGHT, HtmlTag.INITIAL_SIZE_UNIT)
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         let display = new Display(Display.BLOCK, new Named())
@@ -1858,7 +1858,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
 
         await this.api.appendChildDeep(child)
-        this.synchronizer.synchronize()
+        // this.synchronizer.synchronize()
 
     }
 

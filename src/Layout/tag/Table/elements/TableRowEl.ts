@@ -253,6 +253,10 @@ export default class TableRowEl extends TableElementEl{
 
         var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
         css[PositionCss.PROP_NAME] = rel.getValue()
+
+        if (!this.children[0]) {
+            return css
+        }
         var realHeight = this.children[0].getComputedVal(Height.PROP_NAME)
         var realTopBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderTopCss.PROP_NAME)
         var realTopBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderTopCss.PROP_NAME)

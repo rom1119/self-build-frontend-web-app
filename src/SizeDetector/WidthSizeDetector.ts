@@ -28,6 +28,11 @@ export default class WidthSizeDetector implements AxisSizeDetector {
         }
         this._x = newVal
     }
+    
+    get x()
+    {
+        return this._x
+    }
 
     get computedWidth()
     {

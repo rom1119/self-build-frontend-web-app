@@ -32,10 +32,20 @@ export default class Size2DDetector {
     {
         this.xPositionDetector.x = newVal
     }
+    
+    get x()
+    {
+        return this.xPositionDetector.x
+    }
 
     set y(newVal: number)
     {
         this.yPositionDetector.y = newVal
+    }
+    
+    get y()
+    {
+        return this.yPositionDetector.y
     }
 
     get computedWidth()

@@ -15,7 +15,8 @@ export default class TabelColumnsCalculator
 {
     protected tabelContent: ContentWidthPx
     protected tabel: TableTag
-    protected _columnTotalSize: number = 0
+    protected _columnTotalSize: number
+    protected tabelWidth: number
 
     constructor(tabel: TableTag) {
         this.tabel = tabel
@@ -28,41 +29,47 @@ export default class TabelColumnsCalculator
         if (!this.tabel.getHtmlElHidden()) {
             return 0
         }
+        
+        
+        console.time()
+        this.tabelWidth = this.tabelContent.contentWidthPx
         var colSizes = this.columnSizes
-
         var columns = this.tabel.columns
-        var tabelWidth = this.tabelContent.contentWidthPx
         var columnTotalWidth = this._columnTotalSize
-        console.log('tabelWidth', tabelWidth);
-        console.log('columnTotalWidth', columnTotalWidth);
-
-        if (!tabelWidth) {
+        // console.log('tabelWidth', tabelWidth);
+        // console.log('columnTotalWidth', columnTotalWidth);
+        
+        if (!this.tabelWidth) {
             this.setNormalWidthColumn(colSizes)
             return 1
         }
-
-        this.calculateWidthColumns(colSizes, tabelWidth)
+        
+        this.calculateWidthColumns(colSizes, this.tabelWidth)
+        console.timeEnd()
         // var width: UnitSize = column.getWidthValue()
+        console.log('calculate END ');
 
         return 2
 
     }
 
     protected calculateWidthColumns(arg: ColumnWidth[], tabelWidth) {
-        console.log('calculateWidthColumns');
+        // console.log('calculateWidthColumns');
         
-        for (const el of arg) {
+        var colLenth = arg.length
+        for (var i = 0; i < colLenth; i++) {
+            var el = arg[i]
             var widthFromTag = el.col.width
             var widthUnitFromTag = el.col.widthUnit
             var width = el.pixelValue
 
             // var el = new ColumnWidth()
             el.percentValueOfAlColumns = el.pixelValue / this._columnTotalSize * 100
-            console.log(el);
+            // console.log(el);
             
             var newVal = el.percentValueOfAlColumns * tabelWidth / 100
             // console.log(newVal);
-            console.log(this.roundUp(newVal));
+            // console.log(this.roundUp(newVal));
 
             el.col.widthToRealInject = this.roundUp(newVal)
             
@@ -90,12 +97,14 @@ export default class TabelColumnsCalculator
         // console.log('get columnSizes()');
         var res = []
         var columnTotalSize = 0
-        var tabelWidth = this.tabelContent.contentWidthPx
+        var tabelWidth = this.tabelWidth
 
-        for (const col of this.tabel.columns) {
+        var colLenth = this.tabel.columns.length
+        for (var i = 0; i < colLenth; i++) {
+            var col = this.tabel.columns[i]
             var widthFromTag = col.width
             var widthUnitFromTag = col.widthUnit
-            var widthPx = col.getComputedOffsetWidth()
+            var widthPx = widthFromTag
 
             var el = new ColumnWidth()
             el.col = col
@@ -108,6 +117,7 @@ export default class TabelColumnsCalculator
 
         }
 
+        this._columnTotalSize = 0
         this._columnTotalSize = columnTotalSize
 
         return res

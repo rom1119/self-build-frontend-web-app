@@ -15,7 +15,7 @@ export default class ContentWidthPx {
         var widthFromTag = this.value.width
         var widthUnitFromTag = this.value.widthUnit
         var width = this.value.getComputedWidth()
-        console.log('tabel contentWidthPx', widthFromTag);
+        // console.log('tabel contentWidthPx', widthFromTag);
         
         if (!widthFromTag) {
             return null
@@ -25,8 +25,8 @@ export default class ContentWidthPx {
             var paddingLeft = this.value.paddingLeft.width
             var paddingRight = this.value.paddingRight.width
 
-            console.log('paddingLeft', paddingLeft);
-            console.log('paddingRight', paddingRight);
+            // console.log('paddingLeft', paddingLeft);
+            // console.log('paddingRight', paddingRight);
 
 
             return width - paddingLeft - paddingRight

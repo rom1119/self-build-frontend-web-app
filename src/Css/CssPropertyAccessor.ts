@@ -144,8 +144,9 @@ export default abstract class CssPropertyAccessor
         
         let prop = null
         // console.log(this.getAll());
-        
-        for (const el of this.getAll()) {
+        var len = this.all.length
+        for (var i = 0; i < len; i++) {
+            var el = this.all[i]
             if (el.getName() === name) {
                 return el
             } 

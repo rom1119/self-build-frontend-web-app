@@ -86,10 +86,13 @@ export default class TableColumnSizeController extends SizeElController
             return
         }
         // console.log(ev.clientX);
+        if (this.mouseDetector.x == ev.clientX) {
+            return
+        }
         this.mouseDetector.x = ev.clientX
         this.mouseDetector.y = ev.clientY
         let newValWidth = this.mouseDetector.computedWidth
-
+        
         if (newValWidth > 0) {
 
             this.currentElement.setWidthColumn(newValWidth)

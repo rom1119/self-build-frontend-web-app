@@ -55,11 +55,11 @@ export default class TableColumnEl extends TableElement{
     set widthToRealInject(arg) {
         this._widthToRealInject = arg
 
-        for (var i = 0; i < this.allChildren.length; i++) {
-            var child = this.allChildren[i]
-            child.widthToRealInject = arg
+        // for (var i = 0; i < this.allChildren.length; i++) {
+        //     var child = this.allChildren[i]
+        //     child.widthToRealInject = arg
             
-        }
+        // }
     }
     getDomainTagName(): string {
         this.updateComponentKey
@@ -119,8 +119,8 @@ export default class TableColumnEl extends TableElement{
                 // return
             }
         }
-        
-        for (var i = 0; i < this.allChildren.length; i++) {
+        var len = this.allChildren.length
+        for (var i = 0; i < len; i++) {
             var child = this.allChildren[i]
             child.checkIsOverflow()
             
@@ -128,7 +128,7 @@ export default class TableColumnEl extends TableElement{
 
         }
         // this.owner.setWidthColumn(this.children[0].shortUUID, width)
-        this.owner.updateWidthStylesForColumn(this, width)
+        // this.owner.updateWidthStylesForColumn(this, width)
 
         // console.log('setWidthColumn col EL', this.children.length)
         this.initSize(width)
