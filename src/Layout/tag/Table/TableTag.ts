@@ -815,18 +815,19 @@ export default class TableTag extends TableContainer {
             var child = children[i]
 
             if (child instanceof TableContainer) {
-                // this.setMarginXAllCells(child.children, valUnit, val)
-                var marginLeft = new PaddingLeftCss(val, valUnit)
+                this.setMarginXAllCells(child.children, valUnit, val)
+
+            } else if (child instanceof TableCell) {
+                var marginLeft = new MarginLeftCss(val, valUnit)
                 marginLeft.toSaveInApi = false
                 child.updateCssPropertyWithoutModel(marginLeft.getName(), marginLeft)
 
-                // var isLastColumn = i === children.length - 1
-                var marginRight = new PaddingRightCss(val, valUnit)
-                marginRight.toSaveInApi = false
-                child.updateCssPropertyWithoutModel(marginRight.getName(), marginRight)
-                // if (isLastColumn) {
-                // }
-
+                var isLastColumn = i === children.length - 1
+                if (isLastColumn) {
+                    var marginRight = new MarginRightCss(val, valUnit)
+                    marginRight.toSaveInApi = false
+                    child.updateCssPropertyWithoutModel(marginRight.getName(), marginRight)
+                }
             }
         }
     }

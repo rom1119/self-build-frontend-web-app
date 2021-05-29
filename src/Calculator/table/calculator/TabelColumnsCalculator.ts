@@ -65,15 +65,15 @@ export default class TabelColumnsCalculator
 
             // var el = new ColumnWidth()
             el.percentValueOfAlColumns = el.pixelValue / this._columnTotalSize * 100
-            // console.log(el);
+            console.log(el);
             
             var newVal = el.percentValueOfAlColumns * tabelWidth / 100
-            // console.log(newVal);
-            // console.log(this.roundUp(newVal));
-
+            console.log(newVal);
+            
             el.col.widthToRealInject = this.roundUp(newVal)
             
         }
+        // console.log(arg);
     }
 
     protected setNormalWidthColumn(arg: ColumnWidth[]) {
@@ -104,7 +104,7 @@ export default class TabelColumnsCalculator
             var col = this.tabel.columns[i]
             var widthFromTag = col.width
             var widthUnitFromTag = col.widthUnit
-            var widthPx = widthFromTag
+            var widthPx = col.getComputedOffsetWidth()
 
             var el = new ColumnWidth()
             el.col = col

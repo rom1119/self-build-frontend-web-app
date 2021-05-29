@@ -496,9 +496,9 @@ export default abstract class TableCell extends HtmlTagBlock {
         let minHeight = new MinHeight(100, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         let backgroundColor = new BackgroundColor({ r: 70, g: 200, b: 200 }, new RGB())
-        let p = new PaddingCss(10, new Pixel())
+        // let p = new PaddingCss(10, new Pixel())
 
-        let cssList = [width, minHeight, boxSizing, backgroundColor, p, border]
+        let cssList = [width, minHeight, boxSizing, backgroundColor, border]
 
 
 
