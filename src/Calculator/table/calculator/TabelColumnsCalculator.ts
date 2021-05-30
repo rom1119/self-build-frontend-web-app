@@ -25,13 +25,13 @@ export default class TabelColumnsCalculator
 
 
     get calculated() {
-        console.log('calculate START');
+        // console.log('calculate START');
         if (!this.tabel.getHtmlElHidden()) {
             return 0
         }
         
         
-        console.time()
+        // console.time()
         this.tabelWidth = this.tabelContent.contentWidthPx
         var colSizes = this.columnSizes
         var columns = this.tabel.columns
@@ -45,9 +45,9 @@ export default class TabelColumnsCalculator
         }
         
         this.calculateWidthColumns(colSizes, this.tabelWidth)
-        console.timeEnd()
+        // console.timeEnd()
         // var width: UnitSize = column.getWidthValue()
-        console.log('calculate END ');
+        // console.log('calculate END ');
 
         return 2
 
@@ -65,10 +65,10 @@ export default class TabelColumnsCalculator
 
             // var el = new ColumnWidth()
             el.percentValueOfAlColumns = el.pixelValue / this._columnTotalSize * 100
-            console.log(el);
+            // console.log(el);
             
             var newVal = el.percentValueOfAlColumns * tabelWidth / 100
-            console.log(newVal);
+            // console.log(newVal);
             
             el.col.widthToRealInject = this.roundUp(newVal)
             

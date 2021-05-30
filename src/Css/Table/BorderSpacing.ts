@@ -46,6 +46,12 @@ export default class BorderSpacing extends CssSimple implements CssDoubleValue
         return this.xValUnit.getValue(this.xVal)
     }
     
+    get value(): string
+    {
+
+        return this.xValUnit.getValue(this.xVal)
+    }
+    
     getClearValue(): string
     {
 

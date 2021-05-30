@@ -781,7 +781,7 @@ export default class TableTag extends TableContainer {
 
     updateSeparate(prop?: BorderCollapse, spacing?: BorderSpacing) {
 
-        if (this.isCollapsePropertyVal(prop)) {
+        if (this.isCollapsePropertyVal(prop) || !spacing) {            
             this.recalculateBorderSpacingX(new Pixel(), 0)
             this.recalculateBorderSpacingY(new Pixel(), 0)
         } else if (this.isSeparatePropertyVal(prop)) {
