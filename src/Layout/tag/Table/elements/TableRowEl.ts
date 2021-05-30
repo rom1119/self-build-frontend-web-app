@@ -32,6 +32,10 @@ export default class TableRowEl extends TableElementEl{
         return "";
     }
 
+    get IDHiddenEl() {
+        return this.owner.shortUUID + '-row-hidden-box-' + this.index
+    }
+
     canAddThAsChild() {
         return this.tr.canAddThAsChild()
     }
@@ -135,7 +139,7 @@ export default class TableRowEl extends TableElementEl{
         // console.log('diffHeight', diffHeight )
         // console.log('RES', (diff - diffHeight) <= 0 )
         if ((diff - diffHeight + 3) <= 0) {
-            return
+            // return
         }
         this.tr.initHeight(h)
         // console.log('setWidthColumn col EL', this.children.length)
@@ -152,6 +156,10 @@ export default class TableRowEl extends TableElementEl{
 
 
     }
+
+    // getComputedOffsetHeight() {
+    //     return this.children[0].getComputedOffsetHeight()
+    // }
 
     public updateCssPropertyWithoutModel(name:string, css: BasePropertyCss) {
 
@@ -251,8 +259,8 @@ export default class TableRowEl extends TableElementEl{
             // }
         }
 
-        var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
-        css[PositionCss.PROP_NAME] = rel.getValue()
+        // var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
+        // css[PositionCss.PROP_NAME] = rel.getValue()
 
         if (!this.children[0]) {
             return css
@@ -296,6 +304,14 @@ export default class TableRowEl extends TableElementEl{
         if (realTopBorderWidthUnit) {
 
             css[TopCss.PROP_NAME] =  `calc(0px  - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
+        }
+
+        if (this.heightToRealInject != null) {
+            var height = new Height(this.heightToRealInject, new Pixel())
+            css[height.getName()] = height.getValue()
+
+        } else {
+            delete css[Height.PROP_NAME]
         }
         //     console.log('APPPPPPPPPPPPP', realTopBorderWidthUnit.getValue(realTopBorderWidth));
         // console.log('APPPPPPPPPPPPP', thisHeight);

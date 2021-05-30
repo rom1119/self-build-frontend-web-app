@@ -48,6 +48,10 @@ export default class TableColumnEl extends TableElement{
         // this.initCssAccessor()
     }
 
+    get IDHiddenEl() {
+        return this.owner.shortUUID + '-column-hidden-box-' + this.index
+    }
+
     get widthToRealInject() {
         return this._widthToRealInject
     }
@@ -193,9 +197,9 @@ export default class TableColumnEl extends TableElement{
         return false
     }
 
-    getComputedOffsetWidth() {
-        return this.children[0].getComputedOffsetWidth()
-    }
+    // getComputedOffsetWidth() {
+    //     return this.children[0].getComputedOffsetWidth()
+    // }
 
     get cssList() : any
     {
@@ -214,8 +218,8 @@ export default class TableColumnEl extends TableElement{
  
         var tes = this._updateComponent
 
-        var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
-        css[PositionCss.PROP_NAME] = rel.getValue()
+        // var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
+        // css[PositionCss.PROP_NAME] = rel.getValue()
         // var realWidth = this.children[0].getComputedVal(Width.PROP_NAME)
         var realTopBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderTopCss.PROP_NAME)
         var realTopBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderTopCss.PROP_NAME)

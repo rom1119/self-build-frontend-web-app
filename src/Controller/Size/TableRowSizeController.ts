@@ -83,8 +83,12 @@ export default class TableRowSizeController extends SizeElController
         if (!this.currentElement) {
             return
         }
+
+        if (this.mouseDetector.y == ev.clientY) {
+            return
+        }
         // console.log(ev.clientX);
-        this.mouseDetector.x = ev.clientX
+        // this.mouseDetector.x = ev.clientX
         this.mouseDetector.y = ev.clientY
         let newValHeight = this.mouseDetector.computedHeight
 

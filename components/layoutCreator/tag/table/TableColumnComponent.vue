@@ -1,33 +1,39 @@
 <template>
 
-    <div class="stretch tab-column border stretch__flex cursor-resize-to-left"
-        @mousedown.stop="onMouseDown($event)"
-        @mouseover.stop="onMouseOver"
-        @mouseout.stop="onMouseOut"
-        @click.stop="onMouseClick"
-        :class="{'visible': canVisible, 'unvisible' : !canVisible}"
-         :style="value.cssList"
-         :key="value.updateComponentKey"
-         oncopy="return false"
-         oncut="return false"
-         onselectstart="return false"
-    >
-        <div class="stretch"
-           >
-            <div class="remove" @click.stop="onEmitRemove($event)">
-                X
-            </div>
-            </br>
-            <!-- 
-            <span>col {{ value.index }} / ({{ value.allChildren.length }})</span>
-            <span style="display: none;">hide - ({{ value.hiddenChildren.length }})</span>
-            
-            -->
-            <span v-show="hasWidth">
-                Width {{ value.getWidthValue() }}
-                <br>
+    <div>
+        <div :id="idHiddenEl" class="hidden-box">
+
+        </div>
+
+        <div class="stretch tab-column border stretch__flex cursor-resize-to-left"
+            @mousedown.stop="onMouseDown($event)"
+            @mouseover.stop="onMouseOver"
+            @mouseout.stop="onMouseOut"
+            @click.stop="onMouseClick"
+            :class="{'visible': canVisible, 'unvisible' : !canVisible}"
+            :style="value.cssList"
+            :key="value.updateComponentKey"
+            oncopy="return false"
+            oncut="return false"
+            onselectstart="return false"
+        >
+            <div class="stretch"
+            >
+                <div class="remove" @click.stop="onEmitRemove($event)">
+                    X
+                </div>
+                </br>
+                <!-- 
+                <span>col {{ value.index }} / ({{ value.allChildren.length }})</span>
+                <span style="display: none;">hide - ({{ value.hiddenChildren.length }})</span>
                 
-            </span>
+                -->
+                <span v-show="hasWidth">
+                    Width {{ value.getWidthValue() }}
+                    <br>
+                    
+                </span>
+            </div>
         </div>
     </div>
 
@@ -61,6 +67,10 @@ export default class TableColumnComponent extends Vue {
     widthManager: BaseComputedPropertyManager<Width>
 
     contextMenuName = 'cm-border'
+
+    get idHiddenEl() {
+        return this.value.IDHiddenEl
+    }
     // abstract getSize() : number
     onEmitRemove(event)
     {
@@ -102,6 +112,8 @@ export default class TableColumnComponent extends Vue {
     mounted()
     {
         this.value.setHtmlEl(this.$el)
+        this.value.setHtmlElOutsiteHidden(document.getElementById(this.idHiddenEl))
+
         if (this.value instanceof HtmlTag)  {
             this.value.realPositionCalculator.reInitDefaultPosition()
 
@@ -138,6 +150,15 @@ export default class TableColumnComponent extends Vue {
 
     .border {
         border: 1px solid gray;
+    }
+
+    .hidden-box {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        visibility: hidden;
     }
 
     .remove {

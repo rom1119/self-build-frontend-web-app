@@ -122,6 +122,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _startedAnimation = false
 
     protected _widthToRealInject: any = null
+    protected _heightToRealInject: any = null
 
     protected _width = null
     protected _height = null
@@ -149,7 +150,8 @@ export default abstract class HtmlTag extends HtmlNode implements
     borderFilter: FilterCssInjector
     contentFilter: FilterCssInjector
 
-
+    lastSetWidthPx: number = null
+    lastSetHeightPx: number = null
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
     borderRealFetcher: BorderFetcherRealCssProp = new BorderRealCssFetcher(this)
@@ -207,6 +209,14 @@ export default abstract class HtmlTag extends HtmlNode implements
     
     set widthToRealInject(arg) {
         this._widthToRealInject = arg
+    }
+    
+    get heightToRealInject() {
+        return this._heightToRealInject
+    }
+    
+    set heightToRealInject(arg) {
+        this._heightToRealInject = arg
     }
 
     public hideElement() {
@@ -480,11 +490,15 @@ export default abstract class HtmlTag extends HtmlNode implements
     public setWidthUnit(unit: UnitSize)
     {
         this.widthUnitCurrent = unit
+        this.lastSetWidthPx = this.getComputedWidth()
+
     }
 
     public setHeightUnit(unit: UnitSize)
     {
         this.heightUnitCurrent = unit
+        this.lastSetHeightPx = this.getComputedHeight()
+
     }
 
     public getWithUnit(): UnitSize
@@ -859,18 +873,34 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this._height
     }
 
+    get heightUnit()
+    {
+        return this.heightUnitCurrent
+    }
+
+    public clearHeight() {
+
+        this._height = null
+        this.lastSetWidthPx = this.getComputedWidth()
+    }
+    
     public clearWidth() {
 
         this._width = null
+        this.lastSetWidthPx = this.getComputedWidth()
     }
     public setWidth(arg: number)
     {
         this._width = arg
+        this.lastSetWidthPx = this.getComputedWidth()
+
     }
 
     public setHeight(arg: number)
     {
         this._height = arg
+        this.lastSetHeightPx = this.getComputedHeight()
+
     }
 
     // set height(value) {
@@ -1589,6 +1619,9 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.updateCssPropertyWithoutModel(width.getName(), width)
         this.updateCssPropertyWithoutModel(height.getName(), height)
 
+        this.lastSetWidthPx = this.getComputedWidth()
+        this.lastSetHeightPx = this.getComputedHeight()
+
         this.notifyPositionalTag()
 
     }
@@ -1615,6 +1648,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     {
         this.widthUnitCurrent = new Pixel()
         this._width = w
+        this.lastSetWidthPx = this.getComputedWidth()
         this.synchronizer.synchronize()
 
     }
@@ -1624,6 +1658,8 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.heightUnitCurrent = new Pixel()
         this._height = w
         this.synchronizer.synchronize()
+        this.lastSetHeightPx = this.getComputedHeight()
+
 
     }
 
@@ -1738,6 +1774,26 @@ export default abstract class HtmlTag extends HtmlNode implements
         
         // var a = window.getComputedStyle(this.getHtmlEl())
         var val = this.getHtmlElOutsiteHidden().offsetWidth
+        // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
+        // console.log('EL val', val)
+        // console.log('EL val', parseInt(val))
+        if (val) {
+            return val
+        }
+
+        return 0
+    }
+
+    getComputedOffsetHeight(): number {
+        // console.log('getComputedOffsetWidth', this.getDomainTagName())
+        if (!this.getHtmlElOutsiteHidden()) {
+            // console.log('EL NOT')
+            return 0
+        }
+        this.getHtmlElOutsiteHidden().style[Height.PROP_NAME] = this.getHeightValue()
+        
+        // var a = window.getComputedStyle(this.getHtmlEl())
+        var val = this.getHtmlElOutsiteHidden().offsetHeight
         // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
         // console.log('EL val', val)
         // console.log('EL val', parseInt(val))

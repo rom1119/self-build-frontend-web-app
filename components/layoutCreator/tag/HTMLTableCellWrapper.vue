@@ -43,30 +43,9 @@
                 
 <!--            <div  class="wrapper__not-flex ">-->
                 <!--            <p v-for="(col, key) in value.columns" :key="key" :index="key" :value="col" >{{ col.updateComponentKey }}</p>-->
-                <table-column-component
-                    @contentMouseOver="onContentMouseOver"
-                    @contentMouseOut="onContentMouseOut"
-                    @contentMouseClick="onContentMouseClickChild($event)"
-                    @contentMouseDown="onContentMouseDown(value.columnElement, $event)"
-                    @tagRemove="onEmitRemove(value.columnElement)"
-                    v-if="value.rowIndex == 0"
-                    :canVisible="value.getTable().toManage"
-                    :value="value.columnElement"
-                    :key="value.columnElement.updateComponentKey"
-                />
+                
 
-            <table-row-component
-                    @contentMouseOver="onContentMouseOver"
-                    @contentMouseOut="onContentMouseOut"
-                    @contentMouseClick="onContentMouseClickChild($event)"
-                    @contentMouseDown="onContentMouseDown(value.rowElement, $event)"
-                    @tagRemove="onEmitRemove(value.rowElement)"
-
-                    :key="value.rowElement.updateComponentKey"
-
-                    v-if="value.colIndex == 0"
-                    v-show="value.getTable().toManage"
-                    :value="value.rowElement" />
+            
 
                 <!--            <table-row-component v-for="(row, key) in value.rows" :key="key" :index="key" :value="row" />-->
 <!--            </div>-->

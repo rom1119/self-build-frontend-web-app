@@ -26,13 +26,13 @@ export default class TabelColumnsCalculator
 
     get calculated() {
         // console.log('calculate START');
+        // console.time()
         if (!this.tabel.getHtmlElHidden()) {
             return 0
         }
         
         
-        // console.time()
-        this.tabelWidth = this.tabelContent.contentWidthPx
+        this.tabelWidth = this.tabelContent.contentSizePx
         var colSizes = this.columnSizes
         var columns = this.tabel.columns
         var columnTotalWidth = this._columnTotalSize
@@ -45,8 +45,8 @@ export default class TabelColumnsCalculator
         }
         
         this.calculateWidthColumns(colSizes, this.tabelWidth)
-        // console.timeEnd()
         // var width: UnitSize = column.getWidthValue()
+        // console.timeEnd()
         // console.log('calculate END ');
 
         return 2

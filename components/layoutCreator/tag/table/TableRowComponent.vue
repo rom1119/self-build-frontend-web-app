@@ -1,27 +1,35 @@
 <template>
+    <div>
+        <div :id="idHiddenEl" class="hidden-box">
 
-    <div class="stretch tab-row border stretch__flex cursor-resize-to-bottom"
-         @mousedown.stop="onMouseDown($event)"
-         @mouseover.stop="onMouseOver"
-         @mouseout.stop="onMouseOut"
-         @click.stop="onMouseClick"
-         :style="value.cssList"
+        </div>
 
-         oncopy="return false"
-         oncut="return false"
-         onselectstart="return false"
-    >
-        <div class="stretch"
+        <div class="stretch tab-row border stretch__flex cursor-resize-to-bottom"
+            @mousedown.stop="onMouseDown($event)"
+            @mouseover.stop="onMouseOver"
+            @mouseout.stop="onMouseOut"
+            @click.stop="onMouseClick"
+            :style="value.cssList"
+
+            oncopy="return false"
+            oncut="return false"
+            onselectstart="return false"
         >
-            <div class="remove" @click.stop="onEmitRemove($event)">
-                X
+        <div class="rel">
+
+        </div>
+            <div class="stretch rel"
+            >
+                <div class="remove" @click.stop="onEmitRemove($event)">
+                    X
+                </div>
+                
+                <span v-show="hasHeight">
+                    Height
+                    </br>
+                    {{ value.getHeightValue() }}
+                </span>
             </div>
-            </br>
-            <span v-show="hasHeight">
-                Height
-                </br>
-                {{ value.getHeightValue() }}
-            </span>
         </div>
     </div>
 
@@ -64,6 +72,11 @@ export default class TableRowComponent extends Vue {
         return  this.heightManager.getProperty().active
     }
 
+    get idHiddenEl() {
+        return this.value.IDHiddenEl
+    }
+    // a
+
     get updateComponentKey() {
         if (!this.value) {
             return 0
@@ -100,6 +113,7 @@ export default class TableRowComponent extends Vue {
     mounted()
     {
         this.value.setHtmlEl(this.$el)
+        this.value.setHtmlElOutsiteHidden(document.getElementById(this.idHiddenEl))
 
         // this.value.updateModelComponent()
         // this.value.updateModelComponent()
@@ -136,6 +150,15 @@ export default class TableRowComponent extends Vue {
         background: rgba(0,7,121,0.49);
     }
 
+    .hidden-box {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        visibility: hidden;
+    }
+
     .border {
         border: 1px solid gray;
     }
@@ -143,8 +166,9 @@ export default class TableRowComponent extends Vue {
     .remove {
         cursor: pointer;
         position: absolute;
-        top: 0;
-        right: 0;
+        top: unset;
+        bottom: 0;
+        right: -5px;
         padding: 2px;
         border-radius: 100%;
         background-color: aqua;

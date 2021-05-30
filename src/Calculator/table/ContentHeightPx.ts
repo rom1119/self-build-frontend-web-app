@@ -2,7 +2,7 @@ import HtmlTag from '../../Layout/HtmlTag';
 import BoxSizing from '../../Css/BoxModel/BoxSizing';
 
 
-export default class ContentWidthPx {
+export default class ContentHeightPx {
 
     protected value: HtmlTag
 
@@ -12,9 +12,9 @@ export default class ContentWidthPx {
     get contentSizePx(): number {
 
         var hasBorderBox = this.checkBorderBox()
-        var widthFromTag = this.value.width
-        var widthUnitFromTag = this.value.widthUnit
-        var width = this.value.lastSetWidthPx
+        var widthFromTag = this.value.height
+        var widthUnitFromTag = this.value.heightUnit
+        var height = this.value.lastSetHeightPx
         // console.log('tabel contentWidthPx', widthFromTag);
         
         if (!widthFromTag) {
@@ -22,17 +22,17 @@ export default class ContentWidthPx {
         }
 
         if (hasBorderBox) {
-            var paddingLeft = this.value.paddingLeft.width
-            var paddingRight = this.value.paddingRight.width
+            var paddingTop = this.value.paddingTop.width
+            var paddingBottom = this.value.paddingBottom.width
 
             // console.log('paddingLeft', paddingLeft);
             // console.log('paddingRight', paddingRight);
 
 
-            return width - paddingLeft - paddingRight
+            return height - paddingTop - paddingBottom
         }
         
-        return width
+        return height
 
     }
 

@@ -42,6 +42,25 @@ export default class TableTr extends TableContainer {
         this._rowElement = arg
     }
 
+    get heightToRealInject() {
+        if (!this.rowElement) {
+            return null
+        }
+
+        var calcStr = this.rowElement.heightToRealInject
+        var res = `calc( ${calcStr}px`
+        // for (const containColumn of this.containColumns) {
+        //     var w = containColumn.widthToRealInject
+        //     // console.log('containColumn.getWidthValue()', containColumn.getWidthValue());
+        //     res += ` + ${w}px`
+            
+        // }
+
+        res += ')'
+
+        return res
+    }
+
     canAddThAsChild(): boolean {
         if (this.parent instanceof TableTHead) {
             return true
@@ -236,11 +255,19 @@ export default class TableTr extends TableContainer {
         var flex = new Display(Display.BLOCK, new Named())
         css[flex.getName()] = flex.getValue()
 
-        if (this.hasFlexGrow) {
-            var flexGrow = new FlexGrow(1, new Named())
-            css[flexGrow.getName()] = flexGrow.getValue()
+        if (this.heightToRealInject != null) {
+            var height = new Height(this.heightToRealInject, new Named())
+            css[height.getName()] = height.getValue()
 
+        } else {
+            delete css[Height.PROP_NAME]
         }
+
+        // if (this.hasFlexGrow) {
+            // var flexGrow = new FlexGrow(1, new Named())
+            // css[flexGrow.getName()] = flexGrow.getValue()
+
+        // }
 
         return css
 
@@ -257,11 +284,20 @@ export default class TableTr extends TableContainer {
             var flex = new Display(Display.FLEX, new Named())
             css[flex.getName()] = flex.getValue()
 
-            if (this.hasFlexGrow) {
-                var flexGrow = new FlexGrow(1, new Named())
-                css[flexGrow.getName()] = flexGrow.getValue()
 
+            if (this.heightToRealInject != null) {
+                var height = new Height(this.heightToRealInject, new Named())
+                css[height.getName()] = height.getValue()
+    
+            } else {
+                delete css[Height.PROP_NAME]
             }
+            
+            // if (this.hasFlexGrow) {
+                // var flexGrow = new FlexGrow(1, new Named())
+                // css[flexGrow.getName()] = flexGrow.getValue()
+
+            // }
 
             return css
         }

@@ -33,6 +33,7 @@ import { Vue } from "~/node_modules/vue-property-decorator";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
 import NotFullRowEditor from './editor/impl/NotFullRowEditor';
 import TabelColumnsCalculator from '../../../Calculator/table/calculator/TabelColumnsCalculator';
+import TabelRowsCalculator from '../../../Calculator/table/calculator/TabelRowsCalculator';
 export default class TableTag extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -41,6 +42,7 @@ export default class TableTag extends TableContainer {
     children: TableContainer[]
     isTableTag: boolean = true
 
+    heightIsInjectable = true
 
     protected _columns: TableColumnEl[]
     protected _rows: TableRowEl[]
@@ -48,6 +50,7 @@ export default class TableTag extends TableContainer {
     protected colspanTableEditor: TableEditor
     protected notFullRowTableEditor: TableEditor
     public tableColumnCalculator: TabelColumnsCalculator
+    public tableRowCalculator: TabelRowsCalculator
 
     constructor() {
         super()
@@ -57,6 +60,7 @@ export default class TableTag extends TableContainer {
         this.notFullRowTableEditor = new NotFullRowEditor()
         this._toManage = true
         this.tableColumnCalculator = new TabelColumnsCalculator(this)
+        this.tableRowCalculator = new TabelRowsCalculator(this)
     }
 
     get rows() {
@@ -890,6 +894,9 @@ export default class TableTag extends TableContainer {
         var flex = new Display(Display.INLINE_BLOCK, new Named())
         css[flex.getName()] = flex.getValue()
 
+        if (!this.heightIsInjectable) {
+            delete css[Height.PROP_NAME]
+        }
         // var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
         // css[flexDirection.getName()] = flexDirection.getValue()
 
@@ -909,6 +916,10 @@ export default class TableTag extends TableContainer {
 
             var flex = new Display(Display.INLINE_BLOCK, new Named())
             cssSelector[flex.getName()] = flex.getValue()
+
+            if (!this.heightIsInjectable) {
+                delete cssSelector[Height.PROP_NAME]
+            }
 
             // var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
             // cssSelector[flexDirection.getName()] = flexDirection.getValue()

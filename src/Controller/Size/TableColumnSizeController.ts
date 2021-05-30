@@ -90,7 +90,7 @@ export default class TableColumnSizeController extends SizeElController
             return
         }
         this.mouseDetector.x = ev.clientX
-        this.mouseDetector.y = ev.clientY
+        // this.mouseDetector.y = ev.clientY
         let newValWidth = this.mouseDetector.computedWidth
         
         if (newValWidth > 0) {

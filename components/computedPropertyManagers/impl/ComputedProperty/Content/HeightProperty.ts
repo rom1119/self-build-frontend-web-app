@@ -41,6 +41,16 @@ export default class HeightProperty extends BaseComputedPropertyManager<Height> 
         return prop.getClearValue()
     }
 
+    deactivePropCss(prop: Height) {
+        super.deactivePropCss(prop)
+
+        Vue.nextTick(() => {
+            this.recalculate(this.value, prop)
+        })
+        this.value.clearHeight()
+        return prop
+    }
+
     private recalculate(tag: HtmlTag, prop)
     {
         // this.borderRecalculator.recalculate(tag)

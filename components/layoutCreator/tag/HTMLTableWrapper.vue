@@ -19,12 +19,51 @@
          @marginMouseDown="onMarginMouseDownChild($event)"
     >
     <template slot="middle-content">
+    
+    <div class="d-flex absolute" style="top: -35px;">
+        <template v-for="column in value.columns">
+            <table-column-component
+                    @contentMouseOver="onContentMouseOver"
+                    @contentMouseOut="onContentMouseOut"
+                    @contentMouseClick="onContentMouseClickChild($event)"
+                    @contentMouseDown="onContentMouseDown(column, $event)"
+                    @tagRemove="onEmitRemove(column)"
+                    :canVisible="value.toManage"
+                    :value="column"
+                    :key="column.updateComponentKey"
+                />
+                
+            
+        </template>
+    
+    </div>
+
+    <div class="d-flex absolute" style="left: -45px;  flex-direction: column;">
+        <template v-for="row in value.rows">
+            <table-row-component
+                    @contentMouseOver="onContentMouseOver"
+                    @contentMouseOut="onContentMouseOut"
+                    @contentMouseClick="onContentMouseClickChild($event)"
+                    @contentMouseDown="onContentMouseDown(row, $event)"
+                    @tagRemove="onEmitRemove(row)"
+                    :canVisible="value.toManage"
+                    :value="row"
+                    :key="row.updateComponentKey"
+                />
+        </template>
+    
+    </div>
+
             <span v-if="hasWidth">
             </span>
-            Width {{ value.width }}
-            pad left {{ value.paddingLeft.width }}
-            columnTotalS {{ value.tableColumnCalculator.columnTotalSize }}
-            columnTotal {{ value.tableColumnCalculator.calculated }}
+
+            <span class="absolute" style="top: -50px;">
+                Width {{ value.height }}
+                rowTotalS {{ value.tableRowCalculator.rowTotalSize }}
+                columnTotal {{ value.tableColumnCalculator.calculated }}
+                rowTotal {{ value.tableRowCalculator.calculated }}
+            
+            </span>
 
     </template>
         <template slot="bottom-content">
