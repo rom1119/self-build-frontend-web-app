@@ -14,6 +14,7 @@ export default abstract class LayoutEl {
     protected _htmlEl: HTMLElement = null
     protected _htmlElHidden = null
     protected _htmlElOutsiteHidden = null
+    protected _htmlContentEl = null
 
     protected _children: LayoutEl[] = []
     protected _active: boolean = true;
@@ -169,6 +170,16 @@ export default abstract class LayoutEl {
     public getHtmlElHidden(): HTMLElement
     {
         return this._htmlElHidden
+    }
+    
+    public setHtmlContentEl(htmlEl)
+    {
+        this._htmlContentEl = htmlEl
+    }
+
+    public getHtmlContentEl(): HTMLElement
+    {
+        return this._htmlContentEl
     }
     
     public setHtmlElOutsiteHidden(htmlEl)

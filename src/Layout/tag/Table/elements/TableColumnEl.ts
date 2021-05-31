@@ -120,13 +120,13 @@ export default class TableColumnEl extends TableElement{
         // console.log('RES', ( diffWidth + 3) <= 0 )
         if (( diffWidth) <= 0) {
             if (this.isOverflowContent) {
-                // return
+                return
             }
         }
         var len = this.allChildren.length
         for (var i = 0; i < len; i++) {
             var child = this.allChildren[i]
-            child.checkIsOverflow()
+            // child.checkIsOverflow()
             
             child.initWidth(width)
 

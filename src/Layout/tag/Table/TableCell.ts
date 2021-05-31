@@ -20,6 +20,7 @@ import FlexBasis from "~/src/Css/Display/FlexBasis";
 import BasePropertyCss from "~/src/Css/BasePropertyCss";
 import ColspanAttr from '../../../Attribute/html/ColspanAttr';
 import RowspanAttr from '../../../Attribute/html/RowspanAttr';
+import ContentWidthPx from '../../../Calculator/table/ContentWidthPx';
 export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
@@ -38,11 +39,11 @@ export default abstract class TableCell extends HtmlTagBlock {
     protected _rowspanAttr: RowspanAttr = null
 
     protected _widthBoxCalc: string = ''
-    protected _isOverflowContent: boolean = false
-
+    protected contentWidth: ContentWidthPx
 
     constructor(textArg?) {
         super()
+        this.contentWidth = new ContentWidthPx(this)
         if (textArg) {
             var text = new TextNode()
             text.text = textArg
@@ -108,36 +109,37 @@ export default abstract class TableCell extends HtmlTagBlock {
         return Number(this.colspanAttr.value)
     }
     get isOverflowContent() {
-        return this._isOverflowContent
+        return this.contentWidth.contentSizePx < this.lastSetWidthContentPx
     }
     
-    set isOverflowContent(arg) {
-        this._isOverflowContent = arg
-    }
+    // set isOverflowContent(arg) {
+    //     this._isOverflowContent = arg
+    // }
 
-    public checkIsOverflow() {
-        var el = this._htmlEl
-        var curOverf = el.style.overflow;
+    // public checkIsOverflow() {
+    //     var el = this._htmlEl
+    //     var curOverf = el.style.overflow;
           
-        if ( !curOverf || curOverf === "visible" )
-            el.style.overflow = "hidden";
+    //     if ( !curOverf || curOverf === "visible" )
+    //         el.style.overflow = "hidden";
           
-        var isOverflowing = el.offsetWidth - 5 < el.scrollWidth 
-            // || el.clientHeight < el.scrollHeight;
+    //     var isOverflowing = this.contentWidth.contentSizePx < this.lastSetWidthContentPx - 1
+    //         // || el.clientHeight < el.scrollHeight;
           
-        el.style.overflow = curOverf;
-        // console.log('checkIsOverflow');
-        // console.log('el.offsetWidth', el.offsetWidth);
-        // console.log('el.clientWidth', el.clientWidth);
-        // console.log('el.scrollWidth', el.scrollWidth);
-        // console.log(el.offsetWidth - 5 < el.scrollWidth );
-        // console.log(isOverflowing);
-        // console.log(this._htmlEl);
+    //     el.style.overflow = curOverf;
+    //     console.log('checkIsOverflow');
+    //     console.log('this.contentWidth.contentSizePx', this.contentWidth.contentSizePx);
+    //     console.log('this.getComputedOffsetWidthContentEl()', this.lastSetWidthContentPx);
+    //     // console.log('el.clientWidth', el.clientWidth);
+    //     // console.log('el.scrollWidth', el.scrollWidth);
+    //     // console.log(el.offsetWidth - 5 < el.scrollWidth );
+    //     // console.log(isOverflowing);
+    //     // console.log(this._htmlEl);
         
-        this.isOverflowContent = isOverflowing
+    //     this.isOverflowContent = isOverflowing
           
-        return isOverflowing;
-    }
+    //     return isOverflowing;
+    // }
 
 
 
@@ -261,6 +263,13 @@ export default abstract class TableCell extends HtmlTagBlock {
         this.parent.setHeightRow(this, h)
 
         this.setWidthColumn(w)
+        this.lastSetWidthPx = this.getComputedClientWidth()
+        this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
+
+        this.lastSetHeightPx = this.getComputedHeight()
+        this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
+
+
 
     }
 
@@ -287,6 +296,7 @@ export default abstract class TableCell extends HtmlTagBlock {
 
         let width = new Width(this._width, this.widthUnitCurrent)
         this.updateCssPropertyWithoutModel(width.getName(), width)
+        this.lastSetWidthPx = this.getComputedClientWidth()
 
         this.notifyPositionalTag()
 

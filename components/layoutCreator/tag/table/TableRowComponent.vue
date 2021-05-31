@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="{'visible': canVisible, 'unvisible' : !canVisible}">
         <div :id="idHiddenEl" class="hidden-box">
 
         </div>
@@ -56,6 +56,9 @@ export default class TableRowComponent extends Vue {
     }
     @Prop({required:true})
     value: TableRowEl
+
+    @Prop({required:true})
+    canVisible: boolean
 
     currentElement: BorderModel = null
 
@@ -147,7 +150,14 @@ export default class TableRowComponent extends Vue {
         color: white;
         display: inline-block;
         font-size: 12px !important;
-        background: rgba(0,7,121,0.49);
+        background: rgba(0,7,121,0.29);
+    }
+
+    .visible {
+        visibility: visible !important;
+    }
+    .unvisible {
+        visibility: hidden !important;
     }
 
     .hidden-box {

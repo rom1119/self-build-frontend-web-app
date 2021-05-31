@@ -17,7 +17,7 @@ export default abstract class PaddingModel extends LayoutEl implements CssList, 
 {
     
     protected _name: string = 'border-base'
-    protected _width: number = 55
+    protected _width: number = 0
     protected _offsetCalc: string = 'calc(0px)'
     protected _lengthCalc: string = 'calc(0px)'
     protected _lengthOffsetCalc: string = 'calc(0px)'

@@ -6,6 +6,7 @@ import BaseComputedPropertyManager from "~/components/computedPropertyManagers/B
 import { Named } from "~/src/Unit";
 import Unit from "~/src/Unit/Unit";
 import Pixel from '../../../../../src/Unit/Size/Pixel';
+import Vue from "vue";
 
 export default class BoxSizingProperty extends BaseComputedPropertyManager<BoxSizing> {
 
@@ -23,4 +24,19 @@ export default class BoxSizingProperty extends BaseComputedPropertyManager<BoxSi
     getDefaultUnit(): Unit {
         return this.DEFAULT_UNIT
     }
+
+    updateCssProp(prop: BoxSizing) {
+        super.updateCssProp(prop)
+        Vue.nextTick(() => {
+        this.value.lastSetWidthPx = this.value.getComputedClientWidth()
+        this.value.lastSetWidthContentPx = this.value.getComputedOffsetWidthContentEl()
+
+        this.value.lastSetHeightPx = this.value.getComputedHeight()
+        this.value.lastSetHeightContentPx = this.value.getComputedOffsetHeightContentEl()
+        })
+
+        return prop.getClearValue()
+    }
+
+
 }

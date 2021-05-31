@@ -27,8 +27,8 @@ export default class TabelRowsCalculator
 
 
     get calculated() {
-        console.log('ROW calculate START');
-        console.time()
+        // console.log('ROW calculate START');
+        // console.time()
         if (!this.tabel.getHtmlElHidden()) {
             return 0
         }
@@ -46,9 +46,9 @@ export default class TabelRowsCalculator
             return 1
         }
         
-        console.log('this.tabelHeight', this.tabelHeight);
-        console.log('this._rowTotalSize', this._rowTotalSize);
-        console.log(this.tabelHeight < this._rowTotalSize);
+        // console.log('this.tabelHeight', this.tabelHeight);
+        // console.log('this._rowTotalSize', this._rowTotalSize);
+        // console.log(this.tabelHeight < this._rowTotalSize);
 
         if (this.tabelHeight < this._rowTotalSize) {
             if (this.tabel.heightIsInjectable) {
@@ -64,8 +64,8 @@ export default class TabelRowsCalculator
         
         this.calculateWidthColumns(colSizes, this.tabelHeight)
         // var width: UnitSize = column.getWidthValue()
-        console.timeEnd()
-        console.log('ROW calculate END ');
+        // console.timeEnd()
+        // console.log('ROW calculate END ');
 
         return 2
 
@@ -83,10 +83,10 @@ export default class TabelRowsCalculator
 
             // var el = new ColumnWidth()
             el.percentValueOfAlRows = el.pixelValue / this._rowTotalSize * 100
-            console.log(el);
+            // console.log(el);
             
             var newVal = el.percentValueOfAlRows * tabelHeight / 100
-            console.log(newVal);
+            // console.log(newVal);
             
             el.row.heightToRealInject = this.roundUp(newVal)
             
@@ -117,7 +117,7 @@ export default class TabelRowsCalculator
         var columnTotalSize = 0
         var tabelHeight = this.tabelHeight
 
-        var colLenth = this.tabel.columns.length
+        var colLenth = this.tabel.rows.length
         for (var i = 0; i < colLenth; i++) {
             var col = this.tabel.rows[i]
             var widthFromTag = col.height
@@ -134,8 +134,8 @@ export default class TabelRowsCalculator
             res.push(el)
 
         }
-        console.log('get rowSizes');
-        console.log(res);
+        // console.log('get rowSizes');
+        // console.log(res);
         
 
         this._rowTotalSize = 0

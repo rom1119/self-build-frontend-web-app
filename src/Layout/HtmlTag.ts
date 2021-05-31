@@ -151,7 +151,9 @@ export default abstract class HtmlTag extends HtmlNode implements
     contentFilter: FilterCssInjector
 
     lastSetWidthPx: number = null
+    lastSetWidthContentPx: number = null
     lastSetHeightPx: number = null
+    lastSetHeightContentPx: number = null
     paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcher(this)
     marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
     borderRealFetcher: BorderFetcherRealCssProp = new BorderRealCssFetcher(this)
@@ -490,7 +492,8 @@ export default abstract class HtmlTag extends HtmlNode implements
     public setWidthUnit(unit: UnitSize)
     {
         this.widthUnitCurrent = unit
-        this.lastSetWidthPx = this.getComputedWidth()
+        this.lastSetWidthPx = this.getComputedClientWidth()
+        this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
 
     }
 
@@ -498,6 +501,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     {
         this.heightUnitCurrent = unit
         this.lastSetHeightPx = this.getComputedHeight()
+        this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
 
     }
 
@@ -881,18 +885,22 @@ export default abstract class HtmlTag extends HtmlNode implements
     public clearHeight() {
 
         this._height = null
-        this.lastSetWidthPx = this.getComputedWidth()
+        this.lastSetHeightPx = this.getComputedHeight()
+        this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
+
     }
     
     public clearWidth() {
 
         this._width = null
-        this.lastSetWidthPx = this.getComputedWidth()
+        this.lastSetWidthPx = this.getComputedClientWidth()
+        this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
     }
     public setWidth(arg: number)
     {
         this._width = arg
-        this.lastSetWidthPx = this.getComputedWidth()
+        this.lastSetWidthPx = this.getComputedClientWidth()
+        this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
 
     }
 
@@ -900,6 +908,8 @@ export default abstract class HtmlTag extends HtmlNode implements
     {
         this._height = arg
         this.lastSetHeightPx = this.getComputedHeight()
+        this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
+
 
     }
 
@@ -1137,7 +1147,8 @@ export default abstract class HtmlTag extends HtmlNode implements
             // console.log('recalculateRealComputedProperties', this.getCurrentCssAccessor())
             // console.log('med', this.selectedMedia)
         }
-        for (const prop of cssAll) {
+        for (var i = 0; i < cssAll.length; i++) {
+            var prop = cssAll[i]
 
             if (prop instanceof Width || prop instanceof Height ) {
                 // console.log("CONTR_FILTR");
@@ -1619,8 +1630,11 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.updateCssPropertyWithoutModel(width.getName(), width)
         this.updateCssPropertyWithoutModel(height.getName(), height)
 
-        this.lastSetWidthPx = this.getComputedWidth()
+        this.lastSetWidthPx = this.getComputedClientWidth()
+        this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
+
         this.lastSetHeightPx = this.getComputedHeight()
+        this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
 
         this.notifyPositionalTag()
 
@@ -1648,7 +1662,8 @@ export default abstract class HtmlTag extends HtmlNode implements
     {
         this.widthUnitCurrent = new Pixel()
         this._width = w
-        this.lastSetWidthPx = this.getComputedWidth()
+        this.lastSetWidthPx = this.getComputedClientWidth()
+        this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
         this.synchronizer.synchronize()
 
     }
@@ -1659,6 +1674,8 @@ export default abstract class HtmlTag extends HtmlNode implements
         this._height = w
         this.synchronizer.synchronize()
         this.lastSetHeightPx = this.getComputedHeight()
+        this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
+
 
 
     }
@@ -1743,20 +1760,50 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
     
     getComputedClientWidth(): number {
-        // console.log('getComputedClientWidth')
-        if (!this.getHtmlElOutsiteHidden()) {
+        // console.log('getComputedClientWidth', this.getDomainTagName(), this.getHtmlEl())
+        if (!this.getHtmlEl()) {
             // console.log('EL NOT')
             return 0
         }
-        console.log(this.getHtmlElOutsiteHidden())
-        this.getHtmlElOutsiteHidden().style[Width.PROP_NAME] = this.getWidthValue()
+        // console.log(this.getHtmlElOutsiteHidden())
+        // this.getHtmlEl().style[Width.PROP_NAME] = this.getWidthValue()
         
         // var a = window.getComputedStyle(this.getHtmlEl())
-        var val = this.getHtmlElOutsiteHidden().clientWidth
+        var val = this.getHtmlEl().clientWidth
         // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
 
         // console.log('EL val', val)
         // console.log('EL val', parseInt(val))
+        if (val) {
+            return val
+        }
+
+        return 0
+    }
+
+    getComputedOffsetWidthContentEl(): number {
+        // console.log('getComputedOffsetWidthContentEl', this.getHtmlContentEl())
+        if (!this.getHtmlContentEl()) {
+            // console.log('EL NOT')
+            return 0
+        }        
+        var val = this.getHtmlContentEl().offsetWidth
+
+        if (val) {
+            return val
+        }
+
+        return 0
+    }
+    
+    getComputedOffsetHeightContentEl(): number {
+        // console.log('getComputedOffsetWidthContentEl', this.getHtmlContentEl())
+        if (!this.getHtmlContentEl()) {
+            // console.log('EL NOT')
+            return 0
+        }        
+        var val = this.getHtmlContentEl().offsetHeight
+
         if (val) {
             return val
         }

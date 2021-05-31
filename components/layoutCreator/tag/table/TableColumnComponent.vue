@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div :class="{'visible': canVisible, 'unvisible' : !canVisible}">
         <div :id="idHiddenEl" class="hidden-box">
 
         </div>
@@ -10,7 +10,6 @@
             @mouseover.stop="onMouseOver"
             @mouseout.stop="onMouseOut"
             @click.stop="onMouseClick"
-            :class="{'visible': canVisible, 'unvisible' : !canVisible}"
             :style="value.cssList"
             :key="value.updateComponentKey"
             oncopy="return false"

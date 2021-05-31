@@ -118,7 +118,7 @@ export default class TableTr extends TableContainer {
 
     public updateStylesForHeight(child: TableCell) {
         if (this.parent instanceof TableTag) {
-            this.getTable().updateHeightStylesRow(child.shortUUID)
+            // this.getTable().updateHeightStylesRow(child.shortUUID)
         } else {
             if (this.parent instanceof TableTBody) {
                 this.getTable().updateHeightStylesRowBody(child.shortUUID)
@@ -237,11 +237,11 @@ export default class TableTr extends TableContainer {
             var flex = new Display(Display.FLEX, new Named())
             css[flex.getName()] = flex.getValue()
 
-            if (this.hasFlexGrow) {
-                var flexGrow = new FlexGrow(1, new Named())
-                css[flexGrow.getName()] = flexGrow.getValue()
+            // if (this.hasFlexGrow) {
+            //     var flexGrow = new FlexGrow(1, new Named())
+            //     css[flexGrow.getName()] = flexGrow.getValue()
 
-            }
+            // }
 
             return css
         }

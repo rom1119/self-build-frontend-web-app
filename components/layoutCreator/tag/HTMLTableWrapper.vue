@@ -20,7 +20,7 @@
     >
     <template slot="middle-content">
     
-    <div class="d-flex absolute" style="top: -35px;">
+    <div class="d-flex absolute" style="top: -35px; width: 100%;">
         <template v-for="column in value.columns">
             <table-column-component
                     @contentMouseOver="onContentMouseOver"

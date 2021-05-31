@@ -15,21 +15,22 @@ export default class ContentWidthPx {
         var widthFromTag = this.value.width
         var widthUnitFromTag = this.value.widthUnit
         var width = this.value.lastSetWidthPx
-        // console.log('tabel contentWidthPx', widthFromTag);
+        // console.log('tabel contentWidthPx', width);
+        // console.log(this.value.getDomainTagName());
         
         if (!widthFromTag) {
             return null
         }
 
+        var paddingLeft = this.value.paddingLeft.width
+        var paddingRight = this.value.paddingRight.width
+
+        // console.log('paddingLeft', paddingLeft);
+        // console.log('paddingRight', paddingRight);
+
+
+        return width - paddingLeft - paddingRight
         if (hasBorderBox) {
-            var paddingLeft = this.value.paddingLeft.width
-            var paddingRight = this.value.paddingRight.width
-
-            // console.log('paddingLeft', paddingLeft);
-            // console.log('paddingRight', paddingRight);
-
-
-            return width - paddingLeft - paddingRight
         }
         
         return width

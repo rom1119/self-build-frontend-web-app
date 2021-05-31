@@ -146,7 +146,7 @@ export default class TableRowEl extends TableElementEl{
 
         this.initHeight(h)
 
-        this.tr.updateStylesForHeight(this.children[0])
+        // this.tr.updateStylesForHeight(this.children[0])
 
 
 

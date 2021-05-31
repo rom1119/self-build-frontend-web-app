@@ -36,7 +36,7 @@ export default class TabelColumnsCalculator
         var colSizes = this.columnSizes
         var columns = this.tabel.columns
         var columnTotalWidth = this._columnTotalSize
-        // console.log('tabelWidth', tabelWidth);
+        // console.log('tabelWidth', this.tabelWidth);
         // console.log('columnTotalWidth', columnTotalWidth);
         
         if (!this.tabelWidth) {

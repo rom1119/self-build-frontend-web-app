@@ -51,7 +51,7 @@ export default class TableTrContainer extends HtmlTag implements CssList {
 
     public updateStylesForHeight(child: TableCell) {
         if (this.parent instanceof TableTag) {
-            this.getTable().updateHeightStylesRow(child.shortUUID)
+            // this.getTable().updateHeightStylesRow(child.shortUUID)
         } else {
             if (this.parent instanceof TableTBody) {
                 this.getTable().updateHeightStylesRowBody(child.shortUUID)

@@ -39,7 +39,9 @@ export default class TableTag extends TableContainer {
     protected _innerText: string = `${this.uuid}  TableTag`
     public static TAG_NAME = 'table'
 
-    children: TableContainer[]
+    // children: TableContainer[]
+    protected _children: TableContainer[] = []
+
     isTableTag: boolean = true
 
     heightIsInjectable = true
@@ -61,6 +63,16 @@ export default class TableTag extends TableContainer {
         this._toManage = true
         this.tableColumnCalculator = new TabelColumnsCalculator(this)
         this.tableRowCalculator = new TabelRowsCalculator(this)
+    }
+
+    get children(): TableContainer[]
+    {
+        return this._children
+    }
+
+    set children(arg: TableContainer[])
+    {
+        this._children = arg
     }
 
     get rows() {
@@ -86,6 +98,7 @@ export default class TableTag extends TableContainer {
     public getDomainTagName(): string {
         return TableTag.TAG_NAME
     }
+    
 
     public calcContentHeight() {
         var height = 0
@@ -115,9 +128,9 @@ export default class TableTag extends TableContainer {
         var widthCss = new Width(width, widthUnit)
         var heightCss = new Height(height, heightUnit)
 
-        for (const css of row.children) {
+        // for (const css of row.children) {
             
-        }
+        // }
 
         tr.appendChildDeep(cell)
 
@@ -152,16 +165,18 @@ export default class TableTag extends TableContainer {
         if (this.hasTrChild()) {
             // console.log('hasTrChild')
 
-            var i = 0
-            for (const child of this.children) {
-                var tr: TableTr = <TableTr>child
+            
+            var childrenLen = this.children.length
+            for (var m = 0; m < childrenLen; m++) {
+                var tr: TableTr = <TableTr>this.children[m]
 
-                var row = new TableRowEl(this, i)
+                var row = new TableRowEl(this, m)
                 row.tr = tr
                 tr.rowElement = row
                 var globalColIndex = 0
 
-                for (const td of tr.children) {
+                for (var i = 0; i < tr.children.length; i++) {
+                    var td = tr.children[i]
                     td.colIndex = globalColIndex
                     td.rowElement = row
                     row.addChild(td)
@@ -169,25 +184,27 @@ export default class TableTag extends TableContainer {
                 }
 
                 newRows.push(row)
-                i++
             }
         } else {
             // console.log('NO hasTrChild')
 
-            for (const cont of this.children) {
+            var childrenLen = this.children.length
+            for (var s = 0; s < childrenLen; s++) {
+                var cont = this.children[s]
                 // console.log('cont', cont)
 
-                var i = 0
-                for (const child of cont.children) {
+                var childrenChildLen = cont.children.length
+                for (var m = 0; m < childrenChildLen; m++) {
 
-                    var tr: TableTr = <TableTr>child
+                    var tr: TableTr = <TableTr>cont.children[m]
                     // console.log('tr', tr)
-                    var row = new TableRowEl(this, i)
+                    var row = new TableRowEl(this, m)
                     row.tr = tr
                     tr.rowElement = row
                     var globalColIndex = 0
 
-                    for (const td of tr.children) {
+                    for (var i = 0; i < tr.children.length; i++) {
+                        var td = tr.children[i]
                         td.colIndex = globalColIndex
                         td.rowElement = row
                         row.addChild(td)
@@ -195,7 +212,6 @@ export default class TableTag extends TableContainer {
                     }
 
                     newRows.push(row)
-                    i++
                 }
             }
         }
@@ -211,8 +227,9 @@ export default class TableTag extends TableContainer {
 
         var newCols = []
         if (this.hasTrChild()) {
-            for (const cont of this.children) {
-                var tr: TableTr = <TableTr>cont
+            var childrenLen = this.children.length
+            for (var s = 0; s < childrenLen; s++) {
+                var tr: TableTr = <TableTr>this.children[s]
 
                 for (var i = 0; i < tr.children.length; i++) {
                     var td = tr.children[i]
@@ -233,10 +250,14 @@ export default class TableTag extends TableContainer {
             }
         } else {
 
-            for (const cont of this.children) {
+            var childrenLen = this.children.length
+            for (var s = 0; s < childrenLen; s++) {
+                var cont = this.children[s]
 
-                for (const ell of cont.children) {
-                    var tr: TableTr = <TableTr>ell
+                var childrenChildLen = cont.children.length
+                for (var m = 0; m < childrenChildLen; m++) {
+
+                    var tr: TableTr = <TableTr>cont.children[m]
                     for (var i = 0; i < tr.children.length; i++) {
 
                         var tda: TableCell = <TableCell>tr.children[i]
@@ -673,8 +694,8 @@ export default class TableTag extends TableContainer {
         if (this.getCurrentCssAccessor()) {
             cssAll = this.getCurrentCssAccessor().all
         }
-        for (const prop of cssAll) {
-
+        for (var i = 0; i < cssAll.length; i++) {
+            var prop = cssAll[i]
             if (prop instanceof Width || prop instanceof Height) {
                 let val = this.getComputedCssVal(prop)
                 let clonedCss = prop.deepCopy(prop)
