@@ -20,39 +20,39 @@
     >
     <template slot="middle-content">
     
-    <div class="d-flex absolute" style="top: -35px; width: 100%;">
-        <template v-for="column in value.columns">
-            <table-column-component
-                    @contentMouseOver="onContentMouseOver"
-                    @contentMouseOut="onContentMouseOut"
-                    @contentMouseClick="onContentMouseClickChild($event)"
-                    @contentMouseDown="onContentMouseDown(column, $event)"
-                    @tagRemove="onEmitRemove(column)"
-                    :canVisible="value.toManage"
-                    :value="column"
-                    :key="column.updateComponentKey"
-                />
+        <div class="absolute" v-show="value.toManage" style="top: -35px; width: 100%; display: flex;">
+            <template v-for="column in value.columns">
+                <table-column-component
+                        @contentMouseOver="onContentMouseOver"
+                        @contentMouseOut="onContentMouseOut"
+                        @contentMouseClick="onContentMouseClickChild($event)"
+                        @contentMouseDown="onContentMouseDown(column, $event)"
+                        @tagRemove="onEmitRemove(column)"
+                        :canVisible="value.toManage"
+                        :value="column"
+                        :key="column.updateComponentKey"
+                    />
+                    
                 
-            
-        </template>
-    
-    </div>
+            </template>
+        
+        </div>
 
-    <div class="d-flex absolute" style="left: -45px;  flex-direction: column;">
-        <template v-for="row in value.rows">
-            <table-row-component
-                    @contentMouseOver="onContentMouseOver"
-                    @contentMouseOut="onContentMouseOut"
-                    @contentMouseClick="onContentMouseClickChild($event)"
-                    @contentMouseDown="onContentMouseDown(row, $event)"
-                    @tagRemove="onEmitRemove(row)"
-                    :canVisible="value.toManage"
-                    :value="row"
-                    :key="row.updateComponentKey"
-                />
-        </template>
-    
-    </div>
+        <div class="absolute" v-show="value.toManage" style="left: -45px;  flex-direction: column; display: flex;">
+            <template v-for="row in value.rows">
+                <table-row-component
+                        @contentMouseOver="onContentMouseOver"
+                        @contentMouseOut="onContentMouseOut"
+                        @contentMouseClick="onContentMouseClickChild($event)"
+                        @contentMouseDown="onContentMouseDown(row, $event)"
+                        @tagRemove="onEmitRemove(row)"
+                        :canVisible="value.toManage"
+                        :value="row"
+                        :key="row.updateComponentKey"
+                    />
+            </template>
+        
+        </div>
 
             <span v-if="hasWidth">
             </span>

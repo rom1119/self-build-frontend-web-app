@@ -51,14 +51,16 @@ export default class NotFullRowEditor implements TableEditor{
             row.amountCellsInRow = newEl.amountCellsInRow
         }
 
-        for (const col of cols) {
+        for (var i = 0; i < cols.length; i++) {
+            var col = cols[i]
             col.hiddenChildren = []
         }
         // console.log('%c updateRows', 'background: blue;');
         // console.log(rowIndexWhereNotFullRow);
         // console.log(maxColsInRow);
         
-        for (const el of rowIndexWhereNotFullRow) {
+        for (var i = 0; i < rowIndexWhereNotFullRow.length; i++) {
+            var el = rowIndexWhereNotFullRow[i]
             // const rowIndex = rowIndexWhereNotFullRow[amontCellsInRow];
             el.row.tr.hiddenChildren = []
             el.row.hiddenChildren = []
@@ -133,7 +135,7 @@ export default class NotFullRowEditor implements TableEditor{
         var widthCss = new Width(width, widthUnit)
         var heightCss = new Height(height, heightUnit)
         cell.setWidth(width)
-        cell.setWidth(widthUnit)
+        cell.setWidthUnit(widthUnit)
         cell.updateCssPropertyWithoutModel(widthCss.getName(), widthCss)
         cell.updateCssPropertyWithoutModel(heightCss.getName(), heightCss)
 

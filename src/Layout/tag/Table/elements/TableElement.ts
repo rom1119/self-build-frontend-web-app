@@ -25,6 +25,7 @@ import HtmlNode from "~/src/Layout/HtmlNode";
 export default abstract class TableElement extends HtmlTag implements CssList, SizeActivable{
 
     protected owner: TableTag
+    protected ownerShortID: string = ''
     children: TableCell[]
     index
 
@@ -35,6 +36,7 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
         super()
         this.owner = owner
         this.index = index
+        this.ownerShortID = owner.shortUUID
 
         // this.initCssAccessor()
     }

@@ -28,6 +28,9 @@ export default class TableTr extends TableContainer {
 
     protected _parent: TableContainer
 
+    containRows: TableRowEl[] = []
+
+
 
     get rowElement(): TableRowEl {
         return this._rowElement
@@ -49,12 +52,12 @@ export default class TableTr extends TableContainer {
 
         var calcStr = this.rowElement.heightToRealInject
         var res = `calc( ${calcStr}px`
-        // for (const containColumn of this.containColumns) {
-        //     var w = containColumn.widthToRealInject
-        //     // console.log('containColumn.getWidthValue()', containColumn.getWidthValue());
-        //     res += ` + ${w}px`
+        for (const containRow of this.containRows) {
+            var w = containRow.heightToRealInject
+            // console.log('containColumn.getWidthValue()', containColumn.getWidthValue());
+            res += ` + ${w}px`
             
-        // }
+        }
 
         res += ')'
 
@@ -107,6 +110,17 @@ export default class TableTr extends TableContainer {
     public isElementOfTable() {
         return true
     }
+
+    // public getCellsForColumns( amountCols: number, startIndexArg?: number): TableCell {
+    //     var startIndex = 0
+    //     var res = []
+    //     if (startIndexArg) {
+    //         startIndex = startIndexArg
+    //     }
+        
+
+    //     return res
+    // }
 
     public addChild(child: HtmlNode) {
         super.addChild(child)
@@ -184,34 +198,34 @@ export default class TableTr extends TableContainer {
 
     public injectInitialCssStyles() {
 
-        let width = new Width(100, new Percent())
+        let height = new Height(10, new Percent())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         let backgroundColor = new BackgroundColor({ r: 70, g: 70, b: 200 }, new RGB())
-        let cssList = [width, boxSizing]
+        let cssList = [height, boxSizing]
 
         this.addPropsToAccessor(cssList)
     }
 
-    get gridTemplateColumns() {
-        var str = ''
-        // console.error('gridTemplateColumns');
+    // get gridTemplateColumns() {
+    //     var str = ''
+    //     // console.error('gridTemplateColumns');
         
-        for (const cell of this.allChildren) {
+    //     for (const cell of this.allChildren) {
             
-            str += 'minmax(' + cell.widthBoxCalc + ', 1fr' + '' +') '
-            if (cell.hasSetMinMaxGridColumn) {
-                // str += 'minmax(min-content, 1fr' + '' +') '
-                // str += ' 1fr ' 
+    //         str += 'minmax(' + cell.widthBoxCalc + ', 1fr' + '' +') '
+    //         if (cell.hasSetMinMaxGridColumn) {
+    //             // str += 'minmax(min-content, 1fr' + '' +') '
+    //             // str += ' 1fr ' 
                 
-            } else {
+    //         } else {
                 
-            }
-            // str += cell.widthBoxCalc + ' '
-        }
-        console.error('str ' + this.rowElement.children[0].rowIndex, str);
+    //         }
+    //         // str += cell.widthBoxCalc + ' '
+    //     }
+    //     console.error('str ' + this.rowElement.children[0].rowIndex, str);
 
-        return str
-    }
+    //     return str
+    // }
 
     get cssList(): any {
         var css = super.cssList
@@ -307,3 +321,4 @@ export default class TableTr extends TableContainer {
 
 
 }
+

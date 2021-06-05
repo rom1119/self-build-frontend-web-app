@@ -34,6 +34,8 @@ import BasePropertyCss from "~/src/Css/BasePropertyCss";
 import NotFullRowEditor from './editor/impl/NotFullRowEditor';
 import TabelColumnsCalculator from '../../../Calculator/table/calculator/TabelColumnsCalculator';
 import TabelRowsCalculator from '../../../Calculator/table/calculator/TabelRowsCalculator';
+import RowspanEditor from './editor/impl/RowspanEditor';
+import BusyCellPlaceByRowspan from './editor/BusyCellPlaceByRowspan';
 export default class TableTag extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -50,19 +52,24 @@ export default class TableTag extends TableContainer {
     protected _rows: TableRowEl[]
 
     protected colspanTableEditor: TableEditor
+    protected rowspanTableEditor: TableEditor
     protected notFullRowTableEditor: TableEditor
     public tableColumnCalculator: TabelColumnsCalculator
     public tableRowCalculator: TabelRowsCalculator
+    public busyCellsByRowspan: BusyCellPlaceByRowspan
 
     constructor() {
         super()
         this._columns = []
         this._rows = []
         this.colspanTableEditor = new ColspanEditor(this)
+        this.rowspanTableEditor = new RowspanEditor(this)
         this.notFullRowTableEditor = new NotFullRowEditor()
         this._toManage = true
+        
         this.tableColumnCalculator = new TabelColumnsCalculator(this)
         this.tableRowCalculator = new TabelRowsCalculator(this)
+        this.busyCellsByRowspan = new BusyCellPlaceByRowspan(this)
     }
 
     get children(): TableContainer[]
@@ -152,9 +159,14 @@ export default class TableTag extends TableContainer {
     public updateTableStructure() {
         this.updateColumns()
         this.updateRows()
+        this.busyCellsByRowspan.buildBusyMap()
+        console.log('updateTableStructure');
+        console.log('MAP', this.busyCellsByRowspan.map);
+        
         this.notFullRowTableEditor.editTable(this)
         this.colspanTableEditor.editTable(this)
         this.notFullRowTableEditor.editTable(this)
+        // this.rowspanTableEditor.editTable(this)
         // this.tableColumnCalculator.calculate()
     }
 

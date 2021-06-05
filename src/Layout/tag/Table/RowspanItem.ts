@@ -14,14 +14,15 @@ import TableTHead from './TableTHead';
 import HtmlNode from "~/src/Layout/HtmlNode";
 import HtmlTag from "~/src/Layout/HtmlTag";
 import CssList from "~/src/Layout/CssList";
+import RGBA from '../../../Unit/Color/RGBA';
+import TableTr from './TableTr';
 
-export default class TableTrItem extends HtmlTag implements CssList {
+export default class RowspanItem extends HtmlTag implements CssList {
 
-    protected _innerText: string = `${this.uuid}  TableTrItem`
-    protected _children: TableCell[] = []
-    protected hasFlexGrow = true
+    protected _innerText: string = `${this.uuid}  RowspanItem`
+    protected _children: TableTr[] = []
 
-    public static TAG_NAME = 'tr-item'
+    public static TAG_NAME = 'rowspan-item'
 
     protected _parent: TableContainer
     get parent(): TableContainer {
@@ -79,25 +80,17 @@ export default class TableTrItem extends HtmlTag implements CssList {
     }
 
     public getDomainTagName(): string {
-        return 'table-tr-container'
+        return 'rowspan-item'
     }
 
-    get children(): TableCell[] {
+    get children(): TableTr[] {
         return this._children
     }
 
-    set children(arg: TableCell[]) {
-        this._children = arg
-    }
+    // set children(arg: TableCell[]) {
+    //     this._children = arg
+    // }
 
-
-    public turnOnFlexGrow() {
-        this.hasFlexGrow = true
-    }
-
-    public turnOffFlexGrow() {
-        this.hasFlexGrow = false
-    }
 
     public initHeight(h) {
         // this.toInitSizeUnits()
@@ -129,74 +122,11 @@ export default class TableTrItem extends HtmlTag implements CssList {
         // var flex = new Display(Display.BLOCK, new Named())
         // css[flex.getName()] = flex.getValue()
 
-        if (this.hasFlexGrow) {
-            var flexGrow = new FlexGrow(1, new Named())
-            css[flexGrow.getName()] = flexGrow.getValue()
-
-        }
+        var opacity = new BackgroundColor({r: 0,g: 0,b: 0,a: 0}, new RGBA())
+        css[opacity.getName()] = opacity.getValue()
 
         return css
 
-    }
-
-    get cssListOverride(): any {
-        var activeSelector = this.selectedSelector
-
-        if (activeSelector) {
-            var css = activeSelector.cssList
-            //
-            var flex = new Display(Display.FLEX, new Named())
-            css[flex.getName()] = flex.getValue()
-
-            if (this.hasFlexGrow) {
-                var flexGrow = new FlexGrow(1, new Named())
-                css[flexGrow.getName()] = flexGrow.getValue()
-
-            }
-
-            return css
-        }
-
-        return {}
-
-    }
-
-    get cssBoxList(): any {
-        var css = super.cssBoxList
-        var flex = new Display(Display.BLOCK, new Named())
-        css[flex.getName()] = flex.getValue()
-
-        if (this.hasFlexGrow) {
-            var flexGrow = new FlexGrow(1, new Named())
-            css[flexGrow.getName()] = flexGrow.getValue()
-
-        }
-
-        return css
-
-        // return css
-    }
-
-    get cssBoxListOverride(): any {
-
-        var activeSelector = this.selectedSelector
-
-        if (activeSelector) {
-            var css = activeSelector.cssBoxList
-
-            var flex = new Display(Display.FLEX, new Named())
-            css[flex.getName()] = flex.getValue()
-
-            if (this.hasFlexGrow) {
-                var flexGrow = new FlexGrow(1, new Named())
-                css[flexGrow.getName()] = flexGrow.getValue()
-
-            }
-
-            return css
-        }
-
-        return {}
     }
 
 

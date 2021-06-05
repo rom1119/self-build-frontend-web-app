@@ -1,4 +1,5 @@
 import TableRowEl from '../elements/TableRowEl';
+import TableCell from '../TableCell';
 export default class RealColumnOffset {
 
     countElementsFrom(row: TableRowEl, colsTotal): number {
@@ -43,6 +44,13 @@ export default class RealColumnOffset {
 
         }
 
+
+
+        return realOffsetCols
+    }
+
+    offsetFor(cell: TableCell, colsTotal): number {
+        var realOffsetCols = 0
 
 
         return realOffsetCols

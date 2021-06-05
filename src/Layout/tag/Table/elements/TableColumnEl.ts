@@ -65,6 +65,16 @@ export default class TableColumnEl extends TableElement{
             
         // }
     }
+
+    get sizeHtmlClass() {
+        return `${this.ownerShortID}columnI${this.index}${this.widthToRealInject}px`
+    }
+    
+    get styleDeclarationSize() {
+        var res = `.${this.sizeHtmlClass} { width: ${this.widthToRealInject}px }`
+        return res
+    }
+
     getDomainTagName(): string {
         this.updateComponentKey
         return "";
@@ -221,31 +231,31 @@ export default class TableColumnEl extends TableElement{
         // var rel = new PositionCss(PositionCss.ABSOLUTE, new Named())
         // css[PositionCss.PROP_NAME] = rel.getValue()
         // var realWidth = this.children[0].getComputedVal(Width.PROP_NAME)
-        var realTopBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderTopCss.PROP_NAME)
-        var realTopBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderTopCss.PROP_NAME)
+        // var realTopBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderTopCss.PROP_NAME)
+        // var realTopBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderTopCss.PROP_NAME)
 
-        var realLeftBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME)
-        var realLeftBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderLeftCss.PROP_NAME)
+        // var realLeftBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME)
+        // var realLeftBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderLeftCss.PROP_NAME)
 
-        var realRightBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderRightCss.PROP_NAME)
-        var realRightBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderRightCss.PROP_NAME)
+        // var realRightBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderRightCss.PROP_NAME)
+        // var realRightBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderRightCss.PROP_NAME)
 
-        var thisHeight = this.getComputedHeight()
+        // var thisHeight = this.getComputedHeight()
         // var offsetY = realTopBorderWidth + thisHeight
 
-        if (realLeftBorderWidthUnit && realRightBorderWidthUnit) {
-            css[Width.PROP_NAME] = `calc(100% + ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)} + ${realRightBorderWidthUnit.getValue(realRightBorderWidth)})`
+        // if (realLeftBorderWidthUnit && realRightBorderWidthUnit) {
+        //     css[Width.PROP_NAME] = `calc(100% + ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)} + ${realRightBorderWidthUnit.getValue(realRightBorderWidth)})`
 
-        } else if (realLeftBorderWidthUnit) {
-            css[Width.PROP_NAME] = `calc(100% + ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)} )`
+        // } else if (realLeftBorderWidthUnit) {
+        //     css[Width.PROP_NAME] = `calc(100% + ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)} )`
 
-        } else if (realRightBorderWidthUnit) {
-            css[Width.PROP_NAME] = `calc(100% + ${realRightBorderWidthUnit.getValue(realRightBorderWidth)} )`
+        // } else if (realRightBorderWidthUnit) {
+        //     css[Width.PROP_NAME] = `calc(100% + ${realRightBorderWidthUnit.getValue(realRightBorderWidth)} )`
 
-        } else {
-            css[Width.PROP_NAME] = '100%'
+        // } else {
+        //     css[Width.PROP_NAME] = '100%'
 
-        }
+        // }
 
         if (this.widthToRealInject != null) {
             var width = new Width(this.widthToRealInject, new Pixel())
@@ -257,18 +267,18 @@ export default class TableColumnEl extends TableElement{
         }
         
         
-        if (realLeftBorderWidthUnit) {
-            css[LeftCss.PROP_NAME] =  `calc(0px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`
+        // if (realLeftBorderWidthUnit) {
+        //     css[LeftCss.PROP_NAME] =  `calc(0px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`
             
-        }
-        if (realTopBorderWidthUnit) {
+        // }
+        // if (realTopBorderWidthUnit) {
             
-            // console.log('APPPPPPPPPPPPP realTopBorderWidth', realTopBorderWidthUnit.getValue(realTopBorderWidth));
-            css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
-        } else {
+        //     // console.log('APPPPPPPPPPPPP realTopBorderWidth', realTopBorderWidthUnit.getValue(realTopBorderWidth));
+        //     // css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
+        // } else {
             
-        }
-        css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px)`
+        // }
+        // // css[TopCss.PROP_NAME] =  `calc(0px - ${thisHeight.toString()}px)`
         // console.log('APPPPPPPPPPPPP thisHeight', thisHeight);
         // console.log('APPPPPPPPPPPPP index', this.index);
         

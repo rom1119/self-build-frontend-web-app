@@ -108,13 +108,15 @@ import RepeatingLinearGradientCss from './Gradient/impl/RepeatingLinearGradientC
 import RadialGradientCss from './Gradient/impl/RadialGradientCss';
 import RepeatingRadialGradientCss from './Gradient/impl/RepeatingRadialGradientCss';
 
-// box model
+// 3D
 import TransformStyle from './ThreeDimensional/TransformStyle';
 import TransformOrigin from './ThreeDimensional/TransformOrigin';
 import TransformCss from './ThreeDimensional/TransformCss';
 import Perspective from './ThreeDimensional/Perspective';
 import PerspectiveOrigin from './ThreeDimensional/PerspectiveOrigin';
 import BackfaceVisibility from './ThreeDimensional/BackfaceVisibility';
+
+import OpacityCss from './Display/OpacityCss';
 
 export {
     
@@ -125,6 +127,8 @@ export {
     BackgroundSize,
     BackgroundAttachment,
     BackgroundRepeat,
+
+    OpacityCss,
 
     Width,
     MinWidth,

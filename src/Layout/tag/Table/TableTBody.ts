@@ -46,22 +46,24 @@ export default class TableTBody extends TableContainer {
         // border.setType('dotted')
         // border.setColor('orange', new Named())
 
-        let width = new Width(100, new Percent())
+        // let width = new Width(100, new Percent())
         let boxSizing = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         let backgroundColor = new BackgroundColor({ r: 70, g: 200, b: 70 }, new RGB())
-        let cssList = [width, boxSizing]
+        let cssList = []
 
         this.addPropsToAccessor(cssList)
     }
 
     get cssList(): any {
         var css = super.cssList
+        var width = new Width(100, new Percent())
         var flex = new Display(Display.FLEX, new Named())
-        var flexGrow = new FlexGrow(2, new Named())
+        // var flexGrow = new FlexGrow(2, new Named())
         var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
         css[flexDirection.getName()] = flexDirection.getValue()
-        css[flexGrow.getName()] = flexGrow.getValue()
+        // css[flexGrow.getName()] = flexGrow.getValue()
         css[flex.getName()] = flex.getValue()
+        css[width.getName()] = width.getValue()
 
         return css
 
@@ -73,12 +75,14 @@ export default class TableTBody extends TableContainer {
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
 
+            var width = new Width(100, new Percent())
             var flex = new Display(Display.FLEX, new Named())
-            var flexGrow = new FlexGrow(2, new Named())
+            // var flexGrow = new FlexGrow(2, new Named())
             var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
             cssSelector[flexDirection.getName()] = flexDirection.getValue()
-            cssSelector[flexGrow.getName()] = flexGrow.getValue()
+            // cssSelector[flexGrow.getName()] = flexGrow.getValue()
             cssSelector[flex.getName()] = flex.getValue()
+            cssSelector[width.getName()] = width.getValue()
             return cssSelector
         }
 
@@ -89,12 +93,14 @@ export default class TableTBody extends TableContainer {
 
     get cssBoxList(): any {
         var css = super.cssBoxList
+        var width = new Width(100, new Percent())
         var flex = new Display(Display.FLEX, new Named())
-        var flexGrow = new FlexGrow(2, new Named())
+        // var flexGrow = new FlexGrow(2, new Named())
         var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
         css[flexDirection.getName()] = flexDirection.getValue()
-        css[flexGrow.getName()] = flexGrow.getValue()
+        // css[flexGrow.getName()] = flexGrow.getValue()
         css[flex.getName()] = flex.getValue()
+        css[width.getName()] = width.getValue()
 
         return css
 
@@ -107,13 +113,15 @@ export default class TableTBody extends TableContainer {
 
         if (activeSelector) {
             var cssSelector = activeSelector.cssBoxList
-
+            var width = new Width(100, new Percent())
             var flex = new Display(Display.FLEX, new Named())
-            var flexGrow = new FlexGrow(2, new Named())
+            // var flexGrow = new FlexGrow(2, new Named())
             var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
             cssSelector[flexDirection.getName()] = flexDirection.getValue()
-            cssSelector[flexGrow.getName()] = flexGrow.getValue()
+            // cssSelector[flexGrow.getName()] = flexGrow.getValue()
             cssSelector[flex.getName()] = flex.getValue()
+            cssSelector[width.getName()] = width.getValue()
+
             return cssSelector
         }
 

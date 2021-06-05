@@ -187,14 +187,6 @@
                     :value="child"
                     :key="child.uuid"  >
                 </component>
-
-<!--                <html-text-node-->
-<!--                    v-else-->
-<!--                    @tagRemove="onEmitRemove(child, $event)"-->
-<!--                    :value="child"-->
-<!--                    :key="child.uuid"-->
-<!--                >-->
-<!--                </html-text-node>-->
             </template>
             <!-- </div>  -->
         </html-el>
@@ -228,12 +220,16 @@ import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import SvgTag from "~/src/Layout/tag/SvgTag";
 import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
 import WidthProperty from "~/components/computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty";
+import RowspanContainer from "~/src/Layout/tag/Table/RowspanContainer";
 
 
 @Component
 export default class BaseHTMLWrapper extends Vue {
     @Prop()
     value: HtmlTag
+    
+    @Prop({required: false})
+    propBoxClass: string
 
     protected borderRecalculator: HtmlTagRecalculator
     protected marginRecalculator: HtmlTagRecalculator
@@ -275,6 +271,11 @@ export default class BaseHTMLWrapper extends Vue {
         } else if (tag.isTableCellTag) {
             // console.log('html-table-cell-component')
             return 'html-table-cell-component'
+
+        // @ts-ignore
+        } else if (tag instanceof RowspanContainer) {
+            // console.log('html-table-cell-component')
+            return 'rowspan-container-component'
 
         // @ts-ignore
         } else if (!(tag instanceof TextNode)) {
@@ -476,6 +477,15 @@ export default class BaseHTMLWrapper extends Vue {
             // @ts-ignore
             children = this.value.allChildren
         }
+        
+        // @ts-ignore
+        if (this.value.tableChildren) {
+            // @ts-ignore
+            if (this.value.tableChildren.length) {
+                // @ts-ignore
+                children = this.value.tableChildren
+            }
+        }
         return children
     }
 
@@ -607,10 +617,18 @@ export default class BaseHTMLWrapper extends Vue {
     }
 
     get anotherClass(): string {
+        var res = ''
+        if (this.propBoxClass) {
+            res += this.propBoxClass
+        }
         // @ts-ignore
         if (this.value.isOverflowContent) {
-            return 'red-bg'
+            res += ' red-bg'
         }
+
+        return res
+
+        
     }
     get positionClass(): string {
         var currentPositionName = this.value.positionPropName
@@ -806,7 +824,6 @@ export default class BaseHTMLWrapper extends Vue {
         right: 0;
         display: block;
         width: 30px;
-        height: 20px;
         background-color: rgb(24, 245, 53);
 
     }
@@ -822,6 +839,7 @@ export default class BaseHTMLWrapper extends Vue {
         top: 0;
         left: 0;
         opacity: 0;
+        visibility: hidden;
     }
     #loadingDialog {
         .v-dialog {

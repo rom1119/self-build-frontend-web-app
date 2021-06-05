@@ -27,7 +27,9 @@ export default class ColspanEditor implements TableEditor{
         this.columns = tableTag.columns
         this.rows = tableTag.rows
         this.tabel = tableTag
-        for (const row of tableTag.rows) {
+        var rowsLength = tableTag.rows.length
+        for (var i = 0; i < rowsLength ; i++) {
+            var row = tableTag.rows[i]
             this.updateRow(row)
         }
     }

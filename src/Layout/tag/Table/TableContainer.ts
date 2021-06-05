@@ -14,7 +14,9 @@ import BackgroundColor from '~/src/Css/Background/BackgroundColor';
 import Display from '~/src/Css/Display/Display';
 import Named from '~/src/Unit/Named';
 import TableColumnEl from './elements/TableColumnEl';
+import RowspanContainer from './RowspanContainer';
 export default abstract class TableContainer extends HtmlTagBlock {
+    protected _tableChildren: RowspanContainer[] = []
 
     protected hasFlexGrow = false
     public turnOnFlexGrow() {
@@ -24,6 +26,11 @@ export default abstract class TableContainer extends HtmlTagBlock {
     public turnOffFlexGrow() {
         this.hasFlexGrow = false
     }
+
+    get tableChildren() {
+        return this._tableChildren
+    }
+
 
     public abstract getTable(): TableTag
 

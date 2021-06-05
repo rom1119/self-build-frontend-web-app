@@ -72,34 +72,12 @@ export default abstract class TableCell extends HtmlTagBlock {
 
         return res
     }
+
     
     // set widthToRealInject(arg) {
     //     this._widthToRealInject = arg
     // }
 
-    get widthBoxCalc(): string {
-        if (!this.columnElement) {
-            return ''
-        }
-        // console.log('get widthBoxCalc');
-        // console.log('this.containColumns', this.containColumns.length);
-        
-        // var columns = []
-        // columns.push(this.columnElement)
-        var calcStr = this.columnElement.getWidthValue()
-        var res = 'calc(' + calcStr
-        for (const containColumn of this.containColumns) {
-            var w = containColumn.width
-            // console.log('containColumn.getWidthValue()', containColumn.getWidthValue());
-            res += ' + ' + containColumn.getWidthValue()
-            console.log(res);
-            
-        }
-
-        res += ')'
-
-        return res
-    }
 
     get colspanAttrVal(): number {
         if (!this.colspanAttr) {
@@ -107,6 +85,14 @@ export default abstract class TableCell extends HtmlTagBlock {
         }
 
         return Number(this.colspanAttr.value)
+    }
+    
+    get rowspanAttrVal(): number {
+        if (!this.rowspanAttr) {
+            return 0
+        }
+
+        return Number(this.rowspanAttr.value)
     }
     get isOverflowContent() {
         return this.contentWidth.contentSizePx < this.lastSetWidthContentPx
@@ -481,7 +467,7 @@ export default abstract class TableCell extends HtmlTagBlock {
             // var display = new Display(Display.INLINE_BLOCK, new Named())
             // cssSelector[display.getName()] = display.getValue()
 
-            if (this.hasFlexGrow) {
+            // if (this.hasFlexGrow) {
                 // var flexGrow = new FlexGrow(1, new Named())
                 // cssSelector[flexGrow.getName()] = flexGrow.getValue()
                 //
@@ -490,7 +476,7 @@ export default abstract class TableCell extends HtmlTagBlock {
                 //
                 // var flexBasis = new FlexBasis(20, new Percent())
                 // cssSelector[flexBasis.getName()] = flexBasis.getValue()
-            }
+            // }
             return cssSelector
         }
 

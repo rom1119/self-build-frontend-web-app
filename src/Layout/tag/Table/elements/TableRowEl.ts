@@ -275,36 +275,36 @@ export default class TableRowEl extends TableElementEl{
         var realLeftBorderWidth = this.children[0].borderRealFetcher.fetchPropWidth(BorderLeftCss.PROP_NAME)
         var realLeftBorderWidthUnit = this.children[0].borderRealFetcher.fetchUnitWidth(BorderLeftCss.PROP_NAME)
 
-        var thisWidth = this.getComputedWidth()
+        // var thisWidth = this.getComputedWidth()
         // var offsetY = realTopBorderWidth + thisHeight
         // css[Height.PROP_NAME] = realHeight.toString() + 'px'
 
-        if (realTopBorderWidthUnit && realBottomBorderWidthUnit) {
-            css[Height.PROP_NAME] = `calc(100% + ${realTopBorderWidthUnit.getValue(realTopBorderWidth)} + ${realBottomBorderWidthUnit.getValue(realBottomBorderWidth)})`
+        // if (realTopBorderWidthUnit && realBottomBorderWidthUnit) {
+        //     css[Height.PROP_NAME] = `calc(100% + ${realTopBorderWidthUnit.getValue(realTopBorderWidth)} + ${realBottomBorderWidthUnit.getValue(realBottomBorderWidth)})`
 
-        } else if (realTopBorderWidthUnit) {
-            css[Height.PROP_NAME] = `calc(100% + ${realTopBorderWidthUnit.getValue(realTopBorderWidth)} )`
+        // } else if (realTopBorderWidthUnit) {
+        //     css[Height.PROP_NAME] = `calc(100% + ${realTopBorderWidthUnit.getValue(realTopBorderWidth)} )`
 
-        } else if (realBottomBorderWidthUnit) {
-            css[Height.PROP_NAME] = `calc(100% + ${realBottomBorderWidthUnit.getValue(realBottomBorderWidth)} )`
+        // } else if (realBottomBorderWidthUnit) {
+        //     css[Height.PROP_NAME] = `calc(100% + ${realBottomBorderWidthUnit.getValue(realBottomBorderWidth)} )`
 
-        } else {
-            css[Height.PROP_NAME] = '100%'
+        // } else {
+        //     css[Height.PROP_NAME] = '100%'
 
-        }
+        // }
 
-        if (realLeftBorderWidthUnit) {
-            css[LeftCss.PROP_NAME] =  `calc(0px - ${thisWidth.toString()}px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`
+        // if (realLeftBorderWidthUnit) {
+        //     css[LeftCss.PROP_NAME] =  `calc(0px - ${thisWidth.toString()}px - ${realLeftBorderWidthUnit.getValue(realLeftBorderWidth)})`
 
-        } else {
-            css[LeftCss.PROP_NAME] =  `calc(0px - ${thisWidth.toString()}px`
+        // } else {
+        //     css[LeftCss.PROP_NAME] =  `calc(0px - ${thisWidth.toString()}px`
 
-        }
+        // }
 
-        if (realTopBorderWidthUnit) {
+        // if (realTopBorderWidthUnit) {
 
-            css[TopCss.PROP_NAME] =  `calc(0px  - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
-        }
+        //     css[TopCss.PROP_NAME] =  `calc(0px  - ${realTopBorderWidthUnit.getValue(realTopBorderWidth)})`
+        // }
 
         if (this.heightToRealInject != null) {
             var height = new Height(this.heightToRealInject, new Pixel())
