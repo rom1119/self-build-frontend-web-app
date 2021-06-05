@@ -7,7 +7,7 @@ import TableContainer from '../TableContainer';
 type BusyMap = {
     [parentUUID: string]: {
         [rowIndex: number]: RowBusy
-    }
+    },
 }
 
 type RowBusy = {
@@ -29,7 +29,7 @@ export default class BusyCellPlaceByRowspan {
         this.map = {}
 
         this.checkAllTableCells((cell: TableCell, colIndex: number, parentArg: TableContainer) => {
-            var parent = cell.parent
+            var lenghtColsInRow = cell.parent.children.length
             if (cell.rowspanAttrVal > 1) {
                 var offset = 1
                 var rowsLengthInParent = parentArg.children.length
@@ -39,11 +39,15 @@ export default class BusyCellPlaceByRowspan {
                 }
                 
 
-                var rowEnd = cell.rowIndex + cell.rowspanAttrVal - 1
+                var rowEnd = cell.rowElement.index + cell.rowspanAttrVal - 1
                 // console.log('cell.rowIndex', cell.rowIndex);
                 // console.log('cell.rowspanAttrVal', cell.rowspanAttrVal);
                 // console.log('rowEnd', rowEnd);
                 // console.log('currRow', currRow);
+
+                if (rowEnd > rowsLengthInParent - 1) {
+                    rowEnd = rowsLengthInParent - 1
+                }
                 
                 
                 var currRow = cell.rowElement.index + 1
@@ -60,7 +64,7 @@ export default class BusyCellPlaceByRowspan {
     
                         }
                     }
-                    while (colIndexCp < parent.children.length) {
+                    while (colIndexCp < lenghtColsInRow) {
                         if (!this.map[parentId][currRow][colIndexCp]) {
                             this.map[parentId][currRow][colIndexCp] = {
                                 offsetByRowspan: 0

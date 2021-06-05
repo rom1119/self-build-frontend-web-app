@@ -185,6 +185,7 @@ export default class TableTr extends TableContainer {
         // this.toInitSizeUnits()
         // console.log(w);
         // console.log(h);
+        this.heightUnitCurrent = new Pixel()
 
         this._height = h
 
