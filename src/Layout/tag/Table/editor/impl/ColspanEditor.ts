@@ -4,6 +4,7 @@ import TableEditor from "../TableEditor";
 import TableColumnEl from '../../elements/TableColumnEl';
 import TableRowEl from '../../elements/TableRowEl';
 import TableCellRemoverForColspanEditor from '../../../../../Remover/impl/TableCellRemoverForColspanEditor';
+import BusyCellPlaceByRowspan from '../BusyCellPlaceByRowspan';
 
 
 export default class ColspanEditor implements TableEditor{
@@ -15,8 +16,13 @@ export default class ColspanEditor implements TableEditor{
 
     protected tabel: TableTag
 
-    constructor(tab: TableTag) {
+    protected busyCellPlaceByRowspan: BusyCellPlaceByRowspan
+
+
+    constructor(tab: TableTag, busyCellPlaceByRowspan: BusyCellPlaceByRowspan) {
         this.cellRemover = new TableCellRemoverForColspanEditor(tab.rows, tab.api)
+        this.busyCellPlaceByRowspan =  busyCellPlaceByRowspan
+
     }
 
 
@@ -180,9 +186,11 @@ export default class ColspanEditor implements TableEditor{
             if (!cellWithRowIndex) {
                 continue
             }
+            var realOffsetByRowspan = this.busyCellPlaceByRowspan.offsetForCell(cellWithRowIndex)
+
             // console.log('cellWithRowIndex.EL', cellWithRowIndex.getHtmlEl());
             // console.log('cellWithRowIndex.colIndex', cellWithRowIndex.colIndex);
-            var newIndexCol = cellWithRowIndex.colIndex + step
+            var newIndexCol = cellWithRowIndex.colIndex + step + realOffsetByRowspan
             // console.log('COL.CHILDREN.LEN BEFORE', col.children.length);
 
             var cellToMove = col.getChildByIDAndRemove(cellWithRowIndex.uuid)

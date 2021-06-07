@@ -20,7 +20,7 @@
     >
     <template slot="middle-content">
     
-        <div class="absolute" v-show="value.toManage" style="top: -35px; width: 100%; display: flex;">
+        <div class="absolute"  style="top: -35px; width: 100%; display: flex;">
             <template v-for="column in value.columns">
                 <table-column-component
                         @contentMouseOver="onContentMouseOver"
@@ -38,7 +38,7 @@
         
         </div>
 
-        <div class="absolute" v-show="value.toManage" style="left: -45px;  flex-direction: column; display: flex;">
+        <div class="absolute"  style="left: -45px;  flex-direction: column; display: flex;">
             <template v-for="row in value.rows">
                 <table-row-component
                         @contentMouseOver="onContentMouseOver"
@@ -57,7 +57,7 @@
             <span v-if="hasWidth">
             </span>
 
-            <span class="absolute" style="top: -50px;">
+            <span class="absolute" style="top: -50px; display: none;">
                 Width {{ value.height }}
                 rowTotalS {{ value.tableRowCalculator.rowTotalSize }}
                 columnTotal {{ value.tableColumnCalculator.calculated }}

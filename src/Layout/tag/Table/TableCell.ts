@@ -377,13 +377,13 @@ export default abstract class TableCell extends HtmlTagBlock {
         var height = new Height(100, new Percent())
         css[height.getName()] = height.getValue()
         
-        if (this.widthToRealInject != null) {
-            var width = new Width(this.widthToRealInject, new Named())
-            css[width.getName()] = width.getValue()
+        // if (this.widthToRealInject != null) {
+        //     var width = new Width(this.widthToRealInject, new Named())
+        //     css[width.getName()] = width.getValue()
 
-        } else {
-            delete css[Width.PROP_NAME]
-        }
+        // } else {
+        // }
+        delete css[Width.PROP_NAME]
 
         var borderBox = new BoxSizing(BoxSizing.BORDER_BOX, new Named())
         css[borderBox.getName()] = borderBox.getValue()
@@ -419,18 +419,12 @@ export default abstract class TableCell extends HtmlTagBlock {
         //     css[flexGrow.getName()] = flexGrow.getValue()
         // }
 
-        if (this.colspanAttr) {
-            var replacedCss = {}
-
-            // replacedCss['left'] = 'calc(' + this.realPositionCalculator.realLeftCalc + ')'
-            // replacedCss['top'] = 'calc(' + this.realPositionCalculator.realTopCalc + ')'
-            // replacedCss['right'] = 'calc(' + this.realPositionCalculator.realRightCalc + ')'
-            // replacedCss['bottom'] = 'calc(' + this.realPositionCalculator.realBottomCalc + ')'
-
-            // if (css[Width.PROP_NAME]) {
-
-            // }
-
+        if (this.colspanAttrVal > 1) {
+            css['gridColumn'] = 'span ' + this.colspanAttrVal
+        }
+        
+        if (this.rowspanAttrVal > 1) {
+            css['gridRow'] = 'span ' + this.rowspanAttrVal
         }
 
         return css
@@ -457,13 +451,13 @@ export default abstract class TableCell extends HtmlTagBlock {
             var height = new Height(100, new Percent())
             cssSelector[height.getName()] = height.getValue()
 
-            if (this.widthToRealInject != null) {
-                var width = new Width(this.widthToRealInject, new Pixel())
-                cssSelector[width.getName()] = width.getValue()
+            // if (this.widthToRealInject != null) {
+            //     var width = new Width(this.widthToRealInject, new Pixel())
+            //     cssSelector[width.getName()] = width.getValue()
 
-            } else {
-                delete cssSelector[Width.PROP_NAME]
-            }
+            // } else {
+            // }
+            delete cssSelector[Width.PROP_NAME]
             // var display = new Display(Display.INLINE_BLOCK, new Named())
             // cssSelector[display.getName()] = display.getValue()
 

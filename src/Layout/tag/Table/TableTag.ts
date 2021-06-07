@@ -52,7 +52,6 @@ export default class TableTag extends TableContainer {
     protected _rows: TableRowEl[]
 
     protected colspanTableEditor: TableEditor
-    protected rowspanTableEditor: TableEditor
     protected notFullRowTableEditor: TableEditor
     public tableColumnCalculator: TabelColumnsCalculator
     public tableRowCalculator: TabelRowsCalculator
@@ -62,14 +61,47 @@ export default class TableTag extends TableContainer {
         super()
         this._columns = []
         this._rows = []
-        this.colspanTableEditor = new ColspanEditor(this)
-        this.rowspanTableEditor = new RowspanEditor(this)
-        this.notFullRowTableEditor = new NotFullRowEditor()
+        this.busyCellsByRowspan = new BusyCellPlaceByRowspan(this)
+        this.colspanTableEditor = new ColspanEditor(this, this.busyCellsByRowspan)
+        this.notFullRowTableEditor = new NotFullRowEditor(this.busyCellsByRowspan)
         this._toManage = true
         
         this.tableColumnCalculator = new TabelColumnsCalculator(this)
         this.tableRowCalculator = new TabelRowsCalculator(this)
-        this.busyCellsByRowspan = new BusyCellPlaceByRowspan(this)
+    }
+
+    public hasTrChild() {
+        return this.children[0] instanceof TableTr
+    }
+
+    get childrenCells(): TableCell[]
+    {
+        if (!this.hasTrChild()) {
+            return []
+        }
+        
+
+        return super.childrenCells
+    }
+    
+    get gridTemplateColumns()
+    {
+        if (!this.hasTrChild()) {
+            return null
+        }
+        
+
+        return super.gridTemplateColumns
+    }
+    
+    get gridTemplateRows()
+    {
+        if (!this.hasTrChild()) {
+            return null
+        }
+        
+
+        return super.gridTemplateRows
     }
 
     get children(): TableContainer[]
@@ -159,10 +191,10 @@ export default class TableTag extends TableContainer {
     public updateTableStructure() {
         this.updateColumns()
         this.updateRows()
+        
         this.busyCellsByRowspan.buildBusyMap()
         console.log('updateTableStructure');
         console.log('MAP', this.busyCellsByRowspan.map);
-        
         this.notFullRowTableEditor.editTable(this)
         this.colspanTableEditor.editTable(this)
         this.notFullRowTableEditor.editTable(this)
@@ -378,9 +410,7 @@ export default class TableTag extends TableContainer {
         return false
     }
 
-    public hasTrChild() {
-        return this.children[0] instanceof TableTr
-    }
+    
 
     async appendRowDeep(child: TableTr, td: TableCell) {
         var body = this.getBodyTag()
@@ -574,7 +604,7 @@ export default class TableTag extends TableContainer {
     public updateHeightStylesRow(shortUUID: string) {
         var index = this.recursiveFindTableRowIndex(shortUUID)
         // console.log('setHeightRow', index);
-        this.updateHeightStylesForRow(this, index)
+        // this.updateHeightStylesForRow(this, index)
 
     }
 
@@ -887,11 +917,18 @@ export default class TableTag extends TableContainer {
     get cssList(): any {
         var css = super.cssList
 
-        var flex = new Display(Display.FLEX, new Named())
-        css[flex.getName()] = flex.getValue()
+        if (this.hasTrChild()) {
+            var display = new Display(Display.GRID, new Named())
+            css[display.getName()] = display.getValue()
 
-        var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
-        css[flexDirection.getName()] = flexDirection.getValue()
+        } else {
+
+            var flex = new Display(Display.FLEX, new Named())
+            css[flex.getName()] = flex.getValue()
+
+            var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
+            css[flexDirection.getName()] = flexDirection.getValue()
+        }
 
         // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
         // css[flexWrap.getName()] = flexWrap.getValue()
@@ -906,11 +943,18 @@ export default class TableTag extends TableContainer {
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
 
-            var flex = new Display(Display.FLEX, new Named())
-            cssSelector[flex.getName()] = flex.getValue()
+            if (this.hasTrChild()) {
+                var display = new Display(Display.GRID, new Named())
+                cssSelector[display.getName()] = display.getValue()
 
-            var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
-            cssSelector[flexDirection.getName()] = flexDirection.getValue()
+            } else {
+
+                var flex = new Display(Display.FLEX, new Named())
+                cssSelector[flex.getName()] = flex.getValue()
+    
+                var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
+                cssSelector[flexDirection.getName()] = flexDirection.getValue()
+            }
 
             // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
             // cssSelector[flexWrap.getName()] = flexWrap.getValue()

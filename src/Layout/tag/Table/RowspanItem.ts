@@ -16,12 +16,14 @@ import HtmlTag from "~/src/Layout/HtmlTag";
 import CssList from "~/src/Layout/CssList";
 import RGBA from '../../../Unit/Color/RGBA';
 import TableTr from './TableTr';
+import FlexDirection from '../../../Css/Display/FlexDirection';
 
 export default class RowspanItem extends HtmlTag implements CssList {
 
     protected _innerText: string = `${this.uuid}  RowspanItem`
-    protected _children: TableTr[] = []
+    protected _children: HtmlTag[] = []
 
+    hasColumnContent = false
     public static TAG_NAME = 'rowspan-item'
 
     protected _parent: TableContainer
@@ -83,7 +85,7 @@ export default class RowspanItem extends HtmlTag implements CssList {
         return 'rowspan-item'
     }
 
-    get children(): TableTr[] {
+    get children(): HtmlTag[] {
         return this._children
     }
 
@@ -119,11 +121,19 @@ export default class RowspanItem extends HtmlTag implements CssList {
 
     get cssList(): any {
         var css = super.cssList
-        // var flex = new Display(Display.BLOCK, new Named())
-        // css[flex.getName()] = flex.getValue()
+        var flex = new Display(Display.FLEX, new Named())
+        css[flex.getName()] = flex.getValue()
 
         var opacity = new BackgroundColor({r: 0,g: 0,b: 0,a: 0}, new RGBA())
         css[opacity.getName()] = opacity.getValue()
+        
+        if (this.hasColumnContent) {
+            var direction = new FlexDirection(FlexDirection.COLUMN, new Named())
+            css[direction.getName()] = direction.getValue()
+        } else {
+            var direction = new FlexDirection(FlexDirection.ROW, new Named())
+            css[direction.getName()] = direction.getValue()
+        }
 
         return css
 

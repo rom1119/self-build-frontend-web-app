@@ -15,6 +15,7 @@ import Display from '~/src/Css/Display/Display';
 import Named from '~/src/Unit/Named';
 import TableColumnEl from './elements/TableColumnEl';
 import RowspanContainer from './RowspanContainer';
+import Table from '../../../../components/tables/Table';
 export default abstract class TableContainer extends HtmlTagBlock {
     protected _tableChildren: RowspanContainer[] = []
 
@@ -27,10 +28,85 @@ export default abstract class TableContainer extends HtmlTagBlock {
         this.hasFlexGrow = false
     }
 
+    get childrenCells(): TableCell[]
+    {
+
+        var res = []
+        var leng = this.children.length
+        for (let m = 0; m < leng; m++) {
+            // const tr = this.children[i];
+            var tr = this.children[m]
+                    // console.log('tr', tr)
+            // @ts-ignore
+            for (var i = 0; i < tr.allChildren.length; i++) {
+                // @ts-ignore
+                var cell = tr.allChildren[i]
+                res.push(cell)
+            }
+            
+        }
+
+        return res
+    }
+
+    get gridTemplateColumns() {
+        var str = ''
+        // console.error('gridTemplateColumns');
+        var table: TableTag
+        if (this instanceof TableTag) {
+            table = this
+        } else {
+            table = <TableTag>this.parent
+        }
+        
+        var colLength = table.columns.length
+        for (let i = 0; i < colLength; i++) {
+            const col = table.columns[i];
+            str += col.widthToRealInject + 'px '
+            
+        }
+
+        console.error('str COLS' , str);
+
+        return str
+    }
+    
+    get gridTemplateRows() {
+        var str = ''
+        // console.error('gridTemplateColumns');
+        var table: TableTag
+        if (this instanceof TableTag) {
+            table = this
+        } else {
+            table = <TableTag>this.parent
+        }
+        
+        var colLength = table.rows.length
+        for (let i = 0; i < colLength; i++) {
+            const row = table.rows[i];
+            if (this instanceof TableTag) {
+                str += row.heightToRealInject + 'px '
+                
+            } else {
+                if (this.children.indexOf(row.tr) > -1) {
+                    str += row.heightToRealInject + 'px '
+
+                }
+            }
+            
+        }
+
+        console.error('str ROWS' , str);
+
+        return str
+    }
+
+
     get tableChildren() {
         return this._tableChildren
     }
 
+    
 
     public abstract getTable(): TableTag
 
@@ -148,7 +224,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
 
     get cssList(): any {
         var css = super.cssList
-        var flex = new Display(Display.FLEX, new Named())
+        var flex = new Display(Display.GRID, new Named())
         css[flex.getName()] = flex.getValue()
 
 
@@ -163,7 +239,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
 
-            var flex = new Display(Display.FLEX, new Named())
+            var flex = new Display(Display.GRID, new Named())
             cssSelector[flex.getName()] = flex.getValue()
 
 

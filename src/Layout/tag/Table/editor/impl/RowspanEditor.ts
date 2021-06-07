@@ -37,19 +37,29 @@ export default class RowspanEditor implements TableEditor{
             var row = tableTag.rows[1]
             this.updateRow()
      }
+    
+    
+    
+    getRowspanId(cell: TableCell) {
+
+        return cell.rowIndex + '-' + cell.columnElement.index
+    }
+
+    
 
      protected updateRow() {
          type tableRowspanStruct = {
             tr: TableTr,
             startRowIndex: number,
-            rowspanItems: RowspanItem[]
+            rowspanItems: {[rowspanItemId: string]: RowspanItem}
             
          }
          
          type RowspanItem = {
             startRowIndex: number,
             startColIndex: number,
-            cells: {[rowIndex: number]: RowspanCell},
+            cells: {[trId: number]: RowspanCell},
+            children: {[trId: number]: RowspanItem},
             rowspan: number,
         }
         type RowspanCell = {
@@ -82,30 +92,33 @@ export default class RowspanEditor implements TableEditor{
                 structRowspan = {
                     tr: null,
                     startRowIndex: rowIndex,
-                    rowspanItems: []
+                    rowspanItems: {}
                 }
                 
             }
              
-             var rowspanItem: RowspanItem = {
-                startRowIndex: rowIndex,
-                startColIndex: 0,
-                cells: {},
-                rowspan: 0,
-            }
+             
             for (var i = 0; i < tr.children.length; i++) {
                 var cell = tr.children[i]
+                var currRowspanItem = structRowspan.rowspanItems[this.getRowspanId(cell)]
+                if (!currRowspanItem) {
+                    var newRowspanItem: RowspanItem = {
+                        startRowIndex: rowIndex,
+                        startColIndex: 0,
+                        cells: {},
+                        children: {},
+                        rowspan: 0,
+                    }
+                    structRowspan.rowspanItems[this.getRowspanId(cell)] = newRowspanItem
+                }
 
                 
                 if (cell.rowspanAttrVal > 1 && (cell.rowspanAttrVal - 1 > rowspanVal)) {
                     rowspanVal = cell.rowspanAttrVal - 1
-                    rowspanItem.rowspan = cell.rowspanAttrVal
+                    newRowspanItem.rowspan = cell.rowspanAttrVal
                     
                 }
 
-                // if () {
-                //     structRowspan.rowspanItems.push()
-                // }
             }
              
             if (rowspanVal == 0) {
@@ -142,29 +155,29 @@ export default class RowspanEditor implements TableEditor{
         //   }
          
          
-          var rowspanContainer = new RowspanContainer()
+        //   var rowspanContainer = new RowspanContainer()
 
-          var rowspanItem = new RowspanItem()
+        //   var rowspanItem = new RowspanItem()
  
-          var tr = new TableTr()
-          tr.parent = parent
-          tr.children.push(this.rows[0].children[0])
-          tr.rowElement = this.rows[0]
-          tr.containRows.push(this.rows[1])
-          tr.containRows.push(this.rows[2])
+        //   var tr = new TableTr()
+        //   tr.parent = parent
+        //   tr.children.push(this.rows[0].children[0])
+        //   tr.rowElement = this.rows[0]
+        //   tr.containRows.push(this.rows[1])
+        //   tr.containRows.push(this.rows[2])
           
-          var trTT = new TableTr()
-          trTT.parent = parent
-          trTT.rowElement = this.rows[3]
-          trTT.children.push(this.rows[3].children[0])
-          trTT.children.push(this.rows[3].children[1])
+        //   var trTT = new TableTr()
+        //   trTT.parent = parent
+        //   trTT.rowElement = this.rows[3]
+        //   trTT.children.push(this.rows[3].children[0])
+        //   trTT.children.push(this.rows[3].children[1])
  
-          rowspanItem.children.push(tr)
-          rowspanItem.children.push(trTT)
+        //   rowspanItem.children.push(tr)
+        //   rowspanItem.children.push(trTT)
  
-          rowspanContainer.children.push(rowspanItem)
+        //   rowspanContainer.children.push(rowspanItem)
  
-          parent.tableChildren.push(rowspanContainer)
+        //   parent.tableChildren.push(rowspanContainer)
           // console.log('cols 2', this.tabel.columns);
   
   

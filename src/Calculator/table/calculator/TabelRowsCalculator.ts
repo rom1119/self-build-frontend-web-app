@@ -38,8 +38,8 @@ export default class TabelRowsCalculator
         var colSizes = this.rowSizes
         var columns = this.tabel.rows
         var columnTotalWidth = this._rowTotalSize
-        // console.log('tabelWidth', tabelWidth);
-        // console.log('columnTotalWidth', columnTotalWidth);
+        // console.log('tabelHeight', this.tabelHeight);
+        // console.log('columnTotalHeight', columnTotalWidth);
         
         if (!this.tabelHeight) {
             this.setNormalWidthColumn(colSizes)
@@ -119,17 +119,18 @@ export default class TabelRowsCalculator
 
         var colLenth = this.tabel.rows.length
         for (var i = 0; i < colLenth; i++) {
-            var col = this.tabel.rows[i]
-            var widthFromTag = col.height
-            var widthUnitFromTag = col.heightUnit
-            var pixelValue = col.getComputedOffsetHeight()
+            var row = this.tabel.rows[i]
+            var widthFromTag = row.height
+            var widthUnitFromTag = row.heightUnit
+            var pixelValue = row.getComputedOffsetHeight()
 
             var el = new RowHeight()
-            el.row = col
+            el.row = row
             el.pixelValue = pixelValue
             el.percentValueOfTabel = pixelValue / tabelHeight * 100
 
             columnTotalSize += pixelValue
+            // console.log('get rowSizes el', pixelValue);
 
             res.push(el)
 

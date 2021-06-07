@@ -8,14 +8,17 @@ import TableTh from '../../TableTh';
 import Width from '../../../../../Css/Size/Width';
 import Height from '../../../../../Css/Size/Height';
 import RealColumnOffset from '../RealColumnOffset';
+import BusyCellPlaceByRowspan from '../BusyCellPlaceByRowspan';
 
 
 export default class NotFullRowEditor implements TableEditor{
 
     protected realOffsetColumns: RealColumnOffset
+    protected busyCellPlaceByRowspan: BusyCellPlaceByRowspan
 
-    constructor() {
+    constructor(busyCellPlaceByRowspan: BusyCellPlaceByRowspan) {
         this.realOffsetColumns =  new RealColumnOffset()
+        this.busyCellPlaceByRowspan =  busyCellPlaceByRowspan
     }
 
     editTable(tableTag: TableTag) {
@@ -36,14 +39,16 @@ export default class NotFullRowEditor implements TableEditor{
             // throw new Error('ASDASD')
             var row = rows[i]
             var realOffsetCols = this.realOffsetColumns.countElementsFrom(row, cols.length)
+            var realOffsetByRowspan = this.busyCellPlaceByRowspan.offsetForRow(row)
             // console.log('REAL OFFSET', realOffsetCols);
-            var amountCellsInRow = row.tr.children.length + realOffsetCols
+            // console.log('REAL OFFSET Rowspan', realOffsetByRowspan);
+            var amountCellsInRow = row.tr.children.length + realOffsetCols + realOffsetByRowspan
             if (amountCellsInRow > maxColsInRow) {
                 maxColsInRow = amountCellsInRow
             }
             var newEl = {
                 rowIndex: i,
-                colOffset: realOffsetCols,
+                colOffset: realOffsetCols + realOffsetByRowspan,
                 amountCellsInRow: amountCellsInRow,
                 row: row,
             }
@@ -58,28 +63,39 @@ export default class NotFullRowEditor implements TableEditor{
         // console.log('%c updateRows', 'background: blue;');
         // console.log(rowIndexWhereNotFullRow);
         // console.log(maxColsInRow);
+        // return
         
         for (var i = 0; i < rowIndexWhereNotFullRow.length; i++) {
             var el = rowIndexWhereNotFullRow[i]
             // const rowIndex = rowIndexWhereNotFullRow[amontCellsInRow];
             el.row.tr.hiddenChildren = []
             el.row.hiddenChildren = []
+            // console.log('FOR');
+            // console.log('length', rowIndexWhereNotFullRow.length);
+            // console.log('i', i);
             if (el.amountCellsInRow < maxColsInRow) {
-                var i = el.row.tr.allChildren.length - 1
+                // var i = el.row.tr.allChildren.length - 1
                 while (el.row.tr.allChildren.length < maxColsInRow - el.colOffset) {
                     // throw Error('asd')
                     // console.log('while not null');
+                    // console.log('el.row.tr.allChildren.length', el.row.tr.allChildren.length);
+                    // console.log('el', el);
+                    // console.log('el', el.row.tr.shortUUID);
+                    // // return
                     // console.log('el.index',el.rowIndex);
                     // console.log('el.row.tr.allChildren.length',el.row.tr.allChildren.length);
                     var col = tableTag.columns[el.row.tr.allChildren.length + el.colOffset]
                     if (!col) {
+                        // console.log('!!');
                         return
                     }
                     var cell = this.createNotVisibleCells(el.row, col)
                     cell.rowIndex = el.rowIndex
                     cell.colIndex = col.index
+                    // console.log('el.row.tr.allChildren.length', el.row.tr.allChildren.length);
                     
                     el.row.tr.appendHiddenChild(cell)
+                    // console.log('el.row.tr.allChildren.length', el.row.tr.allChildren.length);
                     el.row.hiddenChildren.push(cell)
                     if (col) {
                         col.hiddenChildren.push(cell)
@@ -93,7 +109,7 @@ export default class NotFullRowEditor implements TableEditor{
                     cell.rowElement = el.row
                     // console.log('col.hiddenChildren.length',col.hiddenChildren.length);
                     // console.log('col.allChildren.length',col.allChildren.length);
-                    i++
+                    // i++
                     // console.log('col.hiddenChildren.length',col.hiddenChildren.length);
                     // console.log('col.allChildren.length',col.allChildren.length);
                 }

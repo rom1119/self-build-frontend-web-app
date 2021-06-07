@@ -479,11 +479,11 @@ export default class BaseHTMLWrapper extends Vue {
         }
         
         // @ts-ignore
-        if (this.value.tableChildren) {
+        if (this.value.childrenCells) {
             // @ts-ignore
-            if (this.value.tableChildren.length) {
+            if (this.value.childrenCells.length) {
                 // @ts-ignore
-                children = this.value.tableChildren
+                children = this.value.childrenCells
             }
         }
         return children

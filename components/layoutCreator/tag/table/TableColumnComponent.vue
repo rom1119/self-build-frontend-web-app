@@ -133,10 +133,10 @@ export default class TableColumnComponent extends Vue {
 
 <style scoped>
     .visible {
-        visibility: visible !important;
+        opacity: 1 !important;
     }
     .unvisible {
-        visibility: hidden !important;
+        opacity: 0 !important;
     }
     .tab-column {
         z-index: 999;

@@ -81,10 +81,16 @@ export default class HTMLEL extends Vue {
         var res: any = {}
 
         // @ts-ignore
-        // if (this.value.gridTemplateColumns) {
-        //     // @ts-ignore
-        //     res.gridTemplateColumns = this.value.gridTemplateColumns + ' !important'
-        // }
+        if (this.value.gridTemplateColumns) {
+            // @ts-ignore
+            res.gridTemplateColumns = this.value.gridTemplateColumns + ' !important'
+        }
+        
+        // @ts-ignore
+        if (this.value.gridTemplateRows) {
+            // @ts-ignore
+            res.gridTemplateRows = this.value.gridTemplateRows + ' !important'
+        }
         
         
 

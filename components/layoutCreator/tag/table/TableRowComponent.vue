@@ -154,10 +154,10 @@ export default class TableRowComponent extends Vue {
     }
 
     .visible {
-        visibility: visible !important;
+        opacity: 1 !important;
     }
     .unvisible {
-        visibility: hidden !important;
+        opacity: 0 !important;
     }
 
     .hidden-box {

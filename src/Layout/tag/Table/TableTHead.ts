@@ -67,12 +67,12 @@ export default class TableTHead extends TableContainer {
     get cssList(): any {
         var css = super.cssList
         var width = new Width(100, new Percent())
-        var flex = new Display(Display.FLEX, new Named())
+        var display = new Display(Display.GRID, new Named())
         // var flexGrow = new FlexGrow(2, new Named())
-        var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
-        css[flexDirection.getName()] = flexDirection.getValue()
+        // var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
+        // css[flexDirection.getName()] = flexDirection.getValue()
         // css[flexGrow.getName()] = flexGrow.getValue()
-        css[flex.getName()] = flex.getValue()
+        css[display.getName()] = display.getValue()
         css[width.getName()] = width.getValue()
 
         return css
@@ -86,12 +86,12 @@ export default class TableTHead extends TableContainer {
             var cssSelector = activeSelector.cssList
 
             var width = new Width(100, new Percent())
-            var flex = new Display(Display.FLEX, new Named())
+            var display = new Display(Display.GRID, new Named())
             // var flexGrow = new FlexGrow(2, new Named())
-            var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
-            cssSelector[flexDirection.getName()] = flexDirection.getValue()
+            // var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
+            // cssSelector[flexDirection.getName()] = flexDirection.getValue()
             // cssSelector[flexGrow.getName()] = flexGrow.getValue()
-            cssSelector[flex.getName()] = flex.getValue()
+            cssSelector[display.getName()] = display.getValue()
             cssSelector[width.getName()] = width.getValue()
             return cssSelector
         }
