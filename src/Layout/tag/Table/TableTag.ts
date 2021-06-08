@@ -198,6 +198,7 @@ export default class TableTag extends TableContainer {
         this.notFullRowTableEditor.editTable(this)
         this.colspanTableEditor.editTable(this)
         this.notFullRowTableEditor.editTable(this)
+        this.busyCellsByRowspan.moveCellsWhereRowspanPlace()
         // this.rowspanTableEditor.editTable(this)
         // this.tableColumnCalculator.calculate()
     }

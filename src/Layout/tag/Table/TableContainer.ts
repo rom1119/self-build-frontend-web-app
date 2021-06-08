@@ -28,6 +28,35 @@ export default abstract class TableContainer extends HtmlTagBlock {
         this.hasFlexGrow = false
     }
 
+    getCellByRowIndexAndColIdx(rowIndex: number, colIdx: number): TableCell {
+        var k = this.findChildIndexByRowIndex(rowIndex)
+
+        if (k > -1) {
+            for (let i = 0; i < this.children[k].children.length; i++) {
+                const el: TableCell = <TableCell>this.children[k].children[i];
+                if (el.columnElement.index == colIdx) {
+                    return el
+                }
+            }
+            // return <TableCell>this.children[k]
+        }
+
+        return null
+    }
+    
+    protected findChildIndexByRowIndex(index: number): number {
+        var k = -1
+        for (let i = 0; i < this.children.length; i++) {
+            const el: TableTr = <TableTr>this.children[i];
+            if (el.rowElement.index == index) {
+                k = i
+                break
+            }
+        }
+
+        return k
+    }
+
     get childrenCells(): TableCell[]
     {
 

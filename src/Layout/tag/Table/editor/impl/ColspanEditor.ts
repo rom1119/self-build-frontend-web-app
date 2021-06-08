@@ -186,16 +186,14 @@ export default class ColspanEditor implements TableEditor{
             if (!cellWithRowIndex) {
                 continue
             }
-            var realOffsetByRowspan = this.busyCellPlaceByRowspan.offsetForCell(cellWithRowIndex)
+            // var realOffsetByRowspan = this.busyCellPlaceByRowspan.offsetForCell(cellWithRowIndex)
 
-            // console.log('cellWithRowIndex.EL', cellWithRowIndex.getHtmlEl());
             // console.log('cellWithRowIndex.colIndex', cellWithRowIndex.colIndex);
-            var newIndexCol = cellWithRowIndex.colIndex + step + realOffsetByRowspan
+            var newIndexCol = cellWithRowIndex.colIndex + step
             // console.log('COL.CHILDREN.LEN BEFORE', col.children.length);
 
             var cellToMove = col.getChildByIDAndRemove(cellWithRowIndex.uuid)
-            // console.log('newIndexCol', newIndexCol);
-            // console.log('cellToMove', cellToMove);
+
 
             if (newIndexCol <= this.columns.length - 1) {
                 // console.log(' NEW COL.CHILDREN.LEN BEFORE', this.columns[newIndexCol].children.length);
