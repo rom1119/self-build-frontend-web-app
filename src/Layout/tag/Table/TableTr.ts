@@ -192,6 +192,11 @@ export default class TableTr extends TableContainer {
         let height = new Height(this._height, this.heightUnitCurrent)
         this.updateCssPropertyWithoutModel(height.getName(), height)
 
+        for (let i = 0; i < this.children.length; i++) {
+            const element = this.children[i];
+            element.updateLastHeight()
+            
+        }
         this.notifyPositionalTag()
 
     }

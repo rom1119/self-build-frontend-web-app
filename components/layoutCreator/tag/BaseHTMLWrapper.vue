@@ -622,8 +622,13 @@ export default class BaseHTMLWrapper extends Vue {
             res += this.propBoxClass
         }
         // @ts-ignore
-        if (this.value.isOverflowContent) {
+        if (this.value.isOverflowWidthContent) {
             res += ' red-bg'
+        }
+        
+        // @ts-ignore
+        if (this.value.isOverflowHeightContent) {
+            res += ' green-shadow'
         }
 
         return res
@@ -761,6 +766,10 @@ export default class BaseHTMLWrapper extends Vue {
 
     .red-bg {
         background-color: red !important;
+    }
+    
+    .green-shadow {
+        box-shadow:inset 0 0 1px 5px rgb(43, 255, 0) !important;
     }
 
     .tip-animation {

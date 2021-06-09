@@ -1640,6 +1640,26 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
+    updateLastWidth() {
+        this.lastSetWidthPx = this.getComputedClientWidth()
+        this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
+
+        
+    }
+    
+    updateLastHeight() {
+        // console.log('updateLastHeight', this.getDomainTagName());
+        // // @ts-ignore
+        // console.log('idx', this.colIndex);
+        
+        this.lastSetHeightPx = this.getComputedHeight()
+        this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
+
+        // console.log(this.lastSetHeightPx);
+        // console.log(this.lastSetHeightContentPx);
+        
+    }
+
     public initPos(x, y)
     {
         if (this.hasAbsolute || this.hasFixed) {

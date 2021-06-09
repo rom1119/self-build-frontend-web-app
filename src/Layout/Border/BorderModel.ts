@@ -33,7 +33,7 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
 	protected _initialStyleUnit: UnitColor = new Named();
 	protected _defaultSizeUnit = new Pixel();
 	protected _defaultColorUnit = new Named();
-	protected _width: number = 15;
+	protected _width: number = 0;
 	protected htmlTag: HtmlTag;
 	widthUnit: UnitSize;
 	protected _active: boolean = false;
@@ -47,6 +47,10 @@ export default abstract class BorderModel extends LayoutEl implements CssList, S
 		this._colorUnit = this._initialColorUnit;
 		this._style = this._initialType;
 		this.widthUnit = this._defaultSizeUnit;
+	}
+
+	isEnabled() {
+		return this._active
 	}
 
 	protected initCssAccessor() {

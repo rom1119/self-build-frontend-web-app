@@ -143,9 +143,9 @@ export default class BusyCellPlaceByRowspan {
 
     protected moveFullRowOfCells(cellsarg: RowBusy, rowIdx, parent?: TableContainer) {
 
-        console.log('%c rowIdx', rowIdx, 'background: red;');
+        // console.log('%c rowIdx', rowIdx, 'background: red;');
         // console.log('parent', parent.getDomainTagName());
-        console.log('cells', cellsarg);
+        console.log('cells', cellsarg.cols);
         var cells = cellsarg.cols.reverse()
         // console.log('cells', cells);
         for (let i = 0; i < cells.length; i++) {
@@ -172,10 +172,10 @@ export default class BusyCellPlaceByRowspan {
                 if (!cellWithRowIndex) {
                     continue
                 }
-                console.log('cellWithRowIndex EL', cellWithRowIndex.getHtmlEl());
+                // console.log('cellWithRowIndex EL', cellWithRowIndex.getHtmlEl());
                 var realOffsetByRowspan = element.offsetByRowspan
 
-                console.log('cellWithRowIndex.colIndex', cellWithRowIndex.colIndex);
+                // console.log('cellWithRowIndex.colIndex', cellWithRowIndex.colIndex);
                 var newIndexCol = cellWithRowIndex.colIndex + realOffsetByRowspan
                 // console.log('COL.CHILDREN.LEN BEFORE', col.children.length);
                 
@@ -185,7 +185,7 @@ export default class BusyCellPlaceByRowspan {
                 if (newIndexCol <= this.table.columns.length - 1) {
                     // console.log(' NEW COL.CHILDREN.LEN BEFORE', this.columns[newIndexCol].children.length);
                     cellToMove.colIndex = newIndexCol
-                    console.log('cellWithRowIndex.colIndex NEW', cellToMove.colIndex);
+                    // console.log('cellWithRowIndex.colIndex NEW', cellToMove.colIndex);
                     cellToMove.columnElement = this.table.columns[newIndexCol]
                     this.table.columns[newIndexCol].replaceChildInRow(cellToMove)
                     // console.log(' NEW COL.CHILDREN.LEN AFTER', this.columns[newIndexCol].children.length);

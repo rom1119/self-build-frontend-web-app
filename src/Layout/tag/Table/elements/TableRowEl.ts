@@ -53,6 +53,8 @@ export default class TableRowEl extends TableElementEl{
     {
         this.heightUnitCurrent = new Pixel()
         this._height = w
+        this.lastSetHeightPx = this.getComputedHeight()
+
         // this.synchronizer.synchronize()
 
     }
@@ -121,6 +123,15 @@ export default class TableRowEl extends TableElementEl{
         return diff
     }
 
+    get isOverflowContent() {
+        for (const child of this.tr.allChildren) {
+            if (child.isOverflowHeightContent) {
+                return true
+            }
+        }
+        return false
+    }
+
 
     public setHeightRow( h) {
 
@@ -131,20 +142,24 @@ export default class TableRowEl extends TableElementEl{
         // }
         // console.log('table height', this.owner.calcRealContentHeight() )
         // console.log('calcContentHeight', this.owner.calcContentHeight() )
-        var diff = this.contentTableDiffRealHeight()
-        var currTrHeight = this.tr.getComputedHeight()
+        // var diff = this.contentTableDiffRealHeight()
+        var currTrHeight = this.lastSetHeightPx
         var diffHeight = h - currTrHeight
 
         // console.log('diff', diff )
         // console.log('diffHeight', diffHeight )
-        // console.log('RES', (diff - diffHeight) <= 0 )
-        if ((diff - diffHeight + 3) <= 0) {
-            // return
-        }
-        this.tr.initHeight(h)
-        // console.log('setWidthColumn col EL', this.children.length)
+        // console.log('RES', (diff - diffHeight + 3) <= 0)
+        // console.log('this.isOverflowHeightContent', this.isOverflowContent )
 
+        if ((diffHeight) <= 0) {
+            if (this.isOverflowContent) {
+                return
+            }
+        }
+        // console.log('setWidthColumn col EL', this.children.length)
+        
         this.initHeight(h)
+        this.tr.initHeight(h)
 
         // this.tr.updateStylesForHeight(this.children[0])
 

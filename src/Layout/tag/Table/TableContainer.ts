@@ -95,7 +95,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
             
         }
 
-        console.error('str COLS' , str);
+        // console.error('str COLS' , str);
 
         return str
     }
@@ -125,7 +125,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
             
         }
 
-        console.error('str ROWS' , str);
+        // console.error('str ROWS' , str);
 
         return str
     }
@@ -169,11 +169,11 @@ export default abstract class TableContainer extends HtmlTagBlock {
                 // if(tabCol.addCellChild)
                 if (tabCol.index === child.colIndex) {
                     // child.initWidth(width)
-                    child.turnOffFlexGrow()
-                    child.turnOffMinMaxGridColumn()
+                    // child.turnOffFlexGrow()
+                    // child.turnOffMinMaxGridColumn()
                 } else {
-                    child.turnOnFlexGrow()
-                    child.turnOnMinMaxGridColumn()
+                    // child.turnOnFlexGrow()
+                    // child.turnOnMinMaxGridColumn()
                 }
             }
 

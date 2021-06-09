@@ -21,6 +21,7 @@ import BasePropertyCss from "~/src/Css/BasePropertyCss";
 import ColspanAttr from '../../../Attribute/html/ColspanAttr';
 import RowspanAttr from '../../../Attribute/html/RowspanAttr';
 import ContentWidthPx from '../../../Calculator/table/ContentWidthPx';
+import ContentHeightPx from '../../../Calculator/table/ContentHeightPx';
 export default abstract class TableCell extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  TableTd`
@@ -40,10 +41,12 @@ export default abstract class TableCell extends HtmlTagBlock {
 
     protected _widthBoxCalc: string = ''
     protected contentWidth: ContentWidthPx
+    protected contentHeight: ContentHeightPx
 
     constructor(textArg?) {
         super()
         this.contentWidth = new ContentWidthPx(this)
+        this.contentHeight = new ContentHeightPx(this, true)
         if (textArg) {
             var text = new TextNode()
             text.text = textArg
@@ -94,8 +97,12 @@ export default abstract class TableCell extends HtmlTagBlock {
 
         return Number(this.rowspanAttr.value)
     }
-    get isOverflowContent() {
+    get isOverflowWidthContent() {
         return this.contentWidth.contentSizePx < this.lastSetWidthContentPx
+    }
+    
+    get isOverflowHeightContent() {
+        return this.contentHeight.contentSizePx < this.lastSetHeightContentPx
     }
     
     // set isOverflowContent(arg) {
@@ -220,21 +227,21 @@ export default abstract class TableCell extends HtmlTagBlock {
         throw new Error("Unable to copy obj! Its type isn't supported.");
     }
 
-    public turnOnFlexGrow() {
-        this.hasFlexGrow = true
-    }
+    // public turnOnFlexGrow() {
+    //     this.hasFlexGrow = true
+    // }
 
-    public turnOffFlexGrow() {
-        this.hasFlexGrow = false
-    }
+    // public turnOffFlexGrow() {
+    //     this.hasFlexGrow = false
+    // }
 
-    public turnOnMinMaxGridColumn() {
-        this.hasSetMinMaxGridColumn = true
-    }
+    // public turnOnMinMaxGridColumn() {
+    //     this.hasSetMinMaxGridColumn = true
+    // }
 
-    public turnOffMinMaxGridColumn() {
-        this.hasSetMinMaxGridColumn = false
-    }
+    // public turnOffMinMaxGridColumn() {
+    //     this.hasSetMinMaxGridColumn = false
+    // }
 
     get parent(): TableTr {
         return this._parent
@@ -254,7 +261,6 @@ export default abstract class TableCell extends HtmlTagBlock {
 
         this.lastSetHeightPx = this.getComputedHeight()
         this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
-
 
 
     }

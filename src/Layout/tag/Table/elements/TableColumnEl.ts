@@ -37,6 +37,9 @@ import Pixel from '../../../../Unit/Size/Pixel';
 
 export default class TableColumnEl extends TableElement{
     
+    public static TAG_NAME = 'table-column'
+
+
     protected _lengthOffsetCalc: string = 'calc(0px)'
 
     constructor(owner: TableTag, index)
@@ -47,6 +50,7 @@ export default class TableColumnEl extends TableElement{
 
         // this.initCssAccessor()
     }
+
 
     get IDHiddenEl() {
         return this.owner.shortUUID + '-column-hidden-box-' + this.index
@@ -77,7 +81,7 @@ export default class TableColumnEl extends TableElement{
 
     getDomainTagName(): string {
         this.updateComponentKey
-        return "";
+        return TableColumnEl.TAG_NAME;
     }
 
     getTagName(): string {
@@ -108,12 +112,13 @@ export default class TableColumnEl extends TableElement{
 
         let width = new Width(this._width, this.widthUnitCurrent)
         this.updateCssPropertyWithoutModel(width.getName(), width)
+        this.lastSetWidthPx = this.getComputedClientWidth()
 
     }
 
     get isOverflowContent() {
         for (const child of this.allChildren) {
-            if (child.isOverflowContent) {
+            if (child.isOverflowWidthContent) {
                 return true
             }
         }
@@ -121,13 +126,15 @@ export default class TableColumnEl extends TableElement{
     }
 
     public setWidthColumn(width) {
-        var currColWidth = this.allChildren[0].getComputedWidth()
+        var currColWidth = this.lastSetWidthPx
         var diffWidth = width - currColWidth
 
         // console.log('currColWidth', currColWidth )
         // console.log('diffWidth', diffWidth )
         // console.log('width', width )
-        // console.log('RES', ( diffWidth + 3) <= 0 )
+        // console.log('currColWidth', currColWidth )
+        // console.log('RES', ( diffWidth) <= 0 )
+        // console.log('this.isOverflowContent', this.isOverflowContent )
         if (( diffWidth) <= 0) {
             if (this.isOverflowContent) {
                 return

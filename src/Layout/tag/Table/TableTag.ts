@@ -189,12 +189,13 @@ export default class TableTag extends TableContainer {
     }
 
     public updateTableStructure() {
+
+        // THIS IS PROCCESS , ORDER RUN IS IMPORTANT
         this.updateColumns()
         this.updateRows()
-        
         this.busyCellsByRowspan.buildBusyMap()
-        console.log('updateTableStructure');
-        console.log('MAP', this.busyCellsByRowspan.map);
+        // console.log('updateTableStructure');
+        // console.log('MAP', this.busyCellsByRowspan.map);
         this.notFullRowTableEditor.editTable(this)
         this.colspanTableEditor.editTable(this)
         this.notFullRowTableEditor.editTable(this)
@@ -716,19 +717,19 @@ export default class TableTag extends TableContainer {
         this.addPropsToAccessor(cssList)
     }
 
-    recalculateRealComputedHtmlAttrs() {
-        var list = this.attributeAccessor.all
+    // recalculateRealComputedHtmlAttrs() {
+    //     var list = this.attributeAccessor.all
 
-        for (const prop of list) {
+    //     for (const prop of list) {
 
-            if (prop instanceof ColspanAttr) {
+    //         if (prop instanceof ColspanAttr) {
 
-                this.colspanTableEditor.editTable(this)
-                continue
-            }
-        }
+    //             this.colspanTableEditor.editTable(this)
+    //             continue
+    //         }
+    //     }
 
-    }
+    // }
 
     recalculateRealComputedProperties() {
         var cssAll = this.cssAccessor.all
