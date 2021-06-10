@@ -16,7 +16,7 @@
             oncut="return false"
             onselectstart="return false"
         >
-            <div class="stretch"
+            <div class="stretch rel"
             >
                 <div class="remove" @click.stop="onEmitRemove($event)">
                     X
@@ -55,7 +55,7 @@ export default class TableColumnComponent extends Vue {
     @Prop({required:true})
     value: TableColumnEl
     
-    @Prop({required:true})
+    @Prop({required:false, default: true})
     canVisible: boolean
 
     // currentElement: BorderModel = null
@@ -88,9 +88,14 @@ export default class TableColumnComponent extends Vue {
         return  this.widthManager.getProperty().active
     }
 
-    onMouseClick() {
+    onMouseClick(e) {
         // console.log('CLICK')
-        // console.log(this.value)
+        let ev = {
+            event: e,
+            target: this.value
+        }
+        this.$emit('contentMouseClick', ev)
+        this.$emit('anyElementMouseClick', ev)
 
     }
 

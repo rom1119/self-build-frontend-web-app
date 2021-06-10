@@ -33,6 +33,7 @@ import TableColumnPropertyAccessor from "~/src/Css/PropertyAccessor/TableColumnP
 import BorderRightCss from "~/src/Css/Border/Right/BorderRightCss";
 import TableColumnPropertyTmpAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyTmpAccessor";
 import Pixel from '../../../../Unit/Size/Pixel';
+import BaseSelector from '../../../../BaseSelector';
 
 
 export default class TableColumnEl extends TableElement{
@@ -49,6 +50,11 @@ export default class TableColumnEl extends TableElement{
         // console.log('constructor TableColumnEl')
 
         // this.initCssAccessor()
+    }
+
+    public toString(): string
+    {
+        return `( ${this.getDomainTagName()} index: ${this.index})`
     }
 
 
@@ -70,14 +76,6 @@ export default class TableColumnEl extends TableElement{
         // }
     }
 
-    get sizeHtmlClass() {
-        return `${this.ownerShortID}columnI${this.index}${this.widthToRealInject}px`
-    }
-    
-    get styleDeclarationSize() {
-        var res = `.${this.sizeHtmlClass} { width: ${this.widthToRealInject}px }`
-        return res
-    }
 
     getDomainTagName(): string {
         this.updateComponentKey
@@ -154,6 +152,52 @@ export default class TableColumnEl extends TableElement{
         // console.log('setWidthColumn col EL', this.children.length)
         this.initSize(width)
 
+    }
+
+    public getPropertyCss(prop: string)
+    {
+        var firstChild = this.children[0]
+        if (!firstChild) {
+            return null
+        }
+        if (firstChild.selectedMedia) {
+            // console.log('getPropertyCss', prop)
+            return firstChild.cssListMediaOwner.getProperty(prop)
+        }
+
+        return firstChild.cssAccessor.getProperty(prop)
+    }
+
+    get selectedSelector(): BaseSelector {
+        
+        var firstChild = this.children[0]
+        if (!firstChild) {
+            return null
+        }
+
+        if (firstChild.animationSelector) {
+            return firstChild.animationSelector
+        }
+        
+        if (firstChild.pseudoClassAccessor.selectedSelector) {
+            return firstChild.pseudoClassAccessor.selectedSelector
+        }
+
+        if (firstChild.pseudoElementAccessor.selectedSelector) {
+            return firstChild.pseudoElementAccessor.selectedSelector
+        }
+
+        return null
+    }
+
+    public updateTmpCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
+    {
+        super.updateTmpCssPropertyWithoutModel(propName, val)
+        for (var i = 0; i < this.children.length; i++) {
+            var child = this.children[i]
+            child.updateTmpCssPropertyWithoutModel(propName, val)
+
+        }
     }
 
     public updateCssPropertyWithoutModel(name:string, css: BasePropertyCss) {

@@ -16,9 +16,11 @@ import TableRowPropertyAccessor from "~/src/Css/PropertyAccessor/TableRowPropert
 import BorderBottomCss from "~/src/Css/Border/Bottom/BorderBottomCss";
 import TableTag from '../TableTag';
 import TableTHead from '../TableTHead';
+import TableRowPropertyTmpAccessor from '../../../../Css/PropertyAccessor/TableRowPropertyTmpAccessor';
 
 
 export default class TableRowEl extends TableElementEl{
+    public static TAG_NAME = 'table-row'
 
     tr: TableTr
 
@@ -28,10 +30,14 @@ export default class TableRowEl extends TableElementEl{
         return this.children.length === this.amountCellsInRow
     }
     getDomainTagName(): string {
-        this.removeCssProperty
-        return "";
+        this.updateComponentKey
+        return TableRowEl.TAG_NAME;
     }
 
+    public toString(): string
+    {
+        return `( ${this.getDomainTagName()} index: ${this.index})`
+    }
     get IDHiddenEl() {
         return this.owner.shortUUID + '-row-hidden-box-' + this.index
     }
@@ -226,7 +232,7 @@ export default class TableRowEl extends TableElementEl{
     protected initCssAccessor()
     {
         super.initCssAccessor()
-        this._tmpCssPropertyAccesor = new TableRowPropertyAccessor(this)
+        this._tmpCssPropertyAccesor = new TableRowPropertyTmpAccessor(this)
         this._cssPropertyAccesor = new TableRowPropertyAccessor(this)
         // let width = new Width(this.width, this.widthUnit)
         // let height = new Height(this.lengthCalc, new Named())

@@ -26,8 +26,8 @@ export default abstract class TableElement extends HtmlTag implements CssList, S
 
     protected owner: TableTag
     protected ownerShortID: string = ''
-    children: TableCell[]
-    index
+    children: TableCell[] = []
+    index = null
 
     hiddenChildren: TableCell[] = []
 

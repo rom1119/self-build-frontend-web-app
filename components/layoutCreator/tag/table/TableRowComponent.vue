@@ -93,9 +93,13 @@ export default class TableRowComponent extends Vue {
         this.$emit('tagRemove', event)
     }
 
-    onMouseClick() {
-        console.log('CLICK')
-        console.log(this.value)
+    onMouseClick(e) {
+        let ev = {
+            event: e,
+            target: this.value
+        }
+        this.$emit('contentMouseClick', ev)
+        this.$emit('anyElementMouseClick', ev)
 
     }
 

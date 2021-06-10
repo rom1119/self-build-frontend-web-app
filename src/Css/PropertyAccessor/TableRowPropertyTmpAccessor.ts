@@ -9,11 +9,11 @@ import TableElementEl from "~/src/Layout/tag/Table/elements/TableElement";
 import TableRowEl from "~/src/Layout/tag/Table/elements/TableRowEl";
 import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 
-export default class TableColumnPropertyTmpAccessor extends CssPropertyAccessor
+export default class TableRowPropertyTmpAccessor extends CssPropertyAccessor
 {
-    protected value: TableColumnEl
+    protected value: TableRowEl
 
-    constructor(tag: TableColumnEl)
+    constructor(tag: TableRowEl)
     {
         super(tag)
 
@@ -27,6 +27,7 @@ export default class TableColumnPropertyTmpAccessor extends CssPropertyAccessor
             prop.setActive(false)
             this.cssProps.splice(index, 1);
         }
+        this.value.tr.removeCssPropertyByName(name)
 
         for (var i = 0; i < this.value.children.length; i++) {
             var child = this.value.children[i]
@@ -40,6 +41,9 @@ export default class TableColumnPropertyTmpAccessor extends CssPropertyAccessor
     public setNewPropertyValue(propName: string, newVal: BasePropertyCss): CssPropertyAccessor
     {
         super.setNewPropertyValue(propName, newVal)
+        var cpTr = newVal.deepCopy(newVal)
+
+        this.value.tr.tmpCssAccessor.setNewPropertyValue(propName, cpTr)
 
         for (var i = 0; i < this.value.children.length; i++) {
             var cp = newVal.deepCopy(newVal)
@@ -57,6 +61,10 @@ export default class TableColumnPropertyTmpAccessor extends CssPropertyAccessor
     {
 
         super.addNewProperty(newProp)
+        if (!this.value.tr.tmpCssAccessor.hasCssProperty(newProp.getName())) {
+            this.value.tr.tmpCssAccessor.addNewProperty(newProp)
+        }
+
         for (var i = 0; i < this.value.children.length; i++) {
             var cp = newProp.deepCopy(newProp)
             var child = this.value.children[i]

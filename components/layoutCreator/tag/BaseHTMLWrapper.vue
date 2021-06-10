@@ -763,7 +763,7 @@ export default class BaseHTMLWrapper extends Vue {
     }
     
     .green-shadow {
-        box-shadow:inset 0 0 1px 5px rgb(43, 255, 0) !important;
+        box-shadow:inset 0 0 2px 3px rgb(43, 255, 0) !important;
     }
 
     .tip-animation {

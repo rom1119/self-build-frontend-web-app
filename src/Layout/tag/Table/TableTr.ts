@@ -20,13 +20,12 @@ export default class TableTr extends TableContainer {
     protected _innerText: string = `${this.uuid}  TableTr`
     protected _children: TableCell[] = []
     hiddenChildren: TableCell[] = []
-    protected hasFlexGrow = true
 
     protected _rowElement: TableRowEl
 
     public static TAG_NAME = 'tr'
 
-    protected _parent: TableContainer
+    protected _parent: TableContainer = null
 
     containRows: TableRowEl[] = []
 
@@ -172,14 +171,6 @@ export default class TableTr extends TableContainer {
         this._children = arg
     }
 
-
-    public turnOnFlexGrow() {
-        this.hasFlexGrow = true
-    }
-
-    public turnOffFlexGrow() {
-        this.hasFlexGrow = false
-    }
 
     public initHeight(h) {
         // this.toInitSizeUnits()

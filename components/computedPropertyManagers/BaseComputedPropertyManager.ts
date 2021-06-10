@@ -63,11 +63,16 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         if (!this.value) {
             return null
         }
+        // console.log('getPropertyCssFromModel');
+        // console.log(prop);
+        
         var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             return <T>activeSelector.getPropertyCss(prop)
-
+            
         }
+        // console.log(this.value);
+        // console.log(this.value.getPropertyCss(prop));
         return <T>this.value.getPropertyCss(prop)
     }
 

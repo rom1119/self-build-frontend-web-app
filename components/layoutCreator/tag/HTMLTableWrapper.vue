@@ -28,7 +28,7 @@
                         @contentMouseClick="onContentMouseClickChild($event)"
                         @contentMouseDown="onContentMouseDown(column, $event)"
                         @tagRemove="onEmitRemove(column)"
-                        :canVisible="value.toManage"
+                        :canVisible="true"
                         :value="column"
                         :key="column.updateComponentKey"
                     />
@@ -46,7 +46,7 @@
                         @contentMouseClick="onContentMouseClickChild($event)"
                         @contentMouseDown="onContentMouseDown(row, $event)"
                         @tagRemove="onEmitRemove(row)"
-                        :canVisible="value.toManage"
+                        :canVisible="true"
                         :value="row"
                         :key="row.updateComponentKey"
                     />
@@ -54,8 +54,7 @@
         
         </div>
 
-            <span v-if="hasWidth">
-            </span>
+ 
 
             <span class="absolute" style="top: -50px; display: none;">
                 Width {{ value.height }}

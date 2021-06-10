@@ -11,7 +11,7 @@
         <h5 class="text-center">
           Layout Tag Tool Managed 
           <span v-if="accualActiveEl">
-            {{ accualActiveEl.getDomainTagName() }}
+            {{ accualActiveEl.toString() }}
           </span>
         </h5>
         <div class="sidebar_tool__tabs">

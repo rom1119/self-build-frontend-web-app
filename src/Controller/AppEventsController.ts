@@ -88,7 +88,7 @@ export default class AppEventsController
         ) {
             return val.getHtmlTag()
         } else if (val instanceof TableElement) {
-            return val.getOwner()
+            return val
         } else {
             return val
         }
@@ -153,8 +153,10 @@ export default class AppEventsController
     }
         
     onAnyElementMouseClick(source) {
+        // console.log('onAnyElementMouseClick',source);
+        
         if (!this.currentMode.canRun(new MouseClickAction())) {
-        return;
+            return;
         }
         var val = source.target;
         var tag = this.getTagFromEventHandler(val)

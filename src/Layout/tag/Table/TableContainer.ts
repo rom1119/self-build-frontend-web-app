@@ -15,17 +15,43 @@ import Display from '~/src/Css/Display/Display';
 import Named from '~/src/Unit/Named';
 import TableColumnEl from './elements/TableColumnEl';
 import Table from '../../../../components/tables/Table';
+import BorderSpacing from '../../../Css/Table/BorderSpacing';
 export default abstract class TableContainer extends HtmlTagBlock {
+    
+    protected _borderXSpacing: BorderSpacing = null
+    protected _borderYSpacing: BorderSpacing = null
+    protected _borderXSpacingDefault: boolean = false
+    protected _borderYSpacingDefault: boolean = false
+    
+    get borderXSpacing() {
+        
+        if (this._borderXSpacing) {
+            return this._borderXSpacing.getValue()
+        }
 
-    protected hasFlexGrow = false
-    public turnOnFlexGrow() {
-        this.hasFlexGrow = true
+        return null
+    }
+    
+    get borderYSpacing() {
+        
+        if (this._borderYSpacing) {
+            return this._borderYSpacing.getValue()
+        }
+
+        return null
     }
 
-    public turnOffFlexGrow() {
-        this.hasFlexGrow = false
+    setBorderXSpacing(spacing: BorderSpacing, isDefault?: boolean) {
+        this._borderXSpacing = spacing
+        this._borderXSpacingDefault = isDefault
+    }
+    
+    setBorderYSpacing(spacing: BorderSpacing, isDefault?: boolean) {
+        this._borderYSpacing = spacing
+        this._borderYSpacingDefault = isDefault
     }
 
+    
     getCellByRowIndexAndColIdx(rowIndex: number, colIdx: number): TableCell {
         var k = this.findChildIndexByRowIndex(rowIndex)
 
@@ -89,7 +115,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
         var colLength = table.columns.length
         for (let i = 0; i < colLength; i++) {
             const col = table.columns[i];
-            str += col.widthToRealInject + 'px '
+            str += 'minmax(0px, ' + col.widthToRealInject + 'px) '
             
         }
 
@@ -111,15 +137,16 @@ export default abstract class TableContainer extends HtmlTagBlock {
         var colLength = table.rows.length
         for (let i = 0; i < colLength; i++) {
             const row = table.rows[i];
-            if (this instanceof TableTag) {
-                str += row.heightToRealInject + 'px '
-                
-            } else {
-                if (this.children.indexOf(row.tr) > -1) {
-                    str += row.heightToRealInject + 'px '
+            str += 'minmax(min-content, ' + row.heightToRealInject + 'px) '
 
-                }
-            }
+            // if (this instanceof TableTag) {
+                
+            // } else {
+            //     if (this.children.indexOf(row.tr) > -1) {
+            //         str += row.heightToRealInject + 'px '
+
+            //     }
+            // }
             
         }
 
@@ -249,6 +276,13 @@ export default abstract class TableContainer extends HtmlTagBlock {
         var flex = new Display(Display.GRID, new Named())
         css[flex.getName()] = flex.getValue()
 
+        if (this.borderXSpacing) {
+            css['rowGap'] = this.borderXSpacing
+        }
+        
+        if (this.borderYSpacing) {
+            css['columnGap'] = this.borderYSpacing
+        }
 
 
         return css

@@ -30,11 +30,11 @@ export default class TableColumnSizeController extends SizeElController
         this.mouseDown = true
         let el: TableColumnEl = source.target
         let event = source.event
-        console.log(el.toString());
+        // console.log(el.toString());
         // console.log(el.projectId);
         // console.log(el.children);
         for (const c of el.allChildren) {
-            console.log(c.getHtmlEl());
+            // console.log(c.getHtmlEl());
             
         }
         // console.log(el.cssAccessor.all);

@@ -77,7 +77,25 @@ export default class TableTag extends TableContainer {
     get childrenCells(): TableCell[]
     {
         if (!this.hasTrChild()) {
-            return []
+            var res = []
+            var childrenLen = this.children.length
+            for (var s = 0; s < childrenLen; s++) {
+                var cont = this.children[s]
+                // console.log('cont', cont)
+                var childrenChildLen = cont.children.length
+                for (var m = 0; m < childrenChildLen; m++) {
+
+                    var tr: TableTr = <TableTr>cont.children[m]
+                    // console.log('tr', tr)
+                    for (var i = 0; i < tr.allChildren.length; i++) {
+                        var td = tr.allChildren[i]
+                        res.push(td)
+
+                    }
+
+                }
+            }
+            return res
         }
         
 
@@ -86,9 +104,9 @@ export default class TableTag extends TableContainer {
     
     get gridTemplateColumns()
     {
-        if (!this.hasTrChild()) {
-            return null
-        }
+        // if (!this.hasTrChild()) {
+        //     return null
+        // }
         
 
         return super.gridTemplateColumns
@@ -96,9 +114,9 @@ export default class TableTag extends TableContainer {
     
     get gridTemplateRows()
     {
-        if (!this.hasTrChild()) {
-            return null
-        }
+        // if (!this.hasTrChild()) {
+        //     return null
+        // }
         
 
         return super.gridTemplateRows
@@ -616,8 +634,8 @@ export default class TableTag extends TableContainer {
 
             if (child instanceof TableTr) {
                 if (parent.children.length == 1) {
-                    child.turnOffFlexGrow()
-                    parent.turnOffFlexGrow()
+                    // child.turnOffFlexGrow()
+                    // parent.turnOffFlexGrow()
                     break
                 }
                 if (i === parseInt(index)) {
@@ -626,10 +644,10 @@ export default class TableTag extends TableContainer {
                     // console.error(i)
                     // throw new Error('aaaaaa')
 
-                    child.turnOffFlexGrow()
+                    // child.turnOffFlexGrow()
                 } else {
-                    child.turnOnFlexGrow()
-                    parent.turnOnFlexGrow()
+                    // child.turnOnFlexGrow()
+                    // parent.turnOnFlexGrow()
                 }
             } else if (child instanceof TableContainer) {
                 this.updateHeightStylesForRowOnlyBody(child, index)
@@ -644,18 +662,18 @@ export default class TableTag extends TableContainer {
             if (child instanceof TableTr) {
                 if (parent.children.length == 1) {
                     // throw new Error('aaaaaa')
-                    child.turnOffFlexGrow()
-                    parent.turnOffFlexGrow()
+                    // child.turnOffFlexGrow()
+                    // parent.turnOffFlexGrow()
                     break
                 }
                 if (i === parseInt(index)) {
                     console.error(child)
 
                     // child.initHeight(height)
-                    child.turnOffFlexGrow()
+                    // child.turnOffFlexGrow()
                 } else {
-                    child.turnOnFlexGrow()
-                    parent.turnOnFlexGrow()
+                    // child.turnOnFlexGrow()
+                    // parent.turnOnFlexGrow()
                 }
             } else if (child instanceof TableTBody) {
                 this.updateHeightStylesForRow(child, index)
@@ -669,15 +687,15 @@ export default class TableTag extends TableContainer {
             var child = parent.children[i]
             if (child instanceof TableTr) {
                 if (parent.children.length == 1) {
-                    child.turnOnFlexGrow()
+                    // child.turnOnFlexGrow()
                     break
                 }
                 if (i === parseInt(index)) {
                     // child.initHeight(height)
                     // child.parent.initHeight(height)
-                    child.turnOffFlexGrow()
+                    // child.turnOffFlexGrow()
                 } else {
-                    child.turnOnFlexGrow()
+                    // child.turnOnFlexGrow()
                 }
             } else if (child instanceof TableTHead) {
                 this.updateHeightStylesForRow(child, index)
@@ -692,9 +710,9 @@ export default class TableTag extends TableContainer {
             if (child instanceof TableTr) {
                 if (i === parseInt(index)) {
                     // child.initHeight(height)
-                    child.turnOffFlexGrow()
+                    // child.turnOffFlexGrow()
                 } else {
-                    child.turnOnFlexGrow()
+                    // child.turnOnFlexGrow()
                 }
             } else if (child instanceof TableTFoot) {
                 this.updateHeightStylesForRow(child, index)
@@ -851,86 +869,83 @@ export default class TableTag extends TableContainer {
     updateSeparate(prop?: BorderCollapse, spacing?: BorderSpacing) {
 
         if (this.isCollapsePropertyVal(prop) || !spacing) {            
-            this.recalculateBorderSpacingX(new Pixel(), 0)
-            this.recalculateBorderSpacingY(new Pixel(), 0)
+            this.recalculateBorderSpacingX(null, false)
+            this.recalculateBorderSpacingY(null, false)
         } else if (this.isSeparatePropertyVal(prop)) {
             if (spacing) {
-                this.recalculateBorderSpacingX(spacing.xValUnit, spacing.xVal)
-                this.recalculateBorderSpacingY(spacing.yValUnit, spacing.yVal)
-
-            }
-        }
-    }
-
-    protected setMarginAllRows(children, valUnit: UnitSize, val: number) {
-        for (var i = 0; i < children.length; i++) {
-            var child = children[i]
-
-            if (child instanceof TableTr) {
-                var marginTop = new MarginTopCss(val, valUnit)
-                marginTop.toSaveInApi = false
-                child.updateCssPropertyWithoutModel(marginTop.getName(), marginTop)
-
+                this.recalculateBorderSpacingX(spacing)
+                this.recalculateBorderSpacingY(spacing)
 
             } else {
-                this.setMarginAllRows(child.children, valUnit, val)
+                this.recalculateBorderSpacingX(null, true)
+                this.recalculateBorderSpacingY(null, true)
             }
         }
     }
 
-    protected setMarginXAllCells(children, valUnit: UnitSize, val: number) {
+    // protected setMarginAllRows(children, valUnit: UnitSize, val: number) {
+    //     for (var i = 0; i < children.length; i++) {
+    //         var child = children[i]
 
-        for (var i = 0; i < children.length; i++) {
-            var child = children[i]
+    //         if (child instanceof TableTr) {
+    //             var marginTop = new MarginTopCss(val, valUnit)
+    //             marginTop.toSaveInApi = false
+    //             child.updateCssPropertyWithoutModel(marginTop.getName(), marginTop)
 
-            if (child instanceof TableContainer) {
-                this.setMarginXAllCells(child.children, valUnit, val)
 
-            } else if (child instanceof TableCell) {
-                var marginLeft = new MarginLeftCss(val, valUnit)
-                marginLeft.toSaveInApi = false
-                child.updateCssPropertyWithoutModel(marginLeft.getName(), marginLeft)
+    //         } else {
+    //             this.setMarginAllRows(child.children, valUnit, val)
+    //         }
+    //     }
+    // }
 
-                var isLastColumn = i === children.length - 1
-                if (isLastColumn) {
-                    var marginRight = new MarginRightCss(val, valUnit)
-                    marginRight.toSaveInApi = false
-                    child.updateCssPropertyWithoutModel(marginRight.getName(), marginRight)
-                }
+
+    recalculateBorderSpacingX(spacing: BorderSpacing, isDefault?: boolean) {
+        if (!this.hasTrChild()) {
+            for (var i = 0; i < this.children.length; i++) {
+                var child = this.children[i]
+                child.setBorderXSpacing(spacing, isDefault)
             }
+            // return
         }
+
+        this.setBorderXSpacing(spacing, isDefault)
     }
 
-    recalculateBorderSpacingX(valUnit: UnitSize, val: number) {
-        this.setMarginXAllCells(this.children, valUnit, val)
-    }
-
-    recalculateBorderSpacingY(valUnit: UnitSize, val: number) {
-
-        this.setMarginAllRows(this.children, valUnit, val)
-        var lastColumn = this.findLastRow()
-        if (lastColumn) {
-            var marginBottom = new MarginBottomCss(val, valUnit)
-            marginBottom.toSaveInApi = false
-            lastColumn.updateCssPropertyWithoutModel(marginBottom.getName(), marginBottom)
+    recalculateBorderSpacingY(spacing: BorderSpacing, isDefault?: boolean) {
+        if (!this.hasTrChild()) {
+            for (var i = 0; i < this.children.length; i++) {
+                var child = this.children[i]
+                child.setBorderYSpacing(spacing, isDefault)
+            }
+            // return
         }
+
+        this.setBorderYSpacing(spacing, isDefault)
+        // this.setMarginAllRows(this.children, valUnit, val)
+        // var lastColumn = this.findLastRow()
+        // if (lastColumn) {
+        //     var marginBottom = new MarginBottomCss(val, valUnit)
+        //     marginBottom.toSaveInApi = false
+        //     lastColumn.updateCssPropertyWithoutModel(marginBottom.getName(), marginBottom)
+        // }
     }
 
     get cssList(): any {
         var css = super.cssList
 
-        if (this.hasTrChild()) {
-            var display = new Display(Display.GRID, new Named())
-            css[display.getName()] = display.getValue()
+        var display = new Display(Display.GRID, new Named())
+        css[display.getName()] = display.getValue()
+        // if (this.hasTrChild()) {
 
-        } else {
+        // } else {
 
-            var flex = new Display(Display.FLEX, new Named())
-            css[flex.getName()] = flex.getValue()
+        //     var flex = new Display(Display.FLEX, new Named())
+        //     css[flex.getName()] = flex.getValue()
 
-            var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
-            css[flexDirection.getName()] = flexDirection.getValue()
-        }
+        //     var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
+        //     css[flexDirection.getName()] = flexDirection.getValue()
+        // }
 
         // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
         // css[flexWrap.getName()] = flexWrap.getValue()
@@ -945,18 +960,18 @@ export default class TableTag extends TableContainer {
         if (activeSelector) {
             var cssSelector = activeSelector.cssList
 
-            if (this.hasTrChild()) {
-                var display = new Display(Display.GRID, new Named())
-                cssSelector[display.getName()] = display.getValue()
+            var display = new Display(Display.GRID, new Named())
+            cssSelector[display.getName()] = display.getValue()
+            // if (this.hasTrChild()) {
 
-            } else {
+            // } else {
 
-                var flex = new Display(Display.FLEX, new Named())
-                cssSelector[flex.getName()] = flex.getValue()
+            //     var flex = new Display(Display.FLEX, new Named())
+            //     cssSelector[flex.getName()] = flex.getValue()
     
-                var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
-                cssSelector[flexDirection.getName()] = flexDirection.getValue()
-            }
+            //     var flexDirection = new FlexDirection(FlexDirection.COLUMN, new Named())
+            //     cssSelector[flexDirection.getName()] = flexDirection.getValue()
+            // }
 
             // var flexWrap = new FlexWrap(FlexWrap.WRAP, new Named())
             // cssSelector[flexWrap.getName()] = flexWrap.getValue()
