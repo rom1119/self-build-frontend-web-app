@@ -2,6 +2,7 @@ import TableColumnEl from "~/src/Layout/tag/Table/elements/TableColumnEl";
 import UnitSize from "~/src/Unit/UnitSize";
 import TableTag from '../../../Layout/tag/Table/TableTag';
 import ContentWidthPx from '../ContentWidthPx';
+import TableContentWidthPx from '../TableContentWidthPx';
 
 class ColumnWidth {
 
@@ -20,7 +21,11 @@ export default class TabelColumnsCalculator
 
     constructor(tabel: TableTag) {
         this.tabel = tabel
-        this.tabelContent = new ContentWidthPx(tabel)
+        this.tabelContent = new TableContentWidthPx(tabel)
+    }
+
+    get borderCollapseChanging() {
+        return this.tabel.borderCollapseChanging
     }
 
 
@@ -31,6 +36,7 @@ export default class TabelColumnsCalculator
             return 0
         }
         
+        var a = this.borderCollapseChanging
         
         this.tabelWidth = this.tabelContent.contentSizePx
         var colSizes = this.columnSizes

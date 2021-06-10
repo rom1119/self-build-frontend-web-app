@@ -76,6 +76,9 @@ export default class BorderCollapseProperty extends BaseComputedPropertyManager<
         
         super.updateCssProp(newProp)
         this.value.recalculateRealComputedProperties()
+        this.value.updateLastWidth()
+        this.value.updateLastHeight()
+        this.value.borderCollapseChange()
 
         return newProp.getClearValue()
     }

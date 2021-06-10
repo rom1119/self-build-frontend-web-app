@@ -111,8 +111,12 @@ public mounted()
         this.marginRecalculator.recalculate(this.value)
 
         this.value.updateRealView()
-        this.value.updateLastWidth()
-        this.value.updateLastHeight()
+
+        this.$nextTick(() => {
+            this.value.updateLastWidth()
+            this.value.updateLastHeight()
+
+        })
 
         // console.log('BEFORE CREATOR MODE SET');
         // console.log('AFTER CREATOR MODE SET');

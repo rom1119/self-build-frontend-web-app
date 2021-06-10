@@ -47,6 +47,8 @@ export default class TableTag extends TableContainer {
     isTableTag: boolean = true
 
     heightIsInjectable = true
+    borderCollapseChanging = false
+    borderCollapse = false
 
     protected _columns: TableColumnEl[]
     protected _rows: TableRowEl[]
@@ -68,6 +70,10 @@ export default class TableTag extends TableContainer {
         
         this.tableColumnCalculator = new TabelColumnsCalculator(this)
         this.tableRowCalculator = new TabelRowsCalculator(this)
+    }
+
+    public borderCollapseChange() {
+        this.borderCollapseChanging = !this.borderCollapseChanging
     }
 
     public hasTrChild() {
@@ -871,7 +877,9 @@ export default class TableTag extends TableContainer {
         if (this.isCollapsePropertyVal(prop) || !spacing) {            
             this.recalculateBorderSpacingX(null, false)
             this.recalculateBorderSpacingY(null, false)
+            this.borderCollapse = true
         } else if (this.isSeparatePropertyVal(prop)) {
+            this.borderCollapse = false
             if (spacing) {
                 this.recalculateBorderSpacingX(spacing)
                 this.recalculateBorderSpacingY(spacing)

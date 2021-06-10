@@ -4,6 +4,7 @@ import TableTag from '../../../Layout/tag/Table/TableTag';
 import ContentWidthPx from '../ContentWidthPx';
 import TableRowEl from '../../../Layout/tag/Table/elements/TableRowEl';
 import ContentHeightPx from '../ContentHeightPx';
+import TableContentHeightPx from '../TableContentHeightPx';
 
 class RowHeight {
 
@@ -22,7 +23,11 @@ export default class TabelRowsCalculator
 
     constructor(tabel: TableTag) {
         this.tabel = tabel
-        this.tabelContent = new ContentHeightPx(tabel)
+        this.tabelContent = new TableContentHeightPx(tabel)
+    }
+
+    get borderCollapseChanging() {
+        return this.tabel.borderCollapseChanging
     }
 
 
@@ -33,6 +38,7 @@ export default class TabelRowsCalculator
             return 0
         }
         
+        var a = this.borderCollapseChanging
         
         this.tabelHeight = this.tabelContent.contentSizePx
         var colSizes = this.rowSizes

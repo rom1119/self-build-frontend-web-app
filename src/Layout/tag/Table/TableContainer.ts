@@ -137,7 +137,7 @@ export default abstract class TableContainer extends HtmlTagBlock {
         var colLength = table.rows.length
         for (let i = 0; i < colLength; i++) {
             const row = table.rows[i];
-            str += 'minmax(min-content, ' + row.heightToRealInject + 'px) '
+            str += 'minmax(0px, ' + row.heightToRealInject + 'px) '
 
             // if (this instanceof TableTag) {
                 

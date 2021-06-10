@@ -130,7 +130,7 @@ export default class TableRowEl extends TableElementEl{
     }
 
     get isOverflowContent() {
-        for (const child of this.tr.allChildren) {
+        for (const child of this.tr.children) {
             if (child.isOverflowHeightContent) {
                 return true
             }
@@ -146,16 +146,16 @@ export default class TableRowEl extends TableElementEl{
         //     // child.initHeight(h)
         //
         // }
-        // console.log('table height', this.owner.calcRealContentHeight() )
+        console.log('table height', this.owner.calcRealContentHeight() )
         // console.log('calcContentHeight', this.owner.calcContentHeight() )
         // var diff = this.contentTableDiffRealHeight()
         var currTrHeight = this.lastSetHeightPx
         var diffHeight = h - currTrHeight
 
         // console.log('diff', diff )
-        // console.log('diffHeight', diffHeight )
+        console.log('diffHeight', diffHeight )
         // console.log('RES', (diff - diffHeight + 3) <= 0)
-        // console.log('this.isOverflowHeightContent', this.isOverflowContent )
+        console.log('this.isOverflowHeightContent ====', this.isOverflowContent )
 
         if ((diffHeight) <= 0) {
             if (this.isOverflowContent) {

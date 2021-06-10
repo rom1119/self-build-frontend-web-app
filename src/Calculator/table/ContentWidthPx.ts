@@ -25,12 +25,23 @@ export default class ContentWidthPx {
         var paddingLeft = this.value.paddingLeft.width
         var paddingRight = this.value.paddingRight.width
 
+        // var borderLeft = 0
+        // var borderRight = 0
+        // if (this.value.borderLeft.isEnabled()) {
+        //     borderLeft = Number(this.value.borderLeft.width)
+
+        // }
+        
+        // if (this.value.borderRight.isEnabled()) {
+        //     borderRight = Number(this.value.borderRight.width)
+
+        // }
         // console.log('paddingLeft', paddingLeft);
         // console.log('paddingRight', paddingRight);
 
 
-        return width - paddingLeft - paddingRight
         if (hasBorderBox) {
+            return width - paddingLeft - paddingRight
         }
         
         return width
