@@ -3,8 +3,7 @@ import TableRowEl from "../../elements/TableRowEl";
 import TableCell from "../../TableCell";
 import TableTag from "../../TableTag";
 import TableEditor from "../TableEditor";
-import RowspanContainer from '../../RowspanContainer';
-import RowspanItem from '../../RowspanItem';
+
 import TableContainer from '../../TableContainer';
 import TableTr from '../../TableTr';
 

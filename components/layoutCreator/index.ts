@@ -9,7 +9,6 @@ import HTMLEL from './tag/HTMLEL.vue'
 import HTMLTextNode from './tag/HTMLTextNode.vue'
 import HTMLELEditable from './tag/HTMLELEditable.vue'
 
-import RowspanContainerComponent from './tag/table/RowspanContainerComponent.vue'
 
 import BorderMainComponent from './tag/border/Border.vue'
 import BorderRight from './tag/border/Right.vue'
@@ -39,7 +38,6 @@ Vue.component('html-table-cell-component', HTMLTableCellWrapper)
 Vue.component('html-el', HTMLEL)
 Vue.component('html-text-node', HTMLTextNode)
 Vue.component('html-el-editable', HTMLELEditable)
-Vue.component('rowspan-container-component', RowspanContainerComponent)
 
 // Vue.component('table-column-component', TableColumnComponent)
 // Vue.component('table-row-component', TableRowComponent)

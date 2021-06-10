@@ -220,7 +220,6 @@ import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import SvgTag from "~/src/Layout/tag/SvgTag";
 import BaseComputedPropertyManager from "~/components/computedPropertyManagers/BaseComputedPropertyManager";
 import WidthProperty from "~/components/computedPropertyManagers/impl/ComputedProperty/Content/WidthProperty";
-import RowspanContainer from "~/src/Layout/tag/Table/RowspanContainer";
 
 
 @Component
@@ -271,11 +270,6 @@ export default class BaseHTMLWrapper extends Vue {
         } else if (tag.isTableCellTag) {
             // console.log('html-table-cell-component')
             return 'html-table-cell-component'
-
-        // @ts-ignore
-        } else if (tag instanceof RowspanContainer) {
-            // console.log('html-table-cell-component')
-            return 'rowspan-container-component'
 
         // @ts-ignore
         } else if (!(tag instanceof TextNode)) {
