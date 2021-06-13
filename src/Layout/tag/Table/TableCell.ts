@@ -98,13 +98,13 @@ export default abstract class TableCell extends HtmlTagBlock {
         return Number(this.rowspanAttr.value)
     }
     get isOverflowWidthContent() {
-        if (this.columnElement) {
-            console.log('get isOverflowWidthContent(', this.columnElement.index);
+        // if (this.columnElement) {
+        //     console.log('get isOverflowWidthContent(', this.columnElement.index);
 
-        }
+        // }
         
-        console.log('this.contentWidth.contentSizePx',this.contentWidth.contentSizePx);
-        console.log('this.lastSetWidthContentPx',this.lastSetWidthContentPx);
+        // console.log('this.contentWidth.contentSizePx',this.contentWidth.contentSizePx);
+        // console.log('this.lastSetWidthContentPx',this.lastSetWidthContentPx);
         
         return this.contentWidth.contentSizePx < this.lastSetWidthContentPx - 1
     }

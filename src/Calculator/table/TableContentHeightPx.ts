@@ -13,7 +13,27 @@ export default class TableContentHeightPx extends ContentHeightPx {
     }
     get contentSizePx(): number {
 
-        var baseVal = super.contentSizePx
+        var baseVal = null
+        var hasBorderBox = this.checkBorderBox()
+        var heightFromTag = this.value.height
+        var widthUnitFromTag = this.value.heightUnit
+        var height = this.value.lastSetHeightContentPx
+        // console.log('tabel contentHeightPx heightFromTag', this.value.getDomainTagName(),  heightFromTag);
+        // console.log('tabel contentHeightPx height', height);
+        
+        if (!heightFromTag && !this.returtValIfNotSet) {
+            return null
+        }
+
+        baseVal = height 
+        // if (hasBorderBox) {
+
+        //     // return height - paddingTop - paddingBottom - borderTop - borderBottom
+        // } else {
+
+        // }
+        
+        // return height
         var hasBorderCollapse = (<TableTag>this.value).borderCollapse
 
         if (hasBorderCollapse) {

@@ -14,12 +14,14 @@ export default class ContentHeightPx {
     get contentSizePx(): number {
 
         var hasBorderBox = this.checkBorderBox()
-        var widthFromTag = this.value.height
+        var heightFromTag = this.value.height
         var widthUnitFromTag = this.value.heightUnit
+        // var height = this.value.lastSetHeightContentPx
         var height = this.value.lastSetHeightPx
-        // console.log('tabel contentWidthPx', widthFromTag);
+        // console.log('tabel contentHeightPx heightFromTag', this.value.getDomainTagName(),  heightFromTag);
+        // console.log('tabel contentHeightPx height', height);
         
-        if (!widthFromTag && !this.returtValIfNotSet) {
+        if (!heightFromTag && !this.returtValIfNotSet) {
             return null
         }
 
@@ -39,10 +41,11 @@ export default class ContentHeightPx {
 
             }
 
-            // console.log('paddingLeft', paddingLeft);
-            // console.log('paddingRight', paddingRight);
+            // console.log('paddingLeft', paddingTop);
+            // console.log('paddingRight', paddingBottom);
 
 
+            // return height 
             return height - paddingTop - paddingBottom - borderTop - borderBottom
         }
         

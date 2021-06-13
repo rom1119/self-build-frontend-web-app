@@ -36,11 +36,11 @@ export default class TableTr extends TableContainer {
     }
 
     set rowElement(arg: TableRowEl) {
-        var w = this.parent.cssAccessor.getProperty(Height.PROP_NAME)
-        if (w) {
-            arg.updateCssPropertyWithoutModel(w.getName(), w)
+        // var w = this.parent.cssAccessor.getProperty(Height.PROP_NAME)
+        // if (w) {
+        //     arg.updateCssPropertyWithoutModel(w.getName(), w)
 
-        }
+        // }
         this._rowElement = arg
     }
 

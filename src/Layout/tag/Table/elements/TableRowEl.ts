@@ -146,7 +146,7 @@ export default class TableRowEl extends TableElementEl{
         //     // child.initHeight(h)
         //
         // }
-        console.log('table height', this.owner.calcRealContentHeight() )
+        console.log('table height', this.owner.lastSetHeightPx )
         // console.log('calcContentHeight', this.owner.calcContentHeight() )
         // var diff = this.contentTableDiffRealHeight()
         var currTrHeight = this.lastSetHeightPx
@@ -184,6 +184,9 @@ export default class TableRowEl extends TableElementEl{
 
     public updateCssPropertyWithoutModel(name:string, css: BasePropertyCss) {
 
+        // console.log('TR updateCssPropertyWithoutModel', css);
+        // console.log('TR updateCssPropertyWithoutModel 2', css.getClearValue());
+        
         super.updateCssPropertyWithoutModel(name, css)
         this.tr.updateCssPropertyWithoutModel(name, css)
         if (css instanceof Height) {

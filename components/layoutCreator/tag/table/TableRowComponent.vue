@@ -119,8 +119,8 @@ export default class TableRowComponent extends Vue {
 
     mounted()
     {
-        this.value.setHtmlEl(this.$el)
         this.value.setHtmlElOutsiteHidden(document.getElementById(this.idHiddenEl))
+        this.value.setHtmlEl(this.$el)
 
         // this.value.updateModelComponent()
         // this.value.updateModelComponent()

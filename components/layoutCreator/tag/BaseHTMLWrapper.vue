@@ -678,10 +678,10 @@ export default class BaseHTMLWrapper extends Vue {
         // console.log(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
         // console.log('CREA - COMP - BASE END')
 
-        this.value.setHtmlEl(this.$el)
         this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
         this.value.setHtmlContentEl(document.getElementById(this.value.shortUUID + '-content'))
         this.value.setHtmlElOutsiteHidden(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
+        this.value.setHtmlEl(this.$el)
 
         // this.value.updateModelComponent()
         // this.value.updateModelComponent()

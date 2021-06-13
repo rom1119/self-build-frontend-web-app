@@ -807,6 +807,8 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         }
 
+        // console.log('updateCssPropertyWithoutModel ', this.getDomainTagName(), val);
+        // console.log('updateCssPropertyWithoutModel', this.getDomainTagName(), val.getClearValue());
 
         this.synchronizeCssStyle(val)
 
@@ -845,7 +847,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
 
         if (val instanceof ContentSizeCss) {
+            // console.log('synchronizeCssStyle befo', val.getClearValue());
+            
             this.contentFilter.injectCssProperty(val)
+            // console.log('synchronizeCssStyle after', val.getClearValue());
         }
 
 
@@ -1785,11 +1790,27 @@ export default abstract class HtmlTag extends HtmlNode implements
             // console.log('EL NOT')
             return 0
         }
+
+        var val = this.getHtmlEl().clientWidth
+
+        if (val) {
+            return val
+        }
+
+        return 0
+    }
+
+    getComputedClientHeight(): number {
+        // console.log('getComputedClientWidth', this.getDomainTagName(), this.getHtmlEl())
+        if (!this.getHtmlEl()) {
+            // console.log('EL NOT')
+            return 0
+        }
         // console.log(this.getHtmlElOutsiteHidden())
         // this.getHtmlEl().style[Width.PROP_NAME] = this.getWidthValue()
         
         // var a = window.getComputedStyle(this.getHtmlEl())
-        var val = this.getHtmlEl().clientWidth
+        var val = this.getHtmlEl().clientHeight
         // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
 
         // console.log('EL val', val)
@@ -1800,6 +1821,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         return 0
     }
+    
 
     getComputedOffsetWidthContentEl(): number {
         // console.log('getComputedOffsetWidthContentEl', this.getHtmlContentEl())

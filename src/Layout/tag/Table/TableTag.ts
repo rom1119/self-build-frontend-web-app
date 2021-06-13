@@ -765,7 +765,7 @@ export default class TableTag extends TableContainer {
         for (var i = 0; i < cssAll.length; i++) {
             var prop = cssAll[i]
             if (prop instanceof Width || prop instanceof Height) {
-                let val = this.getComputedCssVal(prop)
+                let val = this.getComputedCssValFromHidden(prop)
                 let clonedCss = prop.deepCopy(prop)
                 clonedCss.setValue(parseInt(val).toString())
                 clonedCss.setUnit(new Pixel())
@@ -999,6 +999,10 @@ export default class TableTag extends TableContainer {
         var css = super.cssBoxList
         var flex = new Display(Display.INLINE_BLOCK, new Named())
         css[flex.getName()] = flex.getValue()
+
+        // if (css[Height.PROP_NAME]) {
+        //     css[MinHeight.PROP_NAME] = css[Height.PROP_NAME]
+        // }
 
         if (!this.heightIsInjectable) {
             delete css[Height.PROP_NAME]

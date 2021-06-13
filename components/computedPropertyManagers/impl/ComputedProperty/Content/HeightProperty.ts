@@ -30,7 +30,7 @@ export default class HeightProperty extends BaseComputedPropertyManager<Height> 
     updateCssProp(prop: Height) {
             super.updateCssProp(prop)
         if (this.value instanceof TableRowEl) {
-                this.value.setHeightRow(prop)
+                this.value.setHeightRow(prop.getClearValue())
             // setTimeout(() => {
             //     // this.recalculate(this.value, prop)
             //

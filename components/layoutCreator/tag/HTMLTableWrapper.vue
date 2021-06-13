@@ -118,8 +118,8 @@ export default class HTMLTableWrapper extends BaseHTMLWrapper {
         // var htmlEl = window.document.getElementById(this.value.uuid)
         // this.value.htmlEl = htmlEl
         // return
-        this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
 
+        this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
         this.value.setHtmlEl(this.$el)
 
         // this.value.updateModelComponent()

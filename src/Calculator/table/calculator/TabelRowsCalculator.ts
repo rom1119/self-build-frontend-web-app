@@ -32,7 +32,7 @@ export default class TabelRowsCalculator
 
 
     get calculated() {
-        // console.log('ROW calculate START');
+        // console.log('%c ROW calculate START', 'background: red;');
         // console.time()
         if (!this.tabel.getHtmlElHidden()) {
             return 0
@@ -49,6 +49,8 @@ export default class TabelRowsCalculator
         
         if (!this.tabelHeight) {
             this.setNormalWidthColumn(colSizes)
+            // console.log('ROW calculate END 1');
+
             return 1
         }
         
@@ -63,6 +65,8 @@ export default class TabelRowsCalculator
             }
 
             this.setNormalWidthColumn(colSizes)
+            // console.log('ROW calculate END 3');
+
             return 3
         }
 
@@ -71,7 +75,7 @@ export default class TabelRowsCalculator
         this.calculateWidthColumns(colSizes, this.tabelHeight)
         // var width: UnitSize = column.getWidthValue()
         // console.timeEnd()
-        // console.log('ROW calculate END ');
+        // console.log('ROW calculate END 2');
 
         return 2
 
@@ -130,6 +134,9 @@ export default class TabelRowsCalculator
             var widthUnitFromTag = row.heightUnit
             var pixelValue = row.getComputedOffsetHeight()
 
+            if (!pixelValue) {
+                continue
+            }
             var el = new RowHeight()
             el.row = row
             el.pixelValue = pixelValue
@@ -157,3 +164,5 @@ export default class TabelRowsCalculator
 
 
 }
+
+
