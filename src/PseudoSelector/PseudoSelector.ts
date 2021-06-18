@@ -16,12 +16,15 @@ import RealPositionCalculator from '../PositionCss/RealPositionCalculator';
 import BaseSelector from '../BaseSelector';
 import SelectorOwner from '../SelectorOwner';
 import SelectorApiService from '../Api/SelectorApiService';
+import BaseMediaQueryCss from '../MediaQuery/BaseMediaQueryCss';
 export default abstract class PseudoSelector extends BaseSelector
 {
 
     selectedByOwner = false
     protected _name
     protected _delimiter = ''
+
+
 
     constructor(owner: HtmlTag) {
         super(<SelectorOwner><unknown>owner)
@@ -34,6 +37,16 @@ export default abstract class PseudoSelector extends BaseSelector
             this._value = this._name
 
         }   
+    }
+
+    getMediaQueryId() {
+        if (this.owner instanceof HtmlTag) {
+            if (this.owner.selectedMedia) {
+                return this.owner.selectedMedia.id
+            }
+        }
+
+        return null
     }
 
     public abstract getName(): string

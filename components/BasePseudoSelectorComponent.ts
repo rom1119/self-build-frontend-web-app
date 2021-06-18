@@ -56,14 +56,14 @@ export default abstract class BasePseudoSelectorComponent extends Vue
     {
 
         for (const manager of this.pseudoClassManagers) {
-            var selector = this.value.pseudoClassAccessor.getSelectorByName(manager.pseudoClass.getName())
+            var selector = this.value.currentPseudoClassAccessor.getSelectorByName(manager.pseudoClass.getName())
             if (selector)  {
                 // console.log('DONE');
                 // console.log(manager.pseudoClass);
                 // console.log(selector);
                 manager.pseudoClass = selector
-                if (this.value.pseudoClassAccessor.selectedSelector) {
-                    if (selector.id === this.value.pseudoClassAccessor.selectedSelector.id) {
+                if (this.value.currentPseudoClassAccessor.selectedSelector) {
+                    if (selector.id === this.value.currentPseudoClassAccessor.selectedSelector.id) {
                         manager.pseudoClass.selectedByOwner = true
                     }
 

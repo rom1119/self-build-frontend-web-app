@@ -24,6 +24,10 @@ export default abstract class SelectorAccessor<T extends BaseSelector>
         this.selectedSelector = null
     }
 
+    get ownerId() {
+        return this.tag.uuid
+    }
+
     public removeByName(name: string) {
         let propsIndex = null
 

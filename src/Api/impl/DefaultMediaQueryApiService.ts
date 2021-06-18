@@ -33,8 +33,11 @@ import MediaQueryResponse from "~/types/response/MediaQueryResponse";
 import DefaultMediaQueryToModel from "~/src/Transformer/impl/DefaultMediaQueryToModel";
 import MediaQueryModelBuildResponse from "~/src/ModelFromResponseBuilder/impl/MediaQueryModelBuildResponse";
 import MediaQuery from "../MediaQuery";
+import SelectorApiService from '../SelectorApiService';
+import PseudoSelector from '../../PseudoSelector/PseudoSelector';
+import DefaultApiService from './DefaultApiService';
 
-export default class DefaultMediaQueryApiService implements MediaQueryApiService
+export default class DefaultMediaQueryApiService implements MediaQueryApiService, SelectorApiService
 {
     static HOST = 'http://localhost:8080'
 
@@ -45,6 +48,9 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
     private mediaQueryModelToResponse: ResponseFromModel<MediaQuery, MediaQueryResponse>
 
 
+    private selectorDomainToModelTransformer: SelectorToModel
+    private selectorModelToResponse: ResponseFromModel<Selector, SelectorResponse>
+
 
     private cssFromName: CssPropertyFactoryFromName
 
@@ -54,6 +60,9 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
 
         this.mediaQueryDomainToModelTransformer = new DefaultMediaQueryToModel()
         this.mediaQueryModelToResponse = new MediaQueryModelBuildResponse()
+
+        this.selectorDomainToModelTransformer = new DefaultSelectorToModel()
+        this.selectorModelToResponse = new SelectorModelBuildResponse()
 
         this.cssFromName = new CssPropertyFactoryFromName()
 
@@ -106,5 +115,49 @@ export default class DefaultMediaQueryApiService implements MediaQueryApiService
         return Axios.delete(DefaultMediaQueryApiService.HOST + `/api/media-query/${arg.id}`)
     }
 
+    appendSelector(selector: PseudoSelector): Promise<any> {
+        let model = this.selectorDomainToModelTransformer.transform(selector)
+        let response = this.selectorModelToResponse.build(model)
+
+        return new Promise((resolve, reject) => {
+            Axios.post(DefaultApiService.HOST + `/api/media-query/${selector.getMediaQueryId()}/append-selector/for-tag/${selector.owner.uuid}`, response).then(
+                (res) => {
+                    let data: SelectorResponse = res.data
+                    selector.id = data.id
+                    for (const cssRes of data.cssStyleList) {
+                        for (const cssDomain of selector.cssAccessor.all) {
+                            if (cssDomain.getName() === cssRes.name) {
+                                cssDomain.id = cssRes.id
+                            }
+                        }
+                    }
+
+                    resolve(res)
+
+
+                },
+                () => {
+                    reject()
+
+                },
+            )
+
+        })
+
+    }
+
+
+
+    putSelector(selector: PseudoSelector): Promise<any> {
+        let model = this.selectorDomainToModelTransformer.transform(selector)
+        let response = this.selectorModelToResponse.build(model)
+
+        return Axios.put(DefaultApiService.HOST + `/api/pseudo-selector/${selector.id}`, response)
+
+    }
+
+    deleteSelector(selector: PseudoSelector): Promise<any> {
+        return Axios.delete(DefaultApiService.HOST + `/api/pseudo-selector/${selector.id}`)
+    }
 
 }

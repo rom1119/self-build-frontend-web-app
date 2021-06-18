@@ -817,7 +817,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     public synchronizeAllCssStyles()
     {
-        var accesor = this.getCurrentCssAccessor()
+        var accesor = this.currentCssAccessor
 
         for(var el of accesor.all) {
             this.synchronizeCssStyle(el)
@@ -1147,8 +1147,8 @@ export default abstract class HtmlTag extends HtmlNode implements
     recalculateRealComputedProperties()
     {
         var cssAll = this.cssAccessor.all
-        if (this.getCurrentCssAccessor()) {
-            cssAll = this.getCurrentCssAccessor().all
+        if (this.currentCssAccessor) {
+            cssAll = this.currentCssAccessor.all
             // console.log('recalculateRealComputedProperties', this.getCurrentCssAccessor())
             // console.log('med', this.selectedMedia)
         }
@@ -2185,10 +2185,16 @@ export default abstract class HtmlTag extends HtmlNode implements
             return this.pseudoElementAccessor.selectedSelector
         }
 
+        if (this.selectedMedia) {
+            if (this.cssListMediaOwner.selectedSelector) {
+                return this.cssListMediaOwner.selectedSelector
+            }
+        }
+
         return null
     }
 
-    getCurrentCssAccessor()
+    get currentCssAccessor()
     {
         var activeSelector = this.selectedSelector
 
@@ -2197,10 +2203,24 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
 
         if (this.selectedMedia) {
+            if (this.cssListMediaOwner.selectedSelector) {
+                return this.cssListMediaOwner.selectedSelector.cssAccessor
+            }
             return this.cssListMediaOwner.currentCssList
         }
 
         return this.cssAccessor
+
+    }
+
+    get currentPseudoClassAccessor()
+    {
+
+        if (this.selectedMedia) {
+            return this.cssListMediaOwner.currentPseudoClasses
+        }
+
+        return this.pseudoClassAccessor
 
     }
 

@@ -11,6 +11,8 @@
             @selectPseudoSelector="onSelectPseudoClass"
             @close="selectorsShow = false"
             :value="tag"
+            :styles="{left: '-300%'}"
+
           />
         </div>
       </div>

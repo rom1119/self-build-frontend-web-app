@@ -22,6 +22,7 @@ import BaseMediaQueryComponent from "~/components/BaseMediaQueryComponent";
 import TagResource from '~/src/Css/TagResource';
 import ImgTag from '~/src/Layout/tag/ImgTag';
 import SvgTag from '~/src/Layout/tag/SvgTag';
+import SelectorOwner from '../../SelectorOwner';
 export default class DefaultModelToDomain implements ModelToDomain
 {
     private htmlTagFactory: HtmlTagFactoryFromName
@@ -46,11 +47,10 @@ export default class DefaultModelToDomain implements ModelToDomain
 
     buildRecursive(model: TagDto, parent: HtmlTag): LayoutEl
     {
-        var domain
 
 
         if (model.isTextNode) {
-            domain = this.htmlTagFactory.createText()
+            var domain: TextNode = this.htmlTagFactory.createText()
             domain.uuid  = model.id
             domain.shortUUID  = model.shortUUID
             domain.version  = model.version
@@ -67,37 +67,38 @@ export default class DefaultModelToDomain implements ModelToDomain
                 // }
                 // domain.parent = parent
             }
+            return domain
         } else {
             var tagname = model.tagName
             if (tagname == 'input') {
                 tagname += '-' + model.attrs.type.value
             }
-            domain = this.htmlTagFactory.create(tagname)
-            console.log('build domain', BaseMediaQueryComponent.accessorStatic)
-            domain.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+            var domainTag: HtmlTag = this.htmlTagFactory.create(tagname)
+            console.log('build domainTag', BaseMediaQueryComponent.accessorStatic)
+            domainTag.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
-            if (domain instanceof ImgTag) {
+            if (domainTag instanceof ImgTag) {
                 // model.setResourcePath()
-                // model.setResourceUrl(domain.getResourceUrl())
+                // model.setResourceUrl(domainTag.getResourceUrl())
 
                 // @ts-ignore
-                domain.srcAttr.setResource(model.getResourcePath())
+                domainTag.srcAttr.setResource(model.getResourcePath())
                 // @ts-ignore
-                domain.srcAttr.setResourceUrl(model.getResourceUrl())
+                domainTag.srcAttr.setResourceUrl(model.getResourceUrl())
                 
             }
 
-            if (domain instanceof SvgTag) {
-                domain.setSvgContent(model.getSvgContent())
+            if (domainTag instanceof SvgTag) {
+                domainTag.setSvgContent(model.getSvgContent())
             }
         
-            domain.uuid  = model.id
-            domain.shortUUID  = model.shortUUID
-            domain.version  = model.version
-            domain.projectId  = model.projectId
-            domain.text  = model.text
+            domainTag.uuid  = model.id
+            domainTag.shortUUID  = model.shortUUID
+            domainTag.version  = model.version
+            domainTag.projectId  = model.projectId
+            // domainTag.text  = model.text
 
-            domain.isClosingTag  = model.isClosingTag
+            domainTag.isClosingTag  = model.isClosingTag
             // console.log('LLLLLLLLLLLLL');
             // console.log(model);
             
@@ -108,38 +109,52 @@ export default class DefaultModelToDomain implements ModelToDomain
                     // console.log(style);
 
                     if (subModel.mediaQueryId) {
-                        domain.cssListMediaOwner.addCssForMedia(subModel, subModel.mediaQueryId)
+                        domainTag.cssListMediaOwner.addCssForMedia(subModel, subModel.mediaQueryId)
                     } else {
-                        if (domain.cssAccessor.hasCssProperty(subModel.getName())) {
-                            domain.cssAccessor.setNewPropertyValue(subModel.getName(), subModel)
+                        if (domainTag.cssAccessor.hasCssProperty(subModel.getName())) {
+                            domainTag.cssAccessor.setNewPropertyValue(subModel.getName(), subModel)
 
                         } else {
-                            domain.cssAccessor.addNewProperty(subModel)
+                            domainTag.cssAccessor.addNewProperty(subModel)
 
                         }
 
                     }
-                    // domain..push(subModel)
-                    domain.updateModelComponent()
+                    // domainTag..push(subModel)
+                    domainTag.updateModelComponent()
                 }
 
-                domain.synchronizeAllCssStyles()
+                domainTag.synchronizeAllCssStyles()
             }
 
             if (model.selectors) {
-                for (const style of model.selectors) {
-                    let subModel = this.selectorTransformer.transform(style, domain)
-                    // domain = <HtmlTag>domain
-                    if (subModel instanceof PseudoClass) {
-                        domain.pseudoClassAccessor.addNewSelector(subModel)
-                    } else if (subModel instanceof PseudoElement) {
-                        domain.pseudoElementAccessor.addNewSelector(subModel)
+                for (const selector of model.selectors) {
+                    let subModel = this.selectorTransformer.transform(selector, <SelectorOwner><unknown>domainTag)
+                    if (selector.mediaQueryId) {
+                        if (subModel instanceof PseudoClass) {
+                            domainTag.cssListMediaOwner.addPseudoClassForMedia(subModel, selector.mediaQueryId)
 
+                        } else if (subModel instanceof PseudoElement) {
+                            domainTag.cssListMediaOwner.addPseudoElementForMedia(subModel, selector.mediaQueryId)
+    
+                        } else {
+                            throw new Error('Can not add selector for another instance for object ' + subModel.getName())
+                        }
                     } else {
-                        throw new Error('Can not add selector for another instance for object ' + subModel.getName())
+                        if (subModel instanceof PseudoClass) {
+                            domainTag.pseudoClassAccessor.addNewSelector(subModel)
+                        } else if (subModel instanceof PseudoElement) {
+                            domainTag.pseudoElementAccessor.addNewSelector(subModel)
+    
+                        } else {
+                            throw new Error('Can not add selector for another instance for object ' + subModel.getName())
+                        }
+
                     }
-                    // domain..push(subModel)
-                    domain.updateModelComponent()
+                    
+                    // domainTag = <HtmlTag>domainTag
+                    // domainTag..push(subModel)
+                    domainTag.updateModelComponent()
                 }
             }
 
@@ -154,31 +169,31 @@ export default class DefaultModelToDomain implements ModelToDomain
                     attrNew.setValue(val)
 
 
-                    domain.attributeAccessor.addNewAttribute(attrNew)
-                    // domain.updateCssPropertyWithoutModel(subModel.getName(), subModel)
-                    // domain..push(subModel)
+                    domainTag.attributeAccessor.addNewAttribute(attrNew)
+                    // domainTag.updateCssPropertyWithoutModel(subModel.getName(), subModel)
+                    // domainTag..push(subModel)
                 }
             }
 
-            // this.recalculate(domain)
+            // this.recalculate(domainTag)
             if (parent) {
-                domain.parent = parent
-                domain.projectId = parent.projectId
-                parent.addChild(domain)
-                // domain.parent = parent
+                domainTag.parent = parent
+                domainTag.projectId = parent.projectId
+                parent.addChild(domainTag)
+                // domainTag.parent = parent
             }
 
             if (model.children) {
                 for (const el of model.children) {
-                    this.buildRecursive(el, domain)
+                    this.buildRecursive(el, domainTag)
                 }
             }
 
+            return domainTag
         }
 
 
-
-        return domain
+        throw Error('can not create Domain Html from model')
     }
 
     // private recalculate(tag: HtmlTag)

@@ -18,6 +18,14 @@ import Named from "~/src/Unit/Named";
 import UnitColor from "~/src/Unit/UnitColor";
 import {reject} from "~/node_modules/@types/q";
 import CssOwner from '../CssOwner';
+import PseudoClassPropertyAccessor from '../Css/PropertyAccessor/pseudoSelector/PseudoClassPropertyAccessor';
+import PseudoElementPropertyAccessor from '../Css/PropertyAccessor/pseudoSelector/PseudoElementPropertyAccessor';
+import SelectorOwner from '../SelectorOwner';
+import FilterCssInjector from '../FilterCssInjector';
+import RealPositionCalculator from '../PositionCss/RealPositionCalculator';
+import { VueFixStyleListTransform } from '../Vue/VueFixStyleListTransform';
+import DefaultMediaQueryApiService from '../Api/impl/DefaultMediaQueryApiService';
+import BasePropertyCss from '../Css/BasePropertyCss';
 
 
 export class MediaQueryStructVal implements CssValue {
@@ -198,10 +206,23 @@ export class MediaQueryStructVal implements CssValue {
 }
 
 
-export default abstract class BaseMediaQueryCss implements CssMultipleValue<MediaQueryStructVal>, CssOwner
+export default abstract class BaseMediaQueryCss implements CssMultipleValue<MediaQueryStructVal>, CssOwner, SelectorOwner
 {
 
     id
+    
+    shortUUID: string
+
+    hasAbsolute: boolean
+    hasFixed: boolean
+    
+    paddingFilter: FilterCssInjector
+    marginFilter: FilterCssInjector
+    borderFilter: FilterCssInjector
+    contentFilter: FilterCssInjector
+
+    realPositionCalculator: RealPositionCalculator
+    transformStyleList: VueFixStyleListTransform
     projectId
     name = 'sm'
     color: any = 'red'
@@ -213,10 +234,61 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
 
     isSelected = false
 
-    api: MediaQueryApiService
+    api: DefaultMediaQueryApiService
     synchronizer: MediaQuerySynchronizer
+    protected _pseudoClassAccessor: PseudoClassPropertyAccessor
+    protected _pseudoElementAccessor: PseudoElementPropertyAccessor
 
 
+    constructor() {
+        this._pseudoClassAccessor = new PseudoClassPropertyAccessor(this)
+        this._pseudoElementAccessor = new PseudoElementPropertyAccessor(this)
+    }
+    canAddToCssList(prop: BasePropertyCss): boolean {
+        throw new Error('Method not implemented.');
+    }
+    isLikeBackgroundCss(prop: BasePropertyCss): boolean {
+        throw new Error('Method not implemented.');
+    }
+    notifyPositionalTag() {
+        throw new Error('Method not implemented.');
+    }
+
+    get pseudoClassAccessor(): PseudoClassPropertyAccessor
+    {
+        return this._pseudoClassAccessor
+    }
+
+    get uuid() {
+        return this.id
+    }
+    get pseudoElementAccessor(): PseudoElementPropertyAccessor
+    {
+        return this._pseudoElementAccessor
+    }
+
+    get selectedSelector() : BaseSelector {
+
+        
+        if (this.pseudoClassAccessor.selectedSelector) {
+            return this.pseudoClassAccessor.selectedSelector
+        }
+
+        // if (this.pseudoElementAccessor.selectedSelector) {
+        //     return this.pseudoElementAccessor.selectedSelector
+        // }
+
+        return null
+    }
+
+    getCurrentCssAccessor() {
+
+        var activeSelector = this.selectedSelector
+
+        if (activeSelector) {
+            return activeSelector.cssAccessor
+        }
+    }
     activate() {
         this.isSelected = true
     }
@@ -225,7 +297,7 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
         this.isSelected = false
     }
 
-    public setApi(api: MediaQueryApiService)
+    public setApi(api: DefaultMediaQueryApiService)
     {
         this.api = api
         this.synchronizer = new MediaQuerySynchronizer(this, api)

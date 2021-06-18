@@ -759,8 +759,8 @@ export default class TableTag extends TableContainer {
         var cssAll = this.cssAccessor.all
         var borderSpacing
         var borderCollapse
-        if (this.getCurrentCssAccessor()) {
-            cssAll = this.getCurrentCssAccessor().all
+        if (this.currentCssAccessor) {
+            cssAll = this.currentCssAccessor.all
         }
         for (var i = 0; i < cssAll.length; i++) {
             var prop = cssAll[i]

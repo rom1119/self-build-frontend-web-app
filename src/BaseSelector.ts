@@ -26,6 +26,7 @@ export default abstract class BaseSelector implements CssOwner
 {
     id
     projectId
+    mediaQueryId = null
     protected _version
     protected _active
     protected _value
@@ -109,6 +110,14 @@ export default abstract class BaseSelector implements CssOwner
         return this._tmpCssPropertyAccesor
     }
 
+    // get currentCssAccessor() {
+    //     if (this.mediaQueryId) {
+    //         this.cssListMediaOwner.addCssForMedia(subModel, subModel.mediaQueryId)
+    //     } else {
+    //         domain.setCss(subModel)
+
+    //     }
+    // }
 
 
     public setCss(css: BasePropertyCss)
@@ -192,9 +201,9 @@ export default abstract class BaseSelector implements CssOwner
     public getPropertyCss(prop: string)
     {
             console.log('getPropertyCss SEL', prop, this.selectedMedia)
-        if (this.selectedMedia) {
-            return this.cssListMediaOwner.getProperty(prop)
-        }
+        // if (this.selectedMedia) {
+        //     return this.cssListMediaOwner.getProperty(prop)
+        // }
 
         return this.cssAccessor.getProperty(prop)
     }
@@ -202,35 +211,35 @@ export default abstract class BaseSelector implements CssOwner
     public removeCssPropertyByName(propName: string)
     {
         // super.removeCssProperty(prop)
-        if (this.selectedMedia) {
-            this.cssListMediaOwner.removePropWithName(propName)
-        } else {
-            this.cssAccessor.removePropWithName(propName);
-            var prop = this.tmpCssAccessor.getProperty(propName);
-            if (prop) {
-                prop.id = null
-                prop.setActive(false)
-            }
-
+        // if (this.selectedMedia) {
+        //     this.cssListMediaOwner.removePropWithName(propName)
+        // } else {
+            
+        // }
+        this.cssAccessor.removePropWithName(propName);
+        var prop = this.tmpCssAccessor.getProperty(propName);
+        if (prop) {
+            prop.id = null
+            prop.setActive(false)
         }
         this.synchronize()
     }
 
     public updateTmpCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
     {
-        if (this.selectedMedia) {
-            this.cssListMediaOwner.setNewValCssForMediaTmp(val)
+        // if (this.selectedMedia) {
+        //     this.cssListMediaOwner.setNewValCssForMediaTmp(val)
+        // } else {
+            
+        // }
+        if (!this.tmpCssAccessor.hasCssProperty(val.getName())) {
+            this.tmpCssAccessor.addNewProperty(val)
         } else {
-            if (!this.tmpCssAccessor.hasCssProperty(val.getName())) {
-                this.tmpCssAccessor.addNewProperty(val)
-            } else {
-                let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
-                if (currentBackground.getValue() === val.getValue()) {
-                    // return
-                }
-                this.tmpCssAccessor.setNewPropertyValue(propName, val)
+            let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
+            if (currentBackground.getValue() === val.getValue()) {
+                // return
             }
-
+            this.tmpCssAccessor.setNewPropertyValue(propName, val)
         }
     }
 
@@ -238,21 +247,21 @@ export default abstract class BaseSelector implements CssOwner
     {
         // console.log('UUUUUUU');
         // console.log(val.getValue());
-        if (this.selectedMedia) {
-            this.cssListMediaOwner.setNewValCssForMedia(val)
+        // if (this.selectedMedia) {
+        //     this.cssListMediaOwner.setNewValCssForMedia(val)
+        // } else {
+            
+        // }
+        if (!this.cssAccessor.hasCssProperty(val.getName())) {
+            this.cssAccessor.addNewProperty(val)
         } else {
-            if (!this.cssAccessor.hasCssProperty(val.getName())) {
-                this.cssAccessor.addNewProperty(val)
-            } else {
-                let currentBackground = this.cssAccessor.getProperty(val.getName())
-                // console.log(currentBackground.getValue());
+            let currentBackground = this.cssAccessor.getProperty(val.getName())
+            // console.log(currentBackground.getValue());
 
-                if (currentBackground.getValue() === val.getValue()) {
-                    // return
-                }
-                this._cssPropertyAccesor.setNewPropertyValue(propName, val)
+            if (currentBackground.getValue() === val.getValue()) {
+                // return
             }
-
+            this._cssPropertyAccesor.setNewPropertyValue(propName, val)
         }
 
 
@@ -264,9 +273,9 @@ export default abstract class BaseSelector implements CssOwner
     getCurrentCssAccessor()
     {
 
-        if (this.selectedMedia) {
-            return this.cssListMediaOwner.currentCssList
-        }
+        // if (this.selectedMedia) {
+        //     return this.cssListMediaOwner.currentCssList
+        // }
 
         return this.cssAccessor
 
@@ -317,13 +326,13 @@ export default abstract class BaseSelector implements CssOwner
         var cssFormAccessor = this._cssPropertyAccesor.all
 
             console.log('cssList SELEC', this.getName())
-        if (this.selectedMedia) {
-            // var css = {}
-            console.log(this.selectedMedia)
-            console.log(this.cssListMediaOwner.currentCssList)
-            console.log(this.cssListMediaOwner.currentCssList.all)
-            cssFormAccessor = this.cssListMediaOwner.currentCssList.all
-        }
+        // if (this.selectedMedia) {
+        //     // var css = {}
+        //     console.log(this.selectedMedia)
+        //     console.log(this.cssListMediaOwner.currentCssList)
+        //     console.log(this.cssListMediaOwner.currentCssList.all)
+        //     cssFormAccessor = this.cssListMediaOwner.currentCssList.all
+        // }
         for (const cssProp of cssFormAccessor) {
             if (!this.owner.canAddToCssList(cssProp)) {
                 continue

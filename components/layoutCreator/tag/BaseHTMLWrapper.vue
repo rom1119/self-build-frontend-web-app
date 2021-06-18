@@ -615,15 +615,6 @@ export default class BaseHTMLWrapper extends Vue {
         if (this.propBoxClass) {
             res += this.propBoxClass
         }
-        // @ts-ignore
-        if (this.value.isOverflowWidthContent) {
-            res += ' red-bg'
-        }
-        
-        // @ts-ignore
-        if (this.value.isOverflowHeightContent) {
-            res += ' green-shadow'
-        }
 
         return res
 

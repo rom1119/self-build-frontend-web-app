@@ -21,9 +21,24 @@
         </div>
 
         <div class="sidebar_tool__content">
- 
+          
           <div  class="sidebar_tool__content-item">
-            <component :is="currentComponentName" v-if="accualActiveEl"  :autoUpdate="true"  :activeTag="accualActiveEl" />
+            <div class="sidebar_tool__controls" v-if="accualActiveEl && active">
+              <span class="btn" @click.stop="selectorsShow = !selectorsShow">
+                Pseudo class 
+              </span>
+              <pseudo-selector-component
+                v-if="selectorsShow && accualActiveEl"
+                @selectPseudoSelector="onChangePseudoSelector"
+                @close="selectorsShow = false"
+                :value="accualActiveEl"
+                :styles="{left: '-70px'}"
+              />
+            </div>
+            
+              <component :is="currentComponentName" ref="manageComponent" v-if="accualActiveEl"  :autoUpdate="true"  :activeTag="accualActiveEl" />
+                
+              
           </div>
         </div>
 
@@ -34,13 +49,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import base64 from "base-64";
 import { SidebarMenu } from "vue-sidebar-menu";
 import DefaultActiveToManageController from "~/src/Controller/DefaultActiveToManageController";
 import TextManageComponent from "~/components/manageComponent/component/TextManageComponent.vue";
 import ImgTag from "~/src/Layout/tag/ImgTag";
 import SvgTag from "~/src/Layout/tag/SvgTag";
+import AbstractManageComponent from "./manageComponent/AbstractManageComponent";
 
 @Component({
   components: {
@@ -50,7 +66,7 @@ import SvgTag from "~/src/Layout/tag/SvgTag";
 export default class LayoutTagToolSidebar extends Vue {
   active = true
   currentComponentName = ''
-
+  selectorsShow = false
   
   tabs = [
     {
@@ -105,8 +121,38 @@ export default class LayoutTagToolSidebar extends Vue {
   isImgTag = false
   isSvgTag = false
 
+  $refs: {
+      manageComponent: AbstractManageComponent
+
+  }
+
   mounted() {
     this.currentComponentName = 'text-manage-component'
+  }
+
+  @Watch('accualActiveEl.selectedSelector')
+  updateTagSelector() {
+    if (this.$refs.manageComponent) {
+      this.$refs.manageComponent.onChangePseudoSelector()
+
+    }
+  }
+  
+  @Watch('accualActiveEl.currentCssAccessor')
+  updateCssAccessor() {
+    if (this.$refs.manageComponent) {
+      this.$refs.manageComponent.onChangePseudoSelector()
+
+    }
+  }
+
+  onChangePseudoSelector(e)
+  {
+    console.log('onChangePseudoSelector asdasd');
+    console.log(e);
+    
+      this.$refs.manageComponent.onChangePseudoSelector()
+
   }
 
   canSelectTab(componentName) {

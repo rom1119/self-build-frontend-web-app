@@ -1,6 +1,6 @@
 <template >
 
-    <div class="abs white">
+    <div class="abs white" :style="styles">
     
         <header class="headers-selec">
             <div class="close">
@@ -8,6 +8,15 @@
             </div>
             <h2 class="title">
                 Pseudo selectors
+                <span v-if="this.value">
+                    <template v-if="this.value.currentPseudoClassAccessor.mediaQuery">
+                        <span>
+                            {{ value.currentPseudoClassAccessor.mediaQuery.id }}
+                        </span>
+                            
+
+                    </template>
+                </span>
             </h2>
         </header>
         <section class="content">
@@ -16,7 +25,7 @@
             
             :class="{'active': isAdded(manager), 'current': manager.pseudoClass.selectedByOwner}">
                 <div class="selector-name">
-                    {{ manager.pseudoClass.getName() }}
+                    {{ manager.pseudoClass.getName() }} - {{ manager.pseudoClass.id }}
                 </div>
                 <div class="btn-check">
                     <button @click.stop="toggleManager(manager)" >
@@ -58,6 +67,9 @@ import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
         @Prop({default: null, required: false})
         value: HtmlTag
         
+        @Prop({default: null, required: false})
+        styles: any
+        
         
         pseudoClasses: PseudoClass[] = []
 
@@ -80,20 +92,27 @@ import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
 
         isSelected(manager: PseudoClassManager)
         {
-            if (!this.value.pseudoClassAccessor.selectedSelector) {
+            if (!this.value.currentPseudoClassAccessor.selectedSelector) {
                 return false
             }
-            return this.value.pseudoClassAccessor.selectedSelector.id === manager.pseudoClass.id
+            return this.value.currentPseudoClassAccessor.selectedSelector.id === manager.pseudoClass.id
         }
         
         isAdded(manager: PseudoClassManager)
         {
-            return this.value.pseudoClassAccessor.getSelectorByName(manager.pseudoClass.getName()) != null
+            return this.value.currentPseudoClassAccessor.getSelectorByName(manager.pseudoClass.getName()) != null
         }
 
         addRemovePseudoClass(arg: PseudoClassManager){
-            var selectorById = this.value.pseudoClassAccessor.getSelectorById(arg.pseudoClass.id)
+            var selectorById = this.value.currentPseudoClassAccessor.getSelectorById(arg.pseudoClass.id)
             if (selectorById) {
+                if (this.value.currentPseudoClassAccessor.selectedSelector) {
+                    if (arg.pseudoClass.id === this.value.currentPseudoClassAccessor.selectedSelector.id) {
+                        this.value.currentPseudoClassAccessor.selectedSelector.selectedByOwner = false
+                        this.value.currentPseudoClassAccessor.selectedSelector = null
+
+                    }
+                }
                 arg.removeSelector()
             } else {
                 arg.addSelector()
@@ -106,9 +125,9 @@ import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
                 return
             }
             if (!arg.pseudoClass.selectedByOwner) { 
-                if (this.value.pseudoClassAccessor.selectedSelector) {
-                    this.value.pseudoClassAccessor.selectedSelector.selectedByOwner = false
-                    this.value.pseudoClassAccessor.selectedSelector = null
+                if (this.value.currentPseudoClassAccessor.selectedSelector) {
+                    this.value.currentPseudoClassAccessor.selectedSelector.selectedByOwner = false
+                    this.value.currentPseudoClassAccessor.selectedSelector = null
                 }
 
                 arg.activateSelector()
@@ -119,12 +138,12 @@ import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
 
             }
 
-            this.$emit('selectPseudoSelector', this.value.pseudoClassAccessor.selectedSelector)
+            this.$emit('selectPseudoSelector', this.value.currentPseudoClassAccessor.selectedSelector)
         }
         
         mounted()
         {
-            console.log('mounted');
+            console.log('%c mounted PseudoSelectorComponent', 'background: aqua;');
             // this.show(this.value)
         }
 
@@ -187,10 +206,10 @@ import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
         //     this.widthManager.updateCssProp(this.widthManager.getProperty())             
         // }        
 
-        @Watch('pagination.page', {deep: false, immediate: false})
-        async onPaginationChange(e)
+        @Watch('value.currentPseudoClassAccessor', {deep: false, immediate: false})
+        async onPseudOClassChange(e)
         {
-           
+           this.show(this.value)
         }
 
     }
@@ -232,7 +251,6 @@ import BasePseudoSelectorComponent from './BasePseudoSelectorComponent';
 
     .white {
         background-color: white;
-        left: -300%;
         width: 200px;
     }
 

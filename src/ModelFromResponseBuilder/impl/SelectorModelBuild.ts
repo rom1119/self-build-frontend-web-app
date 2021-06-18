@@ -29,6 +29,7 @@ export default class SelectorModelBuild implements ModelFromResponse<SelectorRes
         model.name = from.name
         model.value = from.value
         model.delimiter = from.delimiter
+        model.mediaQueryId = from.mediaQueryId
         model.version = from.version
 
         model.unitName = from.unitName

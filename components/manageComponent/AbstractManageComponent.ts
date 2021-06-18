@@ -22,6 +22,8 @@ export default abstract class AbstractManageComponent extends Vue
         super()
     }
 
+    public abstract onInitTag()
+
     setAutoSave(arg) {
         this.autoSaving = arg
         for (const manager of this.managers) {
@@ -74,7 +76,7 @@ export default abstract class AbstractManageComponent extends Vue
             return ''
         }
         console.log('prop', prop);
-        let oldProp = this.value.cssAccessor.getProperty(prop)
+        let oldProp = this.value.currentCssAccessor.getProperty(prop)
         
         if (oldProp) {
             return oldProp.getValue()
@@ -87,7 +89,7 @@ export default abstract class AbstractManageComponent extends Vue
         if (!this.value) {
             return null
         }
-        return this.value.cssAccessor.getProperty(prop)
+        return this.value.currentCssAccessor.getProperty(prop)
     }
     
     protected getPropertyUnitFromModel(prop: string)
@@ -95,7 +97,7 @@ export default abstract class AbstractManageComponent extends Vue
         if (!this.value) {
             return null
         }
-        let oldProp = this.value.cssAccessor.getProperty(prop)
+        let oldProp = this.value.currentCssAccessor.getProperty(prop)
         if (oldProp) {
             return oldProp.getUnit()
         }
@@ -107,8 +109,8 @@ export default abstract class AbstractManageComponent extends Vue
         if (!this.value) {
             return false
         }
-        if (!this.value.cssAccessor.hasCssProperty(newCssProp.getName())) {
-            this.value.cssAccessor.addNewProperty(newCssProp)
+        if (!this.value.currentCssAccessor.hasCssProperty(newCssProp.getName())) {
+            this.value.currentCssAccessor.addNewProperty(newCssProp)
 
         } else {
             this.value.updateCssProperty(newCssProp.getName(), newCssProp)

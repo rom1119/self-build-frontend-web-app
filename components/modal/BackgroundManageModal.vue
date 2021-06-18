@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import "vue-cal/dist/vuecal.css";
 import HtmlTag from "../../src/Layout/HtmlTag";
 import AbstractModal from "../AbstractModal";
@@ -48,6 +48,12 @@ export default class BackgroundManageModal extends AbstractModal {
   mounted() {
       // this.$refs.manageComponent = null
   }
+
+  // @Watch('value.selectedSelector')
+  // updateTagSelector() {
+  //     this.$refs.manageComponent.onChangePseudoSelector()
+  // }
+
   onChangePseudoSelector()
   {
       this.$refs.manageComponent.onChangePseudoSelector()

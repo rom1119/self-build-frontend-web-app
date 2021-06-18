@@ -63,16 +63,20 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         if (!this.value) {
             return null
         }
-        // console.log('getPropertyCssFromModel');
-        // console.log(prop);
+        console.log('getPropertyCssFromModel');
+        console.log(prop);
+        console.log('this.value.selectedSelector', this.value.selectedSelector);
+        console.log('this.value.currentCssAccessor', this.value.currentCssAccessor);
         
-        var activeSelector = this.value.selectedSelector
+        var activeSelector = this.value.selectedSelector 
         if (activeSelector) {
+            console.log('activeSelector val,', <T>activeSelector.getPropertyCss(prop));
+
             return <T>activeSelector.getPropertyCss(prop)
             
         }
         // console.log(this.value);
-        // console.log(this.value.getPropertyCss(prop));
+        console.log(this.value.getPropertyCss(prop));
         return <T>this.value.getPropertyCss(prop)
     }
 
@@ -114,6 +118,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         } else {
             this.setProperty(this.newProperty())
             this.getProperty().setActive(false)
+            this.getProperty().id = null
             let copy = this.getProperty().deepCopy(this.getProperty())
             this.setProperty(copy)
             this.setTmpPropertyToModel(copy)

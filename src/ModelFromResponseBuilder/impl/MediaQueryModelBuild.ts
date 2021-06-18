@@ -73,6 +73,12 @@ export default class MediaQueryModelBuild implements ModelFromResponse<MediaQuer
 
         var sels = []
 
+        if (from.pseudoSelectors) {
+            for (const style of from.pseudoSelectors) {
+                let subModel = this.selectorBuilder.build(style)
+                model.selectors.push(subModel)
+            }
+        }
 
         // for (const cssValModel of from.selectors) {
         //     let cssValue = this.selectorBuilder.build(cssValModel)

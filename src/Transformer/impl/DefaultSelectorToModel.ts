@@ -25,6 +25,7 @@ export default class DefaultSelectorToModel implements SelectorToModel
     transform(domain: PseudoSelector): Selector {
         let model = new Selector()
         model.id = domain.id
+        model.mediaQueryId = domain.mediaQueryId
 
         if (domain.cssAccessor.all.length) {
             for (const style of domain.cssAccessor.all) {

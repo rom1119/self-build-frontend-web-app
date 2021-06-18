@@ -14,6 +14,8 @@ import CssResource from '~/src/Css/CssResource';
 import TagResource from '~/src/Css/TagResource';
 import ImgTag from '~/src/Layout/tag/ImgTag';
 import SvgTag from '~/src/Layout/tag/SvgTag';
+import MediaQueryPseudoSelectorAccessor from '../../Css/MediaQueryPseudoSelectorAccessor';
+import PseudoClass from '../../PseudoSelector/PseudoClass';
 export default class DefaultDomainToModel implements DomainToModel
 {
 
@@ -76,7 +78,7 @@ export default class DefaultDomainToModel implements DomainToModel
                 var item: CssListAndMediaQueryAccessor<HtmlTag> = domain.cssListMediaOwner.getMediaQueryCssList()[mediaCssKey]
             // console.log(item.all)
 
-                for(var cssD of item.all) {
+                for(let cssD of item.all) {
                     if (cssD.toSaveInApi) {
                         this.styleTransformer.setMediaQuery(item.mediaQuery)
                         let subModel = this.styleTransformer.transform(cssD)
@@ -88,6 +90,24 @@ export default class DefaultDomainToModel implements DomainToModel
 
                 }
             }
+
+            for(var mediaPseudoClassKey in domain.cssListMediaOwner.getMediaQueryPseudoClassList()) {
+                // console.log(mediaCssKey)
+                    var itemPseudoClass: MediaQueryPseudoSelectorAccessor<PseudoClass> = domain.cssListMediaOwner.getMediaQueryPseudoClassList()[mediaPseudoClassKey]
+                // console.log(item.all)
+    
+                    for(let cssD of itemPseudoClass.all) {
+                        // this.selectorTransformer.setMediaQuery(itemPseudoClass.mediaQuery)
+                        let subModel = this.selectorTransformer.transform(cssD)
+                        model.selectors.push(subModel)
+                        // if (cssD.toSaveInApi) {
+                            // console.log(subModel)
+                            // console.log(item.mediaQuery)
+    
+                        // }
+    
+                    }
+                }
 
             if (domain.pseudoClassAccessor.all.length) {
                 for (const style of domain.pseudoClassAccessor.all) {

@@ -9,7 +9,17 @@ import { PositionCss } from '.';
 import PseudoSelector from '../PseudoSelector/PseudoSelector';
 import PseudoSelectorNotFound from '../Errors/PseudoSelectorNotFound';
 import SelectorAccessor from './SelectorAccessor';
-export default class PseudoSelectorAccessor<T extends PseudoSelector> extends SelectorAccessor<T>
+import PseudoSelectorAccessor from './PseudoSelectorAccessor';
+import BaseMediaQueryCss from '../MediaQuery/BaseMediaQueryCss';
+import SelectorOwner from '../SelectorOwner';
+export default class MediaQueryPseudoSelectorAccessor<T extends PseudoSelector> extends PseudoSelectorAccessor<T>
 {
-    
+    mediaQuery: BaseMediaQueryCss = null
+
+    constructor(val: SelectorOwner, mediaQuery: BaseMediaQueryCss) {
+        super(val)
+        this.mediaQuery = mediaQuery
+    }
+
+
 }

@@ -18,7 +18,7 @@
         <div class="rel">
 
         </div>
-            <div class="stretch rel"
+            <div class="stretch rel" :class="{'red-bg': value.isOverflowContent}"
             >
                 <div class="remove" @click.stop="onEmitRemove($event)">
                     X
@@ -155,6 +155,9 @@ export default class TableRowComponent extends Vue {
         display: inline-block;
         font-size: 12px !important;
         background: rgba(0,7,121,0.29);
+    }
+    .red-bg {
+        background-color: red !important;
     }
 
     .visible {

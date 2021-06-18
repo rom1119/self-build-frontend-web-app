@@ -12,7 +12,7 @@ export default class MediaQueryResponse extends ResponseObject{
      colorUnitName
      project: any
      tags: HtmlTagResponse[]
-     selectors: SelectorResponse[]
+     pseudoSelectors: SelectorResponse[]
      cssValues: StyleCssValueResponse[]
 
 }

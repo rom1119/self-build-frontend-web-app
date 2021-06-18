@@ -16,7 +16,7 @@
             oncut="return false"
             onselectstart="return false"
         >
-            <div class="stretch rel"
+            <div class="stretch rel"  :class="{'red-bg': value.isOverflowContent}"
             >
                 <div class="remove" @click.stop="onEmitRemove($event)">
                     X
@@ -143,6 +143,10 @@ export default class TableColumnComponent extends Vue {
     .unvisible {
         opacity: 0 !important;
     }
+    .red-bg {
+        background-color: red !important;
+    }
+    
     .tab-column {
         z-index: 999;
         color: white;

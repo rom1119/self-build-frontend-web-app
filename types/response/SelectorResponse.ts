@@ -7,6 +7,7 @@ export default class SelectorResponse extends ResponseObject{
      unitName
      name
      delimiter = ''
+     mediaQueryId = null
      version
      project: any
      cssStyleList = []

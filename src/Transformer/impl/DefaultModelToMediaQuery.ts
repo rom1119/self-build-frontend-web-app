@@ -37,6 +37,10 @@ import MediaOrientation from '~/src/MediaQuery/MediaOrientation';
 import ModelToMediaQuery from '../ModelToMediaQuery';
 import MediaQueryFactory from "~/src/MediaQuery/MediaQueryFactory";
 import {MediaQueryStructVal} from "~/src/MediaQuery/BaseMediaQueryCss";
+import ModelToSelector from '../ModelToSelector';
+import DefaultModelToSelector from './DefaultModelToSelector';
+import PseudoClass from '../../PseudoSelector/PseudoClass';
+import PseudoElement from '../../PseudoSelector/PseudoElement';
 export default class DefaultModelToMediaQuery implements ModelToMediaQuery
 {
 
@@ -44,6 +48,9 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
     private timingFunctionFactoryFromName: TimingFunctionFactoryFromName
     private mediaQueryFactory: MediaQueryFactory
+
+    private selectorTransformer: ModelToSelector
+
     // private styleTransformer: ModelToCss
 
     constructor(mediaQueryFactory: MediaQueryFactory)
@@ -52,6 +59,8 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         this.timingFunctionFactoryFromName = new TimingFunctionFactoryFromName()
         this.mediaQueryFactory = mediaQueryFactory
+        this.selectorTransformer = new DefaultModelToSelector()
+
         // this.styleTransformer = new HtmlTagFactoryFromName()
     }
 
@@ -139,8 +148,6 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
             // model.setValues(values)
             // model.setValueSecond(domainCast.getSecondValue())
             // model.setUnitNameSecond(domainCast.getSecondUnit().name)
-
-        // console.trace('AFTER BUILD')
 
 
         return domain

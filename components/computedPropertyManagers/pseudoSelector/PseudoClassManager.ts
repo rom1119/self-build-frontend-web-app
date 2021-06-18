@@ -34,10 +34,10 @@ import SelectorApiService from '../../../src/Api/SelectorApiService';
 
 export default class PseudoClassManager
 {
-    protected value: HtmlTag
+    protected value: HtmlTag = null
 
     readonly
-    pseudoClass: PseudoClass
+    pseudoClass: PseudoClass = null
 
     constructor( arg: PseudoClass )
     {
@@ -64,7 +64,7 @@ export default class PseudoClassManager
         if (!this.value) {
             return null
         }
-        return <PseudoClass>this.value.pseudoClassAccessor.getSelectorByName(prop)
+        return <PseudoClass>this.value.currentPseudoClassAccessor.getSelectorByName(prop)
     }
 
     protected setTmpPropertyToModel(newCssProp: BasePropertyCss)
@@ -113,7 +113,7 @@ export default class PseudoClassManager
         // this.pseudoClass.id = null
         this.pseudoClass.selectedByOwner = true
         // console.log(this.pseudoClass);
-        this.value.pseudoClassAccessor.selectedSelector = this.pseudoClass
+        this.value.currentPseudoClassAccessor.selectedSelector = this.pseudoClass
 
         // this.value.recalculateRealComputedProperties()
 
@@ -125,7 +125,7 @@ export default class PseudoClassManager
         // this.pseudoClass.id = null
         this.pseudoClass.selectedByOwner = false
         console.log(this.pseudoClass);
-        this.value.pseudoClassAccessor.selectedSelector = null
+        this.value.currentPseudoClassAccessor.selectedSelector = null
 
         // this.value.recalculateRealComputedProperties()
 
@@ -136,12 +136,16 @@ export default class PseudoClassManager
     {
         var prop = this.pseudoClass
 
-        if (this.value.pseudoClassAccessor.getSelectorById(prop.id)) {
+        if (this.value.currentPseudoClassAccessor.getSelectorById(prop.id)) {
             return
 
         }
         console.log('activr');
-        prop.setApi(<SelectorApiService><unknown>this.value.api)
+        if (this.value.selectedMedia) {
+            prop.setApi(<SelectorApiService><unknown>this.value.selectedMedia.api)
+        } else {
+            prop.setApi(<SelectorApiService><unknown>this.value.api)
+        }
         prop.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
         prop.api.appendSelector(prop).then(
@@ -178,6 +182,7 @@ export default class PseudoClassManager
                 }
                 prop.id = null
                 prop.active = false
+                prop.cssAccessor.removeAll()
                 this.value.synchronize()
                 this.value.recalculateRealComputedProperties()
 

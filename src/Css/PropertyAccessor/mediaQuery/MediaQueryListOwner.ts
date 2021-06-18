@@ -6,6 +6,12 @@ import BasePropertyCss from "~/src/Css/BasePropertyCss";
 import MediaQueryAccessor from "~/src/MediaQuery/MediaQueryAccessor";
 import Vue from 'vue';
 import SubscriberMediaAccessor from "~/src/MediaQuery/SubscriberMediaAccessor";
+import PseudoSelectorAccessor from '../../PseudoSelectorAccessor';
+import PseudoClass from '../../../PseudoSelector/PseudoClass';
+import PseudoElement from '../../../PseudoSelector/PseudoElement';
+import HtmlTag from '../../../Layout/HtmlTag';
+import SelectorOwner from '../../../SelectorOwner';
+import MediaQueryPseudoSelectorAccessor from '../../MediaQueryPseudoSelectorAccessor';
 
 interface MediaCssList {
     property: string;
@@ -16,8 +22,11 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
     protected owner: T
     private _mediaQueryAccessor: MediaQueryAccessor<MediaQueryCss>
 
-    protected mediaQueryList: { [key: string]: CssListAndMediaQueryAccessor<T>} = {}
-    protected mediaQueryListTmp: { [key: string]: CssListAndMediaQueryAccessor<T>} = {}
+    protected mediaQueryListPseudoClass: { [key: string]: MediaQueryPseudoSelectorAccessor<PseudoClass> } = {}
+    protected mediaQueryListPseudoElement: { [key: string]: MediaQueryPseudoSelectorAccessor<PseudoElement> } = {}
+    
+    protected mediaQueryListCss: { [key: string]: CssListAndMediaQueryAccessor<T>} = {}
+    protected mediaQueryListCssTmp: { [key: string]: CssListAndMediaQueryAccessor<T>} = {}
 
 
     constructor( owner: T, mediaQueryAccessor: MediaQueryAccessor<MediaQueryCss>) {
@@ -25,6 +34,9 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
         this._mediaQueryAccessor = mediaQueryAccessor;
         Vue.set(this, 'mediaQueryList', {})
         Vue.set(this, 'mediaQueryListTmp', {})
+        
+        Vue.set(this, 'mediaQueryListPseudoClass', {})
+        Vue.set(this, 'mediaQueryListPseudoElement', {})
         // this.mediaQueryList = {};
         // this.mediaQueryListTmp = {};
         this.init()
@@ -37,11 +49,21 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
             // console.trace('init')
         Vue.set(this, 'mediaQueryList', {})
         Vue.set(this, 'mediaQueryListTmp', {})
+
+        if (this.owner instanceof HtmlTag) {
+            Vue.set(this, 'mediaQueryListPseudoClass', {})
+            Vue.set(this, 'mediaQueryListPseudoElement', {})
+
+        }
         for(var el of this._mediaQueryAccessor.all) {
             // console.log(el)
-            Vue.set(this.mediaQueryList, el.id, new CssListAndMediaQueryAccessor<T>(this.owner, el))
-            Vue.set(this.mediaQueryListTmp, el.id, new CssListAndMediaQueryAccessor<T>(this.owner, el))
+            Vue.set(this.mediaQueryListCss, el.id, new CssListAndMediaQueryAccessor<T>(this.owner, el))
+            Vue.set(this.mediaQueryListCssTmp, el.id, new CssListAndMediaQueryAccessor<T>(this.owner, el))
+            if (this.owner instanceof HtmlTag) {
 
+                Vue.set(this.mediaQueryListPseudoClass, el.id, new MediaQueryPseudoSelectorAccessor<PseudoClass>(<SelectorOwner><unknown>this.owner, el))
+                Vue.set(this.mediaQueryListPseudoElement, el.id, new MediaQueryPseudoSelectorAccessor<PseudoElement>(<SelectorOwner><unknown>this.owner, el))
+            }
             // this.mediaQueryList[el.id] =
             // this.mediaQueryListTmp[el.id] = new CssListAndMediaQueryAccessor<T>(this.owner, el)
 
@@ -51,12 +73,17 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
 
     getMediaQueryCssList()
     {
-        return this.mediaQueryList
+        return this.mediaQueryListCss
+    }
+    
+    getMediaQueryPseudoClassList()
+    {
+        return this.mediaQueryListPseudoClass
     }
 
     get mediaQueryCssList()
     {
-        return this.mediaQueryList
+        return this.mediaQueryListCss
     }
 
     get selectedMedia(): BaseMediaQueryCss{
@@ -67,48 +94,137 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
         return this._mediaQueryAccessor.selectedMediaQuery
     }
 
-    get currentCssList(){
+    get selectedSelector() {
+        
+        if (!this.selectedMedia) {
+            return null
+        }
+        if (this.mediaQueryListPseudoClass[this.selectedMedia.id]) {
+            return this.mediaQueryListPseudoClass[this.selectedMedia.id].selectedSelector
+        }
+        
+        if (this.mediaQueryListPseudoElement[this.selectedMedia.id]) {
+            return this.mediaQueryListPseudoElement[this.selectedMedia.id].selectedSelector
+        }
+
+        return null
+
+    }
+    
+    get currentCssList() {
+        var list = this.getCurrentList()
+
         // console.log('currentCssList')
         // console.log(this.selectedMedia)
         // console.log(this.mediaQueryList)
-        if (this.mediaQueryList[this.selectedMedia.id]) {
-            return this.mediaQueryList[this.selectedMedia.id]
+        if (list) {
+            return list
         }
 
+        return null
+    }
+    
+    get currentPseudoClasses() {
+        if (!this.selectedMedia) {
+            return null
+        }
+        // console.log('currentCssList')
+        // console.log(this.selectedMedia)
+        // console.log(this.mediaQueryList)
+        if (this.mediaQueryListPseudoClass[this.selectedMedia.id]) {
+            return this.mediaQueryListPseudoClass[this.selectedMedia.id]
+        }
 
+        return null
+    }
+    
+    get currentPseudoElements() {
+        if (!this.selectedMedia) {
+            return null
+        }
+        // console.log('currentCssList')
+        // console.log(this.selectedMedia)
+        // console.log(this.mediaQueryList)
+        if (this.mediaQueryListPseudoElement[this.selectedMedia.id]) {
+            return this.mediaQueryListPseudoElement[this.selectedMedia.id]
+        }
 
         return null
     }
 
     hasMedia(media: BaseMediaQueryCss): boolean
     {
-        return this.mediaQueryList[media.id] != null
+        return this.mediaQueryListCss[media.id] != null
     }
 
     addCssForMedia(css: BasePropertyCss, mediaId: number)
     {
-        if (this.mediaQueryList[mediaId]) {
-            this.mediaQueryList[mediaId].addNewProperty(css)
-            this.mediaQueryListTmp[mediaId].addNewProperty(css)
+        // var list = this.getCurrentList()
+
+        if (this.mediaQueryListCss[mediaId]) {
+            this.mediaQueryListCss[mediaId].addNewProperty(css)
+            this.mediaQueryListCssTmp[mediaId].addNewProperty(css)
+        } else {
+            throw Error('NOt exist Media Query with ID  ' + mediaId)
+        }
+
+    }
+    
+    addPseudoClassForMedia(css: PseudoClass, mediaId: number)
+    {
+        if (this.mediaQueryListPseudoClass[mediaId]) {
+            this.mediaQueryListPseudoClass[mediaId].addNewSelector(css)
+        } else {
+            throw Error('NOt exist Media Query with ID  ' + mediaId)
+        }
+
+    }
+    
+    addPseudoElementForMedia(css: PseudoElement, mediaId: number)
+    {
+        if (this.mediaQueryListPseudoElement[mediaId]) {
+            this.mediaQueryListPseudoElement[mediaId].addNewSelector(css)
         } else {
             throw Error('NOt exist Media Query with ID  ' + mediaId)
         }
 
     }
 
-    setNewValCssForMedia(css: BasePropertyCss)
-    {
+    protected getCurrentList() {
         var media = this.selectedMedia
-        if (!this.hasMedia(media)) {
-            this.mediaQueryList[media.id] = new CssListAndMediaQueryAccessor<T>(this.owner, media)
+        if (!media) {
+            return null
+        }
+        if (this.mediaQueryListPseudoClass[this.selectedMedia.id]) {
+            if (this.mediaQueryListPseudoClass[this.selectedMedia.id].selectedSelector) {
+
+                return this.mediaQueryListPseudoClass[this.selectedMedia.id].selectedSelector.cssAccessor
+            }
+        }
+        
+        if (this.mediaQueryListPseudoElement[this.selectedMedia.id]) {
+            if (this.mediaQueryListPseudoElement[this.selectedMedia.id].selectedSelector) {
+                return this.mediaQueryListPseudoElement[this.selectedMedia.id].selectedSelector.cssAccessor
+            }
         }
 
-        if (this.mediaQueryList[media.id].hasCssProperty(css.getName())) {
-            this.mediaQueryList[media.id].setNewPropertyValue(css.getName(), css)
+        if (!this.hasMedia(media)) {
+            this.mediaQueryListCss[media.id] = new CssListAndMediaQueryAccessor<T>(this.owner, media)
+        }
+
+        return this.mediaQueryListCss[media.id]
+
+    }
+
+    setNewValCssForMedia(css: BasePropertyCss)
+    {
+        var list = this.getCurrentList()
+
+        if (list.hasCssProperty(css.getName())) {
+            list.setNewPropertyValue(css.getName(), css)
 
         } else {
-            this.mediaQueryList[media.id].addNewProperty(css)
-
+            list.addNewProperty(css)
         }
 
         this.setNewValCssForMediaTmp(css)
@@ -116,16 +232,16 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
 
     removeCssFromMedia(css: BasePropertyCss)
     {
-        var media = this.selectedMedia
-        if (this.hasMedia(media)) {
-            this.mediaQueryList[media.id].removePropWithName(css.getName())
+        var list = this.getCurrentList()
+        if (list) {
+            list.removePropWithName(css.getName())
         }
     }
 
     public removePropWithName(name: string) {
-        var media = this.selectedMedia
-        if (this.hasMedia(media)) {
-            this.mediaQueryList[media.id].removePropWithName(name)
+        var list = this.getCurrentList()
+        if (list) {
+            list.removePropWithName(name)
         }
     }
 
@@ -133,30 +249,30 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
     {
         var media = this.selectedMedia
         if (!this.hasMedia(media)) {
-            this.mediaQueryListTmp[media.id] = new CssListAndMediaQueryAccessor<T>(this.owner, media)
+            this.mediaQueryListCssTmp[media.id] = new CssListAndMediaQueryAccessor<T>(this.owner, media)
         }
 
-        this.mediaQueryListTmp[media.id].addNewProperty(css)
+        this.mediaQueryListCssTmp[media.id].addNewProperty(css)
     }
 
     getProperty(name: string){
-        var media = this.selectedMedia
-            console.trace( media)
-        if (media) {
-            console.trace( name)
+        var list = this.getCurrentList()
+            // console.trace( media)
+        if (list) {
+            // console.trace( name)
 
-            return this.mediaQueryList[media.id].getProperty(name)
+            return list.getProperty(name)
         }
 
         return null
     }
 
     getPropertyForMedia(name: string, mediaId: number){
-        if (this.mediaQueryList[mediaId]) {
+        if (this.mediaQueryListCss[mediaId]) {
             // console.trace( media)
             // console.trace( media)
 
-            return this.mediaQueryList[mediaId].getProperty(name)
+            return this.mediaQueryListCss[mediaId].getProperty(name)
         }
 
         return null
@@ -166,14 +282,14 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
     {
         var media = this.selectedMedia
         if (!this.hasMedia(media)) {
-            this.mediaQueryListTmp[media.id] = new CssListAndMediaQueryAccessor<T>(this.owner, media)
+            this.mediaQueryListCssTmp[media.id] = new CssListAndMediaQueryAccessor<T>(this.owner, media)
         }
 
-        if (this.mediaQueryListTmp[media.id].hasCssProperty(css.getName())) {
-            this.mediaQueryListTmp[media.id].setNewPropertyValue(css.getName(), css)
+        if (this.mediaQueryListCssTmp[media.id].hasCssProperty(css.getName())) {
+            this.mediaQueryListCssTmp[media.id].setNewPropertyValue(css.getName(), css)
 
         } else {
-            this.mediaQueryListTmp[media.id].addNewProperty(css)
+            this.mediaQueryListCssTmp[media.id].addNewProperty(css)
 
         }
     }
@@ -182,7 +298,7 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
     {
         var media = this.selectedMedia
         if (this.hasMedia(media)) {
-            this.mediaQueryListTmp[media.id].removePropWithName(css.getName())
+            this.mediaQueryListCssTmp[media.id].removePropWithName(css.getName())
         }
     }
 

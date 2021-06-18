@@ -129,11 +129,7 @@ export default class CssTwoAxisComponent extends Vue {
   mounted() {
       // this.$refs.manageComponent = null
       this.hasTwoVals = this.value.hasTwoValues
-      console.log(this.value);
-      console.log(this.value.hasTwoValues);
-      console.log(this.hasTwoVals);
-      console.log('moubnted CssTwoAxisComponent');
-      console.log(this.hasTwoVals);
+
   }
 
   hasTwoVals = false

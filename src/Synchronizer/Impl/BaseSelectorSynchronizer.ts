@@ -117,8 +117,24 @@ export default abstract class BaseSelectorSynchronizer implements Synchronizer
 
     private updateCssIds(arrCss, domainArrCss)
     {
+        // console.log('update updateCssIds ', this.selector, arrCss, domainArrCss);
+
         for (const cssRes of arrCss) {
             for (const cssDomain of domainArrCss) {
+                if (this.selector.mediaQueryId) {
+                    if (cssRes.mediaQuery == null) {
+                        continue
+                    }
+
+                } else {
+                    if (cssRes.mediaQuery != null) {
+                        continue
+                    }
+                }
+                // console.log('update updateCssIds basesel sync');
+                // console.log(cssRes.name, ' id=', cssRes.id);
+                // console.log(cssDomain.name, 'cssDomain id=', cssDomain.id);
+                
                 if (cssDomain.getName() !== cssRes.name) {
                     continue
                 }
