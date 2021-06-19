@@ -150,7 +150,7 @@ export default class PseudoClassManager
 
         prop.api.appendSelector(prop).then(
             () => {
-                this.value.pseudoClassAccessor.addNewSelector(prop)
+                this.value.currentPseudoClassAccessor.addNewSelector(prop)
 
 
                 this.value.synchronize()
@@ -173,11 +173,11 @@ export default class PseudoClassManager
 
         prop.api.deleteSelector(prop).then(
             () => {
-                this.value.pseudoClassAccessor.removeById(prop.id)
+                this.value.currentPseudoClassAccessor.removeById(prop.id)
 
-                if (this.value.pseudoClassAccessor.selectedSelector) {
-                    if (this.value.pseudoClassAccessor.selectedSelector.id == prop.id) {
-                        this.value.pseudoClassAccessor.selectedSelector = null
+                if (this.value.currentPseudoClassAccessor.selectedSelector) {
+                    if (this.value.currentPseudoClassAccessor.selectedSelector.id == prop.id) {
+                        this.value.currentPseudoClassAccessor.selectedSelector = null
                     }
                 }
                 prop.id = null

@@ -66,7 +66,7 @@ export default class TextShadowProperty extends BaseComputedPropertyManager<Text
         } else {
 
             this.getProperty().setActive(false)
-            let copy = _.cloneDeep(this.getProperty())
+            let copy = this.getProperty().deepCopy(this.getProperty())
 
             let el = this.createInitValue()
             copy.clearValue()
