@@ -11,6 +11,7 @@ import BaseGradientCss from "~/src/Css/Gradient/BaseGradientCss";
 import { BackgroundImage } from "~/src/Css";
 import SelectorApiService from '../../Api/SelectorApiService';
 import BaseSelector from '../../BaseSelector';
+import CssStyleUpdater from '../../Api/idsUpdate/CssStyleUpdater';
 
 export default abstract class BaseSelectorSynchronizer implements Synchronizer
 {
@@ -20,11 +21,14 @@ export default abstract class BaseSelectorSynchronizer implements Synchronizer
     protected selector: BaseSelector
     protected api: SelectorApiService
     protected apiSocket: SocketApi
+    protected cssUpdater: CssStyleUpdater
+
 
     constructor(selector: BaseSelector, api: SelectorApiService)
     {
         this.apiSocket = new HtmlSocketApi()
         this.apiSocket.connect()
+        this.cssUpdater = new CssStyleUpdater()
         // this.apiSocket.onGetMessage()
         this.selector = selector
         this.api = api
@@ -135,36 +139,7 @@ export default abstract class BaseSelectorSynchronizer implements Synchronizer
                 // console.log(cssRes.name, ' id=', cssRes.id);
                 // console.log(cssDomain.name, 'cssDomain id=', cssDomain.id);
                 
-                if (cssDomain.getName() !== cssRes.name) {
-                    continue
-                }
-                cssDomain.id = cssRes.id
-                // @ts-ignore
-                if (typeof cssDomain.getValues === 'function') {
-                    // @ts-ignore
-                    for (var i = 0; i < cssDomain.getValues().length; i++) {
-                        if (cssDomain instanceof BaseGradientCss) {
-                            // @ts-ignore
-                            if (cssDomain.getValues()[i].specialValGradient) {
-
-                                cssDomain.direction.id = cssRes.cssValues[i].id
-                                continue
-                            }
-                        }
-                        // console.log(cssRes);
-                        // console.log(cssDomain);
-
-                        // @ts-ignore
-                        const cssValDomain = cssDomain.getValues()[i]
-                        cssValDomain.id = cssRes.cssValues[i].id
-                    }
-
-                }
-
-                if (cssDomain instanceof BackgroundImage) {
-
-                    this.updateCssIds(cssRes.children, cssDomain.getGradients())
-                }
+                this.cssUpdater.update(cssDomain, cssRes)
             }
 
 
