@@ -45,7 +45,6 @@ import "vue-cal/dist/vuecal.css";
 import moment from "moment";
 import { Pagination } from "~/types/Pagination";
 import BaseBorderCss from "../../../src/Css/Border/BaseBorderCss";
-import BoxModelModal from "~/components/BoxModelModal";
 import BorderComputedPropertyManager from "../../computedPropertyManagers/impl/BorderComputedPropertyManager";
 import BaseMarginCss from "~/src/Css/BoxModel/BaseMarginCss";
 import { Chrome } from "~/node_modules/vue-color";

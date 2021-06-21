@@ -4,23 +4,23 @@
             <div class="container">
                 <div class="row justify-content-between">
                     <div class="col-5">
-                        <h3>O nas</h3>
+                        <h3>About us</h3>
                         <p>Malesuada a nulla a venenatis parturient a malesuada nunc auctor metus consectetur velit dolor eget diam mi condimentum ac ut a tellus vitae.</p>
                         <a href="">Dołącz do nas</a>
                     </div>
                     <div class="col-6">
                         <div class="row">
                             <div class="col-6">
-                                <h3>Generator projektów</h3>
+                                <h3>Project generator</h3>
                                 <ul class="nav flex-column">
                                     <nuxt-link tag="li" class="nav-item" to="/dashboard/layouts" active-class="active" exact>
-                                        <a class="nav-link">Layouty</a>
+                                        <a class="nav-link">Layouts</a>
                                     </nuxt-link>
 
                                 </ul>
                             </div>
                             <div class="col-6">
-                                <h3>Baza wiedzy</h3>
+                                <h3>Another one</h3>
                                 <ul class="nav flex-column">
                                     <!-- <li class="nav-item"  v-for="cat in faqCategories">
                                         <a class="nav-link active" @click.prevent="$router.push('/faqs-by-category/' + cat.id)">{{ cat.name }}</a>
@@ -45,10 +45,10 @@
 
                 <div class="row justify-content-between">
                     <div class="col-auto">
-                        <p>Copyrights 2019 by FLOP. All rights reserved.</p>
+                        <p>Copyrights 2021 by ARNOLD. All rights reserved.</p>
                     </div>
                     <div class="col-auto">
-                        <p>Realizacja <img class="pl-2" src="@/static/mm-logo.svg" alt=""></p>
+                        <p>Realization</p>
                     </div>
                 </div>
             </div>

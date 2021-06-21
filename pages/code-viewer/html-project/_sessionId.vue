@@ -99,11 +99,11 @@ import {html} from 'js-beautify';
         generateTypes = {
             'normal' : {
                 'key' : 'normal',
-                'label' : 'Kod HTML oddzielnie z CSS'
+                'label' : 'HTML and separate CSS'
             },
             'inline-css' : {
                 'key' : 'inline-css',
-                'label' : 'Kod CSS "inline" wraz z HTML'
+                'label' : 'HTML with inline CSS'
             },
         }
 

@@ -12,7 +12,7 @@
                         <input type="file" id="imgFile" @change="previewThumbnail($event);" accept="image/*" class="input-file">  
                         <div>
                             <button v-if="imgSrcManager.getAttr().resource" @click.stop="deleteResource" type="button">
-                                Usuń zasób
+                                Remove Resource
                             </button>
                             <img v-if="imgAttr.resource"  :src="imgAttr.resource" alt="" width="200" height="200">
                             <img v-else :src="imgSrcManager.getAttr().resourceUrl" alt="" width="200" height="200">
@@ -21,7 +21,7 @@
                     </div>
                     <div class=" content-item" v-if="!imgSrcManager.getAttr().resource">
                         <label for="">
-                            Link do zewnętrznego zasobu
+                            Link to external resource
                             
                             <input type="text" style="width: 100%;" @change="updateBackgroundImage" v-model="imgSrcManager.getAttr().resourceUrl" />
                         </label>

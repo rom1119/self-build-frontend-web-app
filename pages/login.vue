@@ -15,23 +15,23 @@
 
             <div class="form-row">
                 <div class="form-group col-12">
-                    <label for="inputEmail4">Hasło</label>
+                    <label for="inputEmail4">Passoword</label>
                     <input type="password" class="form-control" placeholder="Hasło" v-model="password">
                 </div>
             </div>
 
             <div class="form-row mt-4">
                 <div class="form-group col-12">
-                    <button class="btn btn-primary w-100" @click.prevent="login">Zaloguj</button>
+                    <button class="btn btn-primary w-100" @click.prevent="login">Sign In</button>
                 </div>
             </div>
 
             <div class="form-row mt-4">
                 <div class="form-group col-6">
-                    <a href="/register">Zarejestruj się</a>
+                    <a href="/register">Register user</a>
                 </div>
                 <div class="form-group col-6 text-right">
-                    <a href="/password-reset">Przypomnij hasło</a>
+                    <a href="/password-reset">Remember password</a>
                 </div>
             </div>
         </form>

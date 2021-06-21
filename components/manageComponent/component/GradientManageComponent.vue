@@ -11,7 +11,7 @@
                 </div>
                 
                 <button @click="addDefaultGradient">
-                                        Dodaj gradient 
+                                        Add gradient 
                                     </button>
                 <div class="content-item" @dblclick="hasGradient = !hasGradient" :class="{'active': hasGradient}" style="display: flex;"  >
 
@@ -21,7 +21,7 @@
                                 <h4 class="content-item__header">
                                     {{ key + 1 }}.
                                     <button v-if="hasGradient" @click="onRemoveGradient(manager.property.id)">
-                                        Usuń gradient 
+                                        Remove gradient 
                                     </button>
                                     
                                 </h4>
@@ -43,7 +43,7 @@
                                 <h4 class="content-item__header">
                                     
                                         <button class="blue" @click="addDefaultGradientVal(manager.getProperty().id)">
-                                            Dodaj wartość
+                                            Add new value
                                         </button>
                                     </h4>
 

@@ -7,7 +7,7 @@
                     @dblclick="hasDisplay = !hasDisplay"
                     :class="{ active: hasDisplay }"
                 >
-                    <h4 class="content-item__header">Sposób wyświetlania ( Display )</h4>
+                    <h4 class="content-item__header">Types of layout ( Display )</h4>
                     <ul class="content-item__elem_container">
                     <li class="content-item__elem" v-for="el in displays" :key="el">
                         <label :for="'display-' + el">
@@ -28,7 +28,7 @@
                     @dblclick="hasPosition = !hasPosition"
                     :class="{ active: hasPosition }"
                 >
-                    <h4 class="content-item__header">Sposob pozycjonowania</h4>
+                    <h4 class="content-item__header">Type of position</h4>
                     <ul class="content-item__elem_container">
                     <li class="content-item__elem" v-for="el in positions" :key="el">
                         <label :for="'position-' + el">

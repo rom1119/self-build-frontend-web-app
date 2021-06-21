@@ -8,7 +8,7 @@
                 @dblclick="hasBackgroundColor = !hasBackgroundColor"
                 :class="{ active: hasBackgroundColor }"
               >
-                <h4 class="content-item__header">Kolor tła</h4>
+                <h4 class="content-item__header">Background Color</h4>
                 <div class="content-item__elem_container">
                   <h2>
                     
@@ -25,7 +25,7 @@
                 @dblclick="hasBackgroundImage = !hasBackgroundImage"
                 :class="{ active: hasBackgroundImage }"
               >
-                <h4 class="content-item__header">Zdjęcie tła</h4>
+                <h4 class="content-item__header">Background Image</h4>
                 <div class="content-item">
                   <input
                     type="file"
@@ -40,7 +40,7 @@
                       @click.stop="deleteResource"
                       type="button"
                     >
-                      Usuń zasób
+                      Remove resource
                     </button>
                     <img
                       v-if="backgroundImage"
@@ -63,7 +63,7 @@
                   v-if="!backgroundImageManager.getProperty().resource"
                 >
                   <label for="">
-                    Link do zewnętrznego zasobu
+                    Link to external resource
 
                     <input
                       type="text"

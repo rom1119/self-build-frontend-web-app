@@ -7,12 +7,12 @@
             
                 <div class="content-item">
                     <h4 class="content-item__header">
-                        Treść SVG
+                        SVG content
                     </h4>
                     
                     <div class=" content-item" >
                         <label style="width: 100%;">
-                            Link do zewnętrznego zasobu
+                            Link to external resource
                             
                             <textarea style="width: 100%; height: 300px;" @input="inputSvgContent"  v-model="svgContenComp" >
 

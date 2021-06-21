@@ -2,7 +2,12 @@
     <div class="content content--notch-bottom">
         <div class="row justify-content-center pb-4">
             <div class="col-auto">
-                <h2 class="heading heading--page">Home</h2>
+                <h1 class="heading heading--page">
+                <b>
+                
+                Self building code APP
+                </b>
+                </h1>
             </div>
         </div>
 

@@ -5,7 +5,7 @@
             <div class="content-item" style="display: flex;">
                 <div class="content-item-sixty" @dblclick="hasFontColor = !hasFontColor" :class="{'active': hasFontColor}">
                     <h4 class="content-item__header">
-                        Kolor tekstu 
+                        Text color
                     </h4>
                     <div class="color-picker-box" @dblclick.stop.prevent="">
                         <!-- <label @dblclick.stop.prevent="">Kolor</label>
@@ -15,8 +15,8 @@
                         <div>
                             <Chrome v-model="color" :color="color" style="margin: 0 auto;" label="Color" />
                             <div class="color-picker-nav">
-                                <button @click="cancelColor">Anuluj</button>
-                                <button @click="saveColor">Zapisz</button>
+                                <button @click="cancelColor">Cancel</button>
+                                <button @click="saveColor">Save</button>
                             </div>
 
                         </div>
@@ -28,7 +28,7 @@
                 <div class="content-item-half" >
                     <div @dblclick="hasFontSize = !hasFontSize" :class="{'active': hasFontSize}">
                         <input-val-component 
-                            labelProp="Rozmiar tekstu"
+                            labelProp="Text size"
                             classContainer="content-item"
                             contextMenuName="length-units"
                             :valueProp="fontSize"
@@ -44,7 +44,7 @@
                     <div @dblclick="hasLineHeight = !hasLineHeight" :class="{'active': hasLineHeight}">
 
                         <input-val-component 
-                            labelProp="Wysokość linii"
+                            labelProp="Line Height"
                             classContainer="content-item"
                             contextMenuName="length-units"
                             :valueProp="lineHeight"
@@ -59,7 +59,7 @@
                     </div>
                     <div @dblclick="hasTextAlign = !hasTextAlign" :class="{'active': hasTextAlign}">
                         <h4 class="content-item__header">
-                            Wyrównanie tekstu
+                            Text align
                         </h4>
                         <div class="content-item__elem"
                             >
@@ -76,7 +76,7 @@
                     </div>
                     <div @dblclick="hasFontStyle = !hasFontStyle" :class="{'active': hasFontStyle}">
                         <h4 class="content-item__header">
-                            Styl tekstu
+                            Text style
                         </h4>
                         <div class="content-item__elem"
                             >
@@ -104,12 +104,12 @@
                 <div class=" content-item__elem_container">
                     <div class=" content-item_half">
                         <h6 class="content-item__header">
-                            Typy czcionek
+                            Font Types
                         </h6>
                     </div>
                     <div class=" content-item_half">
                         <h6 class="content-item__header">
-                            Dostępne czcionki
+                            Available fonts
                         </h6>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
             </div>
             <div class="content-item" @dblclick="hasFontWeight = !hasFontWeight" :class="{'active': hasFontWeight}">
                 <h4 class="content-item__header">
-                    Waga czcionki
+                    Font Weight
                 </h4>
                 <ul class=" content-item__elem_container">
                     <li class="content-item__elem" v-for="el in fontWeights" :key="el">

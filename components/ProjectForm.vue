@@ -1,10 +1,10 @@
 <template>
     <div >
         <h5 v-if="valueProp">
-            Edycja Projektu
+            Edit project
         </h5>
         <h5 v-else>
-            Nowy Projektu
+            New prject
         </h5>
        <div class="row justify-content-center content content--notch-bottom">
         <form class="col-4 form-login">
@@ -12,7 +12,7 @@
 
             <div class="form-row">
                 <div class="form-group col-12">
-                    <label for="inputEmail4">Nazwa </label>
+                    <label for="inputEmail4">Name </label>
                     <input type="text" class="form-control" id="inputEmail4" v-model="value.name">
                     <span class="error" role="alert" v-if="value.nameError">
                         {{ value.nameError }}
@@ -23,15 +23,15 @@
 
             <div class="form-row mt-4">
                 <div class="form-group col-12">
-                    <button class="btn btn-primary w-100" @click.prevent="save">Zapisz</button>
+                    <button class="btn btn-primary w-100" @click.prevent="save">Save</button>
                 </div>
                 <div v-if="saveSuccess" class="form-group col-12">
                     <h3 v-if="valueProp" class="text-success">
-                        Zapisano pomyślnie
+                        Save success
                     </h3>
                     
                     <h3 v-else class="text-success">
-                        Utworzono projekt pomyślnie
+                        Created new project successfull
                     </h3>
                 </div>
             </div>

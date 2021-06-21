@@ -1,11 +1,11 @@
 <template>
     <div >
-        <h1>Stworzone Layouty</h1>
+        <h1>Created Layouts</h1>
 
         <div class="row">
             <div class="col-12 d-flex justify-content__end">
                 <nuxt-link tag="button" class="btn btn-primary pull-right"  :to="{ name: 'dashboard-layouts-new'}">
-                    Nowy projekt
+                    New project
                 </nuxt-link>
             </div>
         </div>
