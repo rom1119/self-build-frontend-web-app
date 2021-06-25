@@ -142,7 +142,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
 
         } else if (propTmp) {
             this.setProperty(propTmp)
-            this.getProperty().setActive(true)
+            this.getProperty().setActive(false)
         } else {
             this.setProperty(this.newProperty())
             this.getProperty().setActive(false)

@@ -30,7 +30,7 @@
                         :key="transformVal.id" 
                         class="content-item-left green-b p-2 rel">
                         <span class="p-abs" style="right: 0px;">
-                            <span class="btn btn_red  btn_sm" @click="removeTransformValue(transformVal)"> USUN KLATKĘ </span>
+                            <span class="btn btn_red  btn_sm" @click="removeTransformValue(transformVal)">DELETE VALUE</span>
                         </span>
                         <transform-val-component :value="transformVal" @change="transformManager.updateCssProp(transformManager.getProperty())" :transform="transform" />
 

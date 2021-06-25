@@ -73,6 +73,8 @@ import KeyFrameSelector from '../Animation/KeyFrameSelector';
 import BaseSelector from '../BaseSelector';
 import TransformCss from '../Css/ThreeDimensional/TransformCss';
 import { html } from 'js-beautify';
+import ViewMode from '../Mode/impl/ViewMode';
+import AnimationCss from '../Css/Animation/AnimationCss';
 
 export default abstract class HtmlTag extends HtmlNode implements
     CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, ActivableTagToAnimation, SelectorOwner, HtmlAttrOwner, CssOwner
@@ -1008,6 +1010,11 @@ export default abstract class HtmlTag extends HtmlNode implements
         if (css instanceof LeftCss || css instanceof RightCss || css instanceof TopCss || css instanceof BottomCss) {
             return false
         }
+        if (this.layoutMode instanceof ViewMode) {
+            if (css instanceof AnimationCss) {
+                return false
+            }
+        }
 
         return this.canApplyCss(css.getName())
     }
@@ -1431,6 +1438,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         if (css[Height.PROP_NAME]) {
             let height = new Height(this._height, this.heightUnitCurrent)
         }
+        
 
         // console.log('APPPPPPPPPPPPP');
         // console.log(css);
