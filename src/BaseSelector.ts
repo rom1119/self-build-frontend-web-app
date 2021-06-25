@@ -6,7 +6,7 @@ import HtmlTag from "./Layout/HtmlTag"
 import PseudoSelector from "./PseudoSelector/PseudoSelector"
 import UnitSize from "./Unit/UnitSize"
 import { Pixel } from "./Unit"
-import { PositionCss, Width, Height } from "./Css"
+import { PositionCss, Width, Height, PaddingBottomCss, PaddingLeftCss, PaddingRightCss, PaddingTopCss } from "./Css"
 import BasePaddingCss from "./Css/BoxModel/BasePaddingCss"
 import BaseBorderCss from "./Css/Border/BaseBorderCss"
 import ContentSizeCss from "./Css/Size/ContentSizeCss"
@@ -21,6 +21,9 @@ import TransitionCss from "~/src/Css/Animation/TransitionCss";
 import CssOwner from './CssOwner';
 import SelectorApiService from './Api/SelectorApiService';
 import KeyFrameSelector from './Animation/KeyFrameSelector';
+import FetcherRealCssProp from './FetcherRealCssProp';
+import PaddingRealCssFetcher from './Css/RealCssProp/PadingRealCssFetcher';
+import PaddingRealCssFetcherForSelector from './Css/RealCssProp/PadingRealCssFetcherForSelector';
 
 export default abstract class BaseSelector implements CssOwner
 {
@@ -59,7 +62,9 @@ export default abstract class BaseSelector implements CssOwner
 
     cssListMediaOwner: MediaQueryListOwner<BaseSelector>
 
-
+    paddingRealFetcher: FetcherRealCssProp = new PaddingRealCssFetcherForSelector(this)
+    // marginRealFetcher: FetcherRealCssProp = new MarginRealCssFetcher(this)
+    // borderRealFetcher: BorderFetcherRealCssProp = new BorderRealCssFetcher(this)
 
     constructor(owner: SelectorOwner) {
         this._owner = owner
@@ -206,6 +211,16 @@ export default abstract class BaseSelector implements CssOwner
         // }
 
         return this.cssAccessor.getProperty(prop)
+    }
+    
+    public getTmpPropertyCss(prop: string)
+    {
+            console.log('getPropertyCss SEL', prop, this.selectedMedia)
+        // if (this.selectedMedia) {
+        //     return this.cssListMediaOwner.getProperty(prop)
+        // }
+
+        return this.tmpCssAccessor.getProperty(prop)
     }
 
     public removeCssPropertyByName(propName: string)
@@ -536,4 +551,38 @@ export default abstract class BaseSelector implements CssOwner
     public abstract setOwner(tag: SelectorOwner)
 
 
+    public afterUpdatePadding() {
+
+        var paddingLeft = this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME)
+        var paddingLeftUnit = this.paddingRealFetcher.fetchUnit(PaddingLeftCss.PROP_NAME)
+        var paddingLeftCalc = '0px'
+        if (paddingLeft) {
+            paddingLeftCalc = paddingLeftUnit.getValue(paddingLeft)
+        }
+
+        var paddingRight = this.paddingRealFetcher.fetchPropValue(PaddingRightCss.PROP_NAME)
+        var paddingRightUnit = this.paddingRealFetcher.fetchUnit(PaddingRightCss.PROP_NAME)
+        var paddingRightCalc = '0px'
+        if (paddingRight) {
+            paddingRightCalc = paddingRightUnit.getValue(paddingRight)
+        }
+
+        this.widthCalc = `calc(100% - ${paddingLeftCalc} - ${paddingRightCalc})`
+
+        var paddingTop = this.paddingRealFetcher.fetchPropValue(PaddingTopCss.PROP_NAME)
+        var paddingTopUnit = this.paddingRealFetcher.fetchUnit(PaddingTopCss.PROP_NAME)
+        var paddingTopCalc = '0px'
+        if (paddingTop) {
+            paddingTopCalc = paddingTopUnit.getValue(paddingTop)
+        }
+
+        var paddingBottom = this.paddingRealFetcher.fetchPropValue(PaddingBottomCss.PROP_NAME)
+        var paddingBottomUnit = this.paddingRealFetcher.fetchUnit(PaddingBottomCss.PROP_NAME)
+        var paddingBottomCalc = '0px'
+        if (paddingBottom) {
+            paddingBottomCalc = paddingBottomUnit.getValue(paddingBottom)
+        }
+
+        this.heightCalc = `calc(100% - ${paddingTopCalc} - ${paddingBottomCalc})`
+    }
 }

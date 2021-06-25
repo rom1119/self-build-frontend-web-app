@@ -56,7 +56,7 @@
         <body
           @mouseup="onMouseUp($event)"
           @mousemove="onMouseMove($event)"
-          style="min-height: 100vh; overflow-x: visible"
+          style="min-height: 100vh; overflow-x: visible; position: relative;"
         >
           <!-- <ul>
                             {{ pseudoSelectorsTags }}

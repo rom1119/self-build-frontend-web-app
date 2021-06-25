@@ -43,15 +43,15 @@
                                 <td>
 
                                     <nuxt-link tag="a" class="btn btn-primary"  :to="{ name: 'dashboard-layout-creator-id', params: { id: el.id }}">
-                                        Otwórz projekt
+                                        Open project
                                     </nuxt-link>
                                     
                                     <nuxt-link tag="a" class="btn btn-primary"  :to="{ name: 'dashboard-layouts-edit-id', params: { id: el.id }}">
-                                        Edytuj
+                                        Edit
                                     </nuxt-link>
                                     
                                     <button @click="deleteItem(el)" class="btn btn-primary"  >
-                                        Usuń
+                                        Remove
                                     </button>
 
                                 </td>

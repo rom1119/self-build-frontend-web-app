@@ -1,7 +1,7 @@
 <template >
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <nuxt-link to="/" class="navbar-brand">HOME
+            <nuxt-link to="/" class="navbar-brand white-font">HOME
             </nuxt-link>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -29,10 +29,10 @@
                 <div class="navbar__user-dropdown">
 
                     <nuxt-link tag="div" class=" btn" to="/dashboard/layouts" active-class="" exact>
-                        <a>Projekty</a>
+                        <a>Projects</a>
                     </nuxt-link>
                     <li class="btn btn-primary" @click="generattingCode" v-if="$route.name == 'dashboard-layout-creator-id'"  active-class="active">
-                        <a class="">Generator kodu</a>
+                        <a class="">Code Generator</a>
                     </li>
                     <li class="btn btn-primary" :class="{'active': fontFaceActive}" @click="toggleFontFace" v-if="$route.name == 'dashboard-layout-creator-id'"  active-class="active">
                         <a class="">Font Face</a>
@@ -42,11 +42,11 @@
                             <img class="navbar__user-avatar" src="@/assets/img/contrast.svg" alt="">
                             <span class="navbar__user-name">{{ $auth.user.name }}</span>
                         </template>
-                        <b-dropdown-item @click="$router.push('/account-settings')">Ustawienia</b-dropdown-item>
-                        <b-dropdown-item @click="logout">Wyloguj</b-dropdown-item>
+                        <b-dropdown-item @click="$router.push('/account-settings')">Settings</b-dropdown-item>
+                        <b-dropdown-item @click="logout">Log out</b-dropdown-item>
                     </b-dropdown>
 
-                    <button v-else class="btn" @click="$router.push('/login')">Zaloguj</button>
+                    <button v-else class="btn" @click="$router.push('/login')">Sign in</button>
                 </div>
             </div>
         </div>

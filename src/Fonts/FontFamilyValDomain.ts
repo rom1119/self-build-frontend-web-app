@@ -100,7 +100,8 @@ export default class FontFamilyValDomain {
                     continue
                 }
                  if (el.fontFace) {
-                    if (!this.owner.hasThisFont(el)) {
+                     // brak ownera !!!!!!!!!!!!!
+                     if (!this.owner.hasThisFont(el)) {
                         res.push(el)
                     }
       

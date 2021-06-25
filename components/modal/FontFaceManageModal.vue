@@ -1,6 +1,6 @@
 <template>
 
-    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :tag="value">
+    <base-modal v-show="active" @changePseudoSelector="onChangePseudoSelector" :selectorsActive="false" :tag="value">
     
         <template slot="header">
             <div class="close">
@@ -17,7 +17,7 @@
                 >
                     <h4 class="content-item__header">
                         
-                        <span class="add-btn btn" @click="addNewFont"> Dodaj FONT </span>
+                        <span class="add-btn btn" @click="addNewFont"> Add FONT </span>
                     </h4>
                 </div>
             </div>
@@ -29,13 +29,13 @@
 
                     </p>
                     <div class=" content-item rel">
-                        Nazwa czcionki
+                        Font face name
                         <br>
-                        ilosc użytych tagow: {{ font.countOwners }}
+                        amount of used tags: {{ font.countOwners }}
 
                         <input type="text" class="w90" @input="changeFont(font)" v-model="font.name" :name="'name' + font.id">
                         <span class="p-abs">
-                            <span class="btn btn_red btn_sm" @click="removeFont(font)"> USUN FONT </span>
+                            <span class="btn btn_red btn_sm" @click="removeFont(font)"> REMOVE FONT </span>
                         </span>
 
                     </div>
@@ -47,7 +47,7 @@
                             {{ key + 1 }}.
                         </span>
                         <span class="p-abs" style="right: 0px;">
-                            <span class="btn btn_red btn_sm" @click="removeFontSrc(font, srcEl)"> USUN SRC </span>
+                            <span class="btn btn_red btn_sm" @click="removeFontSrc(font, srcEl)"> REMOVE SRC </span>
                         </span>
                         <input type="file" id="imgFile" @change="updateFile($event, font, srcEl);" accept="font/ttf, font/otf, font/woff, font/woff2" class="input-file">  
                         </br>
@@ -56,19 +56,19 @@
                         </span>
                         <div>
                             <button v-if="srcEl.resource"  class="btn btn_sm" @click.stop="deleteResource(font, srcEl)" type="button">
-                                Usuń zasób
+                                REMOVE RESOURCE
                             </button>
                             <p v-if="srcEl.resource" style="overflow-x:scroll;"   alt="" width="200" height="200">
-                                Wewnętrzny zasób <span  class="white-gray small-font">{{ srcEl.resource }}</span>
+                                Internal resource <span  class="white-gray small-font">{{ srcEl.resource }}</span>
                             </p>
                             <p v-else alt="" width="200" height="200">
-                                Link do zasobu <span class="white-b">{{ srcEl.resourceUrl }}</span>
+                                Link to the resource <span class="white-b">{{ srcEl.resourceUrl }}</span>
                             </p>
 
                         </div>
                         <div class=" " v-if="!srcEl.resource">
                             <label for="">
-                                Link do zewnętrznego zasobu
+                                Link to the external resource
                                 
                                 <input type="text" style="width: 100%;" @input="updateFontUrl(font, srcEl)" v-model="srcEl.resourceUrl" />
                             </label>
@@ -89,10 +89,10 @@
         </template>
         <template slot="footer">
             <button class="to-left" @click="restore($event)">
-                Przywróć
+                Restore
             </button>
             <button class="to-right">
-                Zapisz
+                Save
             </button>
         </template>
     </base-modal>

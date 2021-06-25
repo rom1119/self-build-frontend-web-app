@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import base64 from "base-64";
 import { SidebarMenu } from "vue-sidebar-menu";
 import KeyFrameManageComponent from "~/components/animation/KeyFrameManageComponent.vue";
@@ -147,7 +147,11 @@ export default class InputValComponent extends Vue {
   unit: Unit = null
   val: number = 0
 
-
+  @Watch('valueProp')
+  asd(a) {
+    this.val = a
+    // console.log('watch input val ', this.labelProp, a);
+  }
   mounted() {
     this.val = this.valueProp
     this.unit = this.unitProp

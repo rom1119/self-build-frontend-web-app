@@ -10,19 +10,19 @@
 
 
                 <template v-if="isTableTag">
-                    <context-menu-item  :action="appendRowElement">Dodaj Wiersz</context-menu-item>
-                    <context-menu-item  :action="appendColumnElement">Dodaj Kolumnę</context-menu-item>
+                    <context-menu-item  :action="appendRowElement">New Row</context-menu-item>
+                    <context-menu-item  :action="appendColumnElement">New Column</context-menu-item>
 
                 </template>
                 <template v-else>
-                    <context-menu-item :action="createDivElement">Stwórz DIV</context-menu-item>
-                    <context-menu-item :action="createH1Element">Stwórz H1</context-menu-item>
-                    <context-menu-item :action="createInputTextElement">Stwórz Input Tekstowy</context-menu-item>
-                    <context-menu-item :action="createButtonElement">Stwórz Buttom</context-menu-item>
-                    <context-menu-item :action="createImgElement">Dodaj Obrazek</context-menu-item>
-                    <context-menu-item :action="createSvgElement">Dodaj SVG</context-menu-item>
-                    <context-menu-item :action="createExampleTable">Tabela (przykład)</context-menu-item>
-                    <context-menu-item v-if="isTableRowTag"  :action="appendCellElement">Dodaj Komórkę</context-menu-item>
+                    <context-menu-item :action="createDivElement">Create DIV</context-menu-item>
+                    <context-menu-item :action="createH1Element">Create H1</context-menu-item>
+                    <context-menu-item :action="createInputTextElement">Create Input Text</context-menu-item>
+                    <context-menu-item :action="createButtonElement">Create Buttom</context-menu-item>
+                    <context-menu-item :action="createImgElement">Create Image</context-menu-item>
+                    <context-menu-item :action="createSvgElement">Create SVG</context-menu-item>
+                    <context-menu-item :action="createExampleTable">Create Table (first example)</context-menu-item>
+                    <context-menu-item v-if="isTableRowTag"  :action="appendCellElement">Add Cell</context-menu-item>
 
 
 
@@ -33,10 +33,10 @@
         </context-menu>
         <!-- <create-html-element-context-menu :value="value"  :ref="createElementNameCM" /> -->
 
-        <context-menu-item v-context-menu="createElementNameCM">Nowy Element</context-menu-item>
-        <context-menu-item :action="createText">Dodaj tekst</context-menu-item>
+        <context-menu-item v-context-menu="createElementNameCM">New HTML Element</context-menu-item>
+        <context-menu-item :action="createText">Add text</context-menu-item>
 
-        <context-menu-item v-if="isImgTag" :action="showImageModal">Grafika obrazka</context-menu-item>
+        <context-menu-item v-if="isImgTag" :action="showImageModal">Edit Image</context-menu-item>
         <context-menu-item v-if="isSvgTag" :action="showSvgModal">SVG</context-menu-item>
 
         <template v-if="isHtmlTag">

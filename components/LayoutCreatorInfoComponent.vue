@@ -4,20 +4,20 @@
       <h4>
       </h4>
       <div v-if="currentMode.isViewMode">
-          Podgląd widoku
+          View mode
       </div>
       <div v-else-if="currentMode.isEditMode">
-          Edycja projektu
+          Edit project
       </div>
       <div v-else-if="currentMode.isAnimationEditMode">
         <p v-if="currentMode.selectedHtmlEl" class="text-danger">
-          Naciśnij Esc lub kliknij <a href="#" class="btn btn_sm" @click.prevent="backToSelectTag">tutaj</a> aby powrócić do wyboru prototy dla animacji
+          Press Esc or click <a href="#" class="btn btn_sm" @click.prevent="backToSelectTag">this</a> to back to choice animation prototype
         </p>
         <p v-if="currentMode.animationIsStarted">
-          Tryb edycji animacji "{{ currentMode.animationName }}"  dla klatki "{{ currentMode.selectorName }}"
+          Edit animation "{{ currentMode.animationName }}"  for frame "{{ currentMode.selectorName }}"
         </p>
         <p v-else>
-          Wybierz element HTML klikając w niego, aby stworzyć animację na jego bazie
+          Select an HTML element clicking on it, to create animation based on html TAG
         </p>
       </div>
     </section>

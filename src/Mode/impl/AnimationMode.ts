@@ -135,7 +135,7 @@ export default class AnimationMode extends LayoutMode
     }
 
     public getLabel() {
-        return 'Tryb animacji'
+        return 'Animation mode'
     }
 
 }

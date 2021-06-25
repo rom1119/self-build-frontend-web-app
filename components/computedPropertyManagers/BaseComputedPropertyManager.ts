@@ -80,6 +80,28 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         return <T>this.value.getPropertyCss(prop)
     }
 
+    protected getTmpPropertyCssFromModel(prop: string): T
+    {
+        if (!this.value) {
+            return null
+        }
+        // console.log('getPropertyCssFromModel');
+        // console.log(prop);
+        // console.log('this.value.selectedSelector', this.value.selectedSelector);
+        // console.log('this.value.currentCssAccessor', this.value.currentCssAccessor);
+        
+        var activeSelector = this.value.selectedSelector 
+        if (activeSelector) {
+            // console.log('activeSelector val,', <T>activeSelector.getPropertyCss(prop));
+
+            return <T>activeSelector.getTmpPropertyCss(prop)
+            
+        }
+        // console.log(this.value);
+        console.log(this.value.getTmpPropertyCss(prop));
+        return <T>this.value.getTmpPropertyCss(prop)
+    }
+
     protected setTmpPropertyToModel(newCssProp: T)
     {
         if (!this.value) {
@@ -109,11 +131,17 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
 
     init() {
         var prop = this.getPropertyCssFromModel(this.getProperty().getName())
+        var propTmp = this.getTmpPropertyCssFromModel(this.getProperty().getName())
         let clearval = this.getProperty().getClearValue()
         let unit = this.getProperty().getUnit()
 
         if (prop) {
             this.setProperty(prop)
+            this.getProperty().setActive(true)
+            this.setTmpPropertyToModel(prop)
+
+        } else if (propTmp) {
+            this.setProperty(propTmp)
             this.getProperty().setActive(true)
         } else {
             this.setProperty(this.newProperty())

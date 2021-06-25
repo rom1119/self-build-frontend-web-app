@@ -10,6 +10,7 @@ export default abstract class LayoutEl {
 
     protected _uuid: string;
     protected _cssPropertyAccesor: CssPropertyAccessor
+    protected _tmpCssPropertyAccesor: CssPropertyAccessor
     protected _updateComponent = 0
     protected _htmlEl: HTMLElement = null
     protected _htmlElHidden = null
@@ -83,6 +84,11 @@ export default abstract class LayoutEl {
         return this._cssPropertyAccesor
     }
 
+    get tmpCssAccessor(): CssPropertyAccessor
+    {
+        return this._tmpCssPropertyAccesor
+    }
+
     public updateCssProperty(propName: string, val: BasePropertyCss)
     {
         let currentBackground = this.cssAccessor.getProperty(val.getName())
@@ -102,10 +108,19 @@ export default abstract class LayoutEl {
     public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
     {
         if (!this.cssAccessor.hasCssProperty(val.getName())) {
-            this.cssAccessor.addNewProperty(val)
+            var tmpProp = this.tmpCssAccessor.getProperty(propName)
+            if (!tmpProp) {
+                this.cssAccessor.addNewProperty(val)
+                this.tmpCssAccessor.addNewProperty(val)
+            } else {
+                tmpProp.setActive(true)
+                this.tmpCssAccessor.setNewPropertyValue(propName, val)
+                this.cssAccessor.addNewProperty(tmpProp)
+
+            }
         } else {
-            let currentBackground = this.cssAccessor.getProperty(val.getName())
-            if (currentBackground.getValue() === val.getValue()) {
+            let prop = this.cssAccessor.getProperty(val.getName())
+            if (prop.getValue() === val.getValue()) {
                 // return
             }
             this.cssAccessor.setNewPropertyValue(propName, val)

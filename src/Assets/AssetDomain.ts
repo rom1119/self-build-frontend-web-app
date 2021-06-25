@@ -14,13 +14,13 @@ export default class AssetDomain extends AggregateRoot implements AssetResource{
     }
     projectId: string
     version: number
-    format: string
+    format: string = ''
 
     font: FontFace
 
-    resource: string;
-    file: File;
-    type: number;
+    resource: string = ''
+    file: File = null
+    type: number = null
     api: AssetApiService
 
     protected _resourceUrl: string = ''

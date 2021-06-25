@@ -25,18 +25,18 @@
                 @mouseout="onContentMouseOut(value)"
                 class="animation-shadow" v-show="value.isReadyToAnimationCheck()" >
                 <div class="tip-animation"  @click.stop="onCheckToAnimationElement(value, $event)">
-                    Klikni aby tworzyć animację
+                    Click to select TAG for Animation
                 </div>
             </div>
 
             <div class="animation-selected" v-show="value.isActiveTagToAnimation()" >
                 <div class="remove" >
-                    Wybierz klatkę animacji aby zarządzać animacją
+                    Choose an animation frame to start manage
                 </div>  
             </div>
             <div class="animation-selected" v-show="value.isReadyToStartAnimation()" >
                 <div class="remove" >
-                    Tworzysz animację na elemencie
+                    You create animation on this element
                 </div>  
             </div>
 

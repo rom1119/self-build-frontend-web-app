@@ -171,6 +171,9 @@ export default class AppEventsController
         if (this.currentMode instanceof AnimationMode) {
             if (this.currentMode.canRunSystemAction(new SelectElementForAnimationAction(tag))) {
                 this.activeToAnimationController.updateActiveTag(tag);
+            } else {
+                this.activeToManageController.updateActiveTag(tag);
+
             }
 
         

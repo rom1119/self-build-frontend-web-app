@@ -7,7 +7,7 @@
                 <button @click="close($event)">X</button>
             </div>
             <h4>
-                Gradient tła 
+                Gradient on background 
             </h4>
         </template>
         <template slot="content">
@@ -18,10 +18,10 @@
         </template>
         <template slot="footer">
             <button class="to-left" @click="restore($event)">
-                Przywróć
+                Restore
             </button>
             <button class="to-right">
-                Zapisz
+                Save
             </button>
         </template>
     </base-modal>

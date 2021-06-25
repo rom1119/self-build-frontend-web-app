@@ -383,15 +383,30 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     get hasPosition(): boolean
     {
+        var activeSelector = this.selectedSelector
+
+        if (activeSelector) {
+            return activeSelector.hasPosition
+        }
         return this._hasPosition
     }
 
     get hasAbsolute(): boolean
     {
+        var activeSelector = this.selectedSelector
+
+        if (activeSelector) {
+            return activeSelector.hasAbsolute
+        }
         return this._hasAbsolute
     }
     get hasFixed(): boolean
     {
+        var activeSelector = this.selectedSelector
+
+        if (activeSelector) {
+            return activeSelector.hasFixed
+        }
         return this._hasFixed
     }
 
@@ -536,6 +551,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         if (activeSelector) {
             activeSelector.updateHasPosition(prop)
+            return
         }
         if (!(prop instanceof PositionCss)) {
             return
@@ -731,6 +747,16 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this.cssAccessor.getProperty(prop)
     }
 
+    public getTmpPropertyCss(prop: string)
+    {
+            console.log('getPropertyCss SEL', prop, this.selectedMedia)
+        // if (this.selectedMedia) {
+        //     return this.cssListMediaOwner.getProperty(prop)
+        // }
+
+        return this.tmpCssAccessor.getProperty(prop)
+    }
+
     public removeCssPropertyByName(propName: string)
     {
         // super.removeCssProperty(prop)
@@ -857,10 +883,6 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.synchronize()
     }
 
-    get tmpCssAccessor(): CssPropertyAccessor
-    {
-        return this._tmpCssPropertyAccesor
-    }
 
     get attributeAccessor(): AttributesAccessor
     {
@@ -1667,13 +1689,18 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     public initPos(x, y)
     {
+        // console.log('initPos', x, y);
+        
         if (this.hasAbsolute || this.hasFixed) {
+            // console.log('initPos if');
             this.realPositionCalculator.leftUnit = new Pixel()
             this.realPositionCalculator.topUnit = new Pixel()
             this.realPositionCalculator.realLeftCalc = x
             this.realPositionCalculator.realTopCalc = y
 
         } else {
+            // console.log('initPos else');
+
             var left = new LeftCss(x, new Pixel())
             var top = new TopCss(y, new Pixel())
             this.updateCssPropertyWithoutModel(left.getName(), left)
@@ -2133,6 +2160,13 @@ export default abstract class HtmlTag extends HtmlNode implements
     // }
 
     public afterUpdatePadding() {
+
+        var activeSelector = this.selectedSelector
+
+        if (activeSelector) {
+            activeSelector.afterUpdatePadding()
+            return
+        }
 
         var paddingLeft = this.paddingRealFetcher.fetchPropValue(PaddingLeftCss.PROP_NAME)
         var paddingLeftUnit = this.paddingRealFetcher.fetchUnit(PaddingLeftCss.PROP_NAME)

@@ -4,7 +4,7 @@
             Edit project
         </h5>
         <h5 v-else>
-            New prject
+            New project
         </h5>
        <div class="row justify-content-center content content--notch-bottom">
         <form class="col-4 form-login">

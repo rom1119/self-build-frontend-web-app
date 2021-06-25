@@ -308,7 +308,10 @@ export default class RealPositionCalculator
     }
 
     set realTopCalc(arg) {
+        // console.log('set realTopCalc(arg)');
+        // console.log('this.tag.hasAbsolute', this.tag.hasAbsolute);
         if (this.tag.hasAbsolute) {
+            
             this._realTopCalc = this._topUnit.getValue(arg)
             this._top = this.recalculateValTop(arg)
 
@@ -366,7 +369,10 @@ export default class RealPositionCalculator
             // return `0px - ${this.bodyTag.getBoundingClientRect().right}px - ${this.marginLeftCalc} + ${marginLeft}px + ${this.tag.boundingClientRectLeftPixel}px + ${borderRight}px + ${borderLeft}px + ${paddingRight}px + ${paddingLeft}px + ${marginRight}px + ${width}px + ${val}`
         }
 
-        return `${val} + ${borderLeftUnit.getValue(borderLeft)}`
+        if (borderLeft && borderLeftUnit) {
+            return `${val} + ${borderLeftUnit.getValue(borderLeft)}`
+        }
+        return `${val}`
     }
 
     recalculateValLeft(val) {
@@ -417,6 +423,10 @@ export default class RealPositionCalculator
             // @ts-ignore
             return `0px - ${topParent}px + ${this.bodyTag.getBoundingClientRect().top}px  - ${borderTopParent}px - ${paddingTopParent}px - ${marginTopParent}px +  ${val}`
         }
+
+        // console.log('recalculateRealValTop', val);
+        // console.log('this.nearPositionalTag.getHtmlEl().getBoundingClientRect().y', this.nearPositionalTag.getHtmlEl().getBoundingClientRect().y);
+        // console.log('this.relativeTop', this.relativeTop);
 
         return `${val}`
 
@@ -525,7 +535,6 @@ export default class RealPositionCalculator
             // @ts-ignore
             return this.relativeTop - this.bodyTag.getBoundingClientRect().y + val - Number(marginTop)
         }
-
 
         // @ts-ignore
         return this.relativeTop - this.nearPositionalTag.getHtmlEl().getBoundingClientRect().y + val - Number(marginTop) - Number(borderTop)

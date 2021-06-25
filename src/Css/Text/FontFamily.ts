@@ -140,7 +140,7 @@ export default class FontFamily extends CssSimple implements CssPropertyLimitabl
         super(val, unit)
         this.clearValue()
         if (val) {
-            this.values.push(val)
+            this.addValue(val)
             this.type = val.getType()
 
         }

@@ -7,7 +7,7 @@
                 class="content-item-half"
                 >
                     <div class="content-item__header rel">
-                        <span class=" btn" @click="addNewKeyFrame"> Dodaj Animację </span>
+                        <span class=" btn" @click="addNewKeyFrame"> NEW ANIMATION </span>
                     </div>
                 </div>
                 <div
@@ -16,10 +16,10 @@
                     <div class="content-item__header rel">
                         <template v-if="animationCreator">
                             <div v-if="canStartManageAnimation" class="rel" style=" left: 0;">
-                                <span class="btn btn_red " @click="startManageAnimation"> Rozpocznij edycję animacji </span>
+                                <span class="btn btn_red " @click="startManageAnimation">Start edit animation</span>
                             </div>
                             <div v-if="animationIsStarted" class="rel" style=" left: 0;">
-                                <span class="btn btn_red " @click="endManageAnimation"> Zakończ edycję animacji </span>
+                                <span class="btn btn_red " @click="endManageAnimation">End edit animation</span>
                             </div>     
                             
                         </template>
@@ -37,24 +37,24 @@
                     <div class=" content-item rel">
                         
                         <span class="font-b">
-                            ilosc użytych animacji: {{ keyFrame.countOwners }}
+                            amount of used tags: {{ keyFrame.countOwners }}
                         
                         </span>    
                         <br>
                         
                         <div>
-                            Nazwa animacji:
+                            Name animation:
 
                             <input type="text" class="w90" @input="changeKeyFrame(keyFrame)" v-model="keyFrame.name" :name="'name' + keyFrame.id">
                             <span class="p-abs" style="top: 10px; right: 0;">
-                                <span class="btn btn_red btn_sm" @click="removeKeyFrame(keyFrame)"> USUN Animację </span>
+                                <span class="btn btn_red btn_sm" @click="removeKeyFrame(keyFrame)">DELETE ANIMATION</span>
                             </span>
                         </div>
 
                     </div>
                         <div v-if="canAddSelector(keyFrame)" class="content-item__header rel">
-                            <button class="right-btn btn btn_sm" @click="addSelector(keyFrame)"> DODAJ KLATKĘ </button>
-                            <label class="lab">Procentowa poklatka
+                            <button class="right-btn btn btn_sm" @click="addSelector(keyFrame)"> ADD FRAME </button>
+                            <label class="lab">Percentage frame
                                 <input type="checkbox" name="percentSelector" v-model="keyFrame.isPercentSelector">
                             </label>
                             <br>
@@ -63,7 +63,7 @@
                             </span>
                         </div>
                         <div class="rel content-item">
-                            Klatki animacji : 
+                            Frames of animation : 
                              <button class="right-btn btn btn_sm" style="top: 10px;" @click="keyFrame.toggleSelectors()"> 
                              <template v-if="keyFrame.selectorsShow">
                                 close
@@ -86,16 +86,16 @@
                             class="add-btn btn btn_sm" 
                             style="left: 10%;"
                             v-if="canSelectSelector(selector)" 
-                            @click="selectKeyFrameSelectorManage(selector)"> Zarządzaj klatką 
+                            @click="selectKeyFrameSelectorManage(selector)">Select manage frame 
                         </span>
                         <span 
                             class="btn_red rel btn btn_sm" 
                             style="left: 10%;"
                             v-if="isSelectedSelectorToManage(selector) && !animationIsStarted" 
                             @click="unselectAnimationSelectorManage(selector)"
-                        > Odznacz klatkę </span>
+                        > Uncheck frame </span>
                         <span class="p-abs" style="right: 0px;">
-                            <span class="btn btn_red  btn_sm" @click="removeSelector(keyFrame, selector)"> USUN KLATKĘ </span>
+                            <span class="btn btn_red  btn_sm" @click="removeSelector(keyFrame, selector)">DELETE FRAME</span>
                         </span>
                         </br>
                         <code >

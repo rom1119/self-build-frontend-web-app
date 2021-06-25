@@ -71,7 +71,7 @@ export default class ViewMode extends LayoutMode
     }
 
     public getLabel() {
-        return 'Tryb widoku'
+        return 'View mode'
     }
 
 }

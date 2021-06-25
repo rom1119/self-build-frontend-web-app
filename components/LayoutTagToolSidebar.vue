@@ -15,7 +15,7 @@
           </span>
         </h5>
         <div class="sidebar_tool__tabs">
-          <div v-for="tab in tabs" v-show="canSelectTab(tab)"  @click="onChangeTab(tab.componentName)" :key="tab.componentName" :class="{'active' : tab.componentName === currentComponentName }" class="sidebar_tool__tabs__tab-item">
+          <div v-for="tab in tabs" v-show="canSelectTab(tab.componentName)"  @click="onChangeTab(tab.componentName)" :key="tab.componentName" :class="{'active' : tab.componentName === currentComponentName }" class="sidebar_tool__tabs__tab-item">
             {{ tab.name }}
           </div>
         </div>
@@ -36,7 +36,7 @@
               />
             </div>
             
-              <component :is="currentComponentName" ref="manageComponent" v-if="accualActiveEl"  :autoUpdate="true"  :activeTag="accualActiveEl" />
+              <component :is="currentComponentName" ref="manageComponent" v-if="canSelectTab(currentComponentName)"  :autoUpdate="true"  :activeTag="accualActiveEl" />
                 
               
           </div>
@@ -64,7 +64,7 @@ import AbstractManageComponent from "./manageComponent/AbstractManageComponent";
   },
 })
 export default class LayoutTagToolSidebar extends Vue {
-  active = true
+  active = false
   currentComponentName = ''
   selectorsShow = false
   
@@ -169,14 +169,14 @@ export default class LayoutTagToolSidebar extends Vue {
       return false
     }
 
-    if (componentName === 'img-manage-component') {
+    // if (componentName === 'img-manage-component') {
 
-      if (this.accualActiveEl instanceof ImgTag) {
-        return true
-      }
+    //   if (this.accualActiveEl instanceof ImgTag) {
+    //     return true
+    //   }
 
-      return false
-    }
+    //   return false
+    // }
     
     if (componentName === 'svg-manage-component') {
 

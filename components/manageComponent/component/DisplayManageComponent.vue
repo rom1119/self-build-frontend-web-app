@@ -46,7 +46,7 @@
                 </div>
                 <template v-if="value">
                     <div class="content-item" v-show="value.hasPosition">
-                    <h4 class="content-item__header">Pozycja</h4>
+                    <h4 class="content-item__header">Position</h4>
                     <div class="content-item__elem_container">
                         <div 
                             class="content-item-quarter" 

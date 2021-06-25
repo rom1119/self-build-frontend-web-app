@@ -2,7 +2,7 @@
   <div class="my-modal" :style="{'width': widthComp}">
     <div class="my-modal__header">
       <div class="my-modal__move" @mousedown.stop="onMouseDown($event)">
-        <div class="left">
+        <div class="left" v-if="selectorsActive">
           <button @click.stop="selectorsShow = !selectorsShow">
             Selectors
           </button>
@@ -45,6 +45,9 @@ import TextManageComponent from "~/components/manageComponent/component/TextMana
 export default class BaseModal extends Vue {
   moveController: MoveEventController<MouseMoveEventSource>;
   selectorsShow = false;
+
+  @Prop({ default: true, required: false })
+  selectorsActive: boolean
 
   @Prop({ default: null, required: false })
   width: string
