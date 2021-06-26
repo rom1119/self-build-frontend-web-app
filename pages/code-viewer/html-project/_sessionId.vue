@@ -300,7 +300,9 @@ import {html} from 'js-beautify';
 </script>
 
 <style lang="scss" scoped>
-    
+    .review {
+        min-height: 700px;
+    }
     .code-types {
         display: flex;
         justify-content: center;

@@ -26,6 +26,7 @@ import RealPositionCalculator from '../PositionCss/RealPositionCalculator';
 import { VueFixStyleListTransform } from '../Vue/VueFixStyleListTransform';
 import DefaultMediaQueryApiService from '../Api/impl/DefaultMediaQueryApiService';
 import BasePropertyCss from '../Css/BasePropertyCss';
+import CssPropertyAccessor from '../Css/CssPropertyAccessor';
 
 
 export class MediaQueryStructVal implements CssValue {
@@ -240,9 +241,15 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
     protected _pseudoElementAccessor: PseudoElementPropertyAccessor
 
 
+    protected _cssPropertyAccesor: CssPropertyAccessor = null
+    protected _tmpCssPropertyAccesor: CssPropertyAccessor = null
+
+
     constructor() {
         this._pseudoClassAccessor = new PseudoClassPropertyAccessor(this)
         this._pseudoElementAccessor = new PseudoElementPropertyAccessor(this)
+        // this._cssPropertyAccesor = new PseudoSelectorCssAccessor(owner, this)
+        // this._tmpCssPropertyAccesor = new PseudoSelectorCssAccessor(owner, this)
     }
     canAddToCssList(prop: BasePropertyCss): boolean {
         throw new Error('Method not implemented.');
@@ -252,6 +259,16 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
     }
     notifyPositionalTag() {
         throw new Error('Method not implemented.');
+    }
+
+    get cssAccessor(): CssPropertyAccessor
+    {
+        return this._cssPropertyAccesor
+    }
+
+    get tmpCssAccessor(): CssPropertyAccessor
+    {
+        return this._tmpCssPropertyAccesor
     }
 
     get pseudoClassAccessor(): PseudoClassPropertyAccessor
@@ -279,6 +296,57 @@ export default abstract class BaseMediaQueryCss implements CssMultipleValue<Medi
         // }
 
         return null
+    }
+
+    public updateTmpCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
+    {
+        // if (this.selectedMedia) {
+        //     this.cssListMediaOwner.setNewValCssForMediaTmp(val)
+        // } else {
+            
+        // }
+        if (!this.tmpCssAccessor.hasCssProperty(val.getName())) {
+            this.tmpCssAccessor.addNewProperty(val)
+        } else {
+            let currentBackground = this.tmpCssAccessor.getProperty(val.getName())
+            if (currentBackground.getValue() === val.getValue()) {
+                // return
+            }
+            this.tmpCssAccessor.setNewPropertyValue(propName, val)
+        }
+    }
+
+    public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
+    {
+        // console.log('UUUUUUU');
+        // console.log(val.getValue());
+        // if (this.selectedMedia) {
+        //     this.cssListMediaOwner.setNewValCssForMedia(val)
+        // } else {
+            
+        // }
+        if (!this.cssAccessor.hasCssProperty(val.getName())) {
+            var tmpProp = this.tmpCssAccessor.getProperty(propName)
+            if (!tmpProp) {
+                this.cssAccessor.addNewProperty(val)
+                this.tmpCssAccessor.addNewProperty(val)
+            } else {
+                tmpProp.setActive(true)
+                this.tmpCssAccessor.setNewPropertyValue(propName, val)
+                this.cssAccessor.addNewProperty(tmpProp)
+
+            }
+        } else {
+            let prop = this.cssAccessor.getProperty(val.getName())
+            if (prop.getValue() === val.getValue()) {
+                // return
+            }
+            this.cssAccessor.setNewPropertyValue(propName, val)
+        }
+
+
+
+
     }
 
     getCurrentCssAccessor() {

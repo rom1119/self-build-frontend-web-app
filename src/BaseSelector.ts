@@ -268,15 +268,22 @@ export default abstract class BaseSelector implements CssOwner
             
         // }
         if (!this.cssAccessor.hasCssProperty(val.getName())) {
-            this.cssAccessor.addNewProperty(val)
-        } else {
-            let currentBackground = this.cssAccessor.getProperty(val.getName())
-            // console.log(currentBackground.getValue());
+            var tmpProp = this.tmpCssAccessor.getProperty(propName)
+            if (!tmpProp) {
+                this.cssAccessor.addNewProperty(val)
+                this.tmpCssAccessor.addNewProperty(val)
+            } else {
+                tmpProp.setActive(true)
+                this.tmpCssAccessor.setNewPropertyValue(propName, val)
+                this.cssAccessor.addNewProperty(tmpProp)
 
-            if (currentBackground.getValue() === val.getValue()) {
+            }
+        } else {
+            let prop = this.cssAccessor.getProperty(val.getName())
+            if (prop.getValue() === val.getValue()) {
                 // return
             }
-            this._cssPropertyAccesor.setNewPropertyValue(propName, val)
+            this.cssAccessor.setNewPropertyValue(propName, val)
         }
 
 
