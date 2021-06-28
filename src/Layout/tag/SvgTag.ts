@@ -2,6 +2,7 @@ import HtmlTagBlock from '../HtmlTagBlock';
 import CustomAttr from '../../Attribute/html/CustomAttr';
 import { BackgroundColor, BoxSizing, Height, Width } from '~/src/Css';
 import { Named } from '~/src/Unit';
+import Pixel from '../../Unit/Size/Pixel';
 export default class SvgTag extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  SVG`
@@ -21,8 +22,8 @@ export default class SvgTag extends HtmlTagBlock {
     public injectInitialCssStyles()
     {
         
-        let width = new Width(this._width, this.widthUnitCurrent)
-        let height = new Height(this._height, this.heightUnitCurrent)
+        let width = new Width(300, new Pixel())
+        let height = new Height(300, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor('#448855', this._initialColorUnit)
         let cssList = [ width, height, boxSizing, backgroundColor]

@@ -17,7 +17,10 @@ export default class HtmlNode extends LayoutEl
 
     public synchronize()
     {
+        console.log('synchronize', this);
+        
         if (this.synchronizer) {
+            console.log('synchronize IF', this);
             this.synchronizer.synchronize()
         }
     }

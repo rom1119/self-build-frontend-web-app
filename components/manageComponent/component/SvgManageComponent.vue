@@ -109,7 +109,7 @@
         {   
             // let base64Img = newVal
             // let color = new UnitUrl()
-            // console.log(123456);
+            console.log(123456);
 
             // this.setPropertyToModel(new BackgroundImage(base64Img, color)) 
             // this.imgAttrManager.getProperty().setResource(base64Img)

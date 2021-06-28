@@ -27,6 +27,23 @@ export default class DefaultDomainToModel implements DomainToModel
         this.styleTransformer = new DefaultCssToModel()
         this.selectorTransformer = new DefaultSelectorToModel()
     }
+
+    protected filteredSvg(value: SvgTag) {
+        if (typeof value.isSvg) {
+            // @ts-ignore
+            var lines = value.svgContent.split('\n');
+            // remove one line, starting at the first position
+            lines.splice(lines.length - 1, 1);
+            lines.splice(0,3);
+            // join the array back into a single string
+            var newtext = lines.join('\n');
+    
+            return newtext
+
+        }
+
+        return ''
+    }
     transform(domain: LayoutEl, deep?: boolean): TagDto {
         let model = new TagDto()
         model.id = domain.uuid
@@ -45,7 +62,7 @@ export default class DefaultDomainToModel implements DomainToModel
                 
             }
             if (domain instanceof SvgTag) {
-                model.setSvgContent(domain.getSvgContent())
+                model.setSvgContent(this.filteredSvg(domain))
             }
 
             if (domain instanceof ImgTag) {
