@@ -20,6 +20,8 @@
           
           <layout-tag-tool-sidebar  :accualActiveEl="appEventsController.activeToManageController.accualActiveEl">
           </layout-tag-tool-sidebar>
+          
+          <structure-project-sidebar :treeTags="htmlTags"  :appEventsController="appEventsController" />
         
             
           
@@ -109,7 +111,7 @@ import LayoutCreatorInfoComponent from '../LayoutCreatorInfoComponent.vue';
 
 @Component({
   components: {
-    LayoutTagToolSidebar
+    
   }
 })
 export default class LayoutCreatorContainer extends Vue {
@@ -458,7 +460,6 @@ export default class LayoutCreatorContainer extends Vue {
   }
 
   onTagRemove(source) {
-    // console.log('tagRemove');
     let tag: HtmlNode = source.target;
     this.tagRemoverAdvisor.advise(tag).remove(tag);
     // console.log(a);

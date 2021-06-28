@@ -15,6 +15,7 @@ import PseudoSelectorComponent from '@/components/PseudoSelectorComponent.vue'
 import LayoutCreatorModeComponent from '@/components/LayoutCreatorModeComponent.vue'
 import AnimationToolSidebar from '@/components/AnimationToolSidebar.vue'
 import LayoutTagToolSidebar from '@/components/LayoutTagToolSidebar.vue'
+import StructurProjectSidebar from '@/components/StructurProjectSidebar.vue'
 import MediaQueryComponent from '@/components/MediaQueryComponent.vue'
 import vuetifySelect2 from '@/components/vuetify-select2.vue'
 
@@ -52,6 +53,7 @@ Vue.component('media-query-component', MediaQueryComponent)
 Vue.component('pagination-component', Pagination)
 Vue.component('animation-tool-sidebar', AnimationToolSidebar)
 Vue.component('layout-tag-tool-sidebar', LayoutTagToolSidebar)
+Vue.component('structure-project-sidebar', StructurProjectSidebar)
 // Vue.component('comparison-component', MainComponent)
 // Vue.component('comparison-component', MainComponent)
 

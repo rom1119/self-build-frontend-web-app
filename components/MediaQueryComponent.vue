@@ -9,17 +9,18 @@
         :class="{ active: manager.property.isSelected }"
       >
         <input
-          @dblclick.stop="manager.toggleEditName"
           v-if="manager.nameEditActive"
+          @dblclick.stop="manager.toggleEditName"
+          @click.stop=""
           type="text"
           v-model="manager.property.name"
           @input="onChange(manager)"
         />
-        <span @dblclick.stop="manager.toggleEditName" v-else>{{
+        <span v-else @dblclick.stop="manager.toggleEditName" @click.stop="" >{{
           manager.property.name
         }}</span>
 
-        <span class="remove-btn" @click="remove(manager, key)"> X </span>
+        <span class="remove-btn" @click.stop="remove(manager, key)"> X </span>
 
         <div class="content-item__elem content rel">
           <div class="color-picker-box" @dblclick.stop.prevent="">
@@ -37,11 +38,13 @@
                             <input type="checkbox" @change="change" v-model="value.inset">
                         </span> -->
             <div
+              @click.stop=""
               class="color-picker"
               style="right: -260px !important; left: unset; top: 30px"
               v-show="manager.pickerActive"
             >
               <Chrome
+              @click.stop=""
                 v-model="manager.color"
                 :color="manager.color"
                 label="Color"
@@ -55,10 +58,11 @@
         </div>
         <div class="media-query-values">
           <media-query-value-component
-            v-for="val in manager.property.values"
+            v-for="(val, i) in manager.property.values"
             @change="onChange(manager)"
+            @click.native.stop=""
             :value="val"
-            :index="val.id"
+            :index="i"
             :key="val.id"
           />
         </div>

@@ -68,15 +68,20 @@ export default class HTMLTextNode extends Vue {
         this.isClickedRemove = true
     }
 
-    onEmitRemove(val) {
+    onEmitRemove(val, event) {
         this.isClickedRemove = true
         setTimeout(() => {
             this.isClickedRemove = false
-            this.onDoubleClick()
+            // this.onDoubleClick()
         }, 50)
-        this.$emit('tagRemove', this.value)  
+        let ev = {
+            event: event,
+            target: val
+        }
+        this.$emit('tagRemove', ev)
 
     }
+
     
     onClick(ev) {
         this.$emit('contentMouseClick', ev)

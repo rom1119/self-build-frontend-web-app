@@ -19,12 +19,13 @@ export default class HtmlNodeRemover implements Remover<HtmlNode>
     {
 
         return new Promise((resolve, reject) => {
-            tag.api.deleteTag(tag).then(
+            
+            this.api.deleteTag(tag).then(
                 (res) => {
 
                     // tag.synchronize()
                     let a = this.removeDeep(tag.uuid)
-                    resolve()
+                    resolve(tag)
                 },
                 () => {
                     alert("Błąd serwera")

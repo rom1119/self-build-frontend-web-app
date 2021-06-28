@@ -11,6 +11,7 @@ import CubicBezierComponent from './Animation/CubicBezierComponent.vue'
 import GradientValueComponent from './Gradient/GradientValueComponent.vue'
 import LinearGradientDirectionComponent from './Gradient/LinearGradientDirectionComponent.vue'
 import RadialGradientDirectionComponent from './Gradient/RadialGradientDirectionComponent.vue'
+import StructureProjectItemComponent from './StructureProject/StructureProjectItemComponent.vue'
 import DefaultAttrComponent from './HtmlAttr/DefaultAttrComponent.vue'
 import MediaQueryValueComponent from './MediaQueryValueComponent.vue'
 
@@ -27,3 +28,4 @@ Vue.component('linear-gradient-direction-component', LinearGradientDirectionComp
 Vue.component('radial-gradient-direction-component', RadialGradientDirectionComponent)
 Vue.component('media-query-value-component', MediaQueryValueComponent)
 Vue.component('default-html-attr-component', DefaultAttrComponent)
+Vue.component('structure-project-item-component', StructureProjectItemComponent)
