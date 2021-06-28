@@ -35,10 +35,10 @@ export default class NormalTableTag extends TableTag {
         var colThird = new TableTh('head col 3')
         var colFourth = new TableTh('head col 4')
 
-        trHead.appendChild(col)
-        trHead.appendChild(colSec)
-        trHead.appendChild(colThird)
-        trHead.appendChild(colFourth)
+        trHead.appendChildNotPersist(col)
+        trHead.appendChildNotPersist(colSec)
+        trHead.appendChildNotPersist(colThird)
+        trHead.appendChildNotPersist(colFourth)
 
         var trSHead  = new TableTr()
         var colS = new TableTh('head col 11')
@@ -46,13 +46,13 @@ export default class NormalTableTag extends TableTag {
         var colThirdS = new TableTh('head col 33')
         var colFourthS = new TableTh('head col 44')
 
-        trSHead.appendChild(colS)
-        trSHead.appendChild(colSecS)
-        trSHead.appendChild(colThirdS)
-        trSHead.appendChild(colFourthS)
+        trSHead.appendChildNotPersist(colS)
+        trSHead.appendChildNotPersist(colSecS)
+        trSHead.appendChildNotPersist(colThirdS)
+        trSHead.appendChildNotPersist(colFourthS)
 
-        thead.appendChild(trHead)
-        thead.appendChild(trSHead)
+        thead.appendChildNotPersist(trHead)
+        thead.appendChildNotPersist(trSHead)
 
         // ========  BODY ===
 
@@ -65,10 +65,10 @@ export default class NormalTableTag extends TableTag {
         var cellS = new TableTd('content col 3')
         var cellsecS = new TableTd('content col 4')
 
-        trbody.appendChild(cell)
-        trbody.appendChild(cellsec)
-        trbody.appendChild(cellS)
-        trbody.appendChild(cellsecS)
+        trbody.appendChildNotPersist(cell)
+        trbody.appendChildNotPersist(cellsec)
+        trbody.appendChildNotPersist(cellS)
+        trbody.appendChildNotPersist(cellsecS)
         
         var trbodySec = new TableTr()
         
@@ -77,10 +77,10 @@ export default class NormalTableTag extends TableTag {
         var cellS = new TableTd('content col 3')
         var cellsecS = new TableTd('content col 4')
 
-        trbodySec.appendChild(cell)
-        trbodySec.appendChild(cellsec)
-        trbodySec.appendChild(cellS)
-        trbodySec.appendChild(cellsecS)
+        trbodySec.appendChildNotPersist(cell)
+        trbodySec.appendChildNotPersist(cellsec)
+        trbodySec.appendChildNotPersist(cellS)
+        trbodySec.appendChildNotPersist(cellsecS)
 
         var trbodyThird = new TableTr()
         
@@ -89,14 +89,14 @@ export default class NormalTableTag extends TableTag {
         var cellS = new TableTd('content col 3')
         var cellsecS = new TableTd('content col 4')
 
-        trbodyThird.appendChild(cell)
-        trbodyThird.appendChild(cellsec)
-        trbodyThird.appendChild(cellS)
-        trbodyThird.appendChild(cellsecS)
+        trbodyThird.appendChildNotPersist(cell)
+        trbodyThird.appendChildNotPersist(cellsec)
+        trbodyThird.appendChildNotPersist(cellS)
+        trbodyThird.appendChildNotPersist(cellsecS)
 
-        tbody.appendChild(trbody)
-        tbody.appendChild(trbodySec)
-        tbody.appendChild(trbodyThird)
+        tbody.appendChildNotPersist(trbody)
+        tbody.appendChildNotPersist(trbodySec)
+        tbody.appendChildNotPersist(trbodyThird)
 
         // ========  FOOT ===
 
@@ -111,10 +111,10 @@ export default class NormalTableTag extends TableTag {
         var colFootThird = new TableTd('foot col 3')
         var colFootFourth = new TableTd('foot col 4')
         
-        trFoot.appendChild(colFoot)
-        trFoot.appendChild(colFootSec)
-        trFoot.appendChild(colFootThird)
-        trFoot.appendChild(colFootFourth)
+        trFoot.appendChildNotPersist(colFoot)
+        trFoot.appendChildNotPersist(colFootSec)
+        trFoot.appendChildNotPersist(colFootThird)
+        trFoot.appendChildNotPersist(colFootFourth)
 
         colFoot.updateCssPropertyWithoutModel(backgroundColorFoot.getName(), backgroundColorFoot)
         colFootSec.updateCssPropertyWithoutModel(backgroundColorFoot.getName(), backgroundColorFoot)
@@ -127,26 +127,26 @@ export default class NormalTableTag extends TableTag {
         var colFootThirdS = new TableTd('foot col 33')
         var colFootFourthS = new TableTd('foot col 44')
 
-        trSFoot.appendChild(colFootS)
-        trSFoot.appendChild(colFootSecS)
-        trSFoot.appendChild(colFootThirdS)
-        trSFoot.appendChild(colFootFourthS)
+        trSFoot.appendChildNotPersist(colFootS)
+        trSFoot.appendChildNotPersist(colFootSecS)
+        trSFoot.appendChildNotPersist(colFootThirdS)
+        trSFoot.appendChildNotPersist(colFootFourthS)
 
         colFootS.updateCssPropertyWithoutModel(backgroundColorFoot.getName(), backgroundColorFoot)
         colFootSecS.updateCssPropertyWithoutModel(backgroundColorFoot.getName(), backgroundColorFoot)
         colFootThirdS.updateCssPropertyWithoutModel(backgroundColorFoot.getName(), backgroundColorFoot)
         colFootFourthS.updateCssPropertyWithoutModel(backgroundColorFoot.getName(), backgroundColorFoot)
 
-        tfoot.appendChild(trFoot)
-        tfoot.appendChild(trSFoot)
+        tfoot.appendChildNotPersist(trFoot)
+        tfoot.appendChildNotPersist(trSFoot)
 
 
 
 
 
-        this.appendChild(thead)
-        this.appendChild(tbody)
-        this.appendChild(tfoot)
+        this.appendChildNotPersist(thead)
+        this.appendChildNotPersist(tbody)
+        this.appendChildNotPersist(tfoot)
         // var tbody = new TableTBody()
 
         this.addPropsToAccessor(cssList)

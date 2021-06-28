@@ -18,7 +18,13 @@
     
     &__project-structure-tool {
         top: 180px;
-        z-index: 9998;
+        z-index: 9997;
+        opacity: 0.4;
+        transition: opacity .3s;
+        &:hover {
+            opacity: 1;
+
+        }
     }
     
     &__container { 

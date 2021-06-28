@@ -110,7 +110,7 @@ export default class StructureProjectItemComponent extends Vue {
   }
 
   get styles() {
-    var m = 10 * this.levelNested
+    var m = 20
     return {
       marginLeft: m + 'px'
     }
@@ -141,6 +141,13 @@ export default class StructureProjectItemComponent extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.open-tag {
+  &:hover {
+    background-color: rgb(165, 162, 162);
+
+  }
+
+}
 .selected {
     background-color: rgba($color: #d81121, $alpha: 0.4);
 

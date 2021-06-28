@@ -2018,6 +2018,25 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
 
     }
+    
+    public appendChildNotPersist(child: HtmlNode)
+    {
+        child.parent = this
+        child.setApi(this.api)
+        child.setProjectId(this.projectId)
+        if (child instanceof HtmlTag) {
+            child.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
+            child.injectInitialCssStyles()
+            child.injectInitialSelectors()
+        }
+        this.children.push(child)
+        if (child instanceof HtmlTag) {
+            // child.realPositionCalculator.updateNearPositionalTag()
+            this.notifyPositionalTag()
+
+        }
+
+    }
 
     async appendChildDeep(child: HtmlNode)
     {

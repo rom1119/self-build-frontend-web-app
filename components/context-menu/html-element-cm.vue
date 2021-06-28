@@ -247,10 +247,11 @@ export default class HtmlElementContextMenu extends Vue {
         }
 
         el.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
-        el.injectInitialCssStyles()
-        el.injectInitialSelectors()
         el.setProjectId(this.$route.params.id)
-
+        // el.injectInitialCssStyles()
+        // el.injectInitialSelectors()
+        // console.log('initCreatedTag');
+        // console.log('initCreatedTag');
         if (this.value instanceof TableTr) {
 
             this.value.getTable().addCell(<TableCell>el, this.value)
@@ -261,6 +262,8 @@ export default class HtmlElementContextMenu extends Vue {
             this.value.appendChildDeep(el)
 
         } else {
+            el.injectInitialCssStyles()
+            el.injectInitialSelectors()
             this.tags.push(el)
             this.api.appendTagToProject(el)
         }
