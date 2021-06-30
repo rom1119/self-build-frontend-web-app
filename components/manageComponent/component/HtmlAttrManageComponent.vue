@@ -8,7 +8,7 @@
                         <h4 class="content-item__header">
                             Attributes
                             <span class="add-btn" @click="addDefaultCustomAttr">
-                                +
+                                + 
                             </span>
                         </h4>
                         <default-html-attr-component 
@@ -18,7 +18,7 @@
                             :key="val.id" 
                             :tag="val.getHtmlTag()" 
                             :index="index" 
-                            :value="val.attr" 
+                            :value="val.attr"   
                          />
 
                     </div>

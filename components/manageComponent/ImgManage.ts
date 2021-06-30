@@ -7,6 +7,7 @@ import CustomAttrManager from '../computedPropertyManagers/htmlAttr/CustomAttrMa
 import RowspanAttrManager from '../computedPropertyManagers/htmlAttr/RowspanAttrManager'
 import HtmlAttrManager from '../computedPropertyManagers/HtmlAttrManager'
 import SrcManager from '../computedPropertyManagers/htmlAttr/SrcManager';
+import ImgTag from '../../src/Layout/tag/ImgTag';
 
 
 export default abstract class ImgManage extends AbstractManageComponent
@@ -22,7 +23,10 @@ export default abstract class ImgManage extends AbstractManageComponent
     init(val: HtmlTag){
         super.init(val)
 
-        this.imgSrcManager.setHtmlEl(val)   
+        this.imgSrcManager.setHtmlEl(val)
+        if (val instanceof ImgTag) {
+            this.imgSrcManager.attr = val.srcAttr
+        }
 
         this.managers = []
         this.managers.push(this.imgSrcManager)

@@ -12,7 +12,7 @@ export default abstract class AttributesAccessor
 {
     
     protected value: LayoutEl
-    protected attrs: HtmlAttr[]
+    attrs: HtmlAttr[]
 
     constructor(val: LayoutEl) {
         this.value = val

@@ -4,7 +4,7 @@ import HtmlTag from '../../../src/Layout/HtmlTag';
 import TableCell from '../../../src/Layout/tag/Table/TableCell';
 
 
-export default class ColspanAttrManager extends HtmlAttrManager<ColspanAttr>{
+export default class ColspanAttrManager extends HtmlAttrManager{
 
     protected value: TableCell = null
 

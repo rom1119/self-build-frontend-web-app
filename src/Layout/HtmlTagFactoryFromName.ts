@@ -39,6 +39,8 @@ export default class HtmlTagFactoryFromName {
                 return this.htmlTagFactory.createDiv()
             case 'input-text':
                 return this.htmlTagFactory.createInputText()
+            case 'input-number':
+                return this.htmlTagFactory.createInputNumber()
             case 'button':
                 return this.htmlTagFactory.createButton()
             case TableTag.TAG_NAME:

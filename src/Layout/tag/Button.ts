@@ -1,6 +1,8 @@
 import HtmlTagBlock from '../HtmlTagBlock';
 import { BoxSizing, Height, Width, BackgroundColor } from '~/src/Css';
 import { Named } from '~/src/Unit';
+import Pixel from '../../Unit/Size/Pixel';
+import TextNode from '../TextNode';
 export default class Button extends HtmlTagBlock {
 
     protected _innerText: string = `${this.uuid}  BUTTON`
@@ -18,11 +20,16 @@ export default class Button extends HtmlTagBlock {
     public injectInitialCssStyles()
     {
 
-        let width = new Width(this._width, this.widthUnitCurrent)
-        let height = new Height(this._height, this.heightUnitCurrent)
+        let width = new Width(100, new Pixel())
+        let height = new Height(30, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
-        let cssList = [ width, height, boxSizing, backgroundColor]
+        let cssList = [width, height, boxSizing, backgroundColor]
+        
+        var text = new TextNode()
+        text.text = 'example btn'
+        
+        this.appendChildNotPersist(text)
 
         this.addPropsToAccessor(cssList)
     }

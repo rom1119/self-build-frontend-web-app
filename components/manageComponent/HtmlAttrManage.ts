@@ -49,13 +49,13 @@ export default abstract class HtmlAttrManage extends AbstractManageComponent
         // console.log('ASDASD');
         // console.log(this.value.attributeAccessor.getAll());
         
-        for (const attr of this.value.attributeAccessor.getAll()) {
-            if (attr instanceof CustomAttr) {
+        for (const attr of this.value.attributeAccessor.all) {
+            // if (attr instanceof CustomAttr) {
                 var c = new CustomAttrManager()
                 c.attr = attr
                 this.initManager(c)
 
-            }
+            // }
         }
     }
 

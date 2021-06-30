@@ -2,9 +2,9 @@ import CustomAttr from '~/src/Attribute/html/CustomAttr';
 import HtmlAttr from '~/src/Attribute/HtmlAttr';
 import HtmlTag from '~/src/Layout/HtmlTag';
 import ComputedPropertyManager from './ComputedPropertyManager';
-export default abstract class HtmlAttrManager<T extends HtmlAttr> {
+export default abstract class HtmlAttrManager {
 
-    attr: T
+    attr: HtmlAttr
     protected value: HtmlTag
 
     protected autoSaving = false

@@ -20,7 +20,10 @@
                     </select><br>
 
                     <label for="drawing-line-width">Line width:</label>
-                    <span class="info">31</span><input type="range" value="10" min="0" max="150" id="drawing-line-width"><br>
+                    <span class="info">31</span>
+                    <br>
+                    <input type="range" value="10" min="0" max="150" id="drawing-line-width">
+                    <br>
 
                     <label for="drawing-color">Line color:</label>
                     <input type="color" value="#005E7A" id="drawing-color"><br>
@@ -29,10 +32,15 @@
                     <input type="color" value="#005E7A" id="drawing-shadow-color"><br>
 
                     <label for="drawing-shadow-width">Shadow width:</label>
-                    <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-width"><br>
+                    <span class="info">0</span>
+                    <br>
+                    <input type="range" value="0" min="0" max="50" id="drawing-shadow-width"><br>
 
                     <label for="drawing-shadow-offset">Shadow offset:</label>
-                    <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-offset"><br>
+                    <span class="info">0</span>
+                    <br>
+                    <input type="range" value="0" min="0" max="50" id="drawing-shadow-offset"><br>
+                    <br>
                 </div>
             </div>
         </div>

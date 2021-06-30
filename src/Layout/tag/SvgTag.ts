@@ -25,7 +25,7 @@ export default class SvgTag extends HtmlTagBlock {
         let width = new Width(300, new Pixel())
         let height = new Height(300, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
-        let backgroundColor = new BackgroundColor('#448855', this._initialColorUnit)
+        let backgroundColor = new BackgroundColor('#333333', this._initialColorUnit)
         let cssList = [ width, height, boxSizing, backgroundColor]
         
         this.addPropsToAccessor(cssList)

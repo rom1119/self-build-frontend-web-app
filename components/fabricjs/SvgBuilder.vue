@@ -10,14 +10,12 @@
             </div>
         <div class="content-item__elem_container ">
             
-            <div class="content-item">
-                <canvas id="svg-editor" style="border: 2px solid white; width: 400px;">
+            <div class="">
+                <canvas :id="svgBuilderID" style="border: 2px solid white; width: 400px;">
                 </canvas>
-                <button @click="generateSvg">
-                    Generuj Svg
-                </button>
+                
             </div>
-            <div class="content-item" v-if="canvas">
+            <div class="" v-if="canvas">
                 <drawing v-show="selectedMode == modes.drawing"  :enabled="selectedMode == modes.drawing" :canvas="canvas" />
                 <shapes v-show="selectedMode == modes.shapes"  :enabled="selectedMode == modes.shapes" :canvas="canvas" />
             </div>
@@ -62,6 +60,9 @@ import Clear from '../../src/Css/Display/Clear';
         imgEl
         // value: HtmlTag
         colour = '#fff'
+
+        svgBuilderID = Math.floor(Math.random() * 1000000000).toString() + "-svg-builder";
+
 
         @Prop({ default: "", required: true })
         value: string
@@ -118,7 +119,7 @@ import Clear from '../../src/Css/Display/Clear';
 
         mounted()
         {
-           this.canvas = new fabric.Canvas('svg-editor', {
+           this.canvas = new fabric.Canvas(this.svgBuilderID, {
                 width: 700,
                 height: 300,
                 isDrawingMode: false

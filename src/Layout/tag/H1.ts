@@ -20,7 +20,7 @@ export default class H1 extends HtmlTagBlock {
         var text = new TextNode()
         text.text = 'example h1'
         
-        this.appendChildDeep(text)
+        this.appendChildNotPersist(text)
 
     }
 

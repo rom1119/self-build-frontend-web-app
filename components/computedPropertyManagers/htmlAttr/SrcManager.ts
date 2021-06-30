@@ -9,7 +9,7 @@ import HtmlTag from '~/src/Layout/HtmlTag';
 import Vue from 'Vue';
 
 
-export default class SrcManager extends HtmlAttrManager<SrcAttr>{
+export default class SrcManager extends HtmlAttrManager{
     protected createInitAttr(): SrcAttr {
         
         return new SrcAttr('', null)

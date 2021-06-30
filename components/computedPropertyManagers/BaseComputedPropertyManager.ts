@@ -76,7 +76,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
             
         }
         // console.log(this.value);
-        console.log(this.value.getPropertyCss(prop));
+        // console.log(this.value.getPropertyCss(prop));
         return <T>this.value.getPropertyCss(prop)
     }
 
@@ -98,7 +98,7 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
             
         }
         // console.log(this.value);
-        console.log(this.value.getTmpPropertyCss(prop));
+        // console.log(this.value.getTmpPropertyCss(prop));
         return <T>this.value.getTmpPropertyCss(prop)
     }
 

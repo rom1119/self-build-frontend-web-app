@@ -10,11 +10,18 @@
                @mousedown.stop="onMouseDown($event)"
                @mouseover.stop="onMouseOver($event)"
                @mouseout.stop="onMouseOut($event)"
-    />
+    >
+    <span v-show="false">
+        {{ updattrs }}
+    </span>
+    </component>
 
     <div v-else-if="value.hasMiddleTag" :style="value.middleTagCss">
         <component :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" 
         :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+            <span v-show="false">
+                {{ updattrs }}
+            </span>
             <slot>
             </slot>
         </component>
@@ -30,6 +37,9 @@
                @mousedown.stop="onMouseDown($event)"
                @mouseover.stop="onMouseOver($event)"
                @mouseout.stop="onMouseOut($event)">
+            <span v-show="false">
+                {{ updattrs }}
+            </span>
         <slot>
         </slot>
     </component>
@@ -43,6 +53,9 @@
             @mousedown.stop="onMouseDown($event)"
             @mouseover.stop="onMouseOver($event)"
             @mouseout.stop="onMouseOut($event)">
+            <span v-show="false">
+                {{ updattrs }}
+            </span>
         <slot>
         </slot>
     </component>
@@ -50,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import HtmlTagFactory from "~/src/Layout/HtmlTagFactory";
 import HtmlTag from '~/src/Layout/HtmlTag';
 import HTMLELEditable from "./HTMLELEditable.vue";
@@ -144,6 +157,48 @@ export default class HTMLEL extends Vue {
 
         }
         // console.log(this.$el);
+    }
+
+    get attrAccesor() {
+                // console.log('    get attrAccesor() {', this.value._attributeAccesor.all.length);
+
+        return this.value.attributeAccessor.all
+    }
+
+    get updattrs() {
+        var el = this.value.getHtmlContentEl()
+        console.log('    get updattrs() {', el);
+
+        if (!this.attrAccesor) {
+            return
+        }
+        // if (!this.value.attributeAccessor) {
+        //     return
+        // }
+
+        
+        if (!el) {
+            return
+        }
+        var attrsArr = this.attrAccesor
+        // console.log(this.$el);
+
+        for (const attr of attrsArr) {
+            if (attr.key == 'value') {
+                continue
+            }
+            // var oldValAttr = el.getAttribute(attr.key)
+            // if (oldValAttr) {
+            //     el.setAttribute(attr.key, oldValAttr + ' ' + attr.value)
+            // } else {
+                
+            //     }
+                el.setAttribute(attr.key, attr.value)
+
+        }
+
+        return this.attrAccesor.length
+
     }
 
     onMouseOver() {

@@ -41,11 +41,12 @@
     <div class="content-item__elem">
       <label :for="'textShadowOffesetX-'">
         Value
+        <br>
         <input
           @dblclick.stop.prevent=""
-          type="number"
+          type="text"
           @input="change"
-          style="width: 60px"
+          style="width: 190px"
           class="input-text"
           v-model="value.value"
           name="textShadowOffesetX"

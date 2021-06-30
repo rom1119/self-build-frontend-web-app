@@ -144,7 +144,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected _pseudoElementAccessor: PseudoElementPropertyAccessor
 
 
-    protected _attributeAccesor: AttributesAccessor
+    public _attributeAccesor: AttributesAccessor = null
     protected _animationSelector: KeyFrameSelector = null
 
     paddingFilter: FilterCssInjector
@@ -751,7 +751,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     public getTmpPropertyCss(prop: string)
     {
-            console.log('getPropertyCss SEL', prop, this.selectedMedia)
+            // console.log('getPropertyCss SEL', prop, this.selectedMedia)
         // if (this.selectedMedia) {
         //     return this.cssListMediaOwner.getProperty(prop)
         // }
@@ -890,6 +890,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     {
         return this._attributeAccesor
     }
+
 
     get width()
     {

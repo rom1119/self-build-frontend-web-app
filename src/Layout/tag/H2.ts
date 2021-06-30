@@ -17,7 +17,7 @@ export default class H2 extends HtmlTagBlock {
     {
         var text = new TextNode()
         
-        this.appendChild(text)
+        this.appendChildNotPersist(text)
         super.injectInitialCssStyles()
         text.text = 'example h2'
 

@@ -6,7 +6,7 @@ export default class SrcAttr extends HtmlAttr implements TagResource
     public static NAME = 'src-attr'
     public static DEFAULT_ATTR = 'src'
 
-    file: File
+    file: File = null
     protected _resource: string = ''
     protected _resourceUrl: string = ''
     
@@ -48,6 +48,17 @@ export default class SrcAttr extends HtmlAttr implements TagResource
             this._resourceUrl = arg
 
         }
+    }
+
+    set value(arg: string)
+    {
+        this._resourceUrl = arg
+        this.setValue(arg)
+    }
+
+    get value(): string
+    {
+        return this._value
     }
 
     setKey(arg: string)

@@ -3,6 +3,7 @@ import { BoxSizing, Height, Width, BackgroundColor } from '~/src/Css';
 import { Named } from '~/src/Unit';
 import TagResource from '../../Css/TagResource';
 import SrcAttr from '~/src/Attribute/html/SrcAttr';
+import Pixel from '../../Unit/Size/Pixel';
 export default class ImgTag extends HtmlTagBlock  {
     
     protected _innerText: string = `${this.uuid}  IMAGE TAG`
@@ -31,8 +32,8 @@ export default class ImgTag extends HtmlTagBlock  {
     public injectInitialCssStyles()
     {
         
-        let width = new Width(this._width, this.widthUnitCurrent)
-        let height = new Height(this._height, this.heightUnitCurrent)
+        let width = new Width(300, new Pixel())
+        let height = new Height(300, new Pixel())
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         let cssList = [ width, height, boxSizing, backgroundColor]

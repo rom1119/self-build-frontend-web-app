@@ -1,5 +1,5 @@
 <template>
-    <div class="component-manage" v-if="value && canManage" >
+    <div class="component-manage" v-if="value" >
         <div class="component-manage__content">
         
             <div class="content-item__elem_container ">
@@ -129,6 +129,8 @@ import ImgTag from '~/src/Layout/tag/ImgTag';
         updateBackgroundImage()
         {
             console.log(this.value);
+            // @ts-ignore
+            this.value.srcAttr.resourceUrl = this.imgSrcManager.attr.resourceUrl;
             (<SrcManager><unknown>(this.imgSrcManager)).updateResource()
         }
 

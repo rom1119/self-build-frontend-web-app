@@ -215,7 +215,7 @@ export default abstract class BaseSelector implements CssOwner
     
     public getTmpPropertyCss(prop: string)
     {
-            console.log('getPropertyCss SEL', prop, this.selectedMedia)
+            // console.log('getPropertyCss SEL', prop, this.selectedMedia)
         // if (this.selectedMedia) {
         //     return this.cssListMediaOwner.getProperty(prop)
         // }

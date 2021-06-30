@@ -15,6 +15,7 @@ import TableTr from './tag/Table/TableTr';
 import NormalTableTag from './tag/Table/impl/NormalTableTag';
 import ImgTag from './tag/ImgTag';
 import SvgTag from './tag/SvgTag';
+import InputNumber from './tag/Form/InputNumber';
 export default class HtmlTagFactory {
 
     api: ApiService
@@ -45,6 +46,13 @@ export default class HtmlTagFactory {
     
     createInputText() {
         let el = new InputText()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createInputNumber() {
+        let el = new InputNumber()
         el.setApi(this.api)
 
         return el
