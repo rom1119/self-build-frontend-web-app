@@ -18,7 +18,7 @@
         <div class="rel">
 
         </div>
-            <div class="stretch rel" :class="{'red-bg': value.isOverflowContent}"
+            <div class="stretch rel" style="height: 100%;" :class="{'red-bg': value.isOverflowContent}"
             >
                 <div class="remove" @click.stop="onEmitRemove($event)">
                     X

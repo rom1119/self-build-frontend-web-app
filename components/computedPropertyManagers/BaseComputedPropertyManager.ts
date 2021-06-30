@@ -7,6 +7,8 @@ import UnitUrl from '../../src/Unit/UnitUrl';
 import _ from 'lodash'
 import Unit from '../../src/Unit/Unit';
 import CssResource from '../../src/Css/CssResource';
+import TableColumnEl from '../../src/Layout/tag/Table/elements/TableColumnEl';
+import TableRowEl from '../../src/Layout/tag/Table/elements/TableRowEl';
 
 
 export default abstract class BaseComputedPropertyManager<T extends BasePropertyCss> implements ComputedPropertyManager {
@@ -138,7 +140,10 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         if (prop) {
             this.setProperty(prop)
             this.getProperty().setActive(true)
-            this.setTmpPropertyToModel(prop)
+            if (!(this.value instanceof TableColumnEl) && !(this.value instanceof TableRowEl)) {
+                this.setTmpPropertyToModel(prop)
+
+            }
 
         } else if (propTmp) {
             this.setProperty(propTmp)

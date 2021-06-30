@@ -7,7 +7,7 @@
                 <button @click="close($event)">X</button>
             </div>
             <h4>
-                Kreator SVG
+                SVG Builder
             </h4>
         </template>
         <template slot="content">

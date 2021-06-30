@@ -17,6 +17,7 @@ import BorderBottomCss from "~/src/Css/Border/Bottom/BorderBottomCss";
 import TableTag from '../TableTag';
 import TableTHead from '../TableTHead';
 import TableRowPropertyTmpAccessor from '../../../../Css/PropertyAccessor/TableRowPropertyTmpAccessor';
+import BaseSelector from '../../../../BaseSelector';
 
 
 export default class TableRowEl extends TableElementEl{
@@ -69,6 +70,43 @@ export default class TableRowEl extends TableElementEl{
     {
         this._cssPropertyAccesor.removePropWithName(prop.getName())
     }
+
+    public getPropertyCss(prop: string)
+    {
+        var firstChild = this.tr.children[0]
+        if (!firstChild) {
+            return null
+        }
+        if (firstChild.selectedMedia) {
+            // console.log('getPropertyCss', prop)
+            return firstChild.cssListMediaOwner.getProperty(prop)
+        }
+
+        return firstChild.cssAccessor.getProperty(prop)
+    }
+
+    get selectedSelector(): BaseSelector {
+        
+        var firstChild = this.tr.children[0]
+        if (!firstChild) {
+            return null
+        }
+
+        if (firstChild.animationSelector) {
+            return firstChild.animationSelector
+        }
+        
+        if (firstChild.pseudoClassAccessor.selectedSelector) {
+            return firstChild.pseudoClassAccessor.selectedSelector
+        }
+
+        if (firstChild.pseudoElementAccessor.selectedSelector) {
+            return firstChild.pseudoElementAccessor.selectedSelector
+        }
+
+        return null
+    }
+
 
     // protected contentTableDiffRealHeight(): number
     // {
