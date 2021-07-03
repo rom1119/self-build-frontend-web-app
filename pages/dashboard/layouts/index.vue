@@ -50,6 +50,10 @@
                                         Edit
                                     </nuxt-link>
                                     
+                                    <nuxt-link tag="a" class="btn btn-primary"  :to="{ name: 'dashboard-layouts-actions-id', params: { id: el.id }}">
+                                        Actions
+                                    </nuxt-link>
+                                    
                                     <button @click="deleteItem(el)" class="btn btn-primary"  >
                                         Remove
                                     </button>
