@@ -13,6 +13,10 @@ import TableTh from './tag/Table/TableTh';
 import TableTFoot from './tag/Table/TableTFoot';
 import ImgTag from './tag/ImgTag';
 import SvgTag from './tag/SvgTag';
+import Header from './tag/Header';
+import Main from './tag/Main';
+import Footer from './tag/Footer';
+import Section from './tag/Section';
 export default class HtmlTagFactoryFromName {
 
     private htmlTagFactory: HtmlTagFactory
@@ -37,6 +41,14 @@ export default class HtmlTagFactoryFromName {
                 return this.htmlTagFactory.createSvg()
             case Div.TAG_NAME:
                 return this.htmlTagFactory.createDiv()
+            case Header.TAG_NAME:
+                return this.htmlTagFactory.createHeader()
+            case Main.TAG_NAME:
+                return this.htmlTagFactory.createMain()
+            case Section.TAG_NAME:
+                return this.htmlTagFactory.createSection()
+            case Footer.TAG_NAME:
+                return this.htmlTagFactory.createFooter()
             case 'input-text':
                 return this.htmlTagFactory.createInputText()
             case 'input-number':

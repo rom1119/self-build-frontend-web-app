@@ -19,6 +19,7 @@ export default class ProjectFrontendModelBuild implements ModelFromResponse<Proj
         let model = new ProjectFrontendModel()
         model.id = from.id
         model.name = from.name
+        model.pageUrl = from.pageUrl
 
         if (from.items) {
             for (const tag of from.items) {

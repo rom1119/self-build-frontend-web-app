@@ -17,7 +17,6 @@ import BorderSizeCalculator from "~/src/Calculator/Size/BorderSizeCalculator";
 import BorderOffsetSizeCalculator from "~/src/Calculator/OffsetSize/BorderOffsetSizeCalculator";
 import { Named } from "~/src/Unit";
 import BorderFetcherRealCssProp from "~/src/BorderFetcherRealCssProp";
-import BaseBorderRadiusCss from "~/src/Css/Border/BaseBorderRadiusCss";
 import BorderRadiusBottomLeft from "~/src/Css/Border/Radius/BorderRadiusBottomLeft";
 import BorderRadiusBottomRight from "~/src/Css/Border/Radius/BorderRadiusBottomRight";
 import BorderRadiusTopRight from "~/src/Css/Border/Radius/BorderRadiusTopRight";

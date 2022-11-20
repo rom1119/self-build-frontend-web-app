@@ -11,6 +11,6 @@ import Named from '../../Unit/Named';
 import Vue from 'vue'
 import BasePropertyCss from '~/src/Css/BasePropertyCss';
 
-export default abstract class BaseBorderRadiusCss extends CssSimple
+export default interface BaseBorderRadiusCss 
 {
 }

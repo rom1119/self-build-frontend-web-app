@@ -110,7 +110,7 @@ export default class AnimationCreator
         this.selectedTag.turnOnSynchronizer()
         this.selectedTag.changeAsStopAnimation()
         this.selectedTag.changeAsNotActiveToAnimation()
-        this.selectedTag.changeAsReadyToAnimationCheck()
+        // this.selectedTag.changeAsReadyToAnimationCheck()
 
         this.activeAnimationController.showAllTags()
 

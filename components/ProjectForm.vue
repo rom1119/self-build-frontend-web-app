@@ -19,6 +19,16 @@
                     </span>
                 </div>
             </div>
+            
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <label for="inputPageUrl">Adres strony WWW </label>
+                    <input type="text" class="form-control" id="inputPageUrl" v-model="value.pageUrl">
+                    <span class="error" role="alert" v-if="value.nameError">
+                        {{ value.nameError }}
+                    </span>
+                </div>
+            </div>
 
 
             <div class="form-row mt-4">

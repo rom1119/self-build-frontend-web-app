@@ -35,6 +35,7 @@ export default class ProjectFrontendModelBuildResponse implements ResponseFromMo
         response.id = from.id
         response.name = from.name
         response.version = from.version
+        response.pageUrl = from.pageUrl
      
         return response;
     }

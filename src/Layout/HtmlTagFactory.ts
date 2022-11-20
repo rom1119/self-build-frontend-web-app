@@ -16,6 +16,10 @@ import NormalTableTag from './tag/Table/impl/NormalTableTag';
 import ImgTag from './tag/ImgTag';
 import SvgTag from './tag/SvgTag';
 import InputNumber from './tag/Form/InputNumber';
+import Header from './tag/Header';
+import Footer from './tag/Footer';
+import Main from './tag/Main';
+import Section from './tag/Section';
 export default class HtmlTagFactory {
 
     api: ApiService
@@ -39,6 +43,34 @@ export default class HtmlTagFactory {
     
     createDiv() {
         let el = new Div()
+        el.setApi(this.api)
+
+        return el
+    }
+
+    createHeader() {
+        let el = new Header()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createFooter() {
+        let el = new Footer()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createMain() {
+        let el = new Main()
+        el.setApi(this.api)
+
+        return el
+    }
+
+    createSection() {
+        let el = new Section()
         el.setApi(this.api)
 
         return el
