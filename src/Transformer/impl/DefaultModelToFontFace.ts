@@ -9,8 +9,8 @@ import BasePropertyCss from '../../Css/BasePropertyCss';
 import StyleCss from '~/src/Api/StyleCss';
 import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName';
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
-import CssDoubleValue from '~/src/Css/CssDoubleValue';
-import CssTripleValue from '~/src/Css/CssTripleValue';
+import CssWithTwoValues from '~/src/Css/MultiValuesCss/CssWithTwoValues';
+import CssWithThreeValues from '~/src/Css/MultiValuesCss/CssWithThreeValues';
 import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
 import RGBA from '../../Unit/Color/RGBA';
 import CssResource from '~/src/Css/CssResource';
@@ -36,13 +36,11 @@ import FontFaceModel from '../../../types/FontFaceModel';
 import FontFace from '../../Fonts/FontFace';
 import DefaultModelToAsset from './DefaultModelToAsset';
 import SrcFont from '../../Fonts/SrcFont';
-export default class DefaultModelToFontFace implements ModelToFontTace
-{
+export default class DefaultModelToFontFace implements ModelToFontTace {
 
     private assetTransformer: ModelToAsset
 
-    constructor()
-    {
+    constructor() {
         this.assetTransformer = new DefaultModelToAsset()
     }
 
@@ -50,7 +48,7 @@ export default class DefaultModelToFontFace implements ModelToFontTace
         var domain = new FontFace()
         // console.log(domain);
 
- 
+
         domain.id = model.id
         domain.version = model.version
         domain.name = model.name
@@ -60,12 +58,12 @@ export default class DefaultModelToFontFace implements ModelToFontTace
         var srcList = []
         for (const srcEl of model.src) {
             let srcModel = this.assetTransformer.transform(srcEl)
-            
+
             domain.addSrc(<SrcFont>srcModel)
         }
-// console.log('TRANS');
-// console.log(domain);
-// console.log(model);
+        // console.log('TRANS');
+        // console.log(domain);
+        // console.log(model);
 
         // domain.src = srcList
 

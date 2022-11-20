@@ -11,8 +11,8 @@ import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
 import CssToModel from '../CssToModel';
 import StyleCssModel from '~/types/StyleCssModel';
-import CssDoubleValue from '../../Css/CssDoubleValue';
-import CssTripleValue from '~/src/Css/CssTripleValue';
+import CssWithTwoValues from '../../Css/MultiValuesCss/CssWithTwoValues';
+import CssWithThreeValues from '~/src/Css/MultiValuesCss/CssWithThreeValues';
 import BaseBorderCss from '../../Css/Border/BaseBorderCss';
 import CssResource from '~/src/Css/CssResource';
 import CssMultipleValue from '../../Css/CssMultipleValue';
@@ -33,12 +33,10 @@ import AssetDomain from '../../Assets/AssetDomain';
 import AssetModel from '~/types/AssetModel';
 import FontFaceToModel from '../FontFaceToModel';
 import DefaultFontFaceToModel from './DefaultFontFaceToModel';
-export default class DefaultAssetToModel implements AssetToModel
-{
+export default class DefaultAssetToModel implements AssetToModel {
 
 
-    constructor()
-    {
+    constructor() {
 
     }
 

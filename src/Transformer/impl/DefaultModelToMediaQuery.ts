@@ -9,8 +9,8 @@ import BasePropertyCss from '../../Css/BasePropertyCss';
 import StyleCss from '~/src/Api/StyleCss';
 import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName';
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
-import CssDoubleValue from '~/src/Css/CssDoubleValue';
-import CssTripleValue from '~/src/Css/CssTripleValue';
+import CssWithTwoValues from '~/src/Css/MultiValuesCss/CssWithTwoValues';
+import CssWithThreeValues from '~/src/Css/MultiValuesCss/CssWithThreeValues';
 import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
 import RGBA from '../../Unit/Color/RGBA';
 import CssResource from '~/src/Css/CssResource';
@@ -36,13 +36,12 @@ import MediaType from '../../MediaQuery/MediaType';
 import MediaOrientation from '~/src/MediaQuery/MediaOrientation';
 import ModelToMediaQuery from '../ModelToMediaQuery';
 import MediaQueryFactory from "~/src/MediaQuery/MediaQueryFactory";
-import {MediaQueryStructVal} from "~/src/MediaQuery/BaseMediaQueryCss";
+import { MediaQueryStructVal } from "~/src/MediaQuery/BaseMediaQueryCss";
 import ModelToSelector from '../ModelToSelector';
 import DefaultModelToSelector from './DefaultModelToSelector';
 import PseudoClass from '../../PseudoSelector/PseudoClass';
 import PseudoElement from '../../PseudoSelector/PseudoElement';
-export default class DefaultModelToMediaQuery implements ModelToMediaQuery
-{
+export default class DefaultModelToMediaQuery implements ModelToMediaQuery {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
@@ -53,8 +52,7 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
 
     // private styleTransformer: ModelToCss
 
-    constructor(mediaQueryFactory: MediaQueryFactory)
-    {
+    constructor(mediaQueryFactory: MediaQueryFactory) {
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         this.timingFunctionFactoryFromName = new TimingFunctionFactoryFromName()
@@ -101,7 +99,7 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
 
         for (const valCss of model.values) {
             // valCss
-        let el = new MediaQueryStructVal()
+            let el = new MediaQueryStructVal()
             el.id = valCss.id
             if (valCss.getValue()) {
                 el.mediaQueryOperatorFirst = new MediaQueryOperator(valCss.getValue())
@@ -134,20 +132,20 @@ export default class DefaultModelToMediaQuery implements ModelToMediaQuery
 
             domain.addValue(el)
         }
-            // newDominTransition = <BasePropertyCss><unknown>this.transformTransition(domain, model)
-            // newDominGradient = <BasePropertyCss><unknown>this.transformGradient(domain, model)
-            // if (newDominShadow) {
-            //     domain = newDominShadow
-            // } else if (newDominTransition) {
-            //     domain = newDominTransition
-            // } else if (newDominGradient) {
-            //     domain = newDominGradient
-            // }
+        // newDominTransition = <BasePropertyCss><unknown>this.transformTransition(domain, model)
+        // newDominGradient = <BasePropertyCss><unknown>this.transformGradient(domain, model)
+        // if (newDominShadow) {
+        //     domain = newDominShadow
+        // } else if (newDominTransition) {
+        //     domain = newDominTransition
+        // } else if (newDominGradient) {
+        //     domain = newDominGradient
+        // }
 
-            // model.setAsMultiple()
-            // model.setValues(values)
-            // model.setValueSecond(domainCast.getSecondValue())
-            // model.setUnitNameSecond(domainCast.getSecondUnit().name)
+        // model.setAsMultiple()
+        // model.setValues(values)
+        // model.setValueSecond(domainCast.getSecondValue())
+        // model.setUnitNameSecond(domainCast.getSecondUnit().name)
 
 
         return domain

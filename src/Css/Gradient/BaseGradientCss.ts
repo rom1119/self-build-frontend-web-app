@@ -6,7 +6,7 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 import BasePropertyCss from "../BasePropertyCss";
@@ -22,69 +22,61 @@ export abstract class BaseGradientDirection implements CssValue {
         return this.id
     }
     abstract getFullValue(): string
-    
+
 }
 
 export abstract class BaseGradientStructVal implements CssValue {
     id
-    
+
     public static DEFAULT_COLOR = 'blue'
     public static DEFAULT_COLOR_UNIT = new Named()
-    
+
     public static DEFAULT_SIZE = 10
     public static DEFAULT_SIZE_UNIT = new Percent()
-    
+
     protected _size: number
     protected _sizeUnit: UnitSize
     protected _color: any
     protected _colorUnit: UnitColor
-    
+
     getId(): number {
         return this.id
     }
-    set color(val)
-    {
+    set color(val) {
         Vue.set(this, '_color', val)
     }
-    
-    get color()
-    {
+
+    get color() {
         return this._color
     }
 
-    set colorUnit(val)
-    {
+    set colorUnit(val) {
         Vue.set(this, '_colorUnit', val)
     }
-    
-    get colorUnit()
-    {
+
+    get colorUnit() {
         return this._colorUnit
     }
 
 
-    set size(val)
-    {
+    set size(val) {
         Vue.set(this, '_size', val)
 
     }
-    
-    get size()
-    {
+
+    get size() {
         return this._size
     }
-    
-    set sizeUnit(val)
-    {
+
+    set sizeUnit(val) {
         Vue.set(this, '_sizeUnit', val)
 
     }
-    
-    get sizeUnit()
-    {
+
+    get sizeUnit() {
         return this._sizeUnit
     }
-    
+
     getColorValue(): string {
         if (this._colorUnit) {
             return this._colorUnit.getValue(this._color)
@@ -93,18 +85,17 @@ export abstract class BaseGradientStructVal implements CssValue {
 
         return ''
     }
-    
+
     getSizeValue(): string {
         return this._sizeUnit.getValue(this._size)
     }
 
-    getFullValue(): string
-    {
+    getFullValue(): string {
         var res = ''
         if (this.getColorValue()) {
             res += `${this.getColorValue()}`
         }
-        
+
         if (this.getSizeValue()) {
             res += ` ${this.getSizeValue()}`
         }
@@ -114,7 +105,7 @@ export abstract class BaseGradientStructVal implements CssValue {
         }
         return res
     }
-    
+
 }
 
 export default abstract class BaseGradientCss extends BasePropertyCss implements CssMultipleValue<BaseGradientStructVal>
@@ -122,8 +113,7 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
     protected values: BaseGradientStructVal[] = []
     protected _direction: BaseGradientDirection
 
-    constructor()
-    {
+    constructor() {
         super(new Named())
         this.values = []
         this.clearValue()
@@ -137,13 +127,11 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
     abstract getPredefinedSites(): PredefinedKeywords
 
 
-    set direction(val)
-    {
+    set direction(val) {
         Vue.set(this, '_direction', val)
     }
-    
-    get direction()
-    {
+
+    get direction() {
         return this._direction
     }
 
@@ -165,15 +153,13 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
         throw new Error("Method not implemented.");
     }
 
-    setValue(val: any)
-    {
+    setValue(val: any) {
         return false        // this.values.push(val)
     }
 
-    getValue(): string
-    {
+    getValue(): string {
         if (this.values.length == 0) {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value`)
         }
         var val = '' + this.getName() + '('
         if (this.direction) {
@@ -182,7 +168,7 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
             }
 
         }
-        
+
         this.values.forEach((element, key) => {
             val += element.getFullValue()
             if (key < this.values.length - 1) {
@@ -191,12 +177,11 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
         });
 
         val += ')'
-        
+
         return val
     }
 
-    get value(): string
-    {
+    get value(): string {
         var val = '' + this.getName() + '('
         if (this.direction) {
             if (this.direction.getFullValue().trim().length > 0) {
@@ -204,7 +189,7 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
             }
 
         }
-        
+
         this.values.forEach((element, key) => {
             val += element.getFullValue()
             if (key < this.values.length - 1) {
@@ -213,9 +198,9 @@ export default abstract class BaseGradientCss extends BasePropertyCss implements
         });
 
         val += ')'
-        
+
         return val
     }
 
-    
+
 }

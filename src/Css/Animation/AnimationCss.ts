@@ -6,7 +6,7 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 import BasePropertyCss from "../BasePropertyCss";
@@ -37,188 +37,165 @@ export class AnimationCssStruct implements CssValue {
     protected _delayUnit: UnitTime = new UnitSecond()
     protected _timingFunctionUnit: Named = new Named()
 
-    
+
     getId(): number {
         return this.id
     }
-    
-    get keyFrameName()
-    {
+
+    get keyFrameName() {
         if (this.keyFrame) {
             return this.keyFrame.name
         }
 
         return null
     }
-    
-    get keyFrameId()
-    {
+
+    get keyFrameId() {
         if (this.keyFrame) {
             return this.keyFrame.uuid
         }
 
         return null
     }
-    get durationUnit()
-    {
+    get durationUnit() {
         return this._timeUnit
     }
-    
-    set durationUnit(arg)
-    {
+
+    set durationUnit(arg) {
         this._timeUnit = arg
     }
-    
-    get delayUnit()
-    {
+
+    get delayUnit() {
         return this._delayUnit
     }
-    
-    set delayUnit(arg)
-    {
+
+    set delayUnit(arg) {
         this._delayUnit = arg
     }
-    
 
-    set iterationCount(val)
-    {
+
+    set iterationCount(val) {
         Vue.set(this, '_iterationCount', val)
 
     }
-    
-    get iterationCount()
-    {
+
+    get iterationCount() {
         return this._iterationCount
     }
-    
-    set duration(val)
-    {
+
+    set duration(val) {
         Vue.set(this, '_duration', val)
     }
-    
-    get duration()
-    {
+
+    get duration() {
         return this._duration
     }
-    
-    set timingFunction(val: TimingFunction)
-    {
+
+    set timingFunction(val: TimingFunction) {
         Vue.set(this, '_timingFunction', val)
     }
-    
-    get timingFunction(): TimingFunction
-    {
+
+    get timingFunction(): TimingFunction {
         return this._timingFunction
     }
-    
-    set delay(val)
-    {
+
+    set delay(val) {
         this._delay = val
     }
-    
-    get delay()
-    {
+
+    get delay() {
         return this._delay
     }
-    
-    set direction(val)
-    {
+
+    set direction(val) {
         this._direction = val
     }
-    
-    get direction()
-    {
+
+    get direction() {
         return this._direction
     }
-    
-    set fillMode(val)
-    {
+
+    set fillMode(val) {
         this._fillMode = val
     }
-    
-    get fillMode()
-    {
+
+    get fillMode() {
         return this._fillMode
     }
-    
-    set playState(val)
-    {
+
+    set playState(val) {
         this._playState = val
     }
-    
-    get playState()
-    {
+
+    get playState() {
         return this._playState
     }
-    
-    set keyFrame(val)
-    {
+
+    set keyFrame(val) {
         this._keyFrame = val
     }
-    
-    get keyFrame()
-    {
+
+    get keyFrame() {
         return this._keyFrame
     }
 
     get delayValue() {
-        
+
         if (this.delayUnit) {
             return this.delayUnit.getValue(this.delay)
         }
         return ''
     }
-    
+
     get durationValue() {
-        
+
         if (this.durationUnit) {
             return this.durationUnit.getValue(this.duration)
         }
         return ''
     }
-    
 
-    getFullValue(): string
-    {
+
+    getFullValue(): string {
         var str = ''
 
         if (this.duration) {
-            str += `${this.durationValue}`  
+            str += `${this.durationValue}`
         }
         if (this.timingFunction) {
             str += ` ${this.timingFunction.getValue()}`
-            
-        }
-        if (this.delay) {
-            str += ` ${this.delayValue}`  
-        }
-        
-        if (this.iterationCount) {
-            str += ` ${this.iterationCount}`  
-        }
-        
-        if (this.direction) {
-            str += ` ${this.direction}`  
-        }
-        
-        if (this.fillMode) {
-            str += ` ${this.fillMode}`  
-        }
-        
-        if (this.playState) {
-            str += ` ${this.playState}`  
-        }
-        
-        
-        if (this.keyFrame) {
-            str += ` ${this.keyFrame.name}`  
 
         }
-      
+        if (this.delay) {
+            str += ` ${this.delayValue}`
+        }
+
+        if (this.iterationCount) {
+            str += ` ${this.iterationCount}`
+        }
+
+        if (this.direction) {
+            str += ` ${this.direction}`
+        }
+
+        if (this.fillMode) {
+            str += ` ${this.fillMode}`
+        }
+
+        if (this.playState) {
+            str += ` ${this.playState}`
+        }
+
+
+        if (this.keyFrame) {
+            str += ` ${this.keyFrame.name}`
+
+        }
+
 
         return str
     }
-    
+
 }
 
 export default class AnimationCss extends BasePropertyCss implements CssMultipleValue<AnimationCssStruct>
@@ -240,23 +217,22 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
         alternate: 'alternate',
         'alternate-reverse': 'alternate-reverse',
     }
-   
+
     public static FILL_MODES = {
         empty_val: '',
         none: 'none',
         forwards: 'forwards',
         backwards: 'backwards',
         both: 'both',
-        
+
     }
     public static PLAY_STATES = {
         empty_val: '',
         running: 'running',
         paused: 'paused'
     }
-    
-    constructor()
-    {
+
+    constructor() {
         super(new Pixel())
         // var val = new AnimationCssStruct()
         // val.duration = AnimationCss.DEFAULT_DURATION
@@ -265,20 +241,20 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
         this.clearValue()
         // this.values.push(val)
         // var shadow = this.createClearValue()
-        
+
         // shadow.offsetX = offXPixel
         // shadow.offsetY = offYPixel
         // shadow.color = color
         // shadow.blur = BaseShadowCss.DEFAULT_BLUR
-        
+
         // shadow.offsetXUnit = BaseShadowCss.DEFAULT_OFFSET_X_UNIT
         // shadow.offsetYUnit = BaseShadowCss.DEFAULT_OFFSET_Y_UNIT
         // shadow.blurUnit = BaseShadowCss.DEFAULT_BLUR_UNIT
         // shadow.colorUnit = BaseShadowCss.DEFAULT_COLOR_UNIT
-        
+
         // this.values.push(shadow)
         // Vue.set(this.values, 0, shadow)
-        
+
     }
 
     public initOwner(owner: CssOwner) {
@@ -296,10 +272,10 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
                 // console.log('addFontOwnerToFontFace');
                 KeyFrameAccessor.getInstance().addAnimationOwnerToKeyFrame(val.keyFrame, this)
             }
-            
+
         }
     }
-    
+
     public getName(): string {
         return AnimationCss.PROP_NAME
     }
@@ -322,15 +298,13 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
         throw new Error("Method not implemented.");
     }
 
-    setValue(val: any)
-    {
+    setValue(val: any) {
         return false        // this.values.push(val)
     }
 
-    getValue(): string
-    {
+    getValue(): string {
         if (this.values.length == 0) {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value`)
         }
         // if (this.values[0].toString().length < 1) {
         //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
@@ -343,12 +317,11 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
                 val += ', '
             }
         });
-        
+
         return val
     }
 
-    get value(): any
-    {
+    get value(): any {
         var val = ''
         this.values.forEach((element, key) => {
             val += element.getFullValue()
@@ -356,9 +329,9 @@ export default class AnimationCss extends BasePropertyCss implements CssMultiple
                 val += ', '
             }
         });
-        
+
         return val
     }
 
-    
+
 }

@@ -6,7 +6,7 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 import BasePropertyCss from "../BasePropertyCss";
@@ -27,51 +27,48 @@ import TransformTypeFactoryFromName from '../../Factory/TransformTypeFactoryFrom
 export class TransformCssStruct implements CssValue {
     id
     protected _value: TransformType
-    
+
 
     constructor(value: TransformType) {
         this._value = value
     }
-    
+
     getId(): number {
         return this.id
     }
 
-    get value()
-    {
+    get value() {
         return this._value
     }
-    
+
     // set value(arg)
     // {
     //     this._value = arg
     // }
-    
-    
 
-    getFullValue(): string
-    {
+
+
+    getFullValue(): string {
         var str = ''
 
         if (this.value) {
-            str += `${this.value.getValue()}`  
+            str += `${this.value.getValue()}`
         }
-      
+
 
         return str
     }
-    
+
 }
 
 export default class TransformCss extends BasePropertyCss implements CssMultipleValue<TransformCssStruct>
 {
-    
+
     public static PROP_NAME = 'transform'
-    
+
     protected transformTypeFactory: TransformTypeFactoryFromName
 
-    constructor()
-    {
+    constructor() {
         super(new Pixel())
         this.transformTypeFactory = new TransformTypeFactoryFromName()
         // var val = new AnimationCssStruct()
@@ -79,16 +76,16 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         // val.timingFunction = AnimationCss.DEFAULT_TIMING_FUNCTION
         this.values = []
         this.clearValue()
-        
+
     }
 
-     availableTypes(): TransformType[] {
+    availableTypes(): TransformType[] {
         var all = this.transformTypeFactory.createAll()
         var res = []
         // console.log('get availableTypes');
         // console.log('all', all);
-        
-        
+
+
         for (const el of all) {
             if (!this.hasValueWithType(el)) {
                 res.push(el)
@@ -99,8 +96,7 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         return res
     }
 
-    get canAddTransformValue(): boolean
-    {
+    get canAddTransformValue(): boolean {
         return true
     }
 
@@ -108,7 +104,7 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         super.initOwner(owner)
 
     }
-    
+
     public getName(): string {
         return TransformCss.PROP_NAME
     }
@@ -142,13 +138,12 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         }
     }
 
-    setValue(val: any)
-    {
+    setValue(val: any) {
         return false        // this.values.push(val)
     }
 
     protected hasValueWithType(el: TransformType): boolean {
-        
+
         for (const val of this.values) {
             if (val.value.getName() === el.getName()) {
                 return true
@@ -157,8 +152,7 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
         return false
     }
 
-    getValue(): string
-    {
+    getValue(): string {
         // if (this.values.length == 0) {
         //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
         // }
@@ -173,12 +167,11 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
                 val += ', '
             }
         });
-        
+
         return val
     }
 
-    get value(): any
-    {
+    get value(): any {
         var val = ''
         this.values.forEach((element, key) => {
             val += element.getFullValue()
@@ -186,11 +179,11 @@ export default class TransformCss extends BasePropertyCss implements CssMultiple
                 val += ', '
             }
         });
-        
+
         return val
     }
 
 
 
-    
+
 }

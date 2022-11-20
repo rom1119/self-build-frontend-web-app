@@ -1,6 +1,5 @@
-import Unit from '../Unit/Unit';
-export default interface CssDoubleValue 
-{
+import Unit from '../../Unit/Unit';
+export default interface CssWithTwoValues {
     getSecondValue(): string
     setSecondValue(val: string)
 

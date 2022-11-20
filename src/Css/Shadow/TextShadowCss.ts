@@ -6,7 +6,7 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 import BasePropertyCss from "../BasePropertyCss";
@@ -20,8 +20,7 @@ export class TextShadowStruct extends BaseShadowStruct implements CssValue {
         return this.id
     }
 
-    getFullValue(): string
-    {
+    getFullValue(): string {
         var str = ''
         if (!this.getOffsetXValue()) {
             throw Error('offsetX is not set shadow')
@@ -30,7 +29,7 @@ export class TextShadowStruct extends BaseShadowStruct implements CssValue {
             throw Error('offsetY is not set shadow')
         }
         if (!this.getColorValue()) {
-            
+
             throw Error('Color is not set in shadow')
         }
 
@@ -48,21 +47,19 @@ export class TextShadowStruct extends BaseShadowStruct implements CssValue {
     }
 }
 
-export default class TextShadowCss extends BaseShadowCss
-{
+export default class TextShadowCss extends BaseShadowCss {
     public static PROP_NAME = 'text-shadow'
 
     public getName(): string {
         return TextShadowCss.PROP_NAME
     }
 
-    createClearValue(): BaseShadowStruct
-    {
+    createClearValue(): BaseShadowStruct {
         return new TextShadowStruct()
     }
 
-    
-    
-    
-    
+
+
+
+
 }

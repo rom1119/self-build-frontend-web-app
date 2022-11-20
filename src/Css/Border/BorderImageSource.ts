@@ -6,14 +6,13 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 import { UnitUrl } from "~/src/Unit";
 import BaseGradientCss from '../Gradient/BaseGradientCss';
 
-export default class BorderImageSource extends CssSimple
-{
+export default class BorderImageSource extends CssSimple {
     public static PROP_NAME = 'border-image-source'
     gradient: BaseGradientCss
 
@@ -31,61 +30,59 @@ export default class BorderImageSource extends CssSimple
         if (this.gradient) {
             var grad = this.gradient
             res += grad.getValue()
-    
+
 
             if (this.resource) {
                 res += ", " + this.unit.getValue(this.resource)
             }
-            
+
             if (this.resourceUrl) {
                 res += ", " + this.unit.getValue(this.resourceUrl)
             }
             // console.log('BACK_IMAG' , res);
-            
+
             return res
         }
 
         if (this.resource) {
             return this.unit.getValue(this.resource)
         }
-        
+
         if (this.resourceUrl) {
             return this.unit.getValue(this.resourceUrl)
         }
         return ''
     }
-    getValue(): string
-    {
+    getValue(): string {
         var res = ''
         if (this.gradient) {
             var grad = this.gradient
             res += grad.getValue()
-    
+
 
             if (this.resource) {
                 res += ", " + this.unit.getValue(this.resource)
             }
-            
+
             if (this.resourceUrl) {
                 res += ", " + this.unit.getValue(this.resourceUrl)
             }
             // console.log('BACK_IMAG' , res);
-            
+
             return res
         }
 
         if (this.resource) {
             return this.unit.getValue(this.resource)
         }
-        
+
         if (this.resourceUrl) {
             return this.unit.getValue(this.resourceUrl)
         }
         return ''
     }
 
-    setValue(val)
-    {
+    setValue(val) {
         this.resource = val
     }
     getId(): any {
@@ -101,7 +98,7 @@ export default class BorderImageSource extends CssSimple
     setResource(val: string) {
         this.resource = val
     }
-    
+
     getResourceUrl(): string {
         return this.resourceUrl
     }

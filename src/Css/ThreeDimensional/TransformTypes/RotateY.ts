@@ -1,11 +1,10 @@
 import TransformType from '../TransformType';
 import UnitAngle from '../../../Unit/UnitAngle';
 import UnitDeg from '../../../Unit/UnitAngle/UnitDeg';
-import CssWithOneValue from '../../CssWithOneValue';
+import CssWithOneField from '../../CssWithOneField';
 
 
-export default class RotateY implements TransformType, CssWithOneValue
-{
+export default class RotateY implements TransformType, CssWithOneField {
     public static PROP_NAME = 'rotateY'
 
     val: number = 45
@@ -15,11 +14,11 @@ export default class RotateY implements TransformType, CssWithOneValue
         return `rotateY(${this.unit.getValue(this.val)})`
     }
 
-    public getName(): string  {
+    public getName(): string {
         return RotateY.PROP_NAME
     }
 
-  
+
 
 
 }

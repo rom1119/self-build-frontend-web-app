@@ -6,7 +6,7 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 import BasePropertyCss from "../BasePropertyCss";
@@ -25,33 +25,27 @@ export class BoxShadowStruct extends BaseShadowStruct implements CssValue {
         return this.id
     }
 
-    set inset(val)
-    {
+    set inset(val) {
         Vue.set(this, '_inset', val)
     }
-    
-    get inset()
-    {
+
+    get inset() {
         return this._inset
     }
-    
-    set spread(val)
-    {
+
+    set spread(val) {
         Vue.set(this, '_spread', val)
     }
-    
-    get spread()
-    {
+
+    get spread() {
         return this._spread
     }
-    
-    set spreadUnit(val)
-    {
+
+    set spreadUnit(val) {
         Vue.set(this, '_spreadUnit', val)
     }
-    
-    get spreadUnit()
-    {
+
+    get spreadUnit() {
         return this._spreadUnit
     }
 
@@ -60,8 +54,7 @@ export class BoxShadowStruct extends BaseShadowStruct implements CssValue {
     }
 
 
-    getFullValue(): string
-    {
+    getFullValue(): string {
         var str = ''
         if (!this.getOffsetXValue()) {
             throw Error('offsetX is not set shadow')
@@ -69,17 +62,17 @@ export class BoxShadowStruct extends BaseShadowStruct implements CssValue {
         if (!this.getOffsetYValue()) {
             throw Error('offsetY is not set shadow')
         }
-        
+
         if (!this.getBlurValue()) {
             throw Error('blur is not set in shadow')
         }
-        
+
         if (!this.getSpreadValue()) {
             throw Error('spread is not set in shadow')
         }
 
         if (!this.getColorValue()) {
-            
+
             throw Error('Color is not set in shadow')
         }
 
@@ -104,8 +97,7 @@ export class BoxShadowStruct extends BaseShadowStruct implements CssValue {
     }
 }
 
-export default class BoxShadowCss extends BaseShadowCss
-{
+export default class BoxShadowCss extends BaseShadowCss {
     public static PROP_NAME = 'box-shadow'
 
     public static DEFAULT_SPREAD = 0
@@ -115,13 +107,12 @@ export default class BoxShadowCss extends BaseShadowCss
         return BoxShadowCss.PROP_NAME
     }
 
-    createClearValue(): BaseShadowStruct
-    {
+    createClearValue(): BaseShadowStruct {
         return new BoxShadowStruct()
     }
 
-    
-    
-    
-    
+
+
+
+
 }

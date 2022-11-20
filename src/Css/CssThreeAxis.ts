@@ -1,16 +1,15 @@
 import BasePropertyCss from "./BasePropertyCss";
 import CssWithoutValue from "../Errors/CssWithoutValue";
 import Unit from "../Unit/Unit";
-import CssDoubleValue from './CssDoubleValue';
+import CssWithTwoValues from './MultiValuesCss/CssWithTwoValues';
 import CssPropertyLimitable from './CssPropertyLimitable';
 import Pixel from '../Unit/Size/Pixel';
 import Named from '../Unit/Named';
-import CssWithThreeValues from './CssWithThreeValues';
-import CssTripleValue from './CssTripleValue';
+import CssWithThreeFields from './CssWithThreeFields';
+import CssWithThreeValues from './MultiValuesCss/CssWithThreeValues';
 import CssTwoAxis from '~/src/Css/CssTwoAxis';
 
-export default abstract class CssThreeAxis extends BasePropertyCss implements CssTripleValue
-{
+export default abstract class CssThreeAxis extends BasePropertyCss implements CssWithThreeFields {
     protected _xVal: string = ''
     xValUnit: Unit = new Named()
     protected _yVal: string = ''
@@ -34,7 +33,7 @@ export default abstract class CssThreeAxis extends BasePropertyCss implements Cs
             this.xValUnit = new Named()
         }
     }
-    
+
     onChangeYKeywordValue() {
         if (!(this.yValUnit instanceof Named)) {
             this.yValUnit = new Named()
@@ -46,7 +45,7 @@ export default abstract class CssThreeAxis extends BasePropertyCss implements Cs
             this.xValUnit = new Pixel()
         }
     }
-    
+
     onChangeYNumericValue() {
         if (this.yValUnit instanceof Named) {
             this.yValUnit = new Pixel()
@@ -63,8 +62,7 @@ export default abstract class CssThreeAxis extends BasePropertyCss implements Cs
         }
     }
 
-    get value(): any
-    {
+    get value(): any {
         if (this._hasTwoValues) {
             return this.xValUnit.getValue(this._xVal) + ' ' + this.yValUnit.getValue(this._yVal)
 
@@ -74,27 +72,25 @@ export default abstract class CssThreeAxis extends BasePropertyCss implements Cs
             return this.xValUnit.getValue(this._xVal) + ' ' + this.yValUnit.getValue(this._yVal) + ' ' + this.unitThird.getValue(this.valThird)
 
         }
-        
+
         return this.xValUnit.getValue(this._xVal)
     }
 
-    getClearValue(): string
-    {
+    getClearValue(): string {
         return this.xVal
     }
 
-    getValue(): string
-    {
+    getValue(): string {
         if (this._xVal == 'undefined') {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value`)
         }
         if (!this.xValUnit) {
-            throw new Error(`CSS property ${this.getName()} not have set Unit` )
+            throw new Error(`CSS property ${this.getName()} not have set Unit`)
         }
         if (this._hasTwoValues) {
             return this.xValUnit.getValue(this._xVal) + ' ' + this.yValUnit.getValue(this._yVal)
         }
-        
+
         if (this._hasThreeValues) {
             return this.xValUnit.getValue(this._xVal) + ' ' + this.yValUnit.getValue(this._yVal) + ' ' + this.unitThird.getValue(this.valThird)
 
@@ -105,33 +101,33 @@ export default abstract class CssThreeAxis extends BasePropertyCss implements Cs
     get xVal() {
         return this._xVal
     }
-    
+
     set xVal(arg) {
         this._xVal = arg
         if (!arg.length) {
             this.xValUnit = new Named()
         } else {
-            
+
         }
     }
-    
+
     get yVal() {
         return this._yVal
     }
-    
+
     set yVal(arg) {
         this._yVal = arg
         if (!arg) {
             this.yValUnit = new Named()
         } else {
-            
+
         }
     }
 
     get canSelectXvalKeyword() {
         return this.getAccessableXAsixProperty().indexOf(this.xVal) > -1 || !this.xVal.length
     }
-    
+
     get canSelectYvalKeyword() {
         return this.getAccessableYAsixProperty().indexOf(this.yVal) > -1 || !this.yVal.length
     }
@@ -140,12 +136,12 @@ export default abstract class CssThreeAxis extends BasePropertyCss implements Cs
     get hasTwoValues() {
         return this._hasTwoValues
     }
-    
+
     set hasTwoValues(arg) {
         this._hasTwoValues = arg
-        
+
     }
-    
+
     getSecondValue(): string {
         return this.yVal
     }
@@ -160,42 +156,35 @@ export default abstract class CssThreeAxis extends BasePropertyCss implements Cs
         this.yValUnit = unit
     }
 
-    getThirdValue(): string
-    {
+    getThirdValue(): string {
         return this.valThird
     }
-    setThirdValue(val: string)
-    {
+    setThirdValue(val: string) {
         this.valThird = val
         this._hasThreeValues = true
 
     }
-    
-    getThirdUnit(): Unit
-    {
+
+    getThirdUnit(): Unit {
         return this.unitThird
     }
-    setThirdUnit(unit: Unit)
-    {
+    setThirdUnit(unit: Unit) {
         this.unitThird = unit
     }
 
-    setValue(val)
-    {
+    setValue(val) {
         super.setValue(val)
         this.xVal = val
     }
-    
-    setUnit(unit: Unit)
-    {
+
+    setUnit(unit: Unit) {
 
         this.xValUnit = unit
     }
-    
-    getUnit()
-    {
+
+    getUnit() {
 
         return this.xValUnit
     }
-  
+
 }

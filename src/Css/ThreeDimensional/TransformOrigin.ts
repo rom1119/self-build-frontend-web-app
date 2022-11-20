@@ -1,12 +1,11 @@
 import CssSimple from "../CssSimple";
 import CssPropertyLimitable from "../CssPropertyLimitable";
 import CssTwoAxis from '../CssTwoAxis';
-import CssTripleValue from '../CssTripleValue';
+import CssWithThreeValues from '../MultiValuesCss/CssWithThreeValues';
 import Unit from "~/src/Unit/Unit";
 import Pixel from '../../Unit/Size/Pixel';
 
-export default class TransformOrigin extends  CssTwoAxis implements CssTripleValue
-{
+export default class TransformOrigin extends CssTwoAxis implements CssWithThreeValues {
     public static PROP_NAME = 'transform-origin'
     protected _zVal: string = ''
     zValUnit: Unit = new Pixel()
@@ -19,7 +18,7 @@ export default class TransformOrigin extends  CssTwoAxis implements CssTripleVal
     get zVal() {
         return this._zVal
     }
-    
+
     set zVal(arg) {
         this._zVal = arg
 
@@ -37,7 +36,7 @@ export default class TransformOrigin extends  CssTwoAxis implements CssTripleVal
     setThirdUnit(unit: Unit) {
         this.zValUnit = unit
     }
-  
+
 
 
 }

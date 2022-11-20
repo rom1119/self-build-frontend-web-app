@@ -1,7 +1,6 @@
 import Unit from './Unit/Unit';
-import CssDoubleValue from './Css/CssDoubleValue';
-export default interface DomainResource
-{
+import CssWithTwoValues from './Css/MultiValuesCss/CssWithTwoValues';
+export default interface DomainResource {
     resource: string
     file: File
     getId(): any

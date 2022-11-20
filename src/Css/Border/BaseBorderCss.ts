@@ -6,18 +6,16 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 
-export default abstract class BaseBorderCss extends CssDirectionComposite implements CssTripleValue
-{
+export default abstract class BaseBorderCss extends CssDirectionComposite implements CssWithThreeValues {
     private _widthUnit
     private _colorUnit
     private _typeUnit
 
-    constructor(val: any, unit: Unit)
-    {
+    constructor(val: any, unit: Unit) {
         super(val, unit)
         this.clearValue()
         if (unit) {
@@ -67,14 +65,13 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
         this._typeUnit = unit
     }
 
-    setValue(val: string)
-    {
+    setValue(val: string) {
         this.clearValue()
         let arr = val.toString().split(' ')
         for (const el of arr) {
             this.values.push(el)
             // console.log(el);
-            
+
         }
     }
 
@@ -82,25 +79,23 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
         return `${this.getWidth()} ${this.getType()} ${this.getColor()}`
     }
 
-    getValue(): string
-    {
+    getValue(): string {
         if (this.values[0] == 'undefined') {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value`)
         }
         if (this.values[0].toString().length < 1) {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value`)
 
         }
         // var val = ''
         // this.values.forEach(element => {
         //     val += element + ' '
         // });
-        
+
         return `${this.getWidth()} ${this.getType()} ${this.getColor()}`
     }
 
-    public setWidth(val: number, unit: UnitSize)
-    {
+    public setWidth(val: number, unit: UnitSize) {
         if (this.values[0] !== 'undefined') {
             this.values[0] = val
         } else {
@@ -111,9 +106,8 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
         this._widthUnit = unit
 
     }
-    
-    public setType(val: string)
-    {
+
+    public setType(val: string) {
         if (this.values[1] !== 'undefined') {
             this.values[1] = val
         } else {
@@ -123,9 +117,8 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
         Vue.set(this.values, 1, val)
 
     }
-    
-    public setColor(val: any, unit: UnitColor)
-    {
+
+    public setColor(val: any, unit: UnitColor) {
         if (this.values[2] !== 'undefined') {
             this.values[2] = val
         } else {
@@ -139,28 +132,23 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
 
     }
 
-    public getClearWidth(): string
-    {
+    public getClearWidth(): string {
         return this.values[0]
     }
-    
-    public getClearStyle(): string
-    {
+
+    public getClearStyle(): string {
         return this.values[1]
     }
-    
-    public getClearColor(): string
-    {
+
+    public getClearColor(): string {
         return this.values[2]
     }
 
-    get clearWidth()
-    {
+    get clearWidth() {
         return this.values[0]
     }
-    
-    set clearWidth(val)
-    {
+
+    set clearWidth(val) {
         if (this.values[0] !== 'undefined') {
             this.values[0] = val
         } else {
@@ -170,28 +158,24 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
         Vue.set(this.values, 0, val)
 
     }
-    
-    
-    
-    set clearWidthUnit(val)
-    {
+
+
+
+    set clearWidthUnit(val) {
 
         Vue.set(this, '_widthUnit', val)
 
     }
-    
-    get clearWidthUnit()
-    {
+
+    get clearWidthUnit() {
         return this._widthUnit
     }
 
-    get clearStyle()
-    {
+    get clearStyle() {
         return this.values[1]
     }
-    
-    set clearStyle(val)
-    {
+
+    set clearStyle(val) {
         if (this.values[1] !== 'undefined') {
             this.values[1] = val
 
@@ -200,14 +184,12 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
         }
         Vue.set(this.values, 1, val)
     }
-    
-    get clearColor()
-    {
+
+    get clearColor() {
         return this.values[2]
     }
-    
-    set clearColor(val)
-    {
+
+    set clearColor(val) {
         if (this.values[2] !== 'undefined') {
             this.values[2] = val
         } else {
@@ -216,33 +198,27 @@ export default abstract class BaseBorderCss extends CssDirectionComposite implem
         Vue.set(this.values, 2, val)
     }
 
-    public getWidth(): string
-    {
+    public getWidth(): string {
         return this._widthUnit ? this._widthUnit.getValue(this.values[0]) : ''
     }
-    
-    public getType(): string
-    {
+
+    public getType(): string {
         return this._typeUnit ? this._typeUnit.getValue(this.values[1]) : ''
     }
-    
-    public getColor(): string
-    {
+
+    public getColor(): string {
         return this._colorUnit ? this._colorUnit.getValue(this.values[2]) : ''
     }
 
-    public getWidthUnit()
-    {
+    public getWidthUnit() {
         return this._widthUnit
     }
-    
-    public getColorUnit()
-    {
+
+    public getColorUnit() {
         return this._colorUnit
     }
 
-    public getTypeUnit()
-    {
+    public getTypeUnit() {
         return this._typeUnit
     }
 }

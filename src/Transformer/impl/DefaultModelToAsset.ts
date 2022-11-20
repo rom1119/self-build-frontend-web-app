@@ -9,8 +9,8 @@ import BasePropertyCss from '../../Css/BasePropertyCss';
 import StyleCss from '~/src/Api/StyleCss';
 import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName';
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
-import CssDoubleValue from '~/src/Css/CssDoubleValue';
-import CssTripleValue from '~/src/Css/CssTripleValue';
+import CssWithTwoValues from '~/src/Css/MultiValuesCss/CssWithTwoValues';
+import CssWithThreeValues from '~/src/Css/MultiValuesCss/CssWithThreeValues';
 import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
 import RGBA from '../../Unit/Color/RGBA';
 import CssResource from '~/src/Css/CssResource';
@@ -32,12 +32,10 @@ import ModelToAsset from '../ModelToAsset';
 import AssetDomain from '../../Assets/AssetDomain';
 import AssetModel from '~/types/AssetModel';
 import SrcFont from '../../Fonts/SrcFont';
-export default class DefaultModelToAsset implements ModelToAsset
-{
+export default class DefaultModelToAsset implements ModelToAsset {
     protected domainAsSrcFont = false
 
-    constructor()
-    {
+    constructor() {
 
     }
     setDomainAsSrcFont(arg: boolean) {

@@ -3,17 +3,16 @@ import UnitAngle from '../../../Unit/UnitAngle';
 import UnitDeg from '../../../Unit/UnitAngle/UnitDeg';
 import Unit from '../../../Unit/Unit';
 import Named from '../../../Unit/Named';
-import CssWithTwoValue from '../../CssWithTwoValues';
-import CssWithTwoValues from '../../CssWithTwoValues';
+import CssWithTwoValue from '../../CssWithTwoFields';
+import CssWithTwoFields from '../../CssWithTwoFields';
 
 
-export default class Scale implements TransformType, CssWithTwoValues
-{
+export default class Scale implements TransformType, CssWithTwoFields {
     public static PROP_NAME = 'scale'
 
     val: number = 1
     unit: Unit = new Named()
-    
+
     valSecond: number = 1
     unitSecond: Unit = new Named()
 
@@ -21,11 +20,11 @@ export default class Scale implements TransformType, CssWithTwoValues
         return `scale(${this.unit.getValue(this.val)}, ${this.unitSecond.getValue(this.valSecond)})`
     }
 
-    public getName(): string  {
+    public getName(): string {
         return Scale.PROP_NAME
     }
 
-  
+
 
 
 }

@@ -1,6 +1,5 @@
 import Unit from '../Unit/Unit';
-import CssDoubleValue from './CssDoubleValue';
+import CssWithTwoValues from './MultiValuesCss/CssWithTwoValues';
 import DomainResource from '../DomainResource';
-export default interface TagResource extends DomainResource
-{
+export default interface TagResource extends DomainResource {
 }

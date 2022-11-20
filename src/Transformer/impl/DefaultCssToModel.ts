@@ -11,8 +11,8 @@ import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
 import CssToModel from '../CssToModel';
 import StyleCssModel from '~/types/StyleCssModel';
-import CssDoubleValue from '../../Css/CssDoubleValue';
-import CssTripleValue from '~/src/Css/CssTripleValue';
+import CssWithTwoValues from '../../Css/MultiValuesCss/CssWithTwoValues';
+import CssWithThreeValues from '~/src/Css/MultiValuesCss/CssWithThreeValues';
 import BaseBorderCss from '../../Css/Border/BaseBorderCss';
 import CssResource from '~/src/Css/CssResource';
 import CssMultipleValue from '../../Css/CssMultipleValue';
@@ -35,8 +35,7 @@ import AnimationCss from '../../Css/Animation/AnimationCss';
 import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
 import TransformCss from '../../Css/ThreeDimensional/TransformCss';
 import TransformTypeToCssValueModel from './TransformTypeToCssValueModel';
-export default class DefaultCssToModel implements CssToModel
-{
+export default class DefaultCssToModel implements CssToModel {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
@@ -46,8 +45,7 @@ export default class DefaultCssToModel implements CssToModel
 
     private mediaQuery: BaseMediaQueryCss
 
-    constructor()
-    {
+    constructor() {
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         this.transformTypeToCssValueModel = new TransformTypeToCssValueModel()
@@ -99,7 +97,7 @@ export default class DefaultCssToModel implements CssToModel
         }
         // @ts-ignore
         if (typeof domain.getSecondValue === 'function') {
-            var domainCast: CssDoubleValue = <CssDoubleValue><unknown>domain
+            var domainCast: CssWithTwoValues = <CssWithTwoValues><unknown>domain
             model.setValueSecond(domainCast.getSecondValue())
             if (domainCast.getSecondUnit()) {
                 model.setUnitNameSecond(domainCast.getSecondUnit().name)
@@ -123,7 +121,7 @@ export default class DefaultCssToModel implements CssToModel
 
         // @ts-ignore
         if (typeof domain.getThirdValue === 'function') {
-            var domainCastThird: CssTripleValue = <CssTripleValue><unknown>domain
+            var domainCastThird: CssWithThreeValues = <CssWithThreeValues><unknown>domain
             if (typeof domainCastThird.getThirdValue() === 'object') {
                 var valueJsonStr = JSON.stringify(domainCastThird.getThirdValue())
                 model.setValueThird(valueJsonStr)
@@ -151,17 +149,16 @@ export default class DefaultCssToModel implements CssToModel
 
     }
 
-    private transformFontFamily(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformFontFamily(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<FontFamilyValDomain>
         // console.log('transformFontFamily');
-        
+
         if (domain instanceof FontFamily) {
             domainCastMultiplyVal = <CssMultipleValue<FontFamilyValDomain>><unknown>domain
 
             for (const valCss of domainCastMultiplyVal.getValues()) {
-                
+
                 let el = new StyleCssValue(valCss.getName(), Named.PROP_NAME)
                 el.id = valCss.id
                 el.setValueSecond(valCss.getType())
@@ -180,8 +177,7 @@ export default class DefaultCssToModel implements CssToModel
         }
 
     }
-    private transformShadows(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformShadows(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<TextShadowStruct>
         var domainCastMultiplyValBoxShadow: CssMultipleValue<BoxShadowStruct>
@@ -253,8 +249,7 @@ export default class DefaultCssToModel implements CssToModel
 
     }
 
-    private transformCssTransform(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformCssTransform(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<TransformCssStruct>
         if (domain instanceof TransformCss) {
@@ -273,8 +268,7 @@ export default class DefaultCssToModel implements CssToModel
 
         }
     }
-    private transformAnimation(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformAnimation(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<AnimationCssStruct>
         if (domain instanceof AnimationCss) {
@@ -325,9 +319,8 @@ export default class DefaultCssToModel implements CssToModel
         }
 
     }
-    
-    private transformTransition(domain: BasePropertyCss, model: StyleCssModel)
-    {
+
+    private transformTransition(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<TransitionStruct>
         if (domain instanceof TransitionCss) {
@@ -371,8 +364,7 @@ export default class DefaultCssToModel implements CssToModel
 
     }
 
-    private transformGradient(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformGradient(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<LinearGradientStructVal>
         var domainCastMultiplyValRadial: CssMultipleValue<RadialGradientStructVal>

@@ -9,8 +9,8 @@ import BasePropertyCss from '../../Css/BasePropertyCss';
 import StyleCss from '~/src/Api/StyleCss';
 import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName';
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
-import CssDoubleValue from '~/src/Css/CssDoubleValue';
-import CssTripleValue from '~/src/Css/CssTripleValue';
+import CssWithTwoValues from '~/src/Css/MultiValuesCss/CssWithTwoValues';
+import CssWithThreeValues from '~/src/Css/MultiValuesCss/CssWithThreeValues';
 import BaseBorderCss from '~/src/Css/Border/BaseBorderCss';
 import RGBA from '../../Unit/Color/RGBA';
 import CssResource from '~/src/Css/CssResource';
@@ -37,8 +37,7 @@ import AnimationCss from '../../Css/Animation/AnimationCss';
 import CssValueModelToTransformType from './CssValueModelToTransformType';
 import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
 import TransformCss from '../../Css/ThreeDimensional/TransformCss';
-export default class DefaultModelToCss implements ModelToCss
-{
+export default class DefaultModelToCss implements ModelToCss {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
@@ -48,8 +47,7 @@ export default class DefaultModelToCss implements ModelToCss
 
     // private styleTransformer: ModelToCss
 
-    constructor()
-    {
+    constructor() {
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         this.timingFunctionFactoryFromName = new TimingFunctionFactoryFromName()
@@ -69,10 +67,10 @@ export default class DefaultModelToCss implements ModelToCss
             } catch (err) {
                 if (err instanceof SyntaxError) {
                     // console.log('SYNTAX');
-                    val = {r: 255, g: 0, b: 0}
+                    val = { r: 255, g: 0, b: 0 }
                 }
-            } 
-  
+            }
+
         } else {
             val = model.getValue()
         }
@@ -131,12 +129,12 @@ export default class DefaultModelToCss implements ModelToCss
 
         // @ts-ignore
         if (typeof domain.getSecondValue === 'function') {
-            var domainCast: CssDoubleValue = <CssDoubleValue><unknown>domain
+            var domainCast: CssWithTwoValues = <CssWithTwoValues><unknown>domain
             domainCast.setSecondValue(model.getValueSecond())
             try {
                 let unitSecond = this.unitCssFactoryFromName.create(model.getUnitNameSecond())
                 domainCast.setSecondUnit(unitSecond)
- 
+
             } catch (e) {
 
             }
@@ -146,22 +144,22 @@ export default class DefaultModelToCss implements ModelToCss
 
         // @ts-ignore
         if (typeof domain.getThirdValue === 'function') {
-            var domainCastThird: CssTripleValue = <CssTripleValue><unknown>domain
+            var domainCastThird: CssWithThreeValues = <CssWithThreeValues><unknown>domain
             let unitThird = this.unitCssFactoryFromName.create(model.getUnitNameThird())
             var val
             // console.trace(model)
             if (unitThird instanceof RGBA || unitThird instanceof RGB) {
                 try {
                     // console.log(model.getValueThird());
-                    
+
                     val = JSON.parse(model.getValueThird())
                 } catch (err) {
                     if (err instanceof SyntaxError) {
                         // console.log('SYNTAX');
-                        val = {r: 255, g: 0, b: 0}
+                        val = { r: 255, g: 0, b: 0 }
 
                     }
-                } 
+                }
             } else {
                 val = model.getValueThird()
             }
@@ -201,7 +199,7 @@ export default class DefaultModelToCss implements ModelToCss
                 domain = newDominTransform
             }
             // console.log('domain', domain);
-            
+
             // model.setAsMultiple()
             // model.setValues(values)
             // model.setValueSecond(domainCast.getSecondValue())
@@ -212,8 +210,7 @@ export default class DefaultModelToCss implements ModelToCss
 
     }
 
-    private transformFontFamily(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformFontFamily(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<FontFamilyValDomain>
         if (domain instanceof FontFamily) {
@@ -230,8 +227,7 @@ export default class DefaultModelToCss implements ModelToCss
         }
     }
 
-    private transformCssTransform(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformCssTransform(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<TransformCssStruct>
         if (domain instanceof TransformCss) {
@@ -255,8 +251,7 @@ export default class DefaultModelToCss implements ModelToCss
             return domainCastMultiplyVal
         }
     }
-    private transformShadows(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformShadows(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<TextShadowStruct>
         var domainCastMultiplyValBoxShadow: CssMultipleValue<BoxShadowStruct>
@@ -266,33 +261,33 @@ export default class DefaultModelToCss implements ModelToCss
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
 
             for (const valCss of model.getValues()) {
-                
+
                 let el = new TextShadowStruct()
-                    el.id = valCss.id
-                    el.offsetX = parseInt(valCss.getValue())
-                    el.offsetY = parseInt(valCss.getValueSecond())
-                    el.blur = parseInt(valCss.getValueThird())
+                el.id = valCss.id
+                el.offsetX = parseInt(valCss.getValue())
+                el.offsetY = parseInt(valCss.getValueSecond())
+                el.blur = parseInt(valCss.getValueThird())
 
-                    var unitOffX = this.unitCssFactoryFromName.create(valCss.getUnitName())
-                    var unitOffY = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
-                    var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
-                    var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+                var unitOffX = this.unitCssFactoryFromName.create(valCss.getUnitName())
+                var unitOffY = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
+                var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
 
-                    var val
-                    if (unitColor instanceof RGBA || unitColor instanceof RGB) {
-                        el.color = JSON.parse(valCss.getValueFourth())
-                    } else {
-                        el.color = valCss.getValueFourth()
-                    }
+                var val
+                if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                    el.color = JSON.parse(valCss.getValueFourth())
+                } else {
+                    el.color = valCss.getValueFourth()
+                }
 
-                    el.offsetXUnit = unitOffX
-                    el.offsetYUnit = unitOffY
-                    el.blurUnit = unitBlur
-                    el.colorUnit = unitColor
-                    // console.log(el);
+                el.offsetXUnit = unitOffX
+                el.offsetYUnit = unitOffY
+                el.blurUnit = unitBlur
+                el.colorUnit = unitColor
+                // console.log(el);
 
 
-                    domainCastMultiplyVal.addValue(el)
+                domainCastMultiplyVal.addValue(el)
             }
 
             return domainCastMultiplyVal
@@ -303,36 +298,36 @@ export default class DefaultModelToCss implements ModelToCss
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
 
             for (const valCss of model.getValues()) {
-                    
+
                 let el = new BoxShadowStruct()
-                    el.id = valCss.id
-                    el.inset = valCss.getInset()
-                    el.offsetX = parseInt(valCss.getValue())
-                    el.offsetY = parseInt(valCss.getValueSecond())
-                    el.blur = parseInt(valCss.getValueThird())
-                    el.spread = parseInt(valCss.getValueFourth())
+                el.id = valCss.id
+                el.inset = valCss.getInset()
+                el.offsetX = parseInt(valCss.getValue())
+                el.offsetY = parseInt(valCss.getValueSecond())
+                el.blur = parseInt(valCss.getValueThird())
+                el.spread = parseInt(valCss.getValueFourth())
 
-                    var unitOffX = this.unitCssFactoryFromName.create(valCss.getUnitName())
-                    var unitOffY = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
-                    var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
-                    var unitSpread = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
-                    var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFifth())
+                var unitOffX = this.unitCssFactoryFromName.create(valCss.getUnitName())
+                var unitOffY = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                var unitBlur = this.unitCssFactoryFromName.create(valCss.getUnitNameThird())
+                var unitSpread = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())
+                var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitNameFifth())
 
-                    var val
-                    if (unitColor instanceof RGBA || unitColor instanceof RGB) {
-                        el.color = JSON.parse(valCss.getValueFifth())
-                    } else {
-                        el.color = valCss.getValueFifth()
-                    }
+                var val
+                if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                    el.color = JSON.parse(valCss.getValueFifth())
+                } else {
+                    el.color = valCss.getValueFifth()
+                }
 
-                    el.offsetXUnit = unitOffX
-                    el.offsetYUnit = unitOffY
-                    el.blurUnit = unitBlur
-                    el.spreadUnit = unitSpread
-                    el.colorUnit = unitColor
-                    // console.log(el)
+                el.offsetXUnit = unitOffX
+                el.offsetYUnit = unitOffY
+                el.blurUnit = unitBlur
+                el.spreadUnit = unitSpread
+                el.colorUnit = unitColor
+                // console.log(el)
 
-                    domainCastMultiplyValBoxShadow.addValue(el)
+                domainCastMultiplyValBoxShadow.addValue(el)
             }
 
             return domainCastMultiplyValBoxShadow
@@ -342,8 +337,7 @@ export default class DefaultModelToCss implements ModelToCss
 
     }
 
-    private transformGradient(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformGradient(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: LinearGradientCss
         var domainCastMultiplyValBoxShadow: RadialGradientCss
@@ -366,25 +360,25 @@ export default class DefaultModelToCss implements ModelToCss
                     continue
                 }
                 let el = new LinearGradientStructVal()
-                    el.id = valCss.id
-                    el.size = parseInt(valCss.getValueSecond())
+                el.id = valCss.id
+                el.size = parseInt(valCss.getValueSecond())
 
-                    var unitSize = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
-                    var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitName())
+                var unitSize = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitName())
 
-                    var val
-                    if (unitColor instanceof RGBA || unitColor instanceof RGB) {
-                        el.color = JSON.parse(valCss.getValue())
-                    } else {
-                        el.color = valCss.getValue()
-                    }
+                var val
+                if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                    el.color = JSON.parse(valCss.getValue())
+                } else {
+                    el.color = valCss.getValue()
+                }
 
-                    el.sizeUnit = unitSize
-                    el.colorUnit = unitColor
-                    // console.log(el);
+                el.sizeUnit = unitSize
+                el.colorUnit = unitColor
+                // console.log(el);
 
 
-                    domainCastMultiplyVal.addValue(el)
+                domainCastMultiplyVal.addValue(el)
             }
 
             return domainCastMultiplyVal
@@ -414,25 +408,25 @@ export default class DefaultModelToCss implements ModelToCss
                     continue
                 }
                 let el = new RadialGradientStructVal()
-                    el.id = valCss.id
-                    el.size = parseInt(valCss.getValueSecond())
+                el.id = valCss.id
+                el.size = parseInt(valCss.getValueSecond())
 
-                    var unitSize = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
-                    var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitName())
+                var unitSize = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
+                var unitColor = this.unitCssFactoryFromName.create(valCss.getUnitName())
 
-                    var val
-                    if (unitColor instanceof RGBA || unitColor instanceof RGB) {
-                        el.color = JSON.parse(valCss.getValue())
-                    } else {
-                        el.color = valCss.getValue()
-                    }
+                var val
+                if (unitColor instanceof RGBA || unitColor instanceof RGB) {
+                    el.color = JSON.parse(valCss.getValue())
+                } else {
+                    el.color = valCss.getValue()
+                }
 
-                    el.sizeUnit = unitSize
-                    el.colorUnit = unitColor
-                    // console.log(el);
+                el.sizeUnit = unitSize
+                el.colorUnit = unitColor
+                // console.log(el);
 
 
-                    domainCastMultiplyValBoxShadow.addValue(el)
+                domainCastMultiplyValBoxShadow.addValue(el)
             }
 
             console.log('NEW_DOMAIN');
@@ -446,7 +440,7 @@ export default class DefaultModelToCss implements ModelToCss
 
     }
 
-    findDirectionModel(arg: StyleCssValue[]) : StyleCssValue {
+    findDirectionModel(arg: StyleCssValue[]): StyleCssValue {
 
         for (const model of arg) {
             if (model.getSpecialValGradient() === true) {
@@ -482,7 +476,7 @@ export default class DefaultModelToCss implements ModelToCss
                 if (valCss.getUnitNameSecond()) {
                     var unitDuration = this.unitCssFactoryFromName.create(valCss.getUnitNameSecond())
                     el.durationUnit = unitDuration
-                    
+
                 }
                 if (valCss.getUnitNameFourth()) {
                     var unitDelay = this.unitCssFactoryFromName.create(valCss.getUnitNameFourth())

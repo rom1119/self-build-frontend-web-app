@@ -6,7 +6,7 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 import BasePropertyCss from "../BasePropertyCss";
@@ -25,8 +25,7 @@ export abstract class BaseShadowStruct {
     protected _color: any
     protected _colorUnit: UnitColor
 
-    set offsetX(val)
-    {
+    set offsetX(val) {
         // if (this.values[0] !== 'undefined') {
         //     this.values[0] = val
         // } else {
@@ -36,45 +35,37 @@ export abstract class BaseShadowStruct {
         Vue.set(this, '_offsetX', val)
 
     }
-    
-    get offsetX()
-    {
+
+    get offsetX() {
         return this._offsetX
     }
-    
-    set offsetY(val)
-    {
+
+    set offsetY(val) {
         Vue.set(this, '_offsetY', val)
     }
-    
-    get offsetY()
-    {
+
+    get offsetY() {
         return this._offsetY
     }
-    
-    set blur(val)
-    {
+
+    set blur(val) {
         Vue.set(this, '_blur', val)
     }
-    
-    get blur()
-    {
+
+    get blur() {
         return this._blur
     }
-    
-    set color(val)
-    {
+
+    set color(val) {
         Vue.set(this, '_color', val)
     }
-    
-    get color()
-    {
+
+    get color() {
         return this._color
     }
 
 
-    set offsetXUnit(val)
-    {
+    set offsetXUnit(val) {
         // if (this.values[0] !== 'undefined') {
         //     this.values[0] = val
         // } else {
@@ -84,61 +75,54 @@ export abstract class BaseShadowStruct {
         Vue.set(this, '_offsetXUnit', val)
 
     }
-    
-    get offsetXUnit()
-    {
+
+    get offsetXUnit() {
         return this._offsetXUnit
     }
-    
-    set offsetYUnit(val)
-    {
+
+    set offsetYUnit(val) {
         Vue.set(this, '_offsetYUnit', val)
     }
-    
-    get offsetYUnit()
-    {
+
+    get offsetYUnit() {
         return this._offsetYUnit
     }
-    
-    set blurUnit(val)
-    {
+
+    set blurUnit(val) {
         Vue.set(this, '_blurUnit', val)
     }
-    
-    get blurUnit()
-    {
+
+    get blurUnit() {
         return this._blurUnit
     }
-    
-    set colorUnit(val)
-    {
+
+    set colorUnit(val) {
         Vue.set(this, '_colorUnit', val)
     }
-    
-    get colorUnit()
-    {
+
+    get colorUnit() {
         return this._colorUnit
     }
-    
-    
-    getColorValue() : string {
+
+
+    getColorValue(): string {
         return this._colorUnit.getValue(this._color)
     }
-    
+
     getOffsetXValue(): string {
         return this._offsetXUnit.getValue(this._offsetX)
     }
-    
+
     getOffsetYValue(): string {
         return this._offsetYUnit.getValue(this._offsetY)
     }
-    
+
     getBlurValue(): string {
         return this._blurUnit.getValue(this._blur)
     }
 
     abstract getFullValue(): string
-    
+
 }
 
 export default abstract class BaseShadowCss extends BasePropertyCss implements CssMultipleValue<BaseShadowStruct>
@@ -154,13 +138,12 @@ export default abstract class BaseShadowCss extends BasePropertyCss implements C
     public static DEFAULT_BLUR_UNIT = new Pixel()
     public static DEFAULT_COLOR_UNIT = new Named()
 
-    constructor(offXPixel: number, offYPixel: number, color: string)
-    {
+    constructor(offXPixel: number, offYPixel: number, color: string) {
         super(new Pixel())
         this.values = []
         this.clearValue()
         // var shadow = this.createClearValue()
-        
+
         // shadow.offsetX = offXPixel
         // shadow.offsetY = offYPixel
         // shadow.color = color
@@ -196,15 +179,13 @@ export default abstract class BaseShadowCss extends BasePropertyCss implements C
         throw new Error("Method not implemented.");
     }
 
-    setValue(val: any)
-    {
+    setValue(val: any) {
         return false        // this.values.push(val)
     }
 
-    getValue(): string
-    {
+    getValue(): string {
         if (this.values.length == 0) {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value`)
         }
         // if (this.values[0].toString().length < 1) {
         //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
@@ -217,12 +198,11 @@ export default abstract class BaseShadowCss extends BasePropertyCss implements C
                 val += ', '
             }
         });
-        
+
         return val
     }
 
-    get value(): string
-    {
+    get value(): string {
         // if (this.values[0].toString().length < 1) {
         //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
 
@@ -234,9 +214,9 @@ export default abstract class BaseShadowCss extends BasePropertyCss implements C
                 val += ', '
             }
         });
-        
+
         return val
     }
 
-    
+
 }

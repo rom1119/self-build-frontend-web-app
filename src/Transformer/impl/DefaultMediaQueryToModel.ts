@@ -11,8 +11,8 @@ import CssPropertyFactoryFromName from '~/src/Factory/CssPropertyFactoryFromName
 import UnitCssPropertyFactoryFromName from '~/src/Factory/UnitCssPropertyFactoryFromName';
 import CssToModel from '../CssToModel';
 import StyleCssModel from '~/types/StyleCssModel';
-import CssDoubleValue from '../../Css/CssDoubleValue';
-import CssTripleValue from '~/src/Css/CssTripleValue';
+import CssWithTwoValues from '../../Css/MultiValuesCss/CssWithTwoValues';
+import CssWithThreeValues from '~/src/Css/MultiValuesCss/CssWithThreeValues';
 import BaseBorderCss from '../../Css/Border/BaseBorderCss';
 import CssResource from '~/src/Css/CssResource';
 import CssMultipleValue from '../../Css/CssMultipleValue';
@@ -30,15 +30,13 @@ import { Named } from '~/src/Unit';
 import MediaQueryToModel from '../MediaQueryToModel';
 import MediaQueryCss from '../../MediaQuery/MediaQueryCss';
 import MediaQuery from '../../Api/MediaQuery';
-export default class DefaultMediaQueryToModel implements MediaQueryToModel
-{
+export default class DefaultMediaQueryToModel implements MediaQueryToModel {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
     private unitCssFactoryFromName: UnitCssPropertyFactoryFromName
     // private styleTransformer: ModelToCss
 
-    constructor()
-    {
+    constructor() {
         this.cssFactoryFromName = new CssPropertyFactoryFromName()
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         // this.styleTransformer = new HtmlTagFactoryFromName()
@@ -59,7 +57,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
             var valueJsonStr = JSON.stringify(domain.color)
             model.color = valueJsonStr
         } else {
-            model.color =  domain.color
+            model.color = domain.color
         }
         model.colorUnitName = domain.colorUnit.name
 
@@ -76,7 +74,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
 
             if (valCss.mediaType) {
                 el.setValueSecond(valCss.mediaType.getValue())
-                el.setUnitNameSecond(Named.PROP_NAME )
+                el.setUnitNameSecond(Named.PROP_NAME)
 
             }
 
@@ -133,8 +131,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
 
     }
 
-    private transformShadows(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformShadows(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<TextShadowStruct>
         var domainCastMultiplyValBoxShadow: CssMultipleValue<BoxShadowStruct>
@@ -206,8 +203,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
 
     }
 
-    private transformTransition(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformTransition(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<TransitionStruct>
         if (domain instanceof TransitionCss) {
@@ -251,8 +247,7 @@ export default class DefaultMediaQueryToModel implements MediaQueryToModel
 
     }
 
-    private transformGradient(domain: BasePropertyCss, model: StyleCssModel)
-    {
+    private transformGradient(domain: BasePropertyCss, model: StyleCssModel) {
         var values = []
         var domainCastMultiplyVal: CssMultipleValue<LinearGradientStructVal>
         var domainCastMultiplyValRadial: CssMultipleValue<RadialGradientStructVal>

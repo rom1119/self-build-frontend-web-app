@@ -6,7 +6,7 @@ import CssComposite from '../CssComposite';
 import CssDirectionComposite from "../CssDirectionComposite";
 import CssWithoutValue from "~/src/Errors/CssWithoutValue";
 import Unit from "~/src/Unit/Unit";
-import CssTripleValue from "../CssTripleValue";
+import CssWithThreeValues from "../MultiValuesCss/CssWithThreeValues";
 import Named from '../../Unit/Named';
 import Vue from 'vue'
 import BasePropertyCss from "../BasePropertyCss";
@@ -30,52 +30,43 @@ export class TransitionStruct implements CssValue {
     protected _durationUnit: UnitSecond = new UnitSecond()
     protected _delayUnit: UnitSecond = new UnitSecond()
     protected _timingFunctionUnit: Named = new Named()
-    
+
     getId(): number {
         return this.id
     }
-    set all(val)
-    {
+    set all(val) {
         Vue.set(this, '_all', val)
     }
-    get all()
-    {
+    get all() {
         return this._all
     }
-    
-    get propertyNameUnit()
-    {
+
+    get propertyNameUnit() {
         return this._propertyNameUnit
     }
-    
-    get timingFunctionUnit()
-    {
+
+    get timingFunctionUnit() {
         return this._timingFunctionUnit
     }
-    
-    get durationUnit()
-    {
+
+    get durationUnit() {
         return this._durationUnit
     }
-    
-    set durationUnit(arg)
-    {
+
+    set durationUnit(arg) {
         this._durationUnit = arg
     }
-    
-    get delayUnit()
-    {
+
+    get delayUnit() {
         return this._delayUnit
     }
-    
-    set delayUnit(arg)
-    {
+
+    set delayUnit(arg) {
         this._delayUnit = arg
     }
-    
 
-    set propertyName(val)
-    {
+
+    set propertyName(val) {
         // if (this.values[0] !== 'undefined') {
         //     this.values[0] = val
         // } else {
@@ -85,71 +76,62 @@ export class TransitionStruct implements CssValue {
         Vue.set(this, '_propertyName', val)
 
     }
-    
-    get propertyName()
-    {
+
+    get propertyName() {
         return this._propertyName
     }
-    
-    set duration(val)
-    {
+
+    set duration(val) {
         Vue.set(this, '_duration', val)
     }
-    
-    get duration()
-    {
+
+    get duration() {
         return this._duration
     }
-    
-    set timingFunction(val: TimingFunction)
-    {
+
+    set timingFunction(val: TimingFunction) {
         Vue.set(this, '_timingFunction', val)
     }
-    
-    get timingFunction(): TimingFunction
-    {
+
+    get timingFunction(): TimingFunction {
         return this._timingFunction
     }
-    
-    set delay(val)
-    {
+
+    set delay(val) {
         Vue.set(this, '_delay', val)
     }
-    
-    get delay()
-    {
+
+    get delay() {
         return this._delay
     }
 
     get delayValue() {
-        
+
         if (this.delayUnit) {
             return this.delayUnit.getValue(this.delay)
         }
         return ''
     }
-    
+
     get durationValue() {
-        
+
         if (this.durationUnit) {
             return this.durationUnit.getValue(this.duration)
         }
         return ''
     }
-    
-    getPropertyName()
-    {
+
+    getPropertyName() {
         if (this.all) {
             return 'all'
         }
 
         return this.propertyName
     }
-    
-    
 
-    getFullValue(): string
-    {
+
+
+    getFullValue(): string {
         var str = ''
         if (!this.propertyName) {
             if (!this.all) {
@@ -176,16 +158,16 @@ export class TransitionStruct implements CssValue {
         if (this.timingFunction.getValue()) {
 
         }
-        
+
         str += ` ${this.delay}s`
         if (this.delay) {
 
         }
-      
+
 
         return str
     }
-    
+
 }
 
 export default class TransitionCss extends BasePropertyCss implements CssMultipleValue<TransitionStruct>
@@ -193,41 +175,39 @@ export default class TransitionCss extends BasePropertyCss implements CssMultipl
     public static PROP_NAME = 'transition'
 
     protected values: TransitionStruct[] = []
-    
+
     public static DEFAULT_ALL = true
     public static DEFAULT_PROPERTY_NAME = Width.PROP_NAME
     public static DEFAULT_DURATION = 0.5
     public static DEFAULT_DELAY = 0
     public static DEFAULT_TIMING_FUNCTION = new Linear()
-   
-    
-    constructor()
-    {
+
+
+    constructor() {
         super(new Pixel())
         this.values = []
         this.clearValue()
         // var shadow = this.createClearValue()
-        
+
         // shadow.offsetX = offXPixel
         // shadow.offsetY = offYPixel
         // shadow.color = color
         // shadow.blur = BaseShadowCss.DEFAULT_BLUR
-        
+
         // shadow.offsetXUnit = BaseShadowCss.DEFAULT_OFFSET_X_UNIT
         // shadow.offsetYUnit = BaseShadowCss.DEFAULT_OFFSET_Y_UNIT
         // shadow.blurUnit = BaseShadowCss.DEFAULT_BLUR_UNIT
         // shadow.colorUnit = BaseShadowCss.DEFAULT_COLOR_UNIT
-        
+
         // this.values.push(shadow)
         // Vue.set(this.values, 0, shadow)
-        
+
     }
-    
+
     public getName(): string {
         return TransitionCss.PROP_NAME
     }
-    createClearValue(): TransitionStruct
-    {
+    createClearValue(): TransitionStruct {
         return new TransitionStruct()
     }
 
@@ -252,15 +232,13 @@ export default class TransitionCss extends BasePropertyCss implements CssMultipl
         throw new Error("Method not implemented.");
     }
 
-    setValue(val: any)
-    {
+    setValue(val: any) {
         return false        // this.values.push(val)
     }
 
-    getValue(): string
-    {
+    getValue(): string {
         if (this.values.length == 0) {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value`)
         }
         // if (this.values[0].toString().length < 1) {
         //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )
@@ -273,12 +251,11 @@ export default class TransitionCss extends BasePropertyCss implements CssMultipl
                 val += ', '
             }
         });
-        
+
         return val
     }
 
-    get value(): any
-    {
+    get value(): any {
         var val = ''
         this.values.forEach((element, key) => {
             val += element.getFullValue()
@@ -286,9 +263,9 @@ export default class TransitionCss extends BasePropertyCss implements CssMultipl
                 val += ', '
             }
         });
-        
+
         return val
     }
 
-    
+
 }

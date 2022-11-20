@@ -1,6 +1,6 @@
 import Unit from '../Unit/Unit';
 
-export default interface CssWithOneValue {
+export default interface CssWithOneField {
     val: number
     unit: Unit
 }

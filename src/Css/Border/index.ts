@@ -34,12 +34,21 @@ import BorderRadiusBottomLeft from './Radius/BorderRadiusBottomLeft';
 import BorderRadiusBottomRight from './Radius/BorderRadiusBottomRight';
 
 import BorderImageSource from './BorderImageSource';
+import BorderImageOutset from './BorderImageOutset';
+import BorderImageRepeat from './BorderImageRepeat';
+import BorderImageSlice from './BorderImageSlice';
+import BorderImageWidth from './BorderImageWidth';
 
 
 export {
    
 
+    BorderImageWidth,
+    BorderImageSlice,
+    BorderImageRepeat,
+    BorderImageOutset,
     BorderImageSource,
+
     BorderGlobalCss,
     BorderGlobalColor,
     BorderGlobalStyle,
