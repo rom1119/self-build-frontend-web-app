@@ -13,6 +13,12 @@ export default class StyleCssResponse extends ResponseObject{
      unitNameSecond
      valueThird
      unitNameThird
+
+     valueFourth
+     unitNameFourth
+     
+     valueFifth
+     unitNameFifth
      multipleValue
      resourcePath
      resourceUrl

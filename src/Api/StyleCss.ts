@@ -12,6 +12,12 @@ export default class StyleCss
     private  _unitNameSecond
     private _valueThird
     private _unitNameThird
+    
+    private _valueFourth
+    private _unitNameFourth
+    
+    private _valueFifth
+    private _unitNameFifth
     private _resourcePath
     private _resourceUrl
     private _multipleValue = false
@@ -91,6 +97,26 @@ export default class StyleCss
     {
         this._unitNameThird = val
     }
+    
+    public setValueFourth(val)
+    {
+        this._valueFourth = val
+    }
+
+    public setUnitNameFourth(val)
+    {
+        this._unitNameFourth = val
+    }
+    
+    public setValueFifth(val)
+    {
+        this._valueFifth = val
+    }
+
+    public setUnitNameFifth(val)
+    {
+        this._unitNameFifth = val
+    }
 
 
     getValueSecond(): string
@@ -113,6 +139,26 @@ export default class StyleCss
     getUnitNameThird(): string
     {
         return this._unitNameThird
+    }
+
+    getValueFourth(): string
+    {
+        return this._valueFourth
+    }
+
+    getUnitNameFourth(): string
+    {
+        return this._unitNameFourth
+    }
+    
+    getValueFifth(): string
+    {
+        return this._valueFifth
+    }
+
+    getUnitNameFifth(): string
+    {
+        return this._unitNameFifth
     }
 
     public setResourcePath(val)

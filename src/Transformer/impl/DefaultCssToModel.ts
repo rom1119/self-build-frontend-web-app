@@ -35,6 +35,8 @@ import AnimationCss from '../../Css/Animation/AnimationCss';
 import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
 import TransformCss from '../../Css/ThreeDimensional/TransformCss';
 import TransformTypeToCssValueModel from './TransformTypeToCssValueModel';
+import CssWithFourValues from '../../Css/MultiValuesCss/CssWithFourValues';
+import CssWithFiveValues from '../../Css/MultiValuesCss/CssWithFiveValues';
 export default class DefaultCssToModel implements CssToModel {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
@@ -84,9 +86,24 @@ export default class DefaultCssToModel implements CssToModel {
         }
 
         // @ts-ignore
+        if (typeof domain.gradient != null) {
+            var domainResource: CssResource = <CssResource><unknown>domain
+            // @ts-ignore
+            var child = this.transform(domain.gradient)
+            model.getChildren().push(child)
+        }
+
+        // @ts-ignore
         if (typeof domain.getResource === 'function') {
             var domainResource: CssResource = <CssResource><unknown>domain
             model.setResourcePath(domainResource.getResource())
+        }
+
+        // @ts-ignore
+        if (typeof domain.resourceUrl != null) {
+            var domainResource: CssResource = <CssResource><unknown>domain
+            // @ts-ignore
+            model.setResourceUrl(domain.resourceUrl)
         }
 
         // @ts-ignore
@@ -131,6 +148,34 @@ export default class DefaultCssToModel implements CssToModel {
             }
 
             model.setUnitNameThird(domainCastThird.getThirdUnit().name)
+        }
+
+        // @ts-ignore
+        if (typeof domain.getFourthValue === 'function') {
+            var domainCastFourth: CssWithFourValues = <CssWithFourValues><unknown>domain
+            if (typeof domainCastFourth.getFourthValue() === 'object') {
+                var valueJsonStr = JSON.stringify(domainCastFourth.getFourthValue())
+                model.setValueFourth(valueJsonStr)
+            } else {
+                model.setValueFourth(domainCastFourth.getFourthValue())
+
+            }
+
+            model.setUnitNameFourth(domainCastFourth.getFourthUnit().name)
+        }
+
+        // @ts-ignore
+        if (typeof domain.getFifthValue === 'function') {
+            var domainCastFifth: CssWithFiveValues = <CssWithFiveValues><unknown>domain
+            if (typeof domainCastFifth.getFifthValue() === 'object') {
+                var valueJsonStr = JSON.stringify(domainCastFifth.getFifthValue())
+                model.setValueFifth(valueJsonStr)
+            } else {
+                model.setValueFifth(domainCastFifth.getFifthValue())
+
+            }
+
+            model.setUnitNameFifth(domainCastFifth.getFifthUnit().name)
         }
 
         if (this.mediaQuery) {

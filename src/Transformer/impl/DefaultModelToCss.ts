@@ -37,6 +37,8 @@ import AnimationCss from '../../Css/Animation/AnimationCss';
 import CssValueModelToTransformType from './CssValueModelToTransformType';
 import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
 import TransformCss from '../../Css/ThreeDimensional/TransformCss';
+import CssWithFourValues from '../../Css/MultiValuesCss/CssWithFourValues';
+import CssWithFiveValues from '../../Css/MultiValuesCss/CssWithFiveValues';
 export default class DefaultModelToCss implements ModelToCss {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
@@ -128,6 +130,23 @@ export default class DefaultModelToCss implements ModelToCss {
         }
 
         // @ts-ignore
+        if (typeof domain.resourceUrl != null) {
+            var domainResource: CssResource = <CssResource><unknown>domain
+            // @ts-ignore
+            domainResource.setResourceUrl(model.getResourceUrl())
+        }
+
+        // @ts-ignore
+        if ('gradient' in domain) {
+            if (model.getChildren().length > 0) {
+
+                // @ts-ignore
+                var child = this.transform(model.getChildren()[0])
+                domain.gradient = child
+            }
+        }
+
+        // @ts-ignore
         if (typeof domain.getSecondValue === 'function') {
             var domainCast: CssWithTwoValues = <CssWithTwoValues><unknown>domain
             domainCast.setSecondValue(model.getValueSecond())
@@ -167,6 +186,62 @@ export default class DefaultModelToCss implements ModelToCss {
             domainCastThird.setThirdUnit(unitThird)
 
             domain = <BaseBorderCss>domainCastThird
+
+        }
+
+        // @ts-ignore
+        if (typeof domain.getFourthValue === 'function') {
+            var domainCastFourth: CssWithFourValues = <CssWithFourValues><unknown>domain
+            let unitFourth = this.unitCssFactoryFromName.create(model.getUnitNameFourth())
+            var val
+            // console.trace(model)
+            if (unitFourth instanceof RGBA || unitFourth instanceof RGB) {
+                try {
+                    // console.log(model.getValueThird());
+
+                    val = JSON.parse(model.getValueFourth())
+                } catch (err) {
+                    if (err instanceof SyntaxError) {
+                        // console.log('SYNTAX');
+                        val = { r: 255, g: 0, b: 0 }
+
+                    }
+                }
+            } else {
+                val = model.getValueFourth()
+            }
+            domainCastFourth.setFourthValue(val)
+            domainCastFourth.setFourthUnit(unitFourth)
+
+            domain = <BasePropertyCss><unknown>domainCastFourth
+
+        }
+
+        // @ts-ignore
+        if (typeof domain.getFifthValue === 'function') {
+            var domainCastFifth: CssWithFiveValues = <CssWithFiveValues><unknown>domain
+            let unitFifth = this.unitCssFactoryFromName.create(model.getUnitNameFifth())
+            var val
+            // console.trace(model)
+            if (unitFifth instanceof RGBA || unitFifth instanceof RGB) {
+                try {
+                    // console.log(model.getValueThird());
+
+                    val = JSON.parse(model.getValueFifth())
+                } catch (err) {
+                    if (err instanceof SyntaxError) {
+                        // console.log('SYNTAX');
+                        val = { r: 255, g: 0, b: 0 }
+
+                    }
+                }
+            } else {
+                val = model.getValueFifth()
+            }
+            domainCastFifth.setFifthValue(val)
+            domainCastFifth.setFifthUnit(unitFifth)
+
+            domain = <BasePropertyCss><unknown>domainCastFifth
 
         }
 

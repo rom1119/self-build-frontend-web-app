@@ -7,4 +7,7 @@ export default interface DomainResource {
     getResourceFile(): File
     getResource(): string
     setResource(val: string)
+
+    getResourceUrl(): string
+    setResourceUrl(val: string) 
 }

@@ -10,6 +10,7 @@ export * from "~/src/Css/Size";
 export * from "~/src/Css/Table";
 export * from "~/src/Css/Text";
 export * from "~/src/Css/ThreeDimensional";
+export * from "~/src/Css/Features";
 
 import RepeatingLinearGradientCss from './Gradient/impl/RepeatingLinearGradientCss';
 import RepeatingRadialGradientCss from './Gradient/impl/RepeatingRadialGradientCss';

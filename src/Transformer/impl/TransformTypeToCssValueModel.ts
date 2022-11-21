@@ -146,4 +146,12 @@ export default class TransformTypeToCssValueModel {
     instanceOfCssWithThreeValues(object: any): boolean {
         return 'valThird' in object && 'unitThird' in object && this.instanceOfCssWithTwoValues(object);
     }
+
+    instanceOfCssWithFourValues(object: any): boolean {
+        return 'valFourth' in object && 'unitFourth' in object && this.instanceOfCssWithThreeValues(object);
+    }
+    
+    instanceOfCssWithFiveValues(object: any): boolean {
+        return 'valFifth' in object && 'unitFifth' in object && this.instanceOfCssWithFourValues(object);
+    }
 }

@@ -39,9 +39,17 @@ import BorderImageRepeat from './BorderImageRepeat';
 import BorderImageSlice from './BorderImageSlice';
 import BorderImageWidth from './BorderImageWidth';
 
+import OutlineColor from './OutlineColor';
+import OutlineStyle from './OutlineStyle';
+import OutlineWidth from './OutlineWidth';
+
 
 export {
    
+
+    OutlineColor,
+    OutlineStyle,
+    OutlineWidth,
 
     BorderImageWidth,
     BorderImageSlice,

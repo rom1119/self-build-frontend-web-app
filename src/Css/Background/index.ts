@@ -11,11 +11,13 @@ import BackgroundAttachment from './BackgroundAttachment';
 import BackgroundPositionX from './BackgroundPositionX';
 import BackgroundPositionY from './BackgroundPositionY';
 import BackgroundOrigin from './BackgroundOrigin';
+import BackgroundClip from './BackgroundClip';
 
 
 export {
    
 
+    BackgroundClip,
     BackgroundColor,
     BackgroundImage,
     BackgroundPosition,

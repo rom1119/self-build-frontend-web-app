@@ -3,9 +3,9 @@ import CssWithTwoValues from './CssWithTwoValues';
 import CssWithThreeValues from '~/src/Css/MultiValuesCss/CssWithThreeValues';
 import CssWithFourValue from './CssWithFourValues';
 export default interface CssWithFiveValues extends CssWithFourValue {
-    getFifhValue(): string
-    setFifhValue(val: string)
+    getFifthValue(): string
+    setFifthValue(val: string)
 
-    getFifhUnit(): Unit
-    setFifhUnit(unit: Unit)
+    getFifthUnit(): Unit
+    setFifthUnit(unit: Unit)
 }
