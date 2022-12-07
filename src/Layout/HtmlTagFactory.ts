@@ -20,6 +20,22 @@ import Header from './tag/Header';
 import Footer from './tag/Footer';
 import Main from './tag/Main';
 import Section from './tag/Section';
+import P from './tag/P';
+import Span from './tag/Span';
+import U from './tag/U';
+import Ul from './tag/Ul';
+import Ol from './tag/Ol';
+import Li from './tag/Li';
+import H2 from './tag/H2';
+import H3 from './tag/H3';
+import H4 from './tag/H4';
+import H5 from './tag/H5';
+import H6 from './tag/H6';
+import B from './tag/B';
+import Strong from './tag/Strong';
+import LabelTag from './tag/LabelTag';
+import AddressTag from './tag/AddressTag';
+import Textarea from './tag/Form/Textarea';
 export default class HtmlTagFactory {
 
     api: ApiService
@@ -41,12 +57,119 @@ export default class HtmlTagFactory {
         return el
     }
     
+    createH2() {
+        let el = new H2()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createH3() {
+        let el = new H3()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createH4() {
+        let el = new H4()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createH5() {
+        let el = new H5()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createH6() {
+        let el = new H6()
+        el.setApi(this.api)
+
+        return el
+    }
+    
     createDiv() {
         let el = new Div()
         el.setApi(this.api)
 
         return el
     }
+    
+    createLabel() {
+        let el = new LabelTag()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createAddress() {
+        let el = new AddressTag()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createParagraph() {
+        let el = new P()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createSpan() {
+        let el = new Span()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createStrong() {
+        let el = new Strong()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createB() {
+        let el = new B()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createU() {
+        let el = new U()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createUl() {
+        let el = new Ul()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createOl() {
+        let el = new Ol()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    
+    createLi() {
+        let el = new Li()
+        el.setApi(this.api)
+
+        return el
+    }
+    
 
     createHeader() {
         let el = new Header()
@@ -78,6 +201,13 @@ export default class HtmlTagFactory {
     
     createInputText() {
         let el = new InputText()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createTextarea() {
+        let el = new Textarea()
         el.setApi(this.api)
 
         return el

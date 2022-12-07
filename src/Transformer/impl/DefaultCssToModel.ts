@@ -86,7 +86,7 @@ export default class DefaultCssToModel implements CssToModel {
         }
 
         // @ts-ignore
-        if (typeof domain.gradient != null) {
+        if ( domain.gradient != null) {
             var domainResource: CssResource = <CssResource><unknown>domain
             // @ts-ignore
             var child = this.transform(domain.gradient)
@@ -100,7 +100,7 @@ export default class DefaultCssToModel implements CssToModel {
         }
 
         // @ts-ignore
-        if (typeof domain.resourceUrl != null) {
+        if ( domain.resourceUrl != null) {
             var domainResource: CssResource = <CssResource><unknown>domain
             // @ts-ignore
             model.setResourceUrl(domain.resourceUrl)

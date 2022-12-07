@@ -130,7 +130,7 @@ export default class DefaultModelToCss implements ModelToCss {
         }
 
         // @ts-ignore
-        if (typeof domain.resourceUrl != null) {
+        if (domain.resourceUrl != null) {
             var domainResource: CssResource = <CssResource><unknown>domain
             // @ts-ignore
             domainResource.setResourceUrl(model.getResourceUrl())
@@ -160,9 +160,10 @@ export default class DefaultModelToCss implements ModelToCss {
 
             domain = <BaseBorderCss>domainCast
         }
-
+console.log(domain)
+console.log(model)
         // @ts-ignore
-        if (typeof domain.getThirdValue === 'function') {
+        if (typeof domain.getThirdValue === 'function' && model.getValueThird()) {
             var domainCastThird: CssWithThreeValues = <CssWithThreeValues><unknown>domain
             let unitThird = this.unitCssFactoryFromName.create(model.getUnitNameThird())
             var val
@@ -190,7 +191,7 @@ export default class DefaultModelToCss implements ModelToCss {
         }
 
         // @ts-ignore
-        if (typeof domain.getFourthValue === 'function') {
+        if (typeof domain.getFourthValue === 'function' && model.getValueFourth()) {
             var domainCastFourth: CssWithFourValues = <CssWithFourValues><unknown>domain
             let unitFourth = this.unitCssFactoryFromName.create(model.getUnitNameFourth())
             var val
@@ -218,7 +219,7 @@ export default class DefaultModelToCss implements ModelToCss {
         }
 
         // @ts-ignore
-        if (typeof domain.getFifthValue === 'function') {
+        if (typeof domain.getFifthValue === 'function' && model.getValueFifth()) {
             var domainCastFifth: CssWithFiveValues = <CssWithFiveValues><unknown>domain
             let unitFifth = this.unitCssFactoryFromName.create(model.getUnitNameFifth())
             var val

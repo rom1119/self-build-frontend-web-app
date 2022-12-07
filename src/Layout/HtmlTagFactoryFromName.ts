@@ -17,6 +17,20 @@ import Header from './tag/Header';
 import Main from './tag/Main';
 import Footer from './tag/Footer';
 import Section from './tag/Section';
+import P from './tag/P';
+import Span from './tag/Span';
+import U from './tag/U';
+import H2 from './tag/H2';
+import H3 from './tag/H3';
+import H4 from './tag/H4';
+import H5 from './tag/H5';
+import H6 from './tag/H6';
+import Strong from './tag/Strong';
+import B from './tag/B';
+import Textarea from './tag/Form/Textarea';
+import AddressTag from './tag/AddressTag';
+import LabelTag from './tag/LabelTag';
+import Ol from './tag/Ol';
 export default class HtmlTagFactoryFromName {
 
     private htmlTagFactory: HtmlTagFactory
@@ -35,12 +49,40 @@ export default class HtmlTagFactoryFromName {
         switch (name) {
             case H1.TAG_NAME:
                 return this.htmlTagFactory.createH1()
+            case H2.TAG_NAME:
+                return this.htmlTagFactory.createH2()
+            case H3.TAG_NAME:
+                return this.htmlTagFactory.createH3()
+            case H4.TAG_NAME:
+                return this.htmlTagFactory.createH4()
+            case H5.TAG_NAME:
+                return this.htmlTagFactory.createH5()
+            case H6.TAG_NAME:
+                return this.htmlTagFactory.createH6()
+            case P.TAG_NAME:
+                return this.htmlTagFactory.createParagraph()
+            case U.TAG_NAME:
+                return this.htmlTagFactory.createU()
+            case Span.TAG_NAME:
+                return this.htmlTagFactory.createSpan()
+            case Strong.TAG_NAME:
+                return this.htmlTagFactory.createStrong()
+            case B.TAG_NAME:
+                return this.htmlTagFactory.createB()
             case ImgTag.TAG_NAME:
                 return this.htmlTagFactory.createImage()
             case SvgTag.TAG_NAME:
                 return this.htmlTagFactory.createSvg()
             case Div.TAG_NAME:
                 return this.htmlTagFactory.createDiv()
+            case Ol.TAG_NAME:
+                return this.htmlTagFactory.createOl()
+            case Ol.TAG_NAME:
+                return this.htmlTagFactory.createOl()
+            case AddressTag.TAG_NAME:
+                return this.htmlTagFactory.createAddress()
+            case LabelTag.TAG_NAME:
+                return this.htmlTagFactory.createLabel()
             case Header.TAG_NAME:
                 return this.htmlTagFactory.createHeader()
             case Main.TAG_NAME:
@@ -55,6 +97,8 @@ export default class HtmlTagFactoryFromName {
                 return this.htmlTagFactory.createInputNumber()
             case 'button':
                 return this.htmlTagFactory.createButton()
+            case Textarea.TAG_NAME:
+                return this.htmlTagFactory.createTextarea()
             case TableTag.TAG_NAME:
                 return this.htmlTagFactory.createTable()
             case TableTBody.TAG_NAME:
