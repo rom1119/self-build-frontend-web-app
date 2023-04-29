@@ -5,7 +5,7 @@ import BasePropertyCss from "./Css/BasePropertyCss"
 import HtmlTag from "./Layout/HtmlTag"
 import PseudoSelector from "./PseudoSelector/PseudoSelector"
 import UnitSize from "./Unit/UnitSize"
-import { Pixel } from "./Unit"
+import { Named, Percent, Pixel } from "./Unit"
 import { PositionCss, Width, Height, PaddingBottomCss, PaddingLeftCss, PaddingRightCss, PaddingTopCss } from "./Css"
 import BasePaddingCss from "./Css/BoxModel/BasePaddingCss"
 import BaseBorderCss from "./Css/Border/BaseBorderCss"
@@ -25,8 +25,7 @@ import FetcherRealCssProp from './FetcherRealCssProp';
 import PaddingRealCssFetcher from './Css/RealCssProp/PadingRealCssFetcher';
 import PaddingRealCssFetcherForSelector from './Css/RealCssProp/PadingRealCssFetcherForSelector';
 
-export default abstract class BaseSelector implements CssOwner
-{
+export default abstract class BaseSelector implements CssOwner {
     id
     projectId
     mediaQueryId = null
@@ -82,47 +81,38 @@ export default abstract class BaseSelector implements CssOwner
     public abstract getValue(): string
     public abstract getName(): string
 
-    get owner(): SelectorOwner
-    {
+    get owner(): SelectorOwner {
         return this._owner
     }
 
-    get active(): boolean
-    {
+    get active(): boolean {
         return this._active
     }
 
-    set active(arg: boolean)
-    {
+    set active(arg: boolean) {
         this._active = arg
     }
-    get value()
-    {
+    get value() {
         return this._value
     }
 
-    set value(arg)
-    {
+    set value(arg) {
         this._value = arg
     }
-    
-    get valueContent()
-    {
+
+    get valueContentBox() {
         return this._valueContent
     }
 
-    set valueContent(arg)
-    {
+    set valueContentBox(arg) {
         this._valueContent = arg
     }
 
-    get cssAccessor(): CssPropertyAccessor
-    {
+    get cssAccessor(): CssPropertyAccessor {
         return this._cssPropertyAccesor
     }
 
-    get tmpCssAccessor(): CssPropertyAccessor
-    {
+    get tmpCssAccessor(): CssPropertyAccessor {
         return this._tmpCssPropertyAccesor
     }
 
@@ -136,8 +126,7 @@ export default abstract class BaseSelector implements CssOwner
     // }
 
 
-    public setCss(css: BasePropertyCss)
-    {
+    public setCss(css: BasePropertyCss) {
         if (!this.cssAccessor.hasCssProperty(css.getName())) {
             this.cssAccessor.addNewProperty(css)
         } else {
@@ -149,27 +138,23 @@ export default abstract class BaseSelector implements CssOwner
         }
     }
 
-    public setVersion(val: number)
-    {
+    public setVersion(val: number) {
         this._version = val
 
     }
 
-    public getVersion()
-    {
+    public getVersion() {
         return this._version
 
     }
 
 
 
-    public setApi(api: SelectorApiService)
-    {
+    public setApi(api: SelectorApiService) {
         this.api = api
     }
 
-    public synchronize()
-    {
+    public synchronize() {
         if (this.synchronizer) {
             this.synchronizer.synchronize()
         } else {
@@ -177,29 +162,26 @@ export default abstract class BaseSelector implements CssOwner
         }
     }
 
-    public setActive(val: boolean)
-    {
+    public setActive(val: boolean) {
         this._active = val
 
     }
-    isActive() : boolean {
+    isActive(): boolean {
         return this._active === true
     }
 
 
-    get selectedMedia(): BaseMediaQueryCss
-    {
+    get selectedMedia(): BaseMediaQueryCss {
         console.log('selectedMedia SEL', this.cssListMediaOwner)
-        
+
         if (!this.cssListMediaOwner) {
             return null
         }
         // console.trace('selectedMedia SEL 12333', this.cssListMediaOwner.selectedMedia)
-        return  this.cssListMediaOwner.selectedMedia
+        return this.cssListMediaOwner.selectedMedia
     }
 
-    public removeCssProperty(prop: BasePropertyCss)
-    {
+    public removeCssProperty(prop: BasePropertyCss) {
         if (this.selectedMedia) {
             this.cssListMediaOwner.removeCssFromMedia(prop)
         } else {
@@ -214,19 +196,17 @@ export default abstract class BaseSelector implements CssOwner
         this.synchronizer.synchronize()
     }
 
-    public getPropertyCss(prop: string)
-    {
-            console.log('getPropertyCss SEL', prop, this.selectedMedia)
+    public getPropertyCss(prop: string) {
+        console.log('getPropertyCss SEL', prop, this.selectedMedia)
         // if (this.selectedMedia) {
         //     return this.cssListMediaOwner.getProperty(prop)
         // }
 
         return this.cssAccessor.getProperty(prop)
     }
-    
-    public getTmpPropertyCss(prop: string)
-    {
-            // console.log('getPropertyCss SEL', prop, this.selectedMedia)
+
+    public getTmpPropertyCss(prop: string) {
+        // console.log('getPropertyCss SEL', prop, this.selectedMedia)
         // if (this.selectedMedia) {
         //     return this.cssListMediaOwner.getProperty(prop)
         // }
@@ -234,13 +214,12 @@ export default abstract class BaseSelector implements CssOwner
         return this.tmpCssAccessor.getProperty(prop)
     }
 
-    public removeCssPropertyByName(propName: string)
-    {
+    public removeCssPropertyByName(propName: string) {
         // super.removeCssProperty(prop)
         // if (this.selectedMedia) {
         //     this.cssListMediaOwner.removePropWithName(propName)
         // } else {
-            
+
         // }
         this.cssAccessor.removePropWithName(propName);
         var prop = this.tmpCssAccessor.getProperty(propName);
@@ -251,12 +230,11 @@ export default abstract class BaseSelector implements CssOwner
         this.synchronize()
     }
 
-    public updateTmpCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
-    {
+    public updateTmpCssPropertyWithoutModel(propName: string, val: BasePropertyCss) {
         // if (this.selectedMedia) {
         //     this.cssListMediaOwner.setNewValCssForMediaTmp(val)
         // } else {
-            
+
         // }
         if (!this.tmpCssAccessor.hasCssProperty(val.getName())) {
             this.tmpCssAccessor.addNewProperty(val)
@@ -269,14 +247,13 @@ export default abstract class BaseSelector implements CssOwner
         }
     }
 
-    public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
-    {
+    public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss) {
         // console.log('UUUUUUU');
         // console.log(val.getValue());
         // if (this.selectedMedia) {
         //     this.cssListMediaOwner.setNewValCssForMedia(val)
         // } else {
-            
+
         // }
         if (!this.cssAccessor.hasCssProperty(val.getName())) {
             var tmpProp = this.tmpCssAccessor.getProperty(propName)
@@ -303,8 +280,7 @@ export default abstract class BaseSelector implements CssOwner
 
     }
 
-    getCurrentCssAccessor()
-    {
+    getCurrentCssAccessor() {
 
         // if (this.selectedMedia) {
         //     return this.cssListMediaOwner.currentCssList
@@ -314,17 +290,15 @@ export default abstract class BaseSelector implements CssOwner
 
     }
 
-    public synchronizeAllCssStyles()
-    {
+    public synchronizeAllCssStyles() {
         var accesor = this.getCurrentCssAccessor()
 
-        for(var el of accesor.all) {
+        for (var el of accesor.all) {
             this.synchronizeCssStyle(el)
         }
     }
 
-    public synchronizeCssStyle(val: BasePropertyCss)
-    {
+    public synchronizeCssStyle(val: BasePropertyCss) {
         if (val instanceof BasePaddingCss || val instanceof BasePaddingCss || val instanceof BaseBorderCss || val instanceof ContentSizeCss) {
             // this.updateBoundingRight()
             // this.realPositionCalculator.reInitDefaultPosition()
@@ -353,12 +327,40 @@ export default abstract class BaseSelector implements CssOwner
         this.synchronize()
     }
 
-    get cssList() : any
-    {
+    get allCss(): BasePropertyCss[] {
+        var list = []
+
+        for (const cssProp of this._cssPropertyAccesor.all) {
+            if (!this.owner.canAddToCssList(cssProp)) {
+                continue
+            }
+            if (!cssProp.injectable) {
+                continue
+            }
+            if (this.owner.isLikeBackgroundCss(cssProp)) {
+                continue
+            }
+            list.push(cssProp)
+        }
+        var width = new Width(100, new Percent())
+        var height = new Height(100, new Percent())
+
+        if (this.hasAbsolute || this.hasFixed) {
+            width = new Width(this.widthCalc, new Named())
+            height = new Height(this.heightCalc, new Named())
+        }
+
+        list.push(width)
+        list.push(height)
+
+        return list
+    }
+
+    get cssList(): any {
         let css = {}
         var cssFormAccessor = this._cssPropertyAccesor.all
 
-            console.log('cssList SELEC', this.getName())
+        console.log('cssList SELEC', this.getName())
         // if (this.selectedMedia) {
         //     // var css = {}
         //     console.log(this.selectedMedia)
@@ -400,8 +402,7 @@ export default abstract class BaseSelector implements CssOwner
 
     }
 
-    get cssBoxList() : any
-    {
+    get cssBoxList(): any {
 
         let css = this.cssAccessor.all
 
@@ -422,7 +423,7 @@ export default abstract class BaseSelector implements CssOwner
         if (this.selectedMedia) {
             console.log('cssBoxListMediaQuery SELEC')
             console.log(this.cssListMediaOwner)
-                        console.log(this.cssListMediaOwner.currentCssList.all)
+            console.log(this.cssListMediaOwner.currentCssList.all)
             // this.transformStyleList.setAllImportant(true)
             var a = this.owner.transformStyleList.transform(this.cssListMediaOwner.currentCssList.all)
             // console.log('new css', a)
@@ -435,9 +436,9 @@ export default abstract class BaseSelector implements CssOwner
             } catch (e) {
                 delete a[TransitionCss.PROP_NAME]
             }
-            return  a
+            return a
         }
-        var cssL =  this.owner.transformStyleList.transform(this.cssAccessor.all)
+        var cssL = this.owner.transformStyleList.transform(this.cssAccessor.all)
 
 
         try {
@@ -454,62 +455,50 @@ export default abstract class BaseSelector implements CssOwner
         return cssL
     }
 
-    get realPositionCalculator()
-    {
+    get realPositionCalculator() {
         return this.owner.realPositionCalculator
     }
 
-    get hasPosition(): boolean
-    {
+    get hasPosition(): boolean {
         return this._hasPosition
     }
 
-    get hasAbsolute(): boolean
-    {
+    get hasAbsolute(): boolean {
         return this._hasAbsolute
     }
-    get hasFixed(): boolean
-    {
+    get hasFixed(): boolean {
         return this._hasFixed
     }
 
-    set hasPosition(arg)
-    {
+    set hasPosition(arg) {
         this._hasPosition = arg
     }
 
-    get positionPropName(): string
-    {
+    get positionPropName(): string {
         return this._positionPropName
     }
 
-    set positionPropName(arg)
-    {
+    set positionPropName(arg) {
         this._positionPropName = arg
     }
 
-    get widthCalc(): string
-    {
+    get widthCalc(): string {
         return this._widthCalc
     }
 
-    set widthCalc(arg)
-    {
+    set widthCalc(arg) {
         this._widthCalc = arg
     }
 
-    get heightCalc(): string
-    {
+    get heightCalc(): string {
         return this._heightCalc
     }
 
-    set heightCalc(arg)
-    {
+    set heightCalc(arg) {
         this._heightCalc = arg
     }
 
-    public updateHasPosition(prop: BasePropertyCss)
-    {
+    public updateHasPosition(prop: BasePropertyCss) {
 
         if (!(prop instanceof PositionCss)) {
             return
@@ -550,8 +539,7 @@ export default abstract class BaseSelector implements CssOwner
 
     }
 
-    public updatePositionName(prop?: PositionCss)
-    {
+    public updatePositionName(prop?: PositionCss) {
         if (prop) {
             this.positionPropName = prop.getClearValue()
 
@@ -561,8 +549,7 @@ export default abstract class BaseSelector implements CssOwner
 
     }
 
-    public equals(el: KeyFrameSelector): boolean
-    {
+    public equals(el: KeyFrameSelector): boolean {
         return this.id === el.id
     }
 

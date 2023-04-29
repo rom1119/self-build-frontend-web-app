@@ -32,7 +32,7 @@ export default abstract class PseudoSelector extends BaseSelector
         this._tmpCssPropertyAccesor = new PseudoSelectorCssAccessor(owner, this)
         if (owner) {
             this._value = '#' + owner.attrIdHtmlBox + ':' + this.getName()
-            this._valueContent = '#' + owner.attrIdHtmlEl + ':' + this.getName()
+            this._valueContent = '#' + owner.attrIdHtmlBox + ':' + this.getName() + ' #' + owner.attrIdHtmlEl
             
         } else {
             this._value = this._name
@@ -78,7 +78,7 @@ export default abstract class PseudoSelector extends BaseSelector
     {
         this._owner = tag
         this._value = '#' + tag.attrIdHtmlBox + ':' + this.getName()
-        this._valueContent = '#' + tag.attrIdHtmlEl + '-content:' + this.getName()
+        this._valueContent = '#' + tag.attrIdHtmlBox + ':' + this.getName() + ' #' + tag.attrIdHtmlEl
 
     }
 

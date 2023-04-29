@@ -77,8 +77,7 @@ import ViewMode from '../Mode/impl/ViewMode';
 import AnimationCss from '../Css/Animation/AnimationCss';
 
 export default abstract class HtmlTag extends HtmlNode implements
-    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, ActivableTagToAnimation, SelectorOwner, HtmlAttrOwner, CssOwner
-{
+    CssListAndOveride, SizeActivable, ActivableTagToManage, ActivableTagToPosition, ActivableTagToAnimation, SelectorOwner, HtmlAttrOwner, CssOwner {
     public isElementOfTable() {
         return false
     }
@@ -86,10 +85,10 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     protected _tag = 'h1'
     protected _innerText: string = 'Example text from abstract HtmlTag class'
-    protected _parent : HtmlTag
-    hasMiddleTag : boolean = false
-    isTableTag : boolean = false
-    isTableCellTag : boolean = false
+    protected _parent: HtmlTag
+    hasMiddleTag: boolean = false
+    isTableTag: boolean = false
+    isTableCellTag: boolean = false
 
     borderFactory: BorderModelFactory = new BorderModelFactory()
     paddingFactory: PaddingModelFactory = new PaddingModelFactory()
@@ -188,8 +187,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     protected defaultBoxSizing: BoxSizing
 
-    constructor()
-    {
+    constructor() {
         super()
         this.defaultBoxSizing = BoxSizing.NEW_BORDER_BOX()
         this.initPaddings()
@@ -210,15 +208,15 @@ export default abstract class HtmlTag extends HtmlNode implements
     get widthToRealInject() {
         return this._widthToRealInject
     }
-    
+
     set widthToRealInject(arg) {
         this._widthToRealInject = arg
     }
-    
+
     get heightToRealInject() {
         return this._heightToRealInject
     }
-    
+
     set heightToRealInject(arg) {
         this._heightToRealInject = arg
     }
@@ -226,7 +224,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     public hideElement() {
         this.displayNone = true
     }
-    
+
     public showElement() {
         this.displayNone = false
     }
@@ -234,28 +232,28 @@ export default abstract class HtmlTag extends HtmlNode implements
     get displayNone() {
         return this._displayNone
     }
-    
+
     set displayNone(arg) {
         this._displayNone = arg
     }
-    
+
     get visibilityHidden() {
         return this._visibilityHidden
     }
-    
+
     set visibilityHidden(arg) {
         this._visibilityHidden = arg
     }
-    
-    
+
+
     get animationSelector() {
         return this._animationSelector
     }
-    
+
     set animationSelector(arg) {
         this._animationSelector = arg
     }
-    
+
 
     getUUID(): string {
         return this.uuid
@@ -265,7 +263,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.cssListMediaOwner = new MediaQueryListOwner<HtmlTag>(this, value)
     }
 
-    public calcRealContentHeight(){
+    public calcRealContentHeight() {
         var realHeightPx = 0
         var boxSizing = this.cssAccessor.getProperty(BoxSizing.PROP_NAME)
         if (!boxSizing) {
@@ -274,31 +272,29 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         var compHeight = this.getComputedHeight()
 
-        switch(boxSizing.getValue()) {
+        switch (boxSizing.getValue()) {
             case BoxSizing.BORDER_BOX:
                 var topBorder = this.getComputedBorderTopWidth()
                 var bottomBorder = this.getComputedBorderTopWidth()
                 var topPadding = this.getComputedPaddingTop()
                 var bottomPadding = this.getComputedPaddingTop()
-                return  compHeight - topPadding - bottomPadding - topBorder - bottomBorder
+                return compHeight - topPadding - bottomPadding - topBorder - bottomBorder
             case BoxSizing.PADDING_BOX:
                 var topPadding = this.getComputedPaddingTop()
                 var bottomPadding = this.getComputedPaddingTop()
-                return  compHeight - topPadding - bottomPadding
+                return compHeight - topPadding - bottomPadding
             case BoxSizing.CONTENT_BOX:
-                return  compHeight
-            default :
+                return compHeight
+            default:
                 throw Error('NOt set Box sizing for calcualate calcRealContentHeight')
         }
     }
 
-    get selectorLiteral()
-    {
+    get selectorLiteral() {
         return '#' + this.shortUUID
     }
 
-    notifyPositionalTag()
-    {
+    notifyPositionalTag() {
         // console.log('asd');
         // console.log(this.children.length);
         for (const child of this.children) {
@@ -324,8 +320,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this._realPositionCalculator.updateNearPositionalTag()
     }
 
-    public reInitDefaultPosition()
-    {
+    public reInitDefaultPosition() {
         var activeSelector = this.selectedSelector
         if (activeSelector) {
             activeSelector.realPositionCalculator.reInitDefaultPosition()
@@ -333,8 +328,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.realPositionCalculator.reInitDefaultPosition()
     }
 
-    public updatePositionProps()
-    {
+    public updatePositionProps() {
         var activeSelector = this.selectedSelector
         if (activeSelector) {
             activeSelector.realPositionCalculator.updateProps()
@@ -342,49 +336,40 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.realPositionCalculator.updateProps()
     }
 
-    get pseudoClassAccessor(): PseudoClassPropertyAccessor
-    {
+    get pseudoClassAccessor(): PseudoClassPropertyAccessor {
         return this._pseudoClassAccessor
     }
 
-    get pseudoElementAccessor(): PseudoElementPropertyAccessor
-    {
+    get pseudoElementAccessor(): PseudoElementPropertyAccessor {
         return this._pseudoElementAccessor
     }
 
-    get realPositionCalculator()
-    {
+    get realPositionCalculator() {
         return this._realPositionCalculator
     }
 
-    get updateFlag()
-    {
+    get updateFlag() {
         return this._updateFlag
     }
 
-    set updateFlag(arg: boolean)
-    {
+    set updateFlag(arg: boolean) {
         this._updateFlag = arg
     }
 
 
-    changeUpdateFlag()
-    {
+    changeUpdateFlag() {
         this.updateFlag = !this.updateFlag
     }
 
-    get parent(): HtmlTag
-    {
+    get parent(): HtmlTag {
         return this._parent
     }
 
-    set parent(arg: HtmlTag)
-    {
+    set parent(arg: HtmlTag) {
         this._parent = arg
     }
 
-    get hasPosition(): boolean
-    {
+    get hasPosition(): boolean {
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
@@ -393,8 +378,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this._hasPosition
     }
 
-    get hasAbsolute(): boolean
-    {
+    get hasAbsolute(): boolean {
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
@@ -402,8 +386,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
         return this._hasAbsolute
     }
-    get hasFixed(): boolean
-    {
+    get hasFixed(): boolean {
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
@@ -412,8 +395,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this._hasFixed
     }
 
-    set hasPosition(arg)
-    {
+    set hasPosition(arg) {
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
@@ -422,8 +404,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this._hasPosition = arg
     }
 
-    public updatePositionName(prop?: PositionCss)
-    {
+    public updatePositionName(prop?: PositionCss) {
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
@@ -439,116 +420,95 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    get positionPropName(): string
-    {
+    get positionPropName(): string {
 
         return this._positionPropName
     }
 
-    set positionPropName(arg)
-    {
+    set positionPropName(arg) {
         this._positionPropName = arg
     }
 
-    get widthCalc(): string
-    {
+    get widthCalc(): string {
         return this._widthCalc
     }
 
-    set widthCalc(arg)
-    {
+    set widthCalc(arg) {
         this._widthCalc = arg
     }
 
-    get widthBoxCalc(): string
-    {
+    get widthBoxCalc(): string {
         return this._widthBoxCalc
     }
 
-    set widthBoxCalc(arg)
-    {
+    set widthBoxCalc(arg) {
         this._widthBoxCalc = arg
     }
 
-    get heightCalc(): string
-    {
+    get heightCalc(): string {
         return this._heightCalc
     }
 
-    set heightCalc(arg)
-    {
+    set heightCalc(arg) {
         this._heightCalc = arg
     }
 
-    get isInput(): boolean
-    {
+    get isInput(): boolean {
         return this._isInput
     }
 
-    set isInput(arg)
-    {
+    set isInput(arg) {
         this._isInput = arg
     }
 
-    get isClosingTag(): boolean
-    {
+    get isClosingTag(): boolean {
         return this._isClosingTag
     }
 
-    set isClosingTag(arg)
-    {
+    set isClosingTag(arg) {
         this._isClosingTag = arg
     }
 
-    public setApi(api: ApiService)
-    {
+    public setApi(api: ApiService) {
         this.api = api
         this.synchronizer = new HtmlTagSynchronizer(this, api)
     }
 
-    public setWidthUnit(unit: UnitSize)
-    {
+    public setWidthUnit(unit: UnitSize) {
         this.widthUnitCurrent = unit
         this.lastSetWidthPx = this.getComputedClientWidth()
         this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
 
     }
 
-    public setHeightUnit(unit: UnitSize)
-    {
+    public setHeightUnit(unit: UnitSize) {
         this.heightUnitCurrent = unit
         this.lastSetHeightPx = this.getComputedHeight()
         this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
 
     }
 
-    public getWithUnit(): UnitSize
-    {
+    public getWithUnit(): UnitSize {
         return this.widthUnitCurrent
     }
 
-    public getHeightUnit() : UnitSize
-    {
+    public getHeightUnit(): UnitSize {
         return this.heightUnitCurrent
     }
 
-    public getWidthValue()
-    {
-        return this.widthUnitCurrent.getValue(this.width)
-    }
-    
-    get widthValue()
-    {
+    public getWidthValue() {
         return this.widthUnitCurrent.getValue(this.width)
     }
 
-    public getHeightValue()
-    {
+    get widthValue() {
+        return this.widthUnitCurrent.getValue(this.width)
+    }
+
+    public getHeightValue() {
         return this.heightUnitCurrent.getValue(this.height)
     }
 
-    public updateHasPosition(prop: BasePropertyCss)
-    {
+    public updateHasPosition(prop: BasePropertyCss) {
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
@@ -559,7 +519,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             return
         }
         this.notifyPositionalTag();
-        
+
         this.updatePositionName(prop)
 
         if (!prop.isActive()) {
@@ -596,14 +556,12 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    protected initPseudoSelectors()
-    {
+    protected initPseudoSelectors() {
         this._pseudoElementAccessor = new PseudoElementPropertyAccessor(this)
         this._pseudoClassAccessor = new PseudoClassPropertyAccessor(this)
     }
 
-    initBorders()
-    {
+    initBorders() {
         let left = this.borderFactory.createLeft(this)
         let right = this.borderFactory.createRight(this)
         let top = this.borderFactory.createTop(this)
@@ -620,8 +578,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.borderRight = right
     }
 
-    initPaddings()
-    {
+    initPaddings() {
         let left = this.paddingFactory.createLeft(this)
         let right = this.paddingFactory.createRight(this)
         let top = this.paddingFactory.createTop(this)
@@ -638,8 +595,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.paddingRight = right
     }
 
-    initMargins()
-    {
+    initMargins() {
         let left = this.marginFactory.createLeft(this)
         let right = this.marginFactory.createRight(this)
         let top = this.marginFactory.createTop(this)
@@ -656,8 +612,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.marginRight = right
     }
 
-    protected initCssAccessor()
-    {
+    protected initCssAccessor() {
         this._cssPropertyAccesor = new HtmlTagPropertyAccessor(this)
 
         this.paddingFilter = new PaddingFilterCssInjector(this)
@@ -669,8 +624,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    public injectInitialSelectors()
-    {
+    public injectInitialSelectors() {
         let hover = new Hover(this)
         hover.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
@@ -682,8 +636,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.pseudoClassAccessor.addNewSelector(hover)
     }
 
-    public injectInitialCssStyles()
-    {
+    public injectInitialCssStyles() {
         let border = new BorderGlobalCss('15', new Pixel())
         border.setType('dotted')
         border.setColor('blue', new Named())
@@ -696,13 +649,12 @@ export default abstract class HtmlTag extends HtmlNode implements
         let boxSizing = new BoxSizing(BoxSizing.CONTENT_BOX, new Named())
         let backgroundColor = new BackgroundColor(this.initialBackgroundColor, this._initialColorUnit)
         let display = new Display(Display.BLOCK, new Named())
-        let cssList = [ padding, width, height, boxSizing, backgroundColor, display]
+        let cssList = [padding, width, height, boxSizing, backgroundColor, display]
 
         this.addPropsToAccessor(cssList)
     }
 
-    public addNewPropertyCss(css: BasePropertyCss)
-    {
+    public addNewPropertyCss(css: BasePropertyCss) {
         this.cssAccessor.addNewProperty(css)
         if (!this.tmpCssAccessor.hasCssProperty(css.getName())) {
             this.tmpCssAccessor.addNewProperty(css)
@@ -713,23 +665,20 @@ export default abstract class HtmlTag extends HtmlNode implements
     public abstract getTagName(): string
     public abstract getDomainTagName(): string
 
-    public addPropsToAccessor(cssList: BasePropertyCss[] )
-    {
+    public addPropsToAccessor(cssList: BasePropertyCss[]) {
         for (const cssProp of cssList) {
             this.updateCssPropertyWithoutModel(cssProp.getName(), cssProp)
         }
     }
 
-    get selectedMedia(): BaseMediaQueryCss
-    {
+    get selectedMedia(): BaseMediaQueryCss {
         if (!this.cssListMediaOwner) {
             return null
         }
-        return  this.cssListMediaOwner.selectedMedia
+        return this.cssListMediaOwner.selectedMedia
     }
 
-    public removeCssProperty(prop: BasePropertyCss)
-    {
+    public removeCssProperty(prop: BasePropertyCss) {
         if (this.selectedMedia) {
             this.cssListMediaOwner.removeCssFromMedia(prop)
         } else {
@@ -739,8 +688,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.synchronizer.synchronize()
     }
 
-    public getPropertyCss(prop: string)
-    {
+    public getPropertyCss(prop: string) {
         if (this.selectedMedia) {
             // console.log('getPropertyCss', prop)
             return this.cssListMediaOwner.getProperty(prop)
@@ -749,9 +697,8 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this.cssAccessor.getProperty(prop)
     }
 
-    public getTmpPropertyCss(prop: string)
-    {
-            // console.log('getPropertyCss SEL', prop, this.selectedMedia)
+    public getTmpPropertyCss(prop: string) {
+        // console.log('getPropertyCss SEL', prop, this.selectedMedia)
         // if (this.selectedMedia) {
         //     return this.cssListMediaOwner.getProperty(prop)
         // }
@@ -759,8 +706,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this.tmpCssAccessor.getProperty(prop)
     }
 
-    public removeCssPropertyByName(propName: string)
-    {
+    public removeCssPropertyByName(propName: string) {
         // super.removeCssProperty(prop)
         if (this.selectedMedia) {
             this.cssListMediaOwner.removePropWithName(propName)
@@ -776,16 +722,14 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.synchronize()
     }
 
-    get cssAccessor(): CssPropertyAccessor
-    {
+    get cssAccessor(): CssPropertyAccessor {
         if (this.selectedMedia) {
             this.cssListMediaOwner.cssAccessor
         }
         return this._cssPropertyAccesor
     }
 
-    public updateTmpCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
-    {
+    public updateTmpCssPropertyWithoutModel(propName: string, val: BasePropertyCss) {
 
         var activeSelector = this.selectedSelector
 
@@ -810,11 +754,10 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
     }
 
-    public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss)
-    {
+    public updateCssPropertyWithoutModel(propName: string, val: BasePropertyCss) {
         var activeSelector = this.selectedSelector
         // console.log(activeSelector);
-        
+
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(propName, val)
             return
@@ -846,17 +789,15 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    public synchronizeAllCssStyles()
-    {
+    public synchronizeAllCssStyles() {
         var accesor = this.currentCssAccessor
 
-        for(var el of accesor.all) {
+        for (var el of accesor.all) {
             this.synchronizeCssStyle(el)
         }
     }
 
-    public synchronizeCssStyle(val: BasePropertyCss)
-    {
+    public synchronizeCssStyle(val: BasePropertyCss) {
         if (val instanceof BasePaddingCss || val instanceof BasePaddingCss || val instanceof BaseBorderCss || val instanceof ContentSizeCss) {
             // this.updateBoundingRight()
             // this.realPositionCalculator.reInitDefaultPosition()
@@ -879,7 +820,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         if (val instanceof ContentSizeCss) {
             // console.log('synchronizeCssStyle befo', val.getClearValue());
-            
+
             this.contentFilter.injectCssProperty(val)
             // console.log('synchronizeCssStyle after', val.getClearValue());
         }
@@ -889,29 +830,24 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
 
-    get attributeAccessor(): AttributesAccessor
-    {
+    get attributeAccessor(): AttributesAccessor {
         return this._attributeAccesor
     }
 
 
-    get width()
-    {
+    get width() {
         return this._width
     }
-    
-    get widthUnit()
-    {
+
+    get widthUnit() {
         return this.widthUnitCurrent
     }
 
-    get height()
-    {
+    get height() {
         return this._height
     }
 
-    get heightUnit()
-    {
+    get heightUnit() {
         return this.heightUnitCurrent
     }
 
@@ -922,23 +858,21 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
 
     }
-    
+
     public clearWidth() {
 
         this._width = null
         this.lastSetWidthPx = this.getComputedClientWidth()
         this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
     }
-    public setWidth(arg: number)
-    {
+    public setWidth(arg: number) {
         this._width = arg
         this.lastSetWidthPx = this.getComputedClientWidth()
         this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
 
     }
 
-    public setHeight(arg: number)
-    {
+    public setHeight(arg: number) {
         this._height = arg
         this.lastSetHeightPx = this.getComputedHeight()
         this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
@@ -958,30 +892,25 @@ export default abstract class HtmlTag extends HtmlNode implements
         this._backgroundColor = value;
     }
 
-    public toString(): string
-    {
+    public toString(): string {
         return `( ${this.getDomainTagName()} )`
     }
 
-    public changeAsActiveSize()
-    {
+    public changeAsActiveSize() {
 
         this._backgroundColor = 'aqua'
 
     }
 
-    public changeAsDeactiveSize()
-    {
+    public changeAsDeactiveSize() {
         // this._backgroundColor = this.initialBackgroundColor
     }
 
-    public isLikeBackgroundCss(cssProp: BasePropertyCss): boolean
-    {
+    public isLikeBackgroundCss(cssProp: BasePropertyCss): boolean {
         return this.cssAccessor.isPropertyLikeThis(cssProp, 'background')
     }
 
-    canAddToCssList(css: BasePropertyCss): boolean
-    {
+    canAddToCssList(css: BasePropertyCss): boolean {
         if (css instanceof BasePaddingCss) {
             return false
         }
@@ -1005,7 +934,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         if (css instanceof PositionCss) {
             return false
         }
-        
+
         if (css instanceof TransformCss) {
             return false
         }
@@ -1045,8 +974,8 @@ export default abstract class HtmlTag extends HtmlNode implements
         return true
     }
 
-    public onApplyCss(cssNameList: {}){
-        
+    public onApplyCss(cssNameList: {}) {
+
         for (const key in cssNameList) {
             if (Object.prototype.hasOwnProperty.call(cssNameList, key)) {
                 const element = cssNameList[key];
@@ -1055,23 +984,22 @@ export default abstract class HtmlTag extends HtmlNode implements
                 }
             }
         }
-        
+
     }
 
     public on
 
-    get pseudoSelectorsList() : any
-    {
+    get pseudoSelectorsList(): any {
         let pseudoSelectors = {}
         for (const selectorClass of this.pseudoClassAccessor.all) {
 
             pseudoSelectors[selectorClass.value] = selectorClass.cssAccessor.all
 
         }
-        
+
         for (const selectorClass of this.pseudoClassAccessor.all) {
 
-            pseudoSelectors[selectorClass.valueContent] = selectorClass.cssAccessor.all
+            pseudoSelectors[selectorClass.valueContentBox] = selectorClass.allCss
 
         }
 
@@ -1087,8 +1015,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return pseudoSelectors
     }
 
-    get mediaQueryWithElements() : MediaQueryTag[]
-    {
+    get mediaQueryWithElements(): MediaQueryTag[] {
         let pseudoSelectors = []
         for (const k in this.cssListMediaOwner.mediaQueryCssList) {
             var el = this.cssListMediaOwner.mediaQueryCssList[k]
@@ -1131,8 +1058,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
 
 
-    public updateAllModelsComponents()
-    {
+    public updateAllModelsComponents() {
         this.paddingLeft.updateModelComponent()
         this.paddingRight.updateModelComponent()
         this.paddingBottom.updateModelComponent()
@@ -1150,7 +1076,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
     public updateRealView() {
-        
+
     }
 
     // get cssContentSizeList() : any
@@ -1161,8 +1087,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     //     }
     // }
 
-    resetFilterTagElements()
-    {
+    resetFilterTagElements() {
         // this.contentFilter.resetAll()
         this.paddingFilter.resetAll()
         this.borderFilter.resetAll()
@@ -1183,8 +1108,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.layoutCreatorMode = arg
     }
 
-    recalculateRealComputedProperties()
-    {
+    recalculateRealComputedProperties() {
         var cssAll = this.cssAccessor.all
         if (this.currentCssAccessor) {
             cssAll = this.currentCssAccessor.all
@@ -1194,7 +1118,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         for (var i = 0; i < cssAll.length; i++) {
             var prop = cssAll[i]
 
-            if (prop instanceof Width || prop instanceof Height ) {
+            if (prop instanceof Width || prop instanceof Height) {
                 // console.log("CONTR_FILTR");
                 // console.log(prop);
 
@@ -1276,7 +1200,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
     }
 
-    public getComputedCssValFromHiddenOutsite(prop: BasePropertyCss): string{
+    public getComputedCssValFromHiddenOutsite(prop: BasePropertyCss): string {
         // @ts-ignore
         if (typeof prop.isAuto === 'function') {
             // @ts-ignore
@@ -1300,7 +1224,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return val
     }
 
-    public getComputedCssValFromHidden(prop: BasePropertyCss): string{
+    public getComputedCssValFromHidden(prop: BasePropertyCss): string {
         // @ts-ignore
         if (typeof prop.isAuto === 'function') {
             // @ts-ignore
@@ -1323,8 +1247,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         return val
     }
-    public getComputedCssVal(prop: BasePropertyCss): string
-    {
+    public getComputedCssVal(prop: BasePropertyCss): string {
         // @ts-ignore
         if (typeof prop.isAuto === 'function') {
             // @ts-ignore
@@ -1358,8 +1281,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
 
-    get cssList() : any
-    {
+    get cssList(): any {
         let css = {}
         var cssFormAccessor = cssFormAccessor = this._cssPropertyAccesor.all
 
@@ -1404,8 +1326,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    get cssListMediaQuery() : any
-    {
+    get cssListMediaQuery(): any {
         let css = {}
         var cssFormAccessor = []
 
@@ -1448,7 +1369,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         if (css[Height.PROP_NAME]) {
             let height = new Height(this._height, this.heightUnitCurrent)
         }
-        
+
 
         // console.log('APPPPPPPPPPPPP');
         // console.log(css);
@@ -1458,8 +1379,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    get cssListOverride() : any
-    {
+    get cssListOverride(): any {
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
@@ -1471,7 +1391,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    get cssBoxList() : any {
+    get cssBoxList(): any {
         if (this.widthUnitCurrent instanceof Percent) {
             // let css = this.cssList
 
@@ -1523,10 +1443,9 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
         var a = this.transformStyleList.transform(this.cssAccessor.all)
         // console.log('cssBoxList', a);
-        
+
         this.onApplyCss(a)
 
-        // a = this.transformStyleList.transform(this.cssAccessor.all)
         // console.log('APPPPPPPPPPPPP');
         // console.log(a);
 
@@ -1542,8 +1461,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return []
     }
 
-    get cssBoxListMediaQuery() : any
-    {
+    get cssBoxListMediaQuery(): any {
         if (this.selectedMedia) {
             // console.log('cssBoxListMediaQuery')
             // console.log(this.cssListMediaOwner)
@@ -1553,14 +1471,13 @@ export default abstract class HtmlTag extends HtmlNode implements
             // console.log('new css', a)
             this.onApplyCss(a)
 
-            return  a
+            return a
         }
 
         return {}
     }
 
-    get cssBoxListOverride() : any
-    {
+    get cssBoxListOverride(): any {
 
         var activeSelector = this.selectedSelector
 
@@ -1575,22 +1492,19 @@ export default abstract class HtmlTag extends HtmlNode implements
 
 
 
-    get innerText() : string
-    {
+    get innerText(): string {
         return this._innerText
     }
 
-    set innerText(text: string)
-    {
+    set innerText(text: string) {
         this._innerText = text
     }
 
-    get toManage(){
+    get toManage() {
         return this._toManage
     }
 
-    changeAsNotReadyToAnimationCheck()
-    {
+    changeAsNotReadyToAnimationCheck() {
         this._readyToAnimationCheck = false
     }
     changeAsReadyToAnimationCheck(): any {
@@ -1599,7 +1513,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     public changeAsActiveToManage() {
         this._toManage = true
     }
-    
+
     public changeAsActiveToAnimation() {
         this._checkedToAnimation = true
         this.showElement()
@@ -1611,12 +1525,12 @@ export default abstract class HtmlTag extends HtmlNode implements
     public changeAsNotActiveToManage() {
         this._toManage = false
     }
-    
+
     public changeAsNotActiveToAnimation() {
         this._checkedToAnimation = false
     }
 
-   
+
     public changeAsStopAnimation() {
         this._startedAnimation = false
     }
@@ -1627,11 +1541,11 @@ export default abstract class HtmlTag extends HtmlNode implements
     public isActiveTagToManage(): boolean {
         return this._toManage === true
     }
-    
+
     public isReadyToAnimationCheck(): boolean {
         return this._readyToAnimationCheck === true
     }
-    
+
     public isActiveTagToAnimation(): boolean {
         return this._checkedToAnimation === true
     }
@@ -1648,21 +1562,18 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this._toPosition === true
     }
 
-    protected toInitSizeUnits()
-    {
+    protected toInitSizeUnits() {
         this.widthUnitCurrent = new Pixel()
         this.heightUnitCurrent = new Pixel()
     }
 
-    public onMouseMove(w, h)
-    {
+    public onMouseMove(w, h) {
         this.toInitSizeUnits()
         this._width = w
         this._height = h
     }
 
-    public initSize(w, h)
-    {
+    public initSize(w, h) {
         this.toInitSizeUnits()
         // console.log(w);
         // console.log(h);
@@ -1689,26 +1600,25 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.lastSetWidthPx = this.getComputedClientWidth()
         this.lastSetWidthContentPx = this.getComputedOffsetWidthContentEl()
 
-        
+
     }
-    
+
     updateLastHeight() {
         // console.log('updateLastHeight', this.getDomainTagName());
         // // @ts-ignore
         // console.log('idx', this.colIndex);
-        
+
         this.lastSetHeightPx = this.getComputedHeight()
         this.lastSetHeightContentPx = this.getComputedOffsetHeightContentEl()
 
         // console.log(this.lastSetHeightPx);
         // console.log(this.lastSetHeightContentPx);
-        
+
     }
 
-    public initPos(x, y)
-    {
+    public initPos(x, y) {
         // console.log('initPos', x, y);
-        
+
         if (this.hasAbsolute || this.hasFixed) {
             // console.log('initPos if');
             this.realPositionCalculator.leftUnit = new Pixel()
@@ -1728,8 +1638,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    public initWidth(w)
-    {
+    public initWidth(w) {
         this.widthUnitCurrent = new Pixel()
         this._width = w
         this.lastSetWidthPx = this.getComputedClientWidth()
@@ -1738,8 +1647,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    public initHeight(w)
-    {
+    public initHeight(w) {
         this.heightUnitCurrent = new Pixel()
         this._height = w
         this.synchronizer.synchronize()
@@ -1751,33 +1659,27 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
 
-    get borders() : BorderModel[]
-    {
+    get borders(): BorderModel[] {
         return this._borders
     }
 
-    set borders(arg: BorderModel[])
-    {
+    set borders(arg: BorderModel[]) {
         this._borders = arg
     }
 
-    get paddings(): PaddingModel[]
-    {
+    get paddings(): PaddingModel[] {
         return this._paddings
     }
 
-    set paddings(arg: PaddingModel[])
-    {
+    set paddings(arg: PaddingModel[]) {
         this._paddings = arg
     }
 
-    get margins(): MarginModel[]
-    {
+    get margins(): MarginModel[] {
         return this._margins
     }
 
-    set margins(arg: MarginModel[])
-    {
+    set margins(arg: MarginModel[]) {
         this._margins = arg
     }
 
@@ -1804,8 +1706,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
     }
 
-    public setHtmlEl(htmlEl)
-    {
+    public setHtmlEl(htmlEl) {
         super.setHtmlEl(htmlEl)
         this.notifyPositionalTag()
         this.recalculateRealComputedProperties()
@@ -1824,11 +1725,11 @@ export default abstract class HtmlTag extends HtmlNode implements
     getComputedWidth(): number {
         return this.getComputedVal(Width.PROP_NAME)
     }
-    
+
     getComputedHiddenOutsiteWidth(): number {
         return Number(this.getComputedCssValFromHiddenOutsite(new Width(this.width, this.widthUnit)))
     }
-    
+
     getComputedClientWidth(): number {
         // console.log('getComputedClientWidth', this.getDomainTagName(), this.getHtmlEl())
         if (!this.getHtmlEl()) {
@@ -1853,7 +1754,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
         // console.log(this.getHtmlElOutsiteHidden())
         // this.getHtmlEl().style[Width.PROP_NAME] = this.getWidthValue()
-        
+
         // var a = window.getComputedStyle(this.getHtmlEl())
         var val = this.getHtmlEl().clientHeight
         // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
@@ -1866,14 +1767,14 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         return 0
     }
-    
+
 
     getComputedOffsetWidthContentEl(): number {
         // console.log('getComputedOffsetWidthContentEl', this.getHtmlContentEl())
         if (!this.getHtmlContentEl()) {
             // console.log('EL NOT')
             return 0
-        }        
+        }
         var val = this.getHtmlContentEl().offsetWidth
 
         if (val) {
@@ -1882,13 +1783,13 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         return 0
     }
-    
+
     getComputedOffsetHeightContentEl(): number {
         // console.log('getComputedOffsetWidthContentEl', this.getHtmlContentEl())
         if (!this.getHtmlContentEl()) {
             // console.log('EL NOT')
             return 0
-        }        
+        }
         var val = this.getHtmlContentEl().offsetHeight
 
         if (val) {
@@ -1905,7 +1806,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             return 0
         }
         this.getHtmlElOutsiteHidden().style[Width.PROP_NAME] = this.getWidthValue()
-        
+
         // var a = window.getComputedStyle(this.getHtmlEl())
         var val = this.getHtmlElOutsiteHidden().offsetWidth
         // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
@@ -1925,7 +1826,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             return 0
         }
         this.getHtmlElOutsiteHidden().style[Height.PROP_NAME] = this.getHeightValue()
-        
+
         // var a = window.getComputedStyle(this.getHtmlEl())
         var val = this.getHtmlElOutsiteHidden().offsetHeight
         // this.getHtmlEl().style[Width.PROP_NAME] = 'unset'
@@ -1986,8 +1887,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return this.getComputedVal(BorderTopWidth.PROP_NAME)
     }
 
-    public getComputedVal(propName: string)
-    {
+    public getComputedVal(propName: string) {
         if (!this.getHtmlEl()) {
             // console.log('EL NOT')
             return 0
@@ -2004,14 +1904,12 @@ export default abstract class HtmlTag extends HtmlNode implements
         return 0
     }
 
-    public addChild(child: HtmlNode)
-    {
+    public addChild(child: HtmlNode) {
         this.children.push(child)
 
     }
 
-    public appendChild(child: HtmlNode)
-    {
+    public appendChild(child: HtmlNode) {
         child.parent = this
         child.setApi(this.api)
         child.setProjectId(this.projectId)
@@ -2028,9 +1926,8 @@ export default abstract class HtmlTag extends HtmlNode implements
         }
 
     }
-    
-    public appendChildNotPersist(child: HtmlNode)
-    {
+
+    public appendChildNotPersist(child: HtmlNode) {
         child.parent = this
         child.setApi(this.api)
         child.setProjectId(this.projectId)
@@ -2048,8 +1945,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    async appendChildDeep(child: HtmlNode)
-    {
+    async appendChildDeep(child: HtmlNode) {
         child.parent = this
         child.setProjectId(this.projectId)
         child.setApi(this.api)
@@ -2071,45 +1967,37 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    get boundingClientRectLeftPixel(): number
-    {
+    get boundingClientRectLeftPixel(): number {
         return this._boundingClientRectLeftPixel
     }
 
-    set boundingClientRectLeftPixel(arg: number)
-    {
+    set boundingClientRectLeftPixel(arg: number) {
         this._boundingClientRectLeftPixel = arg
     }
 
-    get boundingClientRectTopPixel(): number
-    {
+    get boundingClientRectTopPixel(): number {
         return this._boundingClientRectTopPixel
     }
 
-    set boundingClientRectTopPixel(arg: number)
-    {
+    set boundingClientRectTopPixel(arg: number) {
         this._boundingClientRectTopPixel = arg
     }
 
 
 
-    get boundingClientRectRightPixel(): number
-    {
+    get boundingClientRectRightPixel(): number {
         return this._boundingClientRectRightPixel
     }
 
-    set boundingClientRectRightPixel(arg: number)
-    {
+    set boundingClientRectRightPixel(arg: number) {
         this._boundingClientRectRightPixel = arg
     }
 
-    get boundingClientRectBottomPixel(): number
-    {
+    get boundingClientRectBottomPixel(): number {
         return this._boundingClientRectBottomPixel
     }
 
-    set boundingClientRectBottomPixel(arg: number)
-    {
+    set boundingClientRectBottomPixel(arg: number) {
         this._boundingClientRectBottomPixel = arg
     }
 
@@ -2243,11 +2131,11 @@ export default abstract class HtmlTag extends HtmlNode implements
         this.pseudoElementAccessor.selectedSelector = null
 
     }
-    get selectedSelector() : BaseSelector {
+    get selectedSelector(): BaseSelector {
         if (this.animationSelector) {
             return this.animationSelector
         }
-        
+
         if (this.pseudoClassAccessor.selectedSelector) {
             return this.pseudoClassAccessor.selectedSelector
         }
@@ -2265,8 +2153,7 @@ export default abstract class HtmlTag extends HtmlNode implements
         return null
     }
 
-    get currentCssAccessor()
-    {
+    get currentCssAccessor() {
         var activeSelector = this.selectedSelector
 
         if (activeSelector) {
@@ -2284,8 +2171,7 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    get currentPseudoClassAccessor()
-    {
+    get currentPseudoClassAccessor() {
 
         if (this.selectedMedia) {
             return this.cssListMediaOwner.currentPseudoClasses
@@ -2295,15 +2181,13 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     }
 
-    public onChangeMediaQuery()
-    {
+    public onChangeMediaQuery() {
         // console.log('onChangeMediaQuery');
 
         this.onChangeSelector()
     }
 
-    public onChangeSelector()
-    {
+    public onChangeSelector() {
         this.resetFilterTagElements()
         Vue.nextTick(() => {
             this.recalculateRealComputedProperties()
@@ -2325,13 +2209,11 @@ export default abstract class HtmlTag extends HtmlNode implements
         })
     }
 
-    public turnOffSynchronizer()
-    {
+    public turnOffSynchronizer() {
         this.synchronizer.turnOff()
     }
-    
-    public turnOnSynchronizer()
-    {
+
+    public turnOnSynchronizer() {
         this.synchronizer.turnOn()
     }
 
