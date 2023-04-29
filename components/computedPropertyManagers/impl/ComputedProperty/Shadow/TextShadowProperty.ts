@@ -87,17 +87,14 @@ export default class TextShadowProperty extends BaseComputedPropertyManager<Text
     }
 
     deactivePropCss(prop: TextShadowCss) {
-        this.value.cssAccessor.removePropWithName(prop.getName())
-        prop.id = null
-        prop.setActive(false)
+        super.deactivePropCss(prop)
 
-        for (const val of prop.getValues()) {
-            val.id = null
-        }
+        // this.value.cssAccessor.removePropWithName(prop.getName())
 
-        console.log('deactivePropCss color');
 
-        this.value.synchronize()
+        // console.log('deactivePropCss color');
+
+        // this.value.synchronize()
         return null
     }
 }

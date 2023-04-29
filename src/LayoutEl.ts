@@ -61,6 +61,16 @@ export default abstract class LayoutEl {
         this._shortUUID = arg
     }
 
+    get attrIdHtmlBox()
+    {
+        return this._shortUUID
+    }
+    
+    get attrIdHtmlEl()
+    {
+        return this._shortUUID + '-content'
+    }
+
 
     protected initCssAccessor()
     {

@@ -59,6 +59,9 @@ export default class DefaultModelToCss implements ModelToCss {
 
     transform(model: StyleCss): BasePropertyCss {
         var domain = this.cssFactoryFromName.create(model.getKey())
+        if (!domain) {
+            return null;
+        }
         var unit = this.unitCssFactoryFromName.create(model.getUnitName())
         // console.log(domain);
 
@@ -88,6 +91,9 @@ export default class DefaultModelToCss implements ModelToCss {
             if (model.getChildren().length > 0) {
                 for (const gradient of model.getChildren()) {
                     var child = <BaseGradientCss>this.transform(gradient)
+                    if (!child) {
+                        return null
+                    }
                     domainCastBackground.getGradients().push(child)
                 }
 
@@ -142,6 +148,9 @@ export default class DefaultModelToCss implements ModelToCss {
 
                 // @ts-ignore
                 var child = this.transform(model.getChildren()[0])
+                if (!child) {
+                    return null
+                }
                 domain.gradient = child
             }
         }

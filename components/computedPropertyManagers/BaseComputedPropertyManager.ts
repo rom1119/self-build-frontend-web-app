@@ -174,7 +174,6 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         var activeSelector = this.value.selectedSelector
         if (activeSelector) {
             activeSelector.removeCssPropertyByName(prop.getName())
-            activeSelector.synchronize()
 
         } else {
             this.value.removeCssPropertyByName(prop.getName())
@@ -182,6 +181,14 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         }
         prop.id = null
         prop.setActive(false)
+        // @ts-ignore
+        if (prop.getValues) {
+            // @ts-ignore
+            for (const val of prop.getValues()) {
+                val.id = null
+            }
+
+        }
 
         this.value.synchronize()
         return null
@@ -191,6 +198,8 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         prop.setActive(true)
 
         var activeSelector = this.value.selectedSelector
+        console.log('ALA MA activePropCss', prop, activeSelector);
+
         if (activeSelector) {
             // if (!activeSelector.cssAccessor.hasCssProperty(prop.getName())) {
             //     activeSelector.cssAccessor.addNewProperty(prop)
@@ -219,12 +228,12 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         // let clonedCss = _.cloneDeep(newProp)
         // clonedCss.setValue(val.toString())
         // clonedCss.setUnit(new Pixel())
-        // console.log(newProp);
+        console.log(newProp);
         // console.log(val);
         // console.log(clonedCss);
         // console.log('ALA MA');
-        // console.log('ALA MA');
         var activeSelector = this.value.selectedSelector
+        console.log('ALA MA updateCssProp', newProp, activeSelector);
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
             // activeSelector.synchronize()

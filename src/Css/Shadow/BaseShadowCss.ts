@@ -185,7 +185,8 @@ export default abstract class BaseShadowCss extends BasePropertyCss implements C
 
     getValue(): string {
         if (this.values.length == 0) {
-            throw new CssWithoutValue(`CSS property ${this.getName()} not have value`)
+            console.error(this)
+            throw new CssWithoutValue(`CSS property ${this.getName()} not have value ID=` + this.uuid)
         }
         // if (this.values[0].toString().length < 1) {
         //     throw new CssWithoutValue(`CSS property ${this.getName()} not have value` )

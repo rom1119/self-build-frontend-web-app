@@ -2,7 +2,7 @@
 
     <component v-if="value.isInput"
                v-model="text"
-               :id="value.shortUUID + '-content'"
+               :id="value.attrIdHtmlEl"
                class="wrapper-el"
                :is="value.getTagName()"
                :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride, customStyles]"
@@ -17,8 +17,11 @@
     </component>
 
     <div v-else-if="value.hasMiddleTag" :style="value.middleTagCss">
-        <component :class="positionClass" class="wrapper-el" :is="value.getTagName()" :id="value.shortUUID + '-content'" 
-        :style="[value.cssList, value.cssListOverride]" @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
+        <component :class="positionClass" class="wrapper-el" 
+        :is="value.getTagName()" 
+        :id="value.attrIdHtmlEl" 
+        :style="[value.cssList, value.cssListOverride]"
+         @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
             <span v-show="false">
                 {{ updattrs }}
             </span>
@@ -31,7 +34,7 @@
                class="wrapper-el"
                v-html="filteredSvg"
                :is="value.getTagName()"
-               :id="value.shortUUID + '-content'"
+               :id="value.attrIdHtmlEl"
                :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride]"
                @click.stop="onClick($event)"
                @mousedown.stop="onMouseDown($event)"
@@ -47,7 +50,7 @@
             v-else :class="positionClass"
             class="wrapper-el"
             :is="value.getTagName()"
-            :id="value.shortUUID + '-content'"
+            :id="value.attrIdHtmlEl"
             :style="[value.cssList, value.cssListMediaQuery, value.cssListOverride, customStyles]"
             @click.stop="onClick($event)"
             @mousedown.stop="onMouseDown($event)"

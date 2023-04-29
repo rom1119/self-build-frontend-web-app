@@ -157,6 +157,15 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
         return this.mediaQueryListCss[media.id] != null
     }
 
+    cssAccessor()
+    {
+        if (!this.selectedMedia) {
+            return null
+        }
+
+        return this.mediaQueryListCss[this.selectedMedia.id]
+    }
+
     addCssForMedia(css: BasePropertyCss, mediaId: number)
     {
         // var list = this.getCurrentList()

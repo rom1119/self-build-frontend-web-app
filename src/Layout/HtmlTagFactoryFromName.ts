@@ -31,6 +31,10 @@ import Textarea from './tag/Form/Textarea';
 import AddressTag from './tag/AddressTag';
 import LabelTag from './tag/LabelTag';
 import Ol from './tag/Ol';
+import ATag from './tag/ATag';
+import Ul from './tag/Ul';
+import Li from './tag/Li';
+import Br from './tag/Br';
 export default class HtmlTagFactoryFromName {
 
     private htmlTagFactory: HtmlTagFactory
@@ -71,14 +75,20 @@ export default class HtmlTagFactoryFromName {
                 return this.htmlTagFactory.createB()
             case ImgTag.TAG_NAME:
                 return this.htmlTagFactory.createImage()
+            case ATag.TAG_NAME:
+                return this.htmlTagFactory.createATag()
+            case Br.TAG_NAME:
+                return this.htmlTagFactory.createBr()
             case SvgTag.TAG_NAME:
                 return this.htmlTagFactory.createSvg()
             case Div.TAG_NAME:
                 return this.htmlTagFactory.createDiv()
             case Ol.TAG_NAME:
                 return this.htmlTagFactory.createOl()
-            case Ol.TAG_NAME:
-                return this.htmlTagFactory.createOl()
+            case Ul.TAG_NAME:
+                return this.htmlTagFactory.createUl()
+            case Li.TAG_NAME:
+                return this.htmlTagFactory.createLi()
             case AddressTag.TAG_NAME:
                 return this.htmlTagFactory.createAddress()
             case LabelTag.TAG_NAME:

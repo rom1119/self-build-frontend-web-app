@@ -62,7 +62,7 @@ export default class BackgroundImageProperty extends BaseComputedPropertyManager
         prop.file = null
         for (const gradient of prop.getGradients()) {
             gradient.id = null
-            gradient.direction = null
+            // gradient.direction = null
             for (const val of gradient.getValues()) {
                 val.id = null
             }

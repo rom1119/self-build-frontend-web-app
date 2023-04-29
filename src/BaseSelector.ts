@@ -33,6 +33,7 @@ export default abstract class BaseSelector implements CssOwner
     protected _version
     protected _active
     protected _value
+    protected _valueContent
     protected _hasPosition = false
     protected _hasAbsolute = false
     protected _hasFixed = false
@@ -103,6 +104,16 @@ export default abstract class BaseSelector implements CssOwner
     set value(arg)
     {
         this._value = arg
+    }
+    
+    get valueContent()
+    {
+        return this._valueContent
+    }
+
+    set valueContent(arg)
+    {
+        this._valueContent = arg
     }
 
     get cssAccessor(): CssPropertyAccessor

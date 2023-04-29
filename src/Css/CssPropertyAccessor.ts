@@ -80,7 +80,7 @@ export default abstract class CssPropertyAccessor
         let index = this.cssProps.indexOf(prop)
         if (index !== -1) {
             // this.cssProps[index].setActive(true)
-            if (this.cssProps[index].getValue() != newVal.getValue()) {
+            if (this.cssProps[index].value != newVal.value) {
                 this.cssProps[index].setValue(newVal.getClearValue())
                 this.cssProps[index].setUnit(newVal.getUnit())
 

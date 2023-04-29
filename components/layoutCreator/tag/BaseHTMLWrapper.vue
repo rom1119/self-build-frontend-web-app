@@ -4,7 +4,9 @@
                :class="[positionClass, anotherClass]"
                class="css-box"
                @click.stop="onContentMouseClick(value, $event)"
-               :style="[value.cssBoxList, value.cssBoxListMediaQuery, value.cssBoxListOverride, customStyles]"  :key="value.updateComponentKey" :id="value.shortUUID" >
+               :style="[value.cssBoxList, value.cssBoxListMediaQuery, value.cssBoxListOverride, customStyles]"  
+               :key="value.updateComponentKey" 
+               :id="value.attrIdHtmlBox" >
         <!-- <html-element-closing-tag-context-menu v-if="value.isClosingTag" :value="value" :ref="value.uuid" />
         <html-element-short-closing-tag-context-menu v-else :value="value" :ref="value.uuid" /> -->
         <slot name="top-content" />
@@ -670,7 +672,7 @@ export default class BaseHTMLWrapper extends Vue {
         // console.log('CREA - COMP - BASE END')
 
         this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
-        this.value.setHtmlContentEl(document.getElementById(this.value.shortUUID + '-content'))
+        this.value.setHtmlContentEl(document.getElementById(this.value.attrIdHtmlEl))
         this.value.setHtmlElOutsiteHidden(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
         this.value.setHtmlEl(this.$el)
 

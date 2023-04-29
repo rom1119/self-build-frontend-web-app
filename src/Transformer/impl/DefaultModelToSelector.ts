@@ -72,6 +72,9 @@ export default class DefaultModelToSelector implements ModelToSelector
         if (model.styles) {
             for (const style of model.styles) {
                 let subModel = this.styleTransformer.transform(style)
+                if (!subModel) {
+                    continue
+                }
                 // if (subModel.mediaQueryId) {
                 //     domain.cssListMediaOwner.addCssForMedia(subModel, subModel.mediaQueryId)
                 // } else {

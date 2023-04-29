@@ -36,6 +36,8 @@ import Strong from './tag/Strong';
 import LabelTag from './tag/LabelTag';
 import AddressTag from './tag/AddressTag';
 import Textarea from './tag/Form/Textarea';
+import ATag from './tag/ATag';
+import Br from './tag/Br';
 export default class HtmlTagFactory {
 
     api: ApiService
@@ -234,6 +236,13 @@ export default class HtmlTagFactory {
         return el
     }
     
+    createATag() {
+        let el = new ATag()
+        el.setApi(this.api)
+
+        return el
+    }
+    
     createSvg() {
         let el = new SvgTag()
         el.setApi(this.api)
@@ -299,6 +308,13 @@ export default class HtmlTagFactory {
     
     createTableTd() {
         let el = new TableTd()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createBr() {
+        let el = new Br()
         el.setApi(this.api)
 
         return el

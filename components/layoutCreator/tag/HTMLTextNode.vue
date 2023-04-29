@@ -8,7 +8,7 @@
             </html-el-editable>
         </span>
         <!-- {{ value.paddingRightWidth }} -->
-        <span  v-show="!value.isEdited" :id="value.shortUUID + '-content'" :key="value.paddingRightWidth" class="inner-text-el">
+        <span  v-show="!value.isEdited" :id="value.attrIdHtmlEl" :key="value.paddingRightWidth" class="inner-text-el">
             {{ value.text }}
         </span>
     </span>

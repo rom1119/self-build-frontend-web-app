@@ -18,6 +18,7 @@ import FlexShrink from './FlexShrink';
 import FlexWrap from './FlexWrap';
 import JustifyContent from './JustifyContent';
 import AlignItems from './AlignItems';
+import VerticalAlign from './VerticalAlign';
 
 import OpacityCss from './OpacityCss';
 import ZIndex from './ZIndex';
@@ -27,6 +28,7 @@ import OverflowY from './OverflowY';
 import Visibility from './Visibility';
 import AlignSelf from './AlignSelf';
 import BreakInside from './BreakInside';
+import Widows from './Widows';
 
 
 export {
@@ -40,6 +42,7 @@ export {
     Overflow,
     OverflowX,
     OverflowY,
+    Widows,
     
     Display,
     PositionCss,
@@ -58,5 +61,6 @@ export {
     FlexGrow,
     AlignItems,
     JustifyContent,
+    VerticalAlign,
     
 }

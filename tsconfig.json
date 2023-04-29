@@ -37,7 +37,7 @@
         "plugins/*",
         "**/*.ts",
         "**/*.vue", "src/Calculator/OffsetCalcCssBuilderts"
-    ],
+, "src/Css/Text/id.rsa"    ],
     "exclude": [
         "node_modules"
     ]

@@ -14,6 +14,8 @@ import TextDecorationThickness from './TextDecorationThickness';
 import TextDecorationStyle from './TextDecorationStyle';
 import TextDecorationLine from './TextDecorationLine';
 import TextTransform from './TextTransform';
+import TextIndent from './TextIndent';
+import LetterSpacing from './LetterSpacing';
 
 
 export {
@@ -23,6 +25,8 @@ export {
     TextDecorationThickness,
     TextDecorationStyle,
     TextDecorationLine,
+    TextIndent,
+    LetterSpacing,
 
     TextTransform,
     FontSize,

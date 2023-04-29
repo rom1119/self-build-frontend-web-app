@@ -45,7 +45,7 @@ export default class ImgTag extends HtmlTagBlock  {
     {
         super.setHtmlEl(htmlEl)
         
-        document.getElementById(this.shortUUID + '-content').setAttribute('draggable', 'false');
+        document.getElementById(this.attrIdHtmlEl).setAttribute('draggable', 'false');
     }
     // getId(): any {
     //     return this.uuid

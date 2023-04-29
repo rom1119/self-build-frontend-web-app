@@ -27,6 +27,8 @@ export default interface SelectorOwner
 
     hasAbsolute: boolean
     hasFixed: boolean
+    attrIdHtmlBox: string
+    attrIdHtmlEl: string
     
     paddingFilter: FilterCssInjector
     marginFilter: FilterCssInjector

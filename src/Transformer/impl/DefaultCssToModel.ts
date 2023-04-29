@@ -419,6 +419,7 @@ export default class DefaultCssToModel implements CssToModel {
             // console.log('instanceOF TEXT_SHADOW TO-MODEL');
             // console.log(domainCastMultiplyVal instanceof TextShadowCss);
             let direc = <LinearGradientDirection>domain.direction
+            console.log('transformGradient',domain)
             if (domain.direction.getFullValue()) {
                 var el = new StyleCssValue(direc.direction, direc.directionUnit.name)
                 el.id = direc.id

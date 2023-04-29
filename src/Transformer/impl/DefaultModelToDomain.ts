@@ -106,6 +106,9 @@ export default class DefaultModelToDomain implements ModelToDomain
             if (model.styles) {
                 for (const style of model.styles) {
                     let subModel = this.styleTransformer.transform(style)
+                    if (!subModel) {
+                        continue
+                    }
                     // console.log(style);
 
                     if (subModel.mediaQueryId) {

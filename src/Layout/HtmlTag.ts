@@ -778,6 +778,9 @@ export default abstract class HtmlTag extends HtmlNode implements
 
     get cssAccessor(): CssPropertyAccessor
     {
+        if (this.selectedMedia) {
+            this.cssListMediaOwner.cssAccessor
+        }
         return this._cssPropertyAccesor
     }
 
@@ -1063,6 +1066,12 @@ export default abstract class HtmlTag extends HtmlNode implements
         for (const selectorClass of this.pseudoClassAccessor.all) {
 
             pseudoSelectors[selectorClass.value] = selectorClass.cssAccessor.all
+
+        }
+        
+        for (const selectorClass of this.pseudoClassAccessor.all) {
+
+            pseudoSelectors[selectorClass.valueContent] = selectorClass.cssAccessor.all
 
         }
 
