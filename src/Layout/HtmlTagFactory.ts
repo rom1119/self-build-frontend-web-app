@@ -38,6 +38,7 @@ import AddressTag from './tag/AddressTag';
 import Textarea from './tag/Form/Textarea';
 import ATag from './tag/ATag';
 import Br from './tag/Br';
+import FormTag from './tag/Form/FormTag';
 export default class HtmlTagFactory {
 
     api: ApiService
@@ -210,6 +211,13 @@ export default class HtmlTagFactory {
     
     createTextarea() {
         let el = new Textarea()
+        el.setApi(this.api)
+
+        return el
+    }
+    
+    createFormTag() {
+        let el = new FormTag()
         el.setApi(this.api)
 
         return el

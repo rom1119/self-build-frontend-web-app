@@ -23,6 +23,7 @@ import TagResource from '~/src/Css/TagResource';
 import ImgTag from '~/src/Layout/tag/ImgTag';
 import SvgTag from '~/src/Layout/tag/SvgTag';
 import SelectorOwner from '../../SelectorOwner';
+import UnableCreateDomainTagFromName from '../../Errors/UnableCreateDomainTagFromName';
 export default class DefaultModelToDomain implements ModelToDomain
 {
     private htmlTagFactory: HtmlTagFactoryFromName
@@ -38,14 +39,14 @@ export default class DefaultModelToDomain implements ModelToDomain
         this.attrFactory = new HtmlAttrFactory()
     }
 
-    transform(model: TagDto): LayoutEl {
+    transform(model: TagDto): LayoutEl | null {
         var domain = this.buildRecursive(model, null)
 
         return domain
 
     }
 
-    buildRecursive(model: TagDto, parent: HtmlTag): LayoutEl
+    buildRecursive(model: TagDto, parent: HtmlTag): LayoutEl | null
     {
 
 
@@ -73,7 +74,16 @@ export default class DefaultModelToDomain implements ModelToDomain
             if (tagname == 'input') {
                 tagname += '-' + model.attrs.type.value
             }
-            var domainTag: HtmlTag = this.htmlTagFactory.create(tagname)
+            try {
+                var domainTag: HtmlTag = this.htmlTagFactory.create(tagname)
+
+            } catch (err) {
+                if (err instanceof UnableCreateDomainTagFromName) {
+                    console.log('%c mounted PseudoSelectorComponent', 'background: aqua;');
+                    return null;
+                }
+                
+            }
             console.log('build domainTag', BaseMediaQueryComponent.accessorStatic)
             domainTag.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 

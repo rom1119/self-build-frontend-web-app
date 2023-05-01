@@ -35,6 +35,7 @@ import ATag from './tag/ATag';
 import Ul from './tag/Ul';
 import Li from './tag/Li';
 import Br from './tag/Br';
+import FormTag from './tag/Form/FormTag';
 export default class HtmlTagFactoryFromName {
 
     private htmlTagFactory: HtmlTagFactory
@@ -109,6 +110,8 @@ export default class HtmlTagFactoryFromName {
                 return this.htmlTagFactory.createButton()
             case Textarea.TAG_NAME:
                 return this.htmlTagFactory.createTextarea()
+            case FormTag.TAG_NAME:
+                return this.htmlTagFactory.createFormTag()
             case TableTag.TAG_NAME:
                 return this.htmlTagFactory.createTable()
             case TableTBody.TAG_NAME:

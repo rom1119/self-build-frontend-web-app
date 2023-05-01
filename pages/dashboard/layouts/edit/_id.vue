@@ -30,7 +30,7 @@ import ProjectFrontendModel from '~/types/ProjectFrontendModel';
     export default class EditFrontendProjectPage extends Vue {
         search = ''
         value: ProjectFrontendModel = null
-        storeFetchEndpoint = 'frontendProject/findOne'
+        storeFetchEndpoint = 'frontendProject/findOneSimple'
 
         @Watch('currentProvince')
         async onCurrentProvince() {

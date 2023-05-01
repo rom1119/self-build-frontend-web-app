@@ -91,6 +91,15 @@ const actions: ActionTree<FrontendProjectState, FrontendProjectState> = {
 
       return { model: _.cloneDeep(model), mediaQueryList:  mediaQueryArray, fontFaceList: fontFaceQueryArray, keyFrameList: keyFrameQueryArray}
   },
+  async findOneSimple({ commit, state }, id) {
+    // @ts-ignore
+    let response = await this.$axios.$get(`/api/html-project/short-data/${id}`)
+    let model = builder.build(response)
+    commit('insert', model)
+
+
+      return { model: _.cloneDeep(model)}
+  },
   async save({ commit, state}, token: ProjectFrontendModel) {
       // @ts-ignore
     let res = builderResponse.build(token)

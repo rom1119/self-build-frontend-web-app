@@ -64,7 +64,8 @@ export default class DefaultModelToCss implements ModelToCss {
         }
         var unit = this.unitCssFactoryFromName.create(model.getUnitName())
         // console.log(domain);
-
+        console.log(domain)
+        console.log(model)
         var val
         if (unit instanceof RGBA || unit instanceof RGB) {
             try {
@@ -78,6 +79,9 @@ export default class DefaultModelToCss implements ModelToCss {
 
         } else {
             val = model.getValue()
+        }
+        if (val === null || val === undefined) {
+            val = ''
         }
         domain.setValue(val)
         domain.setUnit(unit)
@@ -169,8 +173,7 @@ export default class DefaultModelToCss implements ModelToCss {
 
             domain = <BaseBorderCss>domainCast
         }
-console.log(domain)
-console.log(model)
+
         // @ts-ignore
         if (typeof domain.getThirdValue === 'function' && model.getValueThird()) {
             var domainCastThird: CssWithThreeValues = <CssWithThreeValues><unknown>domain

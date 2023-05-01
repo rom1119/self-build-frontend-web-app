@@ -135,6 +135,9 @@ import KeyFrameAccessor from '~/src/Animation/KeyFrameAccessor';
                     let tag = this.modelToDomainTransformer.transform(tagModel)
                     // tag.setProjectId(this.$route.params.id)
 
+                    if (!tag) {
+                        continue
+                    }
                     // @ts-ignore
                     this.$refs.creatorContainer.addHtmlTag(tag)
                     // @ts-ignore

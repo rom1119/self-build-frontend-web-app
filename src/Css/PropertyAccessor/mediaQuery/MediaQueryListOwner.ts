@@ -85,6 +85,11 @@ export default class MediaQueryListOwner<T> implements SubscriberMediaAccessor{
     {
         return this.mediaQueryListCss
     }
+    
+    get mediaQueryPseudoClassList()
+    {
+        return this.mediaQueryListPseudoClass
+    }
 
     get selectedMedia(): BaseMediaQueryCss{
         if (!this._mediaQueryAccessor) {

@@ -893,7 +893,7 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
     public toString(): string {
-        return `( ${this.getDomainTagName()} )`
+        return `( ${this.getDomainTagName()} uuid=${this.uuid})`
     }
 
     public changeAsActiveSize() {
@@ -1027,18 +1027,18 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         }
 
-        for (const selectorClass of this.pseudoClassAccessor.all) {
+        for (const k in this.cssListMediaOwner.mediaQueryPseudoClassList) {
 
-            // pseudoSelectors[selectorClass.value] = selectorClass.cssAccessor.all
+            var mediaQPseudoClassAcc = this.cssListMediaOwner.mediaQueryPseudoClassList[k]
 
-            for (const kPK in selectorClass.cssListMediaOwner.mediaQueryCssList) {
-                var elPseudoClass = selectorClass.cssListMediaOwner.mediaQueryCssList[kPK]
-                if (!elPseudoClass.all.length) {
+            for (const selectorClass of mediaQPseudoClassAcc.all) {
+
+                if (!selectorClass.cssAccessor.all.length) {
                     continue
                 }
-                var m = new MediaQueryTag(elPseudoClass.mediaQuery, selectorClass.value, elPseudoClass.all)
+                var m = new MediaQueryTag(mediaQPseudoClassAcc.mediaQuery, selectorClass.value, selectorClass.cssAccessor.all)
                 pseudoSelectors.push(m)
-
+    
             }
 
         }
@@ -1050,8 +1050,11 @@ export default abstract class HtmlTag extends HtmlNode implements
         //
         // }
 
-        // console.log('COMP-SELECTORS');
+        // console.log('COMP-SELECTORS mediaQueryWithElements');
+        // console.log(this._htmlEl);
         // console.log(pseudoSelectors);
+        // console.log(this.pseudoClassAccessor);
+        // console.log(this.cssListMediaOwner);
 
         return pseudoSelectors
     }
