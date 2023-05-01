@@ -39,6 +39,8 @@ import { TransformCssStruct } from '../../Css/ThreeDimensional/TransformCss';
 import TransformCss from '../../Css/ThreeDimensional/TransformCss';
 import CssWithFourValues from '../../Css/MultiValuesCss/CssWithFourValues';
 import CssWithFiveValues from '../../Css/MultiValuesCss/CssWithFiveValues';
+import SpecialFunctionFactory from '~/src/Css/SpecialFunction/SpecialFunctionFactory';
+import UnableCreateSpecialFunction from '~/src/Css/SpecialFunction/UnableCreateSpecialFunction';
 export default class DefaultModelToCss implements ModelToCss {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
@@ -46,6 +48,7 @@ export default class DefaultModelToCss implements ModelToCss {
     private timingFunctionFactoryFromName: TimingFunctionFactoryFromName
 
     private cssValueModelToTransformType: CssValueModelToTransformType
+    private specialFunctionFactory: SpecialFunctionFactory
 
     // private styleTransformer: ModelToCss
 
@@ -54,6 +57,7 @@ export default class DefaultModelToCss implements ModelToCss {
         this.unitCssFactoryFromName = new UnitCssPropertyFactoryFromName()
         this.timingFunctionFactoryFromName = new TimingFunctionFactoryFromName()
         this.cssValueModelToTransformType = new CssValueModelToTransformType()
+        this.specialFunctionFactory = new SpecialFunctionFactory()
         // this.styleTransformer = new HtmlTagFactoryFromName()
     }
 
@@ -78,7 +82,18 @@ export default class DefaultModelToCss implements ModelToCss {
             }
 
         } else {
-            val = model.getValue()
+            try {
+                var specialFn = this.specialFunctionFactory.createFromName(model.getUnitName())
+                val = specialFn
+                val.setResource(model.getResourcePath())
+                val.setResourceUrl(model.getResourceUrl())
+            } catch (e) {
+                if (e instanceof UnableCreateSpecialFunction) {
+                    val = model.getValue()
+                    console.log(`%c UnableCreateSpecialFunction css=${model.getKey()} valUnit=${model.getUnitName()} `, 'background: red;');
+                    // console.log(e)
+                }
+            }
         }
         if (val === null || val === undefined) {
             val = ''
@@ -110,10 +125,10 @@ export default class DefaultModelToCss implements ModelToCss {
 
             }
             domain = domainCastBackground
-            //@ts-ignore
-            domainCastBackground.setResource(model.getResourcePath())
-            //@ts-ignore
-            domainCastBackground.setResourceUrl(model.getResourceUrl())
+            // //@ts-ignore
+            // domainCastBackground.setResource(model.getResourcePath())
+            // //@ts-ignore
+            // domainCastBackground.setResourceUrl(model.getResourceUrl())
         }
 
         // @ts-ignore
@@ -130,21 +145,21 @@ export default class DefaultModelToCss implements ModelToCss {
         }
 
         // @ts-ignore
-        if (typeof domain.getResource === 'function') {
+        // if (typeof domain.getResource === 'function') {
 
-            var domainResource: CssResource = <CssResource><unknown>domain
-            domainResource.setResource(model.getResourcePath())
+        //     var domainResource: CssResource = <CssResource><unknown>domain
+        //     domainResource.setResource(model.getResourcePath())
 
-            domain = <BasePropertyCss><unknown>domainResource
+        //     domain = <BasePropertyCss><unknown>domainResource
 
-        }
+        // }
 
-        // @ts-ignore
-        if (domain.resourceUrl != null) {
-            var domainResource: CssResource = <CssResource><unknown>domain
-            // @ts-ignore
-            domainResource.setResourceUrl(model.getResourceUrl())
-        }
+        // // @ts-ignore
+        // if (domain.resourceUrl != null) {
+        //     var domainResource: CssResource = <CssResource><unknown>domain
+        //     // @ts-ignore
+        //     domainResource.setResourceUrl(model.getResourceUrl())
+        // }
 
         // @ts-ignore
         if ('gradient' in domain) {

@@ -236,10 +236,11 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         console.log('ALA MA updateCssProp', newProp, activeSelector);
         if (activeSelector) {
             activeSelector.updateCssPropertyWithoutModel(newProp.getName(), newProp)
-            // activeSelector.synchronize()
+            activeSelector.synchronize()
 
         } else {
             this.value.updateCssPropertyWithoutModel(newProp.getName(), newProp)
+            this.value.synchronize()
 
         }
 

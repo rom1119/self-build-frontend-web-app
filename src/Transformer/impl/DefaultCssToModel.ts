@@ -37,6 +37,8 @@ import TransformCss from '../../Css/ThreeDimensional/TransformCss';
 import TransformTypeToCssValueModel from './TransformTypeToCssValueModel';
 import CssWithFourValues from '../../Css/MultiValuesCss/CssWithFourValues';
 import CssWithFiveValues from '../../Css/MultiValuesCss/CssWithFiveValues';
+import SpecialFunctionComponent from '~/src/Css/SpecialFunction/SpecialFunctionComponent';
+import { UrlComponent } from '~/src/Css/SpecialFunction';
 export default class DefaultCssToModel implements CssToModel {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
@@ -61,7 +63,12 @@ export default class DefaultCssToModel implements CssToModel {
 
     transform(domain: BasePropertyCss): StyleCss {
         var value = domain.getClearValue()
-        if (typeof value === 'object' &&
+        var resource,resourceUrl
+        if (value instanceof UrlComponent) {
+            resource = value.getResource()
+            resourceUrl = value.getResourceUrl()
+            value = null
+        } else if (typeof value === 'object' &&
             !(domain instanceof FontFamily) &&
             !(domain instanceof AnimationCss)
         ) {
@@ -69,6 +76,9 @@ export default class DefaultCssToModel implements CssToModel {
         }
         let model = new StyleCssModel(domain.getName(), value, domain.getUnit().name)
         model.id = domain.id
+
+        model.setResourcePath(resource)
+        model.setResourceUrl(resourceUrl)
 
         if (domain instanceof BackgroundImage) {
 
@@ -81,8 +91,8 @@ export default class DefaultCssToModel implements CssToModel {
                 return model
 
             }
-            model.setResourcePath(domain.getResource())
-            model.setResourceUrl(domain.getResourceUrl())
+            // model.setResourcePath(domain.getResource())
+            // model.setResourceUrl(domain.getResourceUrl())
         }
 
         // @ts-ignore

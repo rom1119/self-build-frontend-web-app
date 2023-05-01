@@ -79,7 +79,8 @@ export default class DefaultModelToDomain implements ModelToDomain
 
             } catch (err) {
                 if (err instanceof UnableCreateDomainTagFromName) {
-                    console.log('%c mounted PseudoSelectorComponent', 'background: aqua;');
+                    console.log('%c UnableCreateDomainTagFromName', 'background: aqua;');
+                    console.log(err)
                     return null;
                 }
                 
