@@ -654,7 +654,22 @@ export default class BaseHTMLWrapper extends Vue {
         return  this.widthManager.getProperty().active
     }
 
+    runWithTimeoutrRandNumber(fnCallback) {
+        var rand = Math.floor(Math.random() * 3000)
+        var that = this
+        var timer = setInterval(() => {
+            // console.log(this.value.uuid)
+            // console.log(this.$el)
+            // console.log('typeof $el', typeof this.$el)
+            // console.log(typeof a)
 
+            if (typeof this.$el == 'object') {
+                fnCallback(that)
+
+                clearInterval(timer)
+            }
+        }, rand)
+    }
 
     public mounted()
     {
@@ -670,11 +685,28 @@ export default class BaseHTMLWrapper extends Vue {
         // console.log(this.$layoutCreatorMode)
         // console.log(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
         // console.log('CREA - COMP - BASE END')
+        
+        this.runWithTimeoutrRandNumber((that) => {
 
-        this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
-        this.value.setHtmlContentEl(document.getElementById(this.value.attrIdHtmlEl))
-        this.value.setHtmlElOutsiteHidden(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
-        this.value.setHtmlEl(this.$el)
+            that.value.setHtmlElHidden(document.getElementById(that.value.shortUUID + '-hidden-box'))
+            that.value.setHtmlContentEl(document.getElementById(that.value.attrIdHtmlEl))
+            that.value.setHtmlElOutsiteHidden(document.getElementById(that.value.shortUUID + '-hidden-outsite-box'))
+            that.value.setHtmlEl(that.$el)
+            // console.log(that.$el, 'EXISTS !!!!!!!!!')
+
+            if (that.value instanceof HtmlTag)  {
+                that.value.realPositionCalculator.reInitDefaultPosition()
+                that.value.recalculateRealComputedProperties()
+            }
+
+            that.borderRecalculator.recalculate(that.value)
+            that.marginRecalculator.recalculate(that.value)
+
+            that.value.updateRealView()
+            // console.log('BEFORE CREATOR MODE SET');
+            // console.log('AFTER CREATOR MODE SET');
+            that.widthManager.init()
+        })
 
         // this.value.updateModelComponent()
         // this.value.updateModelComponent()
@@ -682,22 +714,7 @@ export default class BaseHTMLWrapper extends Vue {
 
         // console.log('11@@@@@@@@@@@@@11');
 
-        if (this.value instanceof HtmlTag)  {
-            this.value.realPositionCalculator.reInitDefaultPosition()
-
-            this.value.recalculateRealComputedProperties()
-
-        }
-
-        this.borderRecalculator.recalculate(this.value)
-        this.marginRecalculator.recalculate(this.value)
-
-        this.value.updateRealView()
-
-        // console.log('BEFORE CREATOR MODE SET');
-        // console.log('AFTER CREATOR MODE SET');
-
-        this.widthManager.init()
+      
 
         // this.value.updateModelComponent()
 

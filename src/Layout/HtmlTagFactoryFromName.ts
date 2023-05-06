@@ -40,17 +40,22 @@ export default class HtmlTagFactoryFromName {
 
     private htmlTagFactory: HtmlTagFactory
 
+    private static total = 0
+
     constructor()
     {
         this.htmlTagFactory = new HtmlTagFactory()
     }
 
     createText(): TextNode {
+        // HtmlTagFactoryFromName.total++
+        // console.log('TOTAL_TextNode=' + HtmlTagFactoryFromName.total)
         return this.htmlTagFactory.createText()
     }
     
     create(name: string) : HtmlTag {
-
+        // HtmlTagFactoryFromName.total++
+        // console.log('TOTAL_HtmlTag=' + HtmlTagFactoryFromName.total, name)
         switch (name) {
             case H1.TAG_NAME:
                 return this.htmlTagFactory.createH1()

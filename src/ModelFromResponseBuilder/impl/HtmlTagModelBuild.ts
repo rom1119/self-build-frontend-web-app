@@ -66,6 +66,19 @@ export default class HtmlTagModelBuild implements ModelFromResponse<HtmlTagRespo
         }
         
         if (from.children) {
+            var sortedChilderen = []
+            sortedChilderen = from.children.sort( 
+                ( childA, childB ) => {
+                if ( childA.orderNumber < childB.orderNumber ){
+                    return -1;
+                }
+                if ( childA.orderNumber > childB.orderNumber ){
+                    return 1;
+                }
+                return 0;
+                }
+            );
+            from.children = sortedChilderen
             for (const el of from.children) {
                 this.buildRecursive(el, model)
             }

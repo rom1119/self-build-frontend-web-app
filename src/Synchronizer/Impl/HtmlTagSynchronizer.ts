@@ -27,6 +27,7 @@ export default class HtmlTagSynchronizer implements Synchronizer
     protected cssUpdater: CssStyleUpdater
 
     protected isEnabled = true
+    protected isFirstTrying = true
 
     constructor(tag: HtmlNode, api: ApiService)
     {
@@ -43,6 +44,11 @@ export default class HtmlTagSynchronizer implements Synchronizer
     synchronize()
     {
         if (!this.isEnabled) {
+            return
+        }
+        
+        if (this.isFirstTrying) {
+            this.isFirstTrying = false
             return
         }
         if (!this.canSynchronize()) {

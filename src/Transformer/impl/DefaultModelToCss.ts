@@ -41,6 +41,7 @@ import CssWithFourValues from '../../Css/MultiValuesCss/CssWithFourValues';
 import CssWithFiveValues from '../../Css/MultiValuesCss/CssWithFiveValues';
 import SpecialFunctionFactory from '~/src/Css/SpecialFunction/SpecialFunctionFactory';
 import UnableCreateSpecialFunction from '~/src/Css/SpecialFunction/UnableCreateSpecialFunction';
+import UnableCreateCssPropertyFromName from '~/src/Errors/UnableCreateCssPropertyFromName';
 export default class DefaultModelToCss implements ModelToCss {
 
     private cssFactoryFromName: CssPropertyFactoryFromName
@@ -62,14 +63,25 @@ export default class DefaultModelToCss implements ModelToCss {
     }
 
     transform(model: StyleCss): BasePropertyCss {
-        var domain = this.cssFactoryFromName.create(model.getKey())
-        if (!domain) {
-            return null;
+        try {
+            var domain = this.cssFactoryFromName.create(model.getKey())
+        } catch (err) {
+            if (err instanceof  UnableCreateCssPropertyFromName) {
+                console.log('%c  UnableCreateCssPropertyFromName', 'background: aqua;');
+                console.log(err)
+                return null;
+            }
+            
         }
+        
         var unit = this.unitCssFactoryFromName.create(model.getUnitName())
         // console.log(domain);
-        console.log(domain)
-        console.log(model)
+        if (!domain) {
+            console.log(domain)
+            console.log(model)
+            console.log('%c  Css is NULL', 'background: aqua;');
+            return null;
+        }
         var val
         if (unit instanceof RGBA || unit instanceof RGB) {
             try {
@@ -90,7 +102,7 @@ export default class DefaultModelToCss implements ModelToCss {
             } catch (e) {
                 if (e instanceof UnableCreateSpecialFunction) {
                     val = model.getValue()
-                    console.log(`%c UnableCreateSpecialFunction css=${model.getKey()} valUnit=${model.getUnitName()} `, 'background: red;');
+                    // console.log(`%c UnableCreateSpecialFunction css=${model.getKey()} valUnit=${model.getUnitName()} `, 'background: red;');
                     // console.log(e)
                 }
             }

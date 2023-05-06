@@ -117,24 +117,37 @@ export default class TableRowComponent extends Vue {
         this.$emit('contentMouseDown', ev)
     }
 
+    runWithTimeoutrRandNumber(fnCallback) {
+        var rand = Math.floor(Math.random() * 3000)
+        var that = this
+        var timer = setInterval(() => {
+            console.log(this.value.uuid)
+            console.log(this.$el)
+            console.log('typeof $el', typeof this.$el)
+            // console.log(typeof a)
+
+            if (typeof this.$el == 'object') {
+                fnCallback(that)
+
+                clearInterval(timer)
+            }
+        }, rand)
+    }
+
     mounted()
     {
-        this.value.setHtmlElOutsiteHidden(document.getElementById(this.idHiddenEl))
-        this.value.setHtmlEl(this.$el)
+        this.runWithTimeoutrRandNumber((this) => {
 
-        // this.value.updateModelComponent()
-        // this.value.updateModelComponent()
+            this.value.setHtmlElOutsiteHidden(document.getElementById(this.idHiddenEl))
+            this.value.setHtmlEl(this.$el)
 
-
-        // console.log('COLUMN MOUNTED');
-
-        if (this.value instanceof HtmlTag)  {
-            this.value.realPositionCalculator.reInitDefaultPosition()
-
-            // this.value.recalculateRealComputedProperties()
-
-        }
-        this.heightManager.init()
+            // this.value.updateModelComponent()
+            if (this.value instanceof HtmlTag)  {
+                this.value.realPositionCalculator.reInitDefaultPosition()
+                // this.value.recalculateRealComputedProperties()
+            }
+            this.heightManager.init()
+        })
 
     }
 

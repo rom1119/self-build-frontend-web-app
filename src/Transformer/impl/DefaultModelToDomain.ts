@@ -85,7 +85,7 @@ export default class DefaultModelToDomain implements ModelToDomain
                 }
                 
             }
-            console.log('build domainTag', BaseMediaQueryComponent.accessorStatic)
+            // console.log('build domainTag', BaseMediaQueryComponent.accessorStatic)
             domainTag.setMediaQueryAccessor(BaseMediaQueryComponent.accessorStatic)
 
             if (domainTag instanceof ImgTag) {
@@ -118,6 +118,9 @@ export default class DefaultModelToDomain implements ModelToDomain
                 for (const style of model.styles) {
                     let subModel = this.styleTransformer.transform(style)
                     if (!subModel) {
+                                    // console.log(model);
+                                    // console.log(domainTag);
+
                         continue
                     }
                     // console.log(style);

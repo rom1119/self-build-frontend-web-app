@@ -16,7 +16,14 @@ export default class CssPropertyFactoryFromName {
         var cssProps = libCss;
         var name = nameArg.replace(/\.?([A-Z])/g, function (x,y){return "-" + y.toLowerCase()}).replace(/^-/, "")
 
-        var excluded_css = ['clip']
+        var excluded_css = [
+            'clip',
+            'break-after',
+            'white-space',
+            'object-fit',
+            'text-overflow',
+            'webkit-border-horizontal-spacing',
+        ]
 
         if (excluded_css.includes(name)) {
             return null

@@ -6,10 +6,9 @@ import BaseGradientCss from '../Gradient/BaseGradientCss';
 import GradientsAware from "../Gradient/GradientsAware";
 import UrlComponent from "../SpecialFunction/impl/UrlComponent";
 import SpecialFunctionOwner from "../SpecialFunction/SpecialFunctionOwner";
-import UrlComponentAware from "../SpecialFunction/UrlComponentAware";
 
 export default class BackgroundImage extends CssSimple
-    implements CssResource, GradientsAware, UrlComponentAware, SpecialFunctionOwner {
+    implements CssResource, GradientsAware, SpecialFunctionOwner {
     gradients: BaseGradientCss[] = []
 
     constructor() {
@@ -17,11 +16,8 @@ export default class BackgroundImage extends CssSimple
         this.clearValue()
         this.values[0] = new UrlComponent(this)
     }
-    getUrlComponent(): UrlComponent {
-        return this.values[0];
-    }
 
-    setUrlComponent(arg: UrlComponent) {
+    private setUrlComponent(arg: UrlComponent) {
         arg.setOwner(this)
         this.values[0] = arg
     }
@@ -125,11 +121,14 @@ export default class BackgroundImage extends CssSimple
     }
 
     setValue(val) {
-        this.setUrlComponent(val)
+        if (val instanceof UrlComponent) {
+            this.setUrlComponent(val)
+
+        } else {
+            this.values[0] = val
+        }
     }
-    getId(): any {
-        return this.id
-    }
+
     getResourceFile(): File {
         return this.file
     }

@@ -19,6 +19,10 @@ export default abstract class BasePropertyCss
         this.values = []
     }
 
+    getId(): any {
+        return this.id
+    }
+
     public initOwner(owner: CssOwner) {
         this.owner = owner
     }

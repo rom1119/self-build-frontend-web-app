@@ -36,6 +36,7 @@ import TabelColumnsCalculator from '../../../Calculator/table/calculator/TabelCo
 import TabelRowsCalculator from '../../../Calculator/table/calculator/TabelRowsCalculator';
 import RowspanEditor from './editor/impl/RowspanEditor';
 import BusyCellPlaceByRowspan from './editor/BusyCellPlaceByRowspan';
+import TextNode from '../../TextNode';
 export default class TableTag extends TableContainer {
 
     protected _innerText: string = `${this.uuid}  TableTag`
@@ -93,6 +94,9 @@ export default class TableTag extends TableContainer {
 
                     var tr: TableTr = <TableTr>cont.children[m]
                     // console.log('tr', tr)
+                    if (!tr.allChildren) {
+                        continue;
+                    }
                     for (var i = 0; i < tr.allChildren.length; i++) {
                         var td = tr.allChildren[i]
                         res.push(td)
@@ -916,6 +920,10 @@ export default class TableTag extends TableContainer {
         if (!this.hasTrChild()) {
             for (var i = 0; i < this.children.length; i++) {
                 var child = this.children[i]
+                console.log('recalculateBorderSpacingX', child)
+                if (child instanceof TextNode) {
+                    continue
+                }
                 child.setBorderXSpacing(spacing, isDefault)
             }
             // return
@@ -928,6 +936,9 @@ export default class TableTag extends TableContainer {
         if (!this.hasTrChild()) {
             for (var i = 0; i < this.children.length; i++) {
                 var child = this.children[i]
+                if (child instanceof TextNode) {
+                    continue
+                }
                 child.setBorderYSpacing(spacing, isDefault)
             }
             // return

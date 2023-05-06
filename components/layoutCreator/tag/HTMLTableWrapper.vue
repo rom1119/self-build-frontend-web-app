@@ -119,29 +119,31 @@ export default class HTMLTableWrapper extends BaseHTMLWrapper {
         // this.value.htmlEl = htmlEl
         // return
 
-        this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
-        this.value.setHtmlEl(this.$el)
+        this.runWithTimeoutrRandNumber((this) => {
+            this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
+            this.value.setHtmlEl(this.$el)
 
-        // this.value.updateModelComponent()
-        // this.value.updateModelComponent()
+            // this.value.updateModelComponent()
+            // this.value.updateModelComponent()
 
 
-        // console.log('11@@@@@@@@@@@@@11');
+            // console.log('11@@@@@@@@@@@@@11');
 
-        if (this.value instanceof HtmlTag)  {
-            this.value.realPositionCalculator.reInitDefaultPosition()
+            if (this.value instanceof HtmlTag)  {
+                this.value.realPositionCalculator.reInitDefaultPosition()
 
-            this.value.recalculateRealComputedProperties()
+                this.value.recalculateRealComputedProperties()
 
-        }
+            }
 
-        // @ts-ignore
-        this.borderRecalculator.recalculate(this.value)
-        // @ts-ignore
-        this.marginRecalculator.recalculate(this.value)
+            // @ts-ignore
+            this.borderRecalculator.recalculate(this.value)
+            // @ts-ignore
+            this.marginRecalculator.recalculate(this.value)
 
-        this.value.updateTableStructure()
-        this.value.updateRealView()
+            this.value.updateTableStructure()
+            this.value.updateRealView()
+        })
         // this.value.updateRows()
         // this.value.updateColumns()
         // this.value.updateModelComponent()

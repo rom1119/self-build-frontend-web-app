@@ -9,6 +9,7 @@ import Unit from '../../src/Unit/Unit';
 import CssResource from '../../src/Css/CssResource';
 import TableColumnEl from '../../src/Layout/tag/Table/elements/TableColumnEl';
 import TableRowEl from '../../src/Layout/tag/Table/elements/TableRowEl';
+import TextNode from "~/src/Layout/TextNode";
 
 
 export default abstract class BaseComputedPropertyManager<T extends BasePropertyCss> implements ComputedPropertyManager {
@@ -65,6 +66,10 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
         if (!this.value) {
             return null
         }
+
+        if (this.value instanceof TextNode) {
+            return null
+        }
         // console.log('getPropertyCssFromModel');
         // console.log(prop);
         // console.log('this.value.selectedSelector', this.value.selectedSelector);
@@ -77,14 +82,18 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
             return <T>activeSelector.getPropertyCss(prop)
             
         }
-        // console.log(this.value);
         // console.log(this.value.getPropertyCss(prop));
+
         return <T>this.value.getPropertyCss(prop)
     }
 
     protected getTmpPropertyCssFromModel(prop: string): T
     {
         if (!this.value) {
+            return null
+        }
+
+        if (this.value instanceof TextNode) {
             return null
         }
         // console.log('getPropertyCssFromModel');
@@ -108,6 +117,10 @@ export default abstract class BaseComputedPropertyManager<T extends BaseProperty
     {
         if (!this.value) {
             return false
+        }
+
+        if (this.value instanceof TextNode) {
+            return null
         }
         var activeSelector = this.value.selectedSelector
         if (activeSelector) {

@@ -5,7 +5,6 @@ import CssOwner from '../../CssOwner';
 export default interface SpecialFunctionOwner
 {
 
-    
-
+    getId(): any
 
 }

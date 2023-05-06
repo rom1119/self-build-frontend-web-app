@@ -103,10 +103,14 @@ import KeyFrameAccessor from '~/src/Animation/KeyFrameAccessor';
             var modelToDomainFontFace = new DefaultModelToFontFace()
 
             var modelToDomainKeyFrame = new DefaultModelToKeyFrame()
+            this.$loadingDialog.show()
 
 
             if (this.$route.params.id) {
+                
                 let response = await this.$store.dispatch(this.storeFetchEndpoint, this.$route.params.id)
+                console.log(`%c START fetch projects `, 'background: orange;');
+                console.log(response)
 
                 for (const medQ of response.mediaQueryList) {
                     let domain = modelToDomainMediaQuery.transform(medQ)
@@ -131,15 +135,35 @@ import KeyFrameAccessor from '~/src/Animation/KeyFrameAccessor';
                     this.keyFrameAccessor.addKeyFrame(keyFrameDomain)
                 }
 
-                for (const tagModel of response.model.htmlTags) {
+                var i = 0
+
+                var timer = setInterval(() => {
+                    var tagModel = response.model.htmlTags[i]
+                    if (!tagModel) {
+                        this.$loadingDialog.hide()
+                        clearInterval(tagModel)
+
+                        return
+                    }
                     let tag = this.modelToDomainTransformer.transform(tagModel)
+
+                    console.log(`%c NEW tag ${tag}`, 'background: pink;');
                     // tag.setProjectId(this.$route.params.id)
 
-                    if (!tag) {
-                        continue
+
+                    if (tag) {
+                        // continue
+                        // @ts-ignore
+                        this.$refs.creatorContainer.addHtmlTag(tag)
                     }
-                    // @ts-ignore
-                    this.$refs.creatorContainer.addHtmlTag(tag)
+
+                    i++
+
+
+
+                }, 500)
+                for (const tagModel of response.model.htmlTags) {
+
                     // @ts-ignore
                     // tag.layoutCreatorMode = this.$layoutCreatorMode
                 // console.log(tag);
@@ -150,10 +174,10 @@ import KeyFrameAccessor from '~/src/Animation/KeyFrameAccessor';
                 // console.log(response);
 
             }
-            this.$loadingDialog.show()
+            console.log(`%c END fetch project `, 'background: orange;');
+
             // let provinces = await this.$axios.$get('/units/provinces')
             // this.provinces = provinces
-            this.$loadingDialog.hide()
         }
 
 

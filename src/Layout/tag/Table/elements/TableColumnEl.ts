@@ -34,6 +34,7 @@ import BorderRightCss from "~/src/Css/Border/Right/BorderRightCss";
 import TableColumnPropertyTmpAccessor from "~/src/Css/PropertyAccessor/TableColumnPropertyTmpAccessor";
 import Pixel from '../../../../Unit/Size/Pixel';
 import BaseSelector from '../../../../BaseSelector';
+import TextNode from '~/src/Layout/TextNode';
 
 
 export default class TableColumnEl extends TableElement{
@@ -160,6 +161,9 @@ export default class TableColumnEl extends TableElement{
         if (!firstChild) {
             return null
         }
+        if (firstChild instanceof TextNode) {
+            return null
+        }
         if (firstChild.selectedMedia) {
             // console.log('getPropertyCss', prop)
             return firstChild.cssListMediaOwner.getProperty(prop)
@@ -179,11 +183,11 @@ export default class TableColumnEl extends TableElement{
             return firstChild.animationSelector
         }
         
-        if (firstChild.pseudoClassAccessor.selectedSelector) {
+        if (firstChild.pseudoClassAccessor && firstChild.pseudoClassAccessor.selectedSelector) {
             return firstChild.pseudoClassAccessor.selectedSelector
         }
 
-        if (firstChild.pseudoElementAccessor.selectedSelector) {
+        if (firstChild.pseudoElementAccessor && firstChild.pseudoElementAccessor.selectedSelector) {
             return firstChild.pseudoElementAccessor.selectedSelector
         }
 

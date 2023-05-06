@@ -22,6 +22,21 @@ export default class ProjectFrontendModelBuild implements ModelFromResponse<Proj
         model.pageUrl = from.pageUrl
 
         if (from.items) {
+
+            var sortedChilderen = []
+            sortedChilderen = from.items.sort( 
+                ( childA, childB ) => {
+                if ( childA.orderNumber < childB.orderNumber ){
+                    return -1;
+                }
+                if ( childA.orderNumber > childB.orderNumber ){
+                    return 1;
+                }
+                return 0;
+                }
+            );
+            from.items = sortedChilderen
+
             for (const tag of from.items) {
                 tag.project = {id: null}
                 let subModel = this.htmlTagModelBuilder.build(tag)

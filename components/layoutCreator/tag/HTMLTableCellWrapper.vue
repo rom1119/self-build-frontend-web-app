@@ -89,40 +89,38 @@ public mounted()
         // console.log(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
         // console.log('CREA - COMP - BASE END')
 
-        this.value.setHtmlEl(this.$el)
-        this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
-        this.value.setHtmlContentEl(document.getElementById(this.value.attrIdHtmlEl))
-        this.value.setHtmlElOutsiteHidden(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
+        this.runWithTimeoutrRandNumber((this) => {
 
-        // this.value.updateModelComponent()
-        // this.value.updateModelComponent()
+            this.value.setHtmlEl(this.$el)
+            this.value.setHtmlElHidden(document.getElementById(this.value.shortUUID + '-hidden-box'))
+            this.value.setHtmlContentEl(document.getElementById(this.value.attrIdHtmlEl))
+            this.value.setHtmlElOutsiteHidden(document.getElementById(this.value.shortUUID + '-hidden-outsite-box'))
 
+            // this.value.updateModelComponent()
 
-        // console.log('11@@@@@@@@@@@@@11');
+            if (this.value instanceof HtmlTag)  {
+                this.value.realPositionCalculator.reInitDefaultPosition()
 
-        if (this.value instanceof HtmlTag)  {
-            this.value.realPositionCalculator.reInitDefaultPosition()
+                this.value.recalculateRealComputedProperties()
 
-            this.value.recalculateRealComputedProperties()
+            }
 
-        }
+            this.borderRecalculator.recalculate(this.value)
+            this.marginRecalculator.recalculate(this.value)
 
-        this.borderRecalculator.recalculate(this.value)
-        this.marginRecalculator.recalculate(this.value)
+            this.value.updateRealView()
 
-        this.value.updateRealView()
+            this.$nextTick(() => {
+                this.value.updateLastWidth()
+                this.value.updateLastHeight()
 
-        this.$nextTick(() => {
-            this.value.updateLastWidth()
-            this.value.updateLastHeight()
+            })
 
+            // console.log('BEFORE CREATOR MODE SET');
+            // console.log('AFTER CREATOR MODE SET');
+
+            this.widthManager.init()
         })
-
-        // console.log('BEFORE CREATOR MODE SET');
-        // console.log('AFTER CREATOR MODE SET');
-
-        this.widthManager.init()
-
         // this.value.updateModelComponent()
 
     }

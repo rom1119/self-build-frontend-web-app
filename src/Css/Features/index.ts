@@ -5,6 +5,7 @@ import ListStyleType from './ListStyleType';
 import ListStyleImage from './ListStyleImage';
 import Cursor from './Cursor';
 import Resize from './Resize';
+import FilterCss from './FilterCss';
 
 
 
@@ -15,6 +16,7 @@ export {
     ListStyleType,
     Cursor,
     Resize,
+    FilterCss,
 
     
 }

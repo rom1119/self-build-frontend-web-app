@@ -5,7 +5,8 @@ import CssOwner from '../../../CssOwner';
 import SpecialFunctionOwner from '../SpecialFunctionOwner';
 import { UnitUrl } from '~/src/Unit';
 import SpecialFunctionComponent from '../SpecialFunctionComponent';
-export default class UrlComponent extends SpecialFunctionComponent {
+import CssResource from '../../CssResource';
+export default class UrlComponent extends SpecialFunctionComponent implements CssResource {
 
     public static PROP_NAME = 'url-unit'
     file: File
@@ -20,6 +21,9 @@ export default class UrlComponent extends SpecialFunctionComponent {
         this.resourceUrl = null
         this.owner = owner
         this.unit = new UnitUrl();
+    }
+    getId() {
+        this.owner.getId()
     }
 
     public setOwner(arg: SpecialFunctionOwner) {

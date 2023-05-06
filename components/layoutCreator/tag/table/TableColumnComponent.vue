@@ -113,18 +113,37 @@ export default class TableColumnComponent extends Vue {
         this.$emit('contentMouseDown', ev)
     }
 
+    runWithTimeoutrRandNumber(fnCallback) {
+        var rand = Math.floor(Math.random() * 3000)
+        var that = this
+        var timer = setInterval(() => {
+            // console.log(this.value.uuid)
+            // console.log(this.$el)
+            // console.log('typeof $el', typeof this.$el)
+            // console.log(typeof a)
+
+            if (typeof this.$el == 'object') {
+                fnCallback(that)
+
+                clearInterval(timer)
+            }
+        }, rand)
+    }
+
     mounted()
     {
-        this.value.setHtmlEl(this.$el)
-        this.value.setHtmlElOutsiteHidden(document.getElementById(this.idHiddenEl))
+        this.runWithTimeoutrRandNumber((this) => {
+            this.value.setHtmlEl(this.$el)
+            this.value.setHtmlElOutsiteHidden(document.getElementById(this.idHiddenEl))
 
-        if (this.value instanceof HtmlTag)  {
-            this.value.realPositionCalculator.reInitDefaultPosition()
+            if (this.value instanceof HtmlTag)  {
+                this.value.realPositionCalculator.reInitDefaultPosition()
 
-            // this.value.recalculateRealComputedProperties()
+                // this.value.recalculateRealComputedProperties()
 
-        }
-        this.widthManager.init()
+            }
+            this.widthManager.init()
+        })
 
     }
 

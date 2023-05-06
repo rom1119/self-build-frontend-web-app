@@ -18,6 +18,7 @@ import TableTag from '../TableTag';
 import TableTHead from '../TableTHead';
 import TableRowPropertyTmpAccessor from '../../../../Css/PropertyAccessor/TableRowPropertyTmpAccessor';
 import BaseSelector from '../../../../BaseSelector';
+import TextNode from '~/src/Layout/TextNode';
 
 
 export default class TableRowEl extends TableElementEl{
@@ -77,6 +78,9 @@ export default class TableRowEl extends TableElementEl{
         if (!firstChild) {
             return null
         }
+        if (firstChild instanceof TextNode) {
+            return null
+        }
         if (firstChild.selectedMedia) {
             // console.log('getPropertyCss', prop)
             return firstChild.cssListMediaOwner.getProperty(prop)
@@ -96,11 +100,11 @@ export default class TableRowEl extends TableElementEl{
             return firstChild.animationSelector
         }
         
-        if (firstChild.pseudoClassAccessor.selectedSelector) {
+        if (firstChild.pseudoClassAccessor && firstChild.pseudoClassAccessor.selectedSelector) {
             return firstChild.pseudoClassAccessor.selectedSelector
         }
 
-        if (firstChild.pseudoElementAccessor.selectedSelector) {
+        if (firstChild.pseudoElementAccessor && firstChild.pseudoElementAccessor.selectedSelector) {
             return firstChild.pseudoElementAccessor.selectedSelector
         }
 

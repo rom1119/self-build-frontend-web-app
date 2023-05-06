@@ -12,7 +12,7 @@
                @mouseout.stop="onMouseOut($event)"
     >
     <span v-show="false">
-        {{ updattrs }}
+        <!-- {{ updattrs }} -->
     </span>
     </component>
 
@@ -23,7 +23,7 @@
         :style="[value.cssList, value.cssListOverride]"
          @click.stop="onClick($event)" @mousedown.stop="onMouseDown($event)" @mouseover.stop="onMouseOver($event)" @mouseout.stop="onMouseOut($event)">
             <span v-show="false">
-                {{ updattrs }}
+                <!-- {{ updattrs }} -->
             </span>
             <slot>
             </slot>
@@ -41,7 +41,7 @@
                @mouseover.stop="onMouseOver($event)"
                @mouseout.stop="onMouseOut($event)">
             <span v-show="false">
-                {{ updattrs }}
+                <!-- {{ updattrs }} -->
             </span>
         <slot>
         </slot>
@@ -57,7 +57,7 @@
             @mouseover.stop="onMouseOver($event)"
             @mouseout.stop="onMouseOut($event)">
             <span v-show="false">
-                {{ updattrs }}
+                <!-- {{ updattrs }} -->
             </span>
         <slot>
         </slot>
@@ -170,7 +170,7 @@ export default class HTMLEL extends Vue {
 
     get updattrs() {
         var el = this.value.getHtmlContentEl()
-        console.log('    get updattrs() {', el);
+        // console.log('    get updattrs() {', el);
 
         if (!this.attrAccesor) {
             return

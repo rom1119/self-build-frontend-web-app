@@ -136,11 +136,11 @@ export default abstract class HtmlTag extends HtmlNode implements
     protected widthUnitCurrent: UnitSize = new Pixel()
     protected heightUnitCurrent: UnitSize = new Pixel()
 
-    protected _tmpCssPropertyAccesor: CssPropertyAccessor
-    protected _cssPropertyAccesor: CssPropertyAccessor
+    protected _tmpCssPropertyAccesor: CssPropertyAccessor = null
+    protected _cssPropertyAccesor: CssPropertyAccessor = null
 
-    protected _pseudoClassAccessor: PseudoClassPropertyAccessor
-    protected _pseudoElementAccessor: PseudoElementPropertyAccessor
+    protected _pseudoClassAccessor: PseudoClassPropertyAccessor = null
+    protected _pseudoElementAccessor: PseudoElementPropertyAccessor = null
 
 
     public _attributeAccesor: AttributesAccessor = null
@@ -909,6 +909,10 @@ export default abstract class HtmlTag extends HtmlNode implements
     public isLikeBackgroundCss(cssProp: BasePropertyCss): boolean {
         return this.cssAccessor.isPropertyLikeThis(cssProp, 'background')
     }
+    
+    public isLikeBorderCss(cssProp: BasePropertyCss): boolean {
+        return this.cssAccessor.isPropertyLikeThis(cssProp, 'border')
+    }
 
     canAddToCssList(css: BasePropertyCss): boolean {
         if (css instanceof BasePaddingCss) {
@@ -1297,7 +1301,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             if (!cssProp.injectable) {
                 continue
             }
-            if (this.isLikeBackgroundCss(cssProp)) {
+            if (this.isLikeBackgroundCss(cssProp) || this.isLikeBorderCss(cssProp)) {
                 continue
             }
             css[cssProp.getName()] = cssProp.value
@@ -1335,10 +1339,10 @@ export default abstract class HtmlTag extends HtmlNode implements
 
         if (this.selectedMedia) {
             // var css = {}
-            console.log(this.selectedMedia)
-            console.log(this.pseudoClassAccessor.selectedSelector)
-            console.log(this.cssListMediaOwner.currentCssList)
-            console.log(this.cssListMediaOwner.currentCssList.all)
+            // console.log(this.selectedMedia)
+            // console.log(this.pseudoClassAccessor.selectedSelector)
+            // console.log(this.cssListMediaOwner.currentCssList)
+            // console.log(this.cssListMediaOwner.currentCssList.all)
             cssFormAccessor = this.cssListMediaOwner.currentCssList.all
         }
         for (const cssProp of cssFormAccessor) {
@@ -1349,7 +1353,7 @@ export default abstract class HtmlTag extends HtmlNode implements
             if (!cssProp.injectable) {
                 continue
             }
-            if (this.isLikeBackgroundCss(cssProp)) {
+            if (this.isLikeBackgroundCss(cssProp) || this.isLikeBorderCss(cssProp)) {
                 continue
             }
             css[cssProp.getName()] = cssProp.value
@@ -1710,6 +1714,9 @@ export default abstract class HtmlTag extends HtmlNode implements
     }
 
     public setHtmlEl(htmlEl) {
+        if (!htmlEl) {
+            return
+        }
         super.setHtmlEl(htmlEl)
         this.notifyPositionalTag()
         this.recalculateRealComputedProperties()
